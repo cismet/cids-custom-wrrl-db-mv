@@ -18,6 +18,8 @@ package de.cismet.cids.custom.util;
 
 import java.util.logging.Level;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
@@ -35,5 +37,13 @@ public class UIUtil {
         final ErrorInfo ei = new ErrorInfo("Fehler", "Beim Vorgang ist ein Fehler aufgetreten", null,
                 null, ex, Level.SEVERE, null);
         JXErrorPane.showDialog(parent, ei);
+    }
+
+    public static void findOptimalPositionOnScreen(JDialog component) {
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        component.setSize(screenSize.width / 2, screenSize.height / 2);
+        java.awt.Insets insets = component.getInsets();
+        component.setSize(component.getWidth() + insets.left + insets.right, component.getHeight() + insets.top + insets.bottom + 20);
+        component.setLocation((screenSize.width - component.getWidth()) / 2, (screenSize.height - component.getHeight()) / 2);
     }
 }

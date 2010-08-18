@@ -1,19 +1,3 @@
-/*
- *  Copyright (C) 2010 stefan
- * 
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- * 
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- * 
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /*
  * WkFgEditor.java
@@ -22,9 +6,17 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.server.middleware.types.MetaClass;
+import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import java.util.Collection;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -35,6 +27,11 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private CidsBean cidsBean;
+    private static final MetaClass AUSNAHME_MC;
+
+    static {
+        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EXCEMPTION");
+    }
     //    private final DefaultComboBoxModel qualityStatusCodeModel;
 
     /** Creates new form WkFgEditor */
@@ -51,15 +48,18 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
-        this.cidsBean = cidsBean;
-        wkFgPanOne.setCidsBean(cidsBean);
-        wkFgPanTwo.setCidsBean(cidsBean);
-        wkFgPanThree.setCidsBean(cidsBean);
-        wkFgPanFour.setCidsBean(cidsBean);
-        wkFgPanFive.setCidsBean(cidsBean);
         bindingGroup.unbind();
-        bindingGroup.bind();
-        lstAusnahmen.setSelectedIndex(lstAusnahmen.getModel().getSize() == 0 ? -1 : 0);
+        this.cidsBean = cidsBean;
+        if (cidsBean != null) {
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
+            wkFgPanOne.setCidsBean(cidsBean);
+            wkFgPanTwo.setCidsBean(cidsBean);
+            wkFgPanThree.setCidsBean(cidsBean);
+            wkFgPanFour.setCidsBean(cidsBean);
+            wkFgPanFive.setCidsBean(cidsBean);
+            bindingGroup.bind();
+            lstAusnahmen.setSelectedIndex(lstAusnahmen.getModel().getSize() == 0 ? -1 : 0);
+        }
     }
 
     @Override
@@ -78,6 +78,14 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        dlgAusnahme = new javax.swing.JDialog();
+        lblImpactCataloge = new javax.swing.JLabel();
+        DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo();
+        cb1.setMetaClass(AUSNAHME_MC);
+        cbAusnahmen = cb1;
+        panMenButtonsImpact = new javax.swing.JPanel();
+        btnImpactAbort = new javax.swing.JButton();
+        btnImpactOk = new javax.swing.JButton();
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkFgPanOne = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanOne();
@@ -97,15 +105,58 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         btnRemAusnahme = new javax.swing.JButton();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingAusnahme = new javax.swing.JLabel();
-        panStationen = new javax.swing.JPanel();
-        roundedPanel2 = new de.cismet.tools.gui.RoundedPanel();
-        scpStation = new javax.swing.JScrollPane();
-        lstStation = new javax.swing.JList();
-        panContrAusnahmen1 = new javax.swing.JPanel();
-        btnAddStation = new javax.swing.JButton();
-        btnRemStation = new javax.swing.JButton();
-        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeadingStation = new javax.swing.JLabel();
+
+        dlgAusnahme.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblImpactCataloge.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.lblImpactCataloge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgAusnahme.getContentPane().add(lblImpactCataloge, gridBagConstraints);
+
+        cbAusnahmen.setMinimumSize(new java.awt.Dimension(250, 18));
+        cbAusnahmen.setPreferredSize(new java.awt.Dimension(250, 18));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgAusnahme.getContentPane().add(cbAusnahmen, gridBagConstraints);
+
+        panMenButtonsImpact.setLayout(new java.awt.GridBagLayout());
+
+        btnImpactAbort.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnImpactAbort.text")); // NOI18N
+        btnImpactAbort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImpactAbortActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsImpact.add(btnImpactAbort, gridBagConstraints);
+
+        btnImpactOk.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnImpactOk.text")); // NOI18N
+        btnImpactOk.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnImpactOk.setMinimumSize(new java.awt.Dimension(85, 23));
+        btnImpactOk.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnImpactOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImpactOkActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsImpact.add(btnImpactOk, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgAusnahme.getContentPane().add(panMenButtonsImpact, gridBagConstraints);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -160,6 +211,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
 
         tpMain.addTab("Qualitätsinformationen", panQualitaet);
 
+        panAusnahmen.setOpaque(false);
         panAusnahmen.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -209,6 +261,11 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
 
         btnRemAusnahme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemAusnahme.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnRemImpactSrc.text")); // NOI18N
+        btnRemAusnahme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemAusnahmeActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -246,89 +303,15 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
-        panStationen.setLayout(new java.awt.GridBagLayout());
-
-        roundedPanel2.setLayout(new java.awt.GridBagLayout());
-
-        scpStation.setMinimumSize(new java.awt.Dimension(250, 175));
-        scpStation.setPreferredSize(new java.awt.Dimension(250, 175));
-
-        lstStation.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scpStation.setViewportView(lstStation);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        roundedPanel2.add(scpStation, gridBagConstraints);
-
-        panContrAusnahmen1.setOpaque(false);
-        panContrAusnahmen1.setLayout(new java.awt.GridBagLayout());
-
-        btnAddStation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddStation.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnAddImpactSrc.text")); // NOI18N
-        btnAddStation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddStationActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panContrAusnahmen1.add(btnAddStation, gridBagConstraints);
-
-        btnRemStation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemStation.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnRemImpactSrc.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panContrAusnahmen1.add(btnRemStation, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        roundedPanel2.add(panContrAusnahmen1, gridBagConstraints);
-
-        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo1.setLayout(new java.awt.FlowLayout());
-
-        lblHeadingStation.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeadingStation.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.lblHeading.text")); // NOI18N
-        panHeadInfo1.add(lblHeadingStation);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        roundedPanel2.add(panHeadInfo1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStationen.add(roundedPanel2, gridBagConstraints);
-
-        tpMain.addTab("Stationen", panStationen);
-
         add(tpMain, java.awt.BorderLayout.PAGE_START);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddAusnahmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAusnahmeActionPerformed
-        // TODO add your handling code here:
+        UIUtil.findOptimalPositionOnScreen(dlgAusnahme);
+        dlgAusnahme.setVisible(true);
 }//GEN-LAST:event_btnAddAusnahmeActionPerformed
-
-    private void btnAddStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddStationActionPerformed
 
     private void lstAusnahmenValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
         if (!evt.getValueIsAdjusting()) {
@@ -338,29 +321,62 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
             }
         }
     }//GEN-LAST:event_lstAusnahmenValueChanged
+
+    private void btnRemAusnahmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemAusnahmeActionPerformed
+        final Object selection = lstAusnahmen.getSelectedValue();
+        if (selection != null) {
+            final int answer = JOptionPane.showConfirmDialog(this, "Soll das XXX wirklich gelöscht werden?", "XXX entfernen", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                try {
+                    final CidsBean beanToDelete = (CidsBean) selection;
+                    final Object beanColl = cidsBean.getProperty("ausnahmen");
+                    if (beanColl instanceof Collection) {
+                        ((Collection) beanColl).remove(beanToDelete);
+                    }
+                } catch (Exception e) {
+                    UIUtil.showExceptionToUser(e, this);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnRemAusnahmeActionPerformed
+
+    private void btnImpactAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactAbortActionPerformed
+        dlgAusnahme.setVisible(false);
+}//GEN-LAST:event_btnImpactAbortActionPerformed
+
+    private void btnImpactOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactOkActionPerformed
+        final Object selection = cbAusnahmen.getSelectedItem();
+        if (selection instanceof CidsBean) {
+            final CidsBean selectedBean = (CidsBean) selection;
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "ausnahmen");
+            if (colToAdd != null) {
+                if (!colToAdd.contains(selectedBean)) {
+                    colToAdd.add(selectedBean);
+                }
+            }
+        }
+        dlgAusnahme.setVisible(false);
+}//GEN-LAST:event_btnImpactOkActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddAusnahme;
-    private javax.swing.JButton btnAddStation;
+    private javax.swing.JButton btnImpactAbort;
+    private javax.swing.JButton btnImpactOk;
     private javax.swing.JButton btnRemAusnahme;
-    private javax.swing.JButton btnRemStation;
+    private javax.swing.JComboBox cbAusnahmen;
+    private javax.swing.JDialog dlgAusnahme;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ExcemptionEditor excemptionEditor;
     private javax.swing.JLabel lblHeadingAusnahme;
-    private javax.swing.JLabel lblHeadingStation;
+    private javax.swing.JLabel lblImpactCataloge;
     private javax.swing.JList lstAusnahmen;
-    private javax.swing.JList lstStation;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panAusnahmen;
     private javax.swing.JPanel panContrAusnahmen;
-    private javax.swing.JPanel panContrAusnahmen1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private javax.swing.JPanel panMenButtonsImpact;
     private javax.swing.JPanel panQualitaet;
     private javax.swing.JLabel panSpace;
-    private javax.swing.JPanel panStationen;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
-    private de.cismet.tools.gui.RoundedPanel roundedPanel2;
     private javax.swing.JScrollPane scpAusnahmen;
-    private javax.swing.JScrollPane scpStation;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFive wkFgPanFive;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFour wkFgPanFour;
@@ -379,5 +395,6 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         wkFgPanFive.dispose();
         excemptionEditor.dispose();
         bindingGroup.unbind();
+        dlgAusnahme.dispose();
     }
 }
