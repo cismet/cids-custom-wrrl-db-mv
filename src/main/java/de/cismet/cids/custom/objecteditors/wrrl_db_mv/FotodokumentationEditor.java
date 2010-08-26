@@ -50,6 +50,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
@@ -97,14 +98,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private static final Map<String, SoftReference<BufferedImage>> IMAGE_CACHE = new LinkedHashMap<String, SoftReference<BufferedImage>>(CACHE_SIZE) {
 
         @Override
-        public SoftReference<BufferedImage> put(String key, SoftReference<BufferedImage> value) {
-            if (size() >= CACHE_SIZE) {
-                Iterator<?> it = entrySet().iterator();
-                while (size() > CACHE_SIZE - CACHE_SIZE / 10) {
-                    it.remove();
-                }
-            }
-            return super.put(key, value);
+        protected boolean removeEldestEntry(Entry<String, SoftReference<BufferedImage>> eldest) {
+            return size() >= CACHE_SIZE;
         }
     };
     private static final Comparator<CidsBean> FOTO_BEAN_COMPARATOR = new Comparator<CidsBean>() {
@@ -365,7 +360,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblStaeun = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         txtStaeun = new javax.swing.JTextField();
-        txtUser = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         scpFotoList = new javax.swing.JScrollPane();
         lstFotos = new javax.swing.JList();
@@ -378,6 +372,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblDescriptionDoku = new javax.swing.JLabel();
         scpDescription1 = new javax.swing.JScrollPane();
         taDescriptionDoku = new javax.swing.JTextArea();
+        lblUserTxt = new javax.swing.JLabel();
         rpVorschau = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingVorschau = new javax.swing.JLabel();
@@ -385,13 +380,11 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblBusy = new org.jdesktop.swingx.JXBusyLabel(new Dimension(75,75));
         panPreview = new javax.swing.JPanel();
         lblPicture = new javax.swing.JLabel();
-        rpDetail = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeadingDetail = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        panDetail = new javax.swing.JPanel();
         lblAngle = new javax.swing.JLabel();
         spnAngle = new javax.swing.JSpinner();
         lblDate = new javax.swing.JLabel();
-        dpDate = new org.jdesktop.swingx.JXDatePicker();
         lblDescription = new javax.swing.JLabel();
         scpDescription = new javax.swing.JScrollPane();
         taDescription = new javax.swing.JTextArea();
@@ -400,6 +393,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblSpace = new javax.swing.JLabel();
         lblFile = new javax.swing.JLabel();
         lblFileTxt = new javax.swing.JLabel();
+        lblDateTxt = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -440,8 +435,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblUser, gridBagConstraints);
 
-        txtStaeun.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtStaeun.setPreferredSize(new java.awt.Dimension(350, 20));
+        txtStaeun.setMinimumSize(new java.awt.Dimension(350, 25));
+        txtStaeun.setPreferredSize(new java.awt.Dimension(350, 25));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.staeun}"), txtStaeun, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -454,27 +449,14 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(txtStaeun, gridBagConstraints);
-
-        txtUser.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtUser.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cisdBean.av_user}"), txtUser, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        roundedPanel1.add(txtUser, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
         roundedPanel1.add(jLabel8, gridBagConstraints);
+
+        scpFotoList.setPreferredSize(new java.awt.Dimension(258, 150));
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fotos}");
         org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstFotos);
@@ -500,7 +482,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblFotoList, gridBagConstraints);
 
@@ -545,6 +527,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         roundedPanel1.add(lblDokumentationName, gridBagConstraints);
 
+        txtDokumentationName.setMinimumSize(new java.awt.Dimension(350, 25));
+        txtDokumentationName.setPreferredSize(new java.awt.Dimension(350, 25));
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"), txtDokumentationName, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<Error>");
@@ -561,11 +546,12 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblDescriptionDoku, gridBagConstraints);
 
         taDescriptionDoku.setColumns(20);
+        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taDescriptionDoku.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"), taDescriptionDoku, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -581,6 +567,22 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(scpDescription1, gridBagConstraints);
+
+        lblUserTxt.setMaximumSize(new java.awt.Dimension(40, 25));
+        lblUserTxt.setMinimumSize(new java.awt.Dimension(40, 25));
+        lblUserTxt.setPreferredSize(new java.awt.Dimension(40, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_user}"), lblUserTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("<Error>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel1.add(lblUserTxt, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -647,34 +649,26 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         rpVorschau.add(panCard, gridBagConstraints);
-
-        rpDetail.setLayout(new java.awt.GridBagLayout());
-
-        panHeadInfo2.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo2.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo2.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo2.setLayout(new java.awt.FlowLayout());
-
-        lblHeadingDetail.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeadingDetail.setText("Informationen zum Foto");
-        panHeadInfo2.add(lblHeadingDetail);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        rpDetail.add(panHeadInfo2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 15);
+        rpVorschau.add(jSeparator1, gridBagConstraints);
+
+        panDetail.setOpaque(false);
+        panDetail.setLayout(new java.awt.GridBagLayout());
 
         lblAngle.setText("angle");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(lblAngle, gridBagConstraints);
+        panDetail.add(lblAngle, gridBagConstraints);
 
-        spnAngle.setMinimumSize(new java.awt.Dimension(60, 20));
-        spnAngle.setPreferredSize(new java.awt.Dimension(60, 20));
+        spnAngle.setMinimumSize(new java.awt.Dimension(60, 25));
+        spnAngle.setPreferredSize(new java.awt.Dimension(60, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lstFotos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.angle}"), spnAngle, org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
@@ -683,108 +677,124 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(spnAngle, gridBagConstraints);
+        panDetail.add(spnAngle, gridBagConstraints);
 
         lblDate.setText("av_date");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(lblDate, gridBagConstraints);
-
-        dpDate.setMaximumSize(new java.awt.Dimension(150, 22));
-        dpDate.setMinimumSize(new java.awt.Dimension(150, 22));
-        dpDate.setPreferredSize(new java.awt.Dimension(150, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(dpDate, gridBagConstraints);
+        panDetail.add(lblDate, gridBagConstraints);
 
         lblDescription.setText("description");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(lblDescription, gridBagConstraints);
+        panDetail.add(lblDescription, gridBagConstraints);
 
         taDescription.setColumns(20);
+        taDescription.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taDescription.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lstFotos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), taDescription, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         scpDescription.setViewportView(taDescription);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(scpDescription, gridBagConstraints);
+        panDetail.add(scpDescription, gridBagConstraints);
 
         lblName.setText("name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        rpDetail.add(lblName, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panDetail.add(lblName, gridBagConstraints);
 
-        txtName.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtName.setPreferredSize(new java.awt.Dimension(350, 20));
+        txtName.setMinimumSize(new java.awt.Dimension(350, 25));
+        txtName.setPreferredSize(new java.awt.Dimension(350, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lstFotos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), txtName, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        rpDetail.add(txtName, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panDetail.add(txtName, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
-        rpDetail.add(lblSpace, gridBagConstraints);
+        panDetail.add(lblSpace, gridBagConstraints);
 
         lblFile.setText("file");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        rpDetail.add(lblFile, gridBagConstraints);
+        panDetail.add(lblFile, gridBagConstraints);
+
+        lblFileTxt.setMaximumSize(new java.awt.Dimension(0, 25));
+        lblFileTxt.setMinimumSize(new java.awt.Dimension(0, 25));
+        lblFileTxt.setPreferredSize(new java.awt.Dimension(0, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lstFotos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.file}"), lblFileTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpDetail.add(lblFileTxt, gridBagConstraints);
+        panDetail.add(lblFileTxt, gridBagConstraints);
+
+        lblDateTxt.setMaximumSize(new java.awt.Dimension(0, 25));
+        lblDateTxt.setMinimumSize(new java.awt.Dimension(0, 25));
+        lblDateTxt.setPreferredSize(new java.awt.Dimension(0, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lstFotos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.date}"), lblDateTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panDetail.add(lblDateTxt, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.weightx = 1.0;
+        panDetail.add(jPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        rpVorschau.add(rpDetail, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        rpVorschau.add(panDetail, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -914,11 +924,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFoto;
     private javax.swing.JButton btnRemFoto;
-    private org.jdesktop.swingx.JXDatePicker dpDate;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAngle;
     private org.jdesktop.swingx.JXBusyLabel lblBusy;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDateTxt;
     private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblDescriptionDoku;
     private javax.swing.JLabel lblDokumentationName;
@@ -926,22 +938,21 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private javax.swing.JLabel lblFileTxt;
     private javax.swing.JLabel lblFotoList;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblHeadingDetail;
     private javax.swing.JLabel lblHeadingVorschau;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPicture;
     private javax.swing.JLabel lblSpace;
     private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblUserTxt;
     private javax.swing.JList lstFotos;
     private javax.swing.JPanel panCard;
     private javax.swing.JPanel panContrFotoList;
+    private javax.swing.JPanel panDetail;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private javax.swing.JPanel panPreview;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
-    private de.cismet.tools.gui.RoundedPanel rpDetail;
     private de.cismet.tools.gui.RoundedPanel rpVorschau;
     private javax.swing.JScrollPane scpDescription;
     private javax.swing.JScrollPane scpDescription1;
@@ -952,7 +963,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private javax.swing.JTextField txtDokumentationName;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtStaeun;
-    private javax.swing.JTextField txtUser;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -979,7 +989,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         @Override
         protected ImageIcon doInBackground() throws Exception {
             if (image != null) {
-                ImageIcon result = new ImageIcon(ImageUtil.adjustScale(image, rpVorschau, 10, 50));
+                ImageIcon result = new ImageIcon(ImageUtil.adjustScale(image, panPreview, 20, 20));
                 return result;
             } else {
                 return null;
