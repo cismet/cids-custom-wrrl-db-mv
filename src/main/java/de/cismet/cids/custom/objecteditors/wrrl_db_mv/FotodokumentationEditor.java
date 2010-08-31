@@ -6,20 +6,32 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import com.googlecode.sardine.Factory;
 import com.googlecode.sardine.Sardine;
 import com.googlecode.sardine.SardineFactory;
+import com.googlecode.sardine.SardineImpl;
 import com.googlecode.sardine.util.SardineException;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.ImageUtil;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
+import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+import de.cismet.security.Proxy;
+import de.cismet.security.WebAccessManager;
 import de.cismet.tools.BrowserLauncher;
 import de.cismet.tools.CismetThreadPool;
+import de.cismet.tools.gui.CurvedFlowBackgroundPanel;
+import de.cismet.tools.gui.RoundedPanel;
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DropTarget;
@@ -46,7 +58,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,14 +78,19 @@ import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileFilter;
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.conn.routing.HttpRoutePlanner;
+import org.apache.http.impl.conn.DefaultHttpRoutePlanner;
 
 /**
  *
  * @author stefan
  */
-public class FotodokumentationEditor extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class FotodokumentationEditor extends javax.swing.JPanel implements DisposableCidsBeanStore, EditorSaveListener {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(FotodokumentationEditor.class);
     private static final ImageIcon ERROR_ICON = new ImageIcon(FotodokumentationEditor.class.getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/file-broken.png"));
@@ -94,6 +110,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private BufferedImage image;
     private CidsBean cidsBean;
     private CidsBean fotoCidsBean;
+    private final List<String> removeExistingPictureFromWebDAVList = new ArrayList<String>();
+    private final List<String> removeNewAddedPictureFromWebDAVList = new ArrayList<String>();
     private static final int CACHE_SIZE = 3;
     private static final Map<String, SoftReference<BufferedImage>> IMAGE_CACHE = new LinkedHashMap<String, SoftReference<BufferedImage>>(CACHE_SIZE) {
 
@@ -127,8 +145,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     /** Creates new form FotosEditor */
     public FotodokumentationEditor() {
         initComponents();
-//        sortedFotoListModel = new SortedListModel(new DefaultListModel(), SortedListModel.SortOrder.ASCENDING, FOTO_BEAN_COMPARATOR);
-//        lstFotos.setModel(sortedFotoListModel);
+//        Proxy.fromPreferences()
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileFilter() {
 
@@ -143,7 +160,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
             }
         });
         fileChooser.setMultiSelectionEnabled(true);
-        timer = new Timer(175, new ActionListener() {
+        timer = new Timer(10, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,6 +233,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
                 lstFotos.repaint();
             }
         };
+//        lstFotos.addListSelectionListener(new ListSelectionListener() {
+//
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                defineButtonStatus();
+//            }
+//        });
     }
 
     @Override
@@ -229,11 +253,27 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
             bindingGroup.bind();
+            lstFotos.getModel().addListDataListener(new ListDataListener() {
+
+                @Override
+                public void intervalAdded(ListDataEvent e) {
+                    defineButtonStatus();
+                }
+
+                @Override
+                public void intervalRemoved(ListDataEvent e) {
+                    defineButtonStatus();
+                }
+
+                @Override
+                public void contentsChanged(ListDataEvent e) {
+                    defineButtonStatus();
+                }
+            });
             if (lstFotos.getModel().getSize() > 0) {
                 lstFotos.setSelectedIndex(0);
             }
         } else {
-//            sortedFotoListModel = null;
             lstFotos.setModel(new DefaultListModel());
         }
     }
@@ -336,7 +376,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
                 reader.dispose();
                 iiStream.close();
             }
-//            final BufferedImage result = ImageIO.read(iStream);
             return result;
         } finally {
             IOUtils.closeQuietly(iStream);
@@ -373,6 +412,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         scpDescription1 = new javax.swing.JScrollPane();
         taDescriptionDoku = new javax.swing.JTextArea();
         lblUserTxt = new javax.swing.JLabel();
+        jComboBox1 = new DefaultCismapGeometryComboBoxEditor();
+        jLabel1 = new javax.swing.JLabel();
         rpVorschau = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingVorschau = new javax.swing.JLabel();
@@ -380,8 +421,17 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblBusy = new org.jdesktop.swingx.JXBusyLabel(new Dimension(75,75));
         panPreview = new javax.swing.JPanel();
         lblPicture = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        panDetail = new javax.swing.JPanel();
+        RoundedPanel rp = new RoundedPanel();
+        rp.setBackground(new java.awt.Color(51, 51, 51));
+        rp.setAlpha(255);
+        panButtons = rp;
+        panFooterLeft = new javax.swing.JPanel();
+        btnBack = new javax.swing.JButton();
+        panFooterRight = new javax.swing.JPanel();
+        btnForward = new javax.swing.JButton();
+        roundedPanel2 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
         lblAngle = new javax.swing.JLabel();
         spnAngle = new javax.swing.JSpinner();
         lblDate = new javax.swing.JLabel();
@@ -395,6 +445,16 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblFileTxt = new javax.swing.JLabel();
         lblDateTxt = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        CurvedFlowBackgroundPanel cfp = new CurvedFlowBackgroundPanel();
+        //cfp.setOben(0.53944d);
+        //cfp.setUnten(0.16844d);
+        cfp.setRelativeHeights(true);
+        cfp.setOben(230);
+        cfp.setUnten(117);
+        cfp.setBackground(new Color(255,255,255,60));
+        //cfp.setRelativeHeights(true);
+        //cfp.setDesignMode(true);
+        jPanel2 = cfp;
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -419,7 +479,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.weightx = 1.0;
         roundedPanel1.add(panHeadInfo, gridBagConstraints);
 
-        lblStaeun.setText("staeun");
+        lblStaeun.setText("STALU");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -427,10 +487,10 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblStaeun, gridBagConstraints);
 
-        lblUser.setText("av_user");
+        lblUser.setText("Benutzer");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblUser, gridBagConstraints);
@@ -451,7 +511,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         roundedPanel1.add(txtStaeun, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
         roundedPanel1.add(jLabel8, gridBagConstraints);
@@ -473,7 +533,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(scpFotoList, gridBagConstraints);
@@ -481,8 +541,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         lblFotoList.setText("Fotos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblFotoList, gridBagConstraints);
 
@@ -515,11 +575,11 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         roundedPanel1.add(panContrFotoList, gridBagConstraints);
 
-        lblDokumentationName.setText("name");
+        lblDokumentationName.setText("Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -542,16 +602,16 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         roundedPanel1.add(txtDokumentationName, gridBagConstraints);
 
-        lblDescriptionDoku.setText("description");
+        lblDescriptionDoku.setText("Beschreibung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblDescriptionDoku, gridBagConstraints);
 
         taDescriptionDoku.setColumns(20);
-        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11));
         taDescriptionDoku.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"), taDescriptionDoku, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -563,7 +623,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(scpDescription1, gridBagConstraints);
@@ -579,18 +639,31 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblUserTxt, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel1.add(jComboBox1, gridBagConstraints);
+
+        jLabel1.setText("Geometrie");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel1.add(jLabel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         add(roundedPanel1, gridBagConstraints);
 
         rpVorschau.setLayout(new java.awt.GridBagLayout());
@@ -601,7 +674,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         panHeadInfo1.setLayout(new java.awt.FlowLayout());
 
         lblHeadingVorschau.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeadingVorschau.setText("Ausgewähltes Foto");
+        lblHeadingVorschau.setText("Vorschau");
         panHeadInfo1.add(lblHeadingVorschau);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -618,7 +691,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         panPreview.setOpaque(false);
         panPreview.setLayout(new java.awt.GridBagLayout());
 
-        lblPicture.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lblPicture.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblPicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPicture.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblPicture.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -649,23 +722,116 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         rpVorschau.add(panCard, gridBagConstraints);
+
+        panButtons.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 6, 0));
+        panButtons.setMaximumSize(new java.awt.Dimension(120, 40));
+        panButtons.setMinimumSize(new java.awt.Dimension(120, 40));
+        panButtons.setOpaque(false);
+        panButtons.setPreferredSize(new java.awt.Dimension(120, 40));
+        panButtons.setLayout(new java.awt.GridBagLayout());
+
+        panFooterLeft.setMaximumSize(new java.awt.Dimension(20, 40));
+        panFooterLeft.setMinimumSize(new java.awt.Dimension(20, 40));
+        panFooterLeft.setOpaque(false);
+        panFooterLeft.setPreferredSize(new java.awt.Dimension(20, 40));
+        panFooterLeft.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 5));
+
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left.png"))); // NOI18N
+        btnBack.setBorder(null);
+        btnBack.setBorderPainted(false);
+        btnBack.setContentAreaFilled(false);
+        btnBack.setEnabled(false);
+        btnBack.setFocusPainted(false);
+        btnBack.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnBack.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnBack.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnBack.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left-pressed.png"))); // NOI18N
+        btnBack.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left-selected.png"))); // NOI18N
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        panFooterLeft.add(btnBack);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panButtons.add(panFooterLeft, gridBagConstraints);
+
+        panFooterRight.setMaximumSize(new java.awt.Dimension(20, 40));
+        panFooterRight.setMinimumSize(new java.awt.Dimension(20, 40));
+        panFooterRight.setOpaque(false);
+        panFooterRight.setPreferredSize(new java.awt.Dimension(20, 40));
+        panFooterRight.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
+
+        btnForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right.png"))); // NOI18N
+        btnForward.setBorder(null);
+        btnForward.setBorderPainted(false);
+        btnForward.setContentAreaFilled(false);
+        btnForward.setFocusPainted(false);
+        btnForward.setMaximumSize(new java.awt.Dimension(30, 30));
+        btnForward.setMinimumSize(new java.awt.Dimension(30, 30));
+        btnForward.setPreferredSize(new java.awt.Dimension(30, 30));
+        btnForward.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right-pressed.png"))); // NOI18N
+        btnForward.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right-selected.png"))); // NOI18N
+        btnForward.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardActionPerformed(evt);
+            }
+        });
+        panFooterRight.add(btnForward);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panButtons.add(panFooterRight, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        rpVorschau.add(panButtons, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        add(rpVorschau, gridBagConstraints);
+
+        roundedPanel2.setLayout(new java.awt.GridBagLayout());
+
+        panHeadInfo2.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo2.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo2.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo2.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText("Ausgewähltes Foto");
+        panHeadInfo2.add(lblHeading1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 15);
-        rpVorschau.add(jSeparator1, gridBagConstraints);
+        gridBagConstraints.ipadx = 134;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        roundedPanel2.add(panHeadInfo2, gridBagConstraints);
 
-        panDetail.setOpaque(false);
-        panDetail.setLayout(new java.awt.GridBagLayout());
-
-        lblAngle.setText("angle");
+        lblAngle.setText("Winkel");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(lblAngle, gridBagConstraints);
+        roundedPanel2.add(lblAngle, gridBagConstraints);
 
         spnAngle.setMinimumSize(new java.awt.Dimension(60, 25));
         spnAngle.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -677,29 +843,29 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(spnAngle, gridBagConstraints);
+        roundedPanel2.add(spnAngle, gridBagConstraints);
 
-        lblDate.setText("av_date");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(lblDate, gridBagConstraints);
-
-        lblDescription.setText("description");
+        lblDate.setText("Datum");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel2.add(lblDate, gridBagConstraints);
+
+        lblDescription.setText("Beschreibung");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(lblDescription, gridBagConstraints);
+        roundedPanel2.add(lblDescription, gridBagConstraints);
 
         taDescription.setColumns(20);
-        taDescription.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taDescription.setFont(new java.awt.Font("Tahoma", 0, 11));
         taDescription.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, lstFotos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), taDescription, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -711,18 +877,18 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(scpDescription, gridBagConstraints);
+        roundedPanel2.add(scpDescription, gridBagConstraints);
 
-        lblName.setText("name");
+        lblName.setText("Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(lblName, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        roundedPanel2.add(lblName, gridBagConstraints);
 
         txtName.setMinimumSize(new java.awt.Dimension(350, 25));
         txtName.setPreferredSize(new java.awt.Dimension(350, 25));
@@ -734,24 +900,24 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(txtName, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        roundedPanel2.add(txtName, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
-        panDetail.add(lblSpace, gridBagConstraints);
+        roundedPanel2.add(lblSpace, gridBagConstraints);
 
-        lblFile.setText("file");
+        lblFile.setText("Datei");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        panDetail.add(lblFile, gridBagConstraints);
+        roundedPanel2.add(lblFile, gridBagConstraints);
 
         lblFileTxt.setMaximumSize(new java.awt.Dimension(0, 25));
         lblFileTxt.setMinimumSize(new java.awt.Dimension(0, 25));
@@ -762,10 +928,10 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(lblFileTxt, gridBagConstraints);
+        roundedPanel2.add(lblFileTxt, gridBagConstraints);
 
         lblDateTxt.setMaximumSize(new java.awt.Dimension(0, 25));
         lblDateTxt.setMinimumSize(new java.awt.Dimension(0, 25));
@@ -778,32 +944,37 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panDetail.add(lblDateTxt, gridBagConstraints);
+        roundedPanel2.add(lblDateTxt, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 6;
         gridBagConstraints.weightx = 1.0;
-        panDetail.add(jPanel1, gridBagConstraints);
+        roundedPanel2.add(jPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
-        rpVorschau.add(panDetail, gridBagConstraints);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        add(roundedPanel2, gridBagConstraints);
 
+        jPanel2.setMinimumSize(new java.awt.Dimension(50, 20));
+        jPanel2.setOpaque(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(50, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(rpVorschau, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(250, 0, 3, 0);
+        add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
@@ -818,6 +989,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
                 btnRemFoto.setEnabled(false);
                 lstFotos.setEnabled(false);
                 dropTarget.setActive(false);
+                btnBack.setEnabled(false);
+                btnForward.setEnabled(false);
             }
         } else {
             cardLayout.show(panCard, "preview");
@@ -826,6 +999,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
             btnRemFoto.setEnabled(true);
             lstFotos.setEnabled(true);
             dropTarget.setActive(true);
+            defineButtonStatus();
         }
     }
 
@@ -876,8 +1050,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
                     List<CidsBean> fotos = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "fotos");
                     if (fotos != null) {
                         fotos.removeAll(removeList);
-                        for (CidsBean foto : fotos) {
-                            IMAGE_CACHE.remove(String.valueOf(foto.getProperty("file")));
+                    }
+                    for (Object toDeleteObj : removeList) {
+                        if (toDeleteObj instanceof CidsBean) {
+                            CidsBean fotoToDelete = (CidsBean) toDeleteObj;
+                            String file = String.valueOf(fotoToDelete.getProperty("file"));
+                            IMAGE_CACHE.remove(file);
+                            removeExistingPictureFromWebDAVList.add(WEB_DAV_DIRECTORY + file);
                         }
                     }
                 } catch (Exception e) {
@@ -891,11 +1070,10 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private void lstFotosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstFotosValueChanged
         if (!evt.getValueIsAdjusting()) {
             Object fotoObj = lstFotos.getSelectedValue();
+            if (fotoCidsBean != null) {
+                fotoCidsBean.removePropertyChangeListener(listRepaintListener);
+            }
             if (fotoObj instanceof CidsBean) {
-                if (fotoCidsBean != null) {
-                    fotoCidsBean.removePropertyChangeListener(listRepaintListener);
-
-                }
                 fotoCidsBean = (CidsBean) fotoObj;
                 fotoCidsBean.addPropertyChangeListener(listRepaintListener);
                 Object fileObj = fotoCidsBean.getProperty("file");
@@ -916,17 +1094,35 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
                         CismetThreadPool.execute(new LoadSelectedImageWorker(file));
                     }
                 }
-            } else if (fotoCidsBean != null) {
-                fotoCidsBean.removePropertyChangeListener(listRepaintListener);
+            } else {
+                lblPicture.setIcon(FOLDER_ICON);
             }
         }
     }//GEN-LAST:event_lstFotosValueChanged
+
+    public void defineButtonStatus() {
+        int selectedIdx = lstFotos.getSelectedIndex();
+        btnBack.setEnabled(selectedIdx > 0);
+        btnForward.setEnabled(selectedIdx < lstFotos.getModel().getSize() - 1 && selectedIdx > -1);
+    }
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        lstFotos.setSelectedIndex(lstFotos.getSelectedIndex() - 1);
+}//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
+        lstFotos.setSelectedIndex(lstFotos.getSelectedIndex() + 1);
+}//GEN-LAST:event_btnForwardActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFoto;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnForward;
     private javax.swing.JButton btnRemFoto;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAngle;
     private org.jdesktop.swingx.JXBusyLabel lblBusy;
     private javax.swing.JLabel lblDate;
@@ -938,6 +1134,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private javax.swing.JLabel lblFileTxt;
     private javax.swing.JLabel lblFotoList;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblHeadingVorschau;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPicture;
@@ -946,13 +1143,17 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserTxt;
     private javax.swing.JList lstFotos;
+    private javax.swing.JPanel panButtons;
     private javax.swing.JPanel panCard;
     private javax.swing.JPanel panContrFotoList;
-    private javax.swing.JPanel panDetail;
+    private javax.swing.JPanel panFooterLeft;
+    private javax.swing.JPanel panFooterRight;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private javax.swing.JPanel panPreview;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
+    private de.cismet.tools.gui.RoundedPanel roundedPanel2;
     private de.cismet.tools.gui.RoundedPanel rpVorschau;
     private javax.swing.JScrollPane scpDescription;
     private javax.swing.JScrollPane scpDescription1;
@@ -968,12 +1169,30 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
 
     private String generateWebDAVFileName(File originalFile) {
         String[] fileNameSplit = originalFile.getName().split("\\.");
-        String webFileName = "FOTODOK-" + Math.abs(originalFile.getName().hashCode()) + "-" + System.currentTimeMillis();
+        String webFileName = "FOTO-" + System.currentTimeMillis() + "-" + Math.abs(originalFile.getName().hashCode());
         if (fileNameSplit.length > 1) {
             String ext = fileNameSplit[fileNameSplit.length - 1];
             webFileName += "." + ext;
         }
         return webFileName;
+    }
+
+    @Override
+    public void editorClosed(EditorSaveStatus status) {
+        if (EditorSaveStatus.SAVE_SUCCESS == status) {
+            for (String deleteFile : removeExistingPictureFromWebDAVList) {
+                deleteFileFromWebDAV(deleteFile);
+            }
+        } else {
+            for (String deleteFile : removeNewAddedPictureFromWebDAVList) {
+                deleteFileFromWebDAV(deleteFile);
+            }
+        }
+    }
+
+    @Override
+    public void prepareForSave() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     final class ImageResizeWorker extends SwingWorker<ImageIcon, Void> {
@@ -1107,6 +1326,24 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements Dispo
                     showWait(false);
                 }
             }
+        }
+    }
+
+    static class TestPanel extends javax.swing.JPanel {
+
+        private static final Color alphaColor = new Color(255, 255, 255, 60);
+        private static final int space = 75;
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            final Graphics2D g2d = (Graphics2D) g;
+            final Color old = g2d.getColor();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setColor(alphaColor);
+            g2d.fillRect(0, space, getWidth(), getHeight() - 2 * space);
+//            g2d.fillRect(0, 0, getWidth(), getHeight());
+            g2d.setColor(old);
         }
     }
 }

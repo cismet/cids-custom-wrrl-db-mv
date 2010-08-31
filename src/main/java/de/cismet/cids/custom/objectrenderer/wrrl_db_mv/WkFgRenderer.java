@@ -23,11 +23,16 @@
 
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
 /**
  *
  * @author stefan
  */
-public class WkFgRenderer extends javax.swing.JPanel {
+public class WkFgRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+
+    private CidsBean cidsBean;
 
     /** Creates new form WkFgRenderer */
     public WkFgRenderer() {
@@ -55,5 +60,30 @@ public class WkFgRenderer extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
+    }
+
+    @Override
+    public void setCidsBean(CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
+    }
+
+    @Override
+    public void dispose() {
+        //NOP
+    }
+
+    @Override
+    public String getTitle() {
+        return "Titel";
+    }
+
+    @Override
+    public void setTitle(String title) {
+        //NOP
+    }
 
 }
