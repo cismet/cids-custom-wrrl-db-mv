@@ -105,6 +105,9 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         btnRemAusnahme = new javax.swing.JButton();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingAusnahme = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
 
         dlgAusnahme.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -161,11 +164,11 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         setLayout(new java.awt.BorderLayout());
 
         panAllgemeines.setOpaque(false);
-        panAllgemeines.setLayout(new java.awt.GridBagLayout());
+        panAllgemeines.setLayout(new java.awt.BorderLayout());
 
         wkFgPanOne.setMinimumSize(new java.awt.Dimension(1000, 620));
         wkFgPanOne.setPreferredSize(new java.awt.Dimension(1000, 620));
-        panAllgemeines.add(wkFgPanOne, new java.awt.GridBagConstraints());
+        panAllgemeines.add(wkFgPanOne, java.awt.BorderLayout.CENTER);
 
         tpMain.addTab("Allgemeines", panAllgemeines);
 
@@ -173,6 +176,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         panQualitaet.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 15);
         panQualitaet.add(wkFgPanTwo, gridBagConstraints);
 
@@ -200,6 +204,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 0);
         panQualitaet.add(wkFgPanFive, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -214,15 +219,14 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         panAusnahmen.setOpaque(false);
         panAusnahmen.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAusnahmen.add(excemptionEditor, gridBagConstraints);
 
         roundedPanel1.setLayout(new java.awt.GridBagLayout());
 
-        scpAusnahmen.setMinimumSize(new java.awt.Dimension(250, 175));
-        scpAusnahmen.setPreferredSize(new java.awt.Dimension(250, 175));
+        scpAusnahmen.setMinimumSize(new java.awt.Dimension(350, 175));
+        scpAusnahmen.setPreferredSize(new java.awt.Dimension(350, 175));
 
         lstAusnahmen.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -242,7 +246,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         roundedPanel1.add(scpAusnahmen, gridBagConstraints);
 
         panContrAusnahmen.setOpaque(false);
@@ -276,7 +280,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         roundedPanel1.add(panContrAusnahmen, gridBagConstraints);
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
@@ -292,14 +296,34 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         roundedPanel1.add(panHeadInfo, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAusnahmen.add(roundedPanel1, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.weighty = 1.0;
+        panAusnahmen.add(jPanel1, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.weightx = 1.0;
+        panAusnahmen.add(jPanel2, gridBagConstraints);
+
+        jPanel3.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        panAusnahmen.add(jPanel3, gridBagConstraints);
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
@@ -365,6 +389,9 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
     private javax.swing.JComboBox cbAusnahmen;
     private javax.swing.JDialog dlgAusnahme;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ExcemptionEditor excemptionEditor;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblHeadingAusnahme;
     private javax.swing.JLabel lblImpactCataloge;
     private javax.swing.JList lstAusnahmen;

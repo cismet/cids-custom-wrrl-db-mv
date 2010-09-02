@@ -10,6 +10,7 @@ public class FotodokumentationToStringConverter extends CustomToStringConverter 
 
     @Override
     public String createString() {
-        return String.valueOf(cidsBean.getProperty("name"));
+        Object name = cidsBean.getProperty("name");
+        return name == null ? "Neue Fotodokumentation" : name.toString();
     }
 }
