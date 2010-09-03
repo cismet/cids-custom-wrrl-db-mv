@@ -11,6 +11,7 @@ import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.ImageUtil;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
@@ -115,6 +116,23 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
     private final WebDavClient webDavClient;
     private ComponentListener componenShownListener;
+    private static final Converter<CidsBean, String> GEOMETRY_CONVERTER = new Converter<CidsBean, String>() {
+
+        @Override
+        public String convertForward(CidsBean value) {
+            if(value != null) {
+            Object geom = value.getProperty("geo_field");
+            return String.valueOf(geom);
+            } else {
+                return "Keine Geometrie gesetzt";
+            }
+        }
+
+        @Override
+        public CidsBean convertReverse(String value) {
+            return null;
+        }
+    };
     private static final Converter<Timestamp, String> TIMESTAMP_CONVERTER = new Converter<Timestamp, String>() {
 
         @Override
@@ -322,6 +340,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
             bindingGroup.bind();
             lstFotos.getModel().addListDataListener(new ListDataListener() {
 
@@ -538,6 +557,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.point}"), lblTxtGeom, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<Error>");
+        binding.setConverter(GEOMETRY_CONVERTER);
         bindingGroup.addBinding(binding);
 
         setLayout(new java.awt.GridBagLayout());
@@ -727,6 +747,16 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblUserTxt, gridBagConstraints);
+
+        if(editable) {
+
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.point}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            binding.setSourceNullValue(null);
+            binding.setSourceUnreadableValue(null);
+            binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
+            bindingGroup.addBinding(binding);
+
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -1315,8 +1345,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     @Override
     public void prepareForSave() {
         if (cidsBean != null) {
-            try {
-                log.fatal(cidsBean.getProperty("av_date").getClass());
+            try {                
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().getName());
                 cidsBean.setProperty("av_date", new java.sql.Timestamp(System.currentTimeMillis()));
             } catch (Exception ex) {
