@@ -7,8 +7,10 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.server.newuser.User;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.ImageUtil;
+import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -48,16 +50,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
@@ -76,6 +74,7 @@ import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileFilter;
@@ -110,19 +109,18 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private boolean listListenerEnabled;
     private boolean resizeListenerEnabled;
     private final boolean editable;
-    private final List<String> removeExistingPictureFromWebDAVList = new ArrayList<String>();
-    private final List<String> removeNewAddedPictureFromWebDAVList = new ArrayList<String>();
+    private final List<CidsBean> removedFotoBeans = new ArrayList<CidsBean>();
+    private final List<CidsBean> removeNewAddedFotoBean = new ArrayList<CidsBean>();
     private static final int CACHE_SIZE = 20;
-    private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
     private final WebDavClient webDavClient;
     private ComponentListener componenShownListener;
     private static final Converter<CidsBean, String> GEOMETRY_CONVERTER = new Converter<CidsBean, String>() {
 
         @Override
         public String convertForward(CidsBean value) {
-            if(value != null) {
-            Object geom = value.getProperty("geo_field");
-            return String.valueOf(geom);
+            if (value != null) {
+                Object geom = value.getProperty("geo_field");
+                return String.valueOf(geom);
             } else {
                 return "Keine Geometrie gesetzt";
             }
@@ -130,24 +128,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
         @Override
         public CidsBean convertReverse(String value) {
-            return null;
-        }
-    };
-    private static final Converter<Timestamp, String> TIMESTAMP_CONVERTER = new Converter<Timestamp, String>() {
-
-        @Override
-        public String convertForward(Timestamp value) {
-            if (value == null) {
-                return "";
-            } else {
-                return FORMAT.format(value);
-            }
-        }
-
-        @Override
-        public Timestamp convertReverse(String value) {
-            //not necessary. maybe it doesn't work that way because of formatting
-//            return Timestamp.valueOf(value);
             return null;
         }
     };
@@ -311,8 +291,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         setComponentEditable(txtName);
         setComponentEditable(txtStaeun);
         if (!editable) {
-            scpDescription.setBorder(null);
-            scpDescription1.setBorder(null);
+            EmptyBorder eBorder = new EmptyBorder(0, 0, 0, 0);
+            scpDescription.setBorder(eBorder);
+            scpDescription1.setBorder(eBorder);
             panContrFotoList.setVisible(false);
 //            cbGeom.setEditable(false);
 //            cbGeom.setEnabled(false);
@@ -378,6 +359,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         if (currentResizeWorker != null) {
             currentResizeWorker.cancel(true);
         }
+        ((DefaultCismapGeometryComboBoxEditor)cbGeom).dispose();
     }
 
     private boolean deleteFileFromWebDAV(String fileName) {
@@ -583,6 +565,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weightx = 1.0;
         roundedPanel1.add(panHeadInfo, gridBagConstraints);
 
+        lblStaeun.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblStaeun.setText("STALU");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -591,6 +574,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblStaeun, gridBagConstraints);
 
+        lblUser.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUser.setText("Benutzer");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -642,6 +626,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(scpFotoList, gridBagConstraints);
 
+        lblFotoList.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFotoList.setText("Fotos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -683,6 +668,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         roundedPanel1.add(panContrFotoList, gridBagConstraints);
 
+        lblDokumentationName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDokumentationName.setText("Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -706,6 +692,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         roundedPanel1.add(txtDokumentationName, gridBagConstraints);
 
+        lblDescriptionDoku.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDescriptionDoku.setText("Beschreibung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -715,7 +702,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         roundedPanel1.add(lblDescriptionDoku, gridBagConstraints);
 
         taDescriptionDoku.setColumns(20);
-        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taDescriptionDoku.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.description}"), taDescriptionDoku, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -768,6 +755,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             roundedPanel1.add(lblTxtGeom, gridBagConstraints);
         }
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Geometrie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -776,6 +764,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(jLabel1, gridBagConstraints);
 
+        lblDate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDate.setText("Datum");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -791,7 +780,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_date}"), lblDateTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TIMESTAMP_CONVERTER);
+        binding.setConverter(TimestampConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -972,6 +961,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weightx = 1.0;
         roundedPanel2.add(panHeadInfo2, gridBagConstraints);
 
+        lblAngle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAngle.setText("Winkel");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -999,6 +989,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             roundedPanel2.add(lblTxtAngel, gridBagConstraints);
         }
 
+        lblDescription.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDescription.setText("Beschreibung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1025,6 +1016,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel2.add(scpDescription, gridBagConstraints);
 
+        lblName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblName.setText("Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1054,6 +1046,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weighty = 1.0;
         roundedPanel2.add(lblSpace, gridBagConstraints);
 
+        lblFile.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFile.setText("Datei");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1190,7 +1183,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                             CidsBean fotoToDelete = (CidsBean) toDeleteObj;
                             String file = String.valueOf(fotoToDelete.getProperty("file"));
                             IMAGE_CACHE.remove(file);
-                            removeExistingPictureFromWebDAVList.add(WEB_DAV_DIRECTORY + file);
+                            removedFotoBeans.add(fotoToDelete);
                         }
                     }
                 } catch (Exception e) {
@@ -1332,12 +1325,17 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     @Override
     public void editorClosed(EditorSaveStatus status) {
         if (EditorSaveStatus.SAVE_SUCCESS == status) {
-            for (String deleteFile : removeExistingPictureFromWebDAVList) {
-                deleteFileFromWebDAV(deleteFile);
+            for (CidsBean deleteBean : removedFotoBeans) {
+                deleteFileFromWebDAV(WEB_DAV_DIRECTORY + deleteBean.getProperty("file"));
+                try {
+                    deleteBean.delete();
+                } catch (Exception ex) {
+                    log.error(ex, ex);
+                }
             }
         } else {
-            for (String deleteFile : removeNewAddedPictureFromWebDAVList) {
-                deleteFileFromWebDAV(deleteFile);
+            for (CidsBean deleteBean : removeNewAddedFotoBean) {
+                deleteFileFromWebDAV(WEB_DAV_DIRECTORY + deleteBean.getProperty("file"));
             }
         }
     }
@@ -1345,8 +1343,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     @Override
     public void prepareForSave() {
         if (cidsBean != null) {
-            try {                
-                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().getName());
+            try {
+                User user = SessionManager.getSession().getUser();
+                cidsBean.setProperty("av_user", user.getName() + "@" + user.getDomain());
                 cidsBean.setProperty("av_date", new java.sql.Timestamp(System.currentTimeMillis()));
             } catch (Exception ex) {
                 log.error(ex, ex);
@@ -1447,6 +1446,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 if (!newBeans.isEmpty()) {
                     List<CidsBean> oldBeans = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "fotos");
                     oldBeans.addAll(newBeans);
+                    removeNewAddedFotoBean.addAll(newBeans);
                     lstFotos.setSelectedValue(newBeans.iterator().next(), true);
                 } else {
                     lblPicture.setIcon(FOLDER_ICON);

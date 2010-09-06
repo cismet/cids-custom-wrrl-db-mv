@@ -32,7 +32,7 @@
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="cb"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo();&#xa;cb.setMetaClass(EX_JUST_MC);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo(EX_JUST_MC,true,true);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

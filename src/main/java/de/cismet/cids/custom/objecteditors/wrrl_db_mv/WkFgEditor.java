@@ -6,24 +6,27 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import java.util.Collection;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import org.openide.util.Exceptions;
 
 /**
  *
  * @author stefan
  */
-public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
+public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private CidsBean cidsBean;
@@ -78,14 +81,6 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgAusnahme = new javax.swing.JDialog();
-        lblImpactCataloge = new javax.swing.JLabel();
-        DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo();
-        cb1.setMetaClass(AUSNAHME_MC);
-        cbAusnahmen = cb1;
-        panMenButtonsImpact = new javax.swing.JPanel();
-        btnImpactAbort = new javax.swing.JButton();
-        btnImpactOk = new javax.swing.JButton();
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkFgPanOne = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanOne();
@@ -106,60 +101,6 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingAusnahme = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-
-        dlgAusnahme.getContentPane().setLayout(new java.awt.GridBagLayout());
-
-        lblImpactCataloge.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.lblImpactCataloge.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        dlgAusnahme.getContentPane().add(lblImpactCataloge, gridBagConstraints);
-
-        cbAusnahmen.setMinimumSize(new java.awt.Dimension(250, 18));
-        cbAusnahmen.setPreferredSize(new java.awt.Dimension(250, 18));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        dlgAusnahme.getContentPane().add(cbAusnahmen, gridBagConstraints);
-
-        panMenButtonsImpact.setLayout(new java.awt.GridBagLayout());
-
-        btnImpactAbort.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnImpactAbort.text")); // NOI18N
-        btnImpactAbort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImpactAbortActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panMenButtonsImpact.add(btnImpactAbort, gridBagConstraints);
-
-        btnImpactOk.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnImpactOk.text")); // NOI18N
-        btnImpactOk.setMaximumSize(new java.awt.Dimension(85, 23));
-        btnImpactOk.setMinimumSize(new java.awt.Dimension(85, 23));
-        btnImpactOk.setPreferredSize(new java.awt.Dimension(85, 23));
-        btnImpactOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImpactOkActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panMenButtonsImpact.add(btnImpactOk, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        dlgAusnahme.getContentPane().add(panMenButtonsImpact, gridBagConstraints);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -219,8 +160,9 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         panAusnahmen.setOpaque(false);
         panAusnahmen.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         panAusnahmen.add(excemptionEditor, gridBagConstraints);
 
         roundedPanel1.setLayout(new java.awt.GridBagLayout());
@@ -244,7 +186,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         roundedPanel1.add(scpAusnahmen, gridBagConstraints);
@@ -303,27 +245,17 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         panAusnahmen.add(roundedPanel1, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
         panAusnahmen.add(jPanel1, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.weightx = 1.0;
-        panAusnahmen.add(jPanel2, gridBagConstraints);
-
-        jPanel3.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        panAusnahmen.add(jPanel3, gridBagConstraints);
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
@@ -333,8 +265,13 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddAusnahmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAusnahmeActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgAusnahme);
-        dlgAusnahme.setVisible(true);
+        try {
+            CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("EXCEMPTION");
+            Collection<CidsBean> excemptionCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "ausnahmen");
+            excemptionCollection.add(newBean);
+        } catch (Exception ex) {
+            //TODO
+        }
 }//GEN-LAST:event_btnAddAusnahmeActionPerformed
 
     private void lstAusnahmenValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
@@ -349,7 +286,7 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
     private void btnRemAusnahmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemAusnahmeActionPerformed
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll das XXX wirklich gelöscht werden?", "XXX entfernen", JOptionPane.YES_NO_OPTION);
+            final int answer = JOptionPane.showConfirmDialog(this, "Soll die Ausnahme wirklich gelöscht werden?", "Ausnahme entfernen", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean beanToDelete = (CidsBean) selection;
@@ -363,43 +300,17 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
             }
         }
     }//GEN-LAST:event_btnRemAusnahmeActionPerformed
-
-    private void btnImpactAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactAbortActionPerformed
-        dlgAusnahme.setVisible(false);
-}//GEN-LAST:event_btnImpactAbortActionPerformed
-
-    private void btnImpactOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactOkActionPerformed
-        final Object selection = cbAusnahmen.getSelectedItem();
-        if (selection instanceof CidsBean) {
-            final CidsBean selectedBean = (CidsBean) selection;
-            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "ausnahmen");
-            if (colToAdd != null) {
-                if (!colToAdd.contains(selectedBean)) {
-                    colToAdd.add(selectedBean);
-                }
-            }
-        }
-        dlgAusnahme.setVisible(false);
-}//GEN-LAST:event_btnImpactOkActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddAusnahme;
-    private javax.swing.JButton btnImpactAbort;
-    private javax.swing.JButton btnImpactOk;
     private javax.swing.JButton btnRemAusnahme;
-    private javax.swing.JComboBox cbAusnahmen;
-    private javax.swing.JDialog dlgAusnahme;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ExcemptionEditor excemptionEditor;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblHeadingAusnahme;
-    private javax.swing.JLabel lblImpactCataloge;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panAusnahmen;
     private javax.swing.JPanel panContrAusnahmen;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private javax.swing.JPanel panMenButtonsImpact;
     private javax.swing.JPanel panQualitaet;
     private javax.swing.JLabel panSpace;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
@@ -422,6 +333,32 @@ public class WkFgEditor extends JPanel implements DisposableCidsBeanStore {
         wkFgPanFive.dispose();
         excemptionEditor.dispose();
         bindingGroup.unbind();
-        dlgAusnahme.dispose();
+    }
+
+    @Override
+    public String getTitle() {
+        return String.valueOf(cidsBean);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        //NOP
+    }
+
+    @Override
+    public void editorClosed(EditorSaveStatus status) {
+        //TODO ?
+    }
+
+    @Override
+    public void prepareForSave() {
+        if (cidsBean != null) {
+            try {
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                cidsBean.setProperty("av_date", new java.sql.Timestamp(System.currentTimeMillis()));
+            } catch (Exception ex) {
+                log.error(ex, ex);
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -50,16 +51,14 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         dlgImpactCataloge = new javax.swing.JDialog();
         lblImpactCataloge = new javax.swing.JLabel();
-        DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo();
-        cb1.setMetaClass(IMPACT_MC);
+        DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo(IMPACT_MC,true,true);
         cbImpactCataloge = cb1;
         panMenButtonsImpact = new javax.swing.JPanel();
         btnImpactAbort = new javax.swing.JButton();
         btnImpactOk = new javax.swing.JButton();
         dlgImpactSrcCataloge = new javax.swing.JDialog();
         lblImpactSrcCataloge = new javax.swing.JLabel();
-        DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo();
-        cb2.setMetaClass(IMPACT_SRC_MC);
+        DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(IMPACT_SRC_MC,true,true);
         cbImpactSrcCataloge = cb2;
         panMenButtonsImpactSrc = new javax.swing.JPanel();
         btnMenImpactSrcAbort = new javax.swing.JButton();
@@ -111,8 +110,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         taDatenquelle = new javax.swing.JTextArea();
         scpEuCdRb = new javax.swing.JScrollPane();
         taEuCdRb = new javax.swing.JTextArea();
-        txtAvUser = new javax.swing.JTextField();
-        dpAvTime = new org.jdesktop.swingx.JXDatePicker();
         cbRiverCat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbContinua = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbTypK = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
@@ -139,6 +136,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         btnRemImpactSrc = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        lblTxtAvUser = new javax.swing.JLabel();
+        lbltxtAvTime = new javax.swing.JLabel();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -196,7 +195,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         lblImpactSrcCataloge.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblImpactSrcCataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgImpactSrcCataloge.getContentPane().add(lblImpactSrcCataloge, gridBagConstraints);
 
@@ -205,7 +203,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgImpactSrcCataloge.getContentPane().add(cbImpactSrcCataloge, gridBagConstraints);
 
@@ -685,31 +682,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpEuCdRb, gridBagConstraints);
 
-        txtAvUser.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtAvUser.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_user}"), txtAvUser, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtAvUser, gridBagConstraints);
-
-        dpAvTime.setMaximumSize(new java.awt.Dimension(250, 22));
-        dpAvTime.setMinimumSize(new java.awt.Dimension(250, 22));
-        dpAvTime.setPreferredSize(new java.awt.Dimension(250, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(dpAvTime, gridBagConstraints);
-
         cbRiverCat.setMinimumSize(new java.awt.Dimension(350, 20));
         cbRiverCat.setPreferredSize(new java.awt.Dimension(350, 20));
 
@@ -993,6 +965,31 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel2, gridBagConstraints);
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_user}"), lblTxtAvUser, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("<Error>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblTxtAvUser, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_time}"), lbltxtAvTime, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("<Error>");
+        binding.setConverter(TimestampConverter.getInstance());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lbltxtAvTime, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -1106,7 +1103,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWkGroupAggr;
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
-    private org.jdesktop.swingx.JXDatePicker dpAvTime;
     private org.jdesktop.swingx.JXDatePicker dpNow;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1135,6 +1131,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblSizeCat;
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblStaeun;
+    private javax.swing.JLabel lblTxtAvUser;
     private javax.swing.JLabel lblTypEvkK;
     private javax.swing.JLabel lblTypK;
     private javax.swing.JLabel lblWaCd;
@@ -1142,6 +1139,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblWkGroupAggr;
     private javax.swing.JLabel lblWkK;
     private javax.swing.JLabel lblWkN;
+    private javax.swing.JLabel lbltxtAvTime;
     private javax.swing.JList lstImpact;
     private javax.swing.JList lstImpactSrc;
     private javax.swing.JPanel panContrImpact;
@@ -1160,7 +1158,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JTextArea taBemerkung;
     private javax.swing.JTextArea taDatenquelle;
     private javax.swing.JTextArea taEuCdRb;
-    private javax.swing.JTextField txtAvUser;
     private javax.swing.JTextField txtKuestenWk;
     private javax.swing.JTextField txtLaenge;
     private javax.swing.JTextField txtReport;

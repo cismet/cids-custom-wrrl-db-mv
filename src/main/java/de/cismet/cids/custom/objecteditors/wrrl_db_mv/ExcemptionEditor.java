@@ -49,8 +49,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
 
         dlgJustificationCataloge = new javax.swing.JDialog();
         lblJustfification = new javax.swing.JLabel();
-        DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo();
-        cb.setMetaClass(EX_JUST_MC);
+        DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo(EX_JUST_MC,true,true);
         cbJustfificationCataloge = cb;
         panMenButtonsJustfification = new javax.swing.JPanel();
         btnJustfificationAbort = new javax.swing.JButton();
