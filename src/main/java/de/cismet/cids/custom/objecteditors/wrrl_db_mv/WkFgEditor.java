@@ -10,23 +10,25 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.tools.gui.FooterComponentProvider;
+import java.sql.Timestamp;
 import java.util.Collection;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import org.openide.util.Exceptions;
 
 /**
  *
  * @author stefan
  */
-public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private CidsBean cidsBean;
@@ -62,6 +64,20 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             wkFgPanFive.setCidsBean(cidsBean);
             bindingGroup.bind();
             lstAusnahmen.setSelectedIndex(lstAusnahmen.getModel().getSize() == 0 ? -1 : 0);
+            Object avUser = cidsBean.getProperty("av_user");
+            Object avTime = cidsBean.getProperty("av_time");
+            if (avUser == null) {
+                avUser = "(unbekannt)";
+            }
+            if (avTime instanceof Timestamp) {
+                avTime = TimestampConverter.getInstance().convertForward((Timestamp) avTime);
+            } else {
+                avTime = "(unbekannt)";
+            }
+
+            lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+        } else {
+            lblFoot.setText("");
         }
     }
 
@@ -81,6 +97,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        panFooter = new javax.swing.JPanel();
+        lblFoot = new javax.swing.JLabel();
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkFgPanOne = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanOne();
@@ -101,6 +119,17 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingAusnahme = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+
+        panFooter.setOpaque(false);
+        panFooter.setLayout(new java.awt.GridBagLayout());
+
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
+        panFooter.add(lblFoot, gridBagConstraints);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -270,7 +299,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             Collection<CidsBean> excemptionCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "ausnahmen");
             excemptionCollection.add(newBean);
         } catch (Exception ex) {
-            //TODO
+            log.error(ex, ex);
         }
 }//GEN-LAST:event_btnAddAusnahmeActionPerformed
 
@@ -305,11 +334,13 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private javax.swing.JButton btnRemAusnahme;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ExcemptionEditor excemptionEditor;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeadingAusnahme;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panAusnahmen;
     private javax.swing.JPanel panContrAusnahmen;
+    private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private javax.swing.JPanel panQualitaet;
     private javax.swing.JLabel panSpace;
@@ -360,5 +391,10 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 log.error(ex, ex);
             }
         }
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
     }
 }
