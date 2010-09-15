@@ -17,6 +17,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.FooterComponentProvider;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -79,6 +80,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         } else {
             lblFoot.setText("");
         }
+        CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection();
     }
 
     @Override
