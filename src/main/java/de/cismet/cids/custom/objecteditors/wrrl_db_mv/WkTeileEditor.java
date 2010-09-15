@@ -35,6 +35,11 @@ public class WkTeileEditor extends javax.swing.JPanel {
         return cidsBeans;
     }
 
+    private Color getNextColor() {
+        colorIndex = (colorIndex + 1) % COLORS.length;
+        return COLORS[colorIndex];
+    }
+
     public void setCidsBeans(Collection<CidsBean> cidsBeans) {
         this.cidsBeans = cidsBeans;
 
@@ -50,7 +55,7 @@ public class WkTeileEditor extends javax.swing.JPanel {
             wkTeilEditors.add(wkTeilEditor);
 
             wkTeilEditor.setCidsBean(wkTeilBean);
-            Color color = COLORS[colorIndex++];
+            Color color = getNextColor();
             wkTeilEditor.setLineColor(color);
 
             JPanel panItem = new JPanel(new GridBagLayout());
