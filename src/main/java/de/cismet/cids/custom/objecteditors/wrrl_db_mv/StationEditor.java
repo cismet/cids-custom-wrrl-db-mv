@@ -77,7 +77,9 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
                         try {
                             StationEditor.setPointGeometry(feature.getGeometry(), cidsBean);
                         } catch (Exception ex) {
-                            LOG.error("error while setting the " + POINT_GEOM_BEAN + "property", ex);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("error while setting the " + POINT_GEOM_BEAN + "property", ex);
+                            }
                         }
                     }
                 }
@@ -124,11 +126,15 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
                     cidsBean.setProperty(LINEAR_VALUE, value);
                 }
             } catch (Exception ex) {
-                LOG.error("Error during setting CidsBean", ex); // NOI18N
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error during setting CidsBean", ex); // NOI18N
+                }
             }
 
         } catch(Exception ex) {
-            LOG.debug("error while changing value", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while changing value", ex);
+            }
         }
         isSpinnerChangeLocked = false;
     }
@@ -182,7 +188,9 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
                         double currentPosition = feature.getCurrentPosition();
                         setLinearValue(currentPosition, cidsBean);
                     } catch (Exception ex) {
-                        LOG.debug("", ex);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("", ex);
+                        }
                     }
                     isFeatureChangeLocked = false;
                 }

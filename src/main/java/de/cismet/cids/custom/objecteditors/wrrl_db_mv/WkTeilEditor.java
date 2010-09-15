@@ -254,7 +254,9 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
                 cidsBean.setProperty(REAL_GEOM_BEAN, feature.getGeometry());
             }
         } catch (Exception ex) {
-            LOG.debug("Error during setting CidsBean", ex); // NOI18N
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Error during setting CidsBean", ex); // NOI18N
+            }
         }
 
         if (isFrom) {
@@ -289,7 +291,9 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
                         double position = (Double) stationBean.getProperty(LINEAR_VALUE);
 
                         if ((isFrom && !isFromSpinnerChangeLocked) || (!isFrom && !isToSpinnerChangeLocked)) {
-                            LOG.fatal("spinValue.setValue: " + isFrom);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("spinValue.setValue: " + isFrom);
+                            }
                             spinValue.setValue((double) Math.round(position));
                         }
 
@@ -300,7 +304,9 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
                             try {
                                 StationEditor.setPointGeometry(feature.getGeometry(), stationBean);
                             } catch (Exception ex) {
-                                LOG.error("error while setting property", ex);
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("error while setting property", ex);
+                                }
                             }
                         }
                     }
