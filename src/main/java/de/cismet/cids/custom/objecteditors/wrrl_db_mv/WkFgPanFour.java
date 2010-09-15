@@ -186,6 +186,6 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
 
     @Override
     public void dispose() {
-        //TODO
+        bindingGroup.unbind();
     }
 }

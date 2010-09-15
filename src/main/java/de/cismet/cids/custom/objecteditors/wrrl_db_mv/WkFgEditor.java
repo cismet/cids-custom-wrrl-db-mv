@@ -119,11 +119,13 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingAusnahme = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        wkTeileEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -288,6 +290,19 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.teile}"), wkTeileEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(wkTeileEditor1, gridBagConstraints);
+
+        tpMain.addTab("Geometrie", jPanel2);
+
         add(tpMain, java.awt.BorderLayout.PAGE_START);
 
         bindingGroup.bind();
@@ -334,6 +349,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private javax.swing.JButton btnRemAusnahme;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ExcemptionEditor excemptionEditor;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeadingAusnahme;
     private javax.swing.JList lstAusnahmen;
@@ -352,6 +368,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanOne wkFgPanOne;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanThree wkFgPanThree;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanTwo wkFgPanTwo;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor wkTeileEditor1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -363,6 +380,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         wkFgPanFour.dispose();
         wkFgPanFive.dispose();
         excemptionEditor.dispose();
+        wkTeileEditor1.dispose();
         bindingGroup.unbind();
     }
 
