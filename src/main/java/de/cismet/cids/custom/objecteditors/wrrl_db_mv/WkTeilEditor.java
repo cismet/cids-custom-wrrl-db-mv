@@ -31,6 +31,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     private static final String TO_STATION_BEAN = "bis";    // NOI18N
     private static final String LINEAR_VALUE = "wert";    // NOI18N
     private static final String GEOM_FIELD = "geo_field";    // NOI18N
+    private static final String REAL_GEOM_BEAN = "real_geom";    // NOI18N
 
     private LinearReferencedLineFeature feature;
     private LinearReferencedPointFeature fromFeature;
@@ -250,6 +251,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
                         toFeature.moveToPosition(value);
                     }
                 }
+                cidsBean.setProperty(REAL_GEOM_BEAN, feature.getGeometry());
             }
         } catch (Exception ex) {
             LOG.debug("Error during setting CidsBean", ex); // NOI18N
