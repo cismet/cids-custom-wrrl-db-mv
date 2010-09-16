@@ -59,6 +59,7 @@ public class WkTeileEditor extends javax.swing.JPanel {
             wkTeilEditor.setLineColor(color);
 
             JPanel panItem = new JPanel(new GridBagLayout());
+            panItem.setOpaque(false);
             GridBagConstraints gridBagConstraints;
             JButton btnRemove = new JButton();
 
@@ -127,7 +128,6 @@ public class WkTeileEditor extends javax.swing.JPanel {
         roundedPanel1 = new de.cismet.tools.gui.RoundedPanel();
         semiRoundedPanel1 = new de.cismet.tools.gui.SemiRoundedPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(200, 100));
@@ -145,14 +145,9 @@ public class WkTeileEditor extends javax.swing.JPanel {
 
         roundedPanel1.add(semiRoundedPanel1, java.awt.BorderLayout.NORTH);
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setOpaque(false);
-
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
-        jScrollPane1.setViewportView(jPanel1);
-
-        roundedPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        roundedPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         add(roundedPanel1);
     }// </editor-fold>//GEN-END:initComponents
@@ -160,7 +155,6 @@ public class WkTeileEditor extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private de.cismet.tools.gui.SemiRoundedPanel semiRoundedPanel1;
     // End of variables declaration//GEN-END:variables
