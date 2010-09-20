@@ -65,6 +65,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         cbFish = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbConfidence = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         blbSpace = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(450, 260));
         setOpaque(false);
@@ -77,7 +78,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.lblHeading.text")); // NOI18N
+        lblHeading.setText("Biologische Qualitätskomponenten");
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -85,42 +86,42 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblPhyto.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.lblPhyto.text")); // NOI18N
+        lblPhyto.setText("Phytoplankton");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblPhyto, gridBagConstraints);
 
-        lblMacPhyto.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.lblMacPhyto.text")); // NOI18N
+        lblMacPhyto.setText("Makrophyten");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblMacPhyto, gridBagConstraints);
 
-        lblBenInv.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.lblBenInv.text")); // NOI18N
+        lblBenInv.setText("MZB");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblBenInv, gridBagConstraints);
 
-        lblFish.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.lblFish.text")); // NOI18N
+        lblFish.setText("Fische");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblFish, gridBagConstraints);
 
-        lblConfidence.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.lblConfidence.text")); // NOI18N
+        lblConfidence.setText("Verlässlichkeit der biolog. Bewertung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblConfidence, gridBagConstraints);
 
         cbPhyto.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -130,8 +131,10 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(cbPhyto, gridBagConstraints);
 
         cbMacPhyto.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -141,10 +144,10 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbMacPhyto, gridBagConstraints);
 
         cbBenInv.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -154,10 +157,10 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbBenInv, gridBagConstraints);
 
         cbFish.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -167,10 +170,10 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbFish, gridBagConstraints);
 
         cbConfidence.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -180,18 +183,24 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbConfidence, gridBagConstraints);
-
-        blbSpace.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanThree.blbSpace.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.weightx = 1.0;
+        panInfoContent.add(jPanel1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -206,6 +215,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFish;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMacPhyto;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPhyto;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblBenInv;
     private javax.swing.JLabel lblConfidence;
     private javax.swing.JLabel lblFish;

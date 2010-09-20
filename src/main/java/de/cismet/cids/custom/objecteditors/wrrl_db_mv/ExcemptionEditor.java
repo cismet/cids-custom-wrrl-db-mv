@@ -72,7 +72,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
 
         dlgJustificationCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblJustfification.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.lblJustfification.text")); // NOI18N
+        lblJustfification.setText("ex_just");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgJustificationCataloge.getContentPane().add(lblJustfification, gridBagConstraints);
@@ -87,7 +87,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
 
         panMenButtonsJustfification.setLayout(new java.awt.GridBagLayout());
 
-        btnJustfificationAbort.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.btnJustfificationAbort.text")); // NOI18N
+        btnJustfificationAbort.setText("Abbrechen");
         btnJustfificationAbort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJustfificationAbortActionPerformed(evt);
@@ -100,7 +100,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMenButtonsJustfification.add(btnJustfificationAbort, gridBagConstraints);
 
-        btnJustfificationOk.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.btnJustfificationOk.text")); // NOI18N
+        btnJustfificationOk.setText("Ok");
         btnJustfificationOk.setMaximumSize(new java.awt.Dimension(85, 23));
         btnJustfificationOk.setMinimumSize(new java.awt.Dimension(85, 23));
         btnJustfificationOk.setPreferredSize(new java.awt.Dimension(85, 23));
@@ -127,7 +127,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
 
         panContent.setLayout(new java.awt.GridBagLayout());
 
-        lblExCat.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.lblExCat.text")); // NOI18N
+        lblExCat.setText("ex_cat");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -135,7 +135,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 5);
         panContent.add(lblExCat, gridBagConstraints);
 
-        lblExTyp.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.lblExTyp.text")); // NOI18N
+        lblExTyp.setText("ex_typ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -143,7 +143,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panContent.add(lblExTyp, gridBagConstraints);
 
-        lblExDate.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.lblExDate.text")); // NOI18N
+        lblExDate.setText("ex_date");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -151,7 +151,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panContent.add(lblExDate, gridBagConstraints);
 
-        lblExJus.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.lblExJus.text")); // NOI18N
+        lblExJus.setText("ex_jus");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -234,7 +234,6 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         panControl.setLayout(new java.awt.GridBagLayout());
 
         btnJusAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnJusAdd.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.btnJusAdd.text")); // NOI18N
         btnJusAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJusAddActionPerformed(evt);
@@ -245,7 +244,6 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         panControl.add(btnJusAdd, gridBagConstraints);
 
         btnJusRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnJusRemove.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.btnJusRemove.text")); // NOI18N
         btnJusRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJusRemoveActionPerformed(evt);
@@ -269,7 +267,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(ExcemptionEditor.class, "ExcemptionEditor.lblHeading.text")); // NOI18N
+        lblHeading.setText("Informationen zur Ausnahme");
         panHeadInfo.add(lblHeading);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

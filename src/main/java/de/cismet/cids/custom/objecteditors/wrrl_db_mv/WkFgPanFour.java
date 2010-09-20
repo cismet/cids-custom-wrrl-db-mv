@@ -61,6 +61,7 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         defaultBindableReferenceCombo2 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         defaultBindableReferenceCombo3 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(450, 260));
         setOpaque(false);
@@ -73,7 +74,7 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(WkFgPanFour.class, "WkFgPanFour.jLabel1.text")); // NOI18N
+        jLabel1.setText("Hydromorphologische Qualitätskomponenten");
         panHeadInfo.add(jLabel1);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -81,26 +82,26 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(WkFgPanFour.class, "WkFgPanFour.jLabel3.text")); // NOI18N
+        jLabel3.setText("Wasserhaushalt");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(jLabel3, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(WkFgPanFour.class, "WkFgPanFour.jLabel4.text")); // NOI18N
+        jLabel4.setText("Durchgängigkeit");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(jLabel4, gridBagConstraints);
 
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(WkFgPanFour.class, "WkFgPanFour.jLabel5.text")); // NOI18N
+        jLabel5.setText("Morphologie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(jLabel5, gridBagConstraints);
 
         defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -110,8 +111,10 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(defaultBindableReferenceCombo1, gridBagConstraints);
 
         defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -122,10 +125,10 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         bindingGroup.addBinding(jComboBoxBinding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(defaultBindableReferenceCombo2, gridBagConstraints);
 
         defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(350, 20));
@@ -135,18 +138,24 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(defaultBindableReferenceCombo3, gridBagConstraints);
-
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(WkFgPanFour.class, "WkFgPanFour.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(jLabel2, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.weightx = 1.0;
+        panInfoContent.add(jPanel1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -163,6 +172,7 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;

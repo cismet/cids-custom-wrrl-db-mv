@@ -691,8 +691,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbPlanuCd, gridBagConstraints);
-
-        lblSpacing.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSpacing.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
@@ -749,7 +747,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrImpact.setLayout(new java.awt.GridBagLayout());
 
         btnAddImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpact.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.btnAddImpact.text")); // NOI18N
         btnAddImpact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddImpactActionPerformed(evt);
@@ -760,7 +757,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrImpact.add(btnAddImpact, gridBagConstraints);
 
         btnRemImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpact.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.btnRemImpact.text")); // NOI18N
         btnRemImpact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemImpactActionPerformed(evt);
@@ -781,7 +777,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
 
         btnAddImpactSrc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpactSrc.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.btnAddImpactSrc.text")); // NOI18N
         btnAddImpactSrc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddImpactSrcActionPerformed(evt);
@@ -792,7 +787,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrImpactSrc.add(btnAddImpactSrc, gridBagConstraints);
 
         btnRemImpactSrc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpactSrc.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.btnRemImpactSrc.text")); // NOI18N
         btnRemImpactSrc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemImpactSrcActionPerformed(evt);
