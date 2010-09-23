@@ -131,7 +131,7 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblEqsOnatpl, gridBagConstraints);
 
-        lblNonComp.setText("Einhaltung UQN Spezifische Schadstoffe");
+        lblNonComp.setText("<html>Einhaltung UQN<br>Spezifische Schadstoffe<html>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;

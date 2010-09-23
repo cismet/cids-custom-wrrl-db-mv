@@ -128,7 +128,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblNonComp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Einhaltung UQN Spezifische Schadstoffe"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;Einhaltung UQN&lt;br&gt;Spezifische Schadstoffe&lt;html&gt;"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
