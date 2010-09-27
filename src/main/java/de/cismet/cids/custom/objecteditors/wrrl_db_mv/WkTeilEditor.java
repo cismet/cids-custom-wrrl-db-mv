@@ -251,7 +251,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
                         toFeature.moveToPosition(value);
                     }
                 }
-                cidsBean.setProperty(REAL_GEOM_BEAN, feature.getGeometry());
+                setRealGeometry(feature.getGeometry(), cidsBean);
             }
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
@@ -343,6 +343,14 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
 
     private static CidsBean getRouteGeomBean(CidsBean cidsBean) {
         return (CidsBean) getRouteBean(cidsBean).getProperty(ROUTE_GEOM_BEAN);
+    }
+
+    private static CidsBean getRealGeomBean(CidsBean cidsBean) {
+        return (CidsBean) cidsBean.getProperty(REAL_GEOM_BEAN);
+    }
+
+    private static void setRealGeometry(Geometry line, CidsBean cidsBean) throws Exception {
+        getRealGeomBean(cidsBean).setProperty(GEOM_FIELD, line);
     }
 
     @Override
