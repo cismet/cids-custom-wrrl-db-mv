@@ -1,16 +1,24 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
+import Sirius.server.middleware.types.MetaObjectNode;
 import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.navigatorplugin.CidsFeature;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JSpinner;
 import javax.swing.event.DocumentEvent;
@@ -78,6 +86,11 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         // Feature erzeugen
         if (!isFeatureInited) {
             initFeature(cidsBean);
+            MetaCatalogueTree metaCatalogueTree = ComponentRegistry.getRegistry().getCatalogueTree();
+            Collection<Feature> features = new ArrayList<Feature>();
+            features.add(new CidsFeature((MetaObjectNode) metaCatalogueTree.getSelectedNode().getNode()));
+            CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
+            CismapBroker.getInstance().getMappingComponent().removeFeatures(features);
         }
         getFromStationBean(cidsBean).addPropertyChangeListener(fromCidsBeanListener);
         getToStationBean(cidsBean).addPropertyChangeListener(toCidsBeanListener);
@@ -185,14 +198,28 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
                     } else {
                         isToFeatureChangeLocked = true;
                     }
+                    double value = Math.round(linearRefFeature.getCurrentPosition() * 100) / 100d;
                     if ((isFrom && !isFromSpinnerChangeLocked) || (!isFrom && !isToSpinnerChangeLocked)) {
                         try {
-                            double currentPosition = Math.round(linearRefFeature.getCurrentPosition() * 100) / 100d;
-                            spinner.setValue((double) Math.round(currentPosition));
+                            spinner.setValue((double) Math.round(value));
                         } catch (Exception ex) {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("", ex);
                             }
+                        }
+                    }
+                    try {
+                        if (isFrom) {
+                            StationEditor.setLinearValue(value, getFromStationBean(cidsBean));
+                            StationEditor.setPointGeometry(fromFeature.getGeometry(), getFromStationBean(cidsBean));
+                        } else {
+                            StationEditor.setLinearValue(value, getToStationBean(cidsBean));
+                            StationEditor.setPointGeometry(toFeature.getGeometry(), getToStationBean(cidsBean));
+                        }
+                        setRealGeometry(feature.getGeometry(), cidsBean);
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Error while setting bean", ex);
                         }
                     }
                     if (isFrom) {
@@ -226,32 +253,23 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             if (cidsBean == null) {
                 cidsBean = metaClass.getEmptyInstance().getBean();
             }
-
-            CidsBean stationBean = null;
-            
-            if (isFrom) {
-                stationBean = getFromStationBean(cidsBean);
-            } else {
-                stationBean = getToStationBean(cidsBean);
-            }
-
-            final Double oldValue = (Double) stationBean.getProperty(LINEAR_VALUE);
+                      
+            final Double oldValue = (isFrom) ? StationEditor.getLinearValue(getFromStationBean(cidsBean)) : StationEditor.getLinearValue(getToStationBean(cidsBean));
 
             if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
-                // Bean Properties setzen
-                stationBean.setProperty(LINEAR_VALUE, value);
                 if (isFrom) {
                     if (fromFeature != null) {
-                        StationEditor.setPointGeometry(fromFeature.getGeometry(), stationBean);
-                        fromFeature.moveToPosition(value);
+                        if (!isFromFeatureChangeLocked) {
+                            fromFeature.moveToPosition(value);
+                        }
                     }
                 } else {
                     if (toFeature != null) {
-                        StationEditor.setPointGeometry(toFeature.getGeometry(), stationBean);
-                        toFeature.moveToPosition(value);
+                        if (!isToFeatureChangeLocked) {
+                            toFeature.moveToPosition(value);
+                        }
                     }
                 }
-                setRealGeometry(feature.getGeometry(), cidsBean);
             }
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
