@@ -202,7 +202,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
 
             @Override
             public void insertUpdate(DocumentEvent de) {
-                spinnerChanged(IFROM);
+                spinnerChanged(FROM);
             }
 
             @Override
