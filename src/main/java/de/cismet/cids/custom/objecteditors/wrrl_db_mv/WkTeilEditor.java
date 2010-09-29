@@ -7,8 +7,11 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
 import Sirius.server.middleware.types.MetaObjectNode;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
+import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -40,6 +44,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     private static final String LINEAR_VALUE = "wert";    // NOI18N
     private static final String GEOM_FIELD = "geo_field";    // NOI18N
     private static final String REAL_GEOM_BEAN = "real_geom";    // NOI18N
+    private static final String STATION_REAL_GEOM_BEAN = "real_point";    // NOI18N
+
 
     private LinearReferencedLineFeature feature;
     private LinearReferencedPointFeature fromFeature;
@@ -52,6 +58,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     private boolean isToFeatureChangeLocked = false;
     private PropertyChangeListener fromCidsBeanListener;
     private PropertyChangeListener toCidsBeanListener;
+    private static int NEW_WKTEIL = 0;
+    private static int NEW_STATION = 0;
 
 
     /** Creates new form WkTeilEditor */
@@ -61,7 +69,43 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         initCidsBeanListener(true);
         initCidsBeanListener(false);
         initSpinnerListener();
+    }
 
+    public static WkTeilEditor createFromRoute(CidsBean routeBean) {
+        MetaClass wkTeilMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "WK_TEIL");
+        MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "STATION");
+        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "GEOM");
+
+        CidsBean wkTeilBean = wkTeilMC.getEmptyInstance().getBean();
+        CidsBean fromBean = stationMC.getEmptyInstance().getBean();
+        CidsBean toBean = stationMC.getEmptyInstance().getBean();
+        CidsBean geomBean = geomMC.getEmptyInstance().getBean();
+        CidsBean fromGeomBean = geomMC.getEmptyInstance().getBean();
+        CidsBean toGeomBean = geomMC.getEmptyInstance().getBean();
+        
+        try {
+            fromBean.setProperty(ID, --NEW_STATION);
+            fromBean.setProperty(ROUTE_BEAN, routeBean);
+            fromBean.setProperty(LINEAR_VALUE, 0d);
+            fromBean.setProperty(STATION_REAL_GEOM_BEAN, fromGeomBean);
+
+            toBean.setProperty(ID, --NEW_STATION);
+            toBean.setProperty(ROUTE_BEAN, routeBean);
+            toBean.setProperty(LINEAR_VALUE, 0d);
+            toBean.setProperty(LINEAR_VALUE, ((Geometry) ((CidsBean) routeBean.getProperty(ROUTE_GEOM_BEAN)).getProperty(GEOM_FIELD)).getLength());
+            toBean.setProperty(STATION_REAL_GEOM_BEAN, toGeomBean);
+
+            wkTeilBean.setProperty(ID, --NEW_WKTEIL);
+            wkTeilBean.setProperty(FROM_STATION_BEAN, fromBean);
+            wkTeilBean.setProperty(TO_STATION_BEAN, toBean);
+            wkTeilBean.setProperty(REAL_GEOM_BEAN, geomBean);
+        } catch (Exception ex) {
+                LOG.debug("Error while creating wkteil bean", ex);
+        }
+
+        WkTeilEditor editor = new WkTeilEditor();
+        editor.setCidsBean(wkTeilBean);
+        return editor;
     }
 
     public void setLineColor(Color paint) {
@@ -83,14 +127,16 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     public void setCidsBean(CidsBean cidsBean) {
         this.cidsBean = cidsBean;
 
-        // Feature erzeugen
         if (!isFeatureInited) {
-            initFeature(cidsBean);
+            // cidsFeature rausschmeissen
             MetaCatalogueTree metaCatalogueTree = ComponentRegistry.getRegistry().getCatalogueTree();
             Collection<Feature> features = new ArrayList<Feature>();
             features.add(new CidsFeature((MetaObjectNode) metaCatalogueTree.getSelectedNode().getNode()));
             CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
-            CismapBroker.getInstance().getMappingComponent().removeFeatures(features);
+            //CismapBroker.getInstance().getMappingComponent().removeFeatures(features);
+
+            // Feature erzeugen
+            initFeature(cidsBean);
         }
         getFromStationBean(cidsBean).addPropertyChangeListener(fromCidsBeanListener);
         getToStationBean(cidsBean).addPropertyChangeListener(toCidsBeanListener);
@@ -99,6 +145,9 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             getToStationBean(cidsBean).setProperty(LINEAR_VALUE, getToStationBean(cidsBean).getProperty(LINEAR_VALUE));
         } catch (Exception ex) {
         }
+
+        ((SpinnerNumberModel) spinFrom.getModel()).setMaximum(getRouteGeometry(cidsBean).getLength());
+        ((SpinnerNumberModel) spinTo.getModel()).setMaximum(getRouteGeometry(cidsBean).getLength());
 
         labGwk.setText("Route: " + Long.toString(StationEditor.getRouteGwk(getFromStationBean(cidsBean))));
         jPanel2.setBackground(LinearReferencedLineFeature.DEFAULT_COLOR);
@@ -355,7 +404,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         return (CidsBean) cidsBean.getProperty(TO_STATION_BEAN);
     }
 
-    private static CidsBean getRouteBean(CidsBean cidsBean) {
+    public static CidsBean getRouteBean(CidsBean cidsBean) {
         return (CidsBean) getFromStationBean(cidsBean).getProperty(ROUTE_BEAN);
     }
 

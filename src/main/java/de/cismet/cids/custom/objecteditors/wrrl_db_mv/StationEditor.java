@@ -4,8 +4,10 @@ import de.cismet.cids.custom.util.StationToMapRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
 import com.vividsolutions.jts.geom.Geometry;
+import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,11 +41,33 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
     private boolean isSpinnerChangeLocked = false;
     private boolean isFeatureChangeLocked = false;
     private ImageIcon ico;
+    private static int NEW_STATION = 0;
 
     public StationEditor() {
         initComponents();
         initCidsBeanListener();
         initSpinnerListener();
+    }
+
+    public static StationEditor createFromRoute(CidsBean routeBean) {
+        MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "STATION");
+        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "GEOM");
+
+        CidsBean stationBean = stationMC.getEmptyInstance().getBean();
+        CidsBean geomBean = geomMC.getEmptyInstance().getBean();
+
+        try {
+            stationBean.setProperty(ID, --NEW_STATION);
+            stationBean.setProperty(ROUTE_BEAN, routeBean);
+            stationBean.setProperty(LINEAR_VALUE, 0d);
+            stationBean.setProperty(POINT_GEOM_BEAN, geomBean);
+        } catch (Exception ex) {
+                LOG.debug("Error while creating wkteil bean", ex);
+        }
+
+        StationEditor editor = new StationEditor();
+        editor.setCidsBean(stationBean);
+        return editor;
     }
 
     public void setImageIcon(ImageIcon ico) {
@@ -253,7 +277,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
         return (CidsBean) cidsBean.getProperty(POINT_GEOM_BEAN);
     }
 
-    private static CidsBean getRouteBean(CidsBean cidsBean) {
+    public static CidsBean getRouteBean(CidsBean cidsBean) {
         return (CidsBean) cidsBean.getProperty(ROUTE_BEAN);
     }
 
