@@ -1,27 +1,19 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.ui.ComponentRegistry;
-import Sirius.navigator.ui.tree.MetaCatalogueTree;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
-import Sirius.server.middleware.types.MetaObjectNode;
 import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-import de.cismet.cismap.navigatorplugin.CidsFeature;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -130,12 +122,6 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         this.cidsBean = cidsBean;
 
         if (!isFeatureInited) {
-            // cidsFeature rausschmeissen
-            MetaCatalogueTree metaCatalogueTree = ComponentRegistry.getRegistry().getCatalogueTree();
-            Collection<Feature> features = new ArrayList<Feature>();
-            features.add(new CidsFeature((MetaObjectNode) metaCatalogueTree.getSelectedNode().getNode()));
-            CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
-
             // Feature erzeugen
             initFeature(cidsBean);
         }
