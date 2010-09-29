@@ -51,6 +51,25 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 //        } catch (Exception ex) {
 //            throw new RuntimeException(ex);
 //        }
+        wkTeileEditor1.addWkTeileEditorListener(new WkTeileEditorListener() {
+
+            @Override
+            public void wkTeilAdded() {
+                zoomToFeatures();
+            }
+
+            @Override
+            public void wkTeilRemoved() {
+                zoomToFeatures();
+            }
+        });
+    }
+
+    private void zoomToFeatures() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+        }
     }
 
     @Override
@@ -81,10 +100,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
         } else {
             lblFoot.setText("");
-        }
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
         }
     }
 

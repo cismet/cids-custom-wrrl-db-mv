@@ -1,6 +1,8 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 /**
  *
@@ -14,7 +16,40 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
     public TestJeanEditor() {
         initComponents();
 
+        stationenEditor1.addStationenEditorListener(new StationenEditorListener() {
+
+            @Override
+            public void stationAdded() {
+                zoomToFeatures();
+            }
+
+            @Override
+            public void stationRemoved() {
+                zoomToFeatures();
+            }
+        });
+
+        wkTeileEditor1.addWkTeileEditorListener(new WkTeileEditorListener() {
+
+            @Override
+            public void wkTeilAdded() {
+                zoomToFeatures();
+            }
+
+            @Override
+            public void wkTeilRemoved() {
+                zoomToFeatures();
+            }
+        });
+
         //stationEditor1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ende.png"))); // NOI18N
+    }
+
+    private void zoomToFeatures() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+        }
     }
 
     @Override

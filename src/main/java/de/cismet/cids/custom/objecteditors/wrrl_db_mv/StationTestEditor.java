@@ -1,6 +1,9 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 /**
  *
@@ -13,6 +16,19 @@ public class StationTestEditor extends DefaultCustomObjectEditor {
     /** Creates new form StationTestEditor */
     public StationTestEditor() {
         initComponents();
+    }
+
+    @Override
+    public void setCidsBean(CidsBean cidsBean) {
+        super.setCidsBean(cidsBean);
+        zoomToFeatures();
+    }
+
+    private void zoomToFeatures() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+        }
     }
 
     @Override

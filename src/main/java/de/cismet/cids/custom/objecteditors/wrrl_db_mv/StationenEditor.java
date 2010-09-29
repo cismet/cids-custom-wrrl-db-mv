@@ -24,6 +24,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
     private Collection<CidsBean> cidsBeans;
     private Collection<StationEditor> stationEditors = new ArrayList<StationEditor>();
     private HashMap<JButton, StationEditor> stationenMap = new HashMap<JButton, StationEditor>();
+    private Collection<StationenEditorListener> listeners = new ArrayList<StationenEditorListener>();
 
     /** Creates new form WkTeileEditor */
     public StationenEditor() {
@@ -31,7 +32,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
         new CidsBeanDropTarget(this);
     }
 
-        @Override
+    @Override
     public void beansDropped(ArrayList<CidsBean> beans) {
         for (CidsBean bean : beans) {
             try {
@@ -46,6 +47,26 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
             } catch (ConnectionException ex) {
                 LOG.debug("SessionManager.getProxy().getMetaClass()", ex);
             }
+        }
+    }
+
+    public boolean addStationenEditorListener(StationenEditorListener listener) {
+        return listeners.add(listener);
+    }
+
+    public boolean removeListener(StationenEditorListener listener) {
+        return listeners.remove(listener);
+    }
+
+    private void fireStationAdded() {
+        for (StationenEditorListener listener : listeners) {
+            listener.stationAdded();
+        }
+    }
+
+    private void fireStationRemoved() {
+        for (StationenEditorListener listener : listeners) {
+            listener.stationRemoved();
         }
     }
 
@@ -113,6 +134,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
         ((java.awt.GridLayout) jPanel1.getLayout()).setRows(jPanel1.getComponentCount());
 
         revalidate();
+        fireStationAdded();
     }
 
     private void removeEditor(StationEditor stationEditor) {
@@ -126,9 +148,11 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
         } else {
             ((java.awt.GridLayout) jPanel1.getLayout()).setRows(1);
         }
-        revalidate();
 
         stationEditors.remove(stationEditor);
+
+        revalidate();
+        fireStationRemoved();
     }
 
     public void dispose() {

@@ -29,6 +29,7 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
     private Collection<WkTeilEditor> wkTeilEditors = new ArrayList<WkTeilEditor>();
     private HashMap<JButton, WkTeilEditor> wkTeileMap = new HashMap<JButton, WkTeilEditor>();
     private int colorIndex = 0;
+    private Collection<WkTeileEditorListener> listeners = new ArrayList<WkTeileEditorListener>();
 
     /** Creates new form WkTeileEditor */
     public WkTeileEditor() {
@@ -55,6 +56,26 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
             } catch (ConnectionException ex) {
                 LOG.debug("SessionManager.getProxy().getMetaClass()", ex);
             }
+        }
+    }
+
+    public boolean addWkTeileEditorListener(WkTeileEditorListener listener) {
+        return listeners.add(listener);
+    }
+
+    public boolean removeListener(WkTeileEditorListener listener) {
+        return listeners.remove(listener);
+    }
+
+    private void fireWkTeilAdded() {
+        for (WkTeileEditorListener listener : listeners) {
+            listener.wkTeilAdded();
+        }
+    }
+
+    private void fireWkTeilRemoved() {
+        for (WkTeileEditorListener listener : listeners) {
+            listener.wkTeilRemoved();
         }
     }
 
@@ -125,6 +146,7 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
         ((java.awt.GridLayout) jPanel1.getLayout()).setRows(jPanel1.getComponentCount());
         
         revalidate();
+        fireWkTeilAdded();
     }
 
     private void removeEditor(WkTeilEditor wkTeilEditor) {
@@ -138,9 +160,11 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
         } else {
             ((java.awt.GridLayout) jPanel1.getLayout()).setRows(1);
         }
-        revalidate();
 
         wkTeilEditors.remove(wkTeilEditor);
+
+        revalidate();
+        fireWkTeilRemoved();
     }
 
     public void dispose() {
