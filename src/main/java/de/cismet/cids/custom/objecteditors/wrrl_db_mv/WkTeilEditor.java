@@ -7,7 +7,6 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
 import Sirius.server.middleware.types.MetaObjectNode;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -20,6 +19,7 @@ import de.cismet.cismap.navigatorplugin.CidsFeature;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -45,6 +45,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     private static final String GEOM_FIELD = "geo_field";    // NOI18N
     private static final String REAL_GEOM_BEAN = "real_geom";    // NOI18N
     private static final String STATION_REAL_GEOM_BEAN = "real_point";    // NOI18N
+    private static final boolean FROM = true;
+    private static final boolean TO = false;
 
 
     private LinearReferencedLineFeature feature;
@@ -66,8 +68,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     public WkTeilEditor() {
         initComponents();
 
-        initCidsBeanListener(true);
-        initCidsBeanListener(false);
+        initCidsBeanListener(FROM);
+        initCidsBeanListener(TO);
         initSpinnerListener();
     }
 
@@ -82,7 +84,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         CidsBean geomBean = geomMC.getEmptyInstance().getBean();
         CidsBean fromGeomBean = geomMC.getEmptyInstance().getBean();
         CidsBean toGeomBean = geomMC.getEmptyInstance().getBean();
-        
+
         try {
             fromBean.setProperty(ID, --NEW_STATION);
             fromBean.setProperty(ROUTE_BEAN, routeBean);
@@ -111,7 +113,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     public void setLineColor(Color paint) {
         feature.setLinePaint(paint);
         feature.updateGeometry();
-        jPanel2.setBackground(paint);
+        panLine.setBackground(paint);
     }
 
     public LinearReferencedLineFeature getFeature() {
@@ -133,24 +135,21 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             Collection<Feature> features = new ArrayList<Feature>();
             features.add(new CidsFeature((MetaObjectNode) metaCatalogueTree.getSelectedNode().getNode()));
             CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
-            //CismapBroker.getInstance().getMappingComponent().removeFeatures(features);
 
             // Feature erzeugen
             initFeature(cidsBean);
         }
         getFromStationBean(cidsBean).addPropertyChangeListener(fromCidsBeanListener);
         getToStationBean(cidsBean).addPropertyChangeListener(toCidsBeanListener);
-        try {
-            getFromStationBean(cidsBean).setProperty(LINEAR_VALUE, getFromStationBean(cidsBean).getProperty(LINEAR_VALUE));
-            getToStationBean(cidsBean).setProperty(LINEAR_VALUE, getToStationBean(cidsBean).getProperty(LINEAR_VALUE));
-        } catch (Exception ex) {
-        }
+
+        cidsBeanChanged(FROM);
+        cidsBeanChanged(TO);
 
         ((SpinnerNumberModel) spinFrom.getModel()).setMaximum(getRouteGeometry(cidsBean).getLength());
         ((SpinnerNumberModel) spinTo.getModel()).setMaximum(getRouteGeometry(cidsBean).getLength());
 
         labGwk.setText("Route: " + Long.toString(StationEditor.getRouteGwk(getFromStationBean(cidsBean))));
-        jPanel2.setBackground(LinearReferencedLineFeature.DEFAULT_COLOR);
+        panLine.setBackground(LinearReferencedLineFeature.DEFAULT_COLOR);
     }
 
     @Override
@@ -192,8 +191,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             getRouteGeometry(cidsBean)
         );
 
-        listenToFeature(fromFeature, spinFrom, true);
-        listenToFeature(toFeature, spinTo, false);
+        initFeatureListener(FROM);
+        initFeatureListener(TO);
 
         isFeatureInited = true;
     }
@@ -203,17 +202,17 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
 
             @Override
             public void insertUpdate(DocumentEvent de) {
-                spinnerChanged(true);
+                spinnerChanged(IFROM);
             }
 
             @Override
             public void removeUpdate(DocumentEvent de) {
-                spinnerChanged(true);
+                spinnerChanged(FROM);
             }
 
             @Override
             public void changedUpdate(DocumentEvent de) {
-                spinnerChanged(true);
+                spinnerChanged(FROM);
             }
         });
 
@@ -221,102 +220,93 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
 
             @Override
             public void insertUpdate(DocumentEvent de) {
-                spinnerChanged(false);
+                spinnerChanged(TO);
             }
 
             @Override
             public void removeUpdate(DocumentEvent de) {
-                spinnerChanged(false);
+                spinnerChanged(TO);
             }
 
             @Override
             public void changedUpdate(DocumentEvent de) {
-                spinnerChanged(false);
+                spinnerChanged(TO);
             }
         });
     }
 
-    private void listenToFeature(final LinearReferencedPointFeature linearRefFeature, final JSpinner spinner, final boolean isFrom) {
+    private void initFeatureListener(final boolean isFrom) {
+        final LinearReferencedPointFeature linearRefFeature = (isFrom) ? fromFeature : toFeature;
         linearRefFeature.addListener(new PropertyChangeListener() {
 
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
                 if (pce.getPropertyName().equals(LinearReferencedPointFeature.PROPERTY_FEATURE_COORDINATE)) {
-                    if (isFrom) {
-                        isFromFeatureChangeLocked = true;
-                    } else {
-                        isToFeatureChangeLocked = true;
-                    }
-                    double value = Math.round(linearRefFeature.getCurrentPosition() * 100) / 100d;
-                    if ((isFrom && !isFromSpinnerChangeLocked) || (!isFrom && !isToSpinnerChangeLocked)) {
-                        try {
-                            spinner.setValue((double) Math.round(value));
-                        } catch (Exception ex) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("", ex);
-                            }
-                        }
-                    }
-                    try {
-                        if (isFrom) {
-                            StationEditor.setLinearValue(value, getFromStationBean(cidsBean));
-                            StationEditor.setPointGeometry(fromFeature.getGeometry(), getFromStationBean(cidsBean));
-                        } else {
-                            StationEditor.setLinearValue(value, getToStationBean(cidsBean));
-                            StationEditor.setPointGeometry(toFeature.getGeometry(), getToStationBean(cidsBean));
-                        }
-                        setRealGeometry(feature.getGeometry(), cidsBean);
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Error while setting bean", ex);
-                        }
-                    }
-                    if (isFrom) {
-                        isFromFeatureChangeLocked = false;
-                    } else {
-                        isToFeatureChangeLocked = false;
-                    }
+                    featureChanged(isFrom);
                 }
             }
         });
     }
 
-    private void spinnerChanged(boolean isFrom) {
-        // endlosschleife verhindern (bean => spinner => bean => ...)
-        if (isFrom) {
-            isFromSpinnerChangeLocked = true;
-        } else {
-            isToSpinnerChangeLocked = true;
-        }
-
+    private void featureChanged(boolean isFrom) {
         try {
-            Double value = null;
-            if (isFrom) {
-                AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinFrom.getEditor()).getTextField().getFormatter();
-                value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinFrom.getEditor()).getTextField().getText());
-            } else {
-                AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinTo.getEditor()).getTextField().getFormatter();
-                value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinTo.getEditor()).getTextField().getText());
+            lockFeatureChange(true, isFrom);
+
+            final LinearReferencedPointFeature linearRefFeature = (isFrom) ? fromFeature : toFeature;
+            final JSpinner spinner = (isFrom) ? spinFrom: spinTo;
+
+            final double value = Math.round(linearRefFeature.getCurrentPosition() * 100) / 100d;
+            if (!isSpinnerChangeLocked(isFrom)) {
+                spinner.setValue((double) Math.round(value));
             }
+            try {
+                final CidsBean stationBean = (isFrom) ? getFromStationBean(cidsBean) : getToStationBean(cidsBean);
+                final Geometry geometry = (isFrom) ? fromFeature.getGeometry() : toFeature.getGeometry();
+
+                // jeweilige Station anpassen
+                StationEditor.setLinearValue(value, stationBean);
+                StationEditor.setPointGeometry(geometry, stationBean);
+
+                // "real"-Geometry anpassen
+                setRealGeometry(feature.getGeometry(), cidsBean);
+            } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while setting bean", ex);
+                }
+            }
+        } finally {
+            lockFeatureChange(false, isFrom);
+        }
+    }
+
+    private void spinnerChanged(boolean isFrom) {
+        try {
+            lockSpinnerChange(true, isFrom);
 
             if (cidsBean == null) {
                 cidsBean = metaClass.getEmptyInstance().getBean();
             }
-                      
+
             final Double oldValue = (isFrom) ? StationEditor.getLinearValue(getFromStationBean(cidsBean)) : StationEditor.getLinearValue(getToStationBean(cidsBean));
 
-            if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
+            Double value;
+            try {
                 if (isFrom) {
-                    if (fromFeature != null) {
-                        if (!isFromFeatureChangeLocked) {
-                            fromFeature.moveToPosition(value);
-                        }
-                    }
+                    AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinFrom.getEditor()).getTextField().getFormatter();
+                    value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinFrom.getEditor()).getTextField().getText());
                 } else {
-                    if (toFeature != null) {
-                        if (!isToFeatureChangeLocked) {
-                            toFeature.moveToPosition(value);
-                        }
+                    AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinTo.getEditor()).getTextField().getFormatter();
+                    value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinTo.getEditor()).getTextField().getText());
+                }
+            } catch (ParseException ex) {
+                value = oldValue;
+            }
+
+            if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
+                LinearReferencedPointFeature fromOrToFeature = (isFrom) ? fromFeature : toFeature;
+                if (fromOrToFeature != null) {
+                    if (!isFeatureChangeLocked(isFrom)) {
+                        fromOrToFeature.moveToPosition(value);
                     }
                 }
             }
@@ -324,12 +314,32 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Error during setting CidsBean", ex); // NOI18N
             }
+        } finally {
+            lockSpinnerChange(false, isFrom);
         }
+    }
 
+    private boolean isFeatureChangeLocked(boolean isFrom) {
+        return (isFrom) ? isFromFeatureChangeLocked : isToFeatureChangeLocked;
+    }
+
+    private boolean isSpinnerChangeLocked(boolean isFrom) {
+        return (isFrom) ? isFromSpinnerChangeLocked : isToSpinnerChangeLocked;
+    }
+
+    private void lockFeatureChange(boolean lock, boolean isFrom) {
         if (isFrom) {
-            isFromSpinnerChangeLocked = false;
+            isFromFeatureChangeLocked = lock;
         } else {
-            isToSpinnerChangeLocked = false;
+            isToFeatureChangeLocked = lock;
+        }
+    }
+
+    private void lockSpinnerChange(boolean lock, boolean isFrom) {
+        if (isFrom) {
+            isFromSpinnerChangeLocked = lock;
+        } else {
+            isToSpinnerChangeLocked = lock;
         }
     }
 
@@ -339,44 +349,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
                 if (pce.getPropertyName().equals(LINEAR_VALUE)) {
-
-                    LinearReferencedPointFeature feature = null;
-                    JSpinner spinValue = null;
-                    CidsBean stationBean = null;
-                    if (isFrom) {
-                        feature = fromFeature;
-                        spinValue = spinFrom;
-                        stationBean = getFromStationBean(cidsBean);
-                    } else {
-                        feature = toFeature;
-                        spinValue = spinTo;
-                        stationBean = getToStationBean(cidsBean);
-                    }
-
-
-                    if (stationBean != null)  {
-                        double position = (Double) stationBean.getProperty(LINEAR_VALUE);
-
-                        if ((isFrom && !isFromSpinnerChangeLocked) || (!isFrom && !isToSpinnerChangeLocked)) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("spinValue.setValue: " + isFrom);
-                            }
-                            spinValue.setValue((double) Math.round(position));
-                        }
-
-                        if (feature != null) {
-                            if ((isFrom && !isFromFeatureChangeLocked) || (!isFrom && !isToFeatureChangeLocked)) {
-                                feature.moveToPosition(position);
-                            }
-                            try {
-                                StationEditor.setPointGeometry(feature.getGeometry(), stationBean);
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("error while setting property", ex);
-                                }
-                            }
-                        }
-                    }
+                    cidsBeanChanged(isFrom);
                 }
             }
         };
@@ -385,6 +358,33 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
             fromCidsBeanListener = cidsBeanListener;
         } else {
             toCidsBeanListener = cidsBeanListener;
+        }
+    }
+
+    private void cidsBeanChanged(boolean isFrom) {
+        LinearReferencedPointFeature feature = (isFrom) ? fromFeature : toFeature;
+        JSpinner spinValue = (isFrom) ? spinFrom : spinTo;
+        CidsBean stationBean = (isFrom) ? getFromStationBean(cidsBean) : getToStationBean(cidsBean);
+
+        if (stationBean != null)  {
+            double position = (Double) stationBean.getProperty(LINEAR_VALUE);
+
+            if (!isSpinnerChangeLocked(isFrom)) {
+                spinValue.setValue((double) Math.round(position));
+            }
+
+            if (feature != null) {
+                if (!isFeatureChangeLocked(isFrom)) {
+                    feature.moveToPosition(position);
+                }
+                try {
+                    StationEditor.setPointGeometry(feature.getGeometry(), stationBean);
+                } catch (Exception ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("error while setting property", ex);
+                    }
+                }
+            }
         }
     }
 
@@ -443,7 +443,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         spinFrom = new javax.swing.JSpinner();
         spinTo = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        panLine = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -474,16 +474,16 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 91, 0));
-        jPanel2.setMinimumSize(new java.awt.Dimension(10, 4));
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 4));
-        jPanel2.setLayout(null);
+        panLine.setBackground(new java.awt.Color(255, 91, 0));
+        panLine.setMinimumSize(new java.awt.Dimension(10, 4));
+        panLine.setPreferredSize(new java.awt.Dimension(100, 4));
+        panLine.setLayout(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        jPanel1.add(panLine, gridBagConstraints);
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(WkTeilEditor.class, "WkTeilEditor.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -539,8 +539,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements MetaClass
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labGwk;
+    private javax.swing.JPanel panLine;
     private javax.swing.JSpinner spinFrom;
     private javax.swing.JSpinner spinTo;
     // End of variables declaration//GEN-END:variables

@@ -11,6 +11,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JSpinner;
@@ -132,35 +133,34 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
     }
 
     private void spinnerChanged() {
-        // endlosschleife verhindern (bean => spinner => bean => ...)
-        isSpinnerChangeLocked = true;
-
-        if (cidsBean == null) {
-            setCidsBean(metaClass.getEmptyInstance().getBean());
-        }
-
         try {
-            AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getFormatter();
-            Double value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getText());
+            // endlosschleife verhindern (bean => spinner => bean => ...)
+            isSpinnerChangeLocked = true;
 
-            try {
-                final Double oldValue = (Double) cidsBean.getProperty(LINEAR_VALUE);
-
-                if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
-                    cidsBean.setProperty(LINEAR_VALUE, value);
-                }
-            } catch (Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error during setting CidsBean", ex); // NOI18N
-                }
+            if (cidsBean == null) {
+                setCidsBean(metaClass.getEmptyInstance().getBean());
             }
 
+            final Double oldValue = (Double) cidsBean.getProperty(LINEAR_VALUE);
+
+            Double value;
+            try {
+                AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getFormatter();
+                value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getText());
+            } catch (ParseException ex) {
+                value = oldValue;
+            }
+
+            if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
+                cidsBean.setProperty(LINEAR_VALUE, value);
+            }
         } catch(Exception ex) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("error while changing value", ex);
+                LOG.debug("Error during setting CidsBean", ex);
             }
+        } finally {
+            isSpinnerChangeLocked = false;
         }
-        isSpinnerChangeLocked = false;
     }
 
     @Override
@@ -207,16 +207,17 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
             public void propertyChange(PropertyChangeEvent pce) {
                 if (pce.getPropertyName().equals(LinearReferencedPointFeature.PROPERTY_FEATURE_COORDINATE)) {
                     // endlosschleife verhindern (feature => bean => feature => ...)
-                    isFeatureChangeLocked = true;
                     try {
+                        isFeatureChangeLocked = true;
                         double currentPosition = feature.getCurrentPosition();
                         setLinearValue(currentPosition, cidsBean);
                     } catch (Exception ex) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("", ex);
                         }
+                    } finally {
+                        isFeatureChangeLocked = false;
                     }
-                    isFeatureChangeLocked = false;
                 }
             }
         });
