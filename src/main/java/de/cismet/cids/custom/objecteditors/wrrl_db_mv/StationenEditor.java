@@ -25,6 +25,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
     private Collection<StationEditor> stationEditors = new ArrayList<StationEditor>();
     private HashMap<JButton, StationEditor> stationenMap = new HashMap<JButton, StationEditor>();
     private Collection<StationenEditorListener> listeners = new ArrayList<StationenEditorListener>();
+    private CidsBeanDropTarget cidsBeanDropTarget;
 
     /** Creates new form WkTeileEditor */
     public StationenEditor() {
@@ -76,6 +77,10 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
 
     public void setCidsBeans(Collection<CidsBean> cidsBeans) {
         this.cidsBeans = cidsBeans;
+
+        if (cidsBeanDropTarget == null) {
+            cidsBeanDropTarget = new CidsBeanDropTarget(this);
+        }
 
 //        if (stationenMap != null) {
 //            stationenMap.clear();

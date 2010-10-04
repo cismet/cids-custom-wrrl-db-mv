@@ -30,11 +30,11 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
     private HashMap<JButton, WkTeilEditor> wkTeileMap = new HashMap<JButton, WkTeilEditor>();
     private int colorIndex = 0;
     private Collection<WkTeileEditorListener> listeners = new ArrayList<WkTeileEditorListener>();
+    private CidsBeanDropTarget cidsBeanDropTarget;
 
     /** Creates new form WkTeileEditor */
     public WkTeileEditor() {
         initComponents();
-        new CidsBeanDropTarget(this);
     }
     
     @Override
@@ -90,6 +90,10 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
 
     public void setCidsBeans(Collection<CidsBean> cidsBeans) {
         this.cidsBeans = cidsBeans;
+
+        if (cidsBeanDropTarget == null) {
+            cidsBeanDropTarget = new CidsBeanDropTarget(this);
+        }
 
         if (cidsBeans.size() > 0) {
             ((java.awt.GridLayout) jPanel1.getLayout()).setRows(cidsBeans.size());
