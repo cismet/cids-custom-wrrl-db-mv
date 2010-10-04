@@ -4,8 +4,9 @@
  *
  * Created on 04.08.2010, 13:44:05
  */
-package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
+package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.*;
 import Sirius.server.middleware.types.MetaClass;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.UIUtil;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
  * @author stefan
  */
 public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBeanStore {
+        private  final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
 
     private CidsBean cidsBean;
     private final boolean editable = true;
@@ -84,46 +86,35 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblReport = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
         lblStaeun = new javax.swing.JLabel();
-        lblPlanuCd = new javax.swing.JLabel();
-        lblWaCd = new javax.swing.JLabel();
-        lblRbdCd = new javax.swing.JLabel();
         lblEuCdRb = new javax.swing.JLabel();
-        txtWkK = new javax.swing.JTextField();
-        txtWkN = new javax.swing.JTextField();
-        txtKuestenWk = new javax.swing.JTextField();
-        txtReport = new javax.swing.JTextField();
         scpBemerkung = new javax.swing.JScrollPane();
         taBemerkung = new javax.swing.JTextArea();
-        cbRiverCat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbContinua = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbTypK = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbGeolCat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbSizeCat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbWkGroup = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbRbdCd = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbWaCd = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbWkGroupAggr = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbPlanuCd = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblSpacing = new javax.swing.JLabel();
         sepMiddle = new javax.swing.JSeparator();
         scpImpact = new javax.swing.JScrollPane();
         lstImpact = new javax.swing.JList();
         scpImpactSrc = new javax.swing.JScrollPane();
         lstImpactSrc = new javax.swing.JList();
-        panContrImpact = new javax.swing.JPanel();
-        btnAddImpact = new javax.swing.JButton();
-        btnRemImpact = new javax.swing.JButton();
         panContrImpactSrc = new javax.swing.JPanel();
-        btnAddImpactSrc = new javax.swing.JButton();
-        btnRemImpactSrc = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        txtDatenquelle = new javax.swing.JTextField();
-        txtEuCdRb = new javax.swing.JTextField();
         lblEvk = new javax.swing.JLabel();
-        txtStaeun = new javax.swing.JTextField();
-        cbEvk = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbTypEvkK = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        lblValWkK = new javax.swing.JLabel();
+        lblValWkN = new javax.swing.JLabel();
+        lblValEvK = new javax.swing.JLabel();
+        lblValTypEvkK = new javax.swing.JLabel();
+        lblValRiverCat = new javax.swing.JLabel();
+        lblValContinua = new javax.swing.JLabel();
+        lblValTypK = new javax.swing.JLabel();
+        lblValGeolCat = new javax.swing.JLabel();
+        lblValSizeCat = new javax.swing.JLabel();
+        lblValWkGroup = new javax.swing.JLabel();
+        lblValWkGroupAggr = new javax.swing.JLabel();
+        lblValStaeun = new javax.swing.JLabel();
+        lblValKuestenWk = new javax.swing.JLabel();
+        lblValEuCdRb = new javax.swing.JLabel();
+        lblValDatenquelle = new javax.swing.JLabel();
+        lblValReport = new javax.swing.JLabel();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -288,7 +279,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblTypEvkK.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblTypEvkK.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
@@ -297,14 +288,13 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblTypK.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblTypK.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         panInfoContent.add(lblTypK, gridBagConstraints);
 
         lblImpactSrc.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblImpactSrc.text")); // NOI18N
-        lblImpactSrc.setToolTipText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblImpactSrc.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
@@ -316,7 +306,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblDatenquelle.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblDatenquelle.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -333,7 +323,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panInfoContent.add(lblImpact, gridBagConstraints);
 
         lblGeolCat.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblGeolCat.text")); // NOI18N
-        lblGeolCat.setToolTipText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblGeolCat.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -355,7 +344,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblKuestenWk.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblKuestenWk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -382,7 +371,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblReport.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblReport.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -391,7 +380,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblBemerkung.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblBemerkung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -401,116 +390,30 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblStaeun.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblStaeun.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblStaeun, gridBagConstraints);
 
-        lblPlanuCd.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblPlanuCd.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblPlanuCd, gridBagConstraints);
-
-        lblWaCd.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblWaCd.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblWaCd, gridBagConstraints);
-
-        lblRbdCd.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblRbdCd.text")); // NOI18N
+        lblEuCdRb.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblEuCdRb.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblRbdCd, gridBagConstraints);
-
-        lblEuCdRb.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblEuCdRb.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblEuCdRb, gridBagConstraints);
-
-        txtWkK.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtWkK.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"), txtWkK, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panInfoContent.add(txtWkK, gridBagConstraints);
-
-        txtWkN.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtWkN.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_n}"), txtWkN, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtWkN, gridBagConstraints);
-
-        txtKuestenWk.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtKuestenWk.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kuesten_wk}"), txtKuestenWk, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtKuestenWk, gridBagConstraints);
-
-        txtReport.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtReport.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.report}"), txtReport, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtReport, gridBagConstraints);
 
         scpBemerkung.setMinimumSize(new java.awt.Dimension(350, 80));
         scpBemerkung.setPreferredSize(new java.awt.Dimension(350, 80));
 
         taBemerkung.setColumns(20);
+        taBemerkung.setEditable(false);
         taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
         taBemerkung.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
@@ -519,142 +422,12 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpBemerkung, gridBagConstraints);
-
-        cbRiverCat.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbRiverCat.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.river_cat}"), cbRiverCat, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbRiverCat, gridBagConstraints);
-
-        cbContinua.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbContinua.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.continua}"), cbContinua, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbContinua, gridBagConstraints);
-
-        cbTypK.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbTypK.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_k}"), cbTypK, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbTypK, gridBagConstraints);
-
-        cbGeolCat.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbGeolCat.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geol_cat}"), cbGeolCat, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbGeolCat, gridBagConstraints);
-
-        cbSizeCat.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbSizeCat.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.size_cat}"), cbSizeCat, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbSizeCat, gridBagConstraints);
-
-        cbWkGroup.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbWkGroup.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group}"), cbWkGroup, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panInfoContent.add(cbWkGroup, gridBagConstraints);
-
-        cbRbdCd.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbRbdCd.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rbd_cd}"), cbRbdCd, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbRbdCd, gridBagConstraints);
-
-        cbWaCd.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbWaCd.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wa_cd}"), cbWaCd, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbWaCd, gridBagConstraints);
-
-        cbWkGroupAggr.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbWkGroupAggr.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group_aggr}"), cbWkGroupAggr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbWkGroupAggr, gridBagConstraints);
-
-        cbPlanuCd.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbPlanuCd.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.planu_cd}"), cbPlanuCd, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbPlanuCd, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
@@ -677,7 +450,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lstImpact.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstImpact);
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, eLProperty, lstImpact);
         bindingGroup.addBinding(jListBinding);
 
         scpImpact.setViewportView(lstImpact);
@@ -695,7 +468,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lstImpactSrc.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact_src}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstImpactSrc);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, eLProperty, lstImpactSrc);
         bindingGroup.addBinding(jListBinding);
 
         scpImpactSrc.setViewportView(lstImpactSrc);
@@ -707,61 +480,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpImpactSrc, gridBagConstraints);
 
-        panContrImpact.setOpaque(false);
-        panContrImpact.setLayout(new java.awt.GridBagLayout());
-
-        btnAddImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddImpactActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panContrImpact.add(btnAddImpact, gridBagConstraints);
-
-        btnRemImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemImpactActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panContrImpact.add(btnRemImpact, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        panInfoContent.add(panContrImpact, gridBagConstraints);
-
         panContrImpactSrc.setOpaque(false);
         panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
-
-        btnAddImpactSrc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpactSrc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddImpactSrcActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panContrImpactSrc.add(btnAddImpactSrc, gridBagConstraints);
-
-        btnRemImpactSrc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpactSrc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemImpactSrcActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panContrImpactSrc.add(btnRemImpactSrc, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
@@ -781,38 +501,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel2, gridBagConstraints);
 
-        txtDatenquelle.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtDatenquelle.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.datenquelle}"), txtDatenquelle, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtDatenquelle, gridBagConstraints);
-
-        txtEuCdRb.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtEuCdRb.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eu_cd_rb}"), txtEuCdRb, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtEuCdRb, gridBagConstraints);
-
         lblEvk.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblEvk.text")); // NOI18N
-        lblEvk.setToolTipText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblEvk.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -821,24 +510,42 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         panInfoContent.add(lblEvk, gridBagConstraints);
 
-        txtStaeun.setMinimumSize(new java.awt.Dimension(350, 20));
-        txtStaeun.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValWkK.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValWkK.setPreferredSize(new java.awt.Dimension(350, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.staeun}"), txtStaeun, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"), lblValWkK, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panInfoContent.add(lblValWkK, gridBagConstraints);
+
+        lblValWkN.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValWkN.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_n}"), lblValWkN, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtStaeun, gridBagConstraints);
+        panInfoContent.add(lblValWkN, gridBagConstraints);
 
-        cbEvk.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbEvk.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValEvK.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValEvK.setPreferredSize(new java.awt.Dimension(350, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.evk}"), cbEvk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.evk.name}"), lblValEvK, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -846,12 +553,59 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbEvk, gridBagConstraints);
+        panInfoContent.add(lblValEvK, gridBagConstraints);
 
-        cbTypEvkK.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbTypEvkK.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValTypEvkK.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValTypEvkK.setPreferredSize(new java.awt.Dimension(350, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_evk_k}"), cbTypEvkK, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_evk_k.name}"), lblValTypEvkK, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValTypEvkK, gridBagConstraints);
+
+        lblValRiverCat.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValRiverCat.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.river_cat.name}"), lblValRiverCat, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValRiverCat, gridBagConstraints);
+
+        lblValContinua.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValContinua.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.continua.name}"), lblValContinua, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValContinua, gridBagConstraints);
+
+        lblValTypK.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValTypK.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_k.name}"), lblValTypK, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -859,7 +613,142 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbTypEvkK, gridBagConstraints);
+        panInfoContent.add(lblValTypK, gridBagConstraints);
+
+        lblValGeolCat.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValGeolCat.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geol_cat.name}"), lblValGeolCat, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValGeolCat, gridBagConstraints);
+
+        lblValSizeCat.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValSizeCat.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.size_cat.name}"), lblValSizeCat, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValSizeCat, gridBagConstraints);
+
+        lblValWkGroup.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValWkGroup.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group.value}"), lblValWkGroup, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panInfoContent.add(lblValWkGroup, gridBagConstraints);
+
+        lblValWkGroupAggr.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValWkGroupAggr.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group_aggr.value}"), lblValWkGroupAggr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValWkGroupAggr, gridBagConstraints);
+
+        lblValStaeun.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValStaeun.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.staeun}"), lblValStaeun, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValStaeun, gridBagConstraints);
+
+        lblValKuestenWk.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValKuestenWk.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kuesten_wk}"), lblValKuestenWk, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValKuestenWk, gridBagConstraints);
+
+        lblValEuCdRb.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValEuCdRb.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eu_cd_rb}"), lblValEuCdRb, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValEuCdRb, gridBagConstraints);
+
+        lblValDatenquelle.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValDatenquelle.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.datenquelle}"), lblValDatenquelle, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValDatenquelle, gridBagConstraints);
+
+        lblValReport.setMinimumSize(new java.awt.Dimension(350, 20));
+        lblValReport.setPreferredSize(new java.awt.Dimension(350, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.report}"), lblValReport, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblValReport, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -867,52 +756,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddImpactSrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactSrcActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgImpactSrcCataloge);
-        dlgImpactSrcCataloge.setVisible(true);
-    }//GEN-LAST:event_btnAddImpactSrcActionPerformed
-
-    private void btnRemImpactSrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactSrcActionPerformed
-        final Object selection = lstImpactSrc.getSelectedValue();
-        if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll das XXX wirklich gelöscht werden?", "XXX entfernen", JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("impact_src");
-                    if (beanColl instanceof Collection) {
-                        ((Collection) beanColl).remove(beanToDelete);
-                    }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
-                }
-            }
-        }
-    }//GEN-LAST:event_btnRemImpactSrcActionPerformed
-
-    private void btnRemImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactActionPerformed
-        final Object selection = lstImpact.getSelectedValue();
-        if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll das XXX wirklich gelöscht werden?", "XXX entfernen", JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("impact");
-                    if (beanColl instanceof Collection) {
-                        ((Collection) beanColl).remove(beanToDelete);
-                    }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
-                }
-            }
-        }
-    }//GEN-LAST:event_btnRemImpactActionPerformed
-
-    private void btnAddImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
-        dlgImpactCataloge.setVisible(true);
-    }//GEN-LAST:event_btnAddImpactActionPerformed
 
     private void btnImpactAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactAbortActionPerformed
         dlgImpactCataloge.setVisible(false);
@@ -950,28 +793,12 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         dlgImpactSrcCataloge.setVisible(false);
 }//GEN-LAST:event_btnMenImpactSrcOkActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddImpact;
-    private javax.swing.JButton btnAddImpactSrc;
     private javax.swing.JButton btnImpactAbort;
     private javax.swing.JButton btnImpactOk;
     private javax.swing.JButton btnMenImpactSrcAbort;
     private javax.swing.JButton btnMenImpactSrcOk;
-    private javax.swing.JButton btnRemImpact;
-    private javax.swing.JButton btnRemImpactSrc;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbContinua;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEvk;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeolCat;
     private javax.swing.JComboBox cbImpactCataloge;
     private javax.swing.JComboBox cbImpactSrcCataloge;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPlanuCd;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRbdCd;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRiverCat;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSizeCat;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypEvkK;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypK;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWaCd;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWkGroup;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWkGroupAggr;
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
     private javax.swing.JPanel jPanel1;
@@ -988,8 +815,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblImpactSrc;
     private javax.swing.JLabel lblImpactSrcCataloge;
     private javax.swing.JLabel lblKuestenWk;
-    private javax.swing.JLabel lblPlanuCd;
-    private javax.swing.JLabel lblRbdCd;
     private javax.swing.JLabel lblReport;
     private javax.swing.JLabel lblRiverCat;
     private javax.swing.JLabel lblSizeCat;
@@ -997,14 +822,28 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblTypEvkK;
     private javax.swing.JLabel lblTypK;
-    private javax.swing.JLabel lblWaCd;
+    private javax.swing.JLabel lblValContinua;
+    private javax.swing.JLabel lblValDatenquelle;
+    private javax.swing.JLabel lblValEuCdRb;
+    private javax.swing.JLabel lblValEvK;
+    private javax.swing.JLabel lblValGeolCat;
+    private javax.swing.JLabel lblValKuestenWk;
+    private javax.swing.JLabel lblValReport;
+    private javax.swing.JLabel lblValRiverCat;
+    private javax.swing.JLabel lblValSizeCat;
+    private javax.swing.JLabel lblValStaeun;
+    private javax.swing.JLabel lblValTypEvkK;
+    private javax.swing.JLabel lblValTypK;
+    private javax.swing.JLabel lblValWkGroup;
+    private javax.swing.JLabel lblValWkGroupAggr;
+    private javax.swing.JLabel lblValWkK;
+    private javax.swing.JLabel lblValWkN;
     private javax.swing.JLabel lblWkGroup;
     private javax.swing.JLabel lblWkGroupAggr;
     private javax.swing.JLabel lblWkK;
     private javax.swing.JLabel lblWkN;
     private javax.swing.JList lstImpact;
     private javax.swing.JList lstImpactSrc;
-    private javax.swing.JPanel panContrImpact;
     private javax.swing.JPanel panContrImpactSrc;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
@@ -1016,13 +855,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JScrollPane scpImpactSrc;
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JTextArea taBemerkung;
-    private javax.swing.JTextField txtDatenquelle;
-    private javax.swing.JTextField txtEuCdRb;
-    private javax.swing.JTextField txtKuestenWk;
-    private javax.swing.JTextField txtReport;
-    private javax.swing.JTextField txtStaeun;
-    private javax.swing.JTextField txtWkK;
-    private javax.swing.JTextField txtWkN;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -1037,7 +869,12 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, this.cidsBean);
-            bindingGroup.bind();
+            try {
+                bindingGroup.bind();
+            }
+            catch (Exception e){
+                log.warn("Eror during bind",e);
+            }
         }
     }
 
