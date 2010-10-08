@@ -104,9 +104,9 @@ public class WkSgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        lblHydro_reg.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblHydro_reg.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblHydro_reg.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblHydro_reg.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblHydro_reg.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblHydro_reg.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg.name}"), lblHydro_reg, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -121,9 +121,9 @@ public class WkSgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblHydro_reg, gridBagConstraints);
 
-        lblHydromorph.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblHydromorph.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblHydromorph.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblHydromorph.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblHydromorph.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblHydromorph.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydromorph.name}"), lblHydromorph, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -136,9 +136,9 @@ public class WkSgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblHydromorph, gridBagConstraints);
 
-        lblMorphCond.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblMorphCond.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblMorphCond.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblMorphCond.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblMorphCond.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblMorphCond.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_cond.name}"), lblMorphCond, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");

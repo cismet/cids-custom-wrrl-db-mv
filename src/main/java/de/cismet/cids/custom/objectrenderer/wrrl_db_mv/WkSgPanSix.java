@@ -158,7 +158,7 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 25, 22);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 25, 15);
         panInfoContent.add(sepMiddle, gridBagConstraints);
 
         panContrImpact.setOpaque(false);
@@ -179,7 +179,6 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
         jPanel2.setOpaque(false);
@@ -189,9 +188,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel2, gridBagConstraints);
 
-        lblValRisk_chem.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_chem.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_chem.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValRisk_chem.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_chem.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_chem.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_chem.name}"), lblValRisk_chem, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -206,9 +205,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblValRisk_chem, gridBagConstraints);
 
-        lblValRisk_ecpo.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_ecpo.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_ecpo.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValRisk_ecpo.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_ecpo.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_ecpo.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_ecpo.name}"), lblValRisk_ecpo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -223,9 +222,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValRisk_ecpo, gridBagConstraints);
 
-        lblValRisk_ecst.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_ecst.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_ecst.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValRisk_ecst.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_ecst.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_ecst.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_ecst.name}"), lblValRisk_ecst, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -240,9 +239,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValRisk_ecst, gridBagConstraints);
 
-        lblValRisk_total.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_total.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_total.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValRisk_total.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_total.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_total.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_total.name}"), lblValRisk_total, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -257,9 +256,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValRisk_total, gridBagConstraints);
 
-        lblValRisk_date.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_date.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValRisk_date.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValRisk_date.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_date.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValRisk_date.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_date}"), lblValRisk_date, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -274,9 +273,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblValRisk_date, gridBagConstraints);
 
-        lblValPad_within.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValPad_within.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValPad_within.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValPad_within.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValPad_within.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValPad_within.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pad_within.name}"), lblValPad_within, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -291,9 +290,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValPad_within, gridBagConstraints);
 
-        lblValPa_d_stat.setMaximumSize(new java.awt.Dimension(350, 20));
+        lblValPa_d_stat.setMaximumSize(new java.awt.Dimension(300, 20));
         lblValPa_d_stat.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValPa_d_stat.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValPa_d_stat.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pa_d_stat.name}"), lblValPa_d_stat, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");

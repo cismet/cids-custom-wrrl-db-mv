@@ -83,13 +83,13 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Allgemeine Physikalisch-Chemische QK" noResource="true"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -108,13 +108,13 @@
             <Component class="javax.swing.JLabel" name="lblValGen_cond">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>

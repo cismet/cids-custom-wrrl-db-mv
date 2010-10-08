@@ -10,13 +10,15 @@ import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.converters.SqlDateToUtilDateConverter;
+import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 /**
  *
  * @author therter
  */
 public class WkSgPanThree extends javax.swing.JPanel implements DisposableCidsBeanStore {
-
+    private SqlTimestampToUtilDateConverter dateConverter = new SqlTimestampToUtilDateConverter();
     private CidsBean cidsBean;
 
     /** Creates new form WkFgPanOne */
@@ -50,15 +52,15 @@ public class WkSgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         cbFish = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         blbSpace = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        txtPhyto_date = new javax.swing.JTextField();
         lblMac_phyto_date = new javax.swing.JLabel();
         lblBen_inv_date = new javax.swing.JLabel();
         lblFish_date = new javax.swing.JLabel();
-        txtMac_phyto_date = new javax.swing.JTextField();
-        txtBen_inv_date = new javax.swing.JTextField();
-        txtFish_date = new javax.swing.JTextField();
         lblOth_spec = new javax.swing.JLabel();
         cbOth_spec = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        timPhyto_date = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
+        timMac_phyto_date = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
+        timBenInv = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
+        timFish_date = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
 
         setMinimumSize(new java.awt.Dimension(550, 310));
         setOpaque(false);
@@ -193,22 +195,6 @@ public class WkSgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        txtPhyto_date.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtPhyto_date.setPreferredSize(new java.awt.Dimension(350, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto_date}"), txtPhyto_date, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TimestampConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(txtPhyto_date, gridBagConstraints);
-
         lblMac_phyto_date.setText("Zeitpunkt der Makr.-Einst.");
         lblMac_phyto_date.setToolTipText("Zeitpunkt der Phytoplankton-Einstufung");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -239,54 +225,6 @@ public class WkSgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblFish_date, gridBagConstraints);
 
-        txtMac_phyto_date.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtMac_phyto_date.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_phyto_date}"), txtMac_phyto_date, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TimestampConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(txtMac_phyto_date, gridBagConstraints);
-
-        txtBen_inv_date.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtBen_inv_date.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv_date}"), txtBen_inv_date, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TimestampConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(txtBen_inv_date, gridBagConstraints);
-
-        txtFish_date.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtFish_date.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish_date}"), txtFish_date, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TimestampConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(txtFish_date, gridBagConstraints);
-
         lblOth_spec.setText("andere Artengruppen");
         lblOth_spec.setToolTipText("Zeitpunkt der Phytoplankton-Einstufung");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -309,6 +247,62 @@ public class WkSgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbOth_spec, gridBagConstraints);
+
+        timPhyto_date.setMinimumSize(new java.awt.Dimension(300, 20));
+        timPhyto_date.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto_date}"), timPhyto_date, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(dateConverter);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(timPhyto_date, gridBagConstraints);
+
+        timMac_phyto_date.setMinimumSize(new java.awt.Dimension(300, 20));
+        timMac_phyto_date.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_phyto_date}"), timMac_phyto_date, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(dateConverter);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(timMac_phyto_date, gridBagConstraints);
+
+        timBenInv.setMinimumSize(new java.awt.Dimension(300, 20));
+        timBenInv.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv_date}"), timBenInv, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(dateConverter);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(timBenInv, gridBagConstraints);
+
+        timFish_date.setMinimumSize(new java.awt.Dimension(300, 20));
+        timFish_date.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish_date}"), timFish_date, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(dateConverter);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(timFish_date, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -337,10 +331,10 @@ public class WkSgPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JTextField txtBen_inv_date;
-    private javax.swing.JTextField txtFish_date;
-    private javax.swing.JTextField txtMac_phyto_date;
-    private javax.swing.JTextField txtPhyto_date;
+    private de.cismet.cids.editors.DefaultBindableTimestampChooser timBenInv;
+    private de.cismet.cids.editors.DefaultBindableTimestampChooser timFish_date;
+    private de.cismet.cids.editors.DefaultBindableTimestampChooser timMac_phyto_date;
+    private de.cismet.cids.editors.DefaultBindableTimestampChooser timPhyto_date;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

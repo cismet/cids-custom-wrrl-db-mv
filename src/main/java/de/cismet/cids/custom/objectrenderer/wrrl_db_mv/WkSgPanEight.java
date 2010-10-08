@@ -59,9 +59,9 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
         lblGen_cond.setText("Allgemeine Physikalisch-Chemische QK"); // NOI18N
-        lblGen_cond.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblGen_cond.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblGen_cond.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblGen_cond.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -74,9 +74,9 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(lblSpacing, gridBagConstraints);
 
-        lblValGen_cond.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValGen_cond.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValGen_cond.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValGen_cond.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"), lblValGen_cond, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");

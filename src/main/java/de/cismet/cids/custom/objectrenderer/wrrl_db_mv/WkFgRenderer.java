@@ -205,12 +205,12 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer {
         panQualitaet2.setPreferredSize(new java.awt.Dimension(910, 650));
         panQualitaet2.setLayout(new java.awt.GridBagLayout());
 
-        wkFgPanSix.setMinimumSize(new java.awt.Dimension(450, 100));
-        wkFgPanSix.setPreferredSize(new java.awt.Dimension(450, 75));
+        wkFgPanSix.setMinimumSize(new java.awt.Dimension(875, 100));
+        wkFgPanSix.setPreferredSize(new java.awt.Dimension(875, 75));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -277,7 +277,6 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 10);
         panAusnahmen.add(roundedPanel1, gridBagConstraints);
 
@@ -294,7 +293,7 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 5.0;
+        gridBagConstraints.weightx = 1.0;
         panAusnahmen.add(jPanel3, gridBagConstraints);
 
         tpMain.addTab("Ausnahmen", panAusnahmen);

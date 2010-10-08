@@ -353,7 +353,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 10);
         panAusnahmen.add(roundedPanel1, gridBagConstraints);
 
@@ -372,7 +371,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 5.0;
+        gridBagConstraints.weightx = 1.0;
         panAusnahmen.add(jPanel5, gridBagConstraints);
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
