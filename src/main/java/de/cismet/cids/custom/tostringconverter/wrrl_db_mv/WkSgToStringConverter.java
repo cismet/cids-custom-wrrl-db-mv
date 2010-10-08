@@ -10,6 +10,7 @@ public class WkSgToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return "(" + cidsBean.getProperty("wk_k") + ") " + cidsBean.getProperty("lw_name");
+//        return "(" + cidsBean.getProperty("wk_k") + ") " + cidsBean.getProperty("lw_name");
+        return cidsBean.getProperty("ls_name").toString();
     }
 }

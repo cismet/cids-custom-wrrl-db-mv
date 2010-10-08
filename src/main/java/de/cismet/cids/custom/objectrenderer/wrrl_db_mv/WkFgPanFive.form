@@ -158,13 +158,13 @@
             <Component class="javax.swing.JLabel" name="lblValHm">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -182,13 +182,13 @@
             <Component class="javax.swing.JLabel" name="lblValPestic">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -206,13 +206,13 @@
             <Component class="javax.swing.JLabel" name="lblValIndpol">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -230,13 +230,13 @@
             <Component class="javax.swing.JLabel" name="lblValOthpl">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -254,13 +254,13 @@
             <Component class="javax.swing.JLabel" name="lblValOnatpl">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -278,13 +278,13 @@
             <Component class="javax.swing.JLabel" name="lblValComp">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>

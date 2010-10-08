@@ -143,9 +143,9 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        lblValPhyto.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValPhyto.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValPhyto.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValPhyto.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValPhyto.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValPhyto.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto.name}"), lblValPhyto, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -159,9 +159,9 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(lblValPhyto, gridBagConstraints);
 
-        lblValBenInv.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValBenInv.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValBenInv.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValBenInv.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValBenInv.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValBenInv.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv.name}"), lblValBenInv, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -175,9 +175,9 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblValBenInv, gridBagConstraints);
 
-        lblValFish.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValFish.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValFish.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValFish.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValFish.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValFish.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish.name}"), lblValFish, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -191,9 +191,9 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblValFish, gridBagConstraints);
 
-        lblValConfidence.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValConfidence.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValConfidence.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValConfidence.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValConfidence.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValConfidence.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.confidence.name}"), lblValConfidence, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -207,9 +207,9 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblValConfidence, gridBagConstraints);
 
-        lblValMacPhyto.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValMacPhyto.setMinimumSize(new java.awt.Dimension(350, 20));
-        lblValMacPhyto.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValMacPhyto.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValMacPhyto.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValMacPhyto.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_phyto.name}"), lblValMacPhyto, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");

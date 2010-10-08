@@ -131,13 +131,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpO2_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -203,13 +203,13 @@
                 <Component class="javax.swing.JLabel" name="lblO2_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -227,13 +227,13 @@
                 <Component class="javax.swing.JLabel" name="lblO2_GK_MVRL">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -277,13 +277,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpPGes_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -349,13 +349,13 @@
                 <Component class="javax.swing.JLabel" name="lblPGes_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -373,13 +373,13 @@
                 <Component class="javax.swing.JLabel" name="lblPGes_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -423,13 +423,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpOPO4_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -495,13 +495,13 @@
                 <Component class="javax.swing.JLabel" name="lblOPO4_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -519,13 +519,13 @@
                 <Component class="javax.swing.JLabel" name="lblOPO4_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -569,13 +569,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpNH4_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -641,13 +641,13 @@
                 <Component class="javax.swing.JLabel" name="lblNH4_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -665,13 +665,13 @@
                 <Component class="javax.swing.JLabel" name="lblNH4_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -715,13 +715,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpNges_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -777,13 +777,13 @@
                 <Component class="javax.swing.JLabel" name="lblNges_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -827,13 +827,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpNO3_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -889,13 +889,13 @@
                 <Component class="javax.swing.JLabel" name="lblNO3_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>

@@ -130,10 +130,10 @@
             <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbPhyto">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -148,10 +148,10 @@
             <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbMacPhyto">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -166,10 +166,10 @@
             <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbBenInv">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -184,10 +184,10 @@
             <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbFish">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -202,10 +202,10 @@
             <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbConfidence">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 20]"/>
+                  <Dimension value="[300, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>

@@ -107,8 +107,8 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(jLabel5, gridBagConstraints);
 
-        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(350, 20));
-        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(350, 20));
+        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg}"), defaultBindableReferenceCombo1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -120,8 +120,8 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(defaultBindableReferenceCombo1, gridBagConstraints);
 
-        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(350, 20));
-        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(350, 20));
+        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.riv_cont}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, defaultBindableReferenceCombo2);
@@ -134,8 +134,8 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(defaultBindableReferenceCombo2, gridBagConstraints);
 
-        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(350, 20));
-        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(350, 20));
+        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_cond}"), defaultBindableReferenceCombo3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

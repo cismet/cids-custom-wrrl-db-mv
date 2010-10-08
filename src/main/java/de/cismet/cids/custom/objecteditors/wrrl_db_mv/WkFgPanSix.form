@@ -20,7 +20,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,38,0,0,3,-87"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,53,0,0,3,-125"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -131,13 +131,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbO2_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -152,13 +152,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbO2_GK_MVRL">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -173,13 +173,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpO2_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -270,13 +270,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbPGes_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -291,13 +291,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbPGes_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -312,13 +312,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpPGes_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -409,13 +409,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbOPO4_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -430,13 +430,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbOPO4_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -451,13 +451,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpOPO4_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -548,13 +548,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbNH4_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -569,13 +569,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbNH4_OW_RaKon">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -590,13 +590,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpNH4_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -687,13 +687,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpNges_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -728,13 +728,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbNges_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -795,13 +795,13 @@
                 <Container class="javax.swing.JScrollPane" name="scpNO3_Bemerk">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 75]"/>
+                      <Dimension value="[300, 75]"/>
                     </Property>
                   </Properties>
                   <AuxValues>
@@ -836,13 +836,13 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbNO3_GK_alt">
                   <Properties>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[350, 20]"/>
+                      <Dimension value="[300, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>

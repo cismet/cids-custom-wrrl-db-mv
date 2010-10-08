@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2010 therter
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ * 
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ * 
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package de.cismet.cids.custom.util;
 
 import java.sql.Timestamp;
@@ -8,9 +25,9 @@ import org.jdesktop.beansbinding.Converter;
 
 /**
  *
- * @author stefan
+ * @author therter
  */
-public class TimestampConverter extends Converter<Timestamp, String> {
+public class YearTimestampConverter extends Converter<Timestamp, String> {
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(YearTimestampConverter.class);//NOI18N
     private static final TimestampConverter INSTANCE = new TimestampConverter();
 
@@ -23,7 +40,7 @@ public class TimestampConverter extends Converter<Timestamp, String> {
         if (value == null) {
             return "";
         } else {
-            return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault()).format(value);
+            return new SimpleDateFormat("yyyy", Locale.getDefault()).format(value);
         }
     }
 
@@ -31,8 +48,8 @@ public class TimestampConverter extends Converter<Timestamp, String> {
     public Timestamp convertReverse(String value) {
         //not necessary. maybe it doesn't work that way because of formatting   //Now it is necessary
 //            return Timestamp.valueOf(value);
-        String formatString = "H:mm:ss dd.MM.yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(formatString);
+        String formatString = "yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(formatString,  Locale.getDefault());
         Timestamp timestamp = null;
 
         try {

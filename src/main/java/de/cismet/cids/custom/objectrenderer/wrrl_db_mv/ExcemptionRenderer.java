@@ -159,8 +159,8 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 15, 5);
         panContent.add(lblExJus, gridBagConstraints);
 
-        scpExJus.setMinimumSize(new java.awt.Dimension(330, 50));
-        scpExJus.setPreferredSize(new java.awt.Dimension(330, 50));
+        scpExJus.setMinimumSize(new java.awt.Dimension(300, 50));
+        scpExJus.setPreferredSize(new java.awt.Dimension(300, 50));
 
         lstExJus.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -173,13 +173,13 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 12;
         gridBagConstraints.ipady = 107;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 10);
         panContent.add(scpExJus, gridBagConstraints);
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
@@ -196,8 +196,8 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panContent.add(panHeadInfo, gridBagConstraints);
 
-        lblValCat.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValCat.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValCat.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValCat.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_cat.code}"), lblValCat, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -207,13 +207,12 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panContent.add(lblValCat, gridBagConstraints);
 
-        lblValTyp.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValTyp.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValTyp.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValTyp.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_typ.description}"), lblValTyp, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -223,13 +222,12 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblValTyp, gridBagConstraints);
 
-        lblValDate.setMaximumSize(new java.awt.Dimension(350, 20));
-        lblValDate.setPreferredSize(new java.awt.Dimension(350, 20));
+        lblValDate.setMaximumSize(new java.awt.Dimension(300, 20));
+        lblValDate.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_date.date}"), lblValDate, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -239,7 +237,6 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblValDate, gridBagConstraints);

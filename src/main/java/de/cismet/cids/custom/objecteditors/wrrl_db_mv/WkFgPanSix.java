@@ -144,9 +144,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panSauerstoff.setOpaque(false);
         panSauerstoff.setLayout(new java.awt.GridBagLayout());
 
-        cbO2_OW_RaKon.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbO2_OW_RaKon.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbO2_OW_RaKon.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbO2_OW_RaKon.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbO2_OW_RaKon.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbO2_OW_RaKon.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_ow_rakon}"), cbO2_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -158,9 +158,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panSauerstoff.add(cbO2_OW_RaKon, gridBagConstraints);
 
-        cbO2_GK_MVRL.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbO2_GK_MVRL.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbO2_GK_MVRL.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbO2_GK_MVRL.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbO2_GK_MVRL.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbO2_GK_MVRL.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_gk_mvrl}"), cbO2_GK_MVRL, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -172,12 +172,12 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panSauerstoff.add(cbO2_GK_MVRL, gridBagConstraints);
 
-        scpO2_Bemerk.setMaximumSize(new java.awt.Dimension(350, 75));
-        scpO2_Bemerk.setMinimumSize(new java.awt.Dimension(350, 75));
-        scpO2_Bemerk.setPreferredSize(new java.awt.Dimension(350, 75));
+        scpO2_Bemerk.setMaximumSize(new java.awt.Dimension(300, 75));
+        scpO2_Bemerk.setMinimumSize(new java.awt.Dimension(300, 75));
+        scpO2_Bemerk.setPreferredSize(new java.awt.Dimension(300, 75));
 
         taO2_Bemerk.setColumns(20);
-        taO2_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taO2_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taO2_Bemerk.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_bemerk}"), taO2_Bemerk, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -231,9 +231,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhosporGes.setOpaque(false);
         panPhosporGes.setLayout(new java.awt.GridBagLayout());
 
-        cbPGes_OW_RaKon.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbPGes_OW_RaKon.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbPGes_OW_RaKon.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbPGes_OW_RaKon.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbPGes_OW_RaKon.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbPGes_OW_RaKon.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_ow_rakon}"), cbPGes_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -244,9 +244,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPhosporGes.add(cbPGes_OW_RaKon, gridBagConstraints);
 
-        cbPGes_GK_alt.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbPGes_GK_alt.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbPGes_GK_alt.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbPGes_GK_alt.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbPGes_GK_alt.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbPGes_GK_alt.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_gk_alt}"), cbPGes_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -257,9 +257,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPhosporGes.add(cbPGes_GK_alt, gridBagConstraints);
 
-        scpPGes_Bemerk.setMaximumSize(new java.awt.Dimension(350, 75));
-        scpPGes_Bemerk.setMinimumSize(new java.awt.Dimension(350, 75));
-        scpPGes_Bemerk.setPreferredSize(new java.awt.Dimension(350, 75));
+        scpPGes_Bemerk.setMaximumSize(new java.awt.Dimension(300, 75));
+        scpPGes_Bemerk.setMinimumSize(new java.awt.Dimension(300, 75));
+        scpPGes_Bemerk.setPreferredSize(new java.awt.Dimension(300, 75));
 
         taPGes_Bemerk.setColumns(20);
         taPGes_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -315,9 +315,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhosphor.setOpaque(false);
         panPhosphor.setLayout(new java.awt.GridBagLayout());
 
-        cbOPO4_OW_RaKon.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbOPO4_OW_RaKon.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbOPO4_OW_RaKon.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbOPO4_OW_RaKon.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbOPO4_OW_RaKon.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbOPO4_OW_RaKon.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_ow_rakon}"), cbOPO4_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -328,9 +328,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPhosphor.add(cbOPO4_OW_RaKon, gridBagConstraints);
 
-        cbOPO4_GK_alt.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbOPO4_GK_alt.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbOPO4_GK_alt.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbOPO4_GK_alt.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbOPO4_GK_alt.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbOPO4_GK_alt.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_gk_alt}"), cbOPO4_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -341,9 +341,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPhosphor.add(cbOPO4_GK_alt, gridBagConstraints);
 
-        scpOPO4_Bemerk.setMaximumSize(new java.awt.Dimension(350, 75));
-        scpOPO4_Bemerk.setMinimumSize(new java.awt.Dimension(350, 75));
-        scpOPO4_Bemerk.setPreferredSize(new java.awt.Dimension(350, 75));
+        scpOPO4_Bemerk.setMaximumSize(new java.awt.Dimension(300, 75));
+        scpOPO4_Bemerk.setMinimumSize(new java.awt.Dimension(300, 75));
+        scpOPO4_Bemerk.setPreferredSize(new java.awt.Dimension(300, 75));
 
         taOPO4_Bemerk.setColumns(20);
         taOPO4_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -399,9 +399,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNH4.setOpaque(false);
         panNH4.setLayout(new java.awt.GridBagLayout());
 
-        cbNH4_GK_alt.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbNH4_GK_alt.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbNH4_GK_alt.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbNH4_GK_alt.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbNH4_GK_alt.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbNH4_GK_alt.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_gk_alt}"), cbNH4_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -412,9 +412,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNH4.add(cbNH4_GK_alt, gridBagConstraints);
 
-        cbNH4_OW_RaKon.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbNH4_OW_RaKon.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbNH4_OW_RaKon.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbNH4_OW_RaKon.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbNH4_OW_RaKon.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbNH4_OW_RaKon.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_ow_rakon}"), cbNH4_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -425,9 +425,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNH4.add(cbNH4_OW_RaKon, gridBagConstraints);
 
-        scpNH4_Bemerk.setMaximumSize(new java.awt.Dimension(350, 75));
-        scpNH4_Bemerk.setMinimumSize(new java.awt.Dimension(350, 75));
-        scpNH4_Bemerk.setPreferredSize(new java.awt.Dimension(350, 75));
+        scpNH4_Bemerk.setMaximumSize(new java.awt.Dimension(300, 75));
+        scpNH4_Bemerk.setMinimumSize(new java.awt.Dimension(300, 75));
+        scpNH4_Bemerk.setPreferredSize(new java.awt.Dimension(300, 75));
 
         taNH4_Bemerk.setColumns(20);
         taNH4_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -483,12 +483,12 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNges.setOpaque(false);
         panNges.setLayout(new java.awt.GridBagLayout());
 
-        scpNges_Bemerk.setMaximumSize(new java.awt.Dimension(350, 75));
-        scpNges_Bemerk.setMinimumSize(new java.awt.Dimension(350, 75));
-        scpNges_Bemerk.setPreferredSize(new java.awt.Dimension(350, 75));
+        scpNges_Bemerk.setMaximumSize(new java.awt.Dimension(300, 75));
+        scpNges_Bemerk.setMinimumSize(new java.awt.Dimension(300, 75));
+        scpNges_Bemerk.setPreferredSize(new java.awt.Dimension(300, 75));
 
         taNges_Bemerk.setColumns(20);
-        taNges_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taNges_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taNges_Bemerk.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nges_bemerk}"), taNges_Bemerk, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -505,9 +505,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panNges.add(scpNges_Bemerk, gridBagConstraints);
 
-        cbNges_GK_alt.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbNges_GK_alt.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbNges_GK_alt.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbNges_GK_alt.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbNges_GK_alt.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbNges_GK_alt.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nges_gk_alt}"), cbNges_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -546,9 +546,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNO3.setOpaque(false);
         panNO3.setLayout(new java.awt.GridBagLayout());
 
-        scpNO3_Bemerk.setMaximumSize(new java.awt.Dimension(350, 75));
-        scpNO3_Bemerk.setMinimumSize(new java.awt.Dimension(350, 75));
-        scpNO3_Bemerk.setPreferredSize(new java.awt.Dimension(350, 75));
+        scpNO3_Bemerk.setMaximumSize(new java.awt.Dimension(300, 75));
+        scpNO3_Bemerk.setMinimumSize(new java.awt.Dimension(300, 75));
+        scpNO3_Bemerk.setPreferredSize(new java.awt.Dimension(300, 75));
 
         taNO3_Bemerk.setColumns(20);
         taNO3_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -568,9 +568,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNO3.add(scpNO3_Bemerk, gridBagConstraints);
 
-        cbNO3_GK_alt.setMaximumSize(new java.awt.Dimension(350, 20));
-        cbNO3_GK_alt.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbNO3_GK_alt.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbNO3_GK_alt.setMaximumSize(new java.awt.Dimension(300, 20));
+        cbNO3_GK_alt.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbNO3_GK_alt.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_gk_alt}"), cbNO3_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

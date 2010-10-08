@@ -55,6 +55,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         btnJustfificationAbort = new javax.swing.JButton();
         btnJustfificationOk = new javax.swing.JButton();
         panContent = new de.cismet.tools.gui.RoundedPanel();
+        jPanel1 = new javax.swing.JPanel();
         lblExCat = new javax.swing.JLabel();
         lblExTyp = new javax.swing.JLabel();
         lblExDate = new javax.swing.JLabel();
@@ -127,6 +128,14 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
 
         panContent.setLayout(new java.awt.GridBagLayout());
 
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        panContent.add(jPanel1, gridBagConstraints);
+
         lblExCat.setText("ex_cat");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -159,8 +168,8 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 15, 5);
         panContent.add(lblExJus, gridBagConstraints);
 
-        cbExCat.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbExCat.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbExCat.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbExCat.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_cat}"), cbExCat, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -168,15 +177,14 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 5;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panContent.add(cbExCat, gridBagConstraints);
 
-        cbExDate.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbExDate.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbExDate.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbExDate.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_date}"), cbExDate, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -184,15 +192,14 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 5;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbExDate, gridBagConstraints);
 
-        csExTyp.setMinimumSize(new java.awt.Dimension(350, 20));
-        csExTyp.setPreferredSize(new java.awt.Dimension(350, 20));
+        csExTyp.setMinimumSize(new java.awt.Dimension(300, 20));
+        csExTyp.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_typ}"), csExTyp, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -200,15 +207,14 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 5;
         gridBagConstraints.ipady = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(csExTyp, gridBagConstraints);
 
-        scpExJus.setMinimumSize(new java.awt.Dimension(330, 50));
-        scpExJus.setPreferredSize(new java.awt.Dimension(330, 50));
+        scpExJus.setMinimumSize(new java.awt.Dimension(300, 50));
+        scpExJus.setPreferredSize(new java.awt.Dimension(300, 50));
 
         lstExJus.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -221,11 +227,10 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 12;
         gridBagConstraints.ipady = 107;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 5);
         panContent.add(scpExJus, gridBagConstraints);
@@ -258,6 +263,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 15, 15);
         panContent.add(panControl, gridBagConstraints);
 
@@ -271,7 +277,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         panHeadInfo.add(lblHeading);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panContent.add(panHeadInfo, gridBagConstraints);
 
@@ -350,6 +356,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
     private javax.swing.JComboBox cbJustfificationCataloge;
     private javax.swing.JComboBox csExTyp;
     private javax.swing.JDialog dlgJustificationCataloge;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblExCat;
     private javax.swing.JLabel lblExDate;
     private javax.swing.JLabel lblExJus;

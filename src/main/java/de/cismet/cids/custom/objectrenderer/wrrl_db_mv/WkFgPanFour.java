@@ -120,8 +120,8 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        jLabel6.setMinimumSize(new java.awt.Dimension(350, 20));
-        jLabel6.setPreferredSize(new java.awt.Dimension(350, 20));
+        jLabel6.setMinimumSize(new java.awt.Dimension(300, 20));
+        jLabel6.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg.name}"), jLabel6, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -135,8 +135,8 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(jLabel6, gridBagConstraints);
 
-        jLabel7.setMinimumSize(new java.awt.Dimension(350, 20));
-        jLabel7.setPreferredSize(new java.awt.Dimension(350, 20));
+        jLabel7.setMinimumSize(new java.awt.Dimension(300, 20));
+        jLabel7.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.riv_cont.name}"), jLabel7, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -147,11 +147,11 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         panInfoContent.add(jLabel7, gridBagConstraints);
 
-        jLabel8.setMinimumSize(new java.awt.Dimension(350, 20));
-        jLabel8.setPreferredSize(new java.awt.Dimension(350, 20));
+        jLabel8.setMinimumSize(new java.awt.Dimension(300, 20));
+        jLabel8.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_cond.name}"), jLabel8, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -162,7 +162,7 @@ public class WkFgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         panInfoContent.add(jLabel8, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);

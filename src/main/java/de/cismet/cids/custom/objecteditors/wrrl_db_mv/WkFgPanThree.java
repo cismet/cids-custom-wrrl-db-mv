@@ -114,8 +114,8 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblConfidence, gridBagConstraints);
 
-        cbPhyto.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbPhyto.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbPhyto.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbPhyto.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto}"), cbPhyto, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -127,8 +127,8 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(cbPhyto, gridBagConstraints);
 
-        cbMacPhyto.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbMacPhyto.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbMacPhyto.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbMacPhyto.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_phyto}"), cbMacPhyto, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -140,8 +140,8 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbMacPhyto, gridBagConstraints);
 
-        cbBenInv.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbBenInv.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbBenInv.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbBenInv.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv}"), cbBenInv, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -153,8 +153,8 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbBenInv, gridBagConstraints);
 
-        cbFish.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbFish.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbFish.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbFish.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish}"), cbFish, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -166,8 +166,8 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbFish, gridBagConstraints);
 
-        cbConfidence.setMinimumSize(new java.awt.Dimension(350, 20));
-        cbConfidence.setPreferredSize(new java.awt.Dimension(350, 20));
+        cbConfidence.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbConfidence.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.confidence}"), cbConfidence, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
