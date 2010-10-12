@@ -8,6 +8,7 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 import java.util.Collection;
 import javax.swing.JOptionPane;
 
@@ -117,8 +118,12 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblEuCdRb = new javax.swing.JLabel();
         lblMs_cd_lw = new javax.swing.JLabel();
         cbTy_cd_lw1 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        lblGeom = new javax.swing.JLabel();
+        cbGeom = new DefaultCismapGeometryComboBoxEditor();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblImpactCataloge.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.lblImpactCataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgImpactCataloge.getContentPane().add(lblImpactCataloge, gridBagConstraints);
@@ -133,6 +138,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         panMenButtonsImpact.setLayout(new java.awt.GridBagLayout());
 
+        btnImpactAbort.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.btnImpactAbort.text")); // NOI18N
         btnImpactAbort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImpactAbortActionPerformed(evt);
@@ -145,6 +151,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMenButtonsImpact.add(btnImpactAbort, gridBagConstraints);
 
+        btnImpactOk.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.btnImpactOk.text")); // NOI18N
         btnImpactOk.setMaximumSize(new java.awt.Dimension(85, 23));
         btnImpactOk.setMinimumSize(new java.awt.Dimension(85, 23));
         btnImpactOk.setPreferredSize(new java.awt.Dimension(85, 23));
@@ -167,6 +174,8 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         dlgImpactCataloge.getContentPane().add(panMenButtonsImpact, gridBagConstraints);
 
         dlgImpactSrcCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblImpactSrcCataloge.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.lblImpactSrcCataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgImpactSrcCataloge.getContentPane().add(lblImpactSrcCataloge, gridBagConstraints);
@@ -181,6 +190,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         panMenButtonsImpactSrc.setLayout(new java.awt.GridBagLayout());
 
+        btnMenImpactSrcAbort.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.btnMenImpactSrcAbort.text")); // NOI18N
         btnMenImpactSrcAbort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenImpactSrcAbortActionPerformed(evt);
@@ -193,6 +203,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMenButtonsImpactSrc.add(btnMenImpactSrcAbort, gridBagConstraints);
 
+        btnMenImpactSrcOk.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.btnMenImpactSrcOk.text")); // NOI18N
         btnMenImpactSrcOk.setMaximumSize(new java.awt.Dimension(85, 23));
         btnMenImpactSrcOk.setMinimumSize(new java.awt.Dimension(85, 23));
         btnMenImpactSrcOk.setPreferredSize(new java.awt.Dimension(85, 23));
@@ -285,6 +296,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpImpact, gridBagConstraints);
@@ -338,6 +350,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridheight = 3;
         panInfoContent.add(panContrImpact, gridBagConstraints);
 
         panContrImpactSrc.setOpaque(false);
@@ -854,6 +867,32 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbTy_cd_lw1, gridBagConstraints);
 
+        lblGeom.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.lblGeom.text")); // NOI18N
+        lblGeom.setMaximumSize(new java.awt.Dimension(350, 20));
+        lblGeom.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblGeom.setPreferredSize(new java.awt.Dimension(180, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(lblGeom, gridBagConstraints);
+
+        cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(cbGeom, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -954,6 +993,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbArtificial;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbDept_cat;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeolCat;
+    private javax.swing.JComboBox cbGeom;
     private javax.swing.JComboBox cbImpactCataloge;
     private javax.swing.JComboBox cbImpactSrcCataloge;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbModified;
@@ -974,6 +1014,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblEuCdRb;
     private javax.swing.JLabel lblEu_cd_lw;
     private javax.swing.JLabel lblGeolCat;
+    private javax.swing.JLabel lblGeom;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblImpact;
     private javax.swing.JLabel lblImpactCataloge;
