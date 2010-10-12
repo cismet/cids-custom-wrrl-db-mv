@@ -76,10 +76,10 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer {
         } else {
             lblFoot.setText("");
         }
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-        }
+//        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+//        if (!mappingComponent.isFixedMapExtent()) {
+//            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+//        }
     }
 
     @Override
