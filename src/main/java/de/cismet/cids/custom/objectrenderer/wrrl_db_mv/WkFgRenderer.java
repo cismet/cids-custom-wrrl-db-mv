@@ -14,6 +14,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import java.sql.Timestamp;
 import javax.swing.JPanel;
@@ -75,7 +76,10 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer {
         } else {
             lblFoot.setText("");
         }
-        CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection();
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+        }
     }
 
     @Override
