@@ -507,7 +507,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 20));
 
         taBemerkung.setColumns(20);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
         taBemerkung.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
