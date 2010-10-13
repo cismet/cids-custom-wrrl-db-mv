@@ -227,6 +227,9 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
                 // jeweilige Station anpassen
                 StationEditor.setLinearValue(value, stationBean);
                 StationEditor.setPointGeometry(geometry, stationBean);
+
+                // Real-Geometrien anpassen
+                setRealGeometry(feature.getGeometry());
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Error while setting bean", ex);
@@ -336,9 +339,7 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
                     feature.moveToPosition(position);
                 }
                 try {
-                    // Real-Geometrien anpassen
                     StationEditor.setPointGeometry(feature.getGeometry(), stationBean);
-                    setRealGeometry(feature.getGeometry());
                 } catch (Exception ex) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("error while setting property", ex);
