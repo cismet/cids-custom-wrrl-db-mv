@@ -19,11 +19,11 @@ public class StationToMapRegistry {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationToMapRegistry.class);
 
     private HashMap<Integer, LinearReferencedPointFeature> stationReg = new HashMap<Integer, LinearReferencedPointFeature>();
-    private HashMap<Integer, LinearReferencedLineFeature> wkTeilReg = new HashMap<Integer, LinearReferencedLineFeature>();
+    private HashMap<String, LinearReferencedLineFeature> LinearRefenrecedLineReg = new HashMap<String, LinearReferencedLineFeature>();
     private HashMap<Integer, PureNewFeature> routeReg = new HashMap<Integer, PureNewFeature>();
     
     private HashMap<Integer, Integer> stationCounterMap = new HashMap<Integer, Integer>();
-    private HashMap<Integer, Integer> wkTeilCounterMap = new HashMap<Integer, Integer>();
+    private HashMap<String, Integer> LinearReferencedLineCounterMap = new HashMap<String, Integer>();
     private HashMap<Integer, Integer> routeCounterMap = new HashMap<Integer, Integer>();
 
     private static StationToMapRegistry instance = new StationToMapRegistry();
@@ -48,16 +48,22 @@ public class StationToMapRegistry {
         return stationReg.get(id);
     }
 
-    public LinearReferencedLineFeature addWkTeilFeature(int id, LinearReferencedPointFeature from, LinearReferencedPointFeature to) {
-        LOG.debug("add wk_teil with id = " + id);
-        if (!wkTeilReg.containsKey(id)) {
+    private String getHashKeyForLinRefLineFeature(String oblectTableName, int id) {
+        return oblectTableName + " " + id;
+    }
+
+    public LinearReferencedLineFeature addLinearReferencedLineFeature(String oblectTableName, int id, LinearReferencedPointFeature from, LinearReferencedPointFeature to) {       
+        String key = getHashKeyForLinRefLineFeature(oblectTableName, id);
+
+        LOG.debug("add " + key);
+        if (!LinearRefenrecedLineReg.containsKey(key)) {
             LinearReferencedLineFeature feature = new LinearReferencedLineFeature(from, to);
-            wkTeilReg.put(id, feature);
+            LinearRefenrecedLineReg.put(key, feature);
             addToMap(feature);
         }
         
-        incrementWkTeilCounter(id);
-        return wkTeilReg.get(id);
+        incrementLinearReferencedLineCounter(key);
+        return LinearRefenrecedLineReg.get(key);
     }
 
     public PureNewFeature addRouteFeature(int id, Geometry geometry) {
@@ -80,11 +86,11 @@ public class StationToMapRegistry {
         return counter;
     }
 
-    private int incrementWkTeilCounter(int id) {
-        LOG.debug("increment counter for wk_teil with id = " + id);
-        int counter = getWkTeilCounter(id) + 1;
+    private int incrementLinearReferencedLineCounter(String key) {
+        LOG.debug("increment counter for " + key);
+        int counter = getLinearReferencedLineCounter(key) + 1;
         LOG.debug("new value = " + counter);
-        wkTeilCounterMap.put(id,  counter);
+        LinearReferencedLineCounterMap.put(key,  counter);
         return counter;
     }
 
@@ -104,11 +110,11 @@ public class StationToMapRegistry {
         return counter;
     }
 
-    private int decrementWkTeilCounter(int id) {
-        LOG.debug("decrement counter for wk_teil with id = " + id);
-        int counter = getWkTeilCounter(id) - 1;
+    private int decrementLinearReferencedLineCounter(String key) {
+        LOG.debug("decrement counter for " + key);
+        int counter = getLinearReferencedLineCounter(key) - 1;
         LOG.debug("new value = " + counter);
-        wkTeilCounterMap.put(id,  counter);
+        LinearReferencedLineCounterMap.put(key,  counter);
         return counter;
     }
 
@@ -128,12 +134,12 @@ public class StationToMapRegistry {
         return ((Integer) stationCounterMap.get(id));
     }
 
-    private int getWkTeilCounter(int id) {
-        LOG.debug("get counter for wk_teil with id = " + id);
-        if (!wkTeilCounterMap.containsKey(id)) {
-            wkTeilCounterMap.put(id, new Integer(0));
+    private int getLinearReferencedLineCounter(String key) {
+        LOG.debug("get counter for " + key);
+        if (!LinearReferencedLineCounterMap.containsKey(key)) {
+            LinearReferencedLineCounterMap.put(key, new Integer(0));
         }
-        return ((Integer) wkTeilCounterMap.get(id));
+        return ((Integer) LinearReferencedLineCounterMap.get(key));
     }
 
     private int getRouteCounter(int id) {
@@ -155,12 +161,13 @@ public class StationToMapRegistry {
         }
     }
 
-    public void removeWkTeilFeature(int id) {
-        LOG.debug("remove wk_teil with id = " + id);
-        if (decrementWkTeilCounter(id) <= 0) {
-            if (wkTeilReg.containsKey(id)) {
-                LinearReferencedLineFeature feature = wkTeilReg.remove(id);
-                LOG.debug("remove wk_teil from map");
+    public void removeLinearReferencedLineFeature(String oblectTableName, int id) {
+        LOG.debug("remove LinearReferencedLine with id = " + id);
+        String key = getHashKeyForLinRefLineFeature(oblectTableName, id);
+        if (decrementLinearReferencedLineCounter(key) <= 0) {
+            if (LinearRefenrecedLineReg.containsKey(key)) {
+                LinearReferencedLineFeature feature = LinearRefenrecedLineReg.remove(key);
+                LOG.debug("remove LinearReferencedLine from map");
                 removeFromMap(feature);
             }
         }
