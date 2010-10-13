@@ -53,10 +53,10 @@
     <Container class="de.cismet.tools.gui.RoundedPanel" name="panInfo">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[530, 370]"/>
+          <Dimension value="[640, 370]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[530, 370]"/>
+          <Dimension value="[640, 370]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -231,10 +231,10 @@
             <Component class="javax.swing.JLabel" name="lblValWk_k">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -252,10 +252,10 @@
             <Component class="javax.swing.JLabel" name="lblValCode_geo">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -273,10 +273,10 @@
             <Component class="javax.swing.JLabel" name="lblValStratigr">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -294,10 +294,10 @@
             <Component class="javax.swing.JLabel" name="lblValGenese">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -315,10 +315,10 @@
             <Component class="javax.swing.JLabel" name="lblValPetrogr">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -336,10 +336,10 @@
             <Component class="javax.swing.JLabel" name="lblValSubs_typ">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -357,10 +357,10 @@
             <Component class="javax.swing.JLabel" name="lblValGefaelle">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -378,10 +378,10 @@
             <Component class="javax.swing.JLabel" name="lblValRueckst">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -399,10 +399,10 @@
             <Component class="javax.swing.JLabel" name="lblValLawa_nr">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -420,10 +420,10 @@
             <Component class="javax.swing.JLabel" name="lblValWrrl_nr">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 20]"/>
+                  <Dimension value="[465, 20]"/>
                 </Property>
               </Properties>
               <BindingProperties>

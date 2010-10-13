@@ -122,8 +122,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         setPreferredSize(new java.awt.Dimension(650, 420));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(530, 370));
-        panInfo.setPreferredSize(new java.awt.Dimension(530, 370));
+        panInfo.setMinimumSize(new java.awt.Dimension(640, 370));
+        panInfo.setPreferredSize(new java.awt.Dimension(640, 370));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -240,8 +240,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblWrrl_nr, gridBagConstraints);
 
-        lblValWk_k.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValWk_k.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValWk_k.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValWk_k.setPreferredSize(new java.awt.Dimension(465, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"), lblValWk_k, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -255,8 +255,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblValWk_k, gridBagConstraints);
 
-        lblValCode_geo.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValCode_geo.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValCode_geo.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValCode_geo.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.code_geo}"), lblValCode_geo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -270,8 +270,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValCode_geo, gridBagConstraints);
 
-        lblValStratigr.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValStratigr.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValStratigr.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValStratigr.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stratigr.description}"), lblValStratigr, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -285,8 +285,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValStratigr, gridBagConstraints);
 
-        lblValGenese.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValGenese.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValGenese.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValGenese.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.genese.description}"), lblValGenese, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -300,8 +300,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValGenese, gridBagConstraints);
 
-        lblValPetrogr.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValPetrogr.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValPetrogr.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValPetrogr.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.petrogr.description}"), lblValPetrogr, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -315,8 +315,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValPetrogr, gridBagConstraints);
 
-        lblValSubs_typ.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValSubs_typ.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValSubs_typ.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValSubs_typ.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.subs_typ.description}"), lblValSubs_typ, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -330,8 +330,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValSubs_typ, gridBagConstraints);
 
-        lblValGefaelle.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValGefaelle.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValGefaelle.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValGefaelle.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gefaelle.description}"), lblValGefaelle, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -345,8 +345,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValGefaelle, gridBagConstraints);
 
-        lblValRueckst.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValRueckst.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValRueckst.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValRueckst.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rueckst.description}"), lblValRueckst, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -360,8 +360,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValRueckst, gridBagConstraints);
 
-        lblValLawa_nr.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValLawa_nr.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValLawa_nr.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValLawa_nr.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_nr.description}"), lblValLawa_nr, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -375,8 +375,8 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValLawa_nr, gridBagConstraints);
 
-        lblValWrrl_nr.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblValWrrl_nr.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblValWrrl_nr.setMinimumSize(new java.awt.Dimension(465, 20));
+        lblValWrrl_nr.setPreferredSize(new java.awt.Dimension(465, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_nr.description}"), lblValWrrl_nr, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
