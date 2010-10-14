@@ -65,21 +65,21 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         panAllgemeines = new javax.swing.JPanel();
         lblSpacingBottom = new javax.swing.JLabel();
         lblSpacingRight = new javax.swing.JLabel();
-        wkGwPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanOne();
-        wkGwPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanTwo();
+        wkGwPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanOne();
+        wkGwPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanTwo();
         panQualitaetsinformationen = new javax.swing.JPanel();
         lblSpacingBottom1 = new javax.swing.JLabel();
         lblSpacingRight1 = new javax.swing.JLabel();
-        wkGwPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanThree();
-        wkGwPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanFour();
+        wkGwPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanThree();
+        wkGwPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFour();
         panRisikoabschätzung = new javax.swing.JPanel();
         lblSpacingBottom2 = new javax.swing.JLabel();
         lblSpacingRight2 = new javax.swing.JLabel();
-        wkGwPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanFive();
+        wkGwPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFive();
         panWeitereInformationen = new javax.swing.JPanel();
         lblSpacingBottom3 = new javax.swing.JLabel();
         lblSpacingRight3 = new javax.swing.JLabel();
-        wkGwPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanSix();
+        wkGwPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanSix();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -295,12 +295,12 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
     private javax.swing.JPanel panRisikoabschätzung;
     private javax.swing.JPanel panWeitereInformationen;
     private javax.swing.JTabbedPane tpMain;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanFive wkGwPanFive1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanFour wkGwPanFour1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanOne wkGwPanOne1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanSix wkGwPanSix1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanThree wkGwPanThree1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw.WkGwPanTwo wkGwPanTwo1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFive wkGwPanFive1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFour wkGwPanFour1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanOne wkGwPanOne1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanSix wkGwPanSix1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanThree wkGwPanThree1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanTwo wkGwPanTwo1;
     // End of variables declaration//GEN-END:variables
 
 }

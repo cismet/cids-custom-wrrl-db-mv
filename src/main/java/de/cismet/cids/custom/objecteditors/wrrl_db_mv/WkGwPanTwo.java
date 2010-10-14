@@ -4,7 +4,7 @@
  *
  * Created on 04.08.2010, 13:44:05
  */
-package de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_gw;
+package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -38,7 +38,6 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        lblSpacing = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         lblLinkEcoKey = new javax.swing.JLabel();
@@ -96,6 +95,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         jTextField3 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         txtHorizon = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
@@ -113,13 +113,6 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
 
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panInfoContent.add(lblSpacing, gridBagConstraints);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -731,7 +724,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         jPanel5.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
@@ -758,6 +751,15 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel4, gridBagConstraints);
+
+        jPanel7.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent.add(jPanel7, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -793,6 +795,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
@@ -817,7 +820,6 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblLinkSwbKey;
     private javax.swing.JLabel lblOutofrbdKey;
     private javax.swing.JLabel lblRegionCdaKey;
-    private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblSuwaAssoKey;
     private javax.swing.JLabel lblVertOrienKey;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
