@@ -66,16 +66,16 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         lblSpacingBottom = new javax.swing.JLabel();
         lblSpacingRight = new javax.swing.JLabel();
         wkGwPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanOne();
+        panRisikoabschätzung = new javax.swing.JPanel();
+        lblSpacingBottom2 = new javax.swing.JLabel();
+        lblSpacingRight2 = new javax.swing.JLabel();
+        wkGwPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFive();
         wkGwPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanTwo();
         panQualitaetsinformationen = new javax.swing.JPanel();
         lblSpacingBottom1 = new javax.swing.JLabel();
         lblSpacingRight1 = new javax.swing.JLabel();
         wkGwPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanThree();
         wkGwPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFour();
-        panRisikoabschätzung = new javax.swing.JPanel();
-        lblSpacingBottom2 = new javax.swing.JLabel();
-        lblSpacingRight2 = new javax.swing.JLabel();
-        wkGwPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFive();
         panWeitereInformationen = new javax.swing.JPanel();
         lblSpacingBottom3 = new javax.swing.JLabel();
         lblSpacingRight3 = new javax.swing.JLabel();
@@ -119,14 +119,42 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panAllgemeines.add(wkGwPanOne1, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.panAllgemeines.TabConstraints.tabTitle"), panAllgemeines); // NOI18N
+
+        panRisikoabschätzung.setOpaque(false);
+        panRisikoabschätzung.setLayout(new java.awt.GridBagLayout());
+
+        lblSpacingBottom2.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingBottom2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panRisikoabschätzung.add(lblSpacingBottom2, gridBagConstraints);
+
+        lblSpacingRight2.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingRight2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panRisikoabschätzung.add(lblSpacingRight2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panAllgemeines.add(wkGwPanTwo1, gridBagConstraints);
+        panRisikoabschätzung.add(wkGwPanFive1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        panRisikoabschätzung.add(wkGwPanTwo1, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.panAllgemeines.TabConstraints.tabTitle"), panAllgemeines); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.panRisikoabschätzung.TabConstraints.tabTitle"), panRisikoabschätzung); // NOI18N
 
         panQualitaetsinformationen.setOpaque(false);
         panQualitaetsinformationen.setLayout(new java.awt.GridBagLayout());
@@ -161,33 +189,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         panQualitaetsinformationen.add(wkGwPanFour1, gridBagConstraints);
 
         tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.panQualitaetsinformationen.TabConstraints.tabTitle"), panQualitaetsinformationen); // NOI18N
-
-        panRisikoabschätzung.setOpaque(false);
-        panRisikoabschätzung.setLayout(new java.awt.GridBagLayout());
-
-        lblSpacingBottom2.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingBottom2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panRisikoabschätzung.add(lblSpacingBottom2, gridBagConstraints);
-
-        lblSpacingRight2.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingRight2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panRisikoabschätzung.add(lblSpacingRight2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panRisikoabschätzung.add(wkGwPanFive1, gridBagConstraints);
-
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.panRisikoabschätzung.TabConstraints.tabTitle"), panRisikoabschätzung); // NOI18N
 
         panWeitereInformationen.setOpaque(false);
         panWeitereInformationen.setLayout(new java.awt.GridBagLayout());
