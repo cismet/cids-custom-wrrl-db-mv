@@ -30,12 +30,12 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  *
  * @author stefan
  */
-public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
 
     private CidsBean cidsBean;
 
     /** Creates new form WkFgRenderer */
-    public WkKgRenderer() {
+    public WkGwRenderer() {
         initComponents();
     }
 
@@ -52,7 +52,7 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
 
         setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Platzhalter für WK_KG Renderer");
+        jLabel1.setText("Platzhalter für WK_GW Renderer");
         add(jLabel1, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 

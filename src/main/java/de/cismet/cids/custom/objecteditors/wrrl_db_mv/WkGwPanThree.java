@@ -279,10 +279,11 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         jPanel1.add(lblPoorChemsKey, gridBagConstraints);
 
+        panPoorChems.setMinimumSize(new java.awt.Dimension(250, 80));
         panPoorChems.setOpaque(false);
+        panPoorChems.setPreferredSize(new java.awt.Dimension(250, 80));
         panPoorChems.setLayout(new java.awt.GridBagLayout());
 
-        scpPoorChems.setMinimumSize(new java.awt.Dimension(350, 80));
         scpPoorChems.setPreferredSize(new java.awt.Dimension(350, 80));
 
         lstPoorChems.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -499,6 +500,7 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblTrendTypesKey, gridBagConstraints);
 
+        panTrendTypes.setMinimumSize(new java.awt.Dimension(250, 80));
         panTrendTypes.setOpaque(false);
         panTrendTypes.setLayout(new java.awt.GridBagLayout());
 
