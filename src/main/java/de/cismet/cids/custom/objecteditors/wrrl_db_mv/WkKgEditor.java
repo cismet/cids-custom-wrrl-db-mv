@@ -65,24 +65,24 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         lblFoot = new javax.swing.JLabel();
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
-        wkKgPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanOne();
-        wkKgPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanTwo();
+        wkKgPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne();
+        wkKgPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTwo();
         lblSpacingBottom = new javax.swing.JLabel();
         lblSpacingRight = new javax.swing.JLabel();
         panQualitaetsinformationen = new javax.swing.JPanel();
         lblSpacingBottom1 = new javax.swing.JLabel();
-        wkKgPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanFive();
-        wkKgPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanThree();
-        wkKgPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanFour();
-        wkKgPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanSix();
-        wkKgPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanSeven();
+        wkKgPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFive();
+        wkKgPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanThree();
+        wkKgPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFour();
+        wkKgPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSix();
+        wkKgPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSeven();
         lblSpacingRight1 = new javax.swing.JLabel();
         panRisikoabschätzung = new javax.swing.JPanel();
-        wkKgPanEight1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanEight();
+        wkKgPanEight1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight();
         lblSpacingBottom2 = new javax.swing.JLabel();
         lblSpacingRight2 = new javax.swing.JLabel();
         panWeitereInformationen = new javax.swing.JPanel();
-        wkKgPanNine1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanNine();
+        wkKgPanNine1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanNine();
         lblSpacingBottom3 = new javax.swing.JLabel();
         lblSpacingRight3 = new javax.swing.JLabel();
 
@@ -335,15 +335,15 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
     private javax.swing.JPanel panRisikoabschätzung;
     private javax.swing.JPanel panWeitereInformationen;
     private javax.swing.JTabbedPane tpMain;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanEight wkKgPanEight1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanFive wkKgPanFive1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanFour wkKgPanFour1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanNine wkKgPanNine1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanOne wkKgPanOne1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanSeven wkKgPanSeven1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanSix wkKgPanSix1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanThree wkKgPanThree1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg.WkKgPanTwo wkKgPanTwo1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight wkKgPanEight1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFive wkKgPanFive1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFour wkKgPanFour1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanNine wkKgPanNine1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne wkKgPanOne1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSeven wkKgPanSeven1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSix wkKgPanSix1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanThree wkKgPanThree1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTwo wkKgPanTwo1;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -4,7 +4,7 @@
  *
  * Created on 04.08.2010, 13:44:05
  */
-package de.cismet.cids.custom.objecteditors.wrrl_db_mv.wk_kg;
+package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -38,8 +38,8 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         lblNitratKey = new javax.swing.JLabel();
-        lblSpacing = new javax.swing.JLabel();
         defaultBindableReferenceCombo1 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblEqsHmKey = new javax.swing.JLabel();
         defaultBindableReferenceCombo2 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
@@ -51,6 +51,8 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         defaultBindableReferenceCombo6 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblOnatplKey = new javax.swing.JLabel();
         defaultBindableReferenceCombo5 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        jPanel1 = new javax.swing.JPanel();
+        panSpacingBottom = new javax.swing.JPanel();
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
@@ -69,19 +71,18 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
         lblNitratKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanSeven.class, "WkKgPanSeven.lblNitratKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 25, 5, 5);
-        panInfoContent.add(lblNitratKey, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panInfoContent.add(lblSpacing, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblNitratKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eqs_hm}"), defaultBindableReferenceCombo1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -91,7 +92,7 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(defaultBindableReferenceCombo1, gridBagConstraints);
+        jPanel2.add(defaultBindableReferenceCombo1, gridBagConstraints);
 
         lblEqsHmKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanSeven.class, "WkKgPanSeven.lblEqsHmKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -99,8 +100,11 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblEqsHmKey, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblEqsHmKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eqs_pestic}"), defaultBindableReferenceCombo2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -110,7 +114,7 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(defaultBindableReferenceCombo2, gridBagConstraints);
+        jPanel2.add(defaultBindableReferenceCombo2, gridBagConstraints);
 
         lblEqsPesticKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanSeven.class, "WkKgPanSeven.lblEqsPesticKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -118,8 +122,11 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblEqsPesticKey, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblEqsPesticKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eqs_indpol}"), defaultBindableReferenceCombo3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -129,7 +136,7 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(defaultBindableReferenceCombo3, gridBagConstraints);
+        jPanel2.add(defaultBindableReferenceCombo3, gridBagConstraints);
 
         lblIndpolKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanSeven.class, "WkKgPanSeven.lblIndpolKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -137,8 +144,11 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblIndpolKey, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblIndpolKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eqs_othpl}"), defaultBindableReferenceCombo4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -148,7 +158,7 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(defaultBindableReferenceCombo4, gridBagConstraints);
+        jPanel2.add(defaultBindableReferenceCombo4, gridBagConstraints);
 
         lblOthplKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanSeven.class, "WkKgPanSeven.lblOthplKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -156,8 +166,11 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblOthplKey, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblOthplKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nitrat}"), defaultBindableReferenceCombo6, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -166,8 +179,8 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panInfoContent.add(defaultBindableReferenceCombo6, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(defaultBindableReferenceCombo6, gridBagConstraints);
 
         lblOnatplKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanSeven.class, "WkKgPanSeven.lblOnatplKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -175,8 +188,11 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblOnatplKey, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblOnatplKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo5.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo5.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eqs_onatpl}"), defaultBindableReferenceCombo5, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -186,7 +202,31 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(defaultBindableReferenceCombo5, gridBagConstraints);
+        jPanel2.add(defaultBindableReferenceCombo5, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jPanel1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jPanel2, gridBagConstraints);
+
+        panSpacingBottom.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent.add(panSpacingBottom, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -202,6 +242,8 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo4;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo5;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblEqsHmKey;
     private javax.swing.JLabel lblEqsPesticKey;
     private javax.swing.JLabel lblHeading;
@@ -209,10 +251,10 @@ public class WkKgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     private javax.swing.JLabel lblNitratKey;
     private javax.swing.JLabel lblOnatplKey;
     private javax.swing.JLabel lblOthplKey;
-    private javax.swing.JLabel lblSpacing;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panSpacingBottom;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
