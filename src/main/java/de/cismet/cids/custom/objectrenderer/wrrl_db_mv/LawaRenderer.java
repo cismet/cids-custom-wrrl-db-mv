@@ -32,12 +32,9 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     private CidsBean cidsBean;
 
 
-    public LawaRenderer() {
-        this(true);
-    }
 
     /** Creates new form WkFgEditor */
-    public LawaRenderer(boolean e) {
+    public LawaRenderer() {
         initComponents();
     }
 
@@ -45,11 +42,6 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     @Override
     public void setCidsBean(CidsBean cidsBean) {
         // cidsFeature rausschmeissen
-        CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
-        Collection<Feature> features = new ArrayList<Feature>();
-        features.addAll(FeatureGroups.expandAll((FeatureGroup) cidsFeature));
-        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
-
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
