@@ -66,9 +66,13 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkKgPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne();
-        wkKgPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTwo();
         lblSpacingBottom = new javax.swing.JLabel();
         lblSpacingRight = new javax.swing.JLabel();
+        panRisikoabschätzung = new javax.swing.JPanel();
+        wkKgPanEight1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight();
+        lblSpacingBottom2 = new javax.swing.JLabel();
+        lblSpacingRight2 = new javax.swing.JLabel();
+        wkKgPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTwo();
         panQualitaetsinformationen = new javax.swing.JPanel();
         lblSpacingBottom1 = new javax.swing.JLabel();
         wkKgPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFive();
@@ -77,10 +81,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         wkKgPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSix();
         wkKgPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSeven();
         lblSpacingRight1 = new javax.swing.JLabel();
-        panRisikoabschätzung = new javax.swing.JPanel();
-        wkKgPanEight1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight();
-        lblSpacingBottom2 = new javax.swing.JLabel();
-        lblSpacingRight2 = new javax.swing.JLabel();
         panWeitereInformationen = new javax.swing.JPanel();
         wkKgPanNine1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanNine();
         lblSpacingBottom3 = new javax.swing.JLabel();
@@ -108,13 +108,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panAllgemeines.add(wkKgPanOne1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panAllgemeines.add(wkKgPanTwo1, gridBagConstraints);
 
         lblSpacingBottom.setText(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.lblSpacingBottom.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -131,6 +124,41 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         panAllgemeines.add(lblSpacingRight, gridBagConstraints);
 
         tpMain.addTab(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.panAllgemeines.TabConstraints.tabTitle"), panAllgemeines); // NOI18N
+
+        panRisikoabschätzung.setOpaque(false);
+        panRisikoabschätzung.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        panRisikoabschätzung.add(wkKgPanEight1, gridBagConstraints);
+
+        lblSpacingBottom2.setText(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.lblSpacingBottom2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panRisikoabschätzung.add(lblSpacingBottom2, gridBagConstraints);
+
+        lblSpacingRight2.setText(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.lblSpacingRight2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panRisikoabschätzung.add(lblSpacingRight2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        panRisikoabschätzung.add(wkKgPanTwo1, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.panRisikoabschätzung.TabConstraints.tabTitle"), panRisikoabschätzung); // NOI18N
 
         panQualitaetsinformationen.setOpaque(false);
         panQualitaetsinformationen.setLayout(new java.awt.GridBagLayout());
@@ -187,29 +215,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         panQualitaetsinformationen.add(lblSpacingRight1, gridBagConstraints);
 
         tpMain.addTab(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.panQualitaetsinformationen.TabConstraints.tabTitle"), panQualitaetsinformationen); // NOI18N
-
-        panRisikoabschätzung.setOpaque(false);
-        panRisikoabschätzung.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panRisikoabschätzung.add(wkKgPanEight1, gridBagConstraints);
-
-        lblSpacingBottom2.setText(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.lblSpacingBottom2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panRisikoabschätzung.add(lblSpacingBottom2, gridBagConstraints);
-
-        lblSpacingRight2.setText(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.lblSpacingRight2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panRisikoabschätzung.add(lblSpacingRight2, gridBagConstraints);
-
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkKgEditor.class, "WkKgEditor.panRisikoabschätzung.TabConstraints.tabTitle"), panRisikoabschätzung); // NOI18N
 
         panWeitereInformationen.setOpaque(false);
         panWeitereInformationen.setLayout(new java.awt.GridBagLayout());

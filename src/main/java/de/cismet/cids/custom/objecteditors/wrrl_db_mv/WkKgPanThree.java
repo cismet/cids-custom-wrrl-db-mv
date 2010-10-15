@@ -80,19 +80,17 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         defaultBindableReferenceCombo6 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblSwsSdateKey = new javax.swing.JLabel();
         lblSwsSdateValue = new javax.swing.JLabel();
-        panImpact = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        scpImpactSrc = new javax.swing.JScrollPane();
+        lstImpactSrc = new javax.swing.JList();
+        panContrImpactSrc = new javax.swing.JPanel();
+        btnAddImpactSrc1 = new javax.swing.JButton();
+        btnRemImpactSrc1 = new javax.swing.JButton();
         scpImpact = new javax.swing.JScrollPane();
         lstImpact = new javax.swing.JList();
         panContrImpact = new javax.swing.JPanel();
         btnAddImpact = new javax.swing.JButton();
         btnRemImpact = new javax.swing.JButton();
-        panImpactSrc = new javax.swing.JPanel();
-        panContrImpactSrc = new javax.swing.JPanel();
-        btnAddImpactSrc1 = new javax.swing.JButton();
-        btnRemImpactSrc1 = new javax.swing.JButton();
-        scpImpactSrc = new javax.swing.JScrollPane();
-        lstImpactSrc = new javax.swing.JList();
-        jPanel2 = new javax.swing.JPanel();
         panSpacingBottom = new javax.swing.JPanel();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -244,8 +242,8 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblChemStatKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(250, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.non_comp}"), defaultBindableReferenceCombo2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -284,8 +282,8 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblNonCompKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat}"), defaultBindableReferenceCombo4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -297,8 +295,8 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo4, gridBagConstraints);
 
-        defaultBindableReferenceCombo5.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo5.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo5.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo5.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot}"), defaultBindableReferenceCombo5, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -310,8 +308,8 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo5, gridBagConstraints);
 
-        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.chem_stat}"), defaultBindableReferenceCombo6, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -331,8 +329,8 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblSwsSdateKey, gridBagConstraints);
 
-        lblSwsSdateValue.setMinimumSize(new java.awt.Dimension(300, 20));
-        lblSwsSdateValue.setPreferredSize(new java.awt.Dimension(300, 20));
+        lblSwsSdateValue.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblSwsSdateValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sws_sdate}"), lblSwsSdateValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -347,66 +345,32 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblSwsSdateValue, gridBagConstraints);
 
-        panImpact.setOpaque(false);
-        panImpact.setLayout(new java.awt.GridBagLayout());
+        jPanel2.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(jPanel2, gridBagConstraints);
 
-        scpImpact.setMinimumSize(new java.awt.Dimension(350, 80));
-        scpImpact.setPreferredSize(new java.awt.Dimension(350, 80));
+        scpImpactSrc.setMinimumSize(new java.awt.Dimension(300, 80));
+        scpImpactSrc.setPreferredSize(new java.awt.Dimension(300, 80));
 
-        lstImpact.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstImpactSrc.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impacts}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstImpact);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact_srcs}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstImpactSrc);
         bindingGroup.addBinding(jListBinding);
 
-        scpImpact.setViewportView(lstImpact);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panImpact.add(scpImpact, gridBagConstraints);
-
-        panContrImpact.setOpaque(false);
-        panContrImpact.setLayout(new java.awt.GridBagLayout());
-
-        btnAddImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddImpactActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panContrImpact.add(btnAddImpact, gridBagConstraints);
-
-        btnRemImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemImpactActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panContrImpact.add(btnRemImpact, gridBagConstraints);
+        scpImpactSrc.setViewportView(lstImpactSrc);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        panImpact.add(panContrImpact, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(panImpact, gridBagConstraints);
-
-        panImpactSrc.setOpaque(false);
-        panImpactSrc.setLayout(new java.awt.GridBagLayout());
+        jPanel1.add(scpImpactSrc, gridBagConstraints);
 
         panContrImpactSrc.setOpaque(false);
         panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
@@ -434,43 +398,57 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         panContrImpactSrc.add(btnRemImpactSrc1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        panImpactSrc.add(panContrImpactSrc, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(panContrImpactSrc, gridBagConstraints);
 
-        scpImpactSrc.setMinimumSize(new java.awt.Dimension(350, 80));
-        scpImpactSrc.setPreferredSize(new java.awt.Dimension(350, 80));
+        scpImpact.setMinimumSize(new java.awt.Dimension(300, 80));
+        scpImpact.setPreferredSize(new java.awt.Dimension(300, 80));
 
-        lstImpactSrc.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstImpact.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact_srcs}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstImpactSrc);
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impacts}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstImpact);
         bindingGroup.addBinding(jListBinding);
 
-        scpImpactSrc.setViewportView(lstImpactSrc);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panImpactSrc.add(scpImpactSrc, gridBagConstraints);
+        scpImpact.setViewportView(lstImpact);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(panImpactSrc, gridBagConstraints);
+        jPanel1.add(scpImpact, gridBagConstraints);
 
-        jPanel2.setOpaque(false);
+        panContrImpact.setOpaque(false);
+        panContrImpact.setLayout(new java.awt.GridBagLayout());
+
+        btnAddImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddImpact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddImpactActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panContrImpact.add(btnAddImpact, gridBagConstraints);
+
+        btnRemImpact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemImpact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemImpactActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panContrImpact.add(btnRemImpact, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        jPanel1.add(panContrImpact, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -493,30 +471,6 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddImpactSrc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
-        dlgImpactSrcCataloge.setLocationRelativeTo(this);
-        dlgImpactSrcCataloge.pack();
-        dlgImpactSrcCataloge.setVisible(true);
-}//GEN-LAST:event_btnAddImpactSrc1ActionPerformed
-
-    private void btnRemImpactSrc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactSrc1ActionPerformed
-        final Object selection = lstImpactSrc.getSelectedValue();
-        if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll das XXX wirklich gelöscht werden?", "XXX entfernen", JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("impact_srcs");
-                    if (beanColl instanceof Collection) {
-                        ((Collection) beanColl).remove(beanToDelete);
-                    }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
-                }
-            }
-        }
-}//GEN-LAST:event_btnRemImpactSrc1ActionPerformed
 
     private void btnAddImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
@@ -579,6 +533,30 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         dlgImpactSrcCataloge.setVisible(false);
 }//GEN-LAST:event_btnMenImpactSrcOkActionPerformed
 
+    private void btnRemImpactSrc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactSrc1ActionPerformed
+        final Object selection = lstImpactSrc.getSelectedValue();
+        if (selection != null) {
+            final int answer = JOptionPane.showConfirmDialog(this, "Soll das XXX wirklich gelöscht werden?", "XXX entfernen", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                try {
+                    final CidsBean beanToDelete = (CidsBean) selection;
+                    final Object beanColl = cidsBean.getProperty("impact_srcs");
+                    if (beanColl instanceof Collection) {
+                        ((Collection) beanColl).remove(beanToDelete);
+                    }
+                } catch (Exception e) {
+                    UIUtil.showExceptionToUser(e, this);
+                }
+            }
+        }
+}//GEN-LAST:event_btnRemImpactSrc1ActionPerformed
+
+    private void btnAddImpactSrc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
+        dlgImpactSrcCataloge.setLocationRelativeTo(this);
+        dlgImpactSrcCataloge.pack();
+        dlgImpactSrcCataloge.setVisible(true);
+}//GEN-LAST:event_btnAddImpactSrc1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddImpact;
     private javax.swing.JButton btnAddImpactSrc1;
@@ -614,8 +592,6 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private javax.swing.JPanel panContrImpact;
     private javax.swing.JPanel panContrImpactSrc;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private javax.swing.JPanel panImpact;
-    private javax.swing.JPanel panImpactSrc;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panMenButtonsImpact;

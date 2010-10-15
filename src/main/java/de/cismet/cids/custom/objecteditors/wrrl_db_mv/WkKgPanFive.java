@@ -79,8 +79,8 @@ public class WkKgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblPhytoKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(250, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_algae}"), defaultBindableReferenceCombo1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -101,8 +101,8 @@ public class WkKgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblMacAlgaeKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv}"), defaultBindableReferenceCombo2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -123,8 +123,8 @@ public class WkKgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblBenInvKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.oth_spec}"), defaultBindableReferenceCombo3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -145,8 +145,8 @@ public class WkKgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblOthSpecKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.confidence}"), defaultBindableReferenceCombo4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -167,8 +167,8 @@ public class WkKgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblConfidenceKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto}"), defaultBindableReferenceCombo6, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

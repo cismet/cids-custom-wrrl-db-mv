@@ -71,8 +71,8 @@ public class WkKgPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lbGenCondKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(300, 20));
-        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(250, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond}"), defaultBindableReferenceCombo1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

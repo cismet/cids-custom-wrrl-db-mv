@@ -99,10 +99,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo1">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -129,10 +129,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo2">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -159,10 +159,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo6">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>

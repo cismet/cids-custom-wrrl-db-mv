@@ -99,10 +99,10 @@
                 <Component class="javax.swing.JTextField" name="txtEuCdCw">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -121,10 +121,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo1">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -199,10 +199,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo2">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -217,10 +217,10 @@
                 <Component class="javax.swing.JTextField" name="txtMsCdCw">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -239,10 +239,10 @@
                 <Component class="javax.swing.JTextField" name="txtUrl">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -261,10 +261,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo3">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -291,10 +291,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo4">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -321,10 +321,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo5">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -351,10 +351,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo6">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -381,10 +381,10 @@
                 <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo7">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -411,10 +411,10 @@
                 <Component class="javax.swing.JTextField" name="txtTemplate">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -431,10 +431,10 @@
                 <Component class="javax.swing.JTextField" name="txtMetadata">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -477,10 +477,10 @@
                 <Component class="javax.swing.JLabel" name="lblDeliveryValue">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 20]"/>
+                      <Dimension value="[250, 20]"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
