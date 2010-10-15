@@ -86,9 +86,9 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         lblVertOrienKey = new javax.swing.JLabel();
         defaultBindableReferenceCombo4 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         panSurface = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lblSurface1Key = new javax.swing.JLabel();
+        lblSurface2Key = new javax.swing.JLabel();
+        lblSurface3Key = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
@@ -634,32 +634,32 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         panSurface.setOpaque(false);
         panSurface.setLayout(new java.awt.GridBagLayout());
 
-        jLabel8.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.jLabel8.text")); // NOI18N
+        lblSurface1Key.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.lblSurface1Key.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSurface.add(jLabel8, gridBagConstraints);
+        panSurface.add(lblSurface1Key, gridBagConstraints);
 
-        jLabel9.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.jLabel9.text")); // NOI18N
+        lblSurface2Key.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.lblSurface2Key.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSurface.add(jLabel9, gridBagConstraints);
+        panSurface.add(lblSurface2Key, gridBagConstraints);
 
-        jLabel10.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.jLabel10.text")); // NOI18N
+        lblSurface3Key.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.lblSurface3Key.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSurface.add(jLabel10, gridBagConstraints);
+        panSurface.add(lblSurface3Key, gridBagConstraints);
 
         jPanel3.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -780,15 +780,12 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo8;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -820,6 +817,9 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblLinkSwbKey;
     private javax.swing.JLabel lblOutofrbdKey;
     private javax.swing.JLabel lblRegionCdaKey;
+    private javax.swing.JLabel lblSurface1Key;
+    private javax.swing.JLabel lblSurface2Key;
+    private javax.swing.JLabel lblSurface3Key;
     private javax.swing.JLabel lblSuwaAssoKey;
     private javax.swing.JLabel lblVertOrienKey;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;

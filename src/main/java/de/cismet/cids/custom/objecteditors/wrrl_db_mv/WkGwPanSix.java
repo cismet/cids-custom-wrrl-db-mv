@@ -90,8 +90,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblTemplateKey, gridBagConstraints);
 
-        txtName.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtName.setPreferredSize(new java.awt.Dimension(250, 20));
+        txtName.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtName.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.template}"), txtName, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -115,8 +115,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblDissolvCdKey, gridBagConstraints);
 
-        txtMsCdGb.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtMsCdGb.setPreferredSize(new java.awt.Dimension(250, 20));
+        txtMsCdGb.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtMsCdGb.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dissolv_cd}"), txtMsCdGb, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -140,8 +140,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblEuCdGbKey, gridBagConstraints);
 
-        txtGroupCd.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtGroupCd.setPreferredSize(new java.awt.Dimension(250, 20));
+        txtGroupCd.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtGroupCd.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eu_cd_gb}"), txtGroupCd, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -164,8 +164,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblPlanuCdKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.planu_cd}"), defaultBindableReferenceCombo4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -185,8 +185,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblWaCdKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo5.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo5.setPreferredSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo5.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo5.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wa_cd}"), defaultBindableReferenceCombo5, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -206,8 +206,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblRbdCdKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rbd_cd}"), defaultBindableReferenceCombo6, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -227,8 +227,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblLandCdKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo7.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo7.setPreferredSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo7.setMinimumSize(new java.awt.Dimension(300, 20));
+        defaultBindableReferenceCombo7.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.land_cd}"), defaultBindableReferenceCombo7, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -248,8 +248,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblDeliveryKey, gridBagConstraints);
 
-        lblStatDateValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblStatDateValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblStatDateValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblStatDateValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.delivery}"), lblStatDateValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -272,8 +272,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblMetadataKey, gridBagConstraints);
 
-        txtMetadata.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtMetadata.setPreferredSize(new java.awt.Dimension(250, 20));
+        txtMetadata.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtMetadata.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.metadata}"), txtMetadata, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
@@ -296,8 +296,8 @@ public class WkGwPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblUrlKey, gridBagConstraints);
 
-        txtUrlKey.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtUrlKey.setPreferredSize(new java.awt.Dimension(250, 20));
+        txtUrlKey.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtUrlKey.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.url}"), txtUrlKey, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
