@@ -15,24 +15,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
+package de.cismet.cids.custom.reports;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.FotodokumentationEditor;
-import de.cismet.tools.gui.TitleComponentProvider;
-import javax.swing.JComponent;
+import de.cismet.jasperreports.ReportSwingWorker;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  *
  * @author jweintraut
  */
-public class FotodokumentationRenderer extends FotodokumentationEditor implements TitleComponentProvider {
-    public FotodokumentationRenderer() {
-        super(false);
+public class FotodokumentationReport {
+    public static void showReport(CidsBean cidsBean) {
+        ReportSwingWorker worker = new ReportSwingWorker(cidsBean, "/de/cismet/cids/custom/reports/fotodokumentation.jasper");
+        worker.execute();
     }
-
-    @Override
-    public JComponent getTitleComponent() {
-        return super.getPanTitle();
-    }
-
 }
