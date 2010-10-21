@@ -75,9 +75,6 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         lblImpactSrcKey = new javax.swing.JLabel();
         lblImpactKey = new javax.swing.JLabel();
         lblNonCompKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo4 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        defaultBindableReferenceCombo5 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        defaultBindableReferenceCombo6 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblSwsSdateKey = new javax.swing.JLabel();
         lblSwsSdateValue = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -91,6 +88,9 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         panContrImpact = new javax.swing.JPanel();
         btnAddImpact = new javax.swing.JButton();
         btnRemImpact = new javax.swing.JButton();
+        lblEcoStatValue = new javax.swing.JLabel();
+        lblEcoPotValue = new javax.swing.JLabel();
+        lblChemStatValue = new javax.swing.JLabel();
         panSpacingBottom = new javax.swing.JPanel();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -282,45 +282,6 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblNonCompKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat}"), defaultBindableReferenceCombo4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(defaultBindableReferenceCombo4, gridBagConstraints);
-
-        defaultBindableReferenceCombo5.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo5.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot}"), defaultBindableReferenceCombo5, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(defaultBindableReferenceCombo5, gridBagConstraints);
-
-        defaultBindableReferenceCombo6.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo6.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.chem_stat}"), defaultBindableReferenceCombo6, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(defaultBindableReferenceCombo6, gridBagConstraints);
-
         lblSwsSdateKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanThree.class, "WkKgPanThree.lblSwsSdateKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -333,7 +294,7 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         lblSwsSdateValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sws_sdate}"), lblSwsSdateValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("-");
         binding.setSourceUnreadableValue("<Error>");
         binding.setConverter(TimestampConverter.getInstance());
         bindingGroup.addBinding(binding);
@@ -449,6 +410,49 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         jPanel1.add(panContrImpact, gridBagConstraints);
+
+        lblEcoStatValue.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblEcoStatValue.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat.name}"), lblEcoStatValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("<Error>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblEcoStatValue, gridBagConstraints);
+
+        lblEcoPotValue.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblEcoPotValue.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot.name}"), lblEcoPotValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("<Error>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblEcoPotValue, gridBagConstraints);
+
+        lblChemStatValue.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblChemStatValue.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.chem_stat.name}"), lblChemStatValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue("<Error>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblChemStatValue, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -569,16 +573,16 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private javax.swing.JComboBox cbImpactCataloge;
     private javax.swing.JComboBox cbImpactSrcCataloge;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo2;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo4;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo5;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo6;
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblChemStatKey;
+    private javax.swing.JLabel lblChemStatValue;
     private javax.swing.JLabel lblEcoPotKey;
+    private javax.swing.JLabel lblEcoPotValue;
     private javax.swing.JLabel lblEcoStatKey;
+    private javax.swing.JLabel lblEcoStatValue;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblImpactCataloge;
     private javax.swing.JLabel lblImpactKey;
