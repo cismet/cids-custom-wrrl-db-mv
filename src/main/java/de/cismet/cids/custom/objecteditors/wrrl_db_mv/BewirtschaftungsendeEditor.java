@@ -9,21 +9,18 @@ import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
-import de.cismet.tools.gui.FooterComponentProvider;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
  *
  * @author jruiz
  */
-public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
+public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BewirtschaftungsendeEditor.class);
     private CidsBean cidsBean;
-
 
     /** Creates new form BewirtschaftungsendeEditor */
     public BewirtschaftungsendeEditor() {
@@ -67,8 +64,6 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        panFooter = new javax.swing.JPanel();
-        lblFoot = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblBemerkungKey = new javax.swing.JLabel();
         stationEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
@@ -76,17 +71,6 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         txtBemerkungValue = new javax.swing.JTextArea();
         lblStatKey = new javax.swing.JLabel();
         lblSpacingBottom = new javax.swing.JPanel();
-
-        panFooter.setOpaque(false);
-        panFooter.setLayout(new java.awt.GridBagLayout());
-
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
-        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
-        panFooter.add(lblFoot, gridBagConstraints);
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -160,10 +144,8 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkungKey;
-    private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel lblSpacingBottom;
     private javax.swing.JLabel lblStatKey;
-    private javax.swing.JPanel panFooter;
     private javax.swing.JScrollPane scpBemerkung;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
     private javax.swing.JTextArea txtBemerkungValue;
@@ -193,10 +175,5 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void prepareForSave() {
-    }
-
-    @Override
-    public JComponent getFooterComponent() {
-        return panFooter;
     }
 }
