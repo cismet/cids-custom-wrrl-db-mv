@@ -3,9 +3,15 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.FeatureGroup;
+import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.navigatorplugin.CidsFeature;
 import de.cismet.tools.gui.FooterComponentProvider;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -26,6 +32,12 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
+        // cidsFeature rausschmeissen
+        CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
+        Collection<Feature> features = new ArrayList<Feature>();
+        features.addAll(FeatureGroups.expandAll((FeatureGroup) cidsFeature));
+        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
+
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
