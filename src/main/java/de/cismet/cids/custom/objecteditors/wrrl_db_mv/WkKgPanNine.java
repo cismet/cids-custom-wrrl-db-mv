@@ -308,7 +308,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.char_type.name}"), lblCharTypeValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -320,7 +320,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eu_cw_type.name}"), lblEuCwTypeValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -332,7 +332,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.land_cd.name}"), lblLandCdValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

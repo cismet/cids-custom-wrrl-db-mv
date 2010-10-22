@@ -115,7 +115,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_chem.name}"), lblRiskChemValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -128,7 +128,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_ecpo.name}"), lblRiskEcpoValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -143,7 +143,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_ecst.name}"), lblRiskEcstValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -219,7 +219,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_total.name}"), lblRiskTotalValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

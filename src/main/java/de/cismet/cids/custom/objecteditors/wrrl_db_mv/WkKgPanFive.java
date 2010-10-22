@@ -181,7 +181,7 @@ public class WkKgPanFive extends javax.swing.JPanel implements DisposableCidsBea
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.oth_spec.name}"), lblOthSpecValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
