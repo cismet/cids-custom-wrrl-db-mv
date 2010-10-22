@@ -139,6 +139,9 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer {
 
         panAllgemeines.setOpaque(false);
         panAllgemeines.setLayout(new java.awt.GridBagLayout());
+
+        wkFgPanOne.setMinimumSize(new java.awt.Dimension(1015, 550));
+        wkFgPanOne.setPreferredSize(new java.awt.Dimension(1015, 550));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

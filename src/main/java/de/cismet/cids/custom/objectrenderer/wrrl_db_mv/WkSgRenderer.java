@@ -135,6 +135,9 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
 
         panAllgemeines.setOpaque(false);
         panAllgemeines.setLayout(new java.awt.GridBagLayout());
+
+        wkSgPanOne.setMinimumSize(new java.awt.Dimension(1015, 550));
+        wkSgPanOne.setPreferredSize(new java.awt.Dimension(1015, 550));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

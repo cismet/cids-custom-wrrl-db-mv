@@ -238,8 +238,8 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel2, gridBagConstraints);
 
-        lblDiff_zust.setText("Differenzzust. Trophie");
-        lblDiff_zust.setToolTipText("Differenzzustand Trophie");
+        lblDiff_zust.setText(org.openide.util.NbBundle.getMessage(WkSgPanSeven.class, "WkSgPanSeven.lblDiff_zust.text")); // NOI18N
+        lblDiff_zust.setToolTipText(org.openide.util.NbBundle.getMessage(WkSgPanSeven.class, "WkSgPanSeven.lblDiff_zust.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;

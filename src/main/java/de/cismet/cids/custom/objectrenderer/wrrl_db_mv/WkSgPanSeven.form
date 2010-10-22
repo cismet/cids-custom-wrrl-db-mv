@@ -307,8 +307,12 @@
             </Container>
             <Component class="javax.swing.JLabel" name="lblDiff_zust">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Differenzzust. Trophie"/>
-                <Property name="toolTipText" type="java.lang.String" value="Differenzzustand Trophie"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="de/cismet/cids/custom/objectrenderer/wrrl_db_mv/Bundle.properties" key="WkSgPanSeven.lblDiff_zust.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="de/cismet/cids/custom/objectrenderer/wrrl_db_mv/Bundle.properties" key="WkSgPanSeven.lblDiff_zust.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
