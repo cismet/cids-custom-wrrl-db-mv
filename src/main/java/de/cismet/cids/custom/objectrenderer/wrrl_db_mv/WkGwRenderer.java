@@ -23,20 +23,26 @@
 
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import org.jdesktop.beansbinding.BindingGroup;
 
 /**
  *
  * @author stefan
  */
 public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkGwRenderer.class);
 
     private CidsBean cidsBean;
+    private BindingGroup bindingGroup;
 
     /** Creates new form WkFgRenderer */
     public WkGwRenderer() {
+        bindingGroup = new BindingGroup();
         initComponents();
+        tpMain.setUI(new TabbedPaneUITransparent());
     }
 
     /** This method is called from within the constructor to
@@ -47,18 +53,272 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
+        tpMain = new javax.swing.JTabbedPane();
+        panGeneral = new javax.swing.JPanel();
+        wkGwPanOne = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanOne();
+        panSpacingBottomTab1 = new javax.swing.JPanel();
+        panSpacingRightTab1 = new javax.swing.JPanel();
+        panDescriptionAndRisks = new javax.swing.JPanel();
+        wkGwPanTwo = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanTwo();
+        panSpacingBottomTab2 = new javax.swing.JPanel();
+        panSpacingRightTab2 = new javax.swing.JPanel();
+        wkGwPanFive = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanFive();
+        panQualityInformation = new javax.swing.JPanel();
+        wkGwPanFour = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanFour();
+        panSpacingBottomTab3 = new javax.swing.JPanel();
+        panSpacingRightTab3 = new javax.swing.JPanel();
+        wkGwPanThree = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanThree();
+        panFurtherInformation = new javax.swing.JPanel();
+        wkGwPanSix = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanSix();
+        panSpacingBottomTab4 = new javax.swing.JPanel();
+        panSpacingRightTab4 = new javax.swing.JPanel();
 
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Platzhalter für WK_GW Renderer");
-        add(jLabel1, new java.awt.GridBagConstraints());
+        panGeneral.setOpaque(false);
+        panGeneral.setLayout(new java.awt.GridBagLayout());
+
+        wkGwPanOne.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panGeneral.add(wkGwPanOne, gridBagConstraints);
+
+        panSpacingBottomTab1.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingBottomTab1Layout = new javax.swing.GroupLayout(panSpacingBottomTab1);
+        panSpacingBottomTab1.setLayout(panSpacingBottomTab1Layout);
+        panSpacingBottomTab1Layout.setHorizontalGroup(
+            panSpacingBottomTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 798, Short.MAX_VALUE)
+        );
+        panSpacingBottomTab1Layout.setVerticalGroup(
+            panSpacingBottomTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 195, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panGeneral.add(panSpacingBottomTab1, gridBagConstraints);
+
+        panSpacingRightTab1.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingRightTab1Layout = new javax.swing.GroupLayout(panSpacingRightTab1);
+        panSpacingRightTab1.setLayout(panSpacingRightTab1Layout);
+        panSpacingRightTab1Layout.setHorizontalGroup(
+            panSpacingRightTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panSpacingRightTab1Layout.setVerticalGroup(
+            panSpacingRightTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panGeneral.add(panSpacingRightTab1, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "WkGwRenderer.panGeneral.TabConstraints.title"), panGeneral); // NOI18N
+
+        panDescriptionAndRisks.setOpaque(false);
+        panDescriptionAndRisks.setLayout(new java.awt.GridBagLayout());
+
+        wkGwPanTwo.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
+        panDescriptionAndRisks.add(wkGwPanTwo, gridBagConstraints);
+
+        panSpacingBottomTab2.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingBottomTab2Layout = new javax.swing.GroupLayout(panSpacingBottomTab2);
+        panSpacingBottomTab2.setLayout(panSpacingBottomTab2Layout);
+        panSpacingBottomTab2Layout.setHorizontalGroup(
+            panSpacingBottomTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panSpacingBottomTab2Layout.setVerticalGroup(
+            panSpacingBottomTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panDescriptionAndRisks.add(panSpacingBottomTab2, gridBagConstraints);
+
+        panSpacingRightTab2.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingRightTab2Layout = new javax.swing.GroupLayout(panSpacingRightTab2);
+        panSpacingRightTab2.setLayout(panSpacingRightTab2Layout);
+        panSpacingRightTab2Layout.setHorizontalGroup(
+            panSpacingRightTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panSpacingRightTab2Layout.setVerticalGroup(
+            panSpacingRightTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panDescriptionAndRisks.add(panSpacingRightTab2, gridBagConstraints);
+
+        wkGwPanFive.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panDescriptionAndRisks.add(wkGwPanFive, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "WkGwRenderer.panDescriptionAndRisks.TabConstraints.title"), panDescriptionAndRisks); // NOI18N
+
+        panQualityInformation.setOpaque(false);
+        panQualityInformation.setLayout(new java.awt.GridBagLayout());
+
+        wkGwPanFour.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
+        panQualityInformation.add(wkGwPanFour, gridBagConstraints);
+
+        javax.swing.GroupLayout panSpacingBottomTab3Layout = new javax.swing.GroupLayout(panSpacingBottomTab3);
+        panSpacingBottomTab3.setLayout(panSpacingBottomTab3Layout);
+        panSpacingBottomTab3Layout.setHorizontalGroup(
+            panSpacingBottomTab3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panSpacingBottomTab3Layout.setVerticalGroup(
+            panSpacingBottomTab3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panQualityInformation.add(panSpacingBottomTab3, gridBagConstraints);
+
+        panSpacingRightTab3.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingRightTab3Layout = new javax.swing.GroupLayout(panSpacingRightTab3);
+        panSpacingRightTab3.setLayout(panSpacingRightTab3Layout);
+        panSpacingRightTab3Layout.setHorizontalGroup(
+            panSpacingRightTab3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 44, Short.MAX_VALUE)
+        );
+        panSpacingRightTab3Layout.setVerticalGroup(
+            panSpacingRightTab3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 614, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panQualityInformation.add(panSpacingRightTab3, gridBagConstraints);
+
+        wkGwPanThree.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panQualityInformation.add(wkGwPanThree, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "WkGwRenderer.panQualityInformation.TabConstraints.title"), panQualityInformation); // NOI18N
+
+        panFurtherInformation.setOpaque(false);
+        panFurtherInformation.setLayout(new java.awt.GridBagLayout());
+
+        wkGwPanSix.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panFurtherInformation.add(wkGwPanSix, gridBagConstraints);
+
+        panSpacingBottomTab4.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingBottomTab4Layout = new javax.swing.GroupLayout(panSpacingBottomTab4);
+        panSpacingBottomTab4.setLayout(panSpacingBottomTab4Layout);
+        panSpacingBottomTab4Layout.setHorizontalGroup(
+            panSpacingBottomTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
+        );
+        panSpacingBottomTab4Layout.setVerticalGroup(
+            panSpacingBottomTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 225, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panFurtherInformation.add(panSpacingBottomTab4, gridBagConstraints);
+
+        panSpacingRightTab4.setOpaque(false);
+
+        javax.swing.GroupLayout panSpacingRightTab4Layout = new javax.swing.GroupLayout(panSpacingRightTab4);
+        panSpacingRightTab4.setLayout(panSpacingRightTab4Layout);
+        panSpacingRightTab4Layout.setHorizontalGroup(
+            panSpacingRightTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 254, Short.MAX_VALUE)
+        );
+        panSpacingRightTab4Layout.setVerticalGroup(
+            panSpacingRightTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 159, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panFurtherInformation.add(panSpacingRightTab4, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "WkGwRenderer.panFurtherInformation.TabConstraints.title"), panFurtherInformation); // NOI18N
+
+        add(tpMain, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel panDescriptionAndRisks;
+    private javax.swing.JPanel panFurtherInformation;
+    private javax.swing.JPanel panGeneral;
+    private javax.swing.JPanel panQualityInformation;
+    private javax.swing.JPanel panSpacingBottomTab1;
+    private javax.swing.JPanel panSpacingBottomTab2;
+    private javax.swing.JPanel panSpacingBottomTab3;
+    private javax.swing.JPanel panSpacingBottomTab4;
+    private javax.swing.JPanel panSpacingRightTab1;
+    private javax.swing.JPanel panSpacingRightTab2;
+    private javax.swing.JPanel panSpacingRightTab3;
+    private javax.swing.JPanel panSpacingRightTab4;
+    private javax.swing.JTabbedPane tpMain;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanFive wkGwPanFive;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanFour wkGwPanFour;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanOne wkGwPanOne;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanSix wkGwPanSix;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanThree wkGwPanThree;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkGwPanTwo wkGwPanTwo;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -68,22 +328,36 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
+        bindingGroup.unbind();
         this.cidsBean = cidsBean;
+
+        if(cidsBean != null) {
+            wkGwPanOne.setCidsBean(cidsBean);
+            wkGwPanTwo.setCidsBean(cidsBean);
+            wkGwPanThree.setCidsBean(cidsBean);
+            wkGwPanFour.setCidsBean(cidsBean);
+            wkGwPanFive.setCidsBean(cidsBean);
+            wkGwPanSix.setCidsBean(cidsBean);
+        }
     }
 
     @Override
     public void dispose() {
-        //NOP
+        wkGwPanOne.dispose();
+        wkGwPanTwo.dispose();
+        wkGwPanThree.dispose();
+        wkGwPanFour.dispose();
+        wkGwPanFive.dispose();
+        wkGwPanSix.dispose();
+        bindingGroup.unbind();
     }
 
     @Override
     public String getTitle() {
-        return (String) cidsBean.getProperty("name");
+        return org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "WkGwRenderer.title") + String.valueOf(cidsBean);
     }
 
     @Override
     public void setTitle(String title) {
-        //NOP
     }
-
 }
