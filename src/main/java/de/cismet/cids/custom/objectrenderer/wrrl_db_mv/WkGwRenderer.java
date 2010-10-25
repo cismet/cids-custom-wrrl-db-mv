@@ -92,11 +92,11 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingBottomTab1.setLayout(panSpacingBottomTab1Layout);
         panSpacingBottomTab1Layout.setHorizontalGroup(
             panSpacingBottomTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
+            .addGap(0, 901, Short.MAX_VALUE)
         );
         panSpacingBottomTab1Layout.setVerticalGroup(
             panSpacingBottomTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
+            .addGap(0, 654, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -112,11 +112,11 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingRightTab1.setLayout(panSpacingRightTab1Layout);
         panSpacingRightTab1Layout.setHorizontalGroup(
             panSpacingRightTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 105, Short.MAX_VALUE)
         );
         panSpacingRightTab1Layout.setVerticalGroup(
             panSpacingRightTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 189, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -141,11 +141,11 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingBottomTab2.setLayout(panSpacingBottomTab2Layout);
         panSpacingBottomTab2Layout.setHorizontalGroup(
             panSpacingBottomTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 940, Short.MAX_VALUE)
         );
         panSpacingBottomTab2Layout.setVerticalGroup(
             panSpacingBottomTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 173, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -161,11 +161,11 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingRightTab2.setLayout(panSpacingRightTab2Layout);
         panSpacingRightTab2Layout.setHorizontalGroup(
             panSpacingRightTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 66, Short.MAX_VALUE)
         );
         panSpacingRightTab2Layout.setVerticalGroup(
             panSpacingRightTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -218,11 +218,11 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingRightTab3.setLayout(panSpacingRightTab3Layout);
         panSpacingRightTab3Layout.setHorizontalGroup(
             panSpacingRightTab3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 44, Short.MAX_VALUE)
+            .addGap(0, 423, Short.MAX_VALUE)
         );
         panSpacingRightTab3Layout.setVerticalGroup(
             panSpacingRightTab3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGap(0, 843, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -263,7 +263,7 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         );
         panSpacingBottomTab4Layout.setVerticalGroup(
             panSpacingBottomTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
+            .addGap(0, 684, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -279,7 +279,7 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingRightTab4.setLayout(panSpacingRightTab4Layout);
         panSpacingRightTab4Layout.setHorizontalGroup(
             panSpacingRightTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 254, Short.MAX_VALUE)
+            .addGap(0, 633, Short.MAX_VALUE)
         );
         panSpacingRightTab4Layout.setVerticalGroup(
             panSpacingRightTab4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -252,10 +252,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_1}" target="lblLanduse1Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_1}" target="lblLanduse1Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -273,10 +270,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_2}" target="lblLanduse2Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_2}" target="lblLanduse2Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -294,10 +288,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_3}" target="lblLanduse3Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_3}" target="lblLanduse3Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -315,10 +306,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_4}" target="lblLanduse4Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_4}" target="lblLanduse4Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -336,10 +324,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_5}" target="lblLanduse5Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_5}" target="lblLanduse5Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -357,10 +342,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_6}" target="lblLanduse6Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_6}" target="lblLanduse6Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -378,10 +360,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_7}" target="lblLanduse7Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landuse_7}" target="lblLanduse7Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -449,10 +428,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.link_swb.name}" target="lblLinkSwbValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.link_swb.name}" target="lblLinkSwbValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -470,10 +446,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.link_eco.name}" target="lblLinkEcoValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.link_eco.name}" target="lblLinkEcoValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -491,10 +464,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.suwa_asso.name}" target="lblSuwaAssoValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.suwa_asso.name}" target="lblSuwaAssoValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -512,10 +482,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.outofrbd.name}" target="lblOutofrbdValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.outofrbd.name}" target="lblOutofrbdValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -533,10 +500,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ext10.name}" target="lblExt10Value" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ext10.name}" target="lblExt10Value" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -554,10 +518,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.region_cda.name}" target="lblRegionCdaValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.region_cda.name}" target="lblRegionCdaValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -752,10 +713,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.surface_1}" target="lblSurface1Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.surface_1}" target="lblSurface1Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -773,10 +731,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.surface_2}" target="lblSurface2Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.surface_2}" target="lblSurface2Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -794,10 +749,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.surface_3}" target="lblSurface3Value" targetPath="text" updateStrategy="0" immediately="false">
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                        </BindingProperty>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.surface_3}" target="lblSurface3Value" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -829,10 +781,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.aqui_type.name}" target="lblAquiTypeValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.aqui_type.name}" target="lblAquiTypeValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -850,10 +799,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.horizon}" target="lblHorizonValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.horizon}" target="lblHorizonValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -871,10 +817,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.geol_form.name}" target="lblGeolFormValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.geol_form.name}" target="lblGeolFormValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -892,10 +835,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.avg_depth}" target="lblAvgDepthValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.avg_depth}" target="lblAvgDepthValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -913,10 +853,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.avg_thick}" target="lblAvgThickValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.avg_thick}" target="lblAvgThickValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -934,10 +871,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.depthrange}" target="lblDepthrangeValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.depthrange}" target="lblDepthrangeValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -955,10 +889,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.capacity}" target="lblCapacityValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.capacity}" target="lblCapacityValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -976,10 +907,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.vert_orien}" target="lblVertOrienValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="error"/>
-                    </BindingProperty>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.vert_orien}" target="lblVertOrienValue" targetPath="text" updateStrategy="1" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
