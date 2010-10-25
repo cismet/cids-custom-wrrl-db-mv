@@ -339,17 +339,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
 
     @Override
     public void prepareForSave() {
-        if (cidsBean != null) {
-            try {
-                cidsBean.setProperty("template", "gwbody");
-                cidsBean.setProperty("metadata", "gwbody_demv.xml");
-//                cidsBean.setProperty("pad_within", "Y");
-            } catch (Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("error while prepareForSave", ex);
-                }
-            }
-        }
     }
 
     @Override
