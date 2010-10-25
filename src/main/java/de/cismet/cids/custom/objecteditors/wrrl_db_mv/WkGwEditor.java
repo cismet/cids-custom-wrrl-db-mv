@@ -28,7 +28,10 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.tools.gui.FooterComponentProvider;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -237,6 +240,74 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
             wkGwPanFive1.setCidsBean(cidsBean);
             wkGwPanSix1.setCidsBean(cidsBean);
             bindingGroup.bind();
+
+            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent pce) {
+                    if (pce.getPropertyName().equals("name")) {
+                        try {
+                            cidsBean.setProperty("ms_cd_gb", "DEMV_" + (String) pce.getNewValue());
+                        } catch (Exception ex) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("autosetting ms_cd_gb failed", ex);
+                            }
+                        }
+                    }
+                }
+            });
+
+            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent pce) {
+                    if (pce.getPropertyName().equals("ms_cd_gb")) {
+                        try {
+                            cidsBean.setProperty("eu_cd_gb", "DE_GB_" + (String) pce.getNewValue());
+                        } catch (Exception ex) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("autosetting eu_cd_gb failed", ex);
+                            }
+                        }
+                    }
+                }
+            });
+
+            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent pce) {
+                    if (
+                            pce.getPropertyName().equals("nitrat") ||
+                            pce.getPropertyName().equals("pesticides") ||
+                            pce.getPropertyName().equals("actsubpest") ||
+                            pce.getPropertyName().equals("annex_ii") ||
+                            pce.getPropertyName().equals("othpl")) {
+                        try {
+                            int worstCaseValue = 0;
+                            String[] props = {"nitrat", "pesticides", "actsubpest", "annex_ii", "othpl"};
+                            int worstCasePropIndex = 0;
+                            for (int propIndex = 0; propIndex < props.length; propIndex++) {
+                                String prop = props[propIndex];
+                                String baseValue = (String) ((CidsBean) cidsBean.getProperty(prop)).getProperty("value");
+                                int  propValue = 0;
+                                try {
+                                    propValue = Integer.valueOf(baseValue);
+                                } catch (Exception ex) {
+                                    LOG.debug("baseValInt cast", ex);
+                                }
+
+                                if (propValue >= worstCaseValue) {
+                                    worstCasePropIndex = propIndex;
+                                    worstCaseValue = propValue;
+                                }
+                            }
+                            cidsBean.setProperty("chem_stat", (CidsBean) cidsBean.getProperty(props[worstCasePropIndex]));
+                        } catch (Exception ex) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("autosetting chem_stat failed", ex);
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -270,7 +341,13 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
     public void prepareForSave() {
         if (cidsBean != null) {
             try {
+                cidsBean.setProperty("template", "gwbody");
+                cidsBean.setProperty("metadata", "gwbody_demv.xml");
+//                cidsBean.setProperty("pad_within", "Y");
             } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while prepareForSave", ex);
+                }
             }
         }
     }
