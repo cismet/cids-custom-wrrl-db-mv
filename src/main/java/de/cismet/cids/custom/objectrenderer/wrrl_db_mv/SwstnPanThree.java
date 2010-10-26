@@ -112,6 +112,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpMonitor, gridBagConstraints);
