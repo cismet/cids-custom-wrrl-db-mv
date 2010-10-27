@@ -98,7 +98,7 @@ public class SwstnPanTwo extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         jPanel2.add(lblInvest, gridBagConstraints);
 
-        lblOperat.setText("für Ermittlungszwecke");
+        lblOperat.setText("zur Operativen Überwachung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -107,7 +107,7 @@ public class SwstnPanTwo extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         jPanel2.add(lblOperat, gridBagConstraints);
 
-        lblSurveil.setText("zur Operativen Überwachung");
+        lblSurveil.setText("zur Überblicksüberwachung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -138,7 +138,8 @@ public class SwstnPanTwo extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         jPanel2.add(cbInvest, gridBagConstraints);
 
-        lblReference.setText("zur Überblicksüberwachung");
+        lblReference.setText("zur Ermittlung von Referenzbed.");
+        lblReference.setToolTipText("zur Ermittlung von Referenzbedingungen");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -147,8 +148,7 @@ public class SwstnPanTwo extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         jPanel2.add(lblReference, gridBagConstraints);
 
-        lblIntercal.setText("zur Ermittlung von Referenzbed.");
-        lblIntercal.setToolTipText("zur Ermittlung von Referenzbedingungen ");
+        lblIntercal.setText("zur Interkalibrierung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
