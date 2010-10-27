@@ -151,15 +151,17 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         lblWk_k.setText("Wasserkörper-Kürzel");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblWk_k, gridBagConstraints);
 
         lblCode_geo.setText("Geologie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -168,7 +170,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblStratigr.setText("Stratigraphie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -177,7 +179,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblGenese.setText("Genese");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -186,7 +188,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblPetrogr.setText("Petrographie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -200,7 +202,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbStratigr, gridBagConstraints);
@@ -213,7 +215,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbGenese, gridBagConstraints);
@@ -226,7 +228,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbPetrogr, gridBagConstraints);
@@ -247,7 +249,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblSubs_typ.setText("Geol. Substrattypen");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -256,7 +258,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblGefaelle.setText("Talbodengefälle");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -265,7 +267,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblRueckst.setText("Ostseerückstau");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -274,10 +276,10 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblLawa_nr.setText("LAWA-Typ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblLawa_nr, gridBagConstraints);
 
         lblWrrl_nr.setText("WRRL-Typ MV");
@@ -297,7 +299,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbSubs_typ, gridBagConstraints);
@@ -310,7 +312,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbGefaelle, gridBagConstraints);
@@ -323,7 +325,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbRueckst, gridBagConstraints);
@@ -336,9 +338,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(cbLawa_nr, gridBagConstraints);
 
         cbWrrl_nr.setMinimumSize(new java.awt.Dimension(465, 20));
@@ -362,9 +364,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtWk_K, gridBagConstraints);
 
         txtCode_geo.setMinimumSize(new java.awt.Dimension(465, 20));
@@ -375,7 +377,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtCode_geo, gridBagConstraints);
@@ -472,7 +474,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     @Override
     public String getTitle() {
-        return "LAWA " + String.valueOf(cidsBean);
+        return cidsBean.getProperty("wk_k") + " " + String.valueOf(cidsBean);
     }
 
     @Override
