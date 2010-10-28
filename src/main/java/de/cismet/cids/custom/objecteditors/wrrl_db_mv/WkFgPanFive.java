@@ -51,7 +51,6 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         cbEqsOnatpl = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbNonComp = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblSpace = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(580, 260));
         setOpaque(false);
@@ -134,7 +133,7 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 5);
         panInfoContent.add(cbEqsHm, gridBagConstraints);
 
         cbEqsPestic.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -147,7 +146,7 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(cbEqsPestic, gridBagConstraints);
 
         cblEqsIndpol.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -160,7 +159,7 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(cblEqsIndpol, gridBagConstraints);
 
         cbEqsOthpl.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -173,7 +172,7 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(cbEqsOthpl, gridBagConstraints);
 
         cbEqsOnatpl.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -186,7 +185,7 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(cbEqsOnatpl, gridBagConstraints);
 
         cbNonComp.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -199,21 +198,13 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(cbNonComp, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(lblSpace, gridBagConstraints);
-
-        jPanel1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 6;
-        gridBagConstraints.weightx = 1.0;
-        panInfoContent.add(jPanel1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -228,7 +219,6 @@ public class WkFgPanFive extends javax.swing.JPanel implements DisposableCidsBea
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEqsPestic;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbNonComp;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cblEqsIndpol;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblEqsHm;
     private javax.swing.JLabel lblEqsIndpol;
     private javax.swing.JLabel lblEqsOnatpl;

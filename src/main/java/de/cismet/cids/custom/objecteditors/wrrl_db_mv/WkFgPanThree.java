@@ -49,7 +49,6 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         cbFish = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbConfidence = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         blbSpace = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(550, 200));
         setOpaque(false);
@@ -124,7 +123,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 10);
         panInfoContent.add(cbPhyto, gridBagConstraints);
 
         cbMacPhyto.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -137,7 +136,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
         panInfoContent.add(cbMacPhyto, gridBagConstraints);
 
         cbBenInv.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -150,7 +149,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
         panInfoContent.add(cbBenInv, gridBagConstraints);
 
         cbFish.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -163,7 +162,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
         panInfoContent.add(cbFish, gridBagConstraints);
 
         cbConfidence.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -176,21 +175,13 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
         panInfoContent.add(cbConfidence, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
-
-        jPanel1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.weightx = 1.0;
-        panInfoContent.add(jPanel1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -205,7 +196,6 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFish;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMacPhyto;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPhyto;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblBenInv;
     private javax.swing.JLabel lblConfidence;
     private javax.swing.JLabel lblFish;
