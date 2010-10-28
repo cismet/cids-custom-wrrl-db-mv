@@ -149,7 +149,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="5" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="5" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
 
@@ -213,13 +213,13 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.phyto.name}" target="lblValPhyto" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -237,7 +237,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.phyto_date}" target="lblValPhyto_date" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                     <Connection code="TimestampConverter.getInstance()" type="code"/>
@@ -246,7 +246,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -264,13 +264,13 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.mac_phyto.name}" target="lblValMac_phyto" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -288,7 +288,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.mac_phyto_date}" target="lblValMac_phyto_date" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                     <Connection code="TimestampConverter.getInstance()" type="code"/>
@@ -297,7 +297,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -315,13 +315,13 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ben_inv.name}" target="lblValBen_inv" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -339,7 +339,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ben_inv_date}" target="lblValBen_inv_date" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                     <Connection code="TimestampConverter.getInstance()" type="code"/>
@@ -348,7 +348,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -366,13 +366,13 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.fish.name}" target="lblValFish" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="6" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="6" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -390,7 +390,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.fish_date}" target="lblValFish_date" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                     <Connection code="TimestampConverter.getInstance()" type="code"/>
@@ -399,7 +399,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="7" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="7" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -417,13 +417,13 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.oth_spec.name}" target="lblValOth_spec" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="8" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="2" gridY="8" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>

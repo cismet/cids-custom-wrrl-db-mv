@@ -288,6 +288,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
 
     private void btnJusAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJusAddActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgJustificationCataloge);
+        dlgJustificationCataloge.setSize(300,150);
         dlgJustificationCataloge.setVisible(true);
 }//GEN-LAST:event_btnJusAddActionPerformed
 

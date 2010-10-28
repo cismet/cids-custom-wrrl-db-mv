@@ -47,10 +47,6 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         taBemerkung = new javax.swing.JTextArea();
         lblSpacing = new javax.swing.JLabel();
         sepMiddle = new javax.swing.JSeparator();
-        panContrImpact = new javax.swing.JPanel();
-        panContrImpactSrc = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         lblDiff_zust = new javax.swing.JLabel();
         txtKlassifiz = new javax.swing.JTextField();
         txtJahr_klass = new javax.swing.JTextField();
@@ -62,7 +58,6 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         txtTiefe_max = new javax.swing.JTextField();
         txtTiefe_mitt = new javax.swing.JTextField();
 
-        setMaximumSize(new java.awt.Dimension(1100, 250));
         setMinimumSize(new java.awt.Dimension(1100, 250));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 250));
@@ -182,8 +177,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(txtPot_zust, gridBagConstraints);
 
         txtTroph_lawa.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -197,8 +194,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtTroph_lawa, gridBagConstraints);
 
         scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 50));
@@ -221,11 +220,12 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpBemerkung, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(lblSpacing, gridBagConstraints);
@@ -234,38 +234,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 14;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 25, 22);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 22);
         panInfoContent.add(sepMiddle, gridBagConstraints);
-
-        panContrImpact.setOpaque(false);
-        panContrImpact.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        panInfoContent.add(panContrImpact, gridBagConstraints);
-
-        panContrImpactSrc.setOpaque(false);
-        panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
-        panInfoContent.add(panContrImpactSrc, gridBagConstraints);
-
-        jPanel1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        panInfoContent.add(jPanel1, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        panInfoContent.add(jPanel2, gridBagConstraints);
 
         lblDiff_zust.setText(org.openide.util.NbBundle.getMessage(WkSgPanSeven.class, "WkSgPanSeven.lblDiff_zust.text")); // NOI18N
         lblDiff_zust.setToolTipText(org.openide.util.NbBundle.getMessage(WkSgPanSeven.class, "WkSgPanSeven.lblDiff_zust.toolTipText")); // NOI18N
@@ -288,8 +260,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtKlassifiz, gridBagConstraints);
 
         txtJahr_klass.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -303,8 +277,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtJahr_klass, gridBagConstraints);
 
         txtDiff_zust.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -318,8 +294,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtDiff_zust, gridBagConstraints);
 
         lblTiefeMitt.setText("Mittlere Tiefe m");
@@ -342,8 +320,10 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtUfer_index, gridBagConstraints);
 
         txtNote_1_7.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -357,7 +337,9 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(txtNote_1_7, gridBagConstraints);
 
@@ -372,7 +354,9 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtFlaeche_ha, gridBagConstraints);
 
@@ -387,7 +371,9 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtTiefe_max, gridBagConstraints);
 
@@ -402,7 +388,9 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtTiefe_mitt, gridBagConstraints);
 
@@ -414,8 +402,6 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblDiff_zust;
     private javax.swing.JLabel lblFlaeche_ha;
@@ -429,8 +415,6 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     private javax.swing.JLabel lblTiefe_max;
     private javax.swing.JLabel lblTroph_lawa;
     private javax.swing.JLabel lblUfer_index;
-    private javax.swing.JPanel panContrImpact;
-    private javax.swing.JPanel panContrImpactSrc;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;

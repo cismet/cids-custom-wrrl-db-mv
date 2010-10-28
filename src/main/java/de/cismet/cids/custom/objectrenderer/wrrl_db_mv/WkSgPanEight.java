@@ -37,6 +37,8 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         lblGen_cond = new javax.swing.JLabel();
         lblSpacing = new javax.swing.JLabel();
         lblValGen_cond = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1100, 80));
         setMinimumSize(new java.awt.Dimension(1100, 80));
@@ -63,6 +65,8 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         lblGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
         lblGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
@@ -79,17 +83,32 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         lblValGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"), lblValGen_cond, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblValGen_cond, gridBagConstraints);
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(WkSgPanEight.class, "WkSgPanEight.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        panInfoContent.add(jLabel1, gridBagConstraints);
+
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(WkSgPanEight.class, "WkSgPanEight.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        panInfoContent.add(jLabel2, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -99,6 +118,8 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblGen_cond;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblSpacing;

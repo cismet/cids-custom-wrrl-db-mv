@@ -2,9 +2,6 @@
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
-    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1100, 550]"/>
-    </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1100, 550]"/>
     </Property>
@@ -122,7 +119,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="4" gridY="0" gridWidth="1" gridHeight="14" fill="3" ipadX="0" ipadY="0" insetsTop="25" insetsLeft="5" insetsBottom="25" insetsRight="15" anchor="10" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="4" gridY="0" gridWidth="1" gridHeight="14" fill="3" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="15" anchor="10" weightX="0.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -140,7 +137,7 @@
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="11" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="10" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="11" gridWidth="1" gridHeight="3" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="18" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
 
@@ -162,13 +159,13 @@
             <Container class="javax.swing.JScrollPane" name="scpImpactSrc">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 60]"/>
+                  <Dimension value="[300, 80]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 60]"/>
+                  <Dimension value="[300, 80]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[300, 60]"/>
+                  <Dimension value="[300, 80]"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -176,7 +173,7 @@
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="8" gridWidth="1" gridHeight="3" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="18" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="8" gridWidth="1" gridHeight="3" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="18" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
 
@@ -194,30 +191,6 @@
                   </BindingProperties>
                 </Component>
               </SubComponents>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jPanel1">
-              <Properties>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="3" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jPanel2">
-              <Properties>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="7" gridY="0" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
             </Container>
             <Component class="javax.swing.JLabel" name="lblWkK">
               <Properties>
@@ -390,7 +363,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.wk_k}" target="lblWk_k" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.wk_k}" target="lblWk_k" targetPath="toolTipText" updateStrategy="1" immediately="false">
@@ -400,7 +373,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -418,7 +391,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.lw_name}" target="lblValLW_name" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.lw_name}" target="lblValLW_name" targetPath="toolTipText" updateStrategy="1" immediately="false">
@@ -428,7 +401,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -446,7 +419,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.cd_ls}" target="lblValCd_ls" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.cd_ls}" target="lblValCd_ls" targetPath="toolTipText" updateStrategy="1" immediately="false">
@@ -456,7 +429,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -474,7 +447,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ls_name}" target="lblValLs_name" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.ls_name}" target="lblValLs_name" targetPath="toolTipText" updateStrategy="1" immediately="false">
@@ -484,7 +457,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -502,7 +475,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.see_id}" target="lblValSee_id" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.see_id}" target="lblValSee_id" targetPath="toolTipText" updateStrategy="1" immediately="false">
@@ -512,7 +485,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -529,7 +502,10 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ty_cd_lw.value} - ${cidsBean.ty_cd_lw.name}" target="lblValTy_cd_lw" targetPath="text" updateStrategy="1" immediately="false"/>
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ty_cd_lw.value} - ${cidsBean.ty_cd_lw.name}" target="lblValTy_cd_lw" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.ty_cd_lw.value} - ${cidsBean.ty_cd_lw.name}" target="lblValTy_cd_lw" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
                   <Property name="incompletePathValue" type="java.lang.String" value=""/>
@@ -537,7 +513,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -555,8 +531,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.geol_cat.name}" target="lblValGeol_cat" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.geol_cat.name}" target="lblValGeol_cat" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -565,7 +541,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="7" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="1" gridY="7" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -583,8 +559,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.size_cat.name}" target="lblValSize_cat" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.size_cat.name}" target="lblValSize_cat" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -593,7 +569,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="6" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="6" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -611,8 +587,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.depth_cat.name}" target="lblValDepth_cat" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.depth_cat.name}" target="lblValDepth_cat" targetPath="toolTipText" updateStrategy="0" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -621,7 +597,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="6" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="6" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -639,8 +615,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.artificial.name}" target="lblValArtificial" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.artificial.name}" target="lblValArtificial" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -649,7 +625,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="6" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="6" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -667,8 +643,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.modified.name}" target="lblValModified" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.modified.name}" target="lblValModified" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -677,7 +653,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="6" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="6" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -695,8 +671,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.WHY_HMWB}" target="lblValWhy_hmwb" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.WHY_HMWB}" target="lblValWhy_hmwb" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -705,7 +681,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="6" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="6" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -723,8 +699,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.wb_predec}" target="lblValWb_predect" targetPath="text" updateStrategy="1" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.wb_predec}" target="lblValWb_predect" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value=""/>
@@ -733,7 +709,7 @@
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="6" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="6" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
