@@ -136,7 +136,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.weightx = 1.0;
         panContent.add(jPanel1, gridBagConstraints);
 
-        lblExCat.setText("ex_cat");
+        lblExCat.setText("Kategorie");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -144,7 +144,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 5);
         panContent.add(lblExCat, gridBagConstraints);
 
-        lblExTyp.setText("ex_typ");
+        lblExTyp.setText("Typ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -152,7 +152,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panContent.add(lblExTyp, gridBagConstraints);
 
-        lblExDate.setText("ex_date");
+        lblExDate.setText("Datum");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -160,7 +160,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panContent.add(lblExDate, gridBagConstraints);
 
-        lblExJus.setText("ex_jus");
+        lblExJus.setText("Begründung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;

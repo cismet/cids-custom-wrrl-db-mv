@@ -20,6 +20,10 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
     /** Creates new form RohrleitungEditor */
     public RohrleitungEditor() {
         initComponents();
+        linearReferencedLineEditor.setMetaClassName("Rohrleitung");
+        linearReferencedLineEditor.setFromStationField("station_von");
+        linearReferencedLineEditor.setToStationField("station_bis");
+        linearReferencedLineEditor.setRealGeomField("real_geom");
     }
 
     /** This method is called from within the constructor to
@@ -57,6 +61,11 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         cbMassnahmen = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         txtMassnahmenID = new javax.swing.JTextField();
         txtStatusQuoAnalyse1 = new javax.swing.JTextField();
+        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -320,6 +329,36 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtStatusQuoAnalyse1, gridBagConstraints);
 
+        panInfo1.setMinimumSize(new java.awt.Dimension(640, 120));
+        panInfo1.setPreferredSize(new java.awt.Dimension(640, 120));
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
+
+        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 11;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panContent.add(panInfo1, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -333,9 +372,14 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSchachtabsturz;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSediment;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cdOekoDurch;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblMassnahmen;
     private javax.swing.JLabel lblMassnahmenId;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JPanel panContent;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private javax.swing.JPanel panInfoContent1;
     private javax.swing.JScrollPane scpBemerkung;
     private javax.swing.JSpinner spDurchmesser;
     private javax.swing.JSpinner spHoeheAuslauf;
@@ -368,11 +412,13 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
             this.cidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, this.cidsBean);
             bindingGroup.bind();
+            linearReferencedLineEditor.setCidsBean(cidsBean);
         }
     }
 
     @Override
     public void dispose() {
+        linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }
 }

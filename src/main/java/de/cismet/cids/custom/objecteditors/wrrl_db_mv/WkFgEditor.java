@@ -142,7 +142,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         wkFgPanFour = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFour();
         wkFgPanFive = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFive();
         panSpace = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
         panQualitaet2 = new javax.swing.JPanel();
         wkFgPanSix = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSix();
         panAusnahmen = new javax.swing.JPanel();
@@ -156,11 +155,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         panGeo = new javax.swing.JPanel();
         wkTeileEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -178,12 +175,13 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panAllgemeines.setOpaque(false);
         panAllgemeines.setLayout(new java.awt.GridBagLayout());
 
-        wkFgPanOne.setMinimumSize(new java.awt.Dimension(1015, 550));
-        wkFgPanOne.setPreferredSize(new java.awt.Dimension(1015, 550));
+        wkFgPanOne.setMaximumSize(new java.awt.Dimension(1150, 550));
+        wkFgPanOne.setMinimumSize(new java.awt.Dimension(1150, 550));
+        wkFgPanOne.setPreferredSize(new java.awt.Dimension(1150, 550));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -196,6 +194,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panQualitaet1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 15);
         panQualitaet1.add(wkFgPanTwo, gridBagConstraints);
 
@@ -205,6 +204,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 15);
         panQualitaet1.add(wkFgPanThree, gridBagConstraints);
 
@@ -214,6 +214,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
         panQualitaet1.add(wkFgPanFour, gridBagConstraints);
 
@@ -223,6 +224,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 0);
         panQualitaet1.add(wkFgPanFive, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -231,14 +233,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
         panQualitaet1.add(panSpace, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panQualitaet1.add(jPanel2, gridBagConstraints);
 
         tpMain.addTab("Qualitätsinformationen (1)", panQualitaet1);
 
@@ -252,7 +246,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -352,7 +346,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 10);
         panAusnahmen.add(roundedPanel1, gridBagConstraints);
 
@@ -360,48 +354,34 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         panAusnahmen.add(jPanel1, gridBagConstraints);
-
-        jPanel5.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        panAusnahmen.add(jPanel5, gridBagConstraints);
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
         panGeo.setOpaque(false);
         panGeo.setLayout(new java.awt.GridBagLayout());
 
+        wkTeileEditor1.setMaximumSize(new java.awt.Dimension(999999, 999999));
+        wkTeileEditor1.setMinimumSize(new java.awt.Dimension(600, 150));
+        wkTeileEditor1.setPreferredSize(new java.awt.Dimension(600, 150));
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.teile}"), wkTeileEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         panGeo.add(wkTeileEditor1, gridBagConstraints);
 
-        jPanel3.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 2.0;
-        panGeo.add(jPanel3, gridBagConstraints);
-
-        jPanel4.setOpaque(false);
+        jPanel2.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weighty = 1.0;
-        panGeo.add(jPanel4, gridBagConstraints);
+        panGeo.add(jPanel2, gridBagConstraints);
 
         tpMain.addTab("Geometrie", panGeo);
 
@@ -454,9 +434,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
