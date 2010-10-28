@@ -386,7 +386,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.char_type.name}" target="lblCharTypeValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -399,7 +399,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.eu_cw_type.name}" target="lblEuCwTypeValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -412,7 +412,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.land_cd.name}" target="lblLandCdValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>

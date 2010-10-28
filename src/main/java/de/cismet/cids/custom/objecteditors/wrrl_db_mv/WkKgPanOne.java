@@ -439,7 +439,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.artificial.name}"), lblArtificialValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         jPanel1.add(lblArtificialValue, new java.awt.GridBagConstraints());
@@ -560,6 +560,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     @Override
     public void dispose() {
+        ((DefaultCismapGeometryComboBoxEditor) jComboBox1).dispose();
         bindingGroup.unbind();
     }
 }
