@@ -139,7 +139,10 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.qe_types.name}" target="lblQeTypesValue" targetPath="text" updateStrategy="1" immediately="false"/>
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.qe_types.value} - ${cidsBean.qe_types.name}" target="lblQeTypesValue" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

@@ -23,6 +23,8 @@
 
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import de.cismet.cids.custom.util.CoordinateConverter;
+import de.cismet.cids.custom.util.DateConverter;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -68,8 +70,6 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         lblDelivery = new javax.swing.JLabel();
         lblUrl = new javax.swing.JLabel();
         lblSitetype = new javax.swing.JLabel();
-        lblLabCoordsX = new javax.swing.JLabel();
-        lblXYDivider = new javax.swing.JLabel();
         lblMs_cd_wbValue = new javax.swing.JLabel();
         lblName_stnValue = new javax.swing.JLabel();
         lblMs_cd_smValue = new javax.swing.JLabel();
@@ -81,9 +81,10 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         lblLand_cdValue = new javax.swing.JLabel();
         lblUrlValue = new javax.swing.JLabel();
         lblSitetypeValue = new javax.swing.JLabel();
-        lblLabCoordsY = new javax.swing.JLabel();
-        dcDelivery = new de.cismet.cids.editors.DefaultBindableDateChooser();
+        lblDeliveryValue = new javax.swing.JLabel();
+        lblCoord = new javax.swing.JLabel();
 
+        setMinimumSize(new java.awt.Dimension(465, 424));
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
 
@@ -103,10 +104,12 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
 
         lblLabCoords.setText(org.openide.util.NbBundle.getMessage(SwstnPanOne.class, "SwstnPanOne.lblLabCoords.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblLabCoords, gridBagConstraints);
 
         lblMs_cd_wb.setText(org.openide.util.NbBundle.getMessage(SwstnPanOne.class, "SwstnPanOne.lblMs_cd_wb.text")); // NOI18N
@@ -229,201 +232,240 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblSitetype, gridBagConstraints);
 
-        lblLabCoordsX.setMinimumSize(new java.awt.Dimension(120, 20));
-        lblLabCoordsX.setPreferredSize(new java.awt.Dimension(120, 20));
+        lblMs_cd_wbValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblMs_cd_wbValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.point.geo_field.x}"), lblLabCoordsX, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ms_cd_wb}"), lblMs_cd_wbValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        panInfoContent.add(lblLabCoordsX, gridBagConstraints);
-
-        lblXYDivider.setText(org.openide.util.NbBundle.getMessage(SwstnPanOne.class, "SwstnPanOne.lblXYDivider.text")); // NOI18N
-        lblXYDivider.setMinimumSize(new java.awt.Dimension(10, 20));
-        lblXYDivider.setPreferredSize(new java.awt.Dimension(10, 20));
-        panInfoContent.add(lblXYDivider, new java.awt.GridBagConstraints());
-
-        lblMs_cd_wbValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblMs_cd_wbValue.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ms_cd_wb}"), lblMs_cd_wbValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblMs_cd_wbValue, gridBagConstraints);
 
-        lblName_stnValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblName_stnValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblName_stnValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblName_stnValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name_stn}"), lblName_stnValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblName_stnValue, gridBagConstraints);
 
-        lblMs_cd_smValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblMs_cd_smValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblMs_cd_smValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblMs_cd_smValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ms_cd_sm}"), lblMs_cd_smValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblMs_cd_smValue, gridBagConstraints);
 
-        lblStatus_yrValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblStatus_yrValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblStatus_yrValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblStatus_yrValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status_yr}"), lblStatus_yrValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblStatus_yrValue, gridBagConstraints);
 
-        lblIns_byValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblIns_byValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblIns_byValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblIns_byValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ins_by}"), lblIns_byValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblIns_byValue, gridBagConstraints);
 
-        lblSw_catValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblSw_catValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblSw_catValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblSw_catValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sw_cat.name}"), lblSw_catValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblSw_catValue, gridBagConstraints);
 
-        lblWa_cdValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblWa_cdValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblWa_cdValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblWa_cdValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wa_cd.name}"), lblWa_cdValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblWa_cdValue, gridBagConstraints);
 
-        lblRbd_cdValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblRbd_cdValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblRbd_cdValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblRbd_cdValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rbd_cd.name}"), lblRbd_cdValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblRbd_cdValue, gridBagConstraints);
 
-        lblLand_cdValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblLand_cdValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblLand_cdValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblLand_cdValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.land_cd.name}"), lblLand_cdValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblLand_cdValue, gridBagConstraints);
 
-        lblUrlValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblUrlValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblUrlValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblUrlValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.url}"), lblUrlValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblUrlValue, gridBagConstraints);
 
-        lblSitetypeValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblSitetypeValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        lblSitetypeValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblSitetypeValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sitetype.name}"), lblSitetypeValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblSitetypeValue, gridBagConstraints);
 
-        lblLabCoordsY.setMinimumSize(new java.awt.Dimension(120, 20));
-        lblLabCoordsY.setPreferredSize(new java.awt.Dimension(120, 20));
+        lblDeliveryValue.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblDeliveryValue.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.point.geo_field.y}"), lblLabCoordsY, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.delivery}"), lblDeliveryValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(DateConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panInfoContent.add(lblLabCoordsY, gridBagConstraints);
-
-        dcDelivery.setEnabled(false);
-        dcDelivery.setMaximumSize(new java.awt.Dimension(300, 20));
-        dcDelivery.setMinimumSize(new java.awt.Dimension(300, 20));
-        dcDelivery.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.delivery}"), dcDelivery, org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(dcDelivery.getConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(dcDelivery, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(lblDeliveryValue, gridBagConstraints);
+
+        lblCoord.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblCoord.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.point}"), lblCoord, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("/");
+        binding.setConverter(new CoordinateConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        panInfoContent.add(lblCoord, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -434,14 +476,13 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableDateChooser dcDelivery;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblCoord;
     private javax.swing.JLabel lblDelivery;
+    private javax.swing.JLabel lblDeliveryValue;
     private javax.swing.JLabel lblIns_by;
     private javax.swing.JLabel lblIns_byValue;
     private javax.swing.JLabel lblLabCoords;
-    private javax.swing.JLabel lblLabCoordsX;
-    private javax.swing.JLabel lblLabCoordsY;
     private javax.swing.JLabel lblLand_cd;
     private javax.swing.JLabel lblLand_cdValue;
     private javax.swing.JLabel lblMs_cd_sm;
@@ -462,7 +503,6 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
     private javax.swing.JLabel lblUrlValue;
     private javax.swing.JLabel lblWa_cd;
     private javax.swing.JLabel lblWa_cdValue;
-    private javax.swing.JLabel lblXYDivider;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;

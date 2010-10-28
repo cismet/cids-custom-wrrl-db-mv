@@ -57,15 +57,17 @@ public class SwstnRenderer extends javax.swing.JPanel implements CidsBeanRendere
         swstnPanTwo1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.SwstnPanTwo();
         swstnPanThree1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.SwstnPanThree();
         panSpacingBottom = new javax.swing.JPanel();
-        panSpacingRight = new javax.swing.JPanel();
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
+
+        swstnPanOne1.setMinimumSize(new java.awt.Dimension(464, 424));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 15);
         add(swstnPanOne1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -75,6 +77,8 @@ public class SwstnRenderer extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 0);
         add(swstnPanTwo1, gridBagConstraints);
+
+        swstnPanThree1.setMinimumSize(new java.awt.Dimension(752, 144));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -104,33 +108,11 @@ public class SwstnRenderer extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         add(panSpacingBottom, gridBagConstraints);
-
-        panSpacingRight.setOpaque(false);
-
-        javax.swing.GroupLayout panSpacingRightLayout = new javax.swing.GroupLayout(panSpacingRight);
-        panSpacingRight.setLayout(panSpacingRightLayout);
-        panSpacingRightLayout.setHorizontalGroup(
-            panSpacingRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panSpacingRightLayout.setVerticalGroup(
-            panSpacingRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        add(panSpacingRight, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel panSpacingBottom;
-    private javax.swing.JPanel panSpacingRight;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.SwstnPanOne swstnPanOne1;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.SwstnPanThree swstnPanThree1;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.SwstnPanTwo swstnPanTwo1;
