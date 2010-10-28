@@ -386,9 +386,6 @@
           <SubComponents>
             <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor" name="wkTeileEditor1">
               <Properties>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[999999, 999999]"/>
-                </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[600, 150]"/>
                 </Property>

@@ -293,7 +293,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ziel}"), lblValZiel, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("error");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

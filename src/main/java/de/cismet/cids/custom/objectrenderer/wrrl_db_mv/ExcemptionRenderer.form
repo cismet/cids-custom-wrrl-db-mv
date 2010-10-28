@@ -116,7 +116,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblExCat">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ex_cat"/>
+            <Property name="text" type="java.lang.String" value="Kategorie"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -126,7 +126,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblExTyp">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ex_typ"/>
+            <Property name="text" type="java.lang.String" value="Typ"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -136,7 +136,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblExDate">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ex_date"/>
+            <Property name="text" type="java.lang.String" value="Datum"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -146,7 +146,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblExJus">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ex_jus"/>
+            <Property name="text" type="java.lang.String" value="Begr&#xfc;ndung"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

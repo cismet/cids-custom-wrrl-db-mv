@@ -364,7 +364,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panGeo.setOpaque(false);
         panGeo.setLayout(new java.awt.GridBagLayout());
 
-        wkTeileEditor1.setMaximumSize(new java.awt.Dimension(999999, 999999));
         wkTeileEditor1.setMinimumSize(new java.awt.Dimension(600, 150));
         wkTeileEditor1.setPreferredSize(new java.awt.Dimension(600, 150));
 

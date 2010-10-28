@@ -109,10 +109,10 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         jScrollPane1.setBorder(null);
         jScrollPane1.setOpaque(false);
 
-        panInfoContent.setMaximumSize(new java.awt.Dimension(777, 500));
-        panInfoContent.setMinimumSize(new java.awt.Dimension(777, 500));
+        panInfoContent.setMaximumSize(new java.awt.Dimension(777, 400));
+        panInfoContent.setMinimumSize(new java.awt.Dimension(777, 400));
         panInfoContent.setOpaque(false);
-        panInfoContent.setPreferredSize(new java.awt.Dimension(777, 500));
+        panInfoContent.setPreferredSize(new java.awt.Dimension(777, 400));
         panInfoContent.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

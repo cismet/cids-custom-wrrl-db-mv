@@ -1051,5 +1051,6 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         bindingGroup.unbind();
         dlgImpactCataloge.dispose();
         dlgImpactSrcCataloge.dispose();
+        ((DefaultCismapGeometryComboBoxEditor) cbGeom).dispose();
     }
 }

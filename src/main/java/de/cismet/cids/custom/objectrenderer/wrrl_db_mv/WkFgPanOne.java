@@ -97,7 +97,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lstImpactSrc = new javax.swing.JList();
         panContrImpactSrc = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         lblEvk = new javax.swing.JLabel();
         lblValWkK = new javax.swing.JLabel();
         lblValWkN = new javax.swing.JLabel();
@@ -405,8 +404,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblEuCdRb, gridBagConstraints);
 
-        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 80));
-        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 80));
+        scpBemerkung.setMinimumSize(new java.awt.Dimension(375, 80));
+        scpBemerkung.setPreferredSize(new java.awt.Dimension(375, 80));
 
         taBemerkung.setColumns(20);
         taBemerkung.setEditable(false);
@@ -462,8 +461,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpImpact, gridBagConstraints);
 
-        scpImpactSrc.setMinimumSize(new java.awt.Dimension(300, 80));
-        scpImpactSrc.setPreferredSize(new java.awt.Dimension(300, 80));
+        scpImpactSrc.setMinimumSize(new java.awt.Dimension(375, 80));
+        scpImpactSrc.setPreferredSize(new java.awt.Dimension(375, 80));
 
         lstImpactSrc.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -492,13 +491,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         panInfoContent.add(jPanel1, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        panInfoContent.add(jPanel2, gridBagConstraints);
 
         lblEvk.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblEvk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -801,7 +793,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblContinua;
     private javax.swing.JLabel lblDatenquelle;

@@ -386,5 +386,6 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        ((DefaultCismapGeometryComboBoxEditor) jComboBox1).dispose();
     }
 }

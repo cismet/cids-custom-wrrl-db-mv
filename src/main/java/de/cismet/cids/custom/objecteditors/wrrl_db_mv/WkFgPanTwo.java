@@ -69,6 +69,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         cbPadStat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbPadWithin = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblSpace = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(520, 290));
         setOpaque(false);
@@ -159,14 +160,14 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ziel}"), txtZiel, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(txtZiel, gridBagConstraints);
 
         cbEcoStat.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -179,7 +180,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panQualityContent.add(cbEcoStat, gridBagConstraints);
 
         cbEcoPot.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -192,7 +193,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbEcoPot, gridBagConstraints);
 
         cbChemStat.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -205,7 +206,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbChemStat, gridBagConstraints);
 
         cbHydromorph.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -218,7 +219,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbHydromorph, gridBagConstraints);
 
         cbSchutzgut.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -231,7 +232,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbSchutzgut, gridBagConstraints);
 
         cbPadStat.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -244,7 +245,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbPadStat, gridBagConstraints);
 
         cbPadWithin.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -257,13 +258,21 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbPadWithin, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.weighty = 1.0;
         panQualityContent.add(lblSpace, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 8;
+        gridBagConstraints.weightx = 1.0;
+        panQualityContent.add(jPanel1, gridBagConstraints);
 
         panQuality.add(panQualityContent, java.awt.BorderLayout.CENTER);
 
@@ -279,6 +288,7 @@ public class WkFgPanTwo extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPadStat;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPadWithin;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSchutzgut;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblChemStat;
     private javax.swing.JLabel lblEcoPot;
     private javax.swing.JLabel lblEcoStat;
