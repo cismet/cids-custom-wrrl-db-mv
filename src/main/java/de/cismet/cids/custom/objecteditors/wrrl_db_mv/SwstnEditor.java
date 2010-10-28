@@ -95,7 +95,9 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 10);
         add(swstnPanOne1, gridBagConstraints);
 
@@ -110,9 +112,8 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
 
         jPanel1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(jPanel1, gridBagConstraints);
 
@@ -123,6 +124,7 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         add(swstnPanThree1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents

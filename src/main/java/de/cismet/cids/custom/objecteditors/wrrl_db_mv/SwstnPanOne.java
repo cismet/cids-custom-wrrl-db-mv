@@ -18,7 +18,7 @@ import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
  * @author therter
  */
 public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBeanStore {
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SwstnPanOne.class);//NOI18N
+//    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SwstnPanOne.class);//NOI18N
     private CidsBean cidsBean;
 
     /** Creates new form WkFgPanOne */
@@ -130,17 +130,18 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbSw_cat, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
         gridBagConstraints.gridheight = 3;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
@@ -156,7 +157,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(lblCoord, gridBagConstraints);
@@ -172,7 +175,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtMs_cd_wb, gridBagConstraints);
@@ -188,7 +193,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtName_stn, gridBagConstraints);
@@ -234,7 +241,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtMs_cd_sm, gridBagConstraints);
@@ -251,7 +260,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtStatus_yr, gridBagConstraints);
@@ -267,7 +278,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtIns_by, gridBagConstraints);
@@ -311,7 +324,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbWa_cd, gridBagConstraints);
@@ -325,7 +340,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbRbd_cd, gridBagConstraints);
@@ -349,7 +366,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbLand_cd, gridBagConstraints);
@@ -393,7 +412,9 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbSitetype, gridBagConstraints);
@@ -407,13 +428,20 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtUrl, gridBagConstraints);
+
+        stationEditor.setMinimumSize(new java.awt.Dimension(300, 38));
+        stationEditor.setPreferredSize(new java.awt.Dimension(300, 38));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(stationEditor, gridBagConstraints);
 
         lblGeometry.setText("Geometrie");
@@ -436,13 +464,15 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbGeom, gridBagConstraints);
 
-        dcDelivery.setMaximumSize(new java.awt.Dimension(300, 20));
-        dcDelivery.setMinimumSize(new java.awt.Dimension(300, 20));
-        dcDelivery.setPreferredSize(new java.awt.Dimension(300, 20));
+        dcDelivery.setMaximumSize(new java.awt.Dimension(300, 23));
+        dcDelivery.setMinimumSize(new java.awt.Dimension(300, 23));
+        dcDelivery.setPreferredSize(new java.awt.Dimension(300, 23));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.delivery}"), dcDelivery, org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setConverter(dcDelivery.getConverter());
@@ -451,8 +481,10 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(dcDelivery, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
@@ -515,15 +547,10 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, this.cidsBean);
 
             Object swCat = cidsBean.getProperty("sw_cat");
-            log.error("testSWCAT: " + (swCat != null) + " " + (swCat instanceof CidsBean));
-            if ((swCat != null) && (swCat instanceof CidsBean)) {
-                log.error("testSWCAT: " + ( ((CidsBean)swCat).getProperty("value") ));
-            }
 
             if (swCat != null && swCat instanceof CidsBean 
                     && ((CidsBean)swCat).getProperty("value") != null 
                     && ((CidsBean)swCat).getProperty("value").toString().equals("RW")) {
-                log.error("testSWCAT: drin" +  cidsBean.getProperty("stat").toString() );
                 cbGeom.setVisible(false);
                 stationEditor.setVisible(true);
                 org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat}"), stationEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
@@ -539,6 +566,7 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
     @Override
     public void dispose() {
         stationEditor.dispose();
+        ((DefaultCismapGeometryComboBoxEditor) cbGeom).dispose();
         bindingGroup.unbind();
     }
 }
