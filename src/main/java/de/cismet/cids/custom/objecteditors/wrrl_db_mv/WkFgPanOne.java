@@ -878,6 +878,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     private void btnAddImpactSrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactSrcActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgImpactSrcCataloge);
+        dlgImpactSrcCataloge.setSize(300, 150);
         dlgImpactSrcCataloge.setVisible(true);
     }//GEN-LAST:event_btnAddImpactSrcActionPerformed
 
@@ -919,6 +920,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     private void btnAddImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
+        dlgImpactCataloge.setSize(300, 150);
         dlgImpactCataloge.setVisible(true);
     }//GEN-LAST:event_btnAddImpactActionPerformed
 
