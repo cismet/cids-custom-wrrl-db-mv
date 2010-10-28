@@ -27,6 +27,12 @@ public class LawaToStringConverter extends CustomToStringConverter {
             gwk = "unbekannt";
         }
 
-        return gwk.toString() + " " + stat_von.toString() + "-" + stat_bis.toString();
+        if (stat_von instanceof Double && stat_bis instanceof Double) {
+            int von = ((Double)stat_von).intValue();
+            int bis = ((Double)stat_bis).intValue();
+            return gwk.toString() + " [" + von + " - " + bis + "]";
+        } else {
+            return gwk.toString() + " [" + stat_von.toString() + " - " + stat_bis.toString() + "]";
+        }
     }
 }

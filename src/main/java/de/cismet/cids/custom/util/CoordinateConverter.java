@@ -19,7 +19,7 @@ public class CoordinateConverter extends Converter<CidsBean, String> {
 
         if (geo instanceof Point) {
             Point point = (Point)geo;
-            return point.getX() + " / " + point.getY();
+            return ((int)point.getX()) + " / " + ((int)point.getY());
         } else {
             return "geomerty of type " + geo.getClass().getName() + " found";
         }

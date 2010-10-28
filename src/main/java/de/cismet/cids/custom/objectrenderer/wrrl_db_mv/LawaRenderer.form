@@ -239,7 +239,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.wk_k}" target="lblValWk_k" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
               </BindingProperties>
@@ -260,7 +260,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.code_geo}" target="lblValCode_geo" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                 </BindingProperty>
               </BindingProperties>
@@ -281,8 +281,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.stratigr.description}" target="lblValStratigr" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -302,8 +302,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.genese.description}" target="lblValGenese" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -323,8 +323,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.petrogr.description}" target="lblValPetrogr" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -344,8 +344,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.subs_typ.description}" target="lblValSubs_typ" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -365,8 +365,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gefaelle.description}" target="lblValGefaelle" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -386,8 +386,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.rueckst.description}" target="lblValRueckst" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -407,8 +407,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.lawa_nr.code} - ${cidsBean.lawa_nr.description}" target="lblValLawa_nr" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -428,8 +428,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.wrrl_nr.description}" target="lblValWrrl_nr" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value=""/>
-                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -443,6 +443,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
+      <Properties>
+        <Property name="opaque" type="boolean" value="false"/>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
           <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="1.0"/>

@@ -390,6 +390,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         add(panInfo, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
