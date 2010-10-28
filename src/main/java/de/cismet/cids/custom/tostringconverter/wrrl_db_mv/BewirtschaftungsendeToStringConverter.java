@@ -10,6 +10,6 @@ public class BewirtschaftungsendeToStringConverter extends CustomToStringConvert
 
     @Override
     public String createString() {
-        return String.valueOf(cidsBean.getProperty("wk_k"));
+        return "Bewirtschaftungsende für " + String.valueOf(cidsBean.getProperty("wk_k"));
     }
 }

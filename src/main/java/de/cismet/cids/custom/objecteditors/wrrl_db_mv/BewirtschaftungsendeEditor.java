@@ -160,7 +160,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
     @Override
     public String getTitle() {
-        return "Bewirtschaftungsende " + String.valueOf(cidsBean);
+        return String.valueOf(cidsBean);
     }
 
     @Override

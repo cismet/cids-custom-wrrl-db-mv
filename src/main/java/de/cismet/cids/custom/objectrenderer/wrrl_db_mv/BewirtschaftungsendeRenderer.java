@@ -169,12 +169,12 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
 
     @Override
     public void dispose() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //NOP
     }
 
     @Override
     public String getTitle() {
-        return "Wasserkörper "+String.valueOf(cidsBean);
+        return String.valueOf(cidsBean);
     }
 
     @Override
