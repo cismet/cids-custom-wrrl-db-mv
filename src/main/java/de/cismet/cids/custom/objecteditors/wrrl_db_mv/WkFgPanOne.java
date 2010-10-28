@@ -606,10 +606,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         cbWkGroup.setMaximumSize(new java.awt.Dimension(375, 20));
         cbWkGroup.setMinimumSize(new java.awt.Dimension(375, 20));
         cbWkGroup.setPreferredSize(new java.awt.Dimension(375, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group}"), cbWkGroup, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
@@ -648,10 +644,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         cbWkGroupAggr.setMinimumSize(new java.awt.Dimension(300, 20));
         cbWkGroupAggr.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group_aggr}"), cbWkGroupAggr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
