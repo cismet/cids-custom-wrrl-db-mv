@@ -87,11 +87,9 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         lblAvgThickKey = new javax.swing.JLabel();
         txtAvgThick = new javax.swing.JTextField();
         lblDepthrangeKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo3 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblCapacityKey = new javax.swing.JLabel();
         txtCapacityThick = new javax.swing.JTextField();
         lblVertOrienKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo4 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         panSurface = new javax.swing.JPanel();
         lblSurface1Key = new javax.swing.JLabel();
         lblSurface2Key = new javax.swing.JLabel();
@@ -108,6 +106,8 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        defaultBindableReferenceCombo3 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        defaultBindableReferenceCombo4 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         jPanel7 = new javax.swing.JPanel();
 
         setOpaque(false);
@@ -280,6 +280,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.weightx = 1.0;
         panLandUse.add(jPanel2, gridBagConstraints);
 
+        jTextField4.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField4.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField4.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -293,6 +294,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panLandUse.add(jTextField4, gridBagConstraints);
 
+        jTextField5.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField5.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField5.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -308,6 +310,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panLandUse.add(jTextField5, gridBagConstraints);
 
+        jTextField6.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField6.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField6.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -323,6 +326,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panLandUse.add(jTextField6, gridBagConstraints);
 
+        jTextField7.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField7.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField7.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -338,6 +342,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panLandUse.add(jTextField7, gridBagConstraints);
 
+        jTextField8.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField8.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField8.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -353,6 +358,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panLandUse.add(jTextField8, gridBagConstraints);
 
+        jTextField9.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField9.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField9.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -368,6 +374,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panLandUse.add(jTextField9, gridBagConstraints);
 
+        jTextField10.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField10.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField10.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -583,6 +590,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblAvgDepthKey, gridBagConstraints);
 
+        txtAvgDepth.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtAvgDepth.setMinimumSize(new java.awt.Dimension(250, 20));
         txtAvgDepth.setPreferredSize(new java.awt.Dimension(250, 20));
 
@@ -607,6 +615,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblAvgThickKey, gridBagConstraints);
 
+        txtAvgThick.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtAvgThick.setMinimumSize(new java.awt.Dimension(250, 20));
         txtAvgThick.setPreferredSize(new java.awt.Dimension(250, 20));
 
@@ -631,19 +640,6 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblDepthrangeKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.depthrange}"), defaultBindableReferenceCombo3, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(defaultBindableReferenceCombo3, gridBagConstraints);
-
         lblCapacityKey.setText(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.lblCapacityKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -653,6 +649,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblCapacityKey, gridBagConstraints);
 
+        txtCapacityThick.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtCapacityThick.setMinimumSize(new java.awt.Dimension(250, 20));
         txtCapacityThick.setPreferredSize(new java.awt.Dimension(250, 20));
 
@@ -676,19 +673,6 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblVertOrienKey, gridBagConstraints);
-
-        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
-        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vert_orien}"), defaultBindableReferenceCombo4, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(defaultBindableReferenceCombo4, gridBagConstraints);
 
         panSurface.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(WkGwPanTwo.class, "WkGwPanTwo.panSurface.border.title"))); // NOI18N
         panSurface.setOpaque(false);
@@ -730,6 +714,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.weightx = 1.0;
         panSurface.add(jPanel3, gridBagConstraints);
 
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField1.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField1.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -743,6 +728,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panSurface.add(jTextField1, gridBagConstraints);
 
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField2.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField2.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -758,6 +744,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panSurface.add(jTextField2, gridBagConstraints);
 
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextField3.setMinimumSize(new java.awt.Dimension(200, 20));
         jTextField3.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -809,6 +796,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.weighty = 1.0;
         jPanel4.add(jPanel5, gridBagConstraints);
 
+        txtHorizon.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txtHorizon.setMinimumSize(new java.awt.Dimension(250, 20));
         txtHorizon.setPreferredSize(new java.awt.Dimension(250, 20));
 
@@ -844,6 +832,24 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(jLabel10, gridBagConstraints);
+
+        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(250, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(defaultBindableReferenceCombo3, gridBagConstraints);
+
+        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
+        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(defaultBindableReferenceCombo4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

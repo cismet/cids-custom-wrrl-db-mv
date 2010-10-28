@@ -27,17 +27,14 @@ import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-import de.cismet.tools.gui.FooterComponentProvider;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.JComponent;
-import org.openide.util.Exceptions;
 
 /**
  *
  * @author jruiz
  */
-public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
+public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     private CidsBean cidsBean;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -339,11 +336,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
 
     @Override
     public void prepareForSave() {
-    }
-
-    @Override
-    public JComponent getFooterComponent() {
-        return panFooter;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

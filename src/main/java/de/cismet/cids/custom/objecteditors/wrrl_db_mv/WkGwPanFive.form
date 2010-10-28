@@ -144,7 +144,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.risk_chem.name}" target="lblRiskChemValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -165,7 +165,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.risk_quant.name}" target="lblRiskQuantValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -186,7 +186,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.risk_total.name}" target="lblRiskTotalValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -333,7 +333,7 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.pad_within.name}" target="lblPadWithinValue" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
