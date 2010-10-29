@@ -191,8 +191,8 @@
                 <Component class="javax.swing.JLabel" name="lblO2_OW_RaKon">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.o2_ow_rakon.name}" target="lblO2_OW_RaKon" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -204,8 +204,8 @@
                 <Component class="javax.swing.JLabel" name="lblO2_GK_MVRL">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.o2_gk_mvrl.name}" target="lblO2_GK_MVRL" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -315,8 +315,8 @@
                 <Component class="javax.swing.JLabel" name="lblPGes_OW_RaKon">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.pges_ow_rakon.name}" target="lblPGes_OW_RaKon" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -328,8 +328,8 @@
                 <Component class="javax.swing.JLabel" name="lblPGes_GK_alt">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.pges_gk_alt.name}" target="lblPGes_GK_alt" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -439,8 +439,8 @@
                 <Component class="javax.swing.JLabel" name="lblOPO4_OW_RaKon">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.opo4_ow_rakon.name}" target="lblOPO4_OW_RaKon" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -452,8 +452,8 @@
                 <Component class="javax.swing.JLabel" name="lblOPO4_GK_alt">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.opo4_gk_alt.name}" target="lblOPO4_GK_alt" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -563,8 +563,8 @@
                 <Component class="javax.swing.JLabel" name="lblNH4_GK_alt">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nh4_gk_alt.name}" target="lblNH4_GK_alt" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -576,8 +576,8 @@
                 <Component class="javax.swing.JLabel" name="lblNH4_OW_RaKon">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nh4_ow_rakon.name}" target="lblNH4_OW_RaKon" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -677,8 +677,8 @@
                 <Component class="javax.swing.JLabel" name="lblNges_GK_alt">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nges_gk_alt.name}" target="lblNges_GK_alt" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -778,8 +778,8 @@
                 <Component class="javax.swing.JLabel" name="lblNO3_GK_alt">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.no3_gk_alt.name}" target="lblNO3_GK_alt" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -827,7 +827,7 @@
                 <Component class="javax.swing.JLabel" name="lblValGenCond">
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gen_cond.name}" target="lblValGenCond" targetPath="text" updateStrategy="2" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="error"/>
                     </BindingProperty>
                   </BindingProperties>

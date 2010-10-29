@@ -228,8 +228,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ex_cat.code}" target="lblValCat" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value=""/>
-              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -249,8 +249,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ex_typ.description}" target="lblValTyp" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value=""/>
-              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -270,8 +270,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ex_date.date}" target="lblValDate" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value=""/>
-              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>

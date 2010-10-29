@@ -141,7 +141,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         taO2_Bemerk.setColumns(20);
         taO2_Bemerk.setEditable(false);
-        taO2_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taO2_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
         taO2_Bemerk.setRows(4);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_bemerk}"), taO2_Bemerk, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -184,8 +184,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panSauerstoff.add(lblBemerkung, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_ow_rakon.name}"), lblO2_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -196,8 +196,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panSauerstoff.add(lblO2_OW_RaKon, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_gk_mvrl.name}"), lblO2_GK_MVRL, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -267,8 +267,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhosporGes.add(lblBemerkung1, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_ow_rakon.name}"), lblPGes_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -279,8 +279,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhosporGes.add(lblPGes_OW_RaKon, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_gk_alt.name}"), lblPGes_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -350,8 +350,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhosphor.add(lblBemerkung4, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_ow_rakon.name}"), lblOPO4_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -362,8 +362,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhosphor.add(lblOPO4_OW_RaKon, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_gk_alt.name}"), lblOPO4_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -390,7 +390,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         taNH4_Bemerk.setColumns(20);
         taNH4_Bemerk.setEditable(false);
-        taNH4_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taNH4_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
         taNH4_Bemerk.setRows(4);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_bemerk}"), taNH4_Bemerk, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -433,8 +433,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNH4.add(lblBemerkung5, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_gk_alt.name}"), lblNH4_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -445,8 +445,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNH4.add(lblNH4_GK_alt, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_ow_rakon.name}"), lblNH4_OW_RaKon, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -510,8 +510,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNges.add(lblBemerkung2, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nges_gk_alt.name}"), lblNges_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -538,7 +538,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         taNO3_Bemerk.setColumns(20);
         taNO3_Bemerk.setEditable(false);
-        taNO3_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taNO3_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
         taNO3_Bemerk.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_bemerk}"), taNO3_Bemerk, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -575,8 +575,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNO3.add(lblBemerkung3, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_gk_alt.name}"), lblNO3_GK_alt, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -605,7 +605,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panAllgemein.add(lblGenCond, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"), lblValGenCond, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
 
