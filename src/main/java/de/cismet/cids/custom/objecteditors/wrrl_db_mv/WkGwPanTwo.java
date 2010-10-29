@@ -157,6 +157,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo6, gridBagConstraints);
 
@@ -179,6 +180,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo7, gridBagConstraints);
 
@@ -201,6 +203,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo8, gridBagConstraints);
 
@@ -464,6 +467,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo9, gridBagConstraints);
 
@@ -486,6 +490,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo10, gridBagConstraints);
 
@@ -517,6 +522,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(defaultBindableReferenceCombo5, gridBagConstraints);
 
@@ -524,6 +530,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel1, gridBagConstraints);
 
@@ -547,6 +554,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(defaultBindableReferenceCombo1, gridBagConstraints);
 
@@ -578,6 +586,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(defaultBindableReferenceCombo2, gridBagConstraints);
 
@@ -603,6 +612,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtAvgDepth, gridBagConstraints);
 
@@ -628,6 +638,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtAvgThick, gridBagConstraints);
 
@@ -662,6 +673,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtCapacityThick, gridBagConstraints);
 
@@ -809,6 +821,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtHorizon, gridBagConstraints);
 
@@ -839,6 +852,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(defaultBindableReferenceCombo3, gridBagConstraints);
 
@@ -848,6 +862,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(defaultBindableReferenceCombo4, gridBagConstraints);
 
@@ -855,6 +870,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel4, gridBagConstraints);
 

@@ -185,7 +185,7 @@ public class WkGwPanFive extends javax.swing.JPanel implements DisposableCidsBea
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 25, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 15, 5);
         panInfoContent.add(jSeparator1, gridBagConstraints);
 
         jPanel4.setOpaque(false);

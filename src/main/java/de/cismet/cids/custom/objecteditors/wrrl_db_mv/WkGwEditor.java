@@ -64,21 +64,17 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         lblSpacingBottom = new javax.swing.JLabel();
-        lblSpacingRight = new javax.swing.JLabel();
         wkGwPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanOne();
         panRisikoabschätzung = new javax.swing.JPanel();
         lblSpacingBottom2 = new javax.swing.JLabel();
-        lblSpacingRight2 = new javax.swing.JLabel();
         wkGwPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFive();
         wkGwPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanTwo();
         panQualitaetsinformationen = new javax.swing.JPanel();
         lblSpacingBottom1 = new javax.swing.JLabel();
-        lblSpacingRight1 = new javax.swing.JLabel();
         wkGwPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanThree();
         wkGwPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanFour();
         panWeitereInformationen = new javax.swing.JPanel();
         lblSpacingBottom3 = new javax.swing.JLabel();
-        lblSpacingRight3 = new javax.swing.JLabel();
         wkGwPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanSix();
 
         panFooter.setOpaque(false);
@@ -100,23 +96,15 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         lblSpacingBottom.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingBottom.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         panAllgemeines.add(lblSpacingBottom, gridBagConstraints);
-
-        lblSpacingRight.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingRight.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panAllgemeines.add(lblSpacingRight, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panAllgemeines.add(wkGwPanOne1, gridBagConstraints);
 
@@ -132,25 +120,18 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         panRisikoabschätzung.add(lblSpacingBottom2, gridBagConstraints);
-
-        lblSpacingRight2.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingRight2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panRisikoabschätzung.add(lblSpacingRight2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panRisikoabschätzung.add(wkGwPanFive1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panRisikoabschätzung.add(wkGwPanTwo1, gridBagConstraints);
 
@@ -166,15 +147,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         panQualitaetsinformationen.add(lblSpacingBottom1, gridBagConstraints);
-
-        lblSpacingRight1.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingRight1.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panQualitaetsinformationen.add(lblSpacingRight1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -200,14 +172,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         panWeitereInformationen.add(lblSpacingBottom3, gridBagConstraints);
-
-        lblSpacingRight3.setText(org.openide.util.NbBundle.getMessage(WkGwEditor.class, "WkGwEditor.lblSpacingRight3.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panWeitereInformationen.add(lblSpacingRight3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -344,10 +308,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
     private javax.swing.JLabel lblSpacingBottom1;
     private javax.swing.JLabel lblSpacingBottom2;
     private javax.swing.JLabel lblSpacingBottom3;
-    private javax.swing.JLabel lblSpacingRight;
-    private javax.swing.JLabel lblSpacingRight1;
-    private javax.swing.JLabel lblSpacingRight2;
-    private javax.swing.JLabel lblSpacingRight3;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panFooter;
     private javax.swing.JPanel panQualitaetsinformationen;
