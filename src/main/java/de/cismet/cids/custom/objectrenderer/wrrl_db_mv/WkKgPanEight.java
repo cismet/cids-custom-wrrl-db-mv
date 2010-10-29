@@ -135,6 +135,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblRiskChemValue, gridBagConstraints);
 
@@ -148,6 +149,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblRiskEcpoValue, gridBagConstraints);
 
@@ -161,6 +163,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblRiskEcstValue, gridBagConstraints);
 
@@ -168,6 +171,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel2, gridBagConstraints);
 
@@ -203,6 +207,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblRiskDateValue, gridBagConstraints);
 
@@ -234,6 +239,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblRiskTotalValue, gridBagConstraints);
 
@@ -241,6 +247,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel3, gridBagConstraints);
 
@@ -249,7 +256,7 @@ public class WkKgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 25, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 15, 5);
         panInfoContent.add(jSeparator1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);

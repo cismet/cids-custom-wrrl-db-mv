@@ -164,6 +164,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(defaultBindableReferenceCombo5, gridBagConstraints);
 
@@ -185,6 +186,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(defaultBindableReferenceCombo6, gridBagConstraints);
 
@@ -206,6 +208,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(defaultBindableReferenceCombo7, gridBagConstraints);
 
@@ -248,6 +251,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblDeliveryValue, gridBagConstraints);
 
@@ -267,6 +271,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblTemplateValue, gridBagConstraints);
 
@@ -279,6 +284,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblRegionCdbValue, gridBagConstraints);
 
@@ -291,6 +297,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblEuCdCwValue, gridBagConstraints);
 
@@ -303,6 +310,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblMsCdCwValue, gridBagConstraints);
 
@@ -315,6 +323,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblCharTypeValue, gridBagConstraints);
 
@@ -327,6 +336,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblEuCwTypeValue, gridBagConstraints);
 
@@ -339,6 +349,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblLandCdValue, gridBagConstraints);
 
@@ -351,6 +362,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblMetadataValue, gridBagConstraints);
 
@@ -363,6 +375,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblUrlValue, gridBagConstraints);
 
@@ -370,6 +383,7 @@ public class WkKgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel2, gridBagConstraints);
 

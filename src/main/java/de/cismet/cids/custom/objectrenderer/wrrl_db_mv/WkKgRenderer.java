@@ -59,12 +59,10 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panGeneral = new javax.swing.JPanel();
         wkKgPanOne = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanOne();
         panSpacingBottomTab1 = new javax.swing.JPanel();
-        panSpacingRightTab1 = new javax.swing.JPanel();
         panDescriptionAndRisks = new javax.swing.JPanel();
         wkKgPanTwo = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanTwo();
         wkKgPanEight = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanEight();
         panSpacingBottomTab2 = new javax.swing.JPanel();
-        panSpacingRightTab2 = new javax.swing.JPanel();
         panQualityInformation = new javax.swing.JPanel();
         wkKgPanThree = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanThree();
         wkKgPanFour = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanFour();
@@ -72,14 +70,15 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         wkKgPanSix = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanSix();
         wkKgPanSeven = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanSeven();
         panSpacingBottomTab3 = new javax.swing.JPanel();
-        panSpacingRightTab3 = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
         panGeneral.setOpaque(false);
         panGeneral.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panGeneral.add(wkKgPanOne, gridBagConstraints);
 
         panSpacingBottomTab1.setOpaque(false);
@@ -90,23 +89,20 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.weighty = 1.0;
         panGeneral.add(panSpacingBottomTab1, gridBagConstraints);
 
-        panSpacingRightTab1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panGeneral.add(panSpacingRightTab1, gridBagConstraints);
-
         tpMain.addTab("Allgemeines", panGeneral);
 
         panDescriptionAndRisks.setOpaque(false);
         panDescriptionAndRisks.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         panDescriptionAndRisks.add(wkKgPanTwo, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panDescriptionAndRisks.add(wkKgPanEight, gridBagConstraints);
 
         panSpacingBottomTab2.setOpaque(false);
@@ -117,13 +113,6 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.weighty = 1.0;
         panDescriptionAndRisks.add(panSpacingBottomTab2, gridBagConstraints);
 
-        panSpacingRightTab2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panDescriptionAndRisks.add(panSpacingRightTab2, gridBagConstraints);
-
         tpMain.addTab("Beschreibung und Risiken", panDescriptionAndRisks);
 
         panQualityInformation.setOpaque(false);
@@ -133,31 +122,36 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         panQualityInformation.add(wkKgPanThree, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 15);
         panQualityInformation.add(wkKgPanFour, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 15);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
         panQualityInformation.add(wkKgPanFive, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 0);
         panQualityInformation.add(wkKgPanSix, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         panQualityInformation.add(wkKgPanSeven, gridBagConstraints);
 
         panSpacingBottomTab3.setOpaque(false);
@@ -168,13 +162,6 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         panQualityInformation.add(panSpacingBottomTab3, gridBagConstraints);
-
-        panSpacingRightTab3.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panQualityInformation.add(panSpacingRightTab3, gridBagConstraints);
 
         tpMain.addTab("Qualitätsinformationen", panQualityInformation);
 
@@ -189,9 +176,6 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JPanel panSpacingBottomTab1;
     private javax.swing.JPanel panSpacingBottomTab2;
     private javax.swing.JPanel panSpacingBottomTab3;
-    private javax.swing.JPanel panSpacingRightTab1;
-    private javax.swing.JPanel panSpacingRightTab2;
-    private javax.swing.JPanel panSpacingRightTab3;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanEight wkKgPanEight;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanFive wkKgPanFive;
