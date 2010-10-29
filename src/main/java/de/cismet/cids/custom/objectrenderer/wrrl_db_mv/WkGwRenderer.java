@@ -89,11 +89,11 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingBottomTab1.setLayout(panSpacingBottomTab1Layout);
         panSpacingBottomTab1Layout.setHorizontalGroup(
             panSpacingBottomTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1070, Short.MAX_VALUE)
+            .addGap(0, 1099, Short.MAX_VALUE)
         );
         panSpacingBottomTab1Layout.setVerticalGroup(
             panSpacingBottomTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 679, Short.MAX_VALUE)
+            .addGap(0, 659, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -120,7 +120,7 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panSpacingBottomTab2.setLayout(panSpacingBottomTab2Layout);
         panSpacingBottomTab2Layout.setHorizontalGroup(
             panSpacingBottomTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1070, Short.MAX_VALUE)
+            .addGap(0, 1099, Short.MAX_VALUE)
         );
         panSpacingBottomTab2Layout.setVerticalGroup(
             panSpacingBottomTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,6 +154,8 @@ public class WkGwRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panQualityInformation.add(wkGwPanFour, gridBagConstraints);
+
+        panSpacingBottomTab3.setOpaque(false);
 
         javax.swing.GroupLayout panSpacingBottomTab3Layout = new javax.swing.GroupLayout(panSpacingBottomTab3);
         panSpacingBottomTab3.setLayout(panSpacingBottomTab3Layout);

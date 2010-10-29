@@ -217,7 +217,10 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.quant_stat.name}" target="lblQuantStatValue" targetPath="text" updateStrategy="1" immediately="false"/>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.quant_stat.name}" target="lblQuantStatValue" targetPath="text" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                    </BindingProperty>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -235,7 +238,10 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.reas_quant.name}" target="lblReasQuantValue" targetPath="text" updateStrategy="1" immediately="false"/>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.reas_quant.name}" target="lblReasQuantValue" targetPath="text" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                    </BindingProperty>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
