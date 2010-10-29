@@ -111,7 +111,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridwidth = 6;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(lblSpacing, gridBagConstraints);
 

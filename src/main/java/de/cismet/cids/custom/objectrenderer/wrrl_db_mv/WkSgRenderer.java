@@ -97,11 +97,9 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkSgPanOne = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanOne();
-        jPanel5 = new javax.swing.JPanel();
         panRisiken = new javax.swing.JPanel();
         wkSgPanSeven = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanSeven();
         wkSgPanSix = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanSix();
-        jPanel4 = new javax.swing.JPanel();
         panQualitaet = new javax.swing.JPanel();
         wkSgPanTwo = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanTwo();
         wkSgPanThree = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanThree();
@@ -147,11 +145,6 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         panAllgemeines.add(wkSgPanOne, gridBagConstraints);
 
-        jPanel5.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.weightx = 1.0;
-        panAllgemeines.add(jPanel5, gridBagConstraints);
-
         tpMain.addTab("Allgemeines", panAllgemeines);
 
         panRisiken.setOpaque(false);
@@ -173,13 +166,6 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panRisiken.add(wkSgPanSix, gridBagConstraints);
-
-        jPanel4.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        panRisiken.add(jPanel4, gridBagConstraints);
 
         tpMain.addTab("Beschreibung und Risiken", panRisiken);
 
@@ -333,8 +319,6 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ExcemptionRenderer excemptionEditor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeadingAusnahme;
     private javax.swing.JList lstAusnahmen;
