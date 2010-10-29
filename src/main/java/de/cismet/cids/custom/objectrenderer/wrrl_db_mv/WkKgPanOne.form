@@ -212,7 +212,7 @@
                   </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.name}" target="lblNameValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -278,7 +278,7 @@
                   </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ins_by}" target="lblInsByValue" targetPath="text" updateStrategy="1" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
                     </BindingProperty>
                   </BindingProperties>
