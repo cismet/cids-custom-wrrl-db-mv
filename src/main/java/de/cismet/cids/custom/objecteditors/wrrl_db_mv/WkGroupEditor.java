@@ -91,6 +91,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         lstWkWgs = new javax.swing.JList();
         panWkFgs = new javax.swing.JPanel();
         btnRemWkFg = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
         jDialog1.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -189,6 +190,15 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.gridy = 2;
         jPanel2.add(panWkFgs, gridBagConstraints);
 
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(WkGroupEditor.class, "WkGroupEditor.jLabel5.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel5, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel2, gridBagConstraints);
@@ -199,7 +209,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
+            .addGap(0, 540, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,6 +252,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
@@ -258,7 +269,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     @Override
     public String getTitle() {
-        return "Wasserkörpergruppe " + String.valueOf(cidsBean);
+        return "WK-Gruppe" + String.valueOf(cidsBean);
     }
 
     @Override
