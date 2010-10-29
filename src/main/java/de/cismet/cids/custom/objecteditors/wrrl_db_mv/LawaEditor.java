@@ -11,6 +11,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureGroup;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -30,6 +31,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LawaEditor.class);
     private CidsBean cidsBean;
+    private static final String ROUTE_FEATURE_CLASS_NAME = "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature";
 
 
     /** Creates new form WkFgEditor */
@@ -61,8 +63,23 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             //zoom to feature
             MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
             if (!mappingComponent.isFixedMapExtent()) {
-                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-            }            
+                Object o = cidsBean.getProperty("wk_k");
+
+                if ( o != null ) {
+                    Collection<Feature> collection = new ArrayList<Feature>();
+                    FeatureCollection fCol = mappingComponent.getFeatureCollection();
+
+                    for (Feature feature : fCol.getAllFeatures()) {
+                        if ( !feature.getClass().getName().equals(ROUTE_FEATURE_CLASS_NAME) ) {
+                            collection.add(feature);
+                        }
+                    }
+
+                    CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
+                } else {
+                    CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+                }
+            }
         } else {
             lblFoot.setText("");
         }
