@@ -70,7 +70,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         dlgMonitorCataloge.setMinimumSize(new java.awt.Dimension(260, 150));
         dlgMonitorCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblMonitorCataloge.setText(org.openide.util.NbBundle.getMessage(SwstnPanThree.class, "WkFgPanOne.lblImpactSrcCataloge.text")); // NOI18N
+        lblMonitorCataloge.setText(org.openide.util.NbBundle.getMessage(SwstnPanThree.class, "SwstnPanThree.lblMonitorCataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMonitorCataloge.getContentPane().add(lblMonitorCataloge, gridBagConstraints);
