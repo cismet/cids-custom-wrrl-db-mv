@@ -840,7 +840,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         lblDepthrangeValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.depthrange.name}"), lblDepthrangeValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
+        binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -872,7 +872,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         lblVertOrienValue.setMinimumSize(new java.awt.Dimension(250, 20));
         lblVertOrienValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vert_orien}"), lblVertOrienValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vert_orien.name}"), lblVertOrienValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
