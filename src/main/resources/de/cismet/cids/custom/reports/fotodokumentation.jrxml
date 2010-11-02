@@ -4,9 +4,6 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["E:\\NetBeansProjects\\de\\cismet\\custom\\cids-custom-wrrl-db-mv\\trunk\\src\\main\\resources\\de\\cismet\\cids\\custom\\reports\\"]]></defaultValueExpression>
-	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -142,7 +139,7 @@
 			<subreport>
 				<reportElement x="20" y="0" width="555" height="156"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{fotos})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "fotodokumentation_fotos.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["fotodokumentation_fotos.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
