@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import org.jdesktop.swingx.graphics.ShadowRenderer;
@@ -40,6 +41,7 @@ public final class ImageUtil {
             return bi;
         }
     }
+
     public static Image adjustScale(BufferedImage bi, int targetW, int targetH, int insetX, int insetY) {
         double scalex = (double) targetW / bi.getWidth();
         double scaley = (double) targetH / bi.getHeight();
@@ -51,7 +53,7 @@ public final class ImageUtil {
         }
     }
 
-        public static BufferedImage generateShadow(final Image in, final int shadowPixel) {
+    public static BufferedImage generateShadow(final Image in, final int shadowPixel) {
         if (in == null) {
             return null;
         }
@@ -77,5 +79,17 @@ public final class ImageUtil {
         rg.drawImage(input, 0, 0, null);
         rg.dispose();
         return result;
+    }
+
+    public static BufferedImage rotateImage(BufferedImage src, double degrees) {
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(
+                Math.toRadians(degrees),
+                src.getWidth() / 2,
+                src.getHeight() / 2);
+        BufferedImage rotatedImage = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
+        Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
+        g.setTransform(affineTransform);
+        g.drawImage(src, 0, 0, null);
+        return rotatedImage;
     }
 }
