@@ -449,7 +449,7 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
 //        if (cidsBean != null) {
 //            try {
 //                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
@@ -458,6 +458,7 @@ public class LawaRenderer extends JPanel implements CidsBeanRenderer, EditorSave
 //                log.error(ex, ex);
 //            }
 //        }
+        return true;
     }
 
     @Override

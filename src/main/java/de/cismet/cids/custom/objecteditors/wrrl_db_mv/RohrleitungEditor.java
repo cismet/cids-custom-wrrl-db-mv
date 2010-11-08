@@ -145,8 +145,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescSediment, gridBagConstraints);
 
-        txtStatusQuoAnalyse.setMinimumSize(new java.awt.Dimension(200, 20));
-        txtStatusQuoAnalyse.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtStatusQuoAnalyse.setMinimumSize(new java.awt.Dimension(500, 20));
+        txtStatusQuoAnalyse.setPreferredSize(new java.awt.Dimension(500, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"), txtStatusQuoAnalyse, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -162,7 +162,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
 
         scpBemerkung.setMaximumSize(new java.awt.Dimension(200, 75));
         scpBemerkung.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpBemerkung.setPreferredSize(new java.awt.Dimension(200, 75));
+        scpBemerkung.setPreferredSize(new java.awt.Dimension(500, 75));
 
         taBemerkung.setColumns(20);
         taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
@@ -299,8 +299,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbMassnahmen, gridBagConstraints);
 
-        txtMassnahmenID.setMinimumSize(new java.awt.Dimension(200, 20));
-        txtMassnahmenID.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtMassnahmenID.setMinimumSize(new java.awt.Dimension(500, 20));
+        txtMassnahmenID.setPreferredSize(new java.awt.Dimension(500, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_id}"), txtMassnahmenID, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -314,8 +314,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtMassnahmenID, gridBagConstraints);
 
-        txtStatusQuoAnalyse1.setMinimumSize(new java.awt.Dimension(200, 20));
-        txtStatusQuoAnalyse1.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtStatusQuoAnalyse1.setMinimumSize(new java.awt.Dimension(500, 20));
+        txtStatusQuoAnalyse1.setPreferredSize(new java.awt.Dimension(500, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaessername}"), txtStatusQuoAnalyse1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");

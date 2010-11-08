@@ -174,6 +174,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
+        return true;
     }
 }

@@ -163,7 +163,7 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
 //        if (cidsBean != null) {
 //            try {
 //                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
@@ -172,6 +172,7 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
 //                log.error(ex, ex);
 //            }
 //        }
+        return true;
     }
 
     @Override

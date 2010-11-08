@@ -1393,7 +1393,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
         if (cidsBean != null) {
             try {
                 User user = SessionManager.getSession().getUser();
@@ -1403,6 +1403,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 log.error(ex, ex);
             }
         }
+        return true;
     }
 
     @Override

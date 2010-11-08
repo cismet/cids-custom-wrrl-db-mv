@@ -408,7 +408,8 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
+        return true;
     }
 
     @Override

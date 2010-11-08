@@ -486,7 +486,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
         if (cidsBean != null) {
             try {
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
@@ -495,6 +495,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 log.error(ex, ex);
             }
         }
+        return true;
     }
 
     @Override

@@ -283,7 +283,8 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
+        return true;
     }
 
     @Override

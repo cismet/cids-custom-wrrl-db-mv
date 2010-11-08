@@ -299,7 +299,8 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

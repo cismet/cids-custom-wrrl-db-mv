@@ -275,7 +275,8 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
     }
 
     @Override
-    public void prepareForSave() {
+    public boolean prepareForSave() {
+        return true;
     }
 
     @Override
