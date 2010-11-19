@@ -4,6 +4,7 @@ import de.cismet.cids.custom.util.StationToMapRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
 import com.vividsolutions.jts.geom.Geometry;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
@@ -22,15 +23,10 @@ import javax.swing.event.DocumentListener;
  *
  * @author jruiz
  */
-public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implements MetaClassStore {
+public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implements MetaClassStore, LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LinearReferencedLineEditor.class);
 
-    private static final String ID = "id";    // NOI18N
-    private static final String ROUTE_BEAN = "route";    // NOI18N
-    private static final String ROUTE_GEOM_BEAN = "geom";    // NOI18N
-    private static final String LINEAR_VALUE = "wert";    // NOI18N
-    private static final String GEOM_FIELD = "geo_field";    // NOI18N
     private static final boolean FROM = true;
     private static final boolean TO = false;
 
@@ -309,7 +305,7 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
 
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
-                if (pce.getPropertyName().equals(LINEAR_VALUE)) {
+                if (pce.getPropertyName().equals(PROP_STATION_VALUE)) {
                     cidsBeanChanged(isFrom);
                 }
             }
@@ -328,7 +324,7 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
         final CidsBean stationBean = (isFrom) ? getFromStationBean() : getToStationBean();
 
         if (stationBean != null)  {
-            double position = (Double) stationBean.getProperty(LINEAR_VALUE);
+            double position = (Double) stationBean.getProperty(PROP_STATION_VALUE);
 
             if (!isSpinnerChangeLocked(isFrom)) {
                 spinValue.setValue((double) Math.round(position));
@@ -350,23 +346,23 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
     }
 
     private int getId() {
-        return (Integer) cidsBean.getProperty(ID);
+        return (Integer) cidsBean.getProperty(PROP_ID);
     }
 
     private int getFromStationId() {
-        return (Integer) getFromStationBean().getProperty(ID);
+        return (Integer) getFromStationBean().getProperty(PROP_ID);
     }
 
     private int getToStationId() {
-        return (Integer) getToStationBean().getProperty(ID);
+        return (Integer) getToStationBean().getProperty(PROP_ID);
     }
 
     private int getRouteId() {
-        return (Integer) getRouteBean().getProperty(ID);
+        return (Integer) getRouteBean().getProperty(PROP_ID);
     }
 
     private Geometry getRouteGeometry() {
-        return (Geometry) getRouteGeomBean().getProperty(GEOM_FIELD);
+        return (Geometry) getRouteGeomBean().getProperty(PROP_GEOM_GEOFIELD);
     }
 
     private CidsBean getFromStationBean() {
@@ -378,11 +374,11 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
     }
 
     private CidsBean getRouteBean() {
-        return (CidsBean) getFromStationBean().getProperty(ROUTE_BEAN);
+        return (CidsBean) getFromStationBean().getProperty(PROP_STATION_ROUTE);
     }
 
     private CidsBean getRouteGeomBean() {
-        return (CidsBean) getRouteBean().getProperty(ROUTE_GEOM_BEAN);
+        return (CidsBean) getRouteBean().getProperty(PROP_ROUTE_GEOM);
     }
 
     private CidsBean getRealGeomBean() {
@@ -390,7 +386,7 @@ public class LinearReferencedLineEditor extends DefaultCustomObjectEditor implem
     }
 
     private void setRealGeometry(final Geometry line) throws Exception {
-        getRealGeomBean().setProperty(GEOM_FIELD, line);
+        getRealGeomBean().setProperty(PROP_GEOM_GEOFIELD, line);
     }
 
     @Override

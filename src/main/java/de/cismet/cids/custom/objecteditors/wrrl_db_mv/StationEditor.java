@@ -4,10 +4,9 @@ import de.cismet.cids.custom.util.StationToMapRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaClassStore;
 import com.vividsolutions.jts.geom.Geometry;
-import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,17 +23,9 @@ import org.openide.util.Exceptions;
  *
  * @author jruiz
  */
-public class StationEditor extends DefaultCustomObjectEditor implements MetaClassStore {
+public class StationEditor extends DefaultCustomObjectEditor implements MetaClassStore, LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationEditor.class);
-
-    private static final String ID = "id";    // NOI18N
-    private static final String ROUTE_BEAN = "route";    // NOI18N
-    private static final String ROUTE_GEOM_BEAN = "geom";    // NOI18N
-    private static final String ROUTE_GWK = "gwk";    // NOI18N
-    private static final String POINT_GEOM_BEAN = "real_point";    // NOI18N
-    private static final String GEOM_FIELD = "geo_field";    // NOI18N
-    private static final String LINEAR_VALUE = "wert";    // NOI18N
 
     private LinearReferencedPointFeature feature;
     private MetaClass metaClass;
@@ -42,33 +33,11 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
     private boolean isSpinnerChangeLocked = false;
     private boolean isFeatureChangeLocked = false;
     private ImageIcon ico;
-    private static int NEW_STATION = 0;
 
     public StationEditor() {
         initComponents();
         initCidsBeanListener();
         initSpinnerListener();
-    }
-
-    public static StationEditor createFromRoute(CidsBean routeBean) {
-        MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "STATION");
-        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "GEOM");
-
-        CidsBean stationBean = stationMC.getEmptyInstance().getBean();
-        CidsBean geomBean = geomMC.getEmptyInstance().getBean();
-
-        try {
-            stationBean.setProperty(ID, --NEW_STATION);
-            stationBean.setProperty(ROUTE_BEAN, routeBean);
-            stationBean.setProperty(LINEAR_VALUE, 0d);
-            stationBean.setProperty(POINT_GEOM_BEAN, geomBean);
-        } catch (Exception ex) {
-                LOG.debug("Error while creating wkteil bean", ex);
-        }
-
-        StationEditor editor = new StationEditor();
-        editor.setCidsBean(stationBean);
-        return editor;
     }
 
     public void setImageIcon(ImageIcon ico) {
@@ -88,8 +57,8 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
 
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
-                if (pce.getPropertyName().equals(LINEAR_VALUE)) {
-                    double position = (Double) cidsBean.getProperty(LINEAR_VALUE);
+                if (pce.getPropertyName().equals(PROP_STATION_VALUE)) {
+                    double position = (Double) cidsBean.getProperty(PROP_STATION_VALUE);
 
                     if (!isSpinnerChangeLocked) {
                         spinValue.setValue((double) Math.round(position));
@@ -103,7 +72,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
                             StationEditor.setPointGeometry(feature.getGeometry(), cidsBean);
                         } catch (Exception ex) {
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("error while setting the " + POINT_GEOM_BEAN + "property", ex);
+                                LOG.debug("error while setting the " + PROP_STATION_GEOM + "property", ex);
                             }
                         }
                     }
@@ -141,7 +110,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
                 setCidsBean(metaClass.getEmptyInstance().getBean());
             }
 
-            final Double oldValue = (Double) cidsBean.getProperty(LINEAR_VALUE);
+            final Double oldValue = (Double) cidsBean.getProperty(PROP_STATION_VALUE);
 
             Double value;
             try {
@@ -152,7 +121,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
             }
 
             if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
-                cidsBean.setProperty(LINEAR_VALUE, value);
+                cidsBean.setProperty(PROP_STATION_VALUE, value);
             }
         } catch(Exception ex) {
             if (LOG.isDebugEnabled()) {
@@ -174,7 +143,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
 
         cidsBean.addPropertyChangeListener(cidsBeanListener);
         try {
-            cidsBean.setProperty(LINEAR_VALUE, cidsBean.getProperty(LINEAR_VALUE));
+            cidsBean.setProperty(PROP_STATION_VALUE, cidsBean.getProperty(PROP_STATION_VALUE));
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -243,47 +212,47 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
     }
 
     private static int getId(CidsBean cidsBean) {
-        return (Integer) cidsBean.getProperty(ID);
+        return (Integer) cidsBean.getProperty(PROP_ID);
     }
 
     public static double getLinearValue(CidsBean cidsBean) {
-        return (Double) cidsBean.getProperty(LINEAR_VALUE);
+        return (Double) cidsBean.getProperty(PROP_STATION_VALUE);
     }
 
     public static void setLinearValue(Double value, CidsBean cidsBean) throws Exception {
-        cidsBean.setProperty(LINEAR_VALUE, value);
+        cidsBean.setProperty(PROP_STATION_VALUE, value);
     }
 
     public static Geometry getPointGeometry(CidsBean cidsBean) {
-        return (Geometry) getPointGeomBean(cidsBean).getProperty(GEOM_FIELD);
+        return (Geometry) getPointGeomBean(cidsBean).getProperty(PROP_GEOM_GEOFIELD);
     }
 
     public static void setPointGeometry(Geometry point, CidsBean cidsBean) throws Exception {
-        getPointGeomBean(cidsBean).setProperty(GEOM_FIELD, point);
+        getPointGeomBean(cidsBean).setProperty(PROP_GEOM_GEOFIELD, point);
     }
 
     public static Geometry getRouteGeometry(CidsBean cidsBean) {
-        return (Geometry) getRouteGeomBean(cidsBean).getProperty(GEOM_FIELD);
+        return (Geometry) getRouteGeomBean(cidsBean).getProperty(PROP_GEOM_GEOFIELD);
     }
 
     public static void setRouteGeometry(Geometry geometry, CidsBean cidsBean) throws Exception {
-        getRouteGeomBean(cidsBean).setProperty(GEOM_FIELD, geometry);
+        getRouteGeomBean(cidsBean).setProperty(PROP_GEOM_GEOFIELD, geometry);
     }
 
     public static Long getRouteGwk(CidsBean cidsBean) {
-        return (Long) getRouteBean(cidsBean).getProperty(ROUTE_GWK);
+        return (Long) getRouteBean(cidsBean).getProperty(PROP_ROUTE_GWK);
     }
 
     private static CidsBean getPointGeomBean(CidsBean cidsBean) {
-        return (CidsBean) cidsBean.getProperty(POINT_GEOM_BEAN);
+        return (CidsBean) cidsBean.getProperty(PROP_STATION_GEOM);
     }
 
     public static CidsBean getRouteBean(CidsBean cidsBean) {
-        return (CidsBean) cidsBean.getProperty(ROUTE_BEAN);
+        return (CidsBean) cidsBean.getProperty(PROP_STATION_ROUTE);
     }
 
     private static CidsBean getRouteGeomBean(CidsBean cidsBean) {
-        return (CidsBean) getRouteBean(cidsBean).getProperty(ROUTE_GEOM_BEAN);
+        return (CidsBean) getRouteBean(cidsBean).getProperty(PROP_ROUTE_GEOM);
     }
 
     /** This method is called from within the constructor to

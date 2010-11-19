@@ -1,10 +1,10 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author jruiz
  */
-public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropListener {
+public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropListener, LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkTeileEditor.class);
     private static final Color[] COLORS = new Color[] {
@@ -35,21 +35,12 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
     private int colorIndex = 0;
     private Collection<WkTeileEditorListener> listeners = new ArrayList<WkTeileEditorListener>();
     private CidsBeanDropTarget cidsBeanDropTarget;
-    private int newWkTeilCounter = 0;
-    private int newStationCounter = 0;
 
-    private static final String ID = "id";    // NOI18N
-    private static final String WK_TEIL_MC = "wk_teil";    // NOI18N
-    private static final String STATION_MC = "station";    // NOI18N
-    private static final String GEOM_MC = "geom";    // NOI18N
-    private static final String ROUTE_BEAN = "route";    // NOI18N
-    private static final String ROUTE_GEOM_BEAN = "geom";    // NOI18N
-    private static final String LINEAR_VALUE = "wert";    // NOI18N
-    private static final String GEOM_FIELD = "geo_field";    // NOI18N
-    private static final String STATION_REAL_GEOM_BEAN = "real_point";    // NOI18N
-    private static final String FROM_STATION_BEAN = "von";    // NOI18N
-    private static final String TO_STATION_BEAN = "bis";    // NOI18N
-    private static final String REAL_GEOM_BEAN = "real_geom";    // NOI18N
+    private static final String MC_WKTEIL = "wk_teil";    // NOI18N
+    
+    private static final String PROP_WKTEIL_FROM = "von";    // NOI18N
+    private static final String PROP_WKTEIL_TO = "bis";    // NOI18N
+    private static final String PROP_WKTEIL_GEOM = "real_geom";    // NOI18N
 
     /** Creates new form WkTeileEditor */
     public WkTeileEditor() {
@@ -59,17 +50,13 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
     @Override
     public void beansDropped(ArrayList<CidsBean> beans) {
         for (CidsBean bean : beans) {
-            try {
-                String tableName = SessionManager.getProxy().getMetaClass(bean.getMetaObject().getClassKey()).getTableName();
-                if (tableName.equals("ROUTE")) {
-                    WkTeilEditor editor = createFromRoute(bean);
-                    addEditor(editor);
-                    cidsBeans.add(editor.getCidsBean());
-                } else {
-                    return;
-                }
-            } catch (ConnectionException ex) {
-                LOG.debug("SessionManager.getProxy().getMetaClass()", ex);
+            if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                WkTeilEditor editor = new WkTeilEditor();
+                editor.setCidsBean(createBeanFromRoute(bean));
+                addEditor(editor);
+                cidsBeans.add(editor.getCidsBean());
+            } else {
+                return;
             }
         }
     }
@@ -168,10 +155,10 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
         fireWkTeilAdded();
     }
 
-    private WkTeilEditor createFromRoute(CidsBean routeBean) {
-        MetaClass wkTeilMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, WK_TEIL_MC);
-        MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, STATION_MC);
-        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, GEOM_MC);
+    private CidsBean createBeanFromRoute(CidsBean routeBean) {
+        MetaClass wkTeilMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_WKTEIL);
+        MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION);
+        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_GEOM);
 
         CidsBean wkTeilBean = wkTeilMC.getEmptyInstance().getBean();
         CidsBean fromBean = stationMC.getEmptyInstance().getBean();
@@ -181,28 +168,25 @@ public class WkTeileEditor extends javax.swing.JPanel implements CidsBeanDropLis
         CidsBean toGeomBean = geomMC.getEmptyInstance().getBean();
 
         try {
-            fromBean.setProperty(ID, --newStationCounter);
-            fromBean.setProperty(ROUTE_BEAN, routeBean);
-            fromBean.setProperty(LINEAR_VALUE, 0d);
-            fromBean.setProperty(STATION_REAL_GEOM_BEAN, fromGeomBean);
+            fromBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
+            fromBean.setProperty(PROP_STATION_ROUTE, routeBean);
+            fromBean.setProperty(PROP_STATION_VALUE, 0d);
+            fromBean.setProperty(PROP_STATION_GEOM, fromGeomBean);
 
-            toBean.setProperty(ID, --newStationCounter);
-            toBean.setProperty(ROUTE_BEAN, routeBean);
-            toBean.setProperty(LINEAR_VALUE, 0d);
-            toBean.setProperty(LINEAR_VALUE, ((Geometry) ((CidsBean) routeBean.getProperty(ROUTE_GEOM_BEAN)).getProperty(GEOM_FIELD)).getLength());
-            toBean.setProperty(STATION_REAL_GEOM_BEAN, toGeomBean);
+            toBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
+            toBean.setProperty(PROP_STATION_ROUTE, routeBean);
+            toBean.setProperty(PROP_STATION_VALUE, ((Geometry) ((CidsBean) routeBean.getProperty(PROP_ROUTE_GEOM)).getProperty(PROP_GEOM_GEOFIELD)).getLength());
+            toBean.setProperty(PROP_STATION_GEOM, toGeomBean);
 
-            wkTeilBean.setProperty(ID, --newWkTeilCounter);
-            wkTeilBean.setProperty(FROM_STATION_BEAN, fromBean);
-            wkTeilBean.setProperty(TO_STATION_BEAN, toBean);
-            wkTeilBean.setProperty(REAL_GEOM_BEAN, geomBean);
+            wkTeilBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_WKTEIL));
+            wkTeilBean.setProperty(PROP_WKTEIL_FROM, fromBean);
+            wkTeilBean.setProperty(PROP_WKTEIL_TO, toBean);
+            wkTeilBean.setProperty(PROP_WKTEIL_GEOM, geomBean);
         } catch (Exception ex) {
                 LOG.debug("Error while creating wkteil bean", ex);
         }
 
-        WkTeilEditor editor = new WkTeilEditor();
-        editor.setCidsBean(wkTeilBean);
-        return editor;
+        return wkTeilBean;
     }
 
     private void removeEditor(WkTeilEditor wkTeilEditor) {

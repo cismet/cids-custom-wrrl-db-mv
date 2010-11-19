@@ -1,10 +1,13 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
+import Sirius.server.middleware.types.MetaClass;
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import javax.swing.JPanel;
  *
  * @author jruiz
  */
-public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropListener {
+public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropListener, LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationenEditor.class);
 
@@ -36,19 +39,34 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
     @Override
     public void beansDropped(ArrayList<CidsBean> beans) {
         for (CidsBean bean : beans) {
-            try {
-                String tableName = SessionManager.getProxy().getMetaClass(bean.getMetaObject().getClassKey()).getTableName();
-                if (tableName.equals("ROUTE")) {
-                    StationEditor editor = StationEditor.createFromRoute(bean);
-                    addEditor(editor);
-                    cidsBeans.add(editor.getCidsBean());
-                } else {
-                    return;
-                }
-            } catch (ConnectionException ex) {
-                LOG.debug("SessionManager.getProxy().getMetaClass()", ex);
+            if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                StationEditor editor = new StationEditor();
+                editor.setCidsBean(createStationFromRoute(bean));
+                addEditor(editor);
+                cidsBeans.add(editor.getCidsBean());
+            } else {
+                return;
             }
         }
+    }
+
+    private static CidsBean createStationFromRoute(CidsBean routeBean) {
+        MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "STATION");
+        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "GEOM");
+
+        CidsBean stationBean = stationMC.getEmptyInstance().getBean();
+        CidsBean geomBean = geomMC.getEmptyInstance().getBean();
+
+        try {
+            stationBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
+            stationBean.setProperty(PROP_STATION_ROUTE, routeBean);
+            stationBean.setProperty(PROP_STATION_VALUE, 0d);
+            stationBean.setProperty(PROP_STATION_GEOM, geomBean);
+        } catch (Exception ex) {
+                LOG.debug("Error while creating wkteil bean", ex);
+        }
+
+        return stationBean;
     }
 
     public boolean addStationenEditorListener(StationenEditorListener listener) {
