@@ -41,8 +41,14 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         linearReferencedLineEditor.setFromStationField("stat_von");
         linearReferencedLineEditor.setToStationField("stat_bis");
         linearReferencedLineEditor.setRealGeomField("real_geom");
-    }
+        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
+            @Override
+            public void LinearReferencedLineCreated() {
+                zoomToFeature();
+            }
+        });
+    }
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
@@ -60,28 +66,31 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             linearReferencedLineEditor.setCidsBean(cidsBean);
             lblFoot.setText("");
             
-            //zoom to feature
-            MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-            if (!mappingComponent.isFixedMapExtent()) {
-                Object o = cidsBean.getProperty("wk_k");
-
-                if ( o != null ) {
-                    Collection<Feature> collection = new ArrayList<Feature>();
-                    FeatureCollection fCol = mappingComponent.getFeatureCollection();
-
-                    for (Feature feature : fCol.getAllFeatures()) {
-                        if ( !feature.getClass().getName().equals(ROUTE_FEATURE_CLASS_NAME) ) {
-                            collection.add(feature);
-                        }
-                    }
-
-                    CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
-                } else {
-                    CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-                }
-            }
+            zoomToFeature();
         } else {
             lblFoot.setText("");
+        }
+    }
+
+    private void zoomToFeature() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            Object o = cidsBean.getProperty("wk_k");
+
+            if ( o != null ) {
+                Collection<Feature> collection = new ArrayList<Feature>();
+                FeatureCollection fCol = mappingComponent.getFeatureCollection();
+
+                for (Feature feature : fCol.getAllFeatures()) {
+                    if ( !feature.getClass().getName().equals(ROUTE_FEATURE_CLASS_NAME) ) {
+                        collection.add(feature);
+                    }
+                }
+
+                CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
+            } else {
+                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+            }
         }
     }
 

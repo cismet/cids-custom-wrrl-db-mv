@@ -2,42 +2,62 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaClassStore;
 import com.vividsolutions.jts.geom.Geometry;
+import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.dynamics.DisposableCidsBeanStore;
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
+import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.openide.util.Exceptions;
 
 /**
  *
  * @author jruiz
  */
-public class StationEditor extends DefaultCustomObjectEditor implements MetaClassStore, LinearReferencingConstants {
+public class StationEditor extends JPanel implements DisposableCidsBeanStore, LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationEditor.class);
 
     private LinearReferencedPointFeature feature;
-    private MetaClass metaClass;
     private PropertyChangeListener cidsBeanListener;
     private boolean isSpinnerChangeLocked = false;
     private boolean isFeatureChangeLocked = false;
     private ImageIcon ico;
+    private CidsBean cidsBean;
+    private Collection<StationEditorListener> listeners = new ArrayList<StationEditorListener>();
+
+    private enum Card {edit, add, error};
 
     public StationEditor() {
         initComponents();
+        
+        try {
+            new CidsBeanDropTarget(panAdd);
+        } catch (Exception ex) {
+            LOG.debug("error while creating CidsBeanDropTarget");
+        }
+
         initCidsBeanListener();
         initSpinnerListener();
+    }
+
+    public boolean addStationEditorListener(StationEditorListener listener) {
+        return listeners.add(listener);
     }
 
     public void setImageIcon(ImageIcon ico) {
@@ -47,6 +67,12 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
         }
         jLabel5.setIcon(ico);
     }
+
+    private void fireStationCreated() {
+        for (StationEditorListener listener : listeners) {
+            listener.stationCreated();
+        }
+    }    
 
     public LinearReferencedPointFeature getFeature() {
         return feature;
@@ -81,6 +107,20 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
         };
     }
 
+    private void showCard(Card card) {
+        switch (card) {
+            case edit:
+                ((CardLayout) getLayout()).show(this, "edit");
+                break;
+            case add:
+                ((CardLayout) getLayout()).show(this, "add");
+                break;
+            case error:
+                ((CardLayout) getLayout()).show(this, "error");
+                break;
+        }
+    }
+
     private void initSpinnerListener() {
         ((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getDocument().addDocumentListener(new DocumentListener() {
 
@@ -106,10 +146,6 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
             // endlosschleife verhindern (bean => spinner => bean => ...)
             isSpinnerChangeLocked = true;
 
-            if (cidsBean == null) {
-                setCidsBean(metaClass.getEmptyInstance().getBean());
-            }
-
             final Double oldValue = (Double) cidsBean.getProperty(PROP_STATION_VALUE);
 
             Double value;
@@ -134,25 +170,47 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
-        if (cidsBean != null) {
-            cidsBean.removePropertyChangeListener(cidsBeanListener);
+        //listener von der alten Bean entfernen
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(cidsBeanListener);
         }
+
+        if (cidsBean == null) {
+            cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION).getEmptyInstance().getBean();
+        }
+
         this.cidsBean = cidsBean;
 
-        labGwk.setText("Route: " + Long.toString(StationEditor.getRouteGwk(cidsBean)));
+        init();
+    }
 
-        cidsBean.addPropertyChangeListener(cidsBeanListener);
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
+    }
+
+    private void init() {
         try {
-            cidsBean.setProperty(PROP_STATION_VALUE, cidsBean.getProperty(PROP_STATION_VALUE));
-        } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
-        }
+            if (getRouteBean(cidsBean) == null) {
+                showCard(Card.add);
+            } else {
+                labGwk.setText("Route: " + Long.toString(getRouteGwk(cidsBean)));
 
-        // neues Feature erzeugen
-        feature = null;
-        initFeature(cidsBean);
-        
-        ((SpinnerNumberModel) spinValue.getModel()).setMaximum(feature.getLineGeometry().getLength());
+                cidsBean.addPropertyChangeListener(cidsBeanListener);
+                cidsBean.setProperty(PROP_STATION_VALUE, cidsBean.getProperty(PROP_STATION_VALUE));
+
+                // neues Feature erzeugen
+                feature = null;
+                initFeature(cidsBean);
+
+                ((SpinnerNumberModel) spinValue.getModel()).setMaximum(feature.getLineGeometry().getLength());
+
+                showCard(Card.edit);
+            }
+        } catch (Exception ex) {
+            LOG.fatal("error while init StationEditor", ex);
+            showCard(Card.error);
+        }
     }
 
     private void initFeature(final CidsBean cidsBean) {
@@ -190,25 +248,43 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
                 }
             }
         });
+
+        fireStationCreated();
+    }
+
+    private void fillFromRoute(CidsBean routeBean) {
+        MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_GEOM);
+        CidsBean geomBean = geomMC.getEmptyInstance().getBean();
+
+        try {
+            cidsBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
+            cidsBean.setProperty(PROP_STATION_ROUTE, routeBean);
+            cidsBean.setProperty(PROP_STATION_VALUE, 0d);
+            cidsBean.setProperty(PROP_STATION_GEOM, geomBean);
+        } catch (Exception ex) {
+            LOG.debug("Error while filling bean", ex);
+        }
     }
 
     @Override
     public void dispose() {
         if (cidsBean != null) {
-            StationToMapRegistry.getInstance().removeStationFeature(getId(cidsBean));
-            StationToMapRegistry.getInstance().removeRouteFeature(getId(getRouteBean(cidsBean)));
-            cidsBean.removePropertyChangeListener(cidsBeanListener);
+            try {
+                StationToMapRegistry.getInstance().removeStationFeature(getId(cidsBean));
+            } catch (Exception ex) {
+                LOG.debug("exception while removing stationFeature from map", ex);
+            }
+            try {
+                StationToMapRegistry.getInstance().removeRouteFeature(getId(getRouteBean(cidsBean)));
+            } catch (Exception ex) {
+                LOG.debug("exception while removing stationFeature from map", ex);
+            }
+            try {
+                cidsBean.removePropertyChangeListener(cidsBeanListener);
+            } catch (Exception ex) {
+                LOG.debug("exception while removing Changelistener", ex);
+            }
         }
-    }
-
-    @Override
-    public MetaClass getMetaClass() {
-        return metaClass;
-    }
-
-    @Override
-    public void setMetaClass(MetaClass metaClass) {
-        this.metaClass = metaClass;
     }
 
     private static int getId(CidsBean cidsBean) {
@@ -265,13 +341,21 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        panEdit = new javax.swing.JPanel();
         spinValue = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         labGwk = new javax.swing.JLabel();
+        panAdd = new AddPanel();
+        jLabel3 = new javax.swing.JLabel();
+        panError = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
 
         setEnabled(false);
         setOpaque(false);
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.CardLayout());
+
+        panEdit.setOpaque(false);
+        panEdit.setLayout(new java.awt.GridBagLayout());
 
         spinValue.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinValue.setPreferredSize(new java.awt.Dimension(100, 28));
@@ -280,7 +364,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(spinValue, gridBagConstraints);
+        panEdit.add(spinValue, gridBagConstraints);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png"))); // NOI18N
         jLabel5.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.jLabel5.text")); // NOI18N
@@ -288,7 +372,7 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel5, gridBagConstraints);
+        panEdit.add(jLabel5, gridBagConstraints);
 
         labGwk.setForeground(new java.awt.Color(128, 128, 128));
         labGwk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -297,14 +381,58 @@ public class StationEditor extends DefaultCustomObjectEditor implements MetaClas
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        add(labGwk, gridBagConstraints);
+        panEdit.add(labGwk, gridBagConstraints);
+
+        add(panEdit, "edit");
+
+        panAdd.setOpaque(false);
+        panAdd.setLayout(new java.awt.GridBagLayout());
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.jLabel3.text")); // NOI18N
+        panAdd.add(jLabel3, new java.awt.GridBagConstraints());
+
+        add(panAdd, "add");
+
+        panError.setOpaque(false);
+        panError.setLayout(new java.awt.GridBagLayout());
+
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.jLabel4.text")); // NOI18N
+        panError.add(jLabel4, new java.awt.GridBagConstraints());
+
+        add(panError, "error");
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel labGwk;
+    private javax.swing.JPanel panAdd;
+    private javax.swing.JPanel panEdit;
+    private javax.swing.JPanel panError;
     private javax.swing.JSpinner spinValue;
     // End of variables declaration//GEN-END:variables
+
+    class AddPanel extends JPanel implements CidsBeanDropListener {
+
+        @Override
+        public void beansDropped(ArrayList<CidsBean> beans) {
+            CidsBean routeBean = null;
+            for (CidsBean bean : beans) {
+                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                    routeBean = bean;
+                    break;
+                }
+            }
+            if (routeBean != null) {
+                fillFromRoute(routeBean);
+                init();
+            } else {
+                LOG.debug("no route found in dropped objects");
+            }
+        }
+    }
 
 }

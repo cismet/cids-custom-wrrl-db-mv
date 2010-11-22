@@ -57,15 +57,15 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 //            throw new RuntimeException(ex);
 //        }
         
-        wkTeileEditor1.addWkTeileEditorListener(new WkTeileEditorListener() {
+        wkTeileEditor1.addLinearReferencedLineEditorListener(new LinearReferencedLineArrayEditorListener() {
 
             @Override
-            public void wkTeilAdded() {
+            public void editorAdded(LinearReferencedLineEditor source) {
                 zoomToFeatures();
             }
 
             @Override
-            public void wkTeilRemoved() {
+            public void editorRemoved(LinearReferencedLineEditor source) {
                 zoomToFeatures();
             }
         });
@@ -371,6 +371,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         panGeo.add(wkTeileEditor1, gridBagConstraints);

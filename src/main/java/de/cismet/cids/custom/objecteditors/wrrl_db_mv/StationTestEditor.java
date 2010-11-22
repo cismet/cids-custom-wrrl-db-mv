@@ -16,12 +16,18 @@ public class StationTestEditor extends DefaultCustomObjectEditor {
     /** Creates new form StationTestEditor */
     public StationTestEditor() {
         initComponents();
-    }
+        
+        StationEditorListener listener = new StationEditorListener() {
 
-    @Override
-    public void setCidsBean(CidsBean cidsBean) {
-        super.setCidsBean(cidsBean);
-        zoomToFeatures();
+            @Override
+            public void stationCreated() {
+                zoomToFeatures();
+            }
+        };
+        
+        stationEditor1.addStationEditorListener(listener);
+        stationEditor2.addStationEditorListener(listener);
+        stationEditor3.addStationEditorListener(listener);
     }
 
     private void zoomToFeatures() {
@@ -29,6 +35,12 @@ public class StationTestEditor extends DefaultCustomObjectEditor {
         if (!mappingComponent.isFixedMapExtent()) {
             CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
         }
+    }
+
+    @Override
+    public void setCidsBean(CidsBean cidsBean) {
+        LOG.fatal("cidsBean is null: " + (cidsBean == null));
+        super.setCidsBean(cidsBean);
     }
 
     @Override

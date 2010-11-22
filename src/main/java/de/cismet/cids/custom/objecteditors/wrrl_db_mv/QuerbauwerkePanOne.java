@@ -30,6 +30,8 @@ import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 /**
  *
@@ -46,6 +48,38 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     /** Creates new form QuerbauwerkePanOne */
     public QuerbauwerkePanOne() {
         initComponents();
+
+               stationEditor1.addStationEditorListener(new StationEditorListener() {
+
+            @Override
+            public void stationCreated() {
+                try {
+                    zoomToFeatures();
+                    cidsBean.setProperty("stat09", stationEditor1.getCidsBean());
+                } catch (Exception ex) {
+                    LOG.debug("error while assigning stat09 cidsbean to cidsbean", ex);
+                }
+            }
+        });
+        stationEditor2.addStationEditorListener(new StationEditorListener() {
+
+            @Override
+            public void stationCreated() {
+                try {
+                    zoomToFeatures();
+                    cidsBean.setProperty("stat09_bis", stationEditor2.getCidsBean());
+                } catch (Exception ex) {
+                    LOG.debug("error while assigning stat09_bis cidsbean to cidsbean", ex);
+                }
+            }
+        });
+    }
+
+    private void zoomToFeatures() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+        }
     }
 
     /** This method is called from within the constructor to

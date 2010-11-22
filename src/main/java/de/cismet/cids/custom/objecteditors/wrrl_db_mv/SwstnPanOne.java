@@ -24,6 +24,18 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
     /** Creates new form WkFgPanOne */
     public SwstnPanOne() {
         initComponents();
+        
+        stationEditor.addStationEditorListener(new StationEditorListener() {
+
+            @Override
+            public void stationCreated() {
+                try {
+                    cidsBean.setProperty("station", stationEditor.getCidsBean());
+                } catch (Exception ex) {
+                }
+            }
+        });
+
         cbGeom.setVisible(false);
         stationEditor.setVisible(false);
     }

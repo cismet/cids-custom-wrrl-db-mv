@@ -15,33 +15,59 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
     /** Creates new form TestJeanEditor */
     public TestJeanEditor() {
         initComponents();
-
-        stationenEditor1.addStationenEditorListener(new StationenEditorListener() {
+        
+        stationEditor.addStationEditorListener(new StationEditorListener() {
 
             @Override
-            public void stationAdded() {
+            public void stationCreated() {
+                zoomToFeatures();
+                try {
+                    cidsBean.setProperty("station", stationEditor.getCidsBean());
+                } catch (Exception ex) {
+                    LOG.debug("error while setting new cidsbean for station", ex);
+                }
+            }
+        });
+
+        wkTeilEditor.getWrappedEditor().addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+
+            @Override
+            public void LinearReferencedLineCreated() {
+                zoomToFeatures();
+                try {
+                    cidsBean.setProperty("wk_teil", wkTeilEditor.getCidsBean());
+                } catch (Exception ex) {
+                    LOG.debug("error while setting new cidsbean for wk_teil", ex);
+                }
+            }
+        });
+
+        wkTeileEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineArrayEditorListener() {
+
+            @Override
+            public void editorAdded(LinearReferencedLineEditor source) {
                 zoomToFeatures();
             }
 
             @Override
-            public void stationRemoved() {
+            public void editorRemoved(LinearReferencedLineEditor source) {
                 zoomToFeatures();
             }
         });
 
-        wkTeileEditor1.addWkTeileEditorListener(new WkTeileEditorListener() {
+        stationArrayEditor.addStationEditorListener(new StationArrayEditorListener() {
 
             @Override
-            public void wkTeilAdded() {
+            public void editorAdded(StationEditor source) {
                 zoomToFeatures();
             }
 
             @Override
-            public void wkTeilRemoved() {
+            public void editorRemoved(StationEditor source) {
                 zoomToFeatures();
             }
         });
-
+        
         //stationEditor1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ende.png"))); // NOI18N
     }
 
@@ -54,10 +80,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
 
     @Override
     public void dispose() {
-        stationEditor1.dispose();
-        stationenEditor1.dispose();
-        wkTeilEditor1.dispose();
-        wkTeileEditor1.dispose();
+        stationEditor.dispose();
+        stationArrayEditor.dispose();
+        wkTeilEditor.dispose();
+        wkTeileEditor.dispose();
     }
 
     /** This method is called from within the constructor to
@@ -71,80 +97,65 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        wkTeilEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor();
-        stationEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
-        jPanel1 = new javax.swing.JPanel();
-        stationenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationenEditor();
-        jPanel2 = new javax.swing.JPanel();
-        wkTeileEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
+        wkTeilEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor();
+        stationEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
+        wkTeileEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
+        stationArrayEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor();
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teil}"), wkTeilEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teil}"), wkTeilEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(wkTeilEditor1, gridBagConstraints);
+        add(wkTeilEditor, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station}"), stationEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station}"), stationEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(stationEditor1, gridBagConstraints);
+        add(stationEditor, gridBagConstraints);
 
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stationen}"), stationenEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teile}"), wkTeileEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
         bindingGroup.addBinding(binding);
 
-        jPanel1.add(stationenEditor1, java.awt.BorderLayout.CENTER);
+        wkTeileEditor.setLayout(new java.awt.GridLayout(1, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(wkTeileEditor, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stationen}"), stationArrayEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jPanel1, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teile}"), wkTeileEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
-        bindingGroup.addBinding(binding);
-
-        wkTeileEditor1.setLayout(new java.awt.GridLayout(1, 0));
-        jPanel2.add(wkTeileEditor1, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jPanel2, gridBagConstraints);
+        add(stationArrayEditor, gridBagConstraints);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationenEditor stationenEditor1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor wkTeilEditor1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor wkTeileEditor1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor stationArrayEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor wkTeilEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor wkTeileEditor;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

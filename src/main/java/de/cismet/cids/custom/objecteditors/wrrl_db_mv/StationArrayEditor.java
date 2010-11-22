@@ -20,20 +20,26 @@ import javax.swing.JPanel;
  *
  * @author jruiz
  */
-public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropListener, LinearReferencingConstants {
+public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDropListener, LinearReferencingConstants {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationenEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationArrayEditor.class);
 
     private Collection<CidsBean> cidsBeans;
     private Collection<StationEditor> stationEditors = new ArrayList<StationEditor>();
     private HashMap<JButton, StationEditor> stationenMap = new HashMap<JButton, StationEditor>();
-    private Collection<StationenEditorListener> listeners = new ArrayList<StationenEditorListener>();
+    private Collection<StationArrayEditorListener> listeners = new ArrayList<StationArrayEditorListener>();
     private CidsBeanDropTarget cidsBeanDropTarget;
 
     /** Creates new form WkTeileEditor */
-    public StationenEditor() {
+    public StationArrayEditor() {
         initComponents();
-        new CidsBeanDropTarget(this);
+
+        try {
+            new CidsBeanDropTarget(this);
+        } catch (Exception ex) {
+            LOG.debug("error while creating CidsBeanDropTarget");
+        }
+
     }
 
     @Override
@@ -69,23 +75,23 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
         return stationBean;
     }
 
-    public boolean addStationenEditorListener(StationenEditorListener listener) {
+    public boolean addStationEditorListener(StationArrayEditorListener listener) {
         return listeners.add(listener);
     }
 
-    public boolean removeListener(StationenEditorListener listener) {
+    public boolean removeListener(StationArrayEditorListener listener) {
         return listeners.remove(listener);
     }
 
-    private void fireStationAdded() {
-        for (StationenEditorListener listener : listeners) {
-            listener.stationAdded();
+    private void fireStationAdded(StationEditor source) {
+        for (StationArrayEditorListener listener : listeners) {
+            listener.editorAdded(source);
         }
     }
 
-    private void fireStationRemoved() {
-        for (StationenEditorListener listener : listeners) {
-            listener.stationRemoved();
+    private void fireStationRemoved(StationEditor source) {
+        for (StationArrayEditorListener listener : listeners) {
+            listener.editorRemoved(source);
         }
     }
 
@@ -157,7 +163,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
         ((java.awt.GridLayout) jPanel1.getLayout()).setRows(jPanel1.getComponentCount());
 
         revalidate();
-        fireStationAdded();
+        fireStationAdded(stationEditor);
     }
 
     private void removeEditor(StationEditor stationEditor) {
@@ -175,7 +181,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
         stationEditors.remove(stationEditor);
 
         revalidate();
-        fireStationRemoved();
+        fireStationRemoved(stationEditor);
     }
 
     public void dispose() {
@@ -210,7 +216,7 @@ public class StationenEditor extends javax.swing.JPanel implements CidsBeanDropL
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(StationenEditor.class, "StationenEditor.jLabel1.text")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(StationArrayEditor.class, "StationArrayEditor.jLabel1.text")); // NOI18N
         semiRoundedPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
 
         roundedPanel1.add(semiRoundedPanel1, java.awt.BorderLayout.NORTH);

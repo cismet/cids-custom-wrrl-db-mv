@@ -2,7 +2,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import java.awt.Color;
 
 /**
  *
@@ -10,28 +9,23 @@ import java.awt.Color;
  */
 public class WkTeilEditor extends DefaultCustomObjectEditor {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkTeilEditor.class);
-
-    private static final String WK_TEIL_MC = "wk_teil";    // NOI18N
-    private static final String FROM_STATION_BEAN = "von";    // NOI18N
-    private static final String TO_STATION_BEAN = "bis";    // NOI18N
-    private static final String REAL_GEOM_BEAN = "real_geom";    // NOI18N
+    public static final String MC_WKTEIL = "wk_teil";    // NOI18N
+    public static final String PROP_WKTEIL_FROM = "von";    // NOI18N
+    public static final String PROP_WKTEIL_TO = "bis";    // NOI18N
+    public static final String PROP_WKTEIL_GEOM = "real_geom";    // NOI18N
 
     /** Creates new form WkTeilEditor */
     public WkTeilEditor() {
         initComponents();
-        linearReferencedLineEditor1.setMetaClassName(WK_TEIL_MC);
-        linearReferencedLineEditor1.setFromStationField(FROM_STATION_BEAN);
-        linearReferencedLineEditor1.setToStationField(TO_STATION_BEAN);
-        linearReferencedLineEditor1.setRealGeomField(REAL_GEOM_BEAN);
-    }
-
-    public void setLineColor(Color color) {
-        linearReferencedLineEditor1.setLineColor(color);
     }
 
     @Override
-    public void setCidsBean(CidsBean cidsBean) {
+    synchronized public void setCidsBean(CidsBean cidsBean) {
+        try {
+            super.setCidsBean(cidsBean);
+        } catch (Exception ex) {
+            // no bindinggroup
+        }
         linearReferencedLineEditor1.setCidsBean(cidsBean);
     }
 
@@ -40,6 +34,10 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
         if (linearReferencedLineEditor1.getCidsBean() != null) {
             linearReferencedLineEditor1.dispose();
         }
+    }
+
+    public LinearReferencedLineEditor getWrappedEditor() {
+        return linearReferencedLineEditor1;
     }
 
     /** This method is called from within the constructor to
@@ -51,7 +49,12 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        linearReferencedLineEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        linearReferencedLineEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor(
+            MC_WKTEIL,
+            PROP_WKTEIL_FROM,
+            PROP_WKTEIL_TO,
+            PROP_WKTEIL_GEOM
+        );
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());

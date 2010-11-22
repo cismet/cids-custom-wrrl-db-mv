@@ -25,6 +25,25 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
     /** Creates new form BewirtschaftungsendeEditor */
     public BewirtschaftungsendeEditor() {
         initComponents();
+        stationEditor1.addStationEditorListener(new StationEditorListener() {
+
+            @Override
+            public void stationCreated() {
+                try {
+                    zoomToFeatures();
+                    cidsBean.setProperty("stat", stationEditor1.getCidsBean());
+                } catch (Exception ex) {
+                    LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
+                }
+            }
+        });
+    }
+
+    private void zoomToFeatures() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+        }
     }
 
     @Override
@@ -38,13 +57,8 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
-            bindingGroup.bind();
-            
-            //zoom to feature
-            MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-            if (!mappingComponent.isFixedMapExtent()) {
-                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-            }            
+            bindingGroup.bind();            
+            zoomToFeatures();
         }
     }
 
