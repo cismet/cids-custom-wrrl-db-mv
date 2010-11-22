@@ -73,13 +73,11 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         panB = new javax.swing.JPanel();
         querbauwerkePanTwo = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanTwo();
         jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        querbauwerkePanFour = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour();
         jPanel4 = new javax.swing.JPanel();
         querbauwerkePanThree = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanThree();
         jPanel5 = new javax.swing.JPanel();
         querbauwerkePanFive = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive();
+        querbauwerkePanFour = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour();
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
@@ -97,7 +95,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 157, Short.MAX_VALUE)
+            .addGap(0, 161, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -148,38 +146,6 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panB.TabConstraints.tabTitle"), panB); // NOI18N
 
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        jPanel7.setOpaque(false);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1170, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        jPanel1.add(jPanel7, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        jPanel1.add(querbauwerkePanFour, gridBagConstraints);
-
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
-
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -197,16 +163,16 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1170, Short.MAX_VALUE)
+            .addGap(0, 1169, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 570, Short.MAX_VALUE)
+            .addGap(0, 543, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
@@ -218,6 +184,14 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         jPanel4.add(querbauwerkePanFive, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        jPanel4.add(querbauwerkePanFour, gridBagConstraints);
 
         tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
 
@@ -457,12 +431,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel panA;
     private javax.swing.JPanel panB;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
