@@ -1,28 +1,7 @@
-/*
- *  Copyright (C) 2010 jruiz
- * 
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- * 
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- * 
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
- * QuerbauwerkePanOne.java
- *
- * Created on 26.10.2010, 13:57:21
- */
-
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.server.middleware.types.MetaObject;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -37,6 +16,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkePanOne.class);
     private CidsBean cidsBean;
+    private MetaObject moWk;
+    public enum Kategorie {Fliessgewaesser, Standgewaesser};
     
     /** Creates new form QuerbauwerkePanOne */
     public QuerbauwerkePanTwo() {
@@ -87,6 +68,12 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jTextField14 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        lblWaKoerperKey1 = new javax.swing.JLabel();
+        lblWGwkAchsKey = new javax.swing.JLabel();
+        lblWaKoerperKey = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
@@ -131,11 +118,11 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 986, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 10, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -158,7 +145,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -172,7 +159,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -181,7 +168,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblBauwerkKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblBauwerkKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblBauwerkKey, gridBagConstraints);
@@ -189,7 +176,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblAnlagenameKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblAnlagenameKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblAnlagenameKey, gridBagConstraints);
@@ -197,7 +184,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblLaengeKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblLaengeKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblLaengeKey, gridBagConstraints);
@@ -205,7 +192,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblHoeheKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblHoeheKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblHoeheKey, gridBagConstraints);
@@ -213,7 +200,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblBreiteKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblBreiteKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblBreiteKey, gridBagConstraints);
@@ -221,7 +208,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblDurchmesserKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblDurchmesserKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblDurchmesserKey, gridBagConstraints);
@@ -229,7 +216,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblMaterialKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblMaterialKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblMaterialKey, gridBagConstraints);
@@ -237,7 +224,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblUeberdeckungKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblUeberdeckungKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblUeberdeckungKey, gridBagConstraints);
@@ -245,7 +232,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblStauhoeheKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblStauhoeheKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblStauhoeheKey, gridBagConstraints);
@@ -259,7 +246,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -274,7 +261,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -289,7 +276,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -304,7 +291,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -313,7 +300,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel1.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel1, gridBagConstraints);
@@ -321,7 +308,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel2.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel2, gridBagConstraints);
@@ -329,7 +316,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel3.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel3, gridBagConstraints);
@@ -337,7 +324,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel4.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel4.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel4, gridBagConstraints);
@@ -345,7 +332,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel5.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel5.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel5, gridBagConstraints);
@@ -353,7 +340,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel7.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel7.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel7, gridBagConstraints);
@@ -366,7 +353,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -381,7 +368,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -395,7 +382,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -404,7 +391,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jLabel8.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel8.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jLabel8, gridBagConstraints);
@@ -415,16 +402,16 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 456, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 146, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
@@ -438,11 +425,80 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jTextField14, gridBagConstraints);
+
+        jLabel10.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel10.text")); // NOI18N
+        jLabel10.setMinimumSize(new java.awt.Dimension(250, 25));
+        jLabel10.setPreferredSize(new java.awt.Dimension(250, 25));
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(jLabel10, gridBagConstraints);
+
+        jLabel11.setMinimumSize(new java.awt.Dimension(250, 25));
+        jLabel11.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat09.route.gwk}"), jLabel11, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(jLabel11, gridBagConstraints);
+
+        jLabel12.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.jLabel12.text")); // NOI18N
+        jLabel12.setMinimumSize(new java.awt.Dimension(250, 25));
+        jLabel12.setPreferredSize(new java.awt.Dimension(250, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(jLabel12, gridBagConstraints);
+
+        lblWaKoerperKey1.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblWaKoerperKey1.text")); // NOI18N
+        lblWaKoerperKey1.setMinimumSize(new java.awt.Dimension(150, 17));
+        lblWaKoerperKey1.setPreferredSize(new java.awt.Dimension(150, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(lblWaKoerperKey1, gridBagConstraints);
+
+        lblWGwkAchsKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblWGwkAchsKey.text")); // NOI18N
+        lblWGwkAchsKey.setMinimumSize(new java.awt.Dimension(150, 17));
+        lblWGwkAchsKey.setPreferredSize(new java.awt.Dimension(150, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(lblWGwkAchsKey, gridBagConstraints);
+
+        lblWaKoerperKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanTwo.class, "QuerbauwerkePanTwo.lblWaKoerperKey.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(lblWaKoerperKey, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -453,8 +509,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(250, 150));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 150));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(250, 125));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 125));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkungen}"), jTextArea2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -555,11 +611,11 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 438, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -602,8 +658,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(defaultBindableReferenceCombo2, gridBagConstraints);
 
-        defaultBindableReferenceCombo10.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo10.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo10.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo10.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.substrat}"), defaultBindableReferenceCombo10, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -637,8 +693,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(jLabel9, gridBagConstraints);
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(250, 142));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 142));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(250, 125));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(250, 125));
         jScrollPane1.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -671,6 +727,42 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void setMoWk(MetaObject moWk) {
+        this.moWk = moWk;
+    }
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        if (evt.getClickCount() > 1 && moWk != null) {
+            ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObject(moWk.getMetaClass(), moWk.getID(), "");
+        }
+}//GEN-LAST:event_jLabel10MouseClicked
+
+    public void setKategorie(Kategorie kategorie) {
+        if (kategorie != null) {
+            switch (kategorie) {
+                case Fliessgewaesser:
+                    jLabel12.setText("Fließgewässer");
+                    jLabel12.setVisible(true);
+                    lblWaKoerperKey1.setVisible(true);
+                    break;
+                case Standgewaesser:
+                    jLabel12.setText("Standgewässer");
+                    jLabel12.setVisible(true);
+                    lblWaKoerperKey1.setVisible(true);
+                    break;
+            }
+        } else {
+            jLabel12.setVisible(false);
+            lblWaKoerperKey1.setVisible(false);
+        }
+    }
+
+    public void setWaKoerper(String waKoerper) {
+        lblWaKoerperKey.setVisible(waKoerper != null);
+        jLabel10.setVisible(waKoerper != null);
+        jLabel10.setText(waKoerper);
+    }
 
     @Override
     public CidsBean getCidsBean() {
@@ -710,6 +802,9 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo10;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -756,6 +851,9 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     private javax.swing.JLabel lblStauhoeheKey;
     private javax.swing.JLabel lblSubstratKey;
     private javax.swing.JLabel lblUeberdeckungKey;
+    private javax.swing.JLabel lblWGwkAchsKey;
+    private javax.swing.JLabel lblWaKoerperKey;
+    private javax.swing.JLabel lblWaKoerperKey1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;

@@ -127,6 +127,8 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         jPanel6.add(jPanel10, gridBagConstraints);
 
         lblDgkFischeKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanThree.class, "QuerbauwerkePanThree.lblDgkFischeKey.text")); // NOI18N
+        lblDgkFischeKey.setMinimumSize(new java.awt.Dimension(125, 25));
+        lblDgkFischeKey.setPreferredSize(new java.awt.Dimension(125, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -134,8 +136,8 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkFischeKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo8.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo8.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo8.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo8.setPreferredSize(new java.awt.Dimension(250, 25));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_fische}"), defaultBindableReferenceCombo8, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -150,6 +152,8 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         jPanel6.add(defaultBindableReferenceCombo8, gridBagConstraints);
 
         lblDgkWirbelKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanThree.class, "QuerbauwerkePanThree.lblDgkWirbelKey.text")); // NOI18N
+        lblDgkWirbelKey.setMinimumSize(new java.awt.Dimension(125, 25));
+        lblDgkWirbelKey.setPreferredSize(new java.awt.Dimension(125, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -157,8 +161,8 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkWirbelKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo7.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo7.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo7.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo7.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_wirbel}"), defaultBindableReferenceCombo7, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -173,6 +177,8 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         jPanel6.add(defaultBindableReferenceCombo7, gridBagConstraints);
 
         lblDgkOtterKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanThree.class, "QuerbauwerkePanThree.lblDgkOtterKey.text")); // NOI18N
+        lblDgkOtterKey.setMinimumSize(new java.awt.Dimension(125, 25));
+        lblDgkOtterKey.setPreferredSize(new java.awt.Dimension(125, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -180,8 +186,8 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkOtterKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo9.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo9.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo9.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo9.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_otter}"), defaultBindableReferenceCombo9, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

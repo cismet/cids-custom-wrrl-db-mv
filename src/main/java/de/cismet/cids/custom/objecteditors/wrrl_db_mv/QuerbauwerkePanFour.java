@@ -249,11 +249,11 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
+            .addGap(0, 345, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 221, Short.MAX_VALUE)
+            .addGap(0, 191, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -310,8 +310,8 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
         jPanel6.add(jLabel3, gridBagConstraints);
 
         defaultBindableReferenceCombo13.setEnabled(false);
-        defaultBindableReferenceCombo13.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo13.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo13.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo13.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_warum}"), defaultBindableReferenceCombo13, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -335,8 +335,8 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(jLabel7, gridBagConstraints);
 
-        defaultBindableReferenceCombo14.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo14.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo14.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo14.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.oeko_dgk}"), defaultBindableReferenceCombo14, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -391,8 +391,8 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel9.add(jLabel6, gridBagConstraints);
 
-        jScrollPane3.setMinimumSize(new java.awt.Dimension(300, 150));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(300, 150));
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(250, 125));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(250, 125));
 
         jTextArea3.setColumns(20);
         jTextArea3.setRows(5);
@@ -420,6 +420,9 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel9.add(jLabel8, gridBagConstraints);
 
+        jTextField1.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField1.setPreferredSize(new java.awt.Dimension(250, 25));
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.info_quel}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<Error>");
@@ -442,6 +445,9 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel9.add(jLabel9, gridBagConstraints);
+
+        jTextField2.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField2.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);

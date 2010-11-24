@@ -1,37 +1,9 @@
-/*
- *  Copyright (C) 2010 jruiz
- * 
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- * 
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- * 
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
- * QuerbauwerkePanOne.java
- *
- * Created on 09.11.2010, 13:57:21
- */
-
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.ui.ComponentRegistry;
-import Sirius.server.middleware.types.MetaObject;
-import de.cismet.cids.custom.util.CoordinateConverter;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.interaction.CismapBroker;
 
 /**
  *
@@ -41,45 +13,11 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkePanOne.class);
     private CidsBean cidsBean;
-    private MetaObject moWk;
-    public enum Kategorie {Fliessgewaesser, Standgewaesser};
 
     
     /** Creates new form QuerbauwerkePanOne */
     public QuerbauwerkePanOne() {
         initComponents();
-
-               stationEditor1.addStationEditorListener(new StationEditorListener() {
-
-            @Override
-            public void stationCreated() {
-                try {
-                    zoomToFeatures();
-                    cidsBean.setProperty("stat09", stationEditor1.getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while assigning stat09 cidsbean to cidsbean", ex);
-                }
-            }
-        });
-        stationEditor2.addStationEditorListener(new StationEditorListener() {
-
-            @Override
-            public void stationCreated() {
-                try {
-                    zoomToFeatures();
-                    cidsBean.setProperty("stat09_bis", stationEditor2.getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while assigning stat09_bis cidsbean to cidsbean", ex);
-                }
-            }
-        });
-    }
-
-    private void zoomToFeatures() {
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-        }
     }
 
     /** This method is called from within the constructor to
@@ -100,45 +38,24 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        lblWaKoerperKey = new javax.swing.JLabel();
-        lblWGwkAchsKey = new javax.swing.JLabel();
         lblQbwIdKey = new javax.swing.JLabel();
         lblBauwerksnummerKey = new javax.swing.JLabel();
         jTextField14 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         lblLandkreisKey = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         lblStaluKey = new javax.swing.JLabel();
         jTextField25 = new javax.swing.JTextField();
         lblStaluKey1 = new javax.swing.JLabel();
         jTextField26 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        lblWaKoerperKey1 = new javax.swing.JLabel();
         lblStaluKey2 = new javax.swing.JLabel();
         jTextField27 = new javax.swing.JTextField();
         lblWaKoerperKey2 = new javax.swing.JLabel();
         defaultBindableReferenceCombo2 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        jLabel8 = new javax.swing.JLabel();
         lblWaKoerperKey3 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jPanel6 = new javax.swing.JPanel();
-        lblFotoKey = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
-        lblFotoRichtungKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo11 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        lblStat09Key = new javax.swing.JLabel();
-        stationEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
-        lblRHWertVonKey = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        stationEditor2 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
-        lblStat09BisKey = new javax.swing.JLabel();
-        lblRHWertBisKey = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblKartiererKey = new javax.swing.JLabel();
         jTextField15 = new javax.swing.JTextField();
@@ -150,6 +67,11 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblKartierdatumKey1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        lblFotoKey = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
+        lblFotoRichtungKey = new javax.swing.JLabel();
+        defaultBindableReferenceCombo11 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         jSeparator1 = new javax.swing.JSeparator();
 
         setOpaque(false);
@@ -197,28 +119,10 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel8.setOpaque(false);
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        lblWaKoerperKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblWaKoerperKey.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(lblWaKoerperKey, gridBagConstraints);
-
-        lblWGwkAchsKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblWGwkAchsKey.text")); // NOI18N
-        lblWGwkAchsKey.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblWGwkAchsKey.setPreferredSize(new java.awt.Dimension(150, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(lblWGwkAchsKey, gridBagConstraints);
-
         lblQbwIdKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblQbwIdKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblQbwIdKey, gridBagConstraints);
@@ -228,67 +132,51 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblBauwerksnummerKey.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblBauwerksnummerKey, gridBagConstraints);
 
-        jTextField14.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField14.setPreferredSize(new java.awt.Dimension(300, 25));
+        jTextField14.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField14.setPreferredSize(new java.awt.Dimension(250, 25));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bauwerksnummer}"), jTextField14, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(jTextField14, gridBagConstraints);
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jLabel3.text")); // NOI18N
-        jLabel3.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel3.setPreferredSize(new java.awt.Dimension(300, 25));
+        jLabel3.setMinimumSize(new java.awt.Dimension(250, 25));
+        jLabel3.setPreferredSize(new java.awt.Dimension(250, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(jLabel3, gridBagConstraints);
-
-        jLabel4.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel4.setPreferredSize(new java.awt.Dimension(300, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat09.route.gwk}"), jLabel4, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(jLabel4, gridBagConstraints);
 
         lblLandkreisKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblLandkreisKey.text")); // NOI18N
         lblLandkreisKey.setMinimumSize(new java.awt.Dimension(150, 17));
         lblLandkreisKey.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblLandkreisKey, gridBagConstraints);
 
-        jTextField3.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField3.setPreferredSize(new java.awt.Dimension(300, 25));
+        jTextField3.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField3.setPreferredSize(new java.awt.Dimension(250, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -297,16 +185,16 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblStaluKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblStaluKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblStaluKey, gridBagConstraints);
 
-        jTextField25.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField25.setPreferredSize(new java.awt.Dimension(300, 25));
+        jTextField25.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField25.setPreferredSize(new java.awt.Dimension(250, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -315,66 +203,42 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblStaluKey1.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblStaluKey1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblStaluKey1, gridBagConstraints);
 
-        jTextField26.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField26.setPreferredSize(new java.awt.Dimension(300, 25));
+        jTextField26.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField26.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.staeun_}"), jTextField26, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(jTextField26, gridBagConstraints);
 
-        jLabel7.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jLabel7.text")); // NOI18N
-        jLabel7.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel7.setPreferredSize(new java.awt.Dimension(300, 25));
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(jLabel7, gridBagConstraints);
-
-        lblWaKoerperKey1.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblWaKoerperKey1.text")); // NOI18N
-        lblWaKoerperKey1.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblWaKoerperKey1.setPreferredSize(new java.awt.Dimension(150, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(lblWaKoerperKey1, gridBagConstraints);
-
         lblStaluKey2.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblStaluKey2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblStaluKey2, gridBagConstraints);
 
-        jTextField27.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField27.setPreferredSize(new java.awt.Dimension(300, 25));
+        jTextField27.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField27.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wasserbuch}"), jTextField27, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -385,56 +249,47 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblWaKoerperKey2.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblWaKoerperKey2, gridBagConstraints);
 
-        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(300, 25));
+        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zweck}"), defaultBindableReferenceCombo2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(defaultBindableReferenceCombo2, gridBagConstraints);
 
-        jLabel8.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jLabel8.text")); // NOI18N
-        jLabel8.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel8.setPreferredSize(new java.awt.Dimension(300, 25));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(jLabel8, gridBagConstraints);
-
         lblWaKoerperKey3.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblWaKoerperKey3.text")); // NOI18N
         lblWaKoerperKey3.setMinimumSize(new java.awt.Dimension(150, 34));
         lblWaKoerperKey3.setPreferredSize(new java.awt.Dimension(150, 34));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblWaKoerperKey3, gridBagConstraints);
 
         jCheckBox1.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jCheckBox1.text")); // NOI18N
         jCheckBox1.setContentAreaFilled(false);
+        jCheckBox1.setMinimumSize(new java.awt.Dimension(250, 25));
+        jCheckBox1.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gwk_wrrl}"), jCheckBox1, org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -446,65 +301,6 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(13, 7, 5, 7);
         jPanel9.add(jPanel8, gridBagConstraints);
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jPanel6.border.title"))); // NOI18N
-        jPanel6.setOpaque(false);
-        jPanel6.setLayout(new java.awt.GridBagLayout());
-
-        lblFotoKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblFotoKey.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(lblFotoKey, gridBagConstraints);
-
-        jTextField12.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField12.setPreferredSize(new java.awt.Dimension(300, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto}"), jTextField12, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(jTextField12, gridBagConstraints);
-
-        lblFotoRichtungKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblFotoRichtungKey.text")); // NOI18N
-        lblFotoRichtungKey.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblFotoRichtungKey.setPreferredSize(new java.awt.Dimension(150, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(lblFotoRichtungKey, gridBagConstraints);
-
-        defaultBindableReferenceCombo11.setMinimumSize(new java.awt.Dimension(300, 25));
-        defaultBindableReferenceCombo11.setPreferredSize(new java.awt.Dimension(300, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_richtung}"), defaultBindableReferenceCombo11, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(defaultBindableReferenceCombo11, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel9.add(jPanel6, gridBagConstraints);
 
         jPanel1.setOpaque(false);
 
@@ -537,124 +333,6 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel10.setOpaque(false);
         jPanel10.setLayout(new java.awt.GridBagLayout());
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jPanel4.border.title"))); // NOI18N
-        jPanel4.setOpaque(false);
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        lblStat09Key.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblStat09Key.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblStat09Key, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat09}"), stationEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(stationEditor1, gridBagConstraints);
-
-        lblRHWertVonKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblRHWertVonKey.text")); // NOI18N
-        lblRHWertVonKey.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblRHWertVonKey.setPreferredSize(new java.awt.Dimension(150, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblRHWertVonKey, gridBagConstraints);
-
-        jLabel1.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel1.setPreferredSize(new java.awt.Dimension(300, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat09.real_point}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("/");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(new CoordinateConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(jLabel1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel10.add(jPanel4, gridBagConstraints);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jPanel5.border.title"))); // NOI18N
-        jPanel5.setOpaque(false);
-        jPanel5.setLayout(new java.awt.GridBagLayout());
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat09_bis}"), stationEditor2, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(stationEditor2, gridBagConstraints);
-
-        lblStat09BisKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblStat09BisKey.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(lblStat09BisKey, gridBagConstraints);
-
-        lblRHWertBisKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblRHWertBisKey.text")); // NOI18N
-        lblRHWertBisKey.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblRHWertBisKey.setPreferredSize(new java.awt.Dimension(150, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(lblRHWertBisKey, gridBagConstraints);
-
-        jLabel2.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel2.setPreferredSize(new java.awt.Dimension(300, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat09_bis.real_point}"), jLabel2, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("/");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(new CoordinateConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel5.add(jLabel2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel10.add(jPanel5, gridBagConstraints);
-
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
@@ -667,8 +345,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblKartiererKey, gridBagConstraints);
 
-        jTextField15.setMinimumSize(new java.awt.Dimension(300, 25));
-        jTextField15.setPreferredSize(new java.awt.Dimension(300, 25));
+        jTextField15.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField15.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kartierer}"), jTextField15, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -691,6 +369,9 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblKartierdatumKey, gridBagConstraints);
 
+        defaultBindableTimestampChooser1.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableTimestampChooser1.setPreferredSize(new java.awt.Dimension(250, 25));
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kartierdatum}"), defaultBindableTimestampChooser1, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
         bindingGroup.addBinding(binding);
 
@@ -704,7 +385,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 7);
@@ -716,16 +397,16 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
+            .addGap(0, 446, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 103, Short.MAX_VALUE)
+            .addGap(0, 28, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         jPanel10.add(jPanel11, gridBagConstraints);
@@ -753,8 +434,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(lblKartierdatumKey1, gridBagConstraints);
 
-        jLabel5.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel5.setPreferredSize(new java.awt.Dimension(300, 25));
+        jLabel5.setMinimumSize(new java.awt.Dimension(250, 25));
+        jLabel5.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_user}"), jLabel5, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -767,8 +448,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(jLabel5, gridBagConstraints);
 
-        jLabel6.setMinimumSize(new java.awt.Dimension(300, 25));
-        jLabel6.setPreferredSize(new java.awt.Dimension(300, 25));
+        jLabel6.setMinimumSize(new java.awt.Dimension(250, 25));
+        jLabel6.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_time}"), jLabel6, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -786,11 +467,70 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 5, 7);
         jPanel10.add(jPanel7, gridBagConstraints);
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.jPanel6.border.title"))); // NOI18N
+        jPanel6.setOpaque(false);
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        lblFotoKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblFotoKey.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(lblFotoKey, gridBagConstraints);
+
+        jTextField12.setMinimumSize(new java.awt.Dimension(250, 25));
+        jTextField12.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto}"), jTextField12, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(jTextField12, gridBagConstraints);
+
+        lblFotoRichtungKey.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkePanOne.class, "QuerbauwerkePanOne.lblFotoRichtungKey.text")); // NOI18N
+        lblFotoRichtungKey.setMinimumSize(new java.awt.Dimension(150, 17));
+        lblFotoRichtungKey.setPreferredSize(new java.awt.Dimension(150, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(lblFotoRichtungKey, gridBagConstraints);
+
+        defaultBindableReferenceCombo11.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo11.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_richtung}"), defaultBindableReferenceCombo11, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel6.add(defaultBindableReferenceCombo11, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel10.add(jPanel6, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -815,45 +555,9 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        if (evt.getClickCount() > 1 && moWk != null) {
-            ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObject(moWk.getMetaClass(), moWk.getID(), "");
-        }
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    public void setMoWk(MetaObject moWk) {
-        this.moWk = moWk;
-    }
-
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
-    }
-
-    public void setKategorie(Kategorie kategorie) {
-        if (kategorie != null) {
-            switch (kategorie) {
-                case Fliessgewaesser:
-                    jLabel8.setText("Fließgewässer");
-                    jLabel8.setVisible(true);
-                    lblWaKoerperKey1.setVisible(true);
-                    break;
-                case Standgewaesser:
-                    jLabel8.setText("Standgewässer");
-                    jLabel8.setVisible(true);
-                    lblWaKoerperKey1.setVisible(true);
-                    break;
-            }
-        } else {
-            jLabel8.setVisible(false);
-            lblWaKoerperKey1.setVisible(false);
-        }
-    }
-
-    public void setWaKoerper(String waKoerper) {
-        lblWaKoerperKey.setVisible(waKoerper != null);
-        jLabel7.setVisible(waKoerper != null);
-        jLabel7.setText(waKoerper);
     }
 
     public void setQbwId(String qbwId) {
@@ -873,8 +577,6 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     @Override
     public void dispose() {
         bindingGroup.unbind();
-        stationEditor1.dispose();
-        stationEditor2.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -882,21 +584,14 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo2;
     private de.cismet.cids.editors.DefaultBindableTimestampChooser defaultBindableTimestampChooser1;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -919,23 +614,14 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     private javax.swing.JLabel lblKartiererKey1;
     private javax.swing.JLabel lblLandkreisKey;
     private javax.swing.JLabel lblQbwIdKey;
-    private javax.swing.JLabel lblRHWertBisKey;
-    private javax.swing.JLabel lblRHWertVonKey;
     private javax.swing.JLabel lblStaluKey;
     private javax.swing.JLabel lblStaluKey1;
     private javax.swing.JLabel lblStaluKey2;
-    private javax.swing.JLabel lblStat09BisKey;
-    private javax.swing.JLabel lblStat09Key;
-    private javax.swing.JLabel lblWGwkAchsKey;
-    private javax.swing.JLabel lblWaKoerperKey;
-    private javax.swing.JLabel lblWaKoerperKey1;
     private javax.swing.JLabel lblWaKoerperKey2;
     private javax.swing.JLabel lblWaKoerperKey3;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor2;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
