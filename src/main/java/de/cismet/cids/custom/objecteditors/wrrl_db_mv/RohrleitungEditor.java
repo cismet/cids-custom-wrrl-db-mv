@@ -317,7 +317,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         txtStatusQuoAnalyse1.setMinimumSize(new java.awt.Dimension(500, 20));
         txtStatusQuoAnalyse1.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaessername}"), txtStatusQuoAnalyse1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_name}"), txtStatusQuoAnalyse1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
