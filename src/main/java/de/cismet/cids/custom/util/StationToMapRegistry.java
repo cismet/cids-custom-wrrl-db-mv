@@ -147,7 +147,7 @@ public class StationToMapRegistry implements LinearReferencingConstants {
 
     // << TO MAP
 
-    class RouteFeature extends PureNewFeature implements DrawSelectionFeature {
+    public class RouteFeature extends PureNewFeature implements DrawSelectionFeature {
 
         public RouteFeature(Geometry geomety) {
             super(geomety);

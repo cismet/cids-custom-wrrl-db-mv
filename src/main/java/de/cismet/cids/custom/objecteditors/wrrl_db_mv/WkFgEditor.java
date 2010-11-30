@@ -9,6 +9,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
@@ -18,6 +19,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureGroup;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -27,6 +29,7 @@ import de.cismet.tools.gui.FooterComponentProvider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -74,7 +77,17 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private void zoomToFeatures() {
         MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+            FeatureCollection features = CismapBroker.getInstance().getMappingComponent().getFeatureCollection();
+            List<Feature> featureList = features.getAllFeatures();
+            List<Feature> featuresToZoom = new ArrayList<Feature>();
+
+            for ( Feature f : featureList) {
+                if ( !(f instanceof StationToMapRegistry.RouteFeature) ) {
+                    featuresToZoom.add(f);
+                }
+            }
+            
+            CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(featuresToZoom, false, mappingComponent.isFixedMapScale());
         }
     }
 
@@ -110,6 +123,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             }
 
             lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+            zoomToFeatures();
         } else {
             lblFoot.setText("");
         }
