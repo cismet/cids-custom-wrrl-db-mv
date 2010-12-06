@@ -219,6 +219,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         spHoeheAuslauf.setPreferredSize(new java.awt.Dimension(75, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge_m}"), spHoeheAuslauf, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -233,6 +234,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         spLaenge.setPreferredSize(new java.awt.Dimension(75, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.durchmess}"), spLaenge, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -247,6 +249,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         spDurchmesser.setPreferredSize(new java.awt.Dimension(75, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.abst_r_end}"), spDurchmesser, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
