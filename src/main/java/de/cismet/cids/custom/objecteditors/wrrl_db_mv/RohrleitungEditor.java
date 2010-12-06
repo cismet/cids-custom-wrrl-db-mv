@@ -6,14 +6,14 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 /**
  *
  * @author stefan
  */
-public class RohrleitungEditor extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRenderer {
 
     private CidsBean cidsBean;
 
@@ -165,7 +165,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         scpBemerkung.setPreferredSize(new java.awt.Dimension(500, 75));
 
         taBemerkung.setColumns(20);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taBemerkung.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -421,4 +421,16 @@ public class RohrleitungEditor extends javax.swing.JPanel implements DisposableC
         linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }
+
+    @Override
+    public String getTitle() {
+        return cidsBean.toString();
+    }
+
+    @Override
+    public void setTitle(String title) {
+
+    }
+
+
 }

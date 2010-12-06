@@ -378,7 +378,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
 
     @Override
     public String getTitle() {
-        return "";
+        return cidsBean.toString();
     }
 
     @Override
