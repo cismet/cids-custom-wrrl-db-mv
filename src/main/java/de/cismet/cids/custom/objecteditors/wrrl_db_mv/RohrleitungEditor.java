@@ -8,6 +8,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -20,10 +25,34 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     /** Creates new form RohrleitungEditor */
     public RohrleitungEditor() {
         initComponents();
+        initLinearReferencedLineEditor();
+    }
+
+    private void initLinearReferencedLineEditor() {
         linearReferencedLineEditor.setMetaClassName("Rohrleitung");
         linearReferencedLineEditor.setFromStationField("station_von");
         linearReferencedLineEditor.setToStationField("station_bis");
         linearReferencedLineEditor.setRealGeomField("real_geom");
+        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+
+            @Override
+            public void LinearReferencedLineCreated() {
+                zoomToFeatures();
+            }
+        });
+    }
+
+    private void zoomToFeatures() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            Collection<Feature> fc = new ArrayList<Feature>();
+            for (Feature f : CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures()) {
+                if (f.equals(linearReferencedLineEditor.getFeature())) {
+                    fc.add(f);
+                }
+            }
+            CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(fc, true, mappingComponent.isFixedMapScale());
+        }
     }
 
     /** This method is called from within the constructor to
@@ -431,6 +460,5 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     public void setTitle(String title) {
 
     }
-
 
 }
