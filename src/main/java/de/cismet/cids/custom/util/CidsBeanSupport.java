@@ -19,6 +19,7 @@ import java.util.Map.Entry;
  * @author srichter
  */
 public final class CidsBeanSupport {
+    public static final String FIELD_NOT_SET = "<nicht gesetzt>";
 
     private CidsBeanSupport() {
         throw new AssertionError();
@@ -57,5 +58,44 @@ public final class CidsBeanSupport {
     public static boolean checkWritePermission(CidsBean bean) {
         User user = SessionManager.getSession().getUser();
         return bean.getHasWritePermission(user);
+    }
+
+
+    /**
+     * Deletes the given proeprty from the given bean. The given property must be of type station.
+     *
+     * @param bean
+     * @param propertyName
+     * @param beansToDelete
+     * @throws Exception
+     */
+    public static void deleteStationIfExists(CidsBean bean, String propertyName, List<CidsBean> beansToDelete) throws Exception {
+        Object station = bean.getProperty(propertyName);
+
+        if (station instanceof CidsBean) {
+            CidsBean cbean = (CidsBean)station;
+            deletePropertyIfExists(cbean, "real_point", beansToDelete);
+            cbean.delete();
+            beansToDelete.add(cbean);
+        }
+    }
+
+
+    /**
+     * Deletes the given proeprty from the given bean. Only the object behind the given property
+     * will be deleted. No sub objects.
+     *
+     * @param bean
+     * @param propertyName
+     * @param beansToDelete
+     * @throws Exception
+     */
+    public static void deletePropertyIfExists(CidsBean bean, String propertyName, List<CidsBean> beansToDelete) throws Exception {
+        Object beanToDelete = bean.getProperty(propertyName);
+
+        if (beanToDelete instanceof CidsBean) {
+            ((CidsBean)beanToDelete).delete();
+            beansToDelete.add(((CidsBean)beanToDelete));
+        }
     }
 }

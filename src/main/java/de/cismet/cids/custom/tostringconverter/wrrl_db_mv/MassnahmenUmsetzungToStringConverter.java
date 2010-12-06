@@ -12,14 +12,9 @@ import de.cismet.cids.tools.CustomToStringConverter;
 public class MassnahmenUmsetzungToStringConverter extends CustomToStringConverter {
     @Override
     public String createString() {
-        String wkk = "";
-        CidsBean wk = (CidsBean)cidsBean.getProperty("massnahme.wk_fg");
+        Object besch = cidsBean.getProperty("mass_beschreibung");
+        String beschreibung = (besch == null ? "" : String.valueOf( besch ) );
 
-        //todo: auch andere Wasserkoerper beruecksichtigen. z.B. wk_sg, wk_gw, ...
-        if (wk != null) {
-            wkk = wk.getProperty("wk_k").toString();
-        }
-
-        return cidsBean.getProperty("id").toString() + wkk + "_M" + String.valueOf(cidsBean.getProperty("massnahme.massn_wk_lfdnr"));
+        return cidsBean.getProperty("id").toString() + " " + beschreibung;
     }
 }

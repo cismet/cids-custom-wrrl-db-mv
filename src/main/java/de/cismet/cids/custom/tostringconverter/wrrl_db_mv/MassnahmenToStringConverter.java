@@ -11,11 +11,19 @@ public class MassnahmenToStringConverter extends CustomToStringConverter {
     @Override
     public String createString() {
         String wkk = "";
-        CidsBean wk = (CidsBean)cidsBean.getProperty("wk_fg");
+        CidsBean wk_f = (CidsBean)cidsBean.getProperty("wk_fg");
+        CidsBean wk_s = (CidsBean)cidsBean.getProperty("wk_sg");
+        CidsBean wk_k = (CidsBean)cidsBean.getProperty("wk_kg");
+        CidsBean wk_g = (CidsBean)cidsBean.getProperty("wk_gw");
 
-        //todo: auch andere Wasserkoerper beruecksichtigen. z.B. wk_sg, wk_gw, ...
-        if (wk != null) {
-            wkk = wk.getProperty("wk_k").toString();
+        if (wk_f != null) {
+            wkk = wk_f.getProperty("wk_k").toString();
+        } else if (wk_s != null) {
+            wkk = wk_s.getProperty("wk_k").toString();
+        } else if (wk_k != null) {
+            wkk = wk_k.getProperty("name").toString();
+        } else if (wk_g != null) {
+            wkk = wk_g.getProperty("name").toString();
         }
 
         return wkk + "_M" + String.valueOf(cidsBean.getProperty("massn_wk_lfdnr"));

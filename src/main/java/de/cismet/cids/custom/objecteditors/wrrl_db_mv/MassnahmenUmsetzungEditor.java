@@ -1,43 +1,79 @@
-/*
- *  Copyright (C) 2010 therter
- * 
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- * 
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- * 
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
- * MassnahmenUmsetzungEditor.java
- *
- * Created on 23.11.2010, 15:31:29
- */
-
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import com.vividsolutions.jts.geom.Geometry;
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.ScrollableComboBox;
+import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.FeatureCollection;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author therter
  */
-public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements CidsBeanRenderer {
+public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener, CidsBeanDropListener {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MassnahmenUmsetzungEditor.class);
     private CidsBean cidsBean;
+    private static final String[] WB_PROPERTIES = {"wk_fg", "wk_sg", "wk_kg", "wk_gw"};
+    private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
+    private JList referencedList;
 
     /** Creates new form MassnahmenUmsetzungEditor */
     public MassnahmenUmsetzungEditor() {
         initComponents();
+        linearReferencedLineEditor.setMetaClassName("MASSNAHMENUMSETZUNG");
+        linearReferencedLineEditor.setFromStationField("mass_stat_v");
+        linearReferencedLineEditor.setToStationField("mass_stat_b");
+        linearReferencedLineEditor.setRealGeomField("real_geom");
+        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+            @Override
+            public void LinearReferencedLineCreated() {
+                zoomToFeature();
+            }
+        });
         deActivateGUIElements(false);
+        try {
+            new CidsBeanDropTarget(this);
+        } catch (Exception ex) {
+            LOG.debug("error while creating CidsBeanDropTarget", ex);
+        }
+    }
+
+    private void zoomToFeature() {
+        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        if (!mappingComponent.isFixedMapExtent()) {
+            Object o = cidsBean.getProperty("wk_fg");
+
+            if ( o != null ) {
+                Collection<Feature> collection = new ArrayList<Feature>();
+                FeatureCollection fCol = mappingComponent.getFeatureCollection();
+
+                for (Feature feature : fCol.getAllFeatures()) {
+                    if ( !(feature instanceof StationToMapRegistry.RouteFeature) ) {
+                        collection.add(feature);
+                    }
+                }
+
+                CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
+            } else {
+                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+            }
+        }
     }
 
     /** This method is called from within the constructor to
@@ -48,44 +84,304 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        lblMass_teilkosten = new javax.swing.JLabel();
-        txtMass_teilkosten = new javax.swing.JTextField();
+        panInfo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading = new javax.swing.JLabel();
+        panInfoContent = new javax.swing.JPanel();
+        blbSpace = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lblmass_teilkosten = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        lblBeschrDerMa = new javax.swing.JLabel();
+        lblWk_k = new javax.swing.JLabel();
+        lblValWk_k = new javax.swing.JLabel();
+        lblMassnahme_nr = new javax.swing.JLabel();
+        lblMass_flaeche = new javax.swing.JLabel();
+        lblMeasure_type_code = new javax.swing.JLabel();
+        txtValMass_flaeche = new javax.swing.JTextField();
+        txtValMass_teilkosten = new javax.swing.JTextField();
+        cbMeasure_type_code = new ScrollableComboBox();
+        wirkungPan1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan();
+        lblValMassnahme_nr = new javax.swing.JLabel();
+        panGeo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        jPanel1 = new javax.swing.JPanel();
+        cbGeom = new DefaultCismapGeometryComboBoxEditor();
+        lblGeom = new javax.swing.JLabel();
 
-        lblMass_teilkosten.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMass_teilkosten.text")); // NOI18N
-        lblMass_teilkosten.setPreferredSize(new java.awt.Dimension(100, 20));
+        setMinimumSize(new java.awt.Dimension(440, 675));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(440, 675));
+        setLayout(new java.awt.GridBagLayout());
 
-        txtMass_teilkosten.setMinimumSize(new java.awt.Dimension(100, 20));
-        txtMass_teilkosten.setPreferredSize(new java.awt.Dimension(100, 20));
+        panInfo.setMinimumSize(new java.awt.Dimension(440, 370));
+        panInfo.setPreferredSize(new java.awt.Dimension(440, 370));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_teilkosten}"), txtMass_teilkosten, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setLayout(new java.awt.FlowLayout());
+
+        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblHeading.text")); // NOI18N
+        panHeadInfo.add(lblHeading);
+
+        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
+
+        panInfoContent.setOpaque(false);
+        panInfoContent.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent.add(blbSpace, gridBagConstraints);
+
+        jPanel2.setMinimumSize(new java.awt.Dimension(450, 480));
+        jPanel2.setOpaque(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(450, 480));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lblmass_teilkosten.setText("Teilkosten der Maßnahme"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(lblmass_teilkosten, gridBagConstraints);
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(422, 90));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(422, 90));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_beschreibung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 85, Short.MAX_VALUE)
-                    .addComponent(lblMass_teilkosten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(30, 30, 30)
-                    .addComponent(txtMass_teilkosten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 85, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 47, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 14, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblMass_teilkosten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtMass_teilkosten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 13, Short.MAX_VALUE)))
-        );
+        jScrollPane1.setViewportView(jTextArea1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        jPanel2.add(jScrollPane1, gridBagConstraints);
+
+        lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblBeschrDerMa.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel2.add(lblBeschrDerMa, gridBagConstraints);
+
+        lblWk_k.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblWk_k.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(lblWk_k, gridBagConstraints);
+
+        lblValWk_k.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblValWk_k.setPreferredSize(new java.awt.Dimension(250, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        jPanel2.add(lblValWk_k, gridBagConstraints);
+
+        lblMassnahme_nr.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMassnahme_nr.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(lblMassnahme_nr, gridBagConstraints);
+
+        lblMass_flaeche.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMass_flaeche.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(lblMass_flaeche, gridBagConstraints);
+
+        lblMeasure_type_code.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMeasure_type_code.text")); // NOI18N
+        lblMeasure_type_code.setToolTipText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMeasure_type_code.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(lblMeasure_type_code, gridBagConstraints);
+
+        txtValMass_flaeche.setMinimumSize(new java.awt.Dimension(250, 20));
+        txtValMass_flaeche.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_flaeche}"), txtValMass_flaeche, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        jPanel2.add(txtValMass_flaeche, gridBagConstraints);
+
+        txtValMass_teilkosten.setMinimumSize(new java.awt.Dimension(250, 20));
+        txtValMass_teilkosten.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_teilkosten}"), txtValMass_teilkosten, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        jPanel2.add(txtValMass_teilkosten, gridBagConstraints);
+
+        cbMeasure_type_code.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbMeasure_type_code.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code}"), cbMeasure_type_code, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        jPanel2.add(cbMeasure_type_code, gridBagConstraints);
+
+        wirkungPan1.setMinimumSize(new java.awt.Dimension(380, 130));
+        wirkungPan1.setPreferredSize(new java.awt.Dimension(380, 130));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        jPanel2.add(wirkungPan1, gridBagConstraints);
+
+        lblValMassnahme_nr.setMinimumSize(new java.awt.Dimension(250, 20));
+        lblValMassnahme_nr.setPreferredSize(new java.awt.Dimension(250, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        jPanel2.add(lblValMassnahme_nr, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 20, 5, 20);
+        panInfoContent.add(jPanel2, gridBagConstraints);
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panGeo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
+
+        panGeo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
+        panInfoContent.add(panGeo, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.additional_geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(cbGeom, gridBagConstraints);
+
+        lblGeom.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblGeom.text")); // NOI18N
+        lblGeom.setPreferredSize(new java.awt.Dimension(100, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(lblGeom, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        panInfoContent.add(jPanel1, gridBagConstraints);
+
+        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
@@ -97,19 +393,26 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
-        bindingGroup.unbind();
+        dispose();
         this.cidsBean = cidsBean;
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
             bindingGroup.bind();
+            linearReferencedLineEditor.setCidsBean(cidsBean);
             deActivateGUIElements(true);
         } else {
             deActivateGUIElements(false);
         }
+
+        wirkungPan1.setCidsBean(cidsBean);
+        bindReadOnlyFields();
     }
 
     @Override
     public void dispose() {
+        ((DefaultCismapGeometryComboBoxEditor) cbGeom).dispose();
+        linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }
 
@@ -122,16 +425,279 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     public void setTitle(String title) {
     }
 
+    public void setList(JList referencedList) {
+        this.referencedList = referencedList;
+    }
 
-    private void deActivateGUIElements(boolean enable) {
-        txtMass_teilkosten.setEnabled(enable);
+    private void bindReadOnlyFields() {
+        if (cidsBean == null) {
+            lblValWk_k.setText("");
+            lblValMassnahme_nr.setText("");
+        } else {
+            lblValWk_k.setText(getWk_k());
+            String massn_wk_k = getMassn_wk_k();
+
+            if (massn_wk_k.equals(CidsBeanSupport.FIELD_NOT_SET)) {
+                lblValMassnahme_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
+            } else {
+                lblValMassnahme_nr.setText(massn_wk_k + "_M " + ((CidsBean)cidsBean.getProperty("massnahme")).getProperty("massn_wk_lfdnr") );
+            }
+        }
     }
 
 
+    private void deActivateGUIElements(boolean enable) {
+        txtValMass_flaeche.setEnabled(enable);
+        txtValMass_teilkosten.setEnabled(enable);
+        jTextArea1.setEnabled(enable);
+        cbMeasure_type_code.setEnabled(enable);
+        cbGeom.setEnabled(enable);
+    }
+
+    private String getWk_k() {
+        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
+            return String.valueOf( cidsBean.getProperty("wk_fg.wk_k") );
+        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
+            return String.valueOf( cidsBean.getProperty("wk_sg.wk_k") );
+        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
+            // TODO: Gibt es beu KG und gw kein wk_k??
+            return String.valueOf( cidsBean.getProperty("wk_kg.name") );
+        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
+            return String.valueOf( cidsBean.getProperty("wk_gw.name") );
+        } else {
+            return CidsBeanSupport.FIELD_NOT_SET;
+        }
+    }
+
+    private String getMassn_wk_k() {
+        CidsBean massnahme = (CidsBean)cidsBean.getProperty("massnahme");
+
+        if (massnahme == null) {
+            return CidsBeanSupport.FIELD_NOT_SET;
+        }
+
+        if (massnahme.getProperty(WB_PROPERTIES[0]) != null) {
+            return String.valueOf( massnahme.getProperty("wk_fg.wk_k") );
+        } else if (massnahme.getProperty(WB_PROPERTIES[1]) != null) {
+            return String.valueOf( massnahme.getProperty("wk_sg.wk_k") );
+        } else if (massnahme.getProperty(WB_PROPERTIES[2]) != null) {
+            // TODO: Gibt es beu KG und gw kein wk_k??
+            return String.valueOf( massnahme.getProperty("wk_kg.name") );
+        } else if (massnahme.getProperty(WB_PROPERTIES[3]) != null) {
+            return String.valueOf( massnahme.getProperty("wk_gw.name") );
+        } else {
+            return CidsBeanSupport.FIELD_NOT_SET;
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblMass_teilkosten;
-    private javax.swing.JTextField txtMass_teilkosten;
+    private javax.swing.JLabel blbSpace;
+    private javax.swing.JComboBox cbGeom;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMeasure_type_code;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblBeschrDerMa;
+    private javax.swing.JLabel lblGeom;
+    private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblMass_flaeche;
+    private javax.swing.JLabel lblMassnahme_nr;
+    private javax.swing.JLabel lblMeasure_type_code;
+    private javax.swing.JLabel lblValMassnahme_nr;
+    private javax.swing.JLabel lblValWk_k;
+    private javax.swing.JLabel lblWk_k;
+    private javax.swing.JLabel lblmass_teilkosten;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private de.cismet.tools.gui.RoundedPanel panGeo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo;
+    private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JTextField txtValMass_flaeche;
+    private javax.swing.JTextField txtValMass_teilkosten;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan wirkungPan1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
+
+    @Override
+    public void beansDropped(ArrayList<CidsBean> beans) {
+        if (cidsBean != null) {
+            for (CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
+                    bindToWb(WB_PROPERTIES[0], bean);
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {
+                    bindToWb(WB_PROPERTIES[1], bean);
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
+                    bindToWb(WB_PROPERTIES[2], bean);
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
+                    bindToWb(WB_PROPERTIES[3], bean);
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Massnahmen")) {
+                    int conf = JOptionPane.showConfirmDialog(this,
+                            "Soll die Maßnahme " + bean.toString() +
+                            " wirklich als Template für die ausgewählte Umsetzung dienen?",
+                            "Maßnahme als Template nutzen", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (conf == JOptionPane.YES_OPTION) {
+                        copyActionToImplementation(bean);
+                        if (referencedList != null) {
+                            referencedList.repaint();
+                        }
+                    }
+                }
+            }
+            bindReadOnlyFields();
+        }
+    }
+
+
+    /**
+     * binds the given water body to the current CidsBean object
+     * @param propertyName the name of the water body property. (The allowed values are stored in the array WB_PROPERTIES)
+     * @param propertyEntry the water body object
+     */
+    private void bindToWb(String propertyName, CidsBean propertyEntry) {
+        try {
+            cidsBean.setProperty(propertyName, propertyEntry);
+            
+            for (String propName : WB_PROPERTIES) {
+                if (!propName.equals(propertyName)) {
+                    cidsBean.setProperty(propName, null);
+                }
+            }
+        } catch (Exception ex) {
+            LOG.error("Error while binding a water body", ex);
+        }
+    }
+    
+
+    /**
+     * copies all relevant properties from the given action to the current CidsBean object
+     * @param act
+     */
+    public void copyActionToImplementation(CidsBean act) {
+        try {
+            CidsBean additionalGeom = (CidsBean)act.getProperty("additional_geom");
+
+            CidsBeanSupport.deletePropertyIfExists(cidsBean, "additional_geom", beansToDelete);
+
+            cidsBean.setProperty("massnahme", act);
+            cidsBean.setProperty("additional_geom", cloneCidsBean( additionalGeom ) );
+            cidsBean.setProperty("wk_fg", act.getProperty("wk_fg"));
+            cidsBean.setProperty("wk_sg", act.getProperty("wk_sg"));
+            cidsBean.setProperty("wk_kg", act.getProperty("wk_kg"));
+            cidsBean.setProperty("wk_gw", act.getProperty("wk_gw"));
+            List<CidsBean> meas = CidsBeanSupport.getBeanCollectionFromProperty(act, "de_meas_cd");
+
+            if (meas != null && meas.size() > 0) {
+                cidsBean.setProperty("measure_type_code", meas.get(0));
+            }
+            
+            if (act.getProperty("stat_von") != null && act.getProperty("stat_bis") != null) {
+                final CidsBean statFrom = (CidsBean)act.getProperty("stat_von");
+                final CidsBean statTo = (CidsBean)act.getProperty("stat_bis");
+                final CidsBean realGeom = (CidsBean)act.getProperty("real_geom");
+
+                LOG.error("statFrom " + statFrom.getProperty("wert"));
+                LOG.error("statTo " + statTo.getProperty("wert"));
+
+                CidsBeanSupport.deleteStationIfExists(cidsBean, "mass_stat_v", beansToDelete);
+                CidsBeanSupport.deleteStationIfExists(cidsBean, "mass_stat_b", beansToDelete);
+                CidsBeanSupport.deletePropertyIfExists(cidsBean, "real_geom", beansToDelete);
+
+                cidsBean.setProperty("mass_stat_v", cloneStation( statFrom ) );
+                cidsBean.setProperty("mass_stat_b", cloneStation( statTo ) );
+                cidsBean.setProperty("real_geom", cloneCidsBean( realGeom ) );
+                linearReferencedLineEditor.setCidsBean(cidsBean);
+            }
+        } catch (Exception e) {
+            LOG.error("Error during the creation of a new bean of type massnahmen", e);
+        }
+    }
+
+
+    public CidsBean cloneStation(CidsBean bean) throws Exception {
+        if (bean == null) {
+            return null;
+        }
+        final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
+
+        clone.setProperty("wert", bean.getProperty("wert"));
+
+        if (bean.getProperty("real_point") instanceof CidsBean) {
+            clone.setProperty("real_point", cloneCidsBean((CidsBean)bean.getProperty("real_point")) );
+        }
+        clone.setProperty("route", bean.getProperty("route"));
+
+        return clone;
+    }
+
+    /**
+     * This method is not able to clone every cids bean, but it was tested and works for the type geom.
+     * This method will work for all cidsBean objects, if we assume, that the properties, which are not of the type CidsBean,
+     * will not be changed, but only replaced by other objects.
+     * @param bean
+     * @return a deep copy of the given object
+     * @throws Exception
+     */
+    public static CidsBean cloneCidsBean(CidsBean bean) throws Exception {
+        if (bean == null) {
+            return null;
+        }
+        final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
+
+        for (String propName : bean.getPropertyNames()) {
+            if (!propName.toLowerCase().equals("id")) {
+                Object o = bean.getProperty(propName);
+
+                if (o instanceof CidsBean) {
+                    clone.setProperty(propName, cloneCidsBean( (CidsBean)o) );
+                } else if (o instanceof Collection) {
+                    List<CidsBean> list = (List<CidsBean>)o;
+                    List<CidsBean> newList = new ArrayList<CidsBean>();
+
+                    for (CidsBean tmpBean : list) {
+                        newList.add( cloneCidsBean(tmpBean) );
+                    }
+                    clone.setProperty(propName, newList );
+                } else if (o instanceof Geometry) {
+                    clone.setProperty( propName, ((Geometry)o).clone());
+                } else if (o instanceof Long) {
+                    clone.setProperty( propName, new Long(o.toString())  );
+                } else if (o instanceof Double) {
+                    clone.setProperty( propName, new Double(o.toString()) );
+                } else if (o instanceof Integer) {
+                    clone.setProperty( propName, new Integer(o.toString()) );
+                } else if (o instanceof String) {
+                    clone.setProperty( propName, o);
+                } else {
+                    if (o != null) {
+                        LOG.error("unknown property type: " + o.getClass().getName());
+                    }
+                    clone.setProperty(propName, o);
+                }
+            }
+        }
+
+        return clone;
+    }
+
+    @Override
+    public void editorClosed(EditorSaveStatus status) {
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        for (CidsBean bean : beansToDelete) {
+            try {
+                bean.persist();
+            } catch (Exception e) {
+                LOG.error("Error while deleting bean", e);
+            }
+        }
+
+        return true;
+    }
 }

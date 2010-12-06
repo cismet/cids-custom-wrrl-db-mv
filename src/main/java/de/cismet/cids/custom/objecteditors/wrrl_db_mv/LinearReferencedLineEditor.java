@@ -528,8 +528,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         java.awt.GridBagConstraints gridBagConstraints;
 
         panEdit = new javax.swing.JPanel();
-        spinFrom = new javax.swing.JSpinner();
-        spinTo = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
         panLine = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -537,6 +535,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         labGwk = new javax.swing.JLabel();
+        panSpinner = new javax.swing.JPanel();
+        spinFrom = new javax.swing.JSpinner();
+        spinTo = new javax.swing.JSpinner();
         panAdd = new AddPanel();
         jLabel3 = new javax.swing.JLabel();
         panError = new javax.swing.JPanel();
@@ -547,24 +548,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         panEdit.setOpaque(false);
         panEdit.setLayout(new java.awt.GridBagLayout());
-
-        spinFrom.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
-        spinFrom.setPreferredSize(new java.awt.Dimension(100, 28));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panEdit.add(spinFrom, gridBagConstraints);
-
-        spinTo.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
-        spinTo.setPreferredSize(new java.awt.Dimension(100, 28));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panEdit.add(spinTo, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -626,6 +609,39 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.insets = new java.awt.Insets(5, 35, 5, 35);
         panEdit.add(jPanel1, gridBagConstraints);
 
+        panSpinner.setOpaque(false);
+        panSpinner.setLayout(new java.awt.GridBagLayout());
+
+        spinFrom.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        spinFrom.setMinimumSize(new java.awt.Dimension(100, 28));
+        spinFrom.setPreferredSize(new java.awt.Dimension(100, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panSpinner.add(spinFrom, gridBagConstraints);
+
+        spinTo.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        spinTo.setMinimumSize(new java.awt.Dimension(100, 28));
+        spinTo.setPreferredSize(new java.awt.Dimension(100, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        panSpinner.add(spinTo, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panEdit.add(panSpinner, gridBagConstraints);
+
         add(panEdit, "edit");
 
         panAdd.setOpaque(false);
@@ -660,6 +676,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private javax.swing.JPanel panEdit;
     private javax.swing.JPanel panError;
     private javax.swing.JPanel panLine;
+    private javax.swing.JPanel panSpinner;
     private javax.swing.JSpinner spinFrom;
     private javax.swing.JSpinner spinTo;
     // End of variables declaration//GEN-END:variables
