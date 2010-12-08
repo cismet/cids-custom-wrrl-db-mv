@@ -91,7 +91,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        blbSpace = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblmass_teilkosten = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -137,11 +136,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.weighty = 1.0;
-        panInfoContent.add(blbSpace, gridBagConstraints);
 
         jPanel2.setMinimumSize(new java.awt.Dimension(450, 480));
         jPanel2.setOpaque(false);
@@ -156,8 +150,8 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblmass_teilkosten, gridBagConstraints);
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(422, 90));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(422, 90));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(422, 75));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(422, 75));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -191,7 +185,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblWk_k, gridBagConstraints);
 
@@ -201,7 +195,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         jPanel2.add(lblValWk_k, gridBagConstraints);
@@ -276,8 +270,8 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         jPanel2.add(cbMeasure_type_code, gridBagConstraints);
 
-        wirkungPan1.setMinimumSize(new java.awt.Dimension(380, 130));
-        wirkungPan1.setPreferredSize(new java.awt.Dimension(380, 130));
+        wirkungPan1.setMinimumSize(new java.awt.Dimension(380, 115));
+        wirkungPan1.setPreferredSize(new java.awt.Dimension(380, 115));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -305,6 +299,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 5, 20);
         panInfoContent.add(jPanel2, gridBagConstraints);
 
@@ -354,6 +349,8 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel1.add(cbGeom, gridBagConstraints);
 
         lblGeom.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblGeom.text")); // NOI18N
@@ -361,7 +358,8 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel1.add(lblGeom, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -491,7 +489,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel blbSpace;
     private javax.swing.JComboBox cbGeom;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMeasure_type_code;
     private javax.swing.JPanel jPanel1;

@@ -116,12 +116,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             lblValWk_k.setText("");
             lblValWk_name.setText("");
             lblValGwk.setText("");
-            lblValStalu.setText("");
+//            lblValStalu.setText("");
+            lblValMassn_id.setText("");
+            lblValMs_cd_bw.setText("");
         } else {
-            lblValWk_k.setText(getWk_k());
+            String wk_k = getWk_k();
+            lblValWk_k.setText(wk_k);
             lblValWk_name.setText(getWk_name());
             lblValGwk.setText(getGwk());
-            lblValStalu.setText(getStalu());
+//            lblValStalu.setText(getStalu());
+            
+            if ( !wk_k.equals(CidsBeanSupport.FIELD_NOT_SET) ) {
+                lblValMassn_id.setText(wk_k + "_M" + cidsBean.getProperty("massn_wk_lfdnr"));
+                lblValMs_cd_bw.setText("DE_MV_" + wk_k);
+            } else {
+                lblValMassn_id.setText("");
+                lblValMs_cd_bw.setText("");
+            }
         }
     }
 
@@ -132,7 +143,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
             return String.valueOf( cidsBean.getProperty("wk_sg.wk_k") );
         } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            // TODO: Gibt es beu KG und gw kein wk_k??
             return String.valueOf( cidsBean.getProperty("wk_kg.name") );
         } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
             return String.valueOf( cidsBean.getProperty("wk_gw.name") );
@@ -147,7 +157,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
             return String.valueOf( cidsBean.getProperty("wk_sg.ls_name") );
         } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            // TODO: Gibt es beu KG und gw kein wk_k??
             return String.valueOf( cidsBean.getProperty("wk_kg.name") );
         } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
             return String.valueOf( cidsBean.getProperty("wk_gw.name") );
@@ -166,7 +175,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     private String getStalu() {
         if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_fg.stalu") );
+            Object stalu = cidsBean.getProperty("wk_fg.stalu");
+            if (stalu == null) {
+                return CidsBeanSupport.FIELD_NOT_SET;
+            } else {
+                return stalu.toString();
+            }
         } else {
             return "";
         }
@@ -246,7 +260,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         txtZiele = new javax.swing.JTextField();
         lbllfdnr = new javax.swing.JLabel();
         lblValLfdnr = new javax.swing.JLabel();
-        txtKosten1 = new javax.swing.JTextField();
+        txtReal = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         lblBeschrDerMa = new javax.swing.JLabel();
@@ -259,7 +273,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         lblMassn_id = new javax.swing.JLabel();
         lblValMassn_id = new javax.swing.JLabel();
         lblStalu = new javax.swing.JLabel();
-        lblValStalu = new javax.swing.JLabel();
+        txtStalu = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -676,10 +690,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblValLfdnr, gridBagConstraints);
 
-        txtKosten1.setMinimumSize(new java.awt.Dimension(200, 20));
-        txtKosten1.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtReal.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtReal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.real}"), txtKosten1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.real}"), txtReal, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -689,13 +703,17 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(txtKosten1, gridBagConstraints);
+        jPanel2.add(txtReal, gridBagConstraints);
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(380, 100));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(380, 100));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jScrollPane1.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -807,8 +825,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblStalu, gridBagConstraints);
 
-        lblValStalu.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblValStalu.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtStalu.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtStalu.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"), txtStalu, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 15;
@@ -816,7 +838,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(lblValStalu, gridBagConstraints);
+        jPanel2.add(txtStalu, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1101,7 +1123,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 0);
         jPanel3.add(cbSuppl_cd, gridBagConstraints);
 
         lblPressur_cd.setText("EU-Belastungstyp");
@@ -1124,7 +1146,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 0);
         jPanel3.add(cbPressur_cd, gridBagConstraints);
 
         lblMs_cd_bw.setText("EU-Wasserkörpercode");
@@ -1143,7 +1165,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 0);
         jPanel3.add(lblValMs_cd_bw, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1426,7 +1448,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     private javax.swing.JLabel lblValLfdnr;
     private javax.swing.JLabel lblValMassn_id;
     private javax.swing.JLabel lblValMs_cd_bw;
-    private javax.swing.JLabel lblValStalu;
     private javax.swing.JLabel lblValWk_k;
     private javax.swing.JLabel lblValWk_name;
     private javax.swing.JLabel lblWk_k;
@@ -1463,7 +1484,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     private javax.swing.JScrollPane scpMeas21;
     private javax.swing.JScrollPane scpdeMeas;
     private javax.swing.JTextField txtKosten;
-    private javax.swing.JTextField txtKosten1;
+    private javax.swing.JTextField txtReal;
+    private javax.swing.JTextField txtStalu;
     private javax.swing.JTextField txtZiele;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -1471,7 +1493,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     private void deActivateGUI(boolean enable) {
         txtKosten.setEnabled(enable);
-        txtKosten1.setEnabled(enable);
+        txtReal.setEnabled(enable);
         txtZiele.setEnabled(enable);
         jTextArea1.setEnabled(enable);
         cbPressur_cd.setEnabled(enable);

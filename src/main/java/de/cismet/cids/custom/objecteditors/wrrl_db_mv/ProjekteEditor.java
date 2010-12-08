@@ -493,8 +493,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 10, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 25, 10, 5);
         panInfoContent2.add(jScrollPane1, gridBagConstraints);
 
         panContrImpactSrc.setOpaque(false);
@@ -594,8 +595,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 10, 5);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 30, 10, 5);
         panInfoContent3.add(jScrollPane2, gridBagConstraints);
 
         panDeMeas1.add(panInfoContent3, java.awt.BorderLayout.CENTER);

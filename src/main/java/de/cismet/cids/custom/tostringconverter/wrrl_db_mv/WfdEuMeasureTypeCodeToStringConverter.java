@@ -23,7 +23,7 @@ import de.cismet.cids.tools.CustomToStringConverter;
  *
  * @author therter
  */
-public class EuMeasureTypeCodeToStringConverter extends CustomToStringConverter {
+public class WfdEuMeasureTypeCodeToStringConverter extends CustomToStringConverter {
     @Override
     public String createString() {
         String name = String.valueOf(cidsBean.getProperty("name"));
