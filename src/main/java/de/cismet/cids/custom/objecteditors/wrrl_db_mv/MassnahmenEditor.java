@@ -1514,7 +1514,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     @Override
     public String getTitle() {
-        return cidsBean.getProperty("wk_fg.wk_k") + " " + String.valueOf(cidsBean);
+        return String.valueOf(cidsBean);
     }
 
     @Override

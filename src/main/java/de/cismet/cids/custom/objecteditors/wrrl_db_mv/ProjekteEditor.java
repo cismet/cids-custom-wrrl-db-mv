@@ -737,7 +737,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
     @Override
     public String getTitle() {
-        return cidsBean.getProperty("projekt_code") + " " + String.valueOf(cidsBean);
+        return String.valueOf(cidsBean);
     }
 
     @Override
