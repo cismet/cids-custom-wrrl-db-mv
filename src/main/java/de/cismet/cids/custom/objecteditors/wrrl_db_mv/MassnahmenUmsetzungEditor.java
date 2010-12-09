@@ -433,12 +433,18 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             lblValMassnahme_nr.setText("");
         } else {
             lblValWk_k.setText(getWk_k());
-            String massn_wk_k = getMassn_wk_k();
+            CidsBean massnahme = (CidsBean)cidsBean.getProperty("massnahme");
 
-            if (massn_wk_k.equals(CidsBeanSupport.FIELD_NOT_SET)) {
+            if (massnahme == null) {
                 lblValMassnahme_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
             } else {
-                lblValMassnahme_nr.setText(massn_wk_k + "_M " + ((CidsBean)cidsBean.getProperty("massnahme")).getProperty("massn_wk_lfdnr") );
+                Object massn_id =  massnahme.getProperty("massn_id");
+
+                if (massn_id != null) {
+                    lblValMassnahme_nr.setText( massn_id.toString() );
+                } else {
+                    lblValMassnahme_nr.setText( CidsBeanSupport.FIELD_NOT_SET );
+                }
             }
         }
     }
@@ -462,27 +468,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             return String.valueOf( cidsBean.getProperty("wk_kg.name") );
         } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
             return String.valueOf( cidsBean.getProperty("wk_gw.name") );
-        } else {
-            return CidsBeanSupport.FIELD_NOT_SET;
-        }
-    }
-
-    private String getMassn_wk_k() {
-        CidsBean massnahme = (CidsBean)cidsBean.getProperty("massnahme");
-
-        if (massnahme == null) {
-            return CidsBeanSupport.FIELD_NOT_SET;
-        }
-
-        if (massnahme.getProperty(WB_PROPERTIES[0]) != null) {
-            return String.valueOf( massnahme.getProperty("wk_fg.wk_k") );
-        } else if (massnahme.getProperty(WB_PROPERTIES[1]) != null) {
-            return String.valueOf( massnahme.getProperty("wk_sg.wk_k") );
-        } else if (massnahme.getProperty(WB_PROPERTIES[2]) != null) {
-            // TODO: Gibt es beu KG und gw kein wk_k??
-            return String.valueOf( massnahme.getProperty("wk_kg.name") );
-        } else if (massnahme.getProperty(WB_PROPERTIES[3]) != null) {
-            return String.valueOf( massnahme.getProperty("wk_gw.name") );
         } else {
             return CidsBeanSupport.FIELD_NOT_SET;
         }
@@ -581,7 +566,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             CidsBeanSupport.deletePropertyIfExists(cidsBean, "additional_geom", beansToDelete);
 
             cidsBean.setProperty("massnahme", act);
-            cidsBean.setProperty("additional_geom", cloneCidsBean( additionalGeom ) );
+            cidsBean.setProperty("additional_geom", CidsBeanSupport.cloneCidsBean( additionalGeom ) );
             cidsBean.setProperty("wk_fg", act.getProperty("wk_fg"));
             cidsBean.setProperty("wk_sg", act.getProperty("wk_sg"));
             cidsBean.setProperty("wk_kg", act.getProperty("wk_kg"));
@@ -604,9 +589,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                 CidsBeanSupport.deleteStationIfExists(cidsBean, "mass_stat_b", beansToDelete);
                 CidsBeanSupport.deletePropertyIfExists(cidsBean, "real_geom", beansToDelete);
 
-                cidsBean.setProperty("mass_stat_v", cloneStation( statFrom ) );
-                cidsBean.setProperty("mass_stat_b", cloneStation( statTo ) );
-                cidsBean.setProperty("real_geom", cloneCidsBean( realGeom ) );
+                cidsBean.setProperty("mass_stat_v", CidsBeanSupport.cloneStation( statFrom ) );
+                cidsBean.setProperty("mass_stat_b", CidsBeanSupport.cloneStation( statTo ) );
+                cidsBean.setProperty("real_geom", CidsBeanSupport.cloneCidsBean( realGeom ) );
                 linearReferencedLineEditor.setCidsBean(cidsBean);
             }
         } catch (Exception e) {
@@ -614,72 +599,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         }
     }
 
-
-    public CidsBean cloneStation(CidsBean bean) throws Exception {
-        if (bean == null) {
-            return null;
-        }
-        final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
-
-        clone.setProperty("wert", bean.getProperty("wert"));
-
-        if (bean.getProperty("real_point") instanceof CidsBean) {
-            clone.setProperty("real_point", cloneCidsBean((CidsBean)bean.getProperty("real_point")) );
-        }
-        clone.setProperty("route", bean.getProperty("route"));
-
-        return clone;
-    }
-
-    /**
-     * This method is not able to clone every cids bean, but it was tested and works for the type geom.
-     * This method will work for all cidsBean objects, if we assume, that the properties, which are not of the type CidsBean,
-     * will not be changed, but only replaced by other objects.
-     * @param bean
-     * @return a deep copy of the given object
-     * @throws Exception
-     */
-    public static CidsBean cloneCidsBean(CidsBean bean) throws Exception {
-        if (bean == null) {
-            return null;
-        }
-        final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
-
-        for (String propName : bean.getPropertyNames()) {
-            if (!propName.toLowerCase().equals("id")) {
-                Object o = bean.getProperty(propName);
-
-                if (o instanceof CidsBean) {
-                    clone.setProperty(propName, cloneCidsBean( (CidsBean)o) );
-                } else if (o instanceof Collection) {
-                    List<CidsBean> list = (List<CidsBean>)o;
-                    List<CidsBean> newList = new ArrayList<CidsBean>();
-
-                    for (CidsBean tmpBean : list) {
-                        newList.add( cloneCidsBean(tmpBean) );
-                    }
-                    clone.setProperty(propName, newList );
-                } else if (o instanceof Geometry) {
-                    clone.setProperty( propName, ((Geometry)o).clone());
-                } else if (o instanceof Long) {
-                    clone.setProperty( propName, new Long(o.toString())  );
-                } else if (o instanceof Double) {
-                    clone.setProperty( propName, new Double(o.toString()) );
-                } else if (o instanceof Integer) {
-                    clone.setProperty( propName, new Integer(o.toString()) );
-                } else if (o instanceof String) {
-                    clone.setProperty( propName, o);
-                } else {
-                    if (o != null) {
-                        LOG.error("unknown property type: " + o.getClass().getName());
-                    }
-                    clone.setProperty(propName, o);
-                }
-            }
-        }
-
-        return clone;
-    }
 
     @Override
     public void editorClosed(EditorSaveStatus status) {

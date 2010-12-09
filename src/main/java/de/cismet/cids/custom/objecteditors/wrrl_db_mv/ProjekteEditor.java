@@ -17,6 +17,7 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 import de.cismet.tools.gui.FooterComponentProvider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -113,14 +114,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValfoerdersumme = new javax.swing.JTextField();
         lblProjekt_bez = new javax.swing.JLabel();
         txtValProjekt_bez = new javax.swing.JTextField();
-        lblSchutzgeb_wrrl = new javax.swing.JLabel();
-        lblBelastung_wrrl = new javax.swing.JLabel();
-        lblGewaesserkat_wrrl = new javax.swing.JLabel();
-        txtValSchutzgeb_wrrl = new javax.swing.JTextField();
-        txtValBelastung_wrrl = new javax.swing.JTextField();
-        txtValGewaesserkat_wrrl = new javax.swing.JTextField();
         dcValM_beginn = new de.cismet.cids.editors.DefaultBindableDateChooser();
         dcValM_ende = new de.cismet.cids.editors.DefaultBindableDateChooser();
+        cbGeom = new DefaultCismapGeometryComboBoxEditor();
+        lblGeometrie = new javax.swing.JLabel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading2 = new javax.swing.JLabel();
@@ -187,15 +184,17 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         lbltraeger.setText("Antragsteller");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         jPanel3.add(lbltraeger, gridBagConstraints);
 
         lblkost_gesamt.setText("Gesamtkosten");
+        lblkost_gesamt.setMinimumSize(new java.awt.Dimension(115, 17));
+        lblkost_gesamt.setPreferredSize(new java.awt.Dimension(115, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
@@ -204,7 +203,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblfoerdersatz.setText("Fördersatz");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblfoerdersatz, gridBagConstraints);
@@ -217,8 +216,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel3.add(txtValTraeger, gridBagConstraints);
@@ -232,20 +233,20 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         jPanel3.add(txtValFoerdersatz, gridBagConstraints);
 
-        txtValKost_gesamt.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtValKost_gesamt.setPreferredSize(new java.awt.Dimension(150, 20));
+        txtValKost_gesamt.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtValKost_gesamt.setPreferredSize(new java.awt.Dimension(100, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kost_gesamt}"), txtValKost_gesamt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
@@ -253,26 +254,26 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         lblProjekt_code.setText("Förigef Schlüssel");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 47, 5, 30);
         jPanel3.add(lblProjekt_code, gridBagConstraints);
 
         lblM_beginn.setText("Projektbeginn");
-        lblM_beginn.setMinimumSize(new java.awt.Dimension(122, 17));
-        lblM_beginn.setPreferredSize(new java.awt.Dimension(122, 17));
+        lblM_beginn.setMinimumSize(new java.awt.Dimension(90, 17));
+        lblM_beginn.setPreferredSize(new java.awt.Dimension(90, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel3.add(lblM_beginn, gridBagConstraints);
 
         lblM_ende.setText("Projektende");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblM_ende, gridBagConstraints);
@@ -280,7 +281,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblKost_forderf.setText("förderfähige Kosten");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel3.add(lblKost_forderf, gridBagConstraints);
@@ -288,9 +289,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblFoerdersumme.setText("Fördersumme");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         jPanel3.add(lblFoerdersumme, gridBagConstraints);
 
         txtValProjekt_code.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -301,10 +302,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel3.add(txtValProjekt_code, gridBagConstraints);
 
         txtValKost_forderf.setMinimumSize(new java.awt.Dimension(100, 20));
@@ -316,7 +317,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
         jPanel3.add(txtValKost_forderf, gridBagConstraints);
@@ -330,18 +331,18 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jPanel3.add(txtValfoerdersumme, gridBagConstraints);
 
         lblProjekt_bez.setText("Bez. des Projektes");
         lblProjekt_bez.setToolTipText("Bezeichnung des Projektes");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(lblProjekt_bez, gridBagConstraints);
 
         txtValProjekt_bez.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -352,74 +353,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtValProjekt_bez, gridBagConstraints);
-
-        lblSchutzgeb_wrrl.setText("Schutzgebietskategorie");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(lblSchutzgeb_wrrl, gridBagConstraints);
-
-        lblBelastung_wrrl.setText("Belastungsthema");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(lblBelastung_wrrl, gridBagConstraints);
-
-        lblGewaesserkat_wrrl.setText("Gewässerkategorie");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        jPanel3.add(lblGewaesserkat_wrrl, gridBagConstraints);
-
-        txtValSchutzgeb_wrrl.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtValSchutzgeb_wrrl.setPreferredSize(new java.awt.Dimension(150, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.schutzgeb_wrrl}"), txtValSchutzgeb_wrrl, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(txtValSchutzgeb_wrrl, gridBagConstraints);
-
-        txtValBelastung_wrrl.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtValBelastung_wrrl.setPreferredSize(new java.awt.Dimension(150, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_wrrl}"), txtValBelastung_wrrl, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(txtValBelastung_wrrl, gridBagConstraints);
-
-        txtValGewaesserkat_wrrl.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtValGewaesserkat_wrrl.setPreferredSize(new java.awt.Dimension(150, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserkat_wrrl}"), txtValGewaesserkat_wrrl, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(txtValGewaesserkat_wrrl, gridBagConstraints);
 
         dcValM_beginn.setMinimumSize(new java.awt.Dimension(150, 20));
         dcValM_beginn.setPreferredSize(new java.awt.Dimension(150, 20));
@@ -429,8 +369,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(dcValM_beginn, gridBagConstraints);
@@ -443,11 +383,37 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(dcValM_ende, gridBagConstraints);
+
+        cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(cbGeom, gridBagConstraints);
+
+        lblGeometrie.setText("Geometrie");
+        lblGeometrie.setToolTipText("Bezeichnung des Projektes");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        jPanel3.add(lblGeometrie, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -545,7 +511,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 12);
         add(panDeMeas, gridBagConstraints);
 
         massnahmenUmsetzungEditor1.setMinimumSize(new java.awt.Dimension(460, 660));
@@ -607,7 +573,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 20, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 12, 0, 0);
         add(panDeMeas1, gridBagConstraints);
 
         projekteIndikatorenEditor1.setMinimumSize(new java.awt.Dimension(350, 200));
@@ -615,7 +581,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 0);
         add(projekteIndikatorenEditor1, gridBagConstraints);
 
         bindingGroup.bind();
@@ -680,6 +646,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUmsetzung;
     private javax.swing.JButton btnRemUmsetzung;
+    private javax.swing.JComboBox cbGeom;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_beginn;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_ende;
     private javax.swing.JPanel jPanel2;
@@ -688,10 +655,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList jlIndikator;
     private javax.swing.JList jlUmsetzung;
-    private javax.swing.JLabel lblBelastung_wrrl;
     private javax.swing.JLabel lblFoerdersumme;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblGewaesserkat_wrrl;
+    private javax.swing.JLabel lblGeometrie;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
     private javax.swing.JLabel lblKost_forderf;
@@ -700,7 +666,6 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JLabel lblProjekt_bez;
     private javax.swing.JLabel lblProjekt_code;
     private javax.swing.JLabel lblProjekt_nr;
-    private javax.swing.JLabel lblSchutzgeb_wrrl;
     private javax.swing.JLabel lblfoerdersatz;
     private javax.swing.JLabel lblkost_gesamt;
     private javax.swing.JLabel lbltraeger;
@@ -714,15 +679,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JPanel panInfoContent2;
     private javax.swing.JPanel panInfoContent3;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ProjekteIndikatorenEditor projekteIndikatorenEditor1;
-    private javax.swing.JTextField txtValBelastung_wrrl;
     private javax.swing.JTextField txtValFoerdersatz;
-    private javax.swing.JTextField txtValGewaesserkat_wrrl;
     private javax.swing.JTextField txtValKost_forderf;
     private javax.swing.JTextField txtValKost_gesamt;
     private javax.swing.JTextField txtValProjekt_bez;
     private javax.swing.JTextField txtValProjekt_code;
     private javax.swing.JTextField txtValProjekt_nr;
-    private javax.swing.JTextField txtValSchutzgeb_wrrl;
     private javax.swing.JTextField txtValTraeger;
     private javax.swing.JTextField txtValfoerdersumme;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

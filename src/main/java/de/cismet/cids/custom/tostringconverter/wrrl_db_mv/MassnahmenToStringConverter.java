@@ -15,6 +15,7 @@ public class MassnahmenToStringConverter extends CustomToStringConverter {
         CidsBean wk_s = (CidsBean)cidsBean.getProperty("wk_sg");
         CidsBean wk_k = (CidsBean)cidsBean.getProperty("wk_kg");
         CidsBean wk_g = (CidsBean)cidsBean.getProperty("wk_gw");
+        Object lfdnr = cidsBean.getProperty("massn_wk_lfdnr");
 
         if (wk_f != null) {
             wkk = wk_f.getProperty("wk_k").toString();
@@ -26,6 +27,6 @@ public class MassnahmenToStringConverter extends CustomToStringConverter {
             wkk = wk_g.getProperty("name").toString();
         }
 
-        return wkk + "_M" + String.valueOf(cidsBean.getProperty("massn_wk_lfdnr"));
+        return wkk + "_M" + (lfdnr == null ? "" : String.valueOf(lfdnr));
     }
 }
