@@ -26,6 +26,7 @@ import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.FooterComponentProvider;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -480,14 +481,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas21.getContentPane().add(panMenButtonsMeas21, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(940, 870));
+        setMinimumSize(new java.awt.Dimension(940, 770));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(940, 870));
+        setPreferredSize(new java.awt.Dimension(940, 770));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMaximumSize(new java.awt.Dimension(950, 860));
-        panInfo.setMinimumSize(new java.awt.Dimension(880, 840));
-        panInfo.setPreferredSize(new java.awt.Dimension(880, 840));
+        panInfo.setMaximumSize(new java.awt.Dimension(950, 790));
+        panInfo.setMinimumSize(new java.awt.Dimension(880, 770));
+        panInfo.setPreferredSize(new java.awt.Dimension(880, 770));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -508,9 +509,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(380, 600));
+        jPanel2.setMinimumSize(new java.awt.Dimension(380, 540));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(480, 600));
+        jPanel2.setPreferredSize(new java.awt.Dimension(480, 540));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblZiele.setText("Entwicklungsziele (BVP)");
@@ -807,7 +808,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblStalu, gridBagConstraints);
 
         txtStalu.setMinimumSize(new java.awt.Dimension(200, 25));
@@ -822,7 +822,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(txtStalu, gridBagConstraints);
 
         txtMassn_id.setMinimumSize(new java.awt.Dimension(200, 25));
@@ -847,12 +846,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 20, 15, 20);
+        gridBagConstraints.insets = new java.awt.Insets(15, 20, 10, 20);
         panInfoContent.add(jPanel2, gridBagConstraints);
 
-        jPanel3.setMinimumSize(new java.awt.Dimension(380, 600));
+        jPanel3.setMinimumSize(new java.awt.Dimension(380, 540));
         jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(480, 600));
+        jPanel3.setPreferredSize(new java.awt.Dimension(480, 540));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         panDeMeas.setMinimumSize(new java.awt.Dimension(480, 135));
@@ -920,9 +919,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 15, 10);
         panInfoContent2.add(scpdeMeas, gridBagConstraints);
 
         panDeMeas.add(panInfoContent2, java.awt.BorderLayout.CENTER);
@@ -1003,9 +1003,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 15, 10);
         panInfoContent3.add(scpMeas15, gridBagConstraints);
 
         panMeas15.add(panInfoContent3, java.awt.BorderLayout.CENTER);
@@ -1086,9 +1087,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 15, 10);
         panInfoContent4.add(scpMeas21, gridBagConstraints);
 
         panMeas21.add(panInfoContent4, java.awt.BorderLayout.CENTER);
@@ -1175,7 +1177,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 20, 15, 20);
+        gridBagConstraints.insets = new java.awt.Insets(15, 20, 10, 20);
         panInfoContent.add(jPanel3, gridBagConstraints);
 
         panGeo.setMinimumSize(new java.awt.Dimension(640, 120));
@@ -1225,7 +1227,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel1.add(cbGeom, gridBagConstraints);
 
         lblGeom.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "WkSgPanOne.lblGeom.text")); // NOI18N
@@ -1237,7 +1239,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel1.add(lblGeom, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1626,8 +1628,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
         //todo: fldnr bestimmen
         int lfdnr = 1;
+
         try {
-            cidsBean.setProperty("massn_wk_fldnr", lfdnr);
+            cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr) );
             cidsBean.setProperty("massn_id", getWk_k() + "M_" + lfdnr);
         } catch (Exception e) {
             log.error(e,e);
