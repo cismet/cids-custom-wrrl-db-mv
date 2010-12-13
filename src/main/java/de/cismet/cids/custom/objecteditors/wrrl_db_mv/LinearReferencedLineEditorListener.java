@@ -8,6 +8,6 @@ import java.util.EventListener;
  */
 public interface LinearReferencedLineEditorListener extends EventListener {
 
-    public void LinearReferencedLineCreated();
+    public void linearReferencedLineCreated();
 
 }

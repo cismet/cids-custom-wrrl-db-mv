@@ -62,7 +62,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         linearReferencedLineEditor.setRealGeomField("real_geom");
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
             @Override
-            public void LinearReferencedLineCreated() {
+            public void linearReferencedLineCreated() {
                 zoomToFeature();
             }
         });

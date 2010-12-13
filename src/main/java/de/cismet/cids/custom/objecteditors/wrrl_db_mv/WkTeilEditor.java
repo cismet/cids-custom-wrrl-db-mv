@@ -30,6 +30,11 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
     }
 
     @Override
+    synchronized public CidsBean getCidsBean() {
+        return linearReferencedLineEditor1.getCidsBean();
+    }
+
+    @Override
     public void dispose() {
         if (linearReferencedLineEditor1.getCidsBean() != null) {
             linearReferencedLineEditor1.dispose();

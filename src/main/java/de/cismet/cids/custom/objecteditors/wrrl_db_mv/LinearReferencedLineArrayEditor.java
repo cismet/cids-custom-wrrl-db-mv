@@ -4,12 +4,10 @@ import Sirius.server.middleware.types.MetaClass;
 import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
-import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -25,14 +23,10 @@ import javax.swing.JPanel;
 public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implements CidsBeanDropListener, LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkTeileEditor.class);
-    private static final Color[] COLORS = new Color[] {
-        new Color(41, 86, 178), new Color(101, 156, 239), new Color(125, 189, 0), new Color(220, 246, 0), new Color(255, 91, 0)
-    };
 
     private Collection<CidsBean> cidsBeans;
     private Collection<LinearReferencedLineEditor> editors = new ArrayList<LinearReferencedLineEditor>();
     private HashMap<JButton, LinearReferencedLineEditor> editorButtonMap = new HashMap<JButton, LinearReferencedLineEditor>();
-    private int colorIndex = 0;
     private Collection<LinearReferencedLineArrayEditorListener> listeners = new ArrayList<LinearReferencedLineArrayEditorListener>();
 
     private String fromStationField;
@@ -127,11 +121,6 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
         return cidsBeans;
     }
 
-    private Color getNextColor() {
-        colorIndex = (colorIndex + 1) % COLORS.length;
-        return COLORS[colorIndex];
-    }
-
     public void setCidsBeans(Collection<CidsBean> cidsBeans) {
         this.cidsBeans = cidsBeans;
 
@@ -150,9 +139,6 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
 
     private void addEditor(LinearReferencedLineEditor editor) {
         editors.add(editor);
-
-        Color color = getNextColor();
-        editor.setLineColor(color);
 
         JPanel panItem = new JPanel(new GridBagLayout());
         panItem.setOpaque(false);
@@ -206,17 +192,14 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
         CidsBean toGeomBean = geomMC.getEmptyInstance().getBean();
 
         try {
-            fromBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
             fromBean.setProperty(PROP_STATION_ROUTE, routeBean);
             fromBean.setProperty(PROP_STATION_VALUE, 0d);
             fromBean.setProperty(PROP_STATION_GEOM, fromGeomBean);
 
-            toBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
             toBean.setProperty(PROP_STATION_ROUTE, routeBean);
             toBean.setProperty(PROP_STATION_VALUE, ((Geometry) ((CidsBean) routeBean.getProperty(PROP_ROUTE_GEOM)).getProperty(PROP_GEOM_GEOFIELD)).getLength());
             toBean.setProperty(PROP_STATION_GEOM, toGeomBean);
 
-            newBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(metaClassName));
             newBean.setProperty(fromStationField, fromBean);
             newBean.setProperty(toStationField, toBean);
             newBean.setProperty(realGeomField, geomBean);

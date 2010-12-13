@@ -5,12 +5,15 @@ import Sirius.server.middleware.types.MetaClass;
 import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.StationToMapRegistryListener;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
+import de.cismet.tools.CurrentStackTrace;
 import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -33,13 +36,16 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationEditor.class);
 
-    private LinearReferencedPointFeature feature;
+    //private LinearReferencedPointFeature feature;
     private PropertyChangeListener cidsBeanListener;
     private boolean isSpinnerChangeLocked = false;
     private boolean isFeatureChangeLocked = false;
+    private boolean isBeanChangeLocked = false;
     private ImageIcon ico;
     private CidsBean cidsBean;
     private Collection<StationEditorListener> listeners = new ArrayList<StationEditorListener>();
+    private LinearReferencedPointFeatureListener featureListener;
+    private StationToMapRegistryListener stationToMapRegistryListener;
 
     private enum Card {edit, add, error};
 
@@ -54,6 +60,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
 
         initCidsBeanListener();
         initSpinnerListener();
+        initFeatureListener();
+        initStationToMapRegistryListener();
     }
 
     public boolean addStationEditorListener(StationEditorListener listener) {
@@ -62,8 +70,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
 
     public void setImageIcon(ImageIcon ico) {
         this.ico = ico;
-        if (feature != null) {
-            feature.setIconImage(ico);
+        if (getFeature() != null) {
+            getFeature().setIconImage(ico);
         }
         jLabel5.setIcon(ico);
     }
@@ -75,7 +83,16 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     }    
 
     public LinearReferencedPointFeature getFeature() {
-        return feature;
+        return (LinearReferencedPointFeature) StationToMapRegistry.getInstance().getFeature(cidsBean);
+    }
+
+    private void initStationToMapRegistryListener() {
+        stationToMapRegistryListener = new StationToMapRegistryListener() {
+            @Override
+            public void FeatureCountChanged() {
+                updateSplitButton();
+            }
+        };
     }
 
     private void initCidsBeanListener() {
@@ -84,25 +101,26 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
             @Override
             public void propertyChange(PropertyChangeEvent pce) {
                 if (pce.getPropertyName().equals(PROP_STATION_VALUE)) {
-                    double position = (Double) cidsBean.getProperty(PROP_STATION_VALUE);
-
-                    if (!isSpinnerChangeLocked) {
-                        spinValue.setValue((double) Math.round(position));
-                    }
-
-                    if (feature != null) {
-                        if (!isFeatureChangeLocked) {
-                            feature.moveToPosition(position);
-                        }
-                        try {
-                            StationEditor.setPointGeometry(feature.getGeometry(), cidsBean);
-                        } catch (Exception ex) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("error while setting the " + PROP_STATION_GEOM + "property", ex);
-                            }
-                        }
-                    }
+                    cidsBeanChanged((Double) pce.getNewValue());
                 }
+            }
+        };
+    }
+
+    private void initFeatureListener() {
+        featureListener = new LinearReferencedPointFeatureListener() {
+
+            @Override
+            public void featureMoved(LinearReferencedPointFeature pointFeature) {
+                featureChanged(pointFeature.getCurrentPosition());
+            }
+
+            @Override
+            public void featureMerged(LinearReferencedPointFeature mergePoint, LinearReferencedPointFeature withPoint) {
+                CidsBean withBean = StationToMapRegistry.getInstance().getCidsBean(withPoint);
+                setCidsBean(withBean);
+                
+                updateSplitButton();
             }
         };
     }
@@ -142,46 +160,139 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     }
 
     private void spinnerChanged() {
+        LOG.debug("spinner changed", new CurrentStackTrace());
+
         try {
-            // endlosschleife verhindern (bean => spinner => bean => ...)
-            isSpinnerChangeLocked = true;
+            lockSpinnerChange(true);
 
-            final Double oldValue = (Double) cidsBean.getProperty(PROP_STATION_VALUE);
-
-            Double value;
             try {
                 AbstractFormatter formatter = ((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getFormatter();
-                value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getText());
+                Double value = (Double) formatter.stringToValue(((JSpinner.DefaultEditor) spinValue.getEditor()).getTextField().getText());
+                changeValue(value);
             } catch (ParseException ex) {
-                value = oldValue;
-            }
-
-            if (((oldValue == null) && (value != null)) || ((oldValue != null) && !oldValue.equals(value))) {
-                cidsBean.setProperty(PROP_STATION_VALUE, value);
-            }
-        } catch(Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Error during setting CidsBean", ex);
+                LOG.debug("error parsing spinner", ex);
             }
         } finally {
-            isSpinnerChangeLocked = false;
+            lockSpinnerChange(false);
         }
+    }
+
+    private void featureChanged(double value) {
+        try {
+            lockFeatureChange(true);
+            changeValue(value);
+        } finally {
+            lockFeatureChange(false);
+        }
+    }
+
+    private void cidsBeanChanged(double value) {
+        LOG.debug("cidsbean changed", new CurrentStackTrace());
+
+        try {
+            lockBeanChange(true);
+
+            if (!isSpinnerChangeLocked()) {
+                spinValue.setValue(value);
+            }
+
+            if (getFeature() != null) {
+                if (!isFeatureChangeLocked()) {
+                    getFeature().moveToPosition(value);
+                }
+                try {
+                    StationEditor.setPointGeometry(getFeature().getGeometry(), cidsBean);
+                } catch (Exception ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("error while setting the " + PROP_STATION_GEOM + "property", ex);
+                    }
+                }
+            }
+        } finally {
+            lockBeanChange(false);
+        }
+    }
+
+    private void changeValue(double value) {
+        LOG.debug("change bean value to " + value);
+        final CidsBean stationBean = cidsBean;
+        final double oldValue = StationEditor.getLinearValue(stationBean);
+
+        if (oldValue != value) {
+            try {
+                if (!isBeanChangeLocked()) {
+                    StationEditor.setLinearValue(value, stationBean);
+                }
+            } catch (Exception ex) {
+                LOG.debug("error changing bean", ex);
+            }
+        } else {
+            LOG.debug("no changes needed, old value was " + oldValue);
+        }
+    }
+    
+    private boolean isSpinnerChangeLocked() {
+        return isSpinnerChangeLocked;
+    }
+
+    private boolean isFeatureChangeLocked() {
+        return isFeatureChangeLocked;
+    }
+
+    private boolean isBeanChangeLocked() {
+        return isBeanChangeLocked;
+    }
+
+    private void lockSpinnerChange(final boolean lock) {
+        isSpinnerChangeLocked = lock;
+    }
+
+    private void lockFeatureChange(final boolean lock) {
+        isFeatureChangeLocked = lock;
+    }
+
+    private void lockBeanChange(final boolean lock) {
+        isBeanChangeLocked = lock;
     }
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
-        //listener von der alten Bean entfernen
-        if (this.cidsBean != null) {
-            this.cidsBean.removePropertyChangeListener(cidsBeanListener);
-        }
+        CidsBean oldBean = this.cidsBean;
+        if (oldBean != null) {
 
-        if (cidsBean == null) {
-            cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION).getEmptyInstance().getBean();
+            LinearReferencedPointFeature oldFeature = StationToMapRegistry.getInstance().removeStationFeature(oldBean);
+            if (oldFeature != null) {
+                oldFeature.removeListener(featureListener);
+            }
+
+            // listener von der alten Bean entfernen
+            oldBean.removePropertyChangeListener(cidsBeanListener);
+            StationToMapRegistry.getInstance().removeListener(oldBean, stationToMapRegistryListener);
         }
 
         this.cidsBean = cidsBean;
 
-        init();
+        if (cidsBean != null) {
+            StationToMapRegistry.getInstance().addListener(cidsBean, stationToMapRegistryListener);
+            cidsBean.addPropertyChangeListener(cidsBeanListener);
+
+            LinearReferencedPointFeature feature = StationToMapRegistry.getInstance().addStationFeature(cidsBean);
+            feature.addListener(featureListener);
+
+            if (ico != null) {
+                feature.setIconImage(ico);
+            }
+
+            cidsBeanChanged(getLinearValue(cidsBean));
+            fireStationCreated();
+            
+            ((SpinnerNumberModel) spinValue.getModel()).setMaximum(feature.getLineGeometry().getLength());
+            labGwk.setText("Route: " + Long.toString(getRouteGwk(cidsBean)));
+            
+            showCard(Card.edit);
+        } else {
+            showCard(Card.add);
+        }
     }
 
     @Override
@@ -189,106 +300,40 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         return cidsBean;
     }
 
-    private void init() {
-        try {
-            if (getRouteBean(cidsBean) == null) {
-                showCard(Card.add);
-            } else {
-                labGwk.setText("Route: " + Long.toString(getRouteGwk(cidsBean)));
-
-                cidsBean.addPropertyChangeListener(cidsBeanListener);
-                cidsBean.setProperty(PROP_STATION_VALUE, cidsBean.getProperty(PROP_STATION_VALUE));
-
-                // neues Feature erzeugen
-                feature = null;
-                initFeature(cidsBean);
-
-                ((SpinnerNumberModel) spinValue.getModel()).setMaximum(feature.getLineGeometry().getLength());
-
-                showCard(Card.edit);
-            }
-        } catch (Exception ex) {
-            LOG.fatal("error while init StationEditor", ex);
-            showCard(Card.error);
+    private void updateSplitButton() {
+        if (cidsBean != null) {
+            splitButton.setVisible(StationToMapRegistry.getInstance().getCounter(cidsBean) > 1);
         }
     }
 
-    private void initFeature(final CidsBean cidsBean) {
-        StationToMapRegistry.getInstance().addRouteFeature(
-            getId(getRouteBean(cidsBean)),
-            getRouteGeometry(cidsBean)
-        );
+    private void split() {
+        double oldPosition = getFeature().getCurrentPosition();
 
-        feature = StationToMapRegistry.getInstance().addStationFeature(
-            getId(cidsBean),
-            getLinearValue(cidsBean),
-            getRouteGeometry(cidsBean)
-        );
-        if (ico != null) {
-            feature.setIconImage(ico);
-        }
+        CidsBean stationBean = StationEditor.createFromRoute(StationEditor.getRouteBean(cidsBean));
+        setCidsBean(stationBean);
 
-        feature.addListener(new PropertyChangeListener() {
-
-            @Override
-            public void propertyChange(PropertyChangeEvent pce) {
-                if (pce.getPropertyName().equals(LinearReferencedPointFeature.PROPERTY_FEATURE_COORDINATE)) {
-                    // endlosschleife verhindern (feature => bean => feature => ...)
-                    try {
-                        isFeatureChangeLocked = true;
-                        double currentPosition = feature.getCurrentPosition();
-                        setLinearValue(currentPosition, cidsBean);
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("", ex);
-                        }
-                    } finally {
-                        isFeatureChangeLocked = false;
-                    }
-                }
-            }
-        });
-
-        fireStationCreated();
+        // neue station auf selbe position setzen wie die alte
+        getFeature().moveToPosition(oldPosition);
     }
 
-    private void fillFromRoute(CidsBean routeBean) {
+    public static CidsBean createFromRoute(CidsBean routeBean) {
+        CidsBean cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION).getEmptyInstance().getBean();
         MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_GEOM);
         CidsBean geomBean = geomMC.getEmptyInstance().getBean();
 
         try {
-            cidsBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
             cidsBean.setProperty(PROP_STATION_ROUTE, routeBean);
             cidsBean.setProperty(PROP_STATION_VALUE, 0d);
             cidsBean.setProperty(PROP_STATION_GEOM, geomBean);
         } catch (Exception ex) {
             LOG.debug("Error while filling bean", ex);
         }
+        return cidsBean;
     }
 
     @Override
     public void dispose() {
-        if (cidsBean != null) {
-            try {
-                StationToMapRegistry.getInstance().removeStationFeature(getId(cidsBean));
-            } catch (Exception ex) {
-                LOG.debug("exception while removing stationFeature from map", ex);
-            }
-            try {
-                StationToMapRegistry.getInstance().removeRouteFeature(getId(getRouteBean(cidsBean)));
-            } catch (Exception ex) {
-                LOG.debug("exception while removing stationFeature from map", ex);
-            }
-            try {
-                cidsBean.removePropertyChangeListener(cidsBeanListener);
-            } catch (Exception ex) {
-                LOG.debug("exception while removing Changelistener", ex);
-            }
-        }
-    }
-
-    private static int getId(CidsBean cidsBean) {
-        return (Integer) cidsBean.getProperty(PROP_ID);
+        setCidsBean(null);
     }
 
     public static double getLinearValue(CidsBean cidsBean) {
@@ -345,6 +390,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         spinValue = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         labGwk = new javax.swing.JLabel();
+        splitButton = new javax.swing.JButton();
         panAdd = new AddPanel();
         jLabel3 = new javax.swing.JLabel();
         panError = new javax.swing.JPanel();
@@ -378,10 +424,26 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         labGwk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labGwk.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.labGwk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         panEdit.add(labGwk, gridBagConstraints);
+
+        splitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/split-to.png"))); // NOI18N
+        splitButton.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.splitButton.text")); // NOI18N
+        splitButton.setToolTipText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.splitButton.toolTipText")); // NOI18N
+        splitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                splitButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        panEdit.add(splitButton, gridBagConstraints);
 
         add(panEdit, "edit");
 
@@ -403,6 +465,10 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         add(panError, "error");
     }// </editor-fold>//GEN-END:initComponents
 
+    private void splitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splitButtonActionPerformed
+        split();
+}//GEN-LAST:event_splitButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
@@ -413,6 +479,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     private javax.swing.JPanel panEdit;
     private javax.swing.JPanel panError;
     private javax.swing.JSpinner spinValue;
+    private javax.swing.JButton splitButton;
     // End of variables declaration//GEN-END:variables
 
     class AddPanel extends JPanel implements CidsBeanDropListener {
@@ -427,8 +494,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                 }
             }
             if (routeBean != null) {
-                fillFromRoute(routeBean);
-                init();
+                setCidsBean(createFromRoute(routeBean));
             } else {
                 LOG.debug("no route found in dropped objects");
             }

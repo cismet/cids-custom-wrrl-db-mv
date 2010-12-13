@@ -38,4 +38,7 @@ public interface LinearReferencingConstants {
     
     static final String PROP_GEOM_GEOFIELD = "geo_field";    // NOI18N
 
+    static final boolean FROM = true;
+    static final boolean TO = false;
+
 }

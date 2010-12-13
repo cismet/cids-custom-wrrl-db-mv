@@ -64,7 +64,6 @@ public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDr
         CidsBean geomBean = geomMC.getEmptyInstance().getBean();
 
         try {
-            stationBean.setProperty(PROP_ID, StationToMapRegistry.getNewId(MC_STATION));
             stationBean.setProperty(PROP_STATION_ROUTE, routeBean);
             stationBean.setProperty(PROP_STATION_VALUE, 0d);
             stationBean.setProperty(PROP_STATION_GEOM, geomBean);

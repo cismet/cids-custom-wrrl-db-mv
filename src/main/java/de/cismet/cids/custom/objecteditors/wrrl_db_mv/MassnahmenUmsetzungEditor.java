@@ -40,9 +40,10 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         linearReferencedLineEditor.setFromStationField("mass_stat_v");
         linearReferencedLineEditor.setToStationField("mass_stat_b");
         linearReferencedLineEditor.setRealGeomField("real_geom");
+        linearReferencedLineEditor.setCidsBean(cidsBean);
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
             @Override
-            public void LinearReferencedLineCreated() {
+            public void linearReferencedLineCreated() {
                 zoomToFeature();
             }
         });
@@ -391,7 +392,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void setCidsBean(CidsBean cidsBean) {
-        dispose();
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {

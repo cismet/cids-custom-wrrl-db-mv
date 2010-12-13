@@ -36,7 +36,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
             @Override
-            public void LinearReferencedLineCreated() {
+            public void linearReferencedLineCreated() {
                 zoomToFeatures();
             }
         });

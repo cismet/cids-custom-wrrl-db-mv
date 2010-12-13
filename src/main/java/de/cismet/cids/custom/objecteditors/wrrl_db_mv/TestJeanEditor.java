@@ -32,7 +32,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         wkTeilEditor.getWrappedEditor().addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
             @Override
-            public void LinearReferencedLineCreated() {
+            public void linearReferencedLineCreated() {
                 zoomToFeatures();
                 try {
                     cidsBean.setProperty("wk_teil", wkTeilEditor.getCidsBean());
@@ -80,10 +80,26 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
 
     @Override
     public void dispose() {
-        stationEditor.dispose();
-        stationArrayEditor.dispose();
-        wkTeilEditor.dispose();
-        wkTeileEditor.dispose();
+        try {
+            stationEditor.dispose();
+        } catch (Exception ex) {
+            LOG.debug("error while dispose", ex);
+        }
+        try {
+            stationArrayEditor.dispose();
+        } catch (Exception ex) {
+            LOG.debug("error while dispose", ex);
+        }
+        try {
+            wkTeilEditor.dispose();
+        } catch (Exception ex) {
+            LOG.debug("error while dispose", ex);
+        }
+        try {
+            wkTeileEditor.dispose();
+        } catch (Exception ex) {
+            LOG.debug("error while dispose", ex);
+        }
     }
 
     /** This method is called from within the constructor to

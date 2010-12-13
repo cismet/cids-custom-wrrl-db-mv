@@ -1,6 +1,8 @@
 package de.cismet.cids.custom.util;
 
 import com.vividsolutions.jts.geom.Geometry;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor;
+import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.PureNewFeature;
@@ -8,7 +10,12 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointF
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.DrawSelectionFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.tools.CurrentStackTrace;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  *
@@ -18,127 +25,173 @@ public class StationToMapRegistry implements LinearReferencingConstants {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationToMapRegistry.class);
 
-    private static HashMap<String, Feature>featureReg = new HashMap<String, Feature>();
-    private static HashMap<String, Integer> counterMap = new HashMap<String, Integer>();
-    private static HashMap<String, Integer> NEW_ID_COUNTER = new HashMap<String, Integer>();
+    private HashMap<CidsBean, Feature> featureReg = new HashMap<CidsBean, Feature>();
+    private HashMap<Feature, CidsBean> cidsBeanReg = new HashMap<Feature, CidsBean>();
+    private HashMap<CidsBean, Integer> counterMap = new HashMap<CidsBean, Integer>();
+    private HashMap<CidsBean, Collection<StationToMapRegistryListener>> listenerMap = new HashMap<CidsBean, Collection<StationToMapRegistryListener>>();
+
+    private static final Color[] COLORS = new Color[] {
+        new Color(41, 86, 178), new Color(101, 156, 239), new Color(125, 189, 0), new Color(220, 246, 0), new Color(255, 91, 0)
+    };
+
+    private int colorIndex = 0;
 
     private static StationToMapRegistry instance = new StationToMapRegistry();
 
     private StationToMapRegistry() {
-        // Singleton
+        // static
+    }
+
+    private Color getNextColor() {
+        colorIndex = (colorIndex + 1) % COLORS.length;
+        return COLORS[colorIndex];
     }
 
     public static StationToMapRegistry getInstance() {
         return instance;
     }
 
-    public static int getNewId(String mcName) {
-        if (NEW_ID_COUNTER.get(mcName) == null) {
-            NEW_ID_COUNTER.put(mcName, 0);
+    // >> LISTENERS
+
+    public boolean addListener(CidsBean cidsBean, StationToMapRegistryListener listener) {
+        if (listenerMap.get(cidsBean) == null) {
+            listenerMap.put(cidsBean, new ArrayList<StationToMapRegistryListener>());
         }
-        int id = NEW_ID_COUNTER.get(mcName) - 1;
-        NEW_ID_COUNTER.put(mcName, id);
-        return id;
+        return listenerMap.get(cidsBean).add(listener);
     }
 
-    private static String getHashKeyForLinRefLineFeature(String oblectTableName, int id) {
-        return oblectTableName + ":" + id;
+    public boolean removeListener(CidsBean cidsBean, StationToMapRegistryListener listener) {
+        Collection<StationToMapRegistryListener> listeners = listenerMap.get(cidsBean);
+        if (listeners != null) {
+            return listeners.remove(listener);
+        } else {
+            return false;
+        }
     }
+
+    private void fireFeatureCountChanged(CidsBean cidsBean) {
+        Collection<StationToMapRegistryListener> listeners = listenerMap.get(cidsBean);
+        if (listeners != null) {
+            for (StationToMapRegistryListener listener : listeners) {
+                listener.FeatureCountChanged();
+            }
+        }
+    }
+
+    // LISTENERS <<
 
     // >> ADD FEATURE
 
-    private Feature addFeature(String key, int id, Feature feature) {
-        String hash = getHashKeyForLinRefLineFeature(key, id);
-        LOG.debug("add " + hash);
-        if (!featureReg.containsKey(hash)) {
-            featureReg.put(hash, feature);
+    private Feature addFeature(CidsBean cidsBean, Feature feature) {
+        if (!featureReg.containsKey(cidsBean)) {
+            featureReg.put(cidsBean, feature);
+        }
+        if (!cidsBeanReg.containsKey(feature)) {
+            cidsBeanReg.put(feature, cidsBean);
+        }
+
+        if (getCounter(cidsBean) == 0) {
             addFeatureToMap(feature);
         }
 
-        incrementCounter(hash);
-        return featureReg.get(hash);
+        incrementCounter(cidsBean);
+        return featureReg.get(cidsBean);
     }
 
-    public LinearReferencedPointFeature addStationFeature(int id, double value, Geometry geometry) {
-        return (LinearReferencedPointFeature) addFeature(MC_STATION, id, new LinearReferencedPointFeature(value, geometry));
+    public LinearReferencedPointFeature addStationFeature(CidsBean cidsBean) {
+        double value = StationEditor.getLinearValue(cidsBean);
+
+        Geometry routeGeometry = StationEditor.getRouteGeometry(cidsBean);
+        addRouteFeature(StationEditor.getRouteBean(cidsBean), routeGeometry);
+
+        LinearReferencedPointFeature linRefPoint = new LinearReferencedPointFeature(value, routeGeometry);
+
+        return (LinearReferencedPointFeature) addFeature(cidsBean, linRefPoint);
     }
 
-    public PureNewFeature addRouteFeature(int id, Geometry geometry) {
-        return (RouteFeature) addFeature(MC_ROUTE, id, new RouteFeature(geometry));
+    private PureNewFeature addRouteFeature(CidsBean cidsBean, Geometry geometry) {
+        return (RouteFeature) addFeature(cidsBean, new RouteFeature(geometry));
     }
 
-    public LinearReferencedLineFeature addLinearReferencedLineFeature(String key, int id, LinearReferencedPointFeature from, LinearReferencedPointFeature to) {
-        return (LinearReferencedLineFeature) addFeature(key, id, new LinearReferencedLineFeature(from, to));
+    public LinearReferencedLineFeature addLinearReferencedLineFeature(CidsBean cidsBean, LinearReferencedPointFeature from, LinearReferencedPointFeature to) {
+        LinearReferencedLineFeature linRefLine = new LinearReferencedLineFeature(from, to);
+
+        LinearReferencedPointFeature linRefFromPoint = linRefLine.getStationFeature(FROM);
+        LinearReferencedPointFeature linRefToPoint = linRefLine.getStationFeature(TO);
+
+        linRefLine.setLinePaint(getNextColor());
+
+        return (LinearReferencedLineFeature) addFeature(cidsBean, linRefLine);
     }
 
     // ADD FEATURE <<
 
     // >> REMOVE FEATURE
 
-    private void removeFeature(String key, int id) {
-        String hash = getHashKeyForLinRefLineFeature(key, id);
-        LOG.debug("remove " + hash);
-        if (decrementCounter(hash) <= 0) {
-            if (featureReg.containsKey(hash)) {
-                Feature feature = featureReg.remove(hash);
+    private Feature removeFeature(CidsBean cidsBean) {
+        LOG.debug("remove " + cidsBean, new CurrentStackTrace());
+        if (decrementCounter(cidsBean) <= 0) {
+            if (featureReg.containsKey(cidsBean)) {
+                Feature feature = featureReg.remove(cidsBean);
                 LOG.debug("remove station from map");
                 removeFeatureFromMap(feature);
+                return feature;
             }
         }
+        return null;
     }
 
-    public void removeLinearReferencedLineFeature(String key, int id) {
-        removeFeature(key, id);
+    public LinearReferencedLineFeature removeLinearReferencedLineFeature(CidsBean cidsBean) {
+        return (LinearReferencedLineFeature) removeFeature(cidsBean);
     }
 
-    public void removeStationFeature(int id) {
-        removeFeature(MC_STATION, id);
+    public LinearReferencedPointFeature removeStationFeature(CidsBean cidsBean) {
+        removeRouteFeature(StationEditor.getRouteBean(cidsBean));
+        return (LinearReferencedPointFeature) removeFeature(cidsBean);
     }
 
-    public void removeRouteFeature(int id) {
-        removeFeature(MC_ROUTE, id);
+    private void removeRouteFeature(CidsBean cidsBean) {
+        removeFeature(cidsBean);
     }
 
     // REMOVE FEATURE <<
 
     // >> COUNTER
 
-    private int incrementCounter(String hash) {
-        LOG.debug("increment counter for " + hash);
-        int counter = getCounter(hash) + 1;
-        LOG.debug("new value = " + counter);
-        counterMap.put(hash,  counter);
+    private int incrementCounter(CidsBean cidsBean) {
+        int counter = getCounter(cidsBean) + 1;
+        counterMap.put(cidsBean,  counter);
+        logCounterStatus("after increment " + cidsBean);
+        fireFeatureCountChanged(cidsBean);
         return counter;
     }
 
-    private int decrementCounter(String hash) {
-        LOG.debug("decrement counter for " + hash);
-        int counter = getCounter(hash) - 1;
-        LOG.debug("new value = " + counter);
-        counterMap.put(hash,  counter);
+    private int decrementCounter(CidsBean cidsBean) {
+        int counter = getCounter(cidsBean) - 1;
+        counterMap.put(cidsBean,  counter);
+        logCounterStatus("after decrement " + cidsBean);
+        fireFeatureCountChanged(cidsBean);
         return counter;
     }
 
-    private int getCounter(String hash) {
-        LOG.debug("get counter for " + hash);
-        if (!counterMap.containsKey(hash)) {
-            LOG.debug("counter not exists, creating new counter with 0 value");
-            counterMap.put(hash, new Integer(0));
+    public int getCounter(CidsBean cidsBean) {
+        if (!counterMap.containsKey(cidsBean)) {
+            counterMap.put(cidsBean, new Integer(0));
         }
-        return ((Integer) counterMap.get(hash));
+        return ((Integer) counterMap.get(cidsBean));
     }
 
     // COUNTER <<
 
     // >> TO MAP
 
-    private static void addFeatureToMap(final Feature feature) {
+    private void addFeatureToMap(final Feature feature) {
         FeatureCollection featureCollection = CismapBroker.getInstance().getMappingComponent().getFeatureCollection();
         featureCollection.addFeature(feature);
         featureCollection.holdFeature(feature);
     }
 
-    private static void removeFeatureFromMap(final Feature feature) {
+    private void removeFeatureFromMap(final Feature feature) {
         FeatureCollection featureCollection = CismapBroker.getInstance().getMappingComponent().getFeatureCollection();
         if (featureCollection.getAllFeatures().contains(feature)) {
             featureCollection.removeFeature(feature);
@@ -146,6 +199,22 @@ public class StationToMapRegistry implements LinearReferencingConstants {
     }
 
     // << TO MAP
+
+    public CidsBean getCidsBean(Feature feature) {
+        return cidsBeanReg.get(feature);
+    }
+
+    public Feature getFeature(CidsBean cidsBean) {
+        return featureReg.get(cidsBean);
+    }
+
+    private void logCounterStatus(String string) {
+        StringBuilder sb = new StringBuilder("counterStatus ").append(string).append(":<br/>\n=============<br/>\n");
+        for (Entry<CidsBean, Integer> entry : counterMap.entrySet()) {
+            sb.append(entry.getKey()).append("-").append(entry.getKey().getMetaObject().getId()).append(" => ").append(entry.getValue()).append("<br/>\n");
+        }
+        LOG.debug(sb.toString());
+    }
 
     public class RouteFeature extends PureNewFeature implements DrawSelectionFeature {
 

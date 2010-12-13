@@ -44,7 +44,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
             @Override
-            public void LinearReferencedLineCreated() {
+            public void linearReferencedLineCreated() {
                 zoomToFeature();
             }
         });
