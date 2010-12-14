@@ -9,8 +9,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.tools.gui.FooterComponentProvider;
+import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -18,11 +21,17 @@ import javax.swing.JPanel;
  *
  * @author therter
  */
-public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
+public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider, CidsBeanDropListener {
+    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ProjekteIndikatorenEditor.class);
     private CidsBean cidsBean;
 
     public ProjekteIndikatorenEditor() {
         initComponents();
+        try {
+            new CidsBeanDropTarget(this);
+        } catch (Exception ex) {
+            log.debug("error while creating CidsBeanDropTarget", ex);
+        }
     }
 
 
@@ -69,8 +78,8 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         lblValIndikator_nr = new javax.swing.JLabel();
         lblValIndikator = new javax.swing.JLabel();
         lblValEinheit = new javax.swing.JLabel();
-        lblValWert_num = new javax.swing.JLabel();
-        lblValWert_char = new javax.swing.JLabel();
+        txtValWert_num = new javax.swing.JTextField();
+        txtValWert_char = new javax.swing.JTextField();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -153,7 +162,9 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         lblValIndikator_nr.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValIndikator_nr.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator_nr}"), lblValIndikator_nr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator_schluessel.indikator_nr}"), lblValIndikator_nr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -163,13 +174,15 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 10);
         panInfoContent.add(lblValIndikator_nr, gridBagConstraints);
 
         lblValIndikator.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValIndikator.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator}"), lblValIndikator, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator_schluessel.indikator}"), lblValIndikator, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -179,13 +192,15 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         panInfoContent.add(lblValIndikator, gridBagConstraints);
 
         lblValEinheit.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValEinheit.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einheit}"), lblValEinheit, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator_schluessel.einheit}"), lblValEinheit, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -195,15 +210,20 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         panInfoContent.add(lblValEinheit, gridBagConstraints);
 
-        lblValWert_num.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblValWert_num.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtValWert_num.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtValWert_num.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wert_num}"), lblValWert_num, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wert_num}"), txtValWert_num, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtValWert_num.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtValWert_numActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -211,15 +231,20 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        panInfoContent.add(lblValWert_num, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        panInfoContent.add(txtValWert_num, gridBagConstraints);
 
-        lblValWert_char.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblValWert_char.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtValWert_char.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtValWert_char.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wert_char}"), lblValWert_char, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wert_char}"), txtValWert_char, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtValWert_char.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtValWert_charActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -227,8 +252,8 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        panInfoContent.add(lblValWert_char, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        panInfoContent.add(txtValWert_char, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -243,6 +268,14 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtValWert_numActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValWert_numActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtValWert_numActionPerformed
+
+    private void txtValWert_charActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValWert_charActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtValWert_charActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblEinheit;
     private javax.swing.JLabel lblFoot;
@@ -252,14 +285,14 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     private javax.swing.JLabel lblValEinheit;
     private javax.swing.JLabel lblValIndikator;
     private javax.swing.JLabel lblValIndikator_nr;
-    private javax.swing.JLabel lblValWert_char;
-    private javax.swing.JLabel lblValWert_num;
     private javax.swing.JLabel lblWert_char;
     private javax.swing.JLabel lblWert_num;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JTextField txtValWert_char;
+    private javax.swing.JTextField txtValWert_num;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -292,5 +325,20 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    @Override
+    public void beansDropped(ArrayList<CidsBean> beans) {
+        if (cidsBean != null) {
+            for (CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Indikator")) {
+                    try {
+                    cidsBean.setProperty("indikator_schluessel", bean);
+                    } catch (Exception e) {
+                        log.error(e,e);
+                    }
+                }
+            }
+        }
     }
 }

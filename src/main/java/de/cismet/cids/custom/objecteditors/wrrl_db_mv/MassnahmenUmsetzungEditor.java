@@ -58,7 +58,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private void zoomToFeature() {
         MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            Object o = cidsBean.getProperty("wk_fg");
+            Object o = cidsBean.getProperty("mass_stat_v");
 
             if ( o != null ) {
                 Collection<Feature> collection = new ArrayList<Feature>();
@@ -397,14 +397,15 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
             bindingGroup.bind();
-            linearReferencedLineEditor.setCidsBean(cidsBean);
             deActivateGUIElements(true);
         } else {
             deActivateGUIElements(false);
         }
 
+        linearReferencedLineEditor.setCidsBean(cidsBean);
         wirkungPan1.setCidsBean(cidsBean);
         bindReadOnlyFields();
+        showOrHideGeometryEditors();
     }
 
     @Override
@@ -456,6 +457,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         jTextArea1.setEnabled(enable);
         cbMeasure_type_code.setEnabled(enable);
         cbGeom.setEnabled(enable);
+        linearReferencedLineEditor.setEnabled(enable);
     }
 
     private String getWk_k() {
@@ -549,6 +551,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                     cidsBean.setProperty(propName, null);
                 }
             }
+            showOrHideGeometryEditors();
         } catch (Exception ex) {
             LOG.error("Error while binding a water body", ex);
         }
@@ -615,5 +618,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         }
 
         return true;
+    }
+
+    private void showOrHideGeometryEditors() {
+        if ( cidsBean != null && cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
+            panGeo.setVisible(false);
+        } else {
+            panGeo.setVisible(true);
+        }
     }
 }

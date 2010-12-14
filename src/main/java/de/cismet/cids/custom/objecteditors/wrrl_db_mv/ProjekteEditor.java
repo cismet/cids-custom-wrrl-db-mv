@@ -33,7 +33,6 @@ import javax.swing.JPanel;
  * @author therter
  */
 public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
-
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ProjekteEditor.class);
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
@@ -134,7 +133,19 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panInfoContent3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jlIndikator = new javax.swing.JList();
+        panIndikator = new javax.swing.JPanel();
+        btnRemIndikator = new javax.swing.JButton();
+        btnAddIndikator = new javax.swing.JButton();
         projekteIndikatorenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ProjekteIndikatorenEditor();
+        panMaInd = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading4 = new javax.swing.JLabel();
+        panInfoContent4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jlIndikator1 = new javax.swing.JList();
+        panIndikator1 = new javax.swing.JPanel();
+        btnRemMaIndikator = new javax.swing.JButton();
+        btnAddMaIndikator = new javax.swing.JButton();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -509,7 +520,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 12);
         add(panDeMeas, gridBagConstraints);
@@ -519,13 +530,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         add(massnahmenUmsetzungEditor1, gridBagConstraints);
 
-        panDeMeas1.setMinimumSize(new java.awt.Dimension(350, 440));
-        panDeMeas1.setPreferredSize(new java.awt.Dimension(350, 440));
+        panDeMeas1.setMinimumSize(new java.awt.Dimension(350, 225));
+        panDeMeas1.setPreferredSize(new java.awt.Dimension(350, 225));
 
         panHeadInfo3.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo3.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -533,7 +544,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panHeadInfo3.setLayout(new java.awt.FlowLayout());
 
         lblHeading3.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading3.setText("Indikatoren");
+        lblHeading3.setText("Projektbezogene Indikatoren");
         panHeadInfo3.add(lblHeading3);
 
         panDeMeas1.add(panHeadInfo3, java.awt.BorderLayout.NORTH);
@@ -541,8 +552,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panInfoContent3.setOpaque(false);
         panInfoContent3.setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(290, 360));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(290, 360));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(290, 120));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(290, 120));
 
         jlIndikator.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -564,8 +575,48 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 30, 10, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 30, 0, 5);
         panInfoContent3.add(jScrollPane2, gridBagConstraints);
+
+        panIndikator.setOpaque(false);
+        panIndikator.setLayout(new java.awt.GridBagLayout());
+
+        btnRemIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
+        btnRemIndikator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemIndikatorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        panIndikator.add(btnRemIndikator, gridBagConstraints);
+
+        btnAddIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
+        btnAddIndikator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddIndikatorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        panIndikator.add(btnAddIndikator, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 30);
+        panInfoContent3.add(panIndikator, gridBagConstraints);
 
         panDeMeas1.add(panInfoContent3, java.awt.BorderLayout.CENTER);
 
@@ -573,16 +624,104 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 12, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 12, 5, 0);
         add(panDeMeas1, gridBagConstraints);
 
-        projekteIndikatorenEditor1.setMinimumSize(new java.awt.Dimension(350, 200));
-        projekteIndikatorenEditor1.setPreferredSize(new java.awt.Dimension(350, 200));
+        projekteIndikatorenEditor1.setMinimumSize(new java.awt.Dimension(350, 180));
+        projekteIndikatorenEditor1.setPreferredSize(new java.awt.Dimension(350, 180));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 0);
+        add(projekteIndikatorenEditor1, gridBagConstraints);
+
+        panMaInd.setMinimumSize(new java.awt.Dimension(350, 225));
+        panMaInd.setPreferredSize(new java.awt.Dimension(350, 225));
+
+        panHeadInfo4.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo4.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo4.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo4.setLayout(new java.awt.FlowLayout());
+
+        lblHeading4.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading4.setText("Umsetzungsbezogene Indikatoren");
+        panHeadInfo4.add(lblHeading4);
+
+        panMaInd.add(panHeadInfo4, java.awt.BorderLayout.NORTH);
+
+        panInfoContent4.setOpaque(false);
+        panInfoContent4.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(290, 120));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(290, 120));
+
+        jlIndikator1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jlIndikator1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jlIndikator1ValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jlIndikator1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 30, 0, 5);
+        panInfoContent4.add(jScrollPane3, gridBagConstraints);
+
+        panIndikator1.setOpaque(false);
+        panIndikator1.setLayout(new java.awt.GridBagLayout());
+
+        btnRemMaIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
+        btnRemMaIndikator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemMaIndikatorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        panIndikator1.add(btnRemMaIndikator, gridBagConstraints);
+
+        btnAddMaIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
+        btnAddMaIndikator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMaIndikatorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        panIndikator1.add(btnAddMaIndikator, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 30);
+        panInfoContent4.add(panIndikator1, gridBagConstraints);
+
+        panMaInd.add(panInfoContent4, java.awt.BorderLayout.CENTER);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 0);
-        add(projekteIndikatorenEditor1, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        add(panMaInd, gridBagConstraints);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
@@ -602,6 +741,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                         CidsBeanSupport.deletePropertyIfExists(beanToDelete, "real_geom", beansToDelete);
                         CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete);
                         beanToDelete.delete();
+                        massnahmenUmsetzungEditor1.setCidsBean(null);
                     }
                 } catch (Exception e) {
                     UIUtil.showExceptionToUser(e, this);
@@ -618,6 +758,11 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 Object o = ((CidsBean)selObj).getProperty("massnahme");
                 if (o instanceof CidsBean || o == null) {
                     massnahmenUmsetzungEditor1.setCidsBean((CidsBean)selObj);
+                    List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)selObj, "indikator");
+                    jlIndikator1.removeAll();
+                    if (indikatorList != null) {
+                        jlIndikator1.setListData(indikatorList.toArray());
+                    }
                 }
             }
         }
@@ -629,22 +774,129 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             if (selObj instanceof CidsBean) {
                 projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
             }
+            jlIndikator1.clearSelection();
         }
     }//GEN-LAST:event_jlIndikatorValueChanged
 
     private void btnAddUmsetzungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUmsetzungActionPerformed
-        try {
-            CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("MASSNAHMEN_UMSETZUNG");
-            Collection<CidsBean> umsetzungCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");
-            umsetzungCollection.add(newBean);
-            jlUmsetzung.setSelectedValue(newBean, true);
-        } catch (Exception ex) {
-            log.error(ex, ex);
-        }
+        Thread t = new Thread( new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("MASSNAHMEN_UMSETZUNG");
+                    Collection<CidsBean> umsetzungCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");
+                    umsetzungCollection.add(newBean);
+                    jlUmsetzung.setSelectedValue(newBean, true);
+                } catch (Exception ex) {
+                    log.error(ex, ex);
+                }
+            }
+        });
+        
+        t.start();
     }//GEN-LAST:event_btnAddUmsetzungActionPerformed
 
+    private void btnRemIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemIndikatorActionPerformed
+        final Object selection = jlIndikator.getSelectedValue();
+        if (selection != null) {
+            final int answer = JOptionPane.showConfirmDialog(this, "Soll der ausgewählte Indikator wirklich gelöscht werden?", "Indikator entfernen", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                try {
+                    final CidsBean beanToDelete = (CidsBean) selection;
+                    final Object beanColl = cidsBean.getProperty("indikator");
+                    if (beanColl instanceof Collection) {
+                        ((Collection) beanColl).remove(beanToDelete);
+                        beanToDelete.delete();
+                    }
+                } catch (Exception e) {
+                    UIUtil.showExceptionToUser(e, this);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnRemIndikatorActionPerformed
+
+    private void btnAddIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIndikatorActionPerformed
+        Thread t = new Thread( new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");
+                    Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "indikator");
+                    indikatorCollection.add(newBean);
+                    jlIndikator.setSelectedValue(newBean, true);
+                } catch (Exception ex) {
+                    log.error(ex, ex);
+                }
+            }
+        });
+
+        t.start();
+    }//GEN-LAST:event_btnAddIndikatorActionPerformed
+
+    private void jlIndikator1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikator1ValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            Object selObj = jlIndikator1.getSelectedValue();
+            if (selObj instanceof CidsBean) {
+                projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
+            }
+            jlIndikator.clearSelection();
+        }
+    }//GEN-LAST:event_jlIndikator1ValueChanged
+
+    private void btnRemMaIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMaIndikatorActionPerformed
+        final Object selection = jlIndikator1.getSelectedValue();
+        final CidsBean umsetzung = (CidsBean)jlUmsetzung.getSelectedValue();
+
+        if (selection != null && umsetzung != null) {
+            final int answer = JOptionPane.showConfirmDialog(this, "Soll der ausgewählte Indikator wirklich gelöscht werden?", "Indikator entfernen", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                try {
+                    final CidsBean beanToDelete = (CidsBean) selection;
+                    final Object beanColl = umsetzung.getProperty("indikator");
+                    if (beanColl instanceof Collection) {
+                        ((Collection) beanColl).remove(beanToDelete);
+                        beanToDelete.delete();
+                        jlIndikator1.setListData(((Collection) beanColl).toArray());
+                        jlIndikator1.clearSelection();
+                    }
+                } catch (Exception e) {
+                    UIUtil.showExceptionToUser(e, this);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnRemMaIndikatorActionPerformed
+
+    private void btnAddMaIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMaIndikatorActionPerformed
+        final CidsBean umsetzung = (CidsBean)jlUmsetzung.getSelectedValue();
+        
+        if (umsetzung != null) {
+            Thread t = new Thread( new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");
+                        Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(umsetzung, "indikator");
+                        indikatorCollection.add(newBean);
+                        jlIndikator1.setListData(indikatorCollection.toArray());
+                        jlIndikator1.setSelectedValue(newBean, true);
+                    } catch (Exception ex) {
+                        log.error(ex, ex);
+                    }
+                }
+            });
+
+            t.start();
+        } else {
+            JOptionPane.showMessageDialog(this, "Sie haben noch keine Umsetzung ausgewählt, zu der der Indikator hinzugefügt werden soll.", "Umsetzung auswählen", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddMaIndikatorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddIndikator;
+    private javax.swing.JButton btnAddMaIndikator;
     private javax.swing.JButton btnAddUmsetzung;
+    private javax.swing.JButton btnRemIndikator;
+    private javax.swing.JButton btnRemMaIndikator;
     private javax.swing.JButton btnRemUmsetzung;
     private javax.swing.JComboBox cbGeom;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_beginn;
@@ -653,13 +905,16 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList jlIndikator;
+    private javax.swing.JList jlIndikator1;
     private javax.swing.JList jlUmsetzung;
     private javax.swing.JLabel lblFoerdersumme;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblGeometrie;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
+    private javax.swing.JLabel lblHeading4;
     private javax.swing.JLabel lblKost_forderf;
     private javax.swing.JLabel lblM_beginn;
     private javax.swing.JLabel lblM_ende;
@@ -676,8 +931,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo4;
+    private javax.swing.JPanel panIndikator;
+    private javax.swing.JPanel panIndikator1;
     private javax.swing.JPanel panInfoContent2;
     private javax.swing.JPanel panInfoContent3;
+    private javax.swing.JPanel panInfoContent4;
+    private de.cismet.tools.gui.RoundedPanel panMaInd;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ProjekteIndikatorenEditor projekteIndikatorenEditor1;
     private javax.swing.JTextField txtValFoerdersatz;
     private javax.swing.JTextField txtValKost_forderf;

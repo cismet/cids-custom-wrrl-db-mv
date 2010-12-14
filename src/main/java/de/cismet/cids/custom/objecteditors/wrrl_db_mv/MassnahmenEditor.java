@@ -7,8 +7,11 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.server.middleware.interfaces.domainserver.MetaService;
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.search.CidsServerSearch;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.MaxWBNumberSearch;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.TimestampConverter;
@@ -27,6 +30,7 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.FooterComponentProvider;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -165,19 +169,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     private String getGwk() {
         if (cidsBean.getProperty("stat_von") != null) {
             return String.valueOf( cidsBean.getProperty("stat_von.route.gwk") );
-        } else {
-            return "";
-        }
-    }
-
-    private String getStalu() {
-        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            Object stalu = cidsBean.getProperty("wk_fg.stalu");
-            if (stalu == null) {
-                return CidsBeanSupport.FIELD_NOT_SET;
-            } else {
-                return stalu.toString();
-            }
         } else {
             return "";
         }
@@ -1559,7 +1550,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
                     bindToWb(WB_PROPERTIES[0], bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {
                     bindToWb(WB_PROPERTIES[1], bean);
-                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
+                }
+                // Massnahmen beziehen sich ausschliesslich auf Fliessgewaesser und Seegewaesser
+                else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
                 //    bindToWb(WB_PROPERTIES[2], bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
                 //    bindToWb(WB_PROPERTIES[3], bean);
@@ -1584,7 +1577,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
                 }
             }
 
-            copyGeometries();
+            copyGeometries(String.valueOf( propertyEntry.getProperty("id") ));
             showOrHideGeometryEditors();
         } catch (Exception ex) {
             log.error("Error while binding a water body", ex);
@@ -1592,7 +1585,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     }
 
 
-    private void copyGeometries() {
+    private void copyGeometries(String wkId) {
         //delete old geometries
         //delete stat_von if exists
         try {
@@ -1626,10 +1619,30 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             log.error("Cannot delete cids bean.", e);
         }
 
-        //todo: fldnr bestimmen
-        int lfdnr = 1;
-
         try {
+            int lfdnr = 1;
+            String wkTable;
+            String massReferencedField;
+
+            if ( cidsBean != null && cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
+                wkTable = "wk_sg";
+                massReferencedField = "wk_sg";
+            } else {
+                wkTable = "wk_fg";
+                massReferencedField = "wk_fg";
+            }
+
+            CidsServerSearch search = new MaxWBNumberSearch(wkTable, wkId, massReferencedField);
+            Collection res = SessionManager.getProxy().customServerSearch(SessionManager.getSession().getUser(), search);
+            ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+            if (resArray.size() > 0 && resArray.get(0).size() > 0) {
+                Object o = resArray.get(0).get(0);
+                if (o instanceof java.math.BigDecimal) {
+                    lfdnr = ((java.math.BigDecimal)o).intValue();
+                    ++lfdnr;
+                }
+            }
+ 
             cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr) );
             cidsBean.setProperty("massn_id", getWk_k() + "M_" + lfdnr);
         } catch (Exception e) {
