@@ -38,9 +38,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LinearReferencedLineEditor.class);
 
-    private static final boolean FROM = true;
-    private static final boolean TO = false;
-
     private LinearReferencedLineFeature feature;
     private LinearReferencedPointFeature fromFeature;
     private LinearReferencedPointFeature toFeature;
@@ -617,6 +614,14 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         getRealGeomBean().setProperty(PROP_GEOM_GEOFIELD, line);
     }
 
+    @Override
+    public void setEnabled(boolean bln) {
+        super.setEnabled(bln);
+        jLabel3.setVisible(bln);
+        spinFrom.setEnabled(bln);
+        spinTo.setEnabled(bln);
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -849,21 +854,23 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         @Override
         public void beansDropped(ArrayList<CidsBean> beans) {
-            CidsBean routeBean = null;
-            for (CidsBean bean : beans) {
-                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
-                    routeBean = bean;
-                    break;
+            if (isEnabled()) {
+                CidsBean routeBean = null;
+                for (CidsBean bean : beans) {
+                    if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                        routeBean = bean;
+                        break;
+                    }
                 }
-            }
-            if (routeBean != null) {
-                if (cidsBean == null) {
-                    cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName).getEmptyInstance().getBean();
+                if (routeBean != null) {
+                    if (cidsBean == null) {
+                        cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName).getEmptyInstance().getBean();
+                    }
+                    fillFromRoute(cidsBean, routeBean);
+                    setCidsBean(cidsBean);
+                } else {
+                    LOG.debug("no route found in dropped objects");
                 }
-                fillFromRoute(cidsBean, routeBean);
-                setCidsBean(cidsBean);
-            } else {
-                LOG.debug("no route found in dropped objects");
             }
         }
     }
