@@ -10,12 +10,15 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import org.jdesktop.beansbinding.Converter;
 
 /**
  *
  * @author stefan
  */
 public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RohrleitungRenderer.class);
 
     private CidsBean cidsBean;
 
@@ -143,7 +146,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         scpBemerkung.setPreferredSize(new java.awt.Dimension(500, 75));
 
         taBemerkung.setColumns(20);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
         taBemerkung.setRows(5);
         taBemerkung.setEnabled(false);
 
@@ -181,8 +184,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel1.setMinimumSize(new java.awt.Dimension(500, 20));
         jLabel1.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_name}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station_bis.route.routenname}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -307,8 +311,10 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel10.setMinimumSize(new java.awt.Dimension(500, 20));
         jLabel10.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_id}"), jLabel10, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref}"), jLabel10, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<Error>");
+        binding.setConverter(new MassnRefConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,6 +390,25 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
     @Override
     public void setTitle(String title) {
         
+    }
+
+    class MassnRefConverter extends Converter<CidsBean, String> {
+
+        @Override
+        public String convertForward(CidsBean bean) {
+            try {
+                return Integer.toString((Integer) bean.getProperty("id"));
+            } catch (Exception ex) {
+                LOG.debug("error while converting massn_ref to string", ex);
+                return null;
+            }
+        }
+
+        @Override
+        public CidsBean convertReverse(String t) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
     }
 
 }
