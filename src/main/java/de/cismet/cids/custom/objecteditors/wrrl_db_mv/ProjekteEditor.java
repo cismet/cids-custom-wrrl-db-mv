@@ -33,7 +33,7 @@ import javax.swing.JPanel;
  * @author therter
  */
 public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ProjekteEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjekteEditor.class);
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
@@ -52,8 +52,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
             bindingGroup.bind();
-            Object avUser = cidsBean.getProperty("av_user");
-            Object avTime = cidsBean.getProperty("av_time");
+            Object avUser = cidsBean.getProperty("av_user");//NOI18N
+            Object avTime = cidsBean.getProperty("av_time");//NOI18N
             if (avUser == null) {
                 avUser = "(unbekannt)";
             }
@@ -736,14 +736,16 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final Object beanColl = cidsBean.getProperty("umsetzung");
                     if (beanColl instanceof Collection) {
                         ((Collection) beanColl).remove(beanToDelete);
-                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_v", beansToDelete);
-                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_b", beansToDelete);
-                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "real_geom", beansToDelete);
-                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete);
+                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_v", beansToDelete);//NOI18N
+                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_b", beansToDelete);//NOI18N
+                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "real_geom", beansToDelete);//NOI18N
+                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete);//NOI18N
                         beanToDelete.delete();
                         massnahmenUmsetzungEditor1.setCidsBean(null);
+                        jlIndikator1.clearSelection();
+                        jlIndikator1.removeAll();
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
@@ -755,10 +757,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         if (!evt.getValueIsAdjusting()) {
             Object selObj = jlUmsetzung.getSelectedValue();
             if (selObj instanceof CidsBean) {
-                Object o = ((CidsBean)selObj).getProperty("massnahme");
+                Object o = ((CidsBean)selObj).getProperty("massnahme");//NOI18N
                 if (o instanceof CidsBean || o == null) {
                     massnahmenUmsetzungEditor1.setCidsBean((CidsBean)selObj);
-                    List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)selObj, "indikator");
+                    List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)selObj, "indikator");//NOI18N
                     jlIndikator1.removeAll();
                     if (indikatorList != null) {
                         jlIndikator1.setListData(indikatorList.toArray());
@@ -783,12 +785,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             @Override
             public void run() {
                 try {
-                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("MASSNAHMEN_UMSETZUNG");
-                    Collection<CidsBean> umsetzungCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");
+                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("MASSNAHMEN_UMSETZUNG");//NOI18N
+                    Collection<CidsBean> umsetzungCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");//NOI18N
                     umsetzungCollection.add(newBean);
                     jlUmsetzung.setSelectedValue(newBean, true);
-                } catch (Exception ex) {
-                    log.error(ex, ex);
+                } catch (final Exception ex) {
+                    LOG.error(ex, ex);
                 }
             }
         });
@@ -803,12 +805,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("indikator");
+                    final Object beanColl = cidsBean.getProperty("indikator");//NOI18N
                     if (beanColl instanceof Collection) {
                         ((Collection) beanColl).remove(beanToDelete);
                         beanToDelete.delete();
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
@@ -820,12 +822,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             @Override
             public void run() {
                 try {
-                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");
-                    Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "indikator");
+                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");//NOI18N
+                    Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "indikator");//NOI18N
                     indikatorCollection.add(newBean);
                     jlIndikator.setSelectedValue(newBean, true);
-                } catch (Exception ex) {
-                    log.error(ex, ex);
+                } catch (final Exception ex) {
+                    LOG.error(ex, ex);
                 }
             }
         });
@@ -852,14 +854,14 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = umsetzung.getProperty("indikator");
+                    final Object beanColl = umsetzung.getProperty("indikator");//NOI18N
                     if (beanColl instanceof Collection) {
                         ((Collection) beanColl).remove(beanToDelete);
                         beanToDelete.delete();
                         jlIndikator1.setListData(((Collection) beanColl).toArray());
                         jlIndikator1.clearSelection();
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
@@ -874,13 +876,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 @Override
                 public void run() {
                     try {
-                        CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");
-                        Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(umsetzung, "indikator");
+                        CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");//NOI18N
+                        Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(umsetzung, "indikator");//NOI18N
                         indikatorCollection.add(newBean);
                         jlIndikator1.setListData(indikatorCollection.toArray());
                         jlIndikator1.setSelectedValue(newBean, true);
-                    } catch (Exception ex) {
-                        log.error(ex, ex);
+                    } catch (final Exception ex) {
+                        LOG.error(ex, ex);
                     }
                 }
             });
@@ -953,6 +955,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     @Override
     public void dispose() {
         massnahmenUmsetzungEditor1.dispose();
+        ((DefaultCismapGeometryComboBoxEditor) cbGeom).dispose();
         projekteIndikatorenEditor1.dispose();
         bindingGroup.unbind();
     }
@@ -976,17 +979,17 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     public boolean prepareForSave() {
         if (cidsBean != null) {
             try {
-                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
-            } catch (Exception ex) {
-                log.error(ex, ex);
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());//NOI18N
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));//NOI18N
+            } catch (final Exception ex) {
+                LOG.error(ex, ex);
             }
 
             for ( CidsBean bean : beansToDelete) {
                 try {
                     bean.persist();
-                } catch (Exception e) {
-                    log.error("Error while deleting a bean.", e);
+                } catch (final Exception e) {
+                    LOG.error("Error while deleting a bean.", e);//NOI18N
                 }
             }
         }
@@ -1002,9 +1005,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     
     private void addImplementationFromAction(CidsBean act) {
         try {
-            CidsBean newBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen_umsetzung").getEmptyInstance().getBean();
+            CidsBean newBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen_umsetzung").getEmptyInstance().getBean();//NOI18N
 
-            List<CidsBean> impls = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");
+            List<CidsBean> impls = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");//NOI18N
             if (impls != null) {
                 impls.add(newBean);
                 ArrayList<CidsBean> beanList = new ArrayList<CidsBean>();
@@ -1013,10 +1016,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 jlUmsetzung.setSelectedValue(newBean, true);
                 massnahmenUmsetzungEditor1.beansDropped(beanList);
             } else {
-                log.debug("The property umsetzung returns null");
+                LOG.debug("The property umsetzung returns null");//NOI18N
             }
-        } catch (Exception e) {
-            log.error("Error during the creation of a new bean of type massnahmen", e);
+        } catch (final Exception e) {
+            LOG.error("Error during the creation of a new bean of type massnahmen", e);//NOI18N
         }
     }
 
@@ -1028,8 +1031,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         public ImplementationList() {
             try {
                 new CidsBeanDropTarget(this);
-            } catch (Exception ex) {
-                log.debug("error while creating CidsBeanDropTarget", ex);
+            } catch (final Exception ex) {
+                LOG.debug("error while creating CidsBeanDropTarget", ex);//NOI18N
             }
         }
 
@@ -1038,7 +1041,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         public void beansDropped(ArrayList<CidsBean> beans) {
             if (cidsBean != null) {
                 for (CidsBean bean : beans) {
-                    if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Massnahmen")) {
+                    if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Massnahmen")) {//NOI18N
                         addImplementationFromAction(bean);
                     }
                 }

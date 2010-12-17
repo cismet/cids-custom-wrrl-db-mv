@@ -7,9 +7,9 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.server.middleware.interfaces.domainserver.MetaService;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.search.CidsServerSearch;
+import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
 import de.cismet.cids.custom.util.ScrollableComboBox;
@@ -27,10 +27,11 @@ import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.FooterComponentProvider;
 import java.math.BigDecimal;
-import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,26 +45,26 @@ import javax.swing.JPanel;
  * @author therter
  */
 public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider, CidsBeanDropListener {
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MassnahmenEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MassnahmenEditor.class);
     private CidsBean cidsBean;
     private static final MetaClass DE_MEASURE_TYPE_CODE_MC;
     private static final MetaClass DE_MEASURE_TYPE_CODE_AFTER2015_MC;
-    private static final String[] WB_PROPERTIES = {"wk_fg", "wk_sg", "wk_kg", "wk_gw"};
+    private static final String[] WB_PROPERTIES = {"wk_fg", "wk_sg", "wk_kg", "wk_gw"};//NOI18N
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
     static {
-        DE_MEASURE_TYPE_CODE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.de_measure_type_code");
-        DE_MEASURE_TYPE_CODE_AFTER2015_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.de_measure_type_code_after2015");
+        DE_MEASURE_TYPE_CODE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.de_measure_type_code");//NOI18N
+        DE_MEASURE_TYPE_CODE_AFTER2015_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.de_measure_type_code_after2015");//NOI18N
     }
 
     /** Creates new form WkFgEditor */
     public MassnahmenEditor() {
         initComponents();
         deActivateGUI(false);
-        linearReferencedLineEditor.setMetaClassName("MASSNAHMEN");
-        linearReferencedLineEditor.setFromStationField("stat_von");
-        linearReferencedLineEditor.setToStationField("stat_bis");
-        linearReferencedLineEditor.setRealGeomField("real_geom");
+        linearReferencedLineEditor.setMetaClassName("MASSNAHMEN");//NOI18N
+        linearReferencedLineEditor.setFromStationField("stat_von");//NOI18N
+        linearReferencedLineEditor.setToStationField("stat_bis");//NOI18N
+        linearReferencedLineEditor.setRealGeomField("real_geom");//NOI18N
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
             @Override
             public void linearReferencedLineCreated() {
@@ -72,8 +73,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         });
         try {
             new CidsBeanDropTarget(this);
-        } catch (Exception ex) {
-            log.debug("error while creating CidsBeanDropTarget", ex);
+        } catch (final Exception ex) {
+            LOG.debug("Error while creating CidsBeanDropTarget", ex);//NOI18N
         }
     }
 
@@ -82,30 +83,13 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     public void setCidsBean(CidsBean cidsBean) {
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
+
         if (cidsBean != null) {
             deActivateGUI(true);
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            Object avUser = cidsBean.getProperty("av_user");
-            Object avTime = cidsBean.getProperty("av_time");
-            if (avUser == null) {
-                avUser = "(unbekannt)";
-            }
-            if (avTime instanceof Timestamp) {
-                avTime = TimestampConverter.getInstance().convertForward((Timestamp) avTime);
-            } else {
-                avTime = "(unbekannt)";
-            }
-            lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
-            
-            //zoom to feature
-            MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-            if (!mappingComponent.isFixedMapExtent()) {
-                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-            }
         } else {
-            lblFoot.setText("");
             deActivateGUI(false);
         }
         bindReadOnlyFields();
@@ -123,6 +107,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             lblValWk_name.setText("");
             lblValGwk.setText("");
             lblValMs_cd_bw.setText("");
+            lblFoot.setText("");
         } else {
             String wk_k = getWk_k();
             lblValWk_k.setText(wk_k);
@@ -130,23 +115,36 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             lblValGwk.setText(getGwk());
             
             if ( !wk_k.equals(CidsBeanSupport.FIELD_NOT_SET) ) {
-                lblValMs_cd_bw.setText("DE_MV_" + wk_k);
+                lblValMs_cd_bw.setText("DE_MV_" + wk_k);//NOI18N
             } else {
                 lblValMs_cd_bw.setText("");
             }
+
+            // refresh footer
+            Object avUser = cidsBean.getProperty("av_user");//NOI18N
+            Object avTime = cidsBean.getProperty("av_time");//NOI18N
+            if (avUser == null) {
+                avUser = "(unbekannt)";
+            }
+            if (avTime instanceof Timestamp) {
+                avTime = TimestampConverter.getInstance().convertForward((Timestamp) avTime);
+            } else {
+                avTime = "(unbekannt)";
+            }
+            lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
         }
     }
 
 
     private String getWk_k() {
         if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_fg.wk_k") );
+            return String.valueOf( cidsBean.getProperty("wk_fg.wk_k") );//NOI18N
         } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_sg.wk_k") );
+            return String.valueOf( cidsBean.getProperty("wk_sg.wk_k") );//NOI18N
         } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_kg.name") );
+            return String.valueOf( cidsBean.getProperty("wk_kg.name") );//NOI18N
         } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_gw.name") );
+            return String.valueOf( cidsBean.getProperty("wk_gw.name") );//NOI18N
         } else {
             return CidsBeanSupport.FIELD_NOT_SET;
         }
@@ -154,21 +152,21 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     private String getWk_name() {
         if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_fg.wk_n") );
+            return String.valueOf( cidsBean.getProperty("wk_fg.wk_n") );//NOI18N
         } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_sg.ls_name") );
+            return String.valueOf( cidsBean.getProperty("wk_sg.ls_name") );//NOI18N
         } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_kg.name") );
+            return String.valueOf( cidsBean.getProperty("wk_kg.name") );//NOI18N
         } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return String.valueOf( cidsBean.getProperty("wk_gw.name") );
+            return String.valueOf( cidsBean.getProperty("wk_gw.name") );//NOI18N
         } else {
             return CidsBeanSupport.FIELD_NOT_SET;
         }
     }
 
     private String getGwk() {
-        if (cidsBean.getProperty("stat_von") != null) {
-            return String.valueOf( cidsBean.getProperty("stat_von.route.gwk") );
+        if (cidsBean.getProperty("stat_von") != null) {//NOI18N
+            return String.valueOf( cidsBean.getProperty("stat_von.route.gwk") );//NOI18N
         } else {
             return "";
         }
@@ -177,22 +175,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     private void zoomToFeature() {
         MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            Object o = cidsBean.getProperty("wk_fg");
+            Collection<Feature> collection = new ArrayList<Feature>();
+            FeatureCollection fCol = mappingComponent.getFeatureCollection();
 
-            if ( o != null ) {
-                Collection<Feature> collection = new ArrayList<Feature>();
-                FeatureCollection fCol = mappingComponent.getFeatureCollection();
-
-                for (Feature feature : fCol.getAllFeatures()) {
-                    if ( !(feature instanceof StationToMapRegistry.RouteFeature) ) {
-                        collection.add(feature);
-                    }
+            for (Feature feature : fCol.getAllFeatures()) {
+                if ( !(feature instanceof StationToMapRegistry.RouteFeature) ) {
+                    collection.add(feature);
                 }
-
-                CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
-            } else {
-                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
             }
+
+            CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
         }
     }
 
@@ -1270,11 +1262,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("de_meas_cd");
+                    final Object beanColl = cidsBean.getProperty("de_meas_cd");//NOI18N
                     if (beanColl instanceof Collection) {
                         ((Collection) beanColl).remove(beanToDelete);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
@@ -1294,11 +1286,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("meas_2015");
+                    final Object beanColl = cidsBean.getProperty("meas_2015");//NOI18N
                     if (beanColl instanceof Collection) {
                         ((Collection) beanColl).remove(beanToDelete);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
@@ -1318,11 +1310,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("meas_2021");
+                    final Object beanColl = cidsBean.getProperty("meas_2021");//NOI18N
                     if (beanColl instanceof Collection) {
                         ((Collection) beanColl).remove(beanToDelete);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
@@ -1337,7 +1329,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         final Object selection = cbMeasCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean) selection;
-            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "de_meas_cd");
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "de_meas_cd");//NOI18N
             if (colToAdd != null) {
                 if (!colToAdd.contains(selectedBean)) {
                     colToAdd.add(selectedBean);
@@ -1355,7 +1347,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         final Object selection = cbMeas15Cataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean) selection;
-            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "meas_2015");
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "meas_2015");//NOI18N
             if (colToAdd != null) {
                 if (!colToAdd.contains(selectedBean)) {
                     colToAdd.add(selectedBean);
@@ -1373,7 +1365,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         final Object selection = cbMeas21Cataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean) selection;
-            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "meas_2021");
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "meas_2021");//NOI18N
             if (colToAdd != null) {
                 if (!colToAdd.contains(selectedBean)) {
                     colToAdd.add(selectedBean);
@@ -1524,14 +1516,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     public boolean prepareForSave() {
         if (cidsBean != null) {
             try {
-                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());//NOI18N
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));//NOI18N
 
                 for (CidsBean tmp : beansToDelete) {
                     tmp.persist();
                 }
-            } catch (Exception ex) {
-                log.error(ex, ex);
+            } catch (final Exception ex) {
+                LOG.error("Error in prepareForSave.", ex);//NOI18N
             }
         }
         return true;
@@ -1546,15 +1538,15 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
     public void beansDropped(ArrayList<CidsBean> beans) {
         if (cidsBean != null) {
             for (CidsBean bean : beans) {
-                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {//NOI18N
                     bindToWb(WB_PROPERTIES[0], bean);
-                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {//NOI18N
                     bindToWb(WB_PROPERTIES[1], bean);
                 }
                 // Massnahmen beziehen sich ausschliesslich auf Fliessgewaesser und Seegewaesser
-                else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
+                else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {//NOI18N
                 //    bindToWb(WB_PROPERTIES[2], bean);
-                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {//NOI18N
                 //    bindToWb(WB_PROPERTIES[3], bean);
                 }
             }
@@ -1577,10 +1569,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
                 }
             }
 
-            copyGeometries(String.valueOf( propertyEntry.getProperty("id") ));
+            copyGeometries(String.valueOf( propertyEntry.getProperty("id") ));//NOI18N
             showOrHideGeometryEditors();
-        } catch (Exception ex) {
-            log.error("Error while binding a water body", ex);
+            bindReadOnlyFields();
+        } catch (final Exception ex) {
+            LOG.error("Error while binding a water body", ex);//NOI18N
         }
     }
 
@@ -1589,34 +1582,34 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         //delete old geometries
         //delete stat_von if exists
         try {
-            CidsBeanSupport.deleteStationIfExists(cidsBean, "stat_von", beansToDelete);
-            cidsBean.setProperty("stat_von", null);
-        } catch (Exception e) {
-            log.error("Cannot delete cids bean.", e);
+            CidsBeanSupport.deleteStationIfExists(cidsBean, "stat_von", beansToDelete);//NOI18N
+            cidsBean.setProperty("stat_von", null);//NOI18N
+        } catch (final Exception e) {
+            LOG.error("Cannot delete cids bean.", e);//NOI18N
         }
 
         //stat_bis if exists
         try {
-            CidsBeanSupport.deleteStationIfExists(cidsBean, "stat_bis", beansToDelete);
-            cidsBean.setProperty("stat_bis", null);
-        } catch (Exception e) {
-            log.error("Cannot delete cids bean.", e);
+            CidsBeanSupport.deleteStationIfExists(cidsBean, "stat_bis", beansToDelete);//NOI18N
+            cidsBean.setProperty("stat_bis", null);//NOI18N
+        } catch (final Exception e) {
+            LOG.error("Cannot delete cids bean.", e);//NOI18N
         }
 
         //delete real_geom if exists
         try {
-            CidsBeanSupport.deletePropertyIfExists(cidsBean, "real_geom", beansToDelete);
-            cidsBean.setProperty("real_geom", null);
-        } catch (Exception e) {
-            log.error("Cannot delete cids bean.", e);
+            CidsBeanSupport.deletePropertyIfExists(cidsBean, "real_geom", beansToDelete);//NOI18N
+            cidsBean.setProperty("real_geom", null);//NOI18N
+        } catch (final Exception e) {
+            LOG.error("Cannot delete cids bean.", e);//NOI18N
         }
 
         //delete additional_geom if exists
         try {
-            CidsBeanSupport.deletePropertyIfExists(cidsBean, "additional_geom", beansToDelete);
-            cidsBean.setProperty("additional_geom", null);
-        } catch (Exception e) {
-            log.error("Cannot delete cids bean.", e);
+            CidsBeanSupport.deletePropertyIfExists(cidsBean, "additional_geom", beansToDelete);//NOI18N
+            cidsBean.setProperty("additional_geom", null);//NOI18N
+        } catch (final Exception e) {
+            LOG.error("Cannot delete cids bean.", e);//NOI18N
         }
 
         try {
@@ -1625,11 +1618,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             String massReferencedField;
 
             if ( cidsBean != null && cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-                wkTable = "wk_sg";
-                massReferencedField = "wk_sg";
+                wkTable = "wk_sg";//NOI18N
+                massReferencedField = "wk_sg";//NOI18N
             } else {
-                wkTable = "wk_fg";
-                massReferencedField = "wk_fg";
+                wkTable = "wk_fg";//NOI18N
+                massReferencedField = "wk_fg";//NOI18N
             }
 
             CidsServerSearch search = new MaxWBNumberSearch(wkTable, wkId, massReferencedField);
@@ -1643,10 +1636,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
                 }
             }
  
-            cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr) );
-            cidsBean.setProperty("massn_id", getWk_k() + "M_" + lfdnr);
-        } catch (Exception e) {
-            log.error(e,e);
+            cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr) );//NOI18N
+            cidsBean.setProperty("massn_id", getWk_k() + "M_" + lfdnr);//NOI18N
+        } catch (final Exception e) {
+            LOG.error(e,e);
         }
 
         // copy new geometries
@@ -1654,29 +1647,29 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             CidsBean wk_sg = (CidsBean)cidsBean.getProperty(WB_PROPERTIES[1]);
 
             try {
-                CidsBean geom = CidsBeanSupport.cloneCidsBean((CidsBean)wk_sg.getProperty("geom"));
-                cidsBean.setProperty("additional_geom", geom);
-            } catch (Exception e) {
-                log.error("Cannot copy the new geometry.", e);
+                CidsBean geom = CidsBeanSupport.cloneCidsBean((CidsBean)wk_sg.getProperty("geom"));//NOI18N
+                cidsBean.setProperty("additional_geom", geom);//NOI18N
+            } catch (final Exception e) {
+                LOG.error("Cannot copy the new geometry.", e);//NOI18N
             }
         } else if (cidsBean != null && cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
             //wk_fg
             CidsBean wk_fg = (CidsBean)cidsBean.getProperty(WB_PROPERTIES[0]);
-            List<CidsBean> teile = CidsBeanSupport.getBeanCollectionFromProperty(wk_fg, "teile");
+            List<CidsBean> teile = CidsBeanSupport.getBeanCollectionFromProperty(wk_fg, "teile");//NOI18N
 
             if (teile != null && teile.size() > 0) {
                 CidsBean teil = teile.get(0);
 
                 try {
-                    CidsBean geom = CidsBeanSupport.cloneCidsBean((CidsBean)teil.getProperty("real_geom"));
-                    CidsBean stat_von = CidsBeanSupport.cloneStation((CidsBean)teil.getProperty("von"));
-                    CidsBean stat_bis = CidsBeanSupport.cloneStation((CidsBean)teil.getProperty("bis"));
-                    cidsBean.setProperty("real_geom", geom);
-                    cidsBean.setProperty("stat_von", stat_von);
-                    cidsBean.setProperty("stat_bis", stat_bis);
+                    CidsBean geom = CidsBeanSupport.cloneCidsBean((CidsBean)teil.getProperty("real_geom"));//NOI18N
+                    CidsBean stat_von = CidsBeanSupport.cloneStation((CidsBean)teil.getProperty("von"));//NOI18N
+                    CidsBean stat_bis = CidsBeanSupport.cloneStation((CidsBean)teil.getProperty("bis"));//NOI18N
+                    cidsBean.setProperty("real_geom", geom);//NOI18N
+                    cidsBean.setProperty("stat_von", stat_von);//NOI18N
+                    cidsBean.setProperty("stat_bis", stat_bis);//NOI18N
 
-                } catch (Exception e) {
-                    log.error("Cannot copy the new geometry.", e);
+                } catch (final Exception e) {
+                    LOG.error("Cannot copy the new geometry.", e);//NOI18N
                 }
             }
         }
