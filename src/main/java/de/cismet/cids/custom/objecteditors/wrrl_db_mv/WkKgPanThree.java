@@ -75,8 +75,6 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         lblImpactSrcKey = new javax.swing.JLabel();
         lblImpactKey = new javax.swing.JLabel();
         lblNonCompKey = new javax.swing.JLabel();
-        lblSwsSdateKey = new javax.swing.JLabel();
-        lblSwsSdateValue = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         scpImpactSrc = new javax.swing.JScrollPane();
         lstImpactSrc = new javax.swing.JList();
@@ -283,35 +281,10 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblNonCompKey, gridBagConstraints);
 
-        lblSwsSdateKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanThree.class, "WkKgPanThree.lblSwsSdateKey.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblSwsSdateKey, gridBagConstraints);
-
-        lblSwsSdateValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblSwsSdateValue.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sws_sdate}"), lblSwsSdateValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("-");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TimestampConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblSwsSdateValue, gridBagConstraints);
-
         jPanel2.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
@@ -596,8 +569,6 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private javax.swing.JLabel lblImpactSrcCataloge;
     private javax.swing.JLabel lblImpactSrcKey;
     private javax.swing.JLabel lblNonCompKey;
-    private javax.swing.JLabel lblSwsSdateKey;
-    private javax.swing.JLabel lblSwsSdateValue;
     private javax.swing.JList lstImpact;
     private javax.swing.JList lstImpactSrc;
     private javax.swing.JPanel panContrImpact;
