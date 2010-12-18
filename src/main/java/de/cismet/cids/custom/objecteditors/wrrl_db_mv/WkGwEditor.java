@@ -103,7 +103,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panAllgemeines.add(wkGwPanOne1, gridBagConstraints);
