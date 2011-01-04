@@ -59,7 +59,8 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         lblQeTypesKey = new javax.swing.JLabel();
         scpMonitor = new javax.swing.JScrollPane();
         lstMonitor = new javax.swing.JList();
-        lblQeTypesValue = new javax.swing.JLabel();
+        scpQe = new javax.swing.JScrollPane();
+        lstQe = new javax.swing.JList();
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
@@ -117,20 +118,26 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(scpMonitor, gridBagConstraints);
 
-        lblQeTypesValue.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblQeTypesValue.setPreferredSize(new java.awt.Dimension(250, 20));
+        scpQe.setMinimumSize(new java.awt.Dimension(500, 80));
+        scpQe.setPreferredSize(new java.awt.Dimension(500, 80));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qe_types.value} - ${cidsBean.qe_types.name}"), lblQeTypesValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
-        bindingGroup.addBinding(binding);
+        lstQe.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qe_types}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, eLProperty, lstQe);
+        bindingGroup.addBinding(jListBinding);
+
+        scpQe.setViewportView(lstQe);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblQeTypesValue, gridBagConstraints);
+        panInfoContent.add(scpQe, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -144,12 +151,13 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblLabCoords;
     private javax.swing.JLabel lblQeTypesKey;
-    private javax.swing.JLabel lblQeTypesValue;
     private javax.swing.JList lstMonitor;
+    private javax.swing.JList lstQe;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JScrollPane scpMonitor;
+    private javax.swing.JScrollPane scpQe;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

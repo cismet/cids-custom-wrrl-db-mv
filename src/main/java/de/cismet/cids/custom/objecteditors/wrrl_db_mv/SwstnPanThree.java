@@ -7,6 +7,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -24,9 +25,11 @@ import javax.swing.JOptionPane;
 public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsBeanStore {
     private SqlTimestampToUtilDateConverter dateConverter = new SqlTimestampToUtilDateConverter();
     private static final MetaClass MONITORINT_MC;
+    private static final MetaClass QE_TYPES_MC;
 
     static {
         MONITORINT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.int_monitor_net_code");
+        QE_TYPES_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.quality_element_type_code");
     }
 
     private CidsBean cidsBean;
@@ -49,23 +52,32 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
 
         dlgMonitorCataloge = new javax.swing.JDialog();
         lblMonitorCataloge = new javax.swing.JLabel();
-        DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(MONITORINT_MC,true,true);
-        cbMonitorCataloge = cb2;
+        cbMonitorCataloge = new ScrollableComboBox(MONITORINT_MC,true,true);
         panMenButtonsMonitor = new javax.swing.JPanel();
         btnMenMonitorAbort = new javax.swing.JButton();
         btnMenMonitorOk = new javax.swing.JButton();
+        dlgQeCataloge = new javax.swing.JDialog();
+        lblQeCataloge = new javax.swing.JLabel();
+        cbQeCataloge = new ScrollableComboBox(QE_TYPES_MC,true,true);
+        panMenButtonsQe = new javax.swing.JPanel();
+        btnMenQeAbort = new javax.swing.JButton();
+        btnMenQeOk = new javax.swing.JButton();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         jLabel1 = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         lblLabCoords = new javax.swing.JLabel();
         lblSitetype = new javax.swing.JLabel();
-        cbQe_types = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         panContrMonitor = new javax.swing.JPanel();
         btnAddMonitor = new javax.swing.JButton();
         btnRemMonitor = new javax.swing.JButton();
         scpMonitor = new javax.swing.JScrollPane();
         lstMonitor = new javax.swing.JList();
+        scpQe = new javax.swing.JScrollPane();
+        lstQe = new javax.swing.JList();
+        panContrQe = new javax.swing.JPanel();
+        btnAddQe = new javax.swing.JButton();
+        btnRemQe = new javax.swing.JButton();
 
         dlgMonitorCataloge.setMinimumSize(new java.awt.Dimension(260, 150));
         dlgMonitorCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -120,6 +132,59 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMonitorCataloge.getContentPane().add(panMenButtonsMonitor, gridBagConstraints);
 
+        dlgQeCataloge.setMinimumSize(new java.awt.Dimension(260, 150));
+        dlgQeCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblQeCataloge.setText(org.openide.util.NbBundle.getMessage(SwstnPanThree.class, "SwstnPanThree.lblQeCataloge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgQeCataloge.getContentPane().add(lblQeCataloge, gridBagConstraints);
+
+        cbQeCataloge.setMinimumSize(new java.awt.Dimension(650, 18));
+        cbQeCataloge.setPreferredSize(new java.awt.Dimension(650, 18));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgQeCataloge.getContentPane().add(cbQeCataloge, gridBagConstraints);
+
+        panMenButtonsQe.setLayout(new java.awt.GridBagLayout());
+
+        btnMenQeAbort.setText(org.openide.util.NbBundle.getMessage(SwstnPanThree.class, "WkFgPanOne.btnMenImpactSrcAbort.text")); // NOI18N
+        btnMenQeAbort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenQeAbortActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsQe.add(btnMenQeAbort, gridBagConstraints);
+
+        btnMenQeOk.setText(org.openide.util.NbBundle.getMessage(SwstnPanThree.class, "WkFgPanOne.btnMenImpactSrcOk.text")); // NOI18N
+        btnMenQeOk.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnMenQeOk.setMinimumSize(new java.awt.Dimension(85, 23));
+        btnMenQeOk.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnMenQeOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenQeOkActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsQe.add(btnMenQeOk, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgQeCataloge.getContentPane().add(panMenButtonsQe, gridBagConstraints);
+
         setMinimumSize(new java.awt.Dimension(995, 175));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(995, 175));
@@ -152,23 +217,9 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 15, 15);
         panInfoContent.add(lblSitetype, gridBagConstraints);
-
-        cbQe_types.setMinimumSize(new java.awt.Dimension(675, 20));
-        cbQe_types.setPreferredSize(new java.awt.Dimension(675, 20));
-        cbQe_types.setToolTipText("Ein Test");
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qe_types}"), cbQe_types, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbQe_types, gridBagConstraints);
 
         panContrMonitor.setOpaque(false);
         panContrMonitor.setLayout(new java.awt.GridBagLayout());
@@ -222,6 +273,59 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(scpMonitor, gridBagConstraints);
 
+        scpQe.setMinimumSize(new java.awt.Dimension(675, 80));
+        scpQe.setPreferredSize(new java.awt.Dimension(675, 80));
+
+        lstQe.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qe_types}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstQe);
+        bindingGroup.addBinding(jListBinding);
+
+        scpQe.setViewportView(lstQe);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(scpQe, gridBagConstraints);
+
+        panContrQe.setOpaque(false);
+        panContrQe.setLayout(new java.awt.GridBagLayout());
+
+        btnAddQe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddQe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddQeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContrQe.add(btnAddQe, gridBagConstraints);
+
+        btnRemQe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemQe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemQeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContrQe.add(btnRemQe, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panInfoContent.add(panContrQe, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -273,25 +377,79 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         dlgMonitorCataloge.setVisible(false);
 }//GEN-LAST:event_btnMenMonitorOkActionPerformed
 
+    private void btnAddQeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddQeActionPerformed
+        UIUtil.findOptimalPositionOnScreen(dlgMonitorCataloge);
+        dlgQeCataloge.setSize(750, 150);
+        dlgQeCataloge.setVisible(true);
+    }//GEN-LAST:event_btnAddQeActionPerformed
+
+    private void btnRemQeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemQeActionPerformed
+        final Object selection = lstQe.getSelectedValue();
+        if (selection != null) {
+            final int answer = JOptionPane.showConfirmDialog(this, "Soll die Qualitätskomponente wirklich entfern werden?", "Qualitätskomponente entfernen", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                try {
+                    final CidsBean beanToDelete = (CidsBean) selection;
+                    final Object beanColl = cidsBean.getProperty("qe_types");
+                    if (beanColl instanceof Collection) {
+                        ((Collection) beanColl).remove(beanToDelete);
+                    }
+                } catch (Exception e) {
+                    UIUtil.showExceptionToUser(e, this);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnRemQeActionPerformed
+
+    private void btnMenQeAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenQeAbortActionPerformed
+        dlgQeCataloge.setVisible(false);
+    }//GEN-LAST:event_btnMenQeAbortActionPerformed
+
+    private void btnMenQeOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenQeOkActionPerformed
+        final Object selection = cbQeCataloge.getSelectedItem();
+        if (selection instanceof CidsBean) {
+            final CidsBean selectedBean = (CidsBean) selection;
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "qe_types");
+            if (colToAdd != null) {
+                if (!colToAdd.contains(selectedBean)) {
+                    colToAdd.add(selectedBean);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Die ausgewählte Qualitätskomponente ist der Messstation bereits zugewiesen.");
+                }
+            }
+        }
+        dlgQeCataloge.setVisible(false);
+    }//GEN-LAST:event_btnMenQeOkActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMonitor;
+    private javax.swing.JButton btnAddQe;
     private javax.swing.JButton btnMenMonitorAbort;
     private javax.swing.JButton btnMenMonitorOk;
+    private javax.swing.JButton btnMenQeAbort;
+    private javax.swing.JButton btnMenQeOk;
     private javax.swing.JButton btnRemMonitor;
+    private javax.swing.JButton btnRemQe;
     private javax.swing.JComboBox cbMonitorCataloge;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbQe_types;
+    private javax.swing.JComboBox cbQeCataloge;
     private javax.swing.JDialog dlgMonitorCataloge;
+    private javax.swing.JDialog dlgQeCataloge;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblLabCoords;
     private javax.swing.JLabel lblMonitorCataloge;
+    private javax.swing.JLabel lblQeCataloge;
     private javax.swing.JLabel lblSitetype;
     private javax.swing.JList lstMonitor;
+    private javax.swing.JList lstQe;
     private javax.swing.JPanel panContrMonitor;
+    private javax.swing.JPanel panContrQe;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panMenButtonsMonitor;
+    private javax.swing.JPanel panMenButtonsQe;
     private javax.swing.JScrollPane scpMonitor;
+    private javax.swing.JScrollPane scpQe;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
