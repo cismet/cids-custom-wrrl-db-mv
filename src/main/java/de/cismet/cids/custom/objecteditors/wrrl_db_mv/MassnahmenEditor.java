@@ -9,7 +9,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.search.CidsServerSearch;
-import com.vividsolutions.jts.geom.Geometry;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
 import de.cismet.cids.custom.util.ScrollableComboBox;
@@ -27,16 +26,19 @@ import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.FooterComponentProvider;
+import java.awt.Component;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -204,7 +206,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         lblFoot = new javax.swing.JLabel();
         dlgMeas = new javax.swing.JDialog();
         lblMeasCataloge = new javax.swing.JLabel();
-        cbMeasCataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_MC,true,true);
+        cbMeasCataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_MC, true, true, new CustomElementComparator());
         panMenButtonsMeas = new javax.swing.JPanel();
         btnMeasAbort = new javax.swing.JButton();
         btnMeasOk = new javax.swing.JButton();
@@ -285,7 +287,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         lblSuppl_cd = new javax.swing.JLabel();
         cbSuppl_cd = new ScrollableComboBox();
         lblPressur_cd = new javax.swing.JLabel();
-        cbPressur_cd = new ScrollableComboBox();
+        cbPressur_cd = new ScrollableComboBox(new CustomElementComparator(1));
         lblMs_cd_bw = new javax.swing.JLabel();
         lblValMs_cd_bw = new javax.swing.JLabel();
         panGeo = new de.cismet.tools.gui.RoundedPanel();
@@ -315,8 +317,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas.getContentPane().add(lblMeasCataloge, gridBagConstraints);
 
-        cbMeasCataloge.setMinimumSize(new java.awt.Dimension(350, 18));
-        cbMeasCataloge.setPreferredSize(new java.awt.Dimension(350, 18));
+        cbMeasCataloge.setMinimumSize(new java.awt.Dimension(700, 18));
+        cbMeasCataloge.setPreferredSize(new java.awt.Dimension(700, 18));
+        cbMeasCataloge.setRenderer(new MeasureTypeCodeRenderer());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -367,8 +370,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas15.getContentPane().add(lblMeas15Cataloge, gridBagConstraints);
 
-        cbMeas15Cataloge.setMinimumSize(new java.awt.Dimension(350, 18));
-        cbMeas15Cataloge.setPreferredSize(new java.awt.Dimension(350, 18));
+        cbMeas15Cataloge.setMinimumSize(new java.awt.Dimension(700, 18));
+        cbMeas15Cataloge.setPreferredSize(new java.awt.Dimension(700, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -419,8 +422,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas21.getContentPane().add(lblMeas21Cataloge, gridBagConstraints);
 
-        cbMeas21Cataloge.setMinimumSize(new java.awt.Dimension(350, 18));
-        cbMeas21Cataloge.setPreferredSize(new java.awt.Dimension(350, 18));
+        cbMeas21Cataloge.setMinimumSize(new java.awt.Dimension(700, 18));
+        cbMeas21Cataloge.setPreferredSize(new java.awt.Dimension(700, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -464,14 +467,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas21.getContentPane().add(panMenButtonsMeas21, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(940, 770));
+        setMinimumSize(new java.awt.Dimension(840, 770));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(940, 770));
+        setPreferredSize(new java.awt.Dimension(1140, 770));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMaximumSize(new java.awt.Dimension(950, 790));
+        panInfo.setMaximumSize(new java.awt.Dimension(1150, 790));
         panInfo.setMinimumSize(new java.awt.Dimension(880, 770));
-        panInfo.setPreferredSize(new java.awt.Dimension(880, 770));
+        panInfo.setPreferredSize(new java.awt.Dimension(1080, 770));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -492,9 +495,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(380, 540));
+        jPanel2.setMinimumSize(new java.awt.Dimension(430, 540));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(480, 540));
+        jPanel2.setPreferredSize(new java.awt.Dimension(580, 540));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblZiele.setText("Entwicklungsziele (BVP)");
@@ -832,9 +835,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 10, 20);
         panInfoContent.add(jPanel2, gridBagConstraints);
 
-        jPanel3.setMinimumSize(new java.awt.Dimension(380, 540));
+        jPanel3.setMinimumSize(new java.awt.Dimension(430, 540));
         jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(480, 540));
+        jPanel3.setPreferredSize(new java.awt.Dimension(580, 540));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         panDeMeas.setMinimumSize(new java.awt.Dimension(480, 135));
@@ -1121,6 +1124,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
         cbPressur_cd.setMinimumSize(new java.awt.Dimension(300, 25));
         cbPressur_cd.setPreferredSize(new java.awt.Dimension(300, 25));
+        cbPressur_cd.setRenderer(new PressureTypeCodeRenderer());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pressur_cd}"), cbPressur_cd, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -1251,7 +1255,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     private void btnAddDe_measActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDe_measActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas);
-        dlgMeas.setSize(400, 150);
+        dlgMeas.setSize(750, 150);
         dlgMeas.setVisible(true);
 }//GEN-LAST:event_btnAddDe_measActionPerformed
 
@@ -1275,7 +1279,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     private void btnAddMeas15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMeas15ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas15);
-        dlgMeas15.setSize(400, 150);
+        dlgMeas15.setSize(750, 150);
         dlgMeas15.setVisible(true);
     }//GEN-LAST:event_btnAddMeas15ActionPerformed
 
@@ -1299,7 +1303,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
 
     private void btnAddMeas21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMeas21ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas21);
-        dlgMeas21.setSize(400, 150);
+        dlgMeas21.setSize(750, 150);
         dlgMeas21.setVisible(true);
     }//GEN-LAST:event_btnAddMeas21ActionPerformed
 
@@ -1637,7 +1641,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             }
  
             cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr) );//NOI18N
-            cidsBean.setProperty("massn_id", getWk_k() + "M_" + lfdnr);//NOI18N
+            cidsBean.setProperty("massn_id", getWk_k() + "_M_" + lfdnr);//NOI18N
         } catch (final Exception e) {
             LOG.error(e,e);
         }
@@ -1684,6 +1688,84 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer, Editor
             panGeo.setVisible(true);
             cbGeom.setVisible(true);
             lblGeom.setVisible(true);
+        }
+    }
+
+
+    private class MeasureTypeCodeRenderer extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (result instanceof JLabel && value instanceof CidsBean) {
+                CidsBean bean = (CidsBean)value;
+
+                String text =  bean.getProperty("value") + " - " + bean.getProperty("wk_type") + " - "
+                        + bean.getProperty("pressure_group") + " - " + bean.getProperty("name") + " - "
+                        + bean.getProperty("measure_type");
+                ((JLabel)result).setText(text);
+            }
+
+            return result;
+        }
+    }
+
+
+    private class PressureTypeCodeRenderer extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (result instanceof JLabel && value instanceof CidsBean) {
+                CidsBean bean = (CidsBean)value;
+
+                String text =  bean.getProperty("value") + " - " + bean.getProperty("name");
+                ((JLabel)result).setText(text);
+            }
+
+            return result;
+        }
+    }
+
+    private class CustomElementComparator implements Comparator<CidsBean> {
+        private int integerIndex = 0;
+
+        public CustomElementComparator() {
+        }
+
+        public CustomElementComparator(final int integerIndex) {
+            this.integerIndex = integerIndex;
+        }
+
+        @Override
+        public int compare(CidsBean o1, CidsBean o2) {
+            if (o1 != null && o2 != null) {
+                String strValue1 = (String)o1.getProperty("value");
+                String strValue2 = (String)o2.getProperty("value");
+
+                if (strValue1 != null && strValue2 != null) {
+                    try {
+                        Integer value1 = Integer.parseInt( strValue1.substring(integerIndex) );
+                        Integer value2 = Integer.parseInt( strValue2.substring(integerIndex) );
+
+                        return value1.intValue() - value2.intValue();
+                    } catch (NumberFormatException e) {
+                    // nothing to do, because not every 'value'-property contains a integer
+                    }
+
+                    return strValue1.compareTo(strValue2);
+                } else {
+                    if (strValue1 == null && strValue2 == null) {
+                        return 0;
+                    } else {
+                        return (strValue1 == null ? -1 : 1);
+                    }
+                }
+            } else {
+                 if (o1 == null && o2 == null) {
+                    return 0;
+                } else {
+                    return (o1 == null ? -1 : 1);
+                }
+            }
         }
     }
 }

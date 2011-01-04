@@ -37,6 +37,8 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticComboBoxUI;
+import de.cismet.cids.dynamics.CidsBean;
+import java.util.Comparator;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -70,9 +72,22 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
         }
     }
 
+    public ScrollableComboBox(final MetaClass mc, boolean nullable, boolean onlyUsed, Comparator<CidsBean> comparator) {
+        super(mc, nullable, onlyUsed, comparator);
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
 
     public ScrollableComboBox() {
         super();
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
+
+    public ScrollableComboBox(Comparator<CidsBean> comparator) {
+        super(comparator);
         if (getUI() instanceof PlasticComboBoxUI) {
             setUI(ScrollableComboUI.createUI(null));
         }

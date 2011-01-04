@@ -44,18 +44,18 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="cbMeasCataloge">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
-            </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[350, 18]"/>
+              <Dimension value="[700, 18]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[350, 18]"/>
+              <Dimension value="[700, 18]"/>
+            </Property>
+            <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new MeasureTypeCodeRenderer()" type="code"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(DE_MEASURE_TYPE_CODE_MC,true,true)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(DE_MEASURE_TYPE_CODE_MC, true, true, new CustomElementComparator())"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -137,10 +137,10 @@
               <StringArray count="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[350, 18]"/>
+              <Dimension value="[700, 18]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[350, 18]"/>
+              <Dimension value="[700, 18]"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -226,10 +226,10 @@
               <StringArray count="0"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[350, 18]"/>
+              <Dimension value="[700, 18]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[350, 18]"/>
+              <Dimension value="[700, 18]"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -296,11 +296,11 @@
   </NonVisualComponents>
   <Properties>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[940, 770]"/>
+      <Dimension value="[840, 770]"/>
     </Property>
     <Property name="opaque" type="boolean" value="false"/>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[940, 770]"/>
+      <Dimension value="[1140, 770]"/>
     </Property>
   </Properties>
   <AuxValues>
@@ -321,13 +321,13 @@
     <Container class="de.cismet.tools.gui.RoundedPanel" name="panInfo">
       <Properties>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[950, 790]"/>
+          <Dimension value="[1150, 790]"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[880, 770]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[880, 770]"/>
+          <Dimension value="[1080, 770]"/>
         </Property>
       </Properties>
       <Constraints>
@@ -390,11 +390,11 @@
             <Container class="javax.swing.JPanel" name="jPanel2">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[380, 540]"/>
+                  <Dimension value="[430, 540]"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[480, 540]"/>
+                  <Dimension value="[580, 540]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -831,11 +831,11 @@
             <Container class="javax.swing.JPanel" name="jPanel3">
               <Properties>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[380, 540]"/>
+                  <Dimension value="[430, 540]"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="false"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[480, 540]"/>
+                  <Dimension value="[580, 540]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1330,12 +1330,15 @@
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[300, 25]"/>
                     </Property>
+                    <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new PressureTypeCodeRenderer()" type="code"/>
+                    </Property>
                   </Properties>
                   <BindingProperties>
                     <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.pressur_cd}" target="cbPressur_cd" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox();"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(new CustomElementComparator(1));"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
