@@ -1,25 +1,47 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.util;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 import org.jdesktop.beansbinding.Converter;
 
+import java.sql.Timestamp;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.Locale;
+
 /**
+ * DOCUMENT ME!
  *
- * @author stefan
+ * @author   stefan
+ * @version  $Revision$, $Date$
  */
 public class TimestampConverter extends Converter<Timestamp, String> {
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(YearTimestampConverter.class);//NOI18N
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(YearTimestampConverter.class); // NOI18N
     private static final TimestampConverter INSTANCE = new TimestampConverter();
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public static TimestampConverter getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public String convertForward(Timestamp value) {
+    public String convertForward(final Timestamp value) {
         if (value == null) {
             return "";
         } else {
@@ -28,18 +50,20 @@ public class TimestampConverter extends Converter<Timestamp, String> {
     }
 
     @Override
-    public Timestamp convertReverse(String value) {
-        //not necessary. maybe it doesn't work that way because of formatting   //Now it is necessary
-//            return Timestamp.valueOf(value);
-        String formatString = "H:mm:ss dd.MM.yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(formatString);
+    public Timestamp convertReverse(final String value) {
+        // not necessary. maybe it doesn't work that way because of formatting   //Now it is necessary
+// return Timestamp.valueOf(value);
+        final String formatString = "H:mm:ss dd.MM.yyyy";
+        final SimpleDateFormat sdf = new SimpleDateFormat(formatString);
         Timestamp timestamp = null;
 
         try {
             timestamp = new Timestamp(sdf.parse(value).getTime());
         } catch (ParseException e) {
-            log.debug("The string " + value + " cannot be converted to a timestamp. It should have the format "
-                    + formatString);
+            if (log.isDebugEnabled()) {
+                log.debug("The string " + value + " cannot be converted to a timestamp. It should have the format "
+                            + formatString);
+            }
         }
 
         return timestamp;

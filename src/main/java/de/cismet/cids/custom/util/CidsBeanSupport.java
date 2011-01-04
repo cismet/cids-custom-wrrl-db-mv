@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -5,39 +12,78 @@
 package de.cismet.cids.custom.util;
 
 import Sirius.navigator.connection.SessionManager;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.newuser.User;
+
 import com.vividsolutions.jts.geom.Geometry;
-import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 /**
+ * DOCUMENT ME!
  *
- * @author srichter
+ * @author   srichter
+ * @version  $Revision$, $Date$
  */
 public final class CidsBeanSupport {
+
+    //~ Static fields/initializers ---------------------------------------------
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBeanSupport.class);
     public static final String FIELD_NOT_SET = "<nicht gesetzt>";
-
-    private CidsBeanSupport() {
-        throw new AssertionError();
-    }
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CidsBeanSupport.class);
     public static final String DOMAIN_NAME = "WRRL_DB_MV";
 
-    public static CidsBean createNewCidsBeanFromTableName(final String tableName, final Map<String, Object> initialProperties) throws Exception {
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new CidsBeanSupport object.
+     *
+     * @throws  AssertionError  DOCUMENT ME!
+     */
+    private CidsBeanSupport() {
+        throw new AssertionError();
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tableName          DOCUMENT ME!
+     * @param   initialProperties  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static CidsBean createNewCidsBeanFromTableName(final String tableName,
+            final Map<String, Object> initialProperties) throws Exception {
         final CidsBean newBean = createNewCidsBeanFromTableName(tableName);
-        for (Entry<String, Object> property : initialProperties.entrySet()) {
+        for (final Entry<String, Object> property : initialProperties.entrySet()) {
             newBean.setProperty(property.getKey(), property.getValue());
         }
         return newBean;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tableName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
     public static CidsBean createNewCidsBeanFromTableName(final String tableName) throws Exception {
         if (tableName != null) {
             final MetaClass metaClass = ClassCacheMultiple.getMetaClass(DOMAIN_NAME, tableName);
@@ -48,53 +94,72 @@ public final class CidsBeanSupport {
         throw new Exception("Could not find MetaClass for table " + tableName);
     }
 
-    public static List<CidsBean> getBeanCollectionFromProperty(CidsBean bean, String collectionProperty) {
-        if (bean != null && collectionProperty != null) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean                DOCUMENT ME!
+     * @param   collectionProperty  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static List<CidsBean> getBeanCollectionFromProperty(final CidsBean bean, final String collectionProperty) {
+        if ((bean != null) && (collectionProperty != null)) {
             final Object colObj = bean.getProperty(collectionProperty);
             if (colObj instanceof Collection) {
-                return (List<CidsBean>) colObj;
+                return (List<CidsBean>)colObj;
             }
         }
         return null;
     }
 
-    public static boolean checkWritePermission(CidsBean bean) {
-        User user = SessionManager.getSession().getUser();
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static boolean checkWritePermission(final CidsBean bean) {
+        final User user = SessionManager.getSession().getUser();
         return bean.getHasWritePermission(user);
     }
-
 
     /**
      * Deletes the given proeprty from the given bean. The given property must be of type station.
      *
-     * @param bean
-     * @param propertyName
-     * @param beansToDelete
-     * @throws Exception
+     * @param   bean           DOCUMENT ME!
+     * @param   propertyName   DOCUMENT ME!
+     * @param   beansToDelete  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
      */
-    public static void deleteStationIfExists(CidsBean bean, String propertyName, List<CidsBean> beansToDelete) throws Exception {
-        Object station = bean.getProperty(propertyName);
+    public static void deleteStationIfExists(final CidsBean bean,
+            final String propertyName,
+            final List<CidsBean> beansToDelete) throws Exception {
+        final Object station = bean.getProperty(propertyName);
 
         if (station instanceof CidsBean) {
-            CidsBean cbean = (CidsBean)station;
+            final CidsBean cbean = (CidsBean)station;
             deletePropertyIfExists(cbean, "real_point", beansToDelete);
             cbean.delete();
             beansToDelete.add(cbean);
         }
     }
 
-
     /**
-     * Deletes the given proeprty from the given bean. Only the object behind the given property
-     * will be deleted. No sub objects.
+     * Deletes the given proeprty from the given bean. Only the object behind the given property will be deleted. No sub
+     * objects.
      *
-     * @param bean
-     * @param propertyName
-     * @param beansToDelete
-     * @throws Exception
+     * @param   bean           DOCUMENT ME!
+     * @param   propertyName   DOCUMENT ME!
+     * @param   beansToDelete  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
      */
-    public static void deletePropertyIfExists(CidsBean bean, String propertyName, List<CidsBean> beansToDelete) throws Exception {
-        Object beanToDelete = bean.getProperty(propertyName);
+    public static void deletePropertyIfExists(final CidsBean bean,
+            final String propertyName,
+            final List<CidsBean> beansToDelete) throws Exception {
+        final Object beanToDelete = bean.getProperty(propertyName);
 
         if (beanToDelete instanceof CidsBean) {
             ((CidsBean)beanToDelete).delete();
@@ -103,14 +168,16 @@ public final class CidsBeanSupport {
     }
 
     /**
-     * This method will not create deep copy of the given station, but only a almost deep copy, because
-     * the route object of the station will not be cloned to avoid multiple instances of the same
-     * route in the database.
-     * @param bean the station bean that should be cloned.
-     * @return a "deep" copy of the given station
-     * @throws Exception
+     * This method will not create deep copy of the given station, but only a almost deep copy, because the route object
+     * of the station will not be cloned to avoid multiple instances of the same route in the database.
+     *
+     * @param   bean  the station bean that should be cloned.
+     *
+     * @return  a "deep" copy of the given station
+     *
+     * @throws  Exception  DOCUMENT ME!
      */
-    public static CidsBean cloneStation(CidsBean bean) throws Exception {
+    public static CidsBean cloneStation(final CidsBean bean) throws Exception {
         if (bean == null) {
             return null;
         }
@@ -119,7 +186,7 @@ public final class CidsBeanSupport {
         clone.setProperty("wert", bean.getProperty("wert"));
 
         if (bean.getProperty("real_point") instanceof CidsBean) {
-            clone.setProperty("real_point", cloneCidsBean((CidsBean)bean.getProperty("real_point")) );
+            clone.setProperty("real_point", cloneCidsBean((CidsBean)bean.getProperty("real_point")));
         }
         clone.setProperty("route", bean.getProperty("route"));
 
@@ -127,44 +194,47 @@ public final class CidsBeanSupport {
     }
 
     /**
-     * cloneCidsBean(CidsBean bean) was tested and works with the type geom.
-     * Objects which have properties of a type that is not considered by the method, will not be returned as deep copy.
-     * The results of this method can be used as a deep copy, if we assume, that the properties, which are not of
-     * the type CidsBean, will not be changed in the future, but only replaced by other objects.
-     * @param bean
-     * @return a deep copy of the given object
-     * @throws Exception
+     * cloneCidsBean(CidsBean bean) was tested and works with the type geom. Objects which have properties of a type
+     * that is not considered by the method, will not be returned as deep copy. The results of this method can be used
+     * as a deep copy, if we assume, that the properties, which are not of the type CidsBean, will not be changed in the
+     * future, but only replaced by other objects.
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  a deep copy of the given object
+     *
+     * @throws  Exception  DOCUMENT ME!
      */
-    public static CidsBean cloneCidsBean(CidsBean bean) throws Exception {
+    public static CidsBean cloneCidsBean(final CidsBean bean) throws Exception {
         if (bean == null) {
             return null;
         }
         final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
 
-        for (String propName : bean.getPropertyNames()) {
+        for (final String propName : bean.getPropertyNames()) {
             if (!propName.toLowerCase().equals("id")) {
-                Object o = bean.getProperty(propName);
+                final Object o = bean.getProperty(propName);
 
                 if (o instanceof CidsBean) {
-                    clone.setProperty(propName, cloneCidsBean( (CidsBean)o) );
+                    clone.setProperty(propName, cloneCidsBean((CidsBean)o));
                 } else if (o instanceof Collection) {
-                    List<CidsBean> list = (List<CidsBean>)o;
-                    List<CidsBean> newList = new ArrayList<CidsBean>();
+                    final List<CidsBean> list = (List<CidsBean>)o;
+                    final List<CidsBean> newList = new ArrayList<CidsBean>();
 
-                    for (CidsBean tmpBean : list) {
-                        newList.add( cloneCidsBean(tmpBean) );
+                    for (final CidsBean tmpBean : list) {
+                        newList.add(cloneCidsBean(tmpBean));
                     }
-                    clone.setProperty(propName, newList );
+                    clone.setProperty(propName, newList);
                 } else if (o instanceof Geometry) {
-                    clone.setProperty( propName, ((Geometry)o).clone());
+                    clone.setProperty(propName, ((Geometry)o).clone());
                 } else if (o instanceof Long) {
-                    clone.setProperty( propName, new Long(o.toString())  );
+                    clone.setProperty(propName, new Long(o.toString()));
                 } else if (o instanceof Double) {
-                    clone.setProperty( propName, new Double(o.toString()) );
+                    clone.setProperty(propName, new Double(o.toString()));
                 } else if (o instanceof Integer) {
-                    clone.setProperty( propName, new Integer(o.toString()) );
+                    clone.setProperty(propName, new Integer(o.toString()));
                 } else if (o instanceof String) {
-                    clone.setProperty( propName, o);
+                    clone.setProperty(propName, o);
                 } else {
                     if (o != null) {
                         LOG.error("unknown property type: " + o.getClass().getName());

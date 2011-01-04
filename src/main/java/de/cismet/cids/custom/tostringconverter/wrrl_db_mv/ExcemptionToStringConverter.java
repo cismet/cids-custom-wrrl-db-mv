@@ -1,19 +1,38 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
+ * DOCUMENT ME!
  *
- * @author stefan
+ * @author   stefan
+ * @version  $Revision$, $Date$
  */
 public final class ExcemptionToStringConverter extends CustomToStringConverter {
 
+    //~ Methods ----------------------------------------------------------------
+
     @Override
     public String createString() {
-        return "Ausnahme (" + processCat(cidsBean.getProperty("ex_cat")) + ", " + processTyp(cidsBean.getProperty("ex_typ")) + ")";
+        return "Ausnahme (" + processCat(cidsBean.getProperty("ex_cat")) + ", "
+                    + processTyp(cidsBean.getProperty("ex_typ")) + ")";
     }
 
-    private static String processCat(Object in) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   in  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static String processCat(final Object in) {
         if (in == null) {
             return "keine Kategorie gewählt";
         } else {
@@ -21,7 +40,14 @@ public final class ExcemptionToStringConverter extends CustomToStringConverter {
         }
     }
 
-    private static String processTyp(Object in) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   in  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static String processTyp(final Object in) {
         if (in == null) {
             return "kein Typ gewählt";
         } else {

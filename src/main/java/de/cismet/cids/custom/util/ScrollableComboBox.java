@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * Copyright (c) 2001-2009 JGoodies Karsten Lentzsch. All Rights Reserved.
  *
@@ -27,18 +34,19 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package de.cismet.cids.custom.util;
 
 import Sirius.server.middleware.types.MetaClass;
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
-import javax.swing.JComboBox;
-import java.awt.Component;
-import java.awt.Rectangle;
+
 import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticComboBoxUI;
-import de.cismet.cids.dynamics.CidsBean;
+
+import java.awt.Component;
+import java.awt.Rectangle;
+
 import java.util.Comparator;
+
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -51,34 +59,23 @@ import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
+
 /**
+ * DOCUMENT ME!
  *
- * @author therter
+ * @author   therter
+ * @version  $Revision$, $Date$
  */
 public class ScrollableComboBox extends DefaultBindableReferenceCombo {
 
-    public ScrollableComboBox(final MetaClass mc) {
-        super(mc);
-        if (getUI() instanceof PlasticComboBoxUI) {
-            setUI(ScrollableComboUI.createUI(null));
-        }
-    }
+    //~ Constructors -----------------------------------------------------------
 
-
-    public ScrollableComboBox(final MetaClass mc, boolean nullable, boolean onlyUsed) {
-        super(mc, nullable, onlyUsed);
-        if (getUI() instanceof PlasticComboBoxUI) {
-            setUI(ScrollableComboUI.createUI(null));
-        }
-    }
-
-    public ScrollableComboBox(final MetaClass mc, boolean nullable, boolean onlyUsed, Comparator<CidsBean> comparator) {
-        super(mc, nullable, onlyUsed, comparator);
-        if (getUI() instanceof PlasticComboBoxUI) {
-            setUI(ScrollableComboUI.createUI(null));
-        }
-    }
-
+    /**
+     * Creates a new ScrollableComboBox object.
+     */
     public ScrollableComboBox() {
         super();
         if (getUI() instanceof PlasticComboBoxUI) {
@@ -86,15 +83,66 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
         }
     }
 
-    public ScrollableComboBox(Comparator<CidsBean> comparator) {
+    /**
+     * Creates a new ScrollableComboBox object.
+     *
+     * @param  mc  DOCUMENT ME!
+     */
+    public ScrollableComboBox(final MetaClass mc) {
+        super(mc);
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
+
+    /**
+     * Creates a new ScrollableComboBox object.
+     *
+     * @param  comparator  DOCUMENT ME!
+     */
+    public ScrollableComboBox(final Comparator<CidsBean> comparator) {
         super(comparator);
         if (getUI() instanceof PlasticComboBoxUI) {
             setUI(ScrollableComboUI.createUI(null));
         }
     }
 
+    /**
+     * Creates a new ScrollableComboBox object.
+     *
+     * @param  mc        DOCUMENT ME!
+     * @param  nullable  DOCUMENT ME!
+     * @param  onlyUsed  DOCUMENT ME!
+     */
+    public ScrollableComboBox(final MetaClass mc, final boolean nullable, final boolean onlyUsed) {
+        super(mc, nullable, onlyUsed);
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
+
+    /**
+     * Creates a new ScrollableComboBox object.
+     *
+     * @param  mc          DOCUMENT ME!
+     * @param  nullable    DOCUMENT ME!
+     * @param  onlyUsed    DOCUMENT ME!
+     * @param  comparator  DOCUMENT ME!
+     */
+    public ScrollableComboBox(final MetaClass mc,
+            final boolean nullable,
+            final boolean onlyUsed,
+            final Comparator<CidsBean> comparator) {
+        super(mc, nullable, onlyUsed, comparator);
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
     @Override
-    public void setUI(ComboBoxUI ui) {
+    public void setUI(final ComboBoxUI ui) {
         super.setUI(ui);
         if (getUI() instanceof PlasticComboBoxUI) {
             setUI(ScrollableComboUI.createUI(null));
@@ -102,12 +150,31 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
     }
 }
 
+/**
+ * DOCUMENT ME!
+ *
+ * @version  $Revision$, $Date$
+ */
 class ScrollableComboUI extends PlasticComboBoxUI {
 
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new ScrollableComboUI object.
+     */
     private ScrollableComboUI() {
     }
 
-    public static ComponentUI createUI(JComponent b) {
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   b  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static ComponentUI createUI(final JComponent b) {
         // ensures the invocation of ensurePhantomHasPlasticUI() of the super type;
         PlasticComboBoxUI.createUI(b);
         return new ScrollableComboUI();
@@ -118,17 +185,30 @@ class ScrollableComboUI extends PlasticComboBoxUI {
         return new PlasticScrollableComboPopup(comboBox);
     }
 
+    //~ Inner Classes ----------------------------------------------------------
+
     /**
-     * Differs from the BasicComboPopup in that it uses the standard
-     * popmenu border and honors an optional popup prototype display value.
+     * Differs from the BasicComboPopup in that it uses the standard popmenu border and honors an optional popup
+     * prototype display value.
      *
-     * This code was written by Karsten Lentzsch and modified by therter
+     * <p>This code was written by Karsten Lentzsch and modified by therter</p>
+     *
+     * @version  $Revision$, $Date$
      */
     private class PlasticScrollableComboPopup extends BasicComboPopup {
 
-        private PlasticScrollableComboPopup(JComboBox combo) {
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new PlasticScrollableComboPopup object.
+         *
+         * @param  combo  DOCUMENT ME!
+         */
+        private PlasticScrollableComboPopup(final JComboBox combo) {
             super(combo);
         }
+
+        //~ Methods ------------------------------------------------------------
 
         /**
          * Configures the list created by #createList().
@@ -142,9 +222,10 @@ class ScrollableComboUI extends PlasticComboBoxUI {
 
         @Override
         protected JScrollPane createScroller() {
-            JScrollPane sp = new JScrollPane( list,
-                                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+            final JScrollPane sp = new JScrollPane(
+                    list,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             return sp;
         }
 
@@ -163,58 +244,54 @@ class ScrollableComboUI extends PlasticComboBoxUI {
         }
 
         /**
-         * Calculates the placement and size of the popup portion
-         * of the combo box based on the combo box location and
-         * the enclosing screen bounds. If no transformations are required,
-         * then the returned rectangle will have the same values
-         * as the parameters.<p>
+         * Calculates the placement and size of the popup portion of the combo box based on the combo box location and
+         * the enclosing screen bounds. If no transformations are required, then the returned rectangle will have the
+         * same values as the parameters.
          *
-         * In addition to the superclass behavior, this class offers
-         * to use the combo's popup prototype display value to compute
-         * the popup menu width. This is an optional feature of the
-         * JGoodies Plastic L&amp;fs implemented via a client property key.<p>
+         * <p>In addition to the superclass behavior, this class offers to use the combo's popup prototype display value
+         * to compute the popup menu width. This is an optional feature of the JGoodies Plastic L&amp;fs implemented via
+         * a client property key.</p>
          *
-         * If a prototype is set, the popup width is the maximum of the
-         * combobox width and the prototype based popup width.
-         * For the latter the renderer is used to render the prototype.
-         * The prototype based popup width is the prototype's width
-         * plus the scrollbar width - if any. The scrollbar test checks
-         * if there are more items than the combo's maximum row count.
+         * <p>If a prototype is set, the popup width is the maximum of the combobox width and the prototype based popup
+         * width. For the latter the renderer is used to render the prototype. The prototype based popup width is the
+         * prototype's width plus the scrollbar width - if any. The scrollbar test checks if there are more items than
+         * the combo's maximum row count.</p>
          *
-         * @param px starting x location
-         * @param py starting y location
-         * @param pw starting width
-         * @param ph starting height
-         * @return a rectangle which represents the placement and size of the popup
+         * @param   px  starting x location
+         * @param   py  starting y location
+         * @param   pw  starting width
+         * @param   ph  starting height
          *
-         * @see Options#COMBO_POPUP_PROTOTYPE_DISPLAY_VALUE_KEY
-         * @see JComboBox#getMaximumRowCount()
+         * @return  a rectangle which represents the placement and size of the popup
+         *
+         * @see     Options#COMBO_POPUP_PROTOTYPE_DISPLAY_VALUE_KEY
+         * @see     JComboBox#getMaximumRowCount()
          */
         @Override
-        protected Rectangle computePopupBounds(int px, int py, int pw, int ph) {
-                Rectangle defaultBounds = super.computePopupBounds(px, py, pw, ph);
-                Object popupPrototypeDisplayValue = comboBox.getClientProperty(
-                        Options.COMBO_POPUP_PROTOTYPE_DISPLAY_VALUE_KEY);
-                if (popupPrototypeDisplayValue == null) {
-                    return defaultBounds;
-                }
+        protected Rectangle computePopupBounds(final int px, final int py, int pw, final int ph) {
+            final Rectangle defaultBounds = super.computePopupBounds(px, py, pw, ph);
+            final Object popupPrototypeDisplayValue = comboBox.getClientProperty(
+                    Options.COMBO_POPUP_PROTOTYPE_DISPLAY_VALUE_KEY);
+            if (popupPrototypeDisplayValue == null) {
+                return defaultBounds;
+            }
 
-                ListCellRenderer renderer = list.getCellRenderer();
-                Component c = renderer.getListCellRendererComponent(
-                        list, popupPrototypeDisplayValue, -1, true, true);
-                pw = c.getPreferredSize().width;
-                boolean hasVerticalScrollBar =
-                    comboBox.getItemCount() > comboBox.getMaximumRowCount();
-                if (hasVerticalScrollBar) {
-                    // Add the scrollbar width.
-                    JScrollBar verticalBar = scroller.getVerticalScrollBar();
-                    pw += verticalBar.getPreferredSize().width;
-                }
-                Rectangle prototypeBasedBounds = super.computePopupBounds(px, py, pw, ph);
-                return prototypeBasedBounds.width > defaultBounds.width
-                    ? prototypeBasedBounds
-                    : defaultBounds;
+            final ListCellRenderer renderer = list.getCellRenderer();
+            final Component c = renderer.getListCellRendererComponent(
+                    list,
+                    popupPrototypeDisplayValue,
+                    -1,
+                    true,
+                    true);
+            pw = c.getPreferredSize().width;
+            final boolean hasVerticalScrollBar = comboBox.getItemCount() > comboBox.getMaximumRowCount();
+            if (hasVerticalScrollBar) {
+                // Add the scrollbar width.
+                final JScrollBar verticalBar = scroller.getVerticalScrollBar();
+                pw += verticalBar.getPreferredSize().width;
+            }
+            final Rectangle prototypeBasedBounds = super.computePopupBounds(px, py, pw, ph);
+            return (prototypeBasedBounds.width > defaultBounds.width) ? prototypeBasedBounds : defaultBounds;
         }
-
     }
 }

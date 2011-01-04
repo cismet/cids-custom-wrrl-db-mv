@@ -1,80 +1,118 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 /**
+ * DOCUMENT ME!
  *
- * @author jruiz
+ * @author   jruiz
+ * @version  $Revision$, $Date$
  */
 public class TestJeanEditor extends DefaultCustomObjectEditor {
 
+    //~ Static fields/initializers ---------------------------------------------
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestJeanEditor.class);
 
-    /** Creates new form TestJeanEditor */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor stationArrayEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor wkTeilEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor wkTeileEditor;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates new form TestJeanEditor.
+     */
     public TestJeanEditor() {
         initComponents();
-        
+
         stationEditor.addStationEditorListener(new StationEditorListener() {
 
-            @Override
-            public void stationCreated() {
-                zoomToFeatures();
-                try {
-                    cidsBean.setProperty("station", stationEditor.getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while setting new cidsbean for station", ex);
+                @Override
+                public void stationCreated() {
+                    zoomToFeatures();
+                    try {
+                        cidsBean.setProperty("station", stationEditor.getCidsBean());
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while setting new cidsbean for station", ex);
+                        }
+                    }
                 }
-            }
-        });
+            });
 
-        wkTeilEditor.getWrappedEditor().addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+        wkTeilEditor.getWrappedEditor()
+                .addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
-            @Override
-            public void linearReferencedLineCreated() {
-                zoomToFeatures();
-                try {
-                    cidsBean.setProperty("wk_teil", wkTeilEditor.getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while setting new cidsbean for wk_teil", ex);
-                }
-            }
-        });
+                        @Override
+                        public void linearReferencedLineCreated() {
+                            zoomToFeatures();
+                            try {
+                                cidsBean.setProperty("wk_teil", wkTeilEditor.getCidsBean());
+                            } catch (Exception ex) {
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("error while setting new cidsbean for wk_teil", ex);
+                                }
+                            }
+                        }
+                    });
 
         wkTeileEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineArrayEditorListener() {
 
-            @Override
-            public void editorAdded(LinearReferencedLineEditor source) {
-                zoomToFeatures();
-            }
+                @Override
+                public void editorAdded(final LinearReferencedLineEditor source) {
+                    zoomToFeatures();
+                }
 
-            @Override
-            public void editorRemoved(LinearReferencedLineEditor source) {
-                zoomToFeatures();
-            }
-        });
+                @Override
+                public void editorRemoved(final LinearReferencedLineEditor source) {
+                    zoomToFeatures();
+                }
+            });
 
         stationArrayEditor.addStationEditorListener(new StationArrayEditorListener() {
 
-            @Override
-            public void editorAdded(StationEditor source) {
-                zoomToFeatures();
-            }
+                @Override
+                public void editorAdded(final StationEditor source) {
+                    zoomToFeatures();
+                }
 
-            @Override
-            public void editorRemoved(StationEditor source) {
-                zoomToFeatures();
-            }
-        });
-        
-        //stationEditor1.setImageIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ende.png"))); // NOI18N
+                @Override
+                public void editorRemoved(final StationEditor source) {
+                    zoomToFeatures();
+                }
+            });
+
+        // stationEditor1.setImageIcon(new
+        // javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ende.png")));
+        // // NOI18N
     }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
     private void zoomToFeatures() {
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+            CismapBroker.getInstance()
+                    .getMappingComponent()
+                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
         }
     }
 
@@ -83,29 +121,36 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         try {
             stationEditor.dispose();
         } catch (Exception ex) {
-            LOG.debug("error while dispose", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while dispose", ex);
+            }
         }
         try {
             stationArrayEditor.dispose();
         } catch (Exception ex) {
-            LOG.debug("error while dispose", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while dispose", ex);
+            }
         }
         try {
             wkTeilEditor.dispose();
         } catch (Exception ex) {
-            LOG.debug("error while dispose", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while dispose", ex);
+            }
         }
         try {
             wkTeileEditor.dispose();
         } catch (Exception ex) {
-            LOG.debug("error while dispose", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while dispose", ex);
+            }
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -120,7 +165,12 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teil}"), wkTeilEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teil}"),
+                wkTeilEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -132,7 +182,12 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(wkTeilEditor, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station}"), stationEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station}"),
+                stationEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -143,7 +198,12 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(stationEditor, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teile}"), wkTeileEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teile}"),
+                wkTeileEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
         bindingGroup.addBinding(binding);
 
         wkTeileEditor.setLayout(new java.awt.GridLayout(1, 0));
@@ -154,7 +214,12 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(wkTeileEditor, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stationen}"), stationArrayEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stationen}"),
+                stationArrayEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -165,14 +230,5 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         add(stationArrayEditor, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor stationArrayEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor wkTeilEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor wkTeileEditor;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    // End of variables declaration//GEN-END:variables
-
+    } // </editor-fold>//GEN-END:initComponents
 }

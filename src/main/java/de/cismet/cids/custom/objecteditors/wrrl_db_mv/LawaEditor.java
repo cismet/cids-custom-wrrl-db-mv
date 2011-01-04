@@ -1,4 +1,10 @@
-
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * WkFgEditor.java
  *
@@ -6,35 +12,91 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureGroup;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.cismap.navigatorplugin.CidsFeature;
+
 import de.cismet.tools.gui.FooterComponentProvider;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 /**
+ * DOCUMENT ME!
  *
- * @author stefan
+ * @author   stefan
+ * @version  $Revision$, $Date$
  */
 public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
 
+    //~ Static fields/initializers ---------------------------------------------
+
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LawaEditor.class);
+    private static final String ROUTE_FEATURE_CLASS_NAME =
+        "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature";
+
+    //~ Instance fields --------------------------------------------------------
+
     private CidsBean cidsBean;
-    private static final String ROUTE_FEATURE_CLASS_NAME = "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature";
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel blbSpace;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGefaelle;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGenese;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbLawa_nr;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPetrogr;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRueckst;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStratigr;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSubs_typ;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWrrl_nr;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblCode_geo;
+    private javax.swing.JLabel lblFoot;
+    private javax.swing.JLabel lblGefaelle;
+    private javax.swing.JLabel lblGenese;
+    private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblLawa_nr;
+    private javax.swing.JLabel lblPetrogr;
+    private javax.swing.JLabel lblRueckst;
+    private javax.swing.JLabel lblStratigr;
+    private javax.swing.JLabel lblSubs_typ;
+    private javax.swing.JLabel lblWk_k;
+    private javax.swing.JLabel lblWrrl_nr;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JPanel panFooter;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JTextField txtCode_geo;
+    private javax.swing.JTextField txtWk_K;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
 
-    /** Creates new form WkFgEditor */
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates new form WkFgEditor.
+     */
     public LawaEditor() {
         initComponents();
         linearReferencedLineEditor.setMetaClassName("LAWA");
@@ -43,53 +105,64 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         linearReferencedLineEditor.setRealGeomField("real_geom");
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
-            @Override
-            public void linearReferencedLineCreated() {
-                zoomToFeature();
-            }
-        });
+                @Override
+                public void linearReferencedLineCreated() {
+                    zoomToFeature();
+                }
+            });
     }
 
+    //~ Methods ----------------------------------------------------------------
+
     @Override
-    public void setCidsBean(CidsBean cidsBean) {
+    public void setCidsBean(final CidsBean cidsBean) {
         // cidsFeature rausschmeissen
-        CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
-        Collection<Feature> features = new ArrayList<Feature>();
-        features.addAll(FeatureGroups.expandAll((FeatureGroup) cidsFeature));
+        final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
+        final Collection<Feature> features = new ArrayList<Feature>();
+        features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
         CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
 
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
             lblFoot.setText("");
-            
+
             zoomToFeature();
         } else {
             lblFoot.setText("");
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     private void zoomToFeature() {
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            Object o = cidsBean.getProperty("wk_k");
+            final Object o = cidsBean.getProperty("wk_k");
 
-            if ( o != null ) {
-                Collection<Feature> collection = new ArrayList<Feature>();
-                FeatureCollection fCol = mappingComponent.getFeatureCollection();
+            if (o != null) {
+                final Collection<Feature> collection = new ArrayList<Feature>();
+                final FeatureCollection fCol = mappingComponent.getFeatureCollection();
 
-                for (Feature feature : fCol.getAllFeatures()) {
-                    if ( !feature.getClass().getName().equals(ROUTE_FEATURE_CLASS_NAME) ) {
+                for (final Feature feature : fCol.getAllFeatures()) {
+                    if (!feature.getClass().getName().equals(ROUTE_FEATURE_CLASS_NAME)) {
                         collection.add(feature);
                     }
                 }
 
-                CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
+                CismapBroker.getInstance()
+                        .getMappingComponent()
+                        .zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
             } else {
-                CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+                CismapBroker.getInstance()
+                        .getMappingComponent()
+                        .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
             }
         }
     }
@@ -99,10 +172,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         return cidsBean;
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -223,7 +295,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbStratigr.setMinimumSize(new java.awt.Dimension(465, 20));
         cbStratigr.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stratigr}"), cbStratigr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stratigr}"),
+                cbStratigr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -236,7 +313,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbGenese.setMinimumSize(new java.awt.Dimension(465, 20));
         cbGenese.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.genese}"), cbGenese, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.genese}"),
+                cbGenese,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -249,7 +331,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbPetrogr.setMinimumSize(new java.awt.Dimension(465, 20));
         cbPetrogr.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.petrogr}"), cbPetrogr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.petrogr}"),
+                cbPetrogr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -320,7 +407,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbSubs_typ.setMinimumSize(new java.awt.Dimension(465, 20));
         cbSubs_typ.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.subs_typ}"), cbSubs_typ, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.subs_typ}"),
+                cbSubs_typ,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -333,7 +425,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbGefaelle.setMinimumSize(new java.awt.Dimension(465, 20));
         cbGefaelle.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gefaelle}"), cbGefaelle, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gefaelle}"),
+                cbGefaelle,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -346,7 +443,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbRueckst.setMinimumSize(new java.awt.Dimension(465, 20));
         cbRueckst.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rueckst}"), cbRueckst, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rueckst}"),
+                cbRueckst,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -359,7 +461,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbLawa_nr.setMinimumSize(new java.awt.Dimension(465, 20));
         cbLawa_nr.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_nr}"), cbLawa_nr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_nr}"),
+                cbLawa_nr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -372,7 +479,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         cbWrrl_nr.setMinimumSize(new java.awt.Dimension(465, 20));
         cbWrrl_nr.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_nr}"), cbWrrl_nr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_nr}"),
+                cbWrrl_nr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -385,7 +497,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         txtWk_K.setMinimumSize(new java.awt.Dimension(465, 20));
         txtWk_K.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"), txtWk_K, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"),
+                txtWk_K,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -398,7 +515,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         txtCode_geo.setMinimumSize(new java.awt.Dimension(465, 20));
         txtCode_geo.setPreferredSize(new java.awt.Dimension(465, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.code_geo}"), txtCode_geo, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.code_geo}"),
+                txtCode_geo,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -454,45 +576,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         add(panInfo1, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel blbSpace;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGefaelle;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGenese;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbLawa_nr;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPetrogr;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRueckst;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStratigr;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSubs_typ;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWrrl_nr;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblCode_geo;
-    private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblGefaelle;
-    private javax.swing.JLabel lblGenese;
-    private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblHeading1;
-    private javax.swing.JLabel lblLawa_nr;
-    private javax.swing.JLabel lblPetrogr;
-    private javax.swing.JLabel lblRueckst;
-    private javax.swing.JLabel lblStratigr;
-    private javax.swing.JLabel lblSubs_typ;
-    private javax.swing.JLabel lblWk_k;
-    private javax.swing.JLabel lblWrrl_nr;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
-    private javax.swing.JPanel panFooter;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
-    private de.cismet.tools.gui.RoundedPanel panInfo;
-    private de.cismet.tools.gui.RoundedPanel panInfo1;
-    private javax.swing.JPanel panInfoContent;
-    private javax.swing.JPanel panInfoContent1;
-    private javax.swing.JTextField txtCode_geo;
-    private javax.swing.JTextField txtWk_K;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    // End of variables declaration//GEN-END:variables
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public void dispose() {
@@ -506,13 +590,13 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     }
 
     @Override
-    public void setTitle(String title) {
-        //NOP
+    public void setTitle(final String title) {
+        // NOP
     }
 
     @Override
-    public void editorClosed(EditorSaveStatus status) {
-        //TODO ?
+    public void editorClosed(final EditorSaveStatus status) {
+        // TODO ?
     }
 
     @Override

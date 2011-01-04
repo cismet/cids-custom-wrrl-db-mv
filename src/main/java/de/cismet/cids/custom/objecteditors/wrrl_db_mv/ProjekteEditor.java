@@ -1,4 +1,10 @@
-
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * WkFgEditor.java
  *
@@ -7,58 +13,141 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.TimestampConverter;
-import de.cismet.cids.custom.util.UIUtil;
-import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.editors.EditorSaveListener;
-import de.cismet.cids.navigator.utils.CidsBeanDropListener;
-import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
-import de.cismet.tools.gui.FooterComponentProvider;
+
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.TimestampConverter;
+import de.cismet.cids.custom.util.UIUtil;
+
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+
+import de.cismet.tools.gui.FooterComponentProvider;
+
 /**
+ * DOCUMENT ME!
  *
- * @author therter
+ * @author   therter
+ * @version  $Revision$, $Date$
  */
 public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
+
+    //~ Static fields/initializers ---------------------------------------------
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjekteEditor.class);
+
+    //~ Instance fields --------------------------------------------------------
+
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddIndikator;
+    private javax.swing.JButton btnAddMaIndikator;
+    private javax.swing.JButton btnAddUmsetzung;
+    private javax.swing.JButton btnRemIndikator;
+    private javax.swing.JButton btnRemMaIndikator;
+    private javax.swing.JButton btnRemUmsetzung;
+    private javax.swing.JComboBox cbGeom;
+    private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_beginn;
+    private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_ende;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList jlIndikator;
+    private javax.swing.JList jlIndikator1;
+    private javax.swing.JList jlUmsetzung;
+    private javax.swing.JLabel lblFoerdersumme;
+    private javax.swing.JLabel lblFoot;
+    private javax.swing.JLabel lblGeometrie;
+    private javax.swing.JLabel lblHeading2;
+    private javax.swing.JLabel lblHeading3;
+    private javax.swing.JLabel lblHeading4;
+    private javax.swing.JLabel lblKost_forderf;
+    private javax.swing.JLabel lblM_beginn;
+    private javax.swing.JLabel lblM_ende;
+    private javax.swing.JLabel lblProjekt_bez;
+    private javax.swing.JLabel lblProjekt_code;
+    private javax.swing.JLabel lblProjekt_nr;
+    private javax.swing.JLabel lblfoerdersatz;
+    private javax.swing.JLabel lblkost_gesamt;
+    private javax.swing.JLabel lbltraeger;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenUmsetzungEditor massnahmenUmsetzungEditor1;
+    private javax.swing.JPanel panContrImpactSrc;
+    private de.cismet.tools.gui.RoundedPanel panDeMeas;
+    private de.cismet.tools.gui.RoundedPanel panDeMeas1;
+    private javax.swing.JPanel panFooter;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo4;
+    private javax.swing.JPanel panIndikator;
+    private javax.swing.JPanel panIndikator1;
+    private javax.swing.JPanel panInfoContent2;
+    private javax.swing.JPanel panInfoContent3;
+    private javax.swing.JPanel panInfoContent4;
+    private de.cismet.tools.gui.RoundedPanel panMaInd;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ProjekteIndikatorenEditor projekteIndikatorenEditor1;
+    private javax.swing.JTextField txtValFoerdersatz;
+    private javax.swing.JTextField txtValKost_forderf;
+    private javax.swing.JTextField txtValKost_gesamt;
+    private javax.swing.JTextField txtValProjekt_bez;
+    private javax.swing.JTextField txtValProjekt_code;
+    private javax.swing.JTextField txtValProjekt_nr;
+    private javax.swing.JTextField txtValTraeger;
+    private javax.swing.JTextField txtValfoerdersumme;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
 
-    /** Creates new form WkFgEditor */
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates new form WkFgEditor.
+     */
     public ProjekteEditor() {
         initComponents();
         massnahmenUmsetzungEditor1.setList(jlUmsetzung);
     }
 
+    //~ Methods ----------------------------------------------------------------
 
     @Override
-    public void setCidsBean(CidsBean cidsBean) {
+    public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                cidsBean);
             bindingGroup.bind();
-            Object avUser = cidsBean.getProperty("av_user");//NOI18N
-            Object avTime = cidsBean.getProperty("av_time");//NOI18N
+            Object avUser = cidsBean.getProperty("av_user"); // NOI18N
+            Object avTime = cidsBean.getProperty("av_time"); // NOI18N
             if (avUser == null) {
                 avUser = "(unbekannt)";
             }
             if (avTime instanceof Timestamp) {
-                avTime = TimestampConverter.getInstance().convertForward((Timestamp) avTime);
+                avTime = TimestampConverter.getInstance().convertForward((Timestamp)avTime);
             } else {
                 avTime = "(unbekannt)";
             }
@@ -80,10 +169,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         return cidsBean;
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -183,7 +271,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValProjekt_nr.setMinimumSize(new java.awt.Dimension(150, 20));
         txtValProjekt_nr.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.id}"), txtValProjekt_nr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.id}"),
+                txtValProjekt_nr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -222,7 +315,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValTraeger.setMinimumSize(new java.awt.Dimension(150, 20));
         txtValTraeger.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.traeger}"), txtValTraeger, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.traeger}"),
+                txtValTraeger,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -238,7 +336,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValFoerdersatz.setMinimumSize(new java.awt.Dimension(100, 20));
         txtValFoerdersatz.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foerdersatz}"), txtValFoerdersatz, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foerdersatz}"),
+                txtValFoerdersatz,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -252,7 +355,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValKost_gesamt.setMinimumSize(new java.awt.Dimension(100, 20));
         txtValKost_gesamt.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kost_gesamt}"), txtValKost_gesamt, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kost_gesamt}"),
+                txtValKost_gesamt,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -308,7 +416,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValProjekt_code.setMinimumSize(new java.awt.Dimension(150, 20));
         txtValProjekt_code.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.projekt_code}"), txtValProjekt_code, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.projekt_code}"),
+                txtValProjekt_code,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -322,7 +435,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValKost_forderf.setMinimumSize(new java.awt.Dimension(100, 20));
         txtValKost_forderf.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kost_forderf}"), txtValKost_forderf, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kost_forderf}"),
+                txtValKost_forderf,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -336,7 +454,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValfoerdersumme.setMinimumSize(new java.awt.Dimension(100, 20));
         txtValfoerdersumme.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foerdersumme}"), txtValfoerdersumme, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foerdersumme}"),
+                txtValfoerdersumme,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -359,7 +482,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValProjekt_bez.setMinimumSize(new java.awt.Dimension(150, 20));
         txtValProjekt_bez.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.projekt_bez}"), txtValProjekt_bez, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.projekt_bez}"),
+                txtValProjekt_bez,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -375,7 +503,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         dcValM_beginn.setMinimumSize(new java.awt.Dimension(150, 20));
         dcValM_beginn.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.m_beginn}"), dcValM_beginn, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.m_beginn}"),
+                dcValM_beginn,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setConverter(dcValM_beginn.getConverter());
         bindingGroup.addBinding(binding);
 
@@ -389,7 +522,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         dcValM_ende.setMinimumSize(new java.awt.Dimension(150, 20));
         dcValM_ende.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.m_ende}"), dcValM_ende, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.m_ende}"),
+                dcValM_ende,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setConverter(dcValM_ende.getConverter());
         bindingGroup.addBinding(binding);
 
@@ -403,7 +541,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
         cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"),
+                cbGeom,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
         bindingGroup.addBinding(binding);
 
@@ -455,15 +598,23 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         jlUmsetzung.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umsetzung}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jlUmsetzung);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.umsetzung}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jlUmsetzung);
         bindingGroup.addBinding(jListBinding);
 
         jlUmsetzung.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jlUmsetzungValueChanged(evt);
-            }
-        });
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    jlUmsetzungValueChanged(evt);
+                }
+            });
         jScrollPane1.setViewportView(jlUmsetzung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -478,12 +629,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panContrImpactSrc.setOpaque(false);
         panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
 
-        btnRemUmsetzung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
+        btnRemUmsetzung.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
         btnRemUmsetzung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemUmsetzungActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemUmsetzungActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -491,12 +645,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.weightx = 1.0;
         panContrImpactSrc.add(btnRemUmsetzung, gridBagConstraints);
 
-        btnAddUmsetzung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
+        btnAddUmsetzung.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
         btnAddUmsetzung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddUmsetzungActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddUmsetzungActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -558,14 +715,20 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         jlIndikator.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jlIndikator);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                jlIndikator);
         bindingGroup.addBinding(jListBinding);
 
         jlIndikator.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jlIndikatorValueChanged(evt);
-            }
-        });
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    jlIndikatorValueChanged(evt);
+                }
+            });
         jScrollPane2.setViewportView(jlIndikator);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -581,12 +744,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panIndikator.setOpaque(false);
         panIndikator.setLayout(new java.awt.GridBagLayout());
 
-        btnRemIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
+        btnRemIndikator.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
         btnRemIndikator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemIndikatorActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemIndikatorActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -594,12 +760,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.weightx = 1.0;
         panIndikator.add(btnRemIndikator, gridBagConstraints);
 
-        btnAddIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
+        btnAddIndikator.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
         btnAddIndikator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddIndikatorActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddIndikatorActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -658,10 +827,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         jlIndikator1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jlIndikator1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jlIndikator1ValueChanged(evt);
-            }
-        });
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    jlIndikator1ValueChanged(evt);
+                }
+            });
         jScrollPane3.setViewportView(jlIndikator1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -677,12 +848,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panIndikator1.setOpaque(false);
         panIndikator1.setLayout(new java.awt.GridBagLayout());
 
-        btnRemMaIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
+        btnRemMaIndikator.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_24.png"))); // NOI18N
         btnRemMaIndikator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemMaIndikatorActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemMaIndikatorActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -690,12 +864,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.weightx = 1.0;
         panIndikator1.add(btnRemMaIndikator, gridBagConstraints);
 
-        btnAddMaIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
+        btnAddMaIndikator.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_24.png"))); // NOI18N
         btnAddMaIndikator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMaIndikatorActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddMaIndikatorActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -724,22 +901,31 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         add(panMaInd, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
-    private void btnRemUmsetzungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemUmsetzungActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemUmsetzungActionPerformed(final java.awt.event.ActionEvent evt) {                         //GEN-FIRST:event_btnRemUmsetzungActionPerformed
         final Object selection = jlUmsetzung.getSelectedValue();
         if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll die Umsetzung wirklich gelöscht werden?", "Umsetzung entfernen", JOptionPane.YES_NO_OPTION);
+            final int answer = JOptionPane.showConfirmDialog(
+                    this,
+                    "Soll die Umsetzung wirklich gelöscht werden?",
+                    "Umsetzung entfernen",
+                    JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
-                    final CidsBean beanToDelete = (CidsBean) selection;
+                    final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("umsetzung");
                     if (beanColl instanceof Collection) {
-                        ((Collection) beanColl).remove(beanToDelete);
-                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_v", beansToDelete);//NOI18N
-                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_b", beansToDelete);//NOI18N
-                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "real_geom", beansToDelete);//NOI18N
-                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete);//NOI18N
+                        ((Collection)beanColl).remove(beanToDelete);
+                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_v", beansToDelete);      // NOI18N
+                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_b", beansToDelete);      // NOI18N
+                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "real_geom", beansToDelete);       // NOI18N
+                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete); // NOI18N
                         beanToDelete.delete();
                         massnahmenUmsetzungEditor1.setCidsBean(null);
                         jlIndikator1.clearSelection();
@@ -750,17 +936,23 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-}//GEN-LAST:event_btnRemUmsetzungActionPerformed
+    }                                                                                                           //GEN-LAST:event_btnRemUmsetzungActionPerformed
 
-
-    private void jlUmsetzungValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlUmsetzungValueChanged
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlUmsetzungValueChanged
         if (!evt.getValueIsAdjusting()) {
-            Object selObj = jlUmsetzung.getSelectedValue();
+            final Object selObj = jlUmsetzung.getSelectedValue();
             if (selObj instanceof CidsBean) {
-                Object o = ((CidsBean)selObj).getProperty("massnahme");//NOI18N
-                if (o instanceof CidsBean || o == null) {
+                final Object o = ((CidsBean)selObj).getProperty("massnahme");              // NOI18N
+                if ((o instanceof CidsBean) || (o == null)) {
                     massnahmenUmsetzungEditor1.setCidsBean((CidsBean)selObj);
-                    List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)selObj, "indikator");//NOI18N
+                    final List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)
+                            selObj,
+                            "indikator");                                                  // NOI18N
                     jlIndikator1.removeAll();
                     if (indikatorList != null) {
                         jlIndikator1.setListData(indikatorList.toArray());
@@ -768,46 +960,68 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }//GEN-LAST:event_jlUmsetzungValueChanged
+    }                                                                                      //GEN-LAST:event_jlUmsetzungValueChanged
 
-    private void jlIndikatorValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikatorValueChanged
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikatorValueChanged
         if (!evt.getValueIsAdjusting()) {
-            Object selObj = jlIndikator.getSelectedValue();
+            final Object selObj = jlIndikator.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
             }
             jlIndikator1.clearSelection();
         }
-    }//GEN-LAST:event_jlIndikatorValueChanged
+    }                                                                                      //GEN-LAST:event_jlIndikatorValueChanged
 
-    private void btnAddUmsetzungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUmsetzungActionPerformed
-        Thread t = new Thread( new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("MASSNAHMEN_UMSETZUNG");//NOI18N
-                    Collection<CidsBean> umsetzungCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");//NOI18N
-                    umsetzungCollection.add(newBean);
-                    jlUmsetzung.setSelectedValue(newBean, true);
-                } catch (final Exception ex) {
-                    LOG.error(ex, ex);
-                }
-            }
-        });
-        
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddUmsetzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddUmsetzungActionPerformed
+        final Thread t = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                    "MASSNAHMEN_UMSETZUNG");                                   // NOI18N
+                            final Collection<CidsBean> umsetzungCollection = CidsBeanSupport
+                                        .getBeanCollectionFromProperty(cidsBean, "umsetzung"); // NOI18N
+                            umsetzungCollection.add(newBean);
+                            jlUmsetzung.setSelectedValue(newBean, true);
+                        } catch (final Exception ex) {
+                            LOG.error(ex, ex);
+                        }
+                    }
+                });
+
         t.start();
-    }//GEN-LAST:event_btnAddUmsetzungActionPerformed
+    } //GEN-LAST:event_btnAddUmsetzungActionPerformed
 
-    private void btnRemIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemIndikatorActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemIndikatorActionPerformed
         final Object selection = jlIndikator.getSelectedValue();
         if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll der ausgewählte Indikator wirklich gelöscht werden?", "Indikator entfernen", JOptionPane.YES_NO_OPTION);
+            final int answer = JOptionPane.showConfirmDialog(
+                    this,
+                    "Soll der ausgewählte Indikator wirklich gelöscht werden?",
+                    "Indikator entfernen",
+                    JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
-                    final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = cidsBean.getProperty("indikator");//NOI18N
+                    final CidsBean beanToDelete = (CidsBean)selection;
+                    final Object beanColl = cidsBean.getProperty("indikator");          // NOI18N
                     if (beanColl instanceof Collection) {
-                        ((Collection) beanColl).remove(beanToDelete);
+                        ((Collection)beanColl).remove(beanToDelete);
                         beanToDelete.delete();
                     }
                 } catch (final Exception e) {
@@ -815,50 +1029,72 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }//GEN-LAST:event_btnRemIndikatorActionPerformed
+    }                                                                                   //GEN-LAST:event_btnRemIndikatorActionPerformed
 
-    private void btnAddIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIndikatorActionPerformed
-        Thread t = new Thread( new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");//NOI18N
-                    Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "indikator");//NOI18N
-                    indikatorCollection.add(newBean);
-                    jlIndikator.setSelectedValue(newBean, true);
-                } catch (final Exception ex) {
-                    LOG.error(ex, ex);
-                }
-            }
-        });
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
+        final Thread t = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                    "projekte_indikatoren");                                   // NOI18N
+                            final Collection<CidsBean> indikatorCollection = CidsBeanSupport
+                                        .getBeanCollectionFromProperty(cidsBean, "indikator"); // NOI18N
+                            indikatorCollection.add(newBean);
+                            jlIndikator.setSelectedValue(newBean, true);
+                        } catch (final Exception ex) {
+                            LOG.error(ex, ex);
+                        }
+                    }
+                });
 
         t.start();
-    }//GEN-LAST:event_btnAddIndikatorActionPerformed
+    } //GEN-LAST:event_btnAddIndikatorActionPerformed
 
-    private void jlIndikator1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikator1ValueChanged
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jlIndikator1ValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikator1ValueChanged
         if (!evt.getValueIsAdjusting()) {
-            Object selObj = jlIndikator1.getSelectedValue();
+            final Object selObj = jlIndikator1.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
             }
             jlIndikator.clearSelection();
         }
-    }//GEN-LAST:event_jlIndikator1ValueChanged
+    }                                                                                       //GEN-LAST:event_jlIndikator1ValueChanged
 
-    private void btnRemMaIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMaIndikatorActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemMaIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMaIndikatorActionPerformed
         final Object selection = jlIndikator1.getSelectedValue();
         final CidsBean umsetzung = (CidsBean)jlUmsetzung.getSelectedValue();
 
-        if (selection != null && umsetzung != null) {
-            final int answer = JOptionPane.showConfirmDialog(this, "Soll der ausgewählte Indikator wirklich gelöscht werden?", "Indikator entfernen", JOptionPane.YES_NO_OPTION);
+        if ((selection != null) && (umsetzung != null)) {
+            final int answer = JOptionPane.showConfirmDialog(
+                    this,
+                    "Soll der ausgewählte Indikator wirklich gelöscht werden?",
+                    "Indikator entfernen",
+                    JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
-                    final CidsBean beanToDelete = (CidsBean) selection;
-                    final Object beanColl = umsetzung.getProperty("indikator");//NOI18N
+                    final CidsBean beanToDelete = (CidsBean)selection;
+                    final Object beanColl = umsetzung.getProperty("indikator"); // NOI18N
                     if (beanColl instanceof Collection) {
-                        ((Collection) beanColl).remove(beanToDelete);
+                        ((Collection)beanColl).remove(beanToDelete);
                         beanToDelete.delete();
-                        jlIndikator1.setListData(((Collection) beanColl).toArray());
+                        jlIndikator1.setListData(((Collection)beanColl).toArray());
                         jlIndikator1.clearSelection();
                     }
                 } catch (final Exception e) {
@@ -866,96 +1102,49 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }//GEN-LAST:event_btnRemMaIndikatorActionPerformed
+    }                                                                           //GEN-LAST:event_btnRemMaIndikatorActionPerformed
 
-    private void btnAddMaIndikatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMaIndikatorActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddMaIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMaIndikatorActionPerformed
         final CidsBean umsetzung = (CidsBean)jlUmsetzung.getSelectedValue();
-        
+
         if (umsetzung != null) {
-            Thread t = new Thread( new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("projekte_indikatoren");//NOI18N
-                        Collection<CidsBean> indikatorCollection = CidsBeanSupport.getBeanCollectionFromProperty(umsetzung, "indikator");//NOI18N
-                        indikatorCollection.add(newBean);
-                        jlIndikator1.setListData(indikatorCollection.toArray());
-                        jlIndikator1.setSelectedValue(newBean, true);
-                    } catch (final Exception ex) {
-                        LOG.error(ex, ex);
-                    }
-                }
-            });
+            final Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try {
+                                final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                        "projekte_indikatoren");                                    // NOI18N
+                                final Collection<CidsBean> indikatorCollection = CidsBeanSupport
+                                            .getBeanCollectionFromProperty(umsetzung, "indikator"); // NOI18N
+                                indikatorCollection.add(newBean);
+                                jlIndikator1.setListData(indikatorCollection.toArray());
+                                jlIndikator1.setSelectedValue(newBean, true);
+                            } catch (final Exception ex) {
+                                LOG.error(ex, ex);
+                            }
+                        }
+                    });
 
             t.start();
         } else {
-            JOptionPane.showMessageDialog(this, "Sie haben noch keine Umsetzung ausgewählt, zu der der Indikator hinzugefügt werden soll.", "Umsetzung auswählen", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(
+                this,
+                "Sie haben noch keine Umsetzung ausgewählt, zu der der Indikator hinzugefügt werden soll.",
+                "Umsetzung auswählen",
+                JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_btnAddMaIndikatorActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddIndikator;
-    private javax.swing.JButton btnAddMaIndikator;
-    private javax.swing.JButton btnAddUmsetzung;
-    private javax.swing.JButton btnRemIndikator;
-    private javax.swing.JButton btnRemMaIndikator;
-    private javax.swing.JButton btnRemUmsetzung;
-    private javax.swing.JComboBox cbGeom;
-    private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_beginn;
-    private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_ende;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JList jlIndikator;
-    private javax.swing.JList jlIndikator1;
-    private javax.swing.JList jlUmsetzung;
-    private javax.swing.JLabel lblFoerdersumme;
-    private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblGeometrie;
-    private javax.swing.JLabel lblHeading2;
-    private javax.swing.JLabel lblHeading3;
-    private javax.swing.JLabel lblHeading4;
-    private javax.swing.JLabel lblKost_forderf;
-    private javax.swing.JLabel lblM_beginn;
-    private javax.swing.JLabel lblM_ende;
-    private javax.swing.JLabel lblProjekt_bez;
-    private javax.swing.JLabel lblProjekt_code;
-    private javax.swing.JLabel lblProjekt_nr;
-    private javax.swing.JLabel lblfoerdersatz;
-    private javax.swing.JLabel lblkost_gesamt;
-    private javax.swing.JLabel lbltraeger;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenUmsetzungEditor massnahmenUmsetzungEditor1;
-    private javax.swing.JPanel panContrImpactSrc;
-    private de.cismet.tools.gui.RoundedPanel panDeMeas;
-    private de.cismet.tools.gui.RoundedPanel panDeMeas1;
-    private javax.swing.JPanel panFooter;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo4;
-    private javax.swing.JPanel panIndikator;
-    private javax.swing.JPanel panIndikator1;
-    private javax.swing.JPanel panInfoContent2;
-    private javax.swing.JPanel panInfoContent3;
-    private javax.swing.JPanel panInfoContent4;
-    private de.cismet.tools.gui.RoundedPanel panMaInd;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ProjekteIndikatorenEditor projekteIndikatorenEditor1;
-    private javax.swing.JTextField txtValFoerdersatz;
-    private javax.swing.JTextField txtValKost_forderf;
-    private javax.swing.JTextField txtValKost_gesamt;
-    private javax.swing.JTextField txtValProjekt_bez;
-    private javax.swing.JTextField txtValProjekt_code;
-    private javax.swing.JTextField txtValProjekt_nr;
-    private javax.swing.JTextField txtValTraeger;
-    private javax.swing.JTextField txtValfoerdersumme;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    // End of variables declaration//GEN-END:variables
+    } //GEN-LAST:event_btnAddMaIndikatorActionPerformed
 
     @Override
     public void dispose() {
         massnahmenUmsetzungEditor1.dispose();
-        ((DefaultCismapGeometryComboBoxEditor) cbGeom).dispose();
+        ((DefaultCismapGeometryComboBoxEditor)cbGeom).dispose();
         projekteIndikatorenEditor1.dispose();
         bindingGroup.unbind();
     }
@@ -966,34 +1155,34 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     }
 
     @Override
-    public void setTitle(String title) {
-        //NOP
+    public void setTitle(final String title) {
+        // NOP
     }
 
     @Override
-    public void editorClosed(EditorSaveStatus status) {
-        //TODO ?
+    public void editorClosed(final EditorSaveStatus status) {
+        // TODO ?
     }
 
     @Override
     public boolean prepareForSave() {
         if (cidsBean != null) {
             try {
-                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());//NOI18N
-                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));//NOI18N
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());   // NOI18N
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis())); // NOI18N
             } catch (final Exception ex) {
                 LOG.error(ex, ex);
             }
 
-            for ( CidsBean bean : beansToDelete) {
+            for (final CidsBean bean : beansToDelete) {
                 try {
                     bean.persist();
                 } catch (final Exception e) {
-                    LOG.error("Error while deleting a bean.", e);//NOI18N
+                    LOG.error("Error while deleting a bean.", e); // NOI18N
                 }
             }
         }
-        
+
         return massnahmenUmsetzungEditor1.prepareForSave();
     }
 
@@ -1002,46 +1191,68 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         return panFooter;
     }
 
-    
-    private void addImplementationFromAction(CidsBean act) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  act  DOCUMENT ME!
+     */
+    private void addImplementationFromAction(final CidsBean act) {
         try {
-            CidsBean newBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen_umsetzung").getEmptyInstance().getBean();//NOI18N
+            final CidsBean newBean = ClassCacheMultiple.getMetaClass(
+                        CidsBeanSupport.DOMAIN_NAME,
+                        "massnahmen_umsetzung")
+                        .getEmptyInstance()
+                        .getBean(); // NOI18N
 
-            List<CidsBean> impls = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");//NOI18N
+            final List<CidsBean> impls = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung"); // NOI18N
             if (impls != null) {
                 impls.add(newBean);
-                ArrayList<CidsBean> beanList = new ArrayList<CidsBean>();
+                final ArrayList<CidsBean> beanList = new ArrayList<CidsBean>();
                 beanList.add(act);
 
                 jlUmsetzung.setSelectedValue(newBean, true);
                 massnahmenUmsetzungEditor1.beansDropped(beanList);
             } else {
-                LOG.debug("The property umsetzung returns null");//NOI18N
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("The property umsetzung returns null"); // NOI18N
+                }
             }
         } catch (final Exception e) {
-            LOG.error("Error during the creation of a new bean of type massnahmen", e);//NOI18N
+            LOG.error("Error during the creation of a new bean of type massnahmen", e); // NOI18N
         }
     }
 
+    //~ Inner Classes ----------------------------------------------------------
 
     /**
-     * a JList that implements the CidsBeanDropListener to catch objects of the type massnahme
+     * a JList that implements the CidsBeanDropListener to catch objects of the type massnahme.
+     *
+     * @version  $Revision$, $Date$
      */
     private class ImplementationList extends JList implements CidsBeanDropListener {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ImplementationList object.
+         */
         public ImplementationList() {
             try {
                 new CidsBeanDropTarget(this);
             } catch (final Exception ex) {
-                LOG.debug("error while creating CidsBeanDropTarget", ex);//NOI18N
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
             }
         }
 
-        
+        //~ Methods ------------------------------------------------------------
+
         @Override
-        public void beansDropped(ArrayList<CidsBean> beans) {
+        public void beansDropped(final ArrayList<CidsBean> beans) {
             if (cidsBean != null) {
-                for (CidsBean bean : beans) {
-                    if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Massnahmen")) {//NOI18N
+                for (final CidsBean bean : beans) {
+                    if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Massnahmen")) { // NOI18N
                         addImplementationFromAction(bean);
                     }
                 }

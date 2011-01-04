@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * RohrleitungEditor.java
  *
@@ -5,29 +12,79 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jdesktop.beansbinding.Converter;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.JLabel;
+
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.swing.JLabel;
-import org.jdesktop.beansbinding.Converter;
 
 /**
+ * DOCUMENT ME!
  *
- * @author stefan
+ * @author   stefan
+ * @version  $Revision$, $Date$
  */
 public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRenderer {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RohrleitungEditor.class);
-    private CidsBean cidsBean;
+    //~ Static fields/initializers ---------------------------------------------
 
-    /** Creates new form RohrleitungEditor */
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RohrleitungEditor.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private CidsBean cidsBean;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahmen;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSchachtabsturz;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSediment;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cdOekoDurch;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblMassnahmen;
+    private javax.swing.JLabel lblMassnahmenId;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JPanel panContent;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JScrollPane scpBemerkung;
+    private javax.swing.JSpinner spDurchmesser;
+    private javax.swing.JSpinner spHoeheAuslauf;
+    private javax.swing.JSpinner spLaenge;
+    private javax.swing.JTextArea taBemerkung;
+    private javax.swing.JLabel txtDescAbsturz;
+    private javax.swing.JLabel txtDescAbsturzAuslauf;
+    private javax.swing.JLabel txtDescBemerkung;
+    private javax.swing.JLabel txtDescDurchmesser;
+    private javax.swing.JLabel txtDescGwName;
+    private javax.swing.JLabel txtDescLaenge;
+    private javax.swing.JLabel txtDescOekoDurch;
+    private javax.swing.JLabel txtDescSQAId;
+    private javax.swing.JLabel txtDescSediment;
+    private javax.swing.JTextField txtStatusQuoAnalyse;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates new form RohrleitungEditor.
+     */
     public RohrleitungEditor() {
         LOG.fatal(System.identityHashCode(this));
         initComponents();
@@ -36,6 +93,11 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         new CidsBeanDropTarget(jLabel2);
     }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
     private void initLinearReferencedLineEditor() {
         linearReferencedLineEditor.setMetaClassName("Rohrleitung");
         linearReferencedLineEditor.setFromStationField("station_von");
@@ -43,30 +105,35 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         linearReferencedLineEditor.setRealGeomField("real_geom");
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
-            @Override
-            public void linearReferencedLineCreated() {
-                zoomToFeatures();
-            }
-        });
+                @Override
+                public void linearReferencedLineCreated() {
+                    zoomToFeatures();
+                }
+            });
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     private void zoomToFeatures() {
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            Collection<Feature> fc = new ArrayList<Feature>();
-            for (Feature f : CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures()) {
+            final Collection<Feature> fc = new ArrayList<Feature>();
+            for (final Feature f
+                        : CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures()) {
                 if (f.equals(linearReferencedLineEditor.getFeature())) {
                     fc.add(f);
                 }
             }
-            CismapBroker.getInstance().getMappingComponent().zoomToAFeatureCollection(fc, true, mappingComponent.isFixedMapScale());
+            CismapBroker.getInstance()
+                    .getMappingComponent()
+                    .zoomToAFeatureCollection(fc, true, mappingComponent.isFixedMapScale());
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -110,7 +177,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         panContent.setOpaque(false);
         panContent.setLayout(new java.awt.GridBagLayout());
 
-        txtDescGwName.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescGwName.text")); // NOI18N
+        txtDescGwName.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescGwName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -118,7 +187,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescGwName, gridBagConstraints);
 
-        txtDescSQAId.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescSQAId.text")); // NOI18N
+        txtDescSQAId.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescSQAId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -126,7 +197,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescSQAId, gridBagConstraints);
 
-        txtDescDurchmesser.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescDurchmesser.text")); // NOI18N
+        txtDescDurchmesser.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescDurchmesser.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -134,7 +207,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescDurchmesser, gridBagConstraints);
 
-        txtDescAbsturz.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescAbsturz.text")); // NOI18N
+        txtDescAbsturz.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescAbsturz.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -142,7 +217,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescAbsturz, gridBagConstraints);
 
-        txtDescAbsturzAuslauf.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescAbsturzAuslauf.text")); // NOI18N
+        txtDescAbsturzAuslauf.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescAbsturzAuslauf.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -150,7 +227,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescAbsturzAuslauf, gridBagConstraints);
 
-        txtDescBemerkung.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescBemerkung.text")); // NOI18N
+        txtDescBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescBemerkung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
@@ -158,7 +237,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescBemerkung, gridBagConstraints);
 
-        txtDescLaenge.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescLaenge.text")); // NOI18N
+        txtDescLaenge.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescLaenge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -166,7 +247,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescLaenge, gridBagConstraints);
 
-        txtDescOekoDurch.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescOekoDurch.text")); // NOI18N
+        txtDescOekoDurch.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescOekoDurch.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -174,7 +257,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescOekoDurch, gridBagConstraints);
 
-        txtDescSediment.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.txtDescSediment.text")); // NOI18N
+        txtDescSediment.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.txtDescSediment.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -185,7 +270,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         txtStatusQuoAnalyse.setMinimumSize(new java.awt.Dimension(500, 20));
         txtStatusQuoAnalyse.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"), txtStatusQuoAnalyse, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"),
+                txtStatusQuoAnalyse,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
@@ -205,7 +295,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
         taBemerkung.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                taBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
@@ -226,7 +321,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         spHoeheAuslauf.setMinimumSize(new java.awt.Dimension(75, 20));
         spHoeheAuslauf.setPreferredSize(new java.awt.Dimension(75, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge_m}"), spHoeheAuslauf, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge_m}"),
+                spHoeheAuslauf,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
@@ -241,7 +341,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         spLaenge.setMinimumSize(new java.awt.Dimension(75, 20));
         spLaenge.setPreferredSize(new java.awt.Dimension(75, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.durchmess}"), spLaenge, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.durchmess}"),
+                spLaenge,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
@@ -256,7 +361,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         spDurchmesser.setMinimumSize(new java.awt.Dimension(75, 20));
         spDurchmesser.setPreferredSize(new java.awt.Dimension(75, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.abst_r_end}"), spDurchmesser, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.abst_r_end}"),
+                spDurchmesser,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
@@ -271,7 +381,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         cbSchachtabsturz.setMinimumSize(new java.awt.Dimension(200, 20));
         cbSchachtabsturz.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.absturz}"), cbSchachtabsturz, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.absturz}"),
+                cbSchachtabsturz,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,7 +400,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         cbSediment.setMinimumSize(new java.awt.Dimension(200, 20));
         cbSediment.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sediment}"), cbSediment, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sediment}"),
+                cbSediment,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -299,7 +419,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         cdOekoDurch.setMinimumSize(new java.awt.Dimension(200, 20));
         cdOekoDurch.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk}"), cdOekoDurch, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk}"),
+                cdOekoDurch,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -309,7 +434,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cdOekoDurch, gridBagConstraints);
 
-        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.lblMassnahmen.text")); // NOI18N
+        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.lblMassnahmen.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -317,7 +444,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblMassnahmen, gridBagConstraints);
 
-        lblMassnahmenId.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.lblMassnahmenId.text")); // NOI18N
+        lblMassnahmenId.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.lblMassnahmenId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -329,7 +458,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         cbMassnahmen.setMinimumSize(new java.awt.Dimension(200, 20));
         cbMassnahmen.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn}"), cbMassnahmen, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn}"),
+                cbMassnahmen,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -348,7 +482,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         panHeadInfo1.setLayout(new java.awt.FlowLayout());
 
         lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.lblHeading1.text")); // NOI18N
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.lblHeading1.text")); // NOI18N
         panHeadInfo1.add(lblHeading1);
 
         panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
@@ -372,7 +508,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         jLabel1.setMinimumSize(new java.awt.Dimension(500, 20));
         jLabel1.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station_bis.route.routenname}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station_bis.route.routenname}"),
+                jLabel1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
@@ -384,9 +525,17 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(RohrleitungEditor.class, "RohrleitungEditor.jLabel2.toolTipText")); // NOI18N
+        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.jLabel2.toolTipText")); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref}"), jLabel2, org.jdesktop.beansbinding.BeanProperty.create("text"), "massnahmenbinding");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref}"),
+                jLabel2,
+                org.jdesktop.beansbinding.BeanProperty.create("text"),
+                "massnahmenbinding");
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<Error>");
         binding.setConverter(new MassnRefConverter());
@@ -406,39 +555,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         add(panContent, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahmen;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSchachtabsturz;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSediment;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cdOekoDurch;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel lblHeading1;
-    private javax.swing.JLabel lblMassnahmen;
-    private javax.swing.JLabel lblMassnahmenId;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
-    private javax.swing.JPanel panContent;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
-    private de.cismet.tools.gui.RoundedPanel panInfo1;
-    private javax.swing.JPanel panInfoContent1;
-    private javax.swing.JScrollPane scpBemerkung;
-    private javax.swing.JSpinner spDurchmesser;
-    private javax.swing.JSpinner spHoeheAuslauf;
-    private javax.swing.JSpinner spLaenge;
-    private javax.swing.JTextArea taBemerkung;
-    private javax.swing.JLabel txtDescAbsturz;
-    private javax.swing.JLabel txtDescAbsturzAuslauf;
-    private javax.swing.JLabel txtDescBemerkung;
-    private javax.swing.JLabel txtDescDurchmesser;
-    private javax.swing.JLabel txtDescGwName;
-    private javax.swing.JLabel txtDescLaenge;
-    private javax.swing.JLabel txtDescOekoDurch;
-    private javax.swing.JLabel txtDescSQAId;
-    private javax.swing.JLabel txtDescSediment;
-    private javax.swing.JTextField txtStatusQuoAnalyse;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    // End of variables declaration//GEN-END:variables
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -446,11 +563,13 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     }
 
     @Override
-    public void setCidsBean(CidsBean cidsBean) {
+    public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, this.cidsBean);
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
             linearReferencedLineEditor.setCidsBean(cidsBean);
             bindingGroup.bind();
         }
@@ -468,16 +587,24 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     }
 
     @Override
-    public void setTitle(String title) {
-
+    public void setTitle(final String title) {
     }
 
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
     class MassnIdLabel extends JLabel implements CidsBeanDropListener {
 
+        //~ Methods ------------------------------------------------------------
+
         @Override
-        public void beansDropped(ArrayList<CidsBean> beans) {
+        public void beansDropped(final ArrayList<CidsBean> beans) {
             CidsBean toAdd = null;
-            for (CidsBean bean : beans) {
+            for (final CidsBean bean : beans) {
                 if (bean.getMetaObject().getMetaClass().getName().equals("MASSNAHMEN")) {
                     toAdd = bean;
                     break;
@@ -495,23 +622,30 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
     class MassnRefConverter extends Converter<CidsBean, String> {
 
+        //~ Methods ------------------------------------------------------------
+
         @Override
-        public String convertForward(CidsBean bean) {
+        public String convertForward(final CidsBean bean) {
             try {
-                return Integer.toString((Integer) bean.getProperty("id"));
+                return Integer.toString((Integer)bean.getProperty("id"));
             } catch (Exception ex) {
-                LOG.debug("error while converting massn_ref to string", ex);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while converting massn_ref to string", ex);
+                }
                 return null;
             }
         }
 
         @Override
-        public CidsBean convertReverse(String t) {
+        public CidsBean convertReverse(final String t) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
-
     }
-
 }

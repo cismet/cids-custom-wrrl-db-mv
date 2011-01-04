@@ -1,63 +1,108 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.JPanel;
+
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureGroup;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.cismap.navigatorplugin.CidsFeature;
-import java.util.ArrayList;
-import java.util.Collection;
-import javax.swing.JPanel;
 
 /**
+ * DOCUMENT ME!
  *
- * @author jruiz
+ * @author   jruiz
+ * @version  $Revision$, $Date$
  */
 public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BewirtschaftungsendeEditor.class);
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            BewirtschaftungsendeEditor.class);
+
+    //~ Instance fields --------------------------------------------------------
+
     private CidsBean cidsBean;
 
-    /** Creates new form BewirtschaftungsendeEditor */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblBemerkungKey;
+    private javax.swing.JPanel lblSpacingBottom;
+    private javax.swing.JLabel lblStatKey;
+    private javax.swing.JScrollPane scpBemerkung;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
+    private javax.swing.JTextArea txtBemerkungValue;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates new form BewirtschaftungsendeEditor.
+     */
     public BewirtschaftungsendeEditor() {
         initComponents();
         stationEditor1.addStationEditorListener(new StationEditorListener() {
 
-            @Override
-            public void stationCreated() {
-                try {
-                    zoomToFeatures();
-                    cidsBean.setProperty("stat", stationEditor1.getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
+                @Override
+                public void stationCreated() {
+                    try {
+                        zoomToFeatures();
+                        cidsBean.setProperty("stat", stationEditor1.getCidsBean());
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
+                        }
+                    }
                 }
-            }
-        });
+            });
     }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
     private void zoomToFeatures() {
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+            CismapBroker.getInstance()
+                    .getMappingComponent()
+                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
         }
     }
 
     @Override
-    public void setCidsBean(CidsBean cidsBean) {
+    public void setCidsBean(final CidsBean cidsBean) {
         // cidsFeature rausschmeissen
-        CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
-        Collection<Feature> features = new ArrayList<Feature>();
-        features.addAll(FeatureGroups.expandAll((FeatureGroup) cidsFeature));
+        final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
+        final Collection<Feature> features = new ArrayList<Feature>();
+        features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
         CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
 
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
-            bindingGroup.bind();            
+            bindingGroup.bind();
             zoomToFeatures();
         }
     }
@@ -67,10 +112,9 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         return cidsBean;
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,7 +145,12 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblBemerkungKey, gridBagConstraints);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat}"), stationEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat}"),
+                stationEditor1,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -116,7 +165,12 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         txtBemerkungValue.setRows(10);
         txtBemerkungValue.setWrapStyleWord(true);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), txtBemerkungValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                txtBemerkungValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scpBemerkung.setViewportView(txtBemerkungValue);
@@ -153,18 +207,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         add(lblSpacingBottom, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblBemerkungKey;
-    private javax.swing.JPanel lblSpacingBottom;
-    private javax.swing.JLabel lblStatKey;
-    private javax.swing.JScrollPane scpBemerkung;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
-    private javax.swing.JTextArea txtBemerkungValue;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    // End of variables declaration//GEN-END:variables
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public void dispose() {
@@ -178,13 +221,13 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
     }
 
     @Override
-    public void setTitle(String title) {
-        //NOP
+    public void setTitle(final String title) {
+        // NOP
     }
 
     @Override
-    public void editorClosed(EditorSaveStatus status) {
-        //TODO ?
+    public void editorClosed(final EditorSaveStatus status) {
+        // TODO ?
     }
 
     @Override

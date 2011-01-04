@@ -1,10 +1,24 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.util;
 
 /**
+ * DOCUMENT ME!
  *
- * @author jruiz
+ * @author   jruiz
+ * @version  $Revision$, $Date$
  */
 public interface StationToMapRegistryListener {
 
-    public void FeatureCountChanged();
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    void FeatureCountChanged();
 }

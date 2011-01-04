@@ -1,100 +1,150 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  *  Copyright (C) 2010 jruiz
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /*
  * QuerbauwerkeEditor.java
  *
  * Created on 26.10.2010, 13:09:43
  */
-
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.TabbedPaneUITransparent;
-import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.editors.EditorSaveListener;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import java.text.DecimalFormat;
 
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.TabbedPaneUITransparent;
+
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 /**
+ * DOCUMENT ME!
  *
- * @author jruiz
+ * @author   jruiz
+ * @version  $Revision$, $Date$
  */
 public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
-    private CidsBean cidsBean;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //~ Static fields/initializers ---------------------------------------------
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkeEditor.class);
 
-    /** Creates new form QuerbauwerkeEditor */
+    //~ Instance fields --------------------------------------------------------
+
+    private CidsBean cidsBean;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel panAllgemeines;
+    private javax.swing.JPanel panBeschreibung;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSix querbauwerkePanSix;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanThree querbauwerkePanThree;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanTwo querbauwerkePanTwo;
+    private javax.swing.JTabbedPane tpMain;
+    // End of variables declaration//GEN-END:variables
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates new form QuerbauwerkeEditor.
+     */
     public QuerbauwerkeEditor() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         initComponents();
 
+        querbauwerkePanSix.getStat09Editor().addStationEditorListener(new StationEditorListener() {
 
-       querbauwerkePanSix.getStat09Editor().addStationEditorListener(new StationEditorListener() {
-
-            @Override
-            public void stationCreated() {
-                try {
-                    zoomToFeatures();
-                    cidsBean.setProperty("stat09", querbauwerkePanSix.getStat09Editor().getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while assigning stat09 cidsbean to cidsbean", ex);
+                @Override
+                public void stationCreated() {
+                    try {
+                        zoomToFeatures();
+                        cidsBean.setProperty("stat09", querbauwerkePanSix.getStat09Editor().getCidsBean());
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while assigning stat09 cidsbean to cidsbean", ex);
+                        }
+                    }
                 }
-            }
-        });
+            });
         querbauwerkePanSix.getStat09BisEditor().addStationEditorListener(new StationEditorListener() {
 
-            @Override
-            public void stationCreated() {
-                try {
-                    zoomToFeatures();
-                    cidsBean.setProperty("stat09_bis", querbauwerkePanSix.getStat09BisEditor().getCidsBean());
-                } catch (Exception ex) {
-                    LOG.debug("error while assigning stat09_bis cidsbean to cidsbean", ex);
+                @Override
+                public void stationCreated() {
+                    try {
+                        zoomToFeatures();
+                        cidsBean.setProperty("stat09_bis", querbauwerkePanSix.getStat09BisEditor().getCidsBean());
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while assigning stat09_bis cidsbean to cidsbean", ex);
+                        }
+                    }
                 }
-            }
-        });
+            });
 
         tpMain.setUI(new TabbedPaneUITransparent());
     }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
     private void zoomToFeatures() {
-        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
         if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
+            CismapBroker.getInstance()
+                    .getMappingComponent()
+                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -130,16 +180,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         jPanel3.setOpaque(false);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        final javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -171,23 +217,28 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panBeschreibung.add(querbauwerkePanSix, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panBeschreibung.TabConstraints.tabTitle"), panBeschreibung); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.panBeschreibung.TabConstraints.tabTitle"),
+            panBeschreibung); // NOI18N
 
         panAllgemeines.setOpaque(false);
         panAllgemeines.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setOpaque(false);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1025,
+                Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                471,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -203,23 +254,28 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panAllgemeines.add(querbauwerkePanOne, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panAllgemeines.TabConstraints.tabTitle"), panAllgemeines); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.panAllgemeines.TabConstraints.tabTitle"),
+            panAllgemeines); // NOI18N
 
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jPanel5.setOpaque(false);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        final javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
-        );
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1025,
+                Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                800,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -237,10 +293,13 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         jPanel4.add(querbauwerkePanFour, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.jPanel4.TabConstraints.tabTitle"),
+            jPanel4); // NOI18N
 
         add(tpMain, java.awt.BorderLayout.CENTER);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -255,30 +314,33 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             try {
                 cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
 
-                    @Override
-                    public void propertyChange(PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("bauwerk")) {
-                            int bauwerk_value = 0;
-                            try {
-                                bauwerk_value = Integer.parseInt((String)((CidsBean)cidsBean.getProperty("bauwerk")).getProperty("value"));
-                            } catch (Exception ex) {
+                        @Override
+                        public void propertyChange(final PropertyChangeEvent pce) {
+                            if (pce.getPropertyName().equals("bauwerk")) {
+                                int bauwerk_value = 0;
+                                try {
+                                    bauwerk_value = Integer.parseInt(
+                                            (String)((CidsBean)cidsBean.getProperty("bauwerk")).getProperty("value"));
+                                } catch (Exception ex) {
+                                }
+                                querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
+                                querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
                             }
-                            querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
-                            querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
                         }
-                    }
-                });
+                    });
                 ((CidsBean)cidsBean.getProperty("stat09")).addPropertyChangeListener(new PropertyChangeListener() {
 
-                    @Override
-                    public void propertyChange(PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("wert")) {
-                            wertChanged();
+                        @Override
+                        public void propertyChange(final PropertyChangeEvent pce) {
+                            if (pce.getPropertyName().equals("wert")) {
+                                wertChanged();
+                            }
                         }
-                    }
-                });
+                    });
             } catch (Exception ex) {
-                LOG.debug("error while autosetting properties", ex);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while autosetting properties", ex);
+                }
             }
             // aus Performancegründen nicht in wertChanged
             updateWaKoerper();
@@ -294,122 +356,132 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     private void wertChanged() {
         updateQbwId();
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     private void updateWaKoerper() {
-        MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
-        MetaClass mcWkFgTeile = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg_teile");
-        MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_teil");
-        MetaClass mcStation = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "station");
-        MetaClass mcRoute = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "route");
+        final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+        final MetaClass mcWkFgTeile = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg_teile");
+        final MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_teil");
+        final MetaClass mcStation = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "station");
+        final MetaClass mcRoute = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "route");
 
-        MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
-        MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "querbauwerke");
-        MetaClass mcGeom = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "geom");
+        final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
+        final MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "querbauwerke");
+        final MetaClass mcGeom = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "geom");
 
-        int id = (Integer) cidsBean.getProperty("id");
-        CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-        double wert = (Double)stat09.getProperty("wert");
-        CidsBean route = (CidsBean)stat09.getProperty("route");
-        long gwk = (Long)route.getProperty("gwk");
+        final int id = (Integer)cidsBean.getProperty("id");
+        final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
+        final double wert = (Double)stat09.getProperty("wert");
+        final CidsBean route = (CidsBean)stat09.getProperty("route");
+        final long gwk = (Long)route.getProperty("gwk");
 
-        String queryWkFg =
-                "SELECT " +
-                "   " + mcWkFg.getID() + ", " +
-                "   wk_fg." + mcWkFg.getPrimaryKey() + " " +
-                "FROM " +
-                "   " + mcWkFg.getTableName() + " AS wk_fg, " +
-                "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, " +
-                "   " + mcWkTeil.getTableName() + " AS wk_teil, " +
-                "   " + mcStation.getTableName() + " AS stat_von, " +
-                "   " + mcStation.getTableName() + " AS stat_bis, " +
-                "   " + mcRoute.getTableName() + " AS route " +
-                "WHERE "+
-                "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND " +
-                "   wk_fg_teile.teil = wk_teil.id AND " +
-                "   wk_teil.von = stat_von.id AND " +
-                "   wk_teil.bis = stat_bis.id AND " +
-                "   stat_von.route = route.id AND " +
-                "   route.gwk = " + Long.toString(gwk) + " AND ( " +
-                "      (stat_von.wert <= " + Double.toString(wert) + " AND stat_bis.wert >= " + Double.toString(wert) + ") OR " +
-                "      (stat_bis.wert <= " + Double.toString(wert) + " AND stat_von.wert >= " + Double.toString(wert) + ") " +
-                "   ) " +
-                ";";   
+        final String queryWkFg = "SELECT "
+                    + "   " + mcWkFg.getID() + ", "
+                    + "   wk_fg." + mcWkFg.getPrimaryKey() + " "
+                    + "FROM "
+                    + "   " + mcWkFg.getTableName() + " AS wk_fg, "
+                    + "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, "
+                    + "   " + mcWkTeil.getTableName() + " AS wk_teil, "
+                    + "   " + mcStation.getTableName() + " AS stat_von, "
+                    + "   " + mcStation.getTableName() + " AS stat_bis, "
+                    + "   " + mcRoute.getTableName() + " AS route "
+                    + "WHERE "
+                    + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
+                    + "   wk_fg_teile.teil = wk_teil.id AND "
+                    + "   wk_teil.von = stat_von.id AND "
+                    + "   wk_teil.bis = stat_bis.id AND "
+                    + "   stat_von.route = route.id AND "
+                    + "   route.gwk = " + Long.toString(gwk) + " AND ( "
+                    + "      (stat_von.wert <= " + Double.toString(wert) + " AND stat_bis.wert >= "
+                    + Double.toString(wert) + ") OR "
+                    + "      (stat_bis.wert <= " + Double.toString(wert) + " AND stat_von.wert >= "
+                    + Double.toString(wert) + ") "
+                    + "   ) "
+                    + ";";
 
-        String queryWkSg =
-                "SELECT " +
-                "   " + mcWkSg.getID() + ", " +
-                "   wk_sg." + mcWkSg.getPrimaryKey() + " " +
-                "FROM " +
-                "   " + mcWkSg.getTableName() + " AS wk_sg, " +
-                "   " + mcGeom.getTableName() + " AS geom_sg, " +
-                "   ( " +
-                "      SELECT " +
-                "         querbauwerke.id AS id, " +
-                "         station_von.wert AS wert, " +
-                "         route.gwk AS gwk, " +
-                "         ST_Line_Substring( " +
-                "            geom_route.geo_field, " +
-                "            (case when station_von.wert < station_bis.wert then station_von.wert else station_bis.wert end ) / length2d(geom_route.geo_field), " +
-                "            (case when station_von.wert < station_bis.wert then station_bis.wert else station_von.wert end ) / length2d(geom_route.geo_field) " +
-                "         ) AS geom " +
-                "      FROM " +
-                "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, " +
-                "         " + mcStation.getTableName() + " AS station_von, " +
-                "         " + mcStation.getTableName() + " AS station_bis, " +
-                "         " + mcRoute.getTableName() + " AS route, " +
-                "         " + mcGeom.getTableName() + " AS geom_route " +
-                "      WHERE " +
-                "         querbauwerke.stat09 = station_von.id AND " +
-                "         querbauwerke.stat09_bis = station_bis.id AND " +
-                "         station_von.route = route.id AND " +
-                "         route.geom = geom_route.id " +
-                "   ) AS qbw, " +
-                "   ( " +
-                "      SELECT " +
-                "         querbauwerke.id AS id, " +
-                "         ST_Extent(geom_route.geo_field) AS geom " +
-                "      FROM " +
-                "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, " +
-                "         " + mcStation.getTableName() + " AS station_von, " +
-                "         " + mcRoute.getTableName() + " AS route, " +
-                "         " + mcGeom.getTableName() + " AS geom_route " +
-                "      WHERE " +
-                "         querbauwerke.stat09 = station_von.id AND " +
-                "         station_von.route = route.id AND " +
-                "         route.geom = geom_route.id " +
-                "      GROUP BY querbauwerke.id " +
-                "   ) AS qbw_ext " +
-                "WHERE " +
-                "   qbw.id = " + id + " AND " +
-                "   wk_sg.geom = geom_sg.id AND " +
-                "   qbw.id = qbw_ext.id AND " +
-                "   geom_sg.geo_field && qbw_ext.geom AND " +
-                "   ST_Intersects( " +
-                "      geom_sg.geo_field, " +
-                "      qbw.geom " +
-                "   ) " +
-                ";";        
+        final String queryWkSg = "SELECT "
+                    + "   " + mcWkSg.getID() + ", "
+                    + "   wk_sg." + mcWkSg.getPrimaryKey() + " "
+                    + "FROM "
+                    + "   " + mcWkSg.getTableName() + " AS wk_sg, "
+                    + "   " + mcGeom.getTableName() + " AS geom_sg, "
+                    + "   ( "
+                    + "      SELECT "
+                    + "         querbauwerke.id AS id, "
+                    + "         station_von.wert AS wert, "
+                    + "         route.gwk AS gwk, "
+                    + "         ST_Line_Substring( "
+                    + "            geom_route.geo_field, "
+                    + "            (case when station_von.wert < station_bis.wert then station_von.wert else station_bis.wert end ) / length2d(geom_route.geo_field), "
+                    + "            (case when station_von.wert < station_bis.wert then station_bis.wert else station_von.wert end ) / length2d(geom_route.geo_field) "
+                    + "         ) AS geom "
+                    + "      FROM "
+                    + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
+                    + "         " + mcStation.getTableName() + " AS station_von, "
+                    + "         " + mcStation.getTableName() + " AS station_bis, "
+                    + "         " + mcRoute.getTableName() + " AS route, "
+                    + "         " + mcGeom.getTableName() + " AS geom_route "
+                    + "      WHERE "
+                    + "         querbauwerke.stat09 = station_von.id AND "
+                    + "         querbauwerke.stat09_bis = station_bis.id AND "
+                    + "         station_von.route = route.id AND "
+                    + "         route.geom = geom_route.id "
+                    + "   ) AS qbw, "
+                    + "   ( "
+                    + "      SELECT "
+                    + "         querbauwerke.id AS id, "
+                    + "         ST_Extent(geom_route.geo_field) AS geom "
+                    + "      FROM "
+                    + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
+                    + "         " + mcStation.getTableName() + " AS station_von, "
+                    + "         " + mcRoute.getTableName() + " AS route, "
+                    + "         " + mcGeom.getTableName() + " AS geom_route "
+                    + "      WHERE "
+                    + "         querbauwerke.stat09 = station_von.id AND "
+                    + "         station_von.route = route.id AND "
+                    + "         route.geom = geom_route.id "
+                    + "      GROUP BY querbauwerke.id "
+                    + "   ) AS qbw_ext "
+                    + "WHERE "
+                    + "   qbw.id = " + id + " AND "
+                    + "   wk_sg.geom = geom_sg.id AND "
+                    + "   qbw.id = qbw_ext.id AND "
+                    + "   geom_sg.geo_field && qbw_ext.geom AND "
+                    + "   ST_Intersects( "
+                    + "      geom_sg.geo_field, "
+                    + "      qbw.geom "
+                    + "   ) "
+                    + ";";
 
-        final MetaObject[] mosWkFg, mosWkSg;
-        LOG.debug("queryWkFg  => " + queryWkFg);
-        LOG.debug("queryWkSg  => " + queryWkSg);
+        final MetaObject[] mosWkFg;
+        final MetaObject[] mosWkSg;
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("queryWkFg  => " + queryWkFg);
+            LOG.debug("queryWkSg  => " + queryWkSg);
+        }
         try {
             mosWkFg = SessionManager.getProxy().getMetaObjectByQuery(queryWkFg, 0);
             mosWkSg = SessionManager.getProxy().getMetaObjectByQuery(queryWkSg, 0);
 
-            MetaObject moWkFg, moWkSg;
-            if (mosWkFg != null && mosWkFg.length > 0) {
+            final MetaObject moWkFg;
+            final MetaObject moWkSg;
+            if ((mosWkFg != null) && (mosWkFg.length > 0)) {
                 moWkFg = mosWkFg[0];
-                String wkK = (String)moWkFg.getAttributeByFieldName("wk_k").getValue();
+                final String wkK = (String)moWkFg.getAttributeByFieldName("wk_k").getValue();
                 querbauwerkePanTwo.setWaKoerper(wkK);
                 querbauwerkePanTwo.setMoWk(moWkFg);
                 querbauwerkePanTwo.setKategorie(QuerbauwerkePanTwo.Kategorie.Fliessgewaesser);
-            } else if (mosWkSg != null && mosWkSg.length > 0) {
+            } else if ((mosWkSg != null) && (mosWkSg.length > 0)) {
                 moWkSg = mosWkSg[0];
-                String wkK = (String)moWkSg.getAttributeByFieldName("wk_k").getValue();
+                final String wkK = (String)moWkSg.getAttributeByFieldName("wk_k").getValue();
                 querbauwerkePanTwo.setWaKoerper(wkK);
                 querbauwerkePanTwo.setMoWk(moWkSg);
                 querbauwerkePanTwo.setKategorie(QuerbauwerkePanTwo.Kategorie.Standgewaesser);
@@ -419,21 +491,30 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                 querbauwerkePanTwo.setKategorie(null);
             }
         } catch (ConnectionException ex) {
-            LOG.debug("error while fetching metaobject", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while fetching metaobject", ex);
+            }
         } catch (Exception ex) {
-            LOG.debug("error while autosetting wa_koerper", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while autosetting wa_koerper", ex);
+            }
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     private void updateQbwId() {
         try {
-            CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-            String wert = new DecimalFormat("#.#").format((Double)stat09.getProperty("wert"));
-            CidsBean route = (CidsBean)stat09.getProperty("route");
-            String gwk = String.valueOf(route.getProperty("gwk"));
+            final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
+            final String wert = new DecimalFormat("#.#").format((Double)stat09.getProperty("wert"));
+            final CidsBean route = (CidsBean)stat09.getProperty("route");
+            final String gwk = String.valueOf(route.getProperty("gwk"));
             querbauwerkePanOne.setQbwId(gwk + "@" + wert);
         } catch (Exception ex) {
-            LOG.debug("error while auto-setting qbw_id", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while auto-setting qbw_id", ex);
+            }
         }
     }
 
@@ -453,12 +534,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     }
 
     @Override
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         // NOP
     }
 
     @Override
-    public void editorClosed(EditorSaveStatus status) {
+    public void editorClosed(final EditorSaveStatus status) {
         // NOP
     }
 
@@ -474,22 +555,4 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         }
         return true;
     }
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel panAllgemeines;
-    private javax.swing.JPanel panBeschreibung;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSix querbauwerkePanSix;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanThree querbauwerkePanThree;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanTwo querbauwerkePanTwo;
-    private javax.swing.JTabbedPane tpMain;
-    // End of variables declaration//GEN-END:variables
-
 }

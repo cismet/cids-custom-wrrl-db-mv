@@ -1,46 +1,63 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 package de.cismet.cids.custom.featurerenderer.wrrl_db_mv;
 
-import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
-import de.cismet.cismap.commons.Refreshable;
-import de.cismet.cismap.commons.gui.piccolo.CustomFixedWidthStroke;
-import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
-import de.cismet.cismap.navigatorplugin.CidsFeature;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
+
 import javax.swing.JComponent;
 
+import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
+
+import de.cismet.cismap.commons.Refreshable;
+import de.cismet.cismap.commons.gui.piccolo.CustomFixedWidthStroke;
+import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
+
+import de.cismet.cismap.navigatorplugin.CidsFeature;
+
 /**
+ * DOCUMENT ME!
  *
- * @author stefan
+ * @author   stefan
+ * @version  $Revision$, $Date$
  */
 public class WkFgFeatureRenderer extends CustomCidsFeatureRenderer {
+
+    //~ Static fields/initializers ---------------------------------------------
 
     private static final Color RIVER_COLOR = new Color(101, 156, 239);
     private static final Stroke RIVER_STROKE = new CustomFixedWidthStroke(5f);
 
+    //~ Methods ----------------------------------------------------------------
+
     @Override
-    public JComponent getInfoComponent(Refreshable refresh, CidsFeature subFeature) {
+    public JComponent getInfoComponent(final Refreshable refresh, final CidsFeature subFeature) {
         return null;
     }
 
     @Override
-    public Paint getLinePaint(CidsFeature subFeature) {
+    public Paint getLinePaint(final CidsFeature subFeature) {
         return RIVER_COLOR;
     }
 
     @Override
-    public Stroke getLineStyle(CidsFeature subFeature) {
+    public Stroke getLineStyle(final CidsFeature subFeature) {
         return RIVER_STROKE;
     }
 
     @Override
-    public FeatureAnnotationSymbol getPointSymbol(CidsFeature subFeature) {
+    public FeatureAnnotationSymbol getPointSymbol(final CidsFeature subFeature) {
         return null;
     }
 
     @Override
-    public float getTransparency(CidsFeature subFeature) {
+    public float getTransparency(final CidsFeature subFeature) {
         return 0.6f;
     }
 
@@ -50,7 +67,7 @@ public class WkFgFeatureRenderer extends CustomCidsFeatureRenderer {
     }
 
     @Override
-    public JComponent getInfoComponent(Refreshable refresh) {
+    public JComponent getInfoComponent(final Refreshable refresh) {
         return getInfoComponent(refresh, null);
     }
 
@@ -76,6 +93,6 @@ public class WkFgFeatureRenderer extends CustomCidsFeatureRenderer {
 
     @Override
     public void assign() {
-        //NOP
+        // NOP
     }
 }
