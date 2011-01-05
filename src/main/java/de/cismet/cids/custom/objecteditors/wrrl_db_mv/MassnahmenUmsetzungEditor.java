@@ -71,13 +71,11 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private javax.swing.JLabel lblGeom;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
-    private javax.swing.JLabel lblMass_flaeche;
     private javax.swing.JLabel lblMassnahme_nr;
     private javax.swing.JLabel lblMeasure_type_code;
     private javax.swing.JLabel lblValMassnahme_nr;
     private javax.swing.JLabel lblValWk_k;
     private javax.swing.JLabel lblWk_k;
-    private javax.swing.JLabel lblmass_teilkosten;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private de.cismet.tools.gui.RoundedPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
@@ -85,8 +83,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
-    private javax.swing.JTextField txtValMass_flaeche;
-    private javax.swing.JTextField txtValMass_teilkosten;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan wirkungPan1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -158,17 +154,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        lblmass_teilkosten = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         lblBeschrDerMa = new javax.swing.JLabel();
         lblWk_k = new javax.swing.JLabel();
         lblValWk_k = new javax.swing.JLabel();
         lblMassnahme_nr = new javax.swing.JLabel();
-        lblMass_flaeche = new javax.swing.JLabel();
         lblMeasure_type_code = new javax.swing.JLabel();
-        txtValMass_flaeche = new javax.swing.JTextField();
-        txtValMass_teilkosten = new javax.swing.JTextField();
         cbMeasure_type_code = new ScrollableComboBox();
         wirkungPan1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan();
         lblValMassnahme_nr = new javax.swing.JLabel();
@@ -209,14 +201,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         jPanel2.setOpaque(false);
         jPanel2.setPreferredSize(new java.awt.Dimension(450, 480));
         jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        lblmass_teilkosten.setText("Teilkosten der Maßnahme"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(lblmass_teilkosten, gridBagConstraints);
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(422, 75));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(422, 75));
@@ -287,16 +271,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMassnahme_nr, gridBagConstraints);
 
-        lblMass_flaeche.setText(org.openide.util.NbBundle.getMessage(
-                MassnahmenUmsetzungEditor.class,
-                "MassnahmenUmsetzungEditor.lblMass_flaeche.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(lblMass_flaeche, gridBagConstraints);
-
         lblMeasure_type_code.setText(org.openide.util.NbBundle.getMessage(
                 MassnahmenUmsetzungEditor.class,
                 "MassnahmenUmsetzungEditor.lblMeasure_type_code.text"));        // NOI18N
@@ -309,46 +283,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMeasure_type_code, gridBagConstraints);
-
-        txtValMass_flaeche.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtValMass_flaeche.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_flaeche}"),
-                txtValMass_flaeche,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
-        jPanel2.add(txtValMass_flaeche, gridBagConstraints);
-
-        txtValMass_teilkosten.setMinimumSize(new java.awt.Dimension(250, 20));
-        txtValMass_teilkosten.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_teilkosten}"),
-                txtValMass_teilkosten,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
-        jPanel2.add(txtValMass_teilkosten, gridBagConstraints);
 
         cbMeasure_type_code.setMinimumSize(new java.awt.Dimension(200, 20));
         cbMeasure_type_code.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -576,8 +510,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      * @param  enable  DOCUMENT ME!
      */
     private void deActivateGUIElements(final boolean enable) {
-        txtValMass_flaeche.setEnabled(enable);
-        txtValMass_teilkosten.setEnabled(enable);
         jTextArea1.setEnabled(enable);
         cbMeasure_type_code.setEnabled(enable);
         cbGeom.setEnabled(enable);

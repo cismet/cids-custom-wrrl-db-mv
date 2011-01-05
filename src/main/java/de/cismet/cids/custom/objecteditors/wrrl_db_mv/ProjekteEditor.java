@@ -14,6 +14,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
 
@@ -55,6 +58,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjekteEditor.class);
+    private static final MetaClass INDIKATOR_MC;
+
+    static {
+        INDIKATOR_MC = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                "indikator"); // NOI18N
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -65,12 +75,20 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JButton btnAddIndikator;
     private javax.swing.JButton btnAddMaIndikator;
     private javax.swing.JButton btnAddUmsetzung;
+    private javax.swing.JButton btnIndikatorAbort;
+    private javax.swing.JButton btnIndikatorOk;
+    private javax.swing.JButton btnIndikatorUmsAbort;
+    private javax.swing.JButton btnIndikatorUmsOk;
     private javax.swing.JButton btnRemIndikator;
     private javax.swing.JButton btnRemMaIndikator;
     private javax.swing.JButton btnRemUmsetzung;
     private javax.swing.JComboBox cbGeom;
+    private javax.swing.JComboBox cbIndikatorCataloge;
+    private javax.swing.JComboBox cbIndikatorUmsCataloge;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_beginn;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_ende;
+    private javax.swing.JDialog dlgIndikator;
+    private javax.swing.JDialog dlgIndikatorUms;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -85,7 +103,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
     private javax.swing.JLabel lblHeading4;
+    private javax.swing.JLabel lblIndikatorCataloge;
+    private javax.swing.JLabel lblIndikatorUmsCataloge;
     private javax.swing.JLabel lblKost_forderf;
+    private javax.swing.JLabel lblKurzBez;
     private javax.swing.JLabel lblM_beginn;
     private javax.swing.JLabel lblM_ende;
     private javax.swing.JLabel lblProjekt_bez;
@@ -108,10 +129,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JPanel panInfoContent3;
     private javax.swing.JPanel panInfoContent4;
     private de.cismet.tools.gui.RoundedPanel panMaInd;
+    private javax.swing.JPanel panMenButtonsIndikator;
+    private javax.swing.JPanel panMenButtonsIndikatorUms;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ProjekteIndikatorenEditor projekteIndikatorenEditor1;
     private javax.swing.JTextField txtValFoerdersatz;
     private javax.swing.JTextField txtValKost_forderf;
     private javax.swing.JTextField txtValKost_gesamt;
+    private javax.swing.JTextField txtValKurzBez;
     private javax.swing.JTextField txtValProjekt_bez;
     private javax.swing.JTextField txtValProjekt_code;
     private javax.swing.JTextField txtValProjekt_nr;
@@ -181,6 +205,18 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
+        dlgIndikator = new javax.swing.JDialog();
+        lblIndikatorCataloge = new javax.swing.JLabel();
+        cbIndikatorCataloge = new ScrollableComboBox(INDIKATOR_MC, true, false);
+        panMenButtonsIndikator = new javax.swing.JPanel();
+        btnIndikatorAbort = new javax.swing.JButton();
+        btnIndikatorOk = new javax.swing.JButton();
+        dlgIndikatorUms = new javax.swing.JDialog();
+        lblIndikatorUmsCataloge = new javax.swing.JLabel();
+        cbIndikatorUmsCataloge = new ScrollableComboBox(INDIKATOR_MC, true, false);
+        panMenButtonsIndikatorUms = new javax.swing.JPanel();
+        btnIndikatorUmsAbort = new javax.swing.JButton();
+        btnIndikatorUmsOk = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lblProjekt_nr = new javax.swing.JLabel();
@@ -205,6 +241,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         dcValM_ende = new de.cismet.cids.editors.DefaultBindableDateChooser();
         cbGeom = new DefaultCismapGeometryComboBoxEditor();
         lblGeometrie = new javax.swing.JLabel();
+        txtValKurzBez = new javax.swing.JTextField();
+        lblKurzBez = new javax.swing.JLabel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading2 = new javax.swing.JLabel();
@@ -246,6 +284,130 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
+        dlgIndikator.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblIndikatorCataloge.setText(org.openide.util.NbBundle.getMessage(
+                ProjekteEditor.class,
+                "ProjekteEditor.lblIndikatorCataloge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgIndikator.getContentPane().add(lblIndikatorCataloge, gridBagConstraints);
+
+        cbIndikatorCataloge.setMinimumSize(new java.awt.Dimension(500, 18));
+        cbIndikatorCataloge.setPreferredSize(new java.awt.Dimension(500, 18));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgIndikator.getContentPane().add(cbIndikatorCataloge, gridBagConstraints);
+
+        panMenButtonsIndikator.setLayout(new java.awt.GridBagLayout());
+
+        btnIndikatorAbort.setText(org.openide.util.NbBundle.getMessage(
+                ProjekteEditor.class,
+                "ProjekteEditor.btnIndikatorAbort.text")); // NOI18N
+        btnIndikatorAbort.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnIndikatorAbortActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsIndikator.add(btnIndikatorAbort, gridBagConstraints);
+
+        btnIndikatorOk.setText(org.openide.util.NbBundle.getMessage(
+                ProjekteEditor.class,
+                "ProjekteEditor.btnIndikatorOk.text")); // NOI18N
+        btnIndikatorOk.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnIndikatorOk.setMinimumSize(new java.awt.Dimension(85, 23));
+        btnIndikatorOk.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnIndikatorOk.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnIndikatorOkActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsIndikator.add(btnIndikatorOk, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgIndikator.getContentPane().add(panMenButtonsIndikator, gridBagConstraints);
+
+        dlgIndikatorUms.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblIndikatorUmsCataloge.setText(org.openide.util.NbBundle.getMessage(
+                ProjekteEditor.class,
+                "ProjekteEditor.lblIndikatorUmsCataloge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgIndikatorUms.getContentPane().add(lblIndikatorUmsCataloge, gridBagConstraints);
+
+        cbIndikatorUmsCataloge.setMinimumSize(new java.awt.Dimension(500, 18));
+        cbIndikatorUmsCataloge.setPreferredSize(new java.awt.Dimension(500, 18));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgIndikatorUms.getContentPane().add(cbIndikatorUmsCataloge, gridBagConstraints);
+
+        panMenButtonsIndikatorUms.setLayout(new java.awt.GridBagLayout());
+
+        btnIndikatorUmsAbort.setText(org.openide.util.NbBundle.getMessage(
+                ProjekteEditor.class,
+                "ProjekteEditor.btnIndikatorUmsAbort.text")); // NOI18N
+        btnIndikatorUmsAbort.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnIndikatorUmsAbortActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsIndikatorUms.add(btnIndikatorUmsAbort, gridBagConstraints);
+
+        btnIndikatorUmsOk.setText(org.openide.util.NbBundle.getMessage(
+                ProjekteEditor.class,
+                "ProjekteEditor.btnIndikatorUmsOk.text")); // NOI18N
+        btnIndikatorUmsOk.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnIndikatorUmsOk.setMinimumSize(new java.awt.Dimension(85, 23));
+        btnIndikatorUmsOk.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnIndikatorUmsOk.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnIndikatorUmsOkActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsIndikatorUms.add(btnIndikatorUmsOk, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgIndikatorUms.getContentPane().add(panMenButtonsIndikatorUms, gridBagConstraints);
+
         setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setOpaque(false);
@@ -268,8 +430,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         jPanel3.add(lblProjekt_nr, gridBagConstraints);
 
         txtValProjekt_nr.setEnabled(false);
-        txtValProjekt_nr.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtValProjekt_nr.setPreferredSize(new java.awt.Dimension(150, 20));
+        txtValProjekt_nr.setMinimumSize(new java.awt.Dimension(215, 20));
+        txtValProjekt_nr.setPreferredSize(new java.awt.Dimension(215, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
@@ -282,7 +444,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel3.add(txtValProjekt_nr, gridBagConstraints);
 
@@ -376,7 +540,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 47, 5, 30);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel3.add(lblProjekt_code, gridBagConstraints);
 
         lblM_beginn.setText("Projektbeginn");
@@ -551,9 +715,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -563,11 +727,39 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblGeometrie.setText("Geometrie");
         lblGeometrie.setToolTipText("Bezeichnung des Projektes");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(lblGeometrie, gridBagConstraints);
+
+        txtValKurzBez.setMinimumSize(new java.awt.Dimension(150, 20));
+        txtValKurzBez.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.projekt_kurz_bez}"),
+                txtValKurzBez,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        jPanel3.add(txtValKurzBez, gridBagConstraints);
+
+        lblKurzBez.setText("Kurzbezeichnung");
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        jPanel3.add(lblGeometrie, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        jPanel3.add(lblKurzBez, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -972,8 +1164,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             final Object selObj = jlIndikator.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
+                jlIndikator1.clearSelection();
+                jlIndikator.setSelectedValue(selObj, false);
             }
-            jlIndikator1.clearSelection();
         }
     }                                                                                      //GEN-LAST:event_jlIndikatorValueChanged
 
@@ -1037,25 +1230,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
-        final Thread t = new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        try {
-                            final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
-                                    "projekte_indikatoren");                                   // NOI18N
-                            final Collection<CidsBean> indikatorCollection = CidsBeanSupport
-                                        .getBeanCollectionFromProperty(cidsBean, "indikator"); // NOI18N
-                            indikatorCollection.add(newBean);
-                            jlIndikator.setSelectedValue(newBean, true);
-                        } catch (final Exception ex) {
-                            LOG.error(ex, ex);
-                        }
-                    }
-                });
-
-        t.start();
-    } //GEN-LAST:event_btnAddIndikatorActionPerformed
+        UIUtil.findOptimalPositionOnScreen(dlgIndikator);
+        dlgIndikator.setSize(550, 150);
+        dlgIndikator.setVisible(true);
+    }                                                                                   //GEN-LAST:event_btnAddIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1067,8 +1245,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             final Object selObj = jlIndikator1.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
+                jlIndikator.clearSelection();
+                jlIndikator1.setSelectedValue(selObj, false);
             }
-            jlIndikator.clearSelection();
         }
     }                                                                                       //GEN-LAST:event_jlIndikator1ValueChanged
 
@@ -1113,25 +1292,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         final CidsBean umsetzung = (CidsBean)jlUmsetzung.getSelectedValue();
 
         if (umsetzung != null) {
-            final Thread t = new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            try {
-                                final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
-                                        "projekte_indikatoren");                                    // NOI18N
-                                final Collection<CidsBean> indikatorCollection = CidsBeanSupport
-                                            .getBeanCollectionFromProperty(umsetzung, "indikator"); // NOI18N
-                                indikatorCollection.add(newBean);
-                                jlIndikator1.setListData(indikatorCollection.toArray());
-                                jlIndikator1.setSelectedValue(newBean, true);
-                            } catch (final Exception ex) {
-                                LOG.error(ex, ex);
-                            }
-                        }
-                    });
-
-            t.start();
+            UIUtil.findOptimalPositionOnScreen(dlgIndikatorUms);
+            dlgIndikatorUms.setSize(550, 150);
+            dlgIndikatorUms.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(
                 this,
@@ -1140,6 +1303,102 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 JOptionPane.INFORMATION_MESSAGE);
         }
     } //GEN-LAST:event_btnAddMaIndikatorActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnIndikatorAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnIndikatorAbortActionPerformed
+        dlgIndikator.setVisible(false);
+    }                                                                                     //GEN-LAST:event_btnIndikatorAbortActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnIndikatorOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnIndikatorOkActionPerformed
+        final Object selection = cbIndikatorCataloge.getSelectedItem();
+
+        if (selection instanceof CidsBean) {
+            final CidsBean selectedBean = (CidsBean)selection;
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "indikator"); // NOI18N
+
+            if (colToAdd != null) {
+                final Thread t = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                            "projekte_indikatoren");                           // NOI18N
+                                    newBean.setProperty("indikator_schluessel", selectedBean); // NOI18N
+                                    colToAdd.add(newBean);
+                                    jlIndikator.setSelectedValue(newBean, true);
+                                } catch (final Exception ex) {
+                                    LOG.error(ex, ex);
+                                }
+                            }
+                        });
+                t.start();
+            } else {
+                LOG.error("The property indikator was not found.");
+            }
+        }
+
+        dlgIndikator.setVisible(false);
+    } //GEN-LAST:event_btnIndikatorOkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnIndikatorUmsAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnIndikatorUmsAbortActionPerformed
+        dlgIndikatorUms.setVisible(false);
+    }                                                                                        //GEN-LAST:event_btnIndikatorUmsAbortActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnIndikatorUmsOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnIndikatorUmsOkActionPerformed
+        final Object selection = cbIndikatorUmsCataloge.getSelectedItem();
+        final CidsBean umsetzung = (CidsBean)jlUmsetzung.getSelectedValue();
+
+        if ((umsetzung != null) && (selection instanceof CidsBean)) {
+            final CidsBean selectedBean = (CidsBean)selection;
+            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(umsetzung, "indikator"); // NOI18N
+
+            if (colToAdd != null) {
+                final Thread t = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                            "projekte_indikatoren");                           // NOI18N
+                                    newBean.setProperty("indikator_schluessel", selectedBean); // NOI18N
+                                    colToAdd.add(newBean);
+                                    jlIndikator1.setListData(colToAdd.toArray());
+                                    jlIndikator1.setSelectedValue(newBean, true);
+                                } catch (final Exception ex) {
+                                    LOG.error(ex, ex);
+                                }
+                            }
+                        });
+                t.start();
+            } else {
+                LOG.error("The property indikator was not found.");
+            }
+        } else if (umsetzung == null) {
+            LOG.error("No implementation selected.");
+        }
+
+        dlgIndikatorUms.setVisible(false);
+    } //GEN-LAST:event_btnIndikatorUmsOkActionPerformed
 
     @Override
     public void dispose() {

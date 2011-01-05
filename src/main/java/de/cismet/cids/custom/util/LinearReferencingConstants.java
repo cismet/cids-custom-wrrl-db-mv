@@ -31,7 +31,7 @@ package de.cismet.cids.custom.util;
  */
 public interface LinearReferencingConstants {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
     String MC_STATION = "station"; // NOI18N
     String MC_ROUTE = "route";     // NOI18N

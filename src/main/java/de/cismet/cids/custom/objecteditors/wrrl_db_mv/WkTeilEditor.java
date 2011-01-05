@@ -26,7 +26,11 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
     public static final String PROP_WKTEIL_TO = "bis";         // NOI18N
     public static final String PROP_WKTEIL_GEOM = "real_geom"; // NOI18N
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+
     //~ Instance fields --------------------------------------------------------
+
+    // NOI18N
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor1;
