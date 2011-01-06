@@ -36,7 +36,18 @@ public class LawaFeatureRenderer extends CustomCidsFeatureRenderer {
     @Override
     public Paint getLinePaint(final CidsFeature subFeature) {
         final int code = getLawaNr(subFeature);
-        switch (code) {
+        return getPaintForLawaType(code);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   type  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Color getPaintForLawaType(final int type) {
+        switch (type) {
             case 11: {
                 return new Color(0, 255, 0);
             }

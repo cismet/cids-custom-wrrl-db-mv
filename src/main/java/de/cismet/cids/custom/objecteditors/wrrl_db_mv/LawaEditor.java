@@ -12,16 +12,34 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.search.CidsServerSearch;
+
+import java.awt.Color;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LawaTypeNeighbourSearch;
+import de.cismet.cids.custom.util.WkkSearch;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -42,43 +60,41 @@ import de.cismet.tools.gui.FooterComponentProvider;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
+public class LawaEditor extends JPanel implements CidsBeanRenderer,
+    PropertyChangeListener,
+    EditorSaveListener,
+    FooterComponentProvider,
+    CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LawaEditor.class);
     private static final String ROUTE_FEATURE_CLASS_NAME =
-        "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature";
+        "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature"; // NOI18N
+    private static final int NO_NEIGHBOUR_FOUND = -1;
 
     //~ Instance fields --------------------------------------------------------
+
+    private boolean readOnly = false;
 
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blbSpace;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGefaelle;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGenese;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbLawa_nr;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPetrogr;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRueckst;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStratigr;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSubs_typ;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWrrl_nr;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblCode_geo;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblGefaelle;
-    private javax.swing.JLabel lblGenese;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblLawa_nr;
-    private javax.swing.JLabel lblPetrogr;
-    private javax.swing.JLabel lblRueckst;
-    private javax.swing.JLabel lblStratigr;
-    private javax.swing.JLabel lblSubs_typ;
+    private javax.swing.JLabel lblTypOberhalb;
+    private javax.swing.JLabel lblTypUnterhalb;
+    private javax.swing.JLabel lblValLawa_nr;
+    private javax.swing.JLabel lblValTypOberhalb;
+    private javax.swing.JLabel lblValTypUnterhalb;
+    private javax.swing.JLabel lblValWk_k;
     private javax.swing.JLabel lblWk_k;
-    private javax.swing.JLabel lblWrrl_nr;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
@@ -87,8 +103,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private de.cismet.tools.gui.RoundedPanel panInfo1;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
-    private javax.swing.JTextField txtCode_geo;
-    private javax.swing.JTextField txtWk_K;
+    private javax.swing.JPanel panLineOberhalb;
+    private javax.swing.JPanel panLineUnterhalb;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -98,18 +114,44 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      * Creates new form WkFgEditor.
      */
     public LawaEditor() {
-        initComponents();
-        linearReferencedLineEditor.setMetaClassName("LAWA");
-        linearReferencedLineEditor.setFromStationField("stat_von");
-        linearReferencedLineEditor.setToStationField("stat_bis");
-        linearReferencedLineEditor.setRealGeomField("real_geom");
-        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+        this(false);
+    }
 
-                @Override
-                public void linearReferencedLineCreated() {
-                    zoomToFeature();
-                }
-            });
+    /**
+     * Creates a new LawaEditor object.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public LawaEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
+        initComponents();
+        if (!readOnly) {
+            lblValLawa_nr.setVisible(false);
+            linearReferencedLineEditor.setMetaClassName("LAWA");        // NOI18N
+            linearReferencedLineEditor.setFromStationField("stat_von"); // NOI18N
+            linearReferencedLineEditor.setToStationField("stat_bis");   // NOI18N
+            linearReferencedLineEditor.setRealGeomField("real_geom");   // NOI18N
+            linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+
+                    @Override
+                    public void linearReferencedLineCreated() {
+                        zoomToFeature();
+                    }
+                });
+            panLineOberhalb.setVisible(false);
+            panLineUnterhalb.setVisible(false);
+        } else {
+            linearReferencedLineEditor.setEnabled(false);
+            cbLawa_nr.setVisible(false);
+        }
+
+        try {
+            new CidsBeanDropTarget(this);
+        } catch (final Exception ex) {
+            if (log.isDebugEnabled()) {
+                log.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+            }
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -123,19 +165,151 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
 
         bindingGroup.unbind();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
+
         this.cidsBean = cidsBean;
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            cidsBean.addPropertyChangeListener(this);
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            lblFoot.setText("");
+            final Object lawa_nr = cidsBean.getProperty("lawa_nr");
 
+            if (lawa_nr != null) {
+                lblValLawa_nr.setText(lawa_nr.toString());
+            } else {
+                lblValLawa_nr.setText("");
+            }
+
+            lblFoot.setText("");
             zoomToFeature();
         } else {
+            lblValLawa_nr.setText("");
             lblFoot.setText("");
         }
+
+        setNeighbours();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setNeighbours() {
+        if (cidsBean != null) {
+            final int predecessorType = getNeighbourType(String.valueOf(cidsBean.getProperty("id")), true);
+            final int sucessorType = getNeighbourType(String.valueOf(cidsBean.getProperty("id")), false);
+
+            if (predecessorType != NO_NEIGHBOUR_FOUND) {
+                lblValTypUnterhalb.setText(String.valueOf(predecessorType));
+                final Color color = LawaFeatureRenderer.getPaintForLawaType(predecessorType);
+                panLineUnterhalb.setBackground(color);
+            } else {
+                lblValTypUnterhalb.setText(CidsBeanSupport.FIELD_NOT_SET);
+            }
+
+            if (sucessorType != NO_NEIGHBOUR_FOUND) {
+                lblValTypOberhalb.setText(String.valueOf(sucessorType));
+                final Color color = LawaFeatureRenderer.getPaintForLawaType(sucessorType);
+                panLineOberhalb.setBackground(color);
+            } else {
+                lblValTypOberhalb.setText(CidsBeanSupport.FIELD_NOT_SET);
+            }
+
+            panLineUnterhalb.setVisible((predecessorType != NO_NEIGHBOUR_FOUND));
+            panLineOberhalb.setVisible((sucessorType != NO_NEIGHBOUR_FOUND));
+        } else {
+            lblValTypUnterhalb.setText(CidsBeanSupport.FIELD_NOT_SET);
+            lblValTypOberhalb.setText(CidsBeanSupport.FIELD_NOT_SET);
+            panLineUnterhalb.setVisible(false);
+            panLineOberhalb.setVisible(false);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   lawaId       DOCUMENT ME!
+     * @param   predecessor  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private int getNeighbourType(final String lawaId, final boolean predecessor) {
+        int result = NO_NEIGHBOUR_FOUND;
+
+        try {
+            final CidsServerSearch search = new LawaTypeNeighbourSearch(lawaId, predecessor);
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                final Object o = resArray.get(0).get(0);
+
+                if (o instanceof Integer) {
+                    result = ((Integer)o).intValue();
+                }
+            } else {
+                log.error("Server error in getNeighbourType(). Cids server search return null. " // NOI18N
+                            + "See the server logs for further information");              // NOI18N
+            }
+        } catch (ConnectionException e) {
+            log.error("Exception during a cids server search.", e);                        // NOI18N
+        }
+
+        return result;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getWk_k() {
+        String result = null;
+        if (linearReferencedLineEditor.getFeature() == null) {
+            return null;
+        }
+        try {
+            final String geom = linearReferencedLineEditor.getFeature().getGeometry().toText();
+            final CidsBean route = StationEditor.getRouteBean((CidsBean)cidsBean.getProperty("stat_von"));
+
+            if (route == null) {
+                log.error("Route not found");
+                return null;
+            }
+
+            final Object routeId = route.getProperty("id");
+
+            if (routeId == null) {
+                log.error("Route id not found");
+                return null;
+            }
+
+            final CidsServerSearch search = new WkkSearch(geom, routeId.toString());
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                final Object o = resArray.get(0).get(0);
+
+                if (o instanceof String) {
+                    result = o.toString();
+                }
+            } else {
+                log.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                            + "See the server logs for further information");     // NOI18N
+            }
+        } catch (ConnectionException e) {
+            log.error("Exception during a cids server search.", e);               // NOI18N
+        }
+
+        return result;
     }
 
     /**
@@ -189,33 +363,24 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         lblWk_k = new javax.swing.JLabel();
-        lblCode_geo = new javax.swing.JLabel();
-        lblStratigr = new javax.swing.JLabel();
-        lblGenese = new javax.swing.JLabel();
-        lblPetrogr = new javax.swing.JLabel();
-        cbStratigr = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbGenese = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbPetrogr = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         blbSpace = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        lblSubs_typ = new javax.swing.JLabel();
-        lblGefaelle = new javax.swing.JLabel();
-        lblRueckst = new javax.swing.JLabel();
         lblLawa_nr = new javax.swing.JLabel();
-        lblWrrl_nr = new javax.swing.JLabel();
-        cbSubs_typ = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbGefaelle = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbRueckst = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         cbLawa_nr = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbWrrl_nr = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        txtWk_K = new javax.swing.JTextField();
-        txtCode_geo = new javax.swing.JTextField();
+        lblValWk_k = new javax.swing.JLabel();
+        lblValLawa_nr = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         panInfo1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
         linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        lblTypUnterhalb = new javax.swing.JLabel();
+        lblTypOberhalb = new javax.swing.JLabel();
+        lblValTypUnterhalb = new javax.swing.JLabel();
+        lblValTypOberhalb = new javax.swing.JLabel();
+        panLineUnterhalb = new javax.swing.JPanel();
+        panLineOberhalb = new javax.swing.JPanel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -230,8 +395,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 370));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 370));
+        panInfo.setMinimumSize(new java.awt.Dimension(640, 100));
+        panInfo.setPreferredSize(new java.awt.Dimension(640, 100));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -239,7 +404,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Beschreibung");
+        lblHeading.setText("LAWA-Detailtyp");
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -250,101 +415,11 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         lblWk_k.setText("Wasserkörper-Kürzel");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblWk_k, gridBagConstraints);
-
-        lblCode_geo.setText("Geologie");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblCode_geo, gridBagConstraints);
-
-        lblStratigr.setText("Stratigraphie");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblStratigr, gridBagConstraints);
-
-        lblGenese.setText("Genese");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblGenese, gridBagConstraints);
-
-        lblPetrogr.setText("Petrographie");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblPetrogr, gridBagConstraints);
-
-        cbStratigr.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbStratigr.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stratigr}"),
-                cbStratigr,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbStratigr, gridBagConstraints);
-
-        cbGenese.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbGenese.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.genese}"),
-                cbGenese,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbGenese, gridBagConstraints);
-
-        cbPetrogr.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbPetrogr.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.petrogr}"),
-                cbPetrogr,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbPetrogr, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -359,109 +434,19 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        lblSubs_typ.setText("Geol. Substrattypen");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblSubs_typ, gridBagConstraints);
-
-        lblGefaelle.setText("Talbodengefälle");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblGefaelle, gridBagConstraints);
-
-        lblRueckst.setText("Ostseerückstau");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblRueckst, gridBagConstraints);
-
         lblLawa_nr.setText("LAWA-Typ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        panInfoContent.add(lblLawa_nr, gridBagConstraints);
-
-        lblWrrl_nr.setText("WRRL-Typ MV");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblWrrl_nr, gridBagConstraints);
+        panInfoContent.add(lblLawa_nr, gridBagConstraints);
 
-        cbSubs_typ.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbSubs_typ.setPreferredSize(new java.awt.Dimension(465, 20));
+        cbLawa_nr.setMinimumSize(new java.awt.Dimension(415, 20));
+        cbLawa_nr.setPreferredSize(new java.awt.Dimension(415, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.subs_typ}"),
-                cbSubs_typ,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbSubs_typ, gridBagConstraints);
-
-        cbGefaelle.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbGefaelle.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gefaelle}"),
-                cbGefaelle,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbGefaelle, gridBagConstraints);
-
-        cbRueckst.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbRueckst.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rueckst}"),
-                cbRueckst,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbRueckst, gridBagConstraints);
-
-        cbLawa_nr.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbLawa_nr.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_nr}"),
@@ -471,64 +456,39 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbLawa_nr, gridBagConstraints);
 
-        cbWrrl_nr.setMinimumSize(new java.awt.Dimension(465, 20));
-        cbWrrl_nr.setPreferredSize(new java.awt.Dimension(465, 20));
+        lblValWk_k.setMaximumSize(new java.awt.Dimension(415, 20));
+        lblValWk_k.setPreferredSize(new java.awt.Dimension(415, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_nr}"),
-                cbWrrl_nr,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"),
+                lblValWk_k,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(cbWrrl_nr, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panInfoContent.add(lblValWk_k, gridBagConstraints);
 
-        txtWk_K.setMinimumSize(new java.awt.Dimension(465, 20));
-        txtWk_K.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_k}"),
-                txtWk_K,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
+        lblValLawa_nr.setMinimumSize(new java.awt.Dimension(415, 20));
+        lblValLawa_nr.setPreferredSize(new java.awt.Dimension(415, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtWk_K, gridBagConstraints);
-
-        txtCode_geo.setMinimumSize(new java.awt.Dimension(465, 20));
-        txtCode_geo.setPreferredSize(new java.awt.Dimension(465, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.code_geo}"),
-                txtCode_geo,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtCode_geo, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(lblValLawa_nr, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -563,8 +523,62 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panInfoContent1.setOpaque(false);
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 4;
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
+
+        lblTypUnterhalb.setText("Typ unterhalb");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(30, 10, 5, 10);
+        panInfoContent1.add(lblTypUnterhalb, gridBagConstraints);
+
+        lblTypOberhalb.setText("Typ oberhalb");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(30, 10, 5, 10);
+        panInfoContent1.add(lblTypOberhalb, gridBagConstraints);
+
+        lblValTypUnterhalb.setText("<nicht gesetzt>");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        panInfoContent1.add(lblValTypUnterhalb, gridBagConstraints);
+
+        lblValTypOberhalb.setText("<nicht gesetzt>");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        panInfoContent1.add(lblValTypOberhalb, gridBagConstraints);
+
+        panLineUnterhalb.setBackground(new java.awt.Color(255, 91, 0));
+        panLineUnterhalb.setMinimumSize(new java.awt.Dimension(10, 4));
+        panLineUnterhalb.setPreferredSize(new java.awt.Dimension(100, 4));
+        panLineUnterhalb.setLayout(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        panInfoContent1.add(panLineUnterhalb, gridBagConstraints);
+
+        panLineOberhalb.setBackground(new java.awt.Color(255, 91, 0));
+        panLineOberhalb.setMinimumSize(new java.awt.Dimension(10, 4));
+        panLineOberhalb.setPreferredSize(new java.awt.Dimension(100, 4));
+        panLineOberhalb.setLayout(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        panInfoContent1.add(panLineOberhalb, gridBagConstraints);
 
         panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
@@ -582,6 +596,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     public void dispose() {
         linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(this);
+        }
     }
 
     @Override
@@ -601,19 +618,45 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     @Override
     public boolean prepareForSave() {
-//        if (cidsBean != null) {
-//            try {
-//                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-//                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
-//            } catch (Exception ex) {
-//                log.error(ex, ex);
-//            }
-//        }
         return true;
     }
 
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("real_geom") && (evt.getNewValue() != null)
+                    && (((CidsBean)evt.getNewValue()).getProperty("geo_field") != null) && !readOnly) {
+            final String wkk = getWk_k();
+            if (wkk != null) {
+                lblValWk_k.setText(wkk);
+                try {
+                    cidsBean.setProperty("wk_k", wkk);
+                    if (log.isDebugEnabled()) {
+                        log.debug("wk_k updated");
+                    }
+                } catch (final Exception e) {
+                    log.error("Cannot assign the new wk_k to the cids bean", e);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if ((cidsBean != null) && !readOnly) {
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) { // NOI18N
+                    try {
+                        cidsBean.setProperty("wk_k", bean.getProperty("wk_k"));
+                    } catch (final Exception e) {
+                        log.error("Error while setting a new wk_k", e);
+                    }
+                }
+            }
+        }
     }
 }
