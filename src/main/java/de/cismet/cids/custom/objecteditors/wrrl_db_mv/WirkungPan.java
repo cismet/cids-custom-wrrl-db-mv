@@ -51,6 +51,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
 
     private WbModel wbListModel = new WbModel();
     private CidsBean cidsBean;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRemWirkung;
@@ -69,14 +70,29 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
      * Creates new form WkFgPanOne.
      */
     public WirkungPan() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WirkungPan(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+
         lstWirkung.setModel(wbListModel);
-        try {
-            new CidsBeanDropTarget(this);
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("error while creating CidsBeanDropTarget", ex);
+        if (!readOnly) {
+            try {
+                new CidsBeanDropTarget(this);
+            } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while creating CidsBeanDropTarget", ex);
+                }
             }
+        } else {
+            panwirk.setVisible(false);
         }
     }
 
@@ -155,7 +171,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 20);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         panInfoContent.add(scpWirkung, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
@@ -180,8 +196,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                     JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
-                    final WbModel.WB_Wrapper objectToRemove = (WbModel.WB_Wrapper)selection;
-                    final CidsBean bean = objectToRemove.getWrappedBean();
+                    final CidsBean bean = (CidsBean)selection;
 
                     if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
                         removeBean(WB_PROPERTIES[0], bean);
@@ -192,7 +207,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                     } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
                         removeBean(WB_PROPERTIES[3], bean);
                     }
-                    wbListModel.removeElement(objectToRemove);
+                    wbListModel.removeElement(bean);
                 } catch (Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
@@ -220,7 +235,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
 
     @Override
     public void beansDropped(final ArrayList<CidsBean> beans) {
-        if (cidsBean != null) {
+        if ((cidsBean != null) && !readOnly) {
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
                     addWB(WB_PROPERTIES[0], bean);
@@ -278,7 +293,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
         //~ Instance fields ----------------------------------------------------
 
         List<ListDataListener> listDataListener = new ArrayList<ListDataListener>();
-        List<WB_Wrapper> elements = new ArrayList<WB_Wrapper>();
+        List<CidsBean> elements = new ArrayList<CidsBean>();
 
         //~ Constructors -------------------------------------------------------
 
@@ -316,7 +331,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
          *
          * @param  o  DOCUMENT ME!
          */
-        public void removeElement(final WB_Wrapper o) {
+        public void removeElement(final CidsBean o) {
             elements.remove(o);
             fireContentChangedEvent();
         }
@@ -327,7 +342,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
          * @param  o  DOCUMENT ME!
          */
         public void addElement(final CidsBean o) {
-            elements.add(new WB_Wrapper(o));
+            elements.add(o);
             fireContentChangedEvent();
         }
 
@@ -353,7 +368,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
 
                     if (collection != null) {
                         for (final CidsBean bean : collection) {
-                            elements.add(new WB_Wrapper(bean));
+                            elements.add(bean);
                         }
                     }
                 }
@@ -368,47 +383,6 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
         public void clear() {
             elements.clear();
             fireContentChangedEvent();
-        }
-
-        //~ Inner Classes ------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @version  $Revision$, $Date$
-         */
-        private class WB_Wrapper {
-
-            //~ Instance fields ------------------------------------------------
-
-            private CidsBean wrappedBean;
-
-            //~ Constructors ---------------------------------------------------
-
-            /**
-             * Creates a new WB_Wrapper object.
-             *
-             * @param  wrappedBean  DOCUMENT ME!
-             */
-            public WB_Wrapper(final CidsBean wrappedBean) {
-                this.wrappedBean = wrappedBean;
-            }
-
-            //~ Methods --------------------------------------------------------
-
-            /**
-             * DOCUMENT ME!
-             *
-             * @return  DOCUMENT ME!
-             */
-            public CidsBean getWrappedBean() {
-                return wrappedBean;
-            }
-
-            @Override
-            public String toString() {
-                return wrappedBean.toString();
-            }
         }
     }
 }

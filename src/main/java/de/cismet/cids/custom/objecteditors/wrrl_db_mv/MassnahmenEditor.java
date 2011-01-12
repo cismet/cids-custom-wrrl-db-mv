@@ -27,7 +27,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.StringTokenizer;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -377,13 +379,21 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         btnMeasOk = new javax.swing.JButton();
         dlgMeas15 = new javax.swing.JDialog();
         lblMeas15Cataloge = new javax.swing.JLabel();
-        cbMeas15Cataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_AFTER2015_MC, true, true);
+        cbMeas15Cataloge = new ScrollableComboBox(
+                DE_MEASURE_TYPE_CODE_AFTER2015_MC,
+                true,
+                true,
+                new CustomElementComparator(1));
         panMenButtonsMeas15 = new javax.swing.JPanel();
         btnMeas15Abort = new javax.swing.JButton();
         btnMeas15Ok = new javax.swing.JButton();
         dlgMeas21 = new javax.swing.JDialog();
         lblMeas21Cataloge = new javax.swing.JLabel();
-        cbMeas21Cataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_AFTER2015_MC, true, true);
+        cbMeas21Cataloge = new ScrollableComboBox(
+                DE_MEASURE_TYPE_CODE_AFTER2015_MC,
+                true,
+                true,
+                new CustomElementComparator(1));
         panMenButtonsMeas21 = new javax.swing.JPanel();
         btnMeas21Abort = new javax.swing.JButton();
         btnMeas21Ok = new javax.swing.JButton();
@@ -549,6 +559,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         cbMeas15Cataloge.setMinimumSize(new java.awt.Dimension(700, 18));
         cbMeas15Cataloge.setPreferredSize(new java.awt.Dimension(700, 18));
+        cbMeas15Cataloge.setRenderer(new WfdTypeCodeRenderer());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -611,6 +622,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         cbMeas21Cataloge.setMinimumSize(new java.awt.Dimension(700, 18));
         cbMeas21Cataloge.setPreferredSize(new java.awt.Dimension(700, 18));
+        cbMeas21Cataloge.setRenderer(new WfdTypeCodeRenderer());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -929,9 +941,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(380, 100));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(380, 100));
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -1420,7 +1429,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         cbPressur_cd.setMinimumSize(new java.awt.Dimension(300, 25));
         cbPressur_cd.setPreferredSize(new java.awt.Dimension(300, 25));
-        cbPressur_cd.setRenderer(new PressureTypeCodeRenderer());
+        cbPressur_cd.setRenderer(new WfdTypeCodeRenderer());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -1698,19 +1707,66 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) {                                        //GEN-FIRST:event_btnMeasOkActionPerformed
+    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasOkActionPerformed
         final Object selection = cbMeasCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
-            final CidsBean selectedBean = (CidsBean)selection;
-            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "de_meas_cd"); // NOI18N
-            if (colToAdd != null) {
-                if (!colToAdd.contains(selectedBean)) {
-                    colToAdd.add(selectedBean);
+            final Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            final CidsBean selectedBean = (CidsBean)selection;
+                            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(
+                                    cidsBean,
+                                    "de_meas_cd"); // NOI18N
+                            if (colToAdd != null) {
+                                if (!colToAdd.contains(selectedBean)) {
+                                    colToAdd.add(selectedBean);
+
+                                    if ((colToAdd.size() == 1) && (cbSuppl_cd.getSelectedIndex() == -1)) {
+                                        // set the value of supple_cd
+                                        setRemommendedEuMeasureType(selectedBean);
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+            t.start();
+        }
+
+        dlgMeas.setVisible(false);
+    } //GEN-LAST:event_btnMeasOkActionPerformed
+
+    /**
+     * set the field supple_cd with the label 'EU-Massnahmentyp' on the recommended value, which is derived from the
+     * first element of the field de_meas_cd.
+     *
+     * @param  selectedBean  DOCUMENT ME!
+     */
+    private void setRemommendedEuMeasureType(final CidsBean selectedBean) {
+        String measureType = String.valueOf(selectedBean.getProperty("measure_type"));
+
+        if (!measureType.equals("null")) {
+            final StringTokenizer st = new StringTokenizer(measureType, ", ");
+            if (st.hasMoreTokens()) {
+                measureType = st.nextToken();
+                measureType = "(" + measureType + ")";
+                final ComboBoxModel model = cbSuppl_cd.getModel();
+
+                for (int i = 0; i < model.getSize(); ++i) {
+                    final Object o = model.getElementAt(i);
+                    if (o instanceof CidsBean) {
+                        final Object type = ((CidsBean)o).getProperty("type");
+
+                        if ((type instanceof String) && type.toString().equals(measureType)) {
+                            model.setSelectedItem((CidsBean)o);
+                            break;
+                        }
+                    }
                 }
             }
         }
-        dlgMeas.setVisible(false);
-    }                                                                                                                    //GEN-LAST:event_btnMeasOkActionPerformed
+    }
 
     /**
      * DOCUMENT ME!
@@ -2028,7 +2084,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @version  $Revision$, $Date$
      */
-    private class PressureTypeCodeRenderer extends DefaultListCellRenderer {
+    private class WfdTypeCodeRenderer extends DefaultListCellRenderer {
 
         //~ Methods ------------------------------------------------------------
 

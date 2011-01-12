@@ -1145,6 +1145,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)
                             selObj,
                             "indikator");                                                  // NOI18N
+
+                    // checks if the currently shown indicator is one of the list jlIndikator1, which will be cleaned
+                    final CidsBean currentIndicatior = projekteIndikatorenEditor1.getCidsBean();
+                    if ((currentIndicatior != null) && (jlIndikator1.getSelectedValue() == currentIndicatior)) {
+                        projekteIndikatorenEditor1.setCidsBean(null);
+                    }
+
                     jlIndikator1.removeAll();
                     if (indikatorList != null) {
                         jlIndikator1.setListData(indikatorList.toArray());
@@ -1152,7 +1159,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }                                                                                      //GEN-LAST:event_jlUmsetzungValueChanged
+    } //GEN-LAST:event_jlUmsetzungValueChanged
 
     /**
      * DOCUMENT ME!
@@ -1163,9 +1170,11 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator.getSelectedValue();
             if (selObj instanceof CidsBean) {
-                projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
                 jlIndikator1.clearSelection();
                 jlIndikator.setSelectedValue(selObj, false);
+                projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
+            } else {
+                projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
     }                                                                                      //GEN-LAST:event_jlIndikatorValueChanged
@@ -1244,9 +1253,11 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator1.getSelectedValue();
             if (selObj instanceof CidsBean) {
-                projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
                 jlIndikator.clearSelection();
                 jlIndikator1.setSelectedValue(selObj, false);
+                projekteIndikatorenEditor1.setCidsBean((CidsBean)selObj);
+            } else {
+                projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
     }                                                                                       //GEN-LAST:event_jlIndikator1ValueChanged

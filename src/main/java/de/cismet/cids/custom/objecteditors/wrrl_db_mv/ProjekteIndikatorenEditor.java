@@ -12,10 +12,14 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import de.cismet.cids.custom.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -48,6 +52,7 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblEinheit;
@@ -58,6 +63,8 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     private javax.swing.JLabel lblValEinheit;
     private javax.swing.JLabel lblValIndikator;
     private javax.swing.JLabel lblValIndikator_nr;
+    private javax.swing.JLabel lblValWert_char;
+    private javax.swing.JLabel lblValWert_num;
     private javax.swing.JLabel lblWert_char;
     private javax.swing.JLabel lblWert_num;
     private javax.swing.JPanel panFooter;
@@ -75,13 +82,31 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
      * Creates a new ProjekteIndikatorenEditor object.
      */
     public ProjekteIndikatorenEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates a new ProjekteIndikatorenEditor object.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public ProjekteIndikatorenEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
-        try {
-            new CidsBeanDropTarget(this);
-        } catch (Exception ex) {
-            if (log.isDebugEnabled()) {
-                log.debug("error while creating CidsBeanDropTarget", ex);
+
+        if (!readOnly) {
+            lblValWert_char.setVisible(false);
+            lblValWert_num.setVisible(false);
+            try {
+                new CidsBeanDropTarget(this);
+            } catch (Exception ex) {
+                if (log.isDebugEnabled()) {
+                    log.debug("error while creating CidsBeanDropTarget", ex);
+                }
             }
+        } else {
+            txtValWert_char.setVisible(false);
+            txtValWert_num.setVisible(false);
         }
     }
 
@@ -91,13 +116,38 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+
+            final String wertChar = (String)cidsBean.getProperty("wert_char");
+            final BigDecimal wertNum = (BigDecimal)cidsBean.getProperty("wert_num");
+
+            if (wertChar != null) {
+                lblValWert_char.setText(wertChar);
+            } else {
+                lblValWert_char.setText("");
+            }
+
+            if (wertNum != null) {
+                lblValWert_num.setText(wertNum.toString());
+            } else {
+                lblValWert_num.setText("");
+            }
         } else {
             lblFoot.setText("");
+            lblValWert_char.setText(CidsBeanSupport.FIELD_NOT_SET);
+            lblValWert_num.setText(CidsBeanSupport.FIELD_NOT_SET);
+            lblValEinheit.setText(CidsBeanSupport.FIELD_NOT_SET);
+            lblValIndikator.setText(CidsBeanSupport.FIELD_NOT_SET);
+            lblValIndikator_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
+            txtValWert_char.setText("");
+            txtValWert_num.setText("");
+            txtValWert_char.setEditable(false);
+            txtValWert_num.setEditable(false);
         }
     }
 
@@ -132,6 +182,8 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         lblValEinheit = new javax.swing.JLabel();
         txtValWert_num = new javax.swing.JTextField();
         txtValWert_char = new javax.swing.JTextField();
+        lblValWert_num = new javax.swing.JLabel();
+        lblValWert_char = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -336,6 +388,30 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         panInfoContent.add(txtValWert_char, gridBagConstraints);
 
+        lblValWert_num.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblValWert_num.setPreferredSize(new java.awt.Dimension(200, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        panInfoContent.add(lblValWert_num, gridBagConstraints);
+
+        lblValWert_char.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblValWert_char.setPreferredSize(new java.awt.Dimension(200, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        panInfoContent.add(lblValWert_char, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -399,7 +475,7 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
 
     @Override
     public void beansDropped(final ArrayList<CidsBean> beans) {
-        if (cidsBean != null) {
+        if ((cidsBean != null) && !readOnly) {
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Indikator")) {
                     try {
