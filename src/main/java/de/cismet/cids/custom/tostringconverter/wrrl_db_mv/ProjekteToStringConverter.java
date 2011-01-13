@@ -21,6 +21,6 @@ public class ProjekteToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return String.valueOf(cidsBean.getProperty("projekt_code"));
+        return String.valueOf(cidsBean.getProperty("projekt_kurz_bez"));
     }
 }
