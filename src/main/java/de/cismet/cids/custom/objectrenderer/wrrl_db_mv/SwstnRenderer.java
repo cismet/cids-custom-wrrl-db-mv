@@ -30,8 +30,6 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import de.cismet.cids.custom.util.TabbedPaneUITransparent;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;

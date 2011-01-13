@@ -12,11 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -24,17 +19,9 @@ import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
-import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureGroup;
-import de.cismet.cismap.commons.features.FeatureGroups;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
-import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -80,11 +67,9 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
-//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(bindingGroup, cidsBean);
             swstnPanOne1.setCidsBean(cidsBean);
             swstnPanTwo1.setCidsBean(cidsBean);
             swstnPanThree1.setCidsBean(cidsBean);
-//            bindingGroup.bind();
         } else {
             lblFoot.setText("");
         }
@@ -154,8 +139,8 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
         gridBagConstraints.weighty = 1.0;
         add(jPanel1, gridBagConstraints);
 
-        swstnPanThree1.setMinimumSize(new java.awt.Dimension(750, 150));
-        swstnPanThree1.setPreferredSize(new java.awt.Dimension(750, 150));
+        swstnPanThree1.setMinimumSize(new java.awt.Dimension(750, 200));
+        swstnPanThree1.setPreferredSize(new java.awt.Dimension(750, 200));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -171,7 +156,6 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
         swstnPanOne1.dispose();
         swstnPanTwo1.dispose();
         swstnPanThree1.dispose();
-//        bindingGroup.unbind();
     }
 
     @Override
@@ -191,15 +175,7 @@ public class SwstnEditor extends JPanel implements CidsBeanRenderer, EditorSaveL
 
     @Override
     public boolean prepareForSave() {
-//        if (cidsBean != null) {
-//            try {
-//                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-//                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
-//            } catch (Exception ex) {
-//                log.error(ex, ex);
-//            }
-//        }
-        return true;
+        return swstnPanOne1.prepareForSave();
     }
 
     @Override

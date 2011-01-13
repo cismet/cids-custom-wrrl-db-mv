@@ -509,7 +509,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddQeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddQeActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMonitorCataloge);
+        UIUtil.findOptimalPositionOnScreen(dlgQeCataloge);
         dlgQeCataloge.setSize(750, 150);
         dlgQeCataloge.setVisible(true);
     }                                                                            //GEN-LAST:event_btnAddQeActionPerformed

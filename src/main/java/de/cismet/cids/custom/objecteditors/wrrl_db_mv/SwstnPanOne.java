@@ -12,14 +12,17 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.ItemEvent;
+
 import de.cismet.cids.custom.util.CoordinateConverter;
+import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.YearValidator;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.editors.converters.SqlDateToUtilDateConverter;
+import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
@@ -29,7 +32,11 @@ import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBeanStore, EditorSaveListener {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SwstnPanOne.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -80,6 +87,13 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
      */
     public SwstnPanOne() {
         initComponents();
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat}"),
+                stationEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        bindingGroup.addBinding(binding);
 
         stationEditor.addStationEditorListener(new StationEditorListener() {
 
@@ -115,7 +129,7 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         lblLabCoords = new javax.swing.JLabel();
         lblMs_cd_wb = new javax.swing.JLabel();
         lblName_stn = new javax.swing.JLabel();
-        cbSw_cat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbSw_cat = new ScrollableComboBox();
         jPanel1 = new javax.swing.JPanel();
         lblCoord = new javax.swing.JLabel();
         txtMs_cd_wb = new javax.swing.JTextField();
@@ -129,10 +143,10 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         lblSw_cat = new javax.swing.JLabel();
         lblWa_cd = new javax.swing.JLabel();
         lblRbd_cd = new javax.swing.JLabel();
-        cbWa_cd = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbRbd_cd = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbWa_cd = new ScrollableComboBox();
+        cbRbd_cd = new ScrollableComboBox();
         lblLand_cd = new javax.swing.JLabel();
-        cbLand_cd = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbLand_cd = new ScrollableComboBox();
         lblDelivery = new javax.swing.JLabel();
         lblUrl = new javax.swing.JLabel();
         lblSitetype = new javax.swing.JLabel();
@@ -201,6 +215,20 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cbSw_cat.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    cbSw_catPropertyChange(evt);
+                }
+            });
+        cbSw_cat.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbSw_catItemStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -633,6 +661,35 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbSw_catPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_cbSw_catPropertyChange
+    }                                                                               //GEN-LAST:event_cbSw_catPropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbSw_catItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbSw_catItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            final Object o = evt.getItem();
+            if (o instanceof CidsBean) {
+                final CidsBean newValue = (CidsBean)o;
+                if (isCategoryRiver(newValue)) {
+                    cbGeom.setVisible(false);
+                    stationEditor.setVisible(true);
+                } else {
+                    cbGeom.setVisible(true);
+                    stationEditor.setVisible(false);
+                }
+            }
+        }
+    }                                                                           //GEN-LAST:event_cbSw_catItemStateChanged
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -652,24 +709,27 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
 
             final Object swCat = cidsBean.getProperty("sw_cat");
 
-            if ((swCat != null) && (swCat instanceof CidsBean)
-                        && (((CidsBean)swCat).getProperty("value") != null)
-                        && ((CidsBean)swCat).getProperty("value").toString().equals("RW")) {
-                cbGeom.setVisible(false);
+            if (isCategoryRiver(swCat)) {
                 stationEditor.setVisible(true);
-                final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat}"),
-                        stationEditor,
-                        org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
-                bindingGroup.addBinding(binding);
-                bindingGroup.bind();
             } else {
                 cbGeom.setVisible(true);
-                bindingGroup.bind();
             }
+
+            bindingGroup.bind();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   swCat  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isCategoryRiver(final Object swCat) {
+        return (swCat != null) && (swCat instanceof CidsBean)
+                    && (((CidsBean)swCat).getProperty("value") != null)
+                    && ((CidsBean)swCat).getProperty("value").toString().equals("RW");
     }
 
     @Override
@@ -677,5 +737,30 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
         stationEditor.dispose();
         ((DefaultCismapGeometryComboBoxEditor)cbGeom).dispose();
         bindingGroup.unbind();
+    }
+
+    @Override
+    public void editorClosed(final EditorSaveStatus status) {
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        final Object swCat = cidsBean.getProperty("sw_cat");
+
+        try {
+            if (isCategoryRiver(swCat)) {
+                // thge property point contains the real geom of the station
+                // cidsBean.setProperty("point", null);
+            } else {
+                final CidsBean station = (CidsBean)cidsBean.getProperty("station");
+                cidsBean.setProperty("station", null);
+                station.delete();
+                station.persist();
+            }
+        } catch (final Exception e) {
+            LOG.error("Error while setting a property to null.", e);
+        }
+
+        return true;
     }
 }
