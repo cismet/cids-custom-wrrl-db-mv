@@ -58,6 +58,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
+    private ArrayList<CidsBean> beansToSave = new ArrayList<CidsBean>();
     private JList referencedList;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -178,8 +179,8 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         setPreferredSize(new java.awt.Dimension(440, 675));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(440, 370));
-        panInfo.setPreferredSize(new java.awt.Dimension(440, 370));
+        panInfo.setMinimumSize(new java.awt.Dimension(470, 370));
+        panInfo.setPreferredSize(new java.awt.Dimension(470, 370));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -187,7 +188,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblHeading.text")); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -206,7 +209,12 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_beschreibung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_beschreibung}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTextArea1);
@@ -222,7 +230,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
-        lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblBeschrDerMa.text")); // NOI18N
+        lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblBeschrDerMa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -231,7 +241,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(lblBeschrDerMa, gridBagConstraints);
 
-        lblWk_k.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblWk_k.text")); // NOI18N
+        lblWk_k.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblWk_k.text")); // NOI18N
         lblWk_k.setMinimumSize(new java.awt.Dimension(182, 20));
         lblWk_k.setPreferredSize(new java.awt.Dimension(182, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -252,7 +264,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         jPanel2.add(lblValWk_k, gridBagConstraints);
 
-        lblMassnahme_nr.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMassnahme_nr.text")); // NOI18N
+        lblMassnahme_nr.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblMassnahme_nr.text")); // NOI18N
         lblMassnahme_nr.setMinimumSize(new java.awt.Dimension(182, 20));
         lblMassnahme_nr.setPreferredSize(new java.awt.Dimension(182, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -262,8 +276,12 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMassnahme_nr, gridBagConstraints);
 
-        lblMeasure_type_code.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMeasure_type_code.text")); // NOI18N
-        lblMeasure_type_code.setToolTipText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblMeasure_type_code.toolTipText")); // NOI18N
+        lblMeasure_type_code.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblMeasure_type_code.text"));        // NOI18N
+        lblMeasure_type_code.setToolTipText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblMeasure_type_code.toolTipText")); // NOI18N
         lblMeasure_type_code.setMinimumSize(new java.awt.Dimension(182, 20));
         lblMeasure_type_code.setPreferredSize(new java.awt.Dimension(182, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -276,7 +294,12 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         cbMeasure_type_code.setMinimumSize(new java.awt.Dimension(200, 20));
         cbMeasure_type_code.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code}"), cbMeasure_type_code, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code}"),
+                cbMeasure_type_code,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -327,7 +350,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         panHeadInfo1.setLayout(new java.awt.FlowLayout());
 
         lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblHeading1.text")); // NOI18N
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblHeading1.text")); // NOI18N
         panHeadInfo1.add(lblHeading1);
 
         panGeo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
@@ -357,7 +382,12 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
         cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.additional_geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.additional_geom}"),
+                cbGeom,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
         bindingGroup.addBinding(binding);
 
@@ -371,7 +401,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel1.add(cbGeom, gridBagConstraints);
 
-        lblGeom.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungEditor.class, "MassnahmenUmsetzungEditor.lblGeom.text")); // NOI18N
+        lblGeom.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblGeom.text")); // NOI18N
         lblGeom.setPreferredSize(new java.awt.Dimension(100, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -393,14 +425,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -606,8 +637,22 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                 cidsBean.setProperty("real_geom", CidsBeanSupport.cloneCidsBean(realGeom));  // NOI18N
                 linearReferencedLineEditor.setCidsBean(cidsBean);
             }
+
+            if (act != null) {
+                final Object fin = act.getProperty("massn_fin");
+                if ((fin == null) || ((fin instanceof Boolean) && !((Boolean)fin).booleanValue())) {
+                    try {
+                        act.setProperty("massn_fin", Boolean.TRUE);
+                        if (!beansToSave.contains(act)) {
+                            beansToSave.add(act);
+                        }
+                    } catch (final Exception e) {
+                        LOG.error("Error while set action to fin.", e); // NOI18N
+                    }
+                }
+            }
         } catch (final Exception e) {
-            LOG.error("Error during the creation of a new bean of type massnahmen", e);      // NOI18N
+            LOG.error("Error during the creation of a new bean of type massnahmen", e); // NOI18N
         }
     }
 
@@ -625,16 +670,11 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             }
         }
 
-        final CidsBean actBean = (CidsBean)cidsBean.getProperty("massnahme");
-        if (actBean != null) {
-            final Object fin = actBean.getProperty("massn_fin");
-            if ((fin == null) || ((fin instanceof Boolean) && !((Boolean)fin).booleanValue())) {
-                try {
-                    actBean.setProperty("massn_fin", Boolean.TRUE);
-                    actBean.persist();
-                } catch (final Exception e) {
-                    LOG.error("Error while set action to fin.", e); // NOI18N
-                }
+        for (final CidsBean bean : beansToSave) {
+            try {
+                bean.persist();
+            } catch (final Exception e) {
+                LOG.error("Error while deleting bean", e); // NOI18N
             }
         }
 

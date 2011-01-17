@@ -100,8 +100,8 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         setPreferredSize(new java.awt.Dimension(440, 675));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(440, 370));
-        panInfo.setPreferredSize(new java.awt.Dimension(440, 370));
+        panInfo.setMinimumSize(new java.awt.Dimension(470, 370));
+        panInfo.setPreferredSize(new java.awt.Dimension(470, 370));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -109,7 +109,9 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblHeading.text")); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -128,7 +130,12 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_beschreibung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mass_beschreibung}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTextArea1);
@@ -144,7 +151,9 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
-        lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblBeschrDerMa.text")); // NOI18N
+        lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblBeschrDerMa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -153,7 +162,9 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(lblBeschrDerMa, gridBagConstraints);
 
-        lblWk_k.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblWk_k.text")); // NOI18N
+        lblWk_k.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblWk_k.text")); // NOI18N
         lblWk_k.setMinimumSize(new java.awt.Dimension(182, 20));
         lblWk_k.setPreferredSize(new java.awt.Dimension(182, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -163,7 +174,9 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblWk_k, gridBagConstraints);
 
-        lblValWk_k.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblValWk_k.text")); // NOI18N
+        lblValWk_k.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblValWk_k.text")); // NOI18N
         lblValWk_k.setMinimumSize(new java.awt.Dimension(250, 20));
         lblValWk_k.setPreferredSize(new java.awt.Dimension(250, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -175,7 +188,9 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         jPanel2.add(lblValWk_k, gridBagConstraints);
 
-        lblMassnahme_nr.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblMassnahme_nr.text")); // NOI18N
+        lblMassnahme_nr.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblMassnahme_nr.text")); // NOI18N
         lblMassnahme_nr.setMinimumSize(new java.awt.Dimension(182, 20));
         lblMassnahme_nr.setPreferredSize(new java.awt.Dimension(182, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -185,8 +200,12 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMassnahme_nr, gridBagConstraints);
 
-        lblMeasure_type_code.setText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblMeasure_type_code.text")); // NOI18N
-        lblMeasure_type_code.setToolTipText(org.openide.util.NbBundle.getMessage(MassnahmenUmsetzungRenderer.class, "MassnahmenUmsetzungRenderer.lblMeasure_type_code.toolTipText")); // NOI18N
+        lblMeasure_type_code.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblMeasure_type_code.text"));        // NOI18N
+        lblMeasure_type_code.setToolTipText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblMeasure_type_code.toolTipText")); // NOI18N
         lblMeasure_type_code.setMinimumSize(new java.awt.Dimension(182, 20));
         lblMeasure_type_code.setPreferredSize(new java.awt.Dimension(182, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -222,7 +241,12 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         lblValMeasure_type_code.setMinimumSize(new java.awt.Dimension(250, 20));
         lblValMeasure_type_code.setPreferredSize(new java.awt.Dimension(250, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code.name}"), lblValMeasure_type_code, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code.name}"),
+                lblValMeasure_type_code,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -251,14 +275,13 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
