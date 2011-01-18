@@ -13,9 +13,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -37,6 +34,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencedLineEditorDropBehavior;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.StationToMapRegistryListener;
@@ -102,6 +100,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private LinearReferencedPointFeatureListener toFeatureListener;
     private StationToMapRegistryListener fromStationToMapRegistryListener;
     private StationToMapRegistryListener toStationToMapRegistryListener;
+    private LinearReferencedLineEditorDropBehavior behavior;
 
     private String fromStationField;
     private String toStationField;
@@ -1170,18 +1169,18 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         splitStation(FROM);
-    }                                                                            //GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         splitStation(TO);
-    }                                                                            //GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1202,83 +1201,95 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         getFeature().setPointFeature(getStationFeature(isFrom), isFrom);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  routeBean  DOCUMENT ME!
+     */
+    private void addFromRoute(final CidsBean routeBean) {
+        if (cidsBean == null) {
+            cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName).getEmptyInstance()
+                        .getBean();
+        }
+        fillFromRoute(cidsBean, routeBean);
+        setCidsBean(cidsBean);
+
+        // Geometrie für BoundingBox erzeufen
+        final BoundingBox boundingBox = CismapBroker.getInstance().getMappingComponent().getCurrentBoundingBox();
+        final Collection<Coordinate> coordinates = new ArrayList<Coordinate>();
+        coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
+        coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY1()));
+        coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY2()));
+        coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY2()));
+        coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
+        final GeometryFactory gf = new GeometryFactory();
+        final LineString boundingBoxGeom = gf.createLineString(coordinates.toArray(new Coordinate[0]));
+
+        // ermitteln welche Punkte sich innerhalb der Boundingbox befinden
+        final Coordinate fromCoord = feature.getStationFeature(FROM).getGeometry().getCoordinate();
+        final Coordinate toCoord = feature.getStationFeature(TO).getGeometry().getCoordinate();
+        final boolean testFrom = (fromCoord.x > boundingBox.getX1())
+                    && (fromCoord.x < boundingBox.getX2())
+                    && (fromCoord.y > boundingBox.getY1())
+                    && (fromCoord.y < boundingBox.getY2());
+        final boolean testTo = (toCoord.x > boundingBox.getX1())
+                    && (toCoord.x < boundingBox.getX2())
+                    && (toCoord.y > boundingBox.getY1())
+                    && (toCoord.y < boundingBox.getY2());
+
+        // Startwerte festlegen
+        final LineString featureGeom = (LineString)feature.getGeometry();
+        double minPosition = (testFrom) ? 0 : featureGeom.getLength();
+        double maxPosition = (testTo) ? featureGeom.getLength() : 0;
+
+        // Coordinaten durchlaufen und anhand der Position auf der Linie sortieren
+        final Geometry intersectionGeom = featureGeom.intersection(boundingBoxGeom);
+        for (final Coordinate coord : intersectionGeom.getCoordinates()) {
+            final double position = LinearReferencedPointFeature.getPositionOnLine(
+                    coord,
+                    featureGeom);
+            if (position > maxPosition) {
+                maxPosition = position;
+            }
+            if (position < minPosition) {
+                minPosition = position;
+            }
+        }
+
+        // sollte max größer min sein, dann umdrehen
+        if (minPosition > maxPosition) {
+            final double tmp = minPosition;
+            minPosition = maxPosition;
+            maxPosition = tmp;
+        }
+
+        // ermittelte from und to Position setzen
+        changeStationValue(minPosition, FROM);
+        changeStationValue(maxPosition, TO);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  behavior  DOCUMENT ME!
+     */
+    public void setDropBehavior(final LinearReferencedLineEditorDropBehavior behavior) {
+        this.behavior = behavior;
+    }
+
     @Override
-    public void beansDropped(final ArrayList<CidsBean> beans) {
+    public void beansDropped(final ArrayList<CidsBean> cidsBeans) {
         if (isEnabled()) {
-            CidsBean routeBean = null;
-            for (final CidsBean bean : beans) {
-                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
-                    routeBean = bean;
-                    break;
+            for (final CidsBean routeBean : cidsBeans) {
+                if (routeBean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                    if ((behavior == null) || behavior.checkForAdding(routeBean)) {
+                        addFromRoute(routeBean);
+                    }
+                    return;
                 }
             }
-            if (routeBean != null) {
-                if (cidsBean == null) {
-                    cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName)
-                                .getEmptyInstance()
-                                .getBean();
-                }
-                fillFromRoute(cidsBean, routeBean);
-                setCidsBean(cidsBean);
-
-                // Geometrie für BoundingBox erzeufen
-                final BoundingBox boundingBox = CismapBroker.getInstance()
-                            .getMappingComponent()
-                            .getCurrentBoundingBox();
-                final Collection<Coordinate> coordinates = new ArrayList<Coordinate>();
-                coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
-                coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY1()));
-                coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY2()));
-                coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY2()));
-                coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
-                final GeometryFactory gf = new GeometryFactory();
-                final LineString boundingBoxGeom = gf.createLineString(coordinates.toArray(new Coordinate[0]));
-
-                // ermitteln welche Punkte sich innerhalb der Boundingbox befinden
-                final Coordinate fromCoord = feature.getStationFeature(FROM).getGeometry().getCoordinate();
-                final Coordinate toCoord = feature.getStationFeature(TO).getGeometry().getCoordinate();
-                final boolean testFrom = (fromCoord.x > boundingBox.getX1())
-                            && (fromCoord.x < boundingBox.getX2())
-                            && (fromCoord.y > boundingBox.getY1())
-                            && (fromCoord.y < boundingBox.getY2());
-                final boolean testTo = (toCoord.x > boundingBox.getX1())
-                            && (toCoord.x < boundingBox.getX2())
-                            && (toCoord.y > boundingBox.getY1())
-                            && (toCoord.y < boundingBox.getY2());
-
-                // Startwerte festlegen
-                final LineString featureGeom = (LineString)feature.getGeometry();
-                double minPosition = (testFrom) ? 0 : featureGeom.getLength();
-                double maxPosition = (testTo) ? featureGeom.getLength() : 0;
-
-                // Coordinaten durchlaufen und anhand der Position auf der Linie sortieren
-                final Geometry intersectionGeom = featureGeom.intersection(boundingBoxGeom);
-                for (final Coordinate coord : intersectionGeom.getCoordinates()) {
-                    final double position = LinearReferencedPointFeature.getPositionOnLine(
-                            coord,
-                            featureGeom);
-                    if (position > maxPosition) {
-                        maxPosition = position;
-                    }
-                    if (position < minPosition) {
-                        minPosition = position;
-                    }
-                }
-
-                // sollte max größer min sein, dann umdrehen
-                if (minPosition > maxPosition) {
-                    final double tmp = minPosition;
-                    minPosition = maxPosition;
-                    maxPosition = tmp;
-                }
-
-                // ermittelte from und to Position setzen
-                changeStationValue(minPosition, FROM);
-                changeStationValue(maxPosition, TO);
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("no route found in dropped objects");
-                }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("no route found in dropped objects");
             }
         }
     }
