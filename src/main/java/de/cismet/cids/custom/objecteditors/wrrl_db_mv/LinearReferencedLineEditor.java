@@ -9,7 +9,13 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -42,9 +48,11 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -54,7 +62,9 @@ import de.cismet.tools.CurrentStackTrace;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class LinearReferencedLineEditor extends JPanel implements DisposableCidsBeanStore, LinearReferencingConstants {
+public class LinearReferencedLineEditor extends JPanel implements DisposableCidsBeanStore,
+    LinearReferencingConstants,
+    CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -132,7 +142,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         initComponents();
 
         try {
-            new CidsBeanDropTarget(panAdd);
+            new CidsBeanDropTarget(this);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while creating CidsBeanDropTarget");
@@ -956,7 +966,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        panAdd = new AddPanel();
+        panAdd = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         panError = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -1192,39 +1202,82 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         getFeature().setPointFeature(getStationFeature(isFrom), isFrom);
     }
 
-    //~ Inner Classes ----------------------------------------------------------
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if (isEnabled()) {
+            CidsBean routeBean = null;
+            for (final CidsBean bean : beans) {
+                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                    routeBean = bean;
+                    break;
+                }
+            }
+            if (routeBean != null) {
+                if (cidsBean == null) {
+                    cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName)
+                                .getEmptyInstance()
+                                .getBean();
+                }
+                fillFromRoute(cidsBean, routeBean);
+                setCidsBean(cidsBean);
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class AddPanel extends JPanel implements CidsBeanDropListener {
+                // Geometrie für BoundingBox erzeufen
+                final BoundingBox boundingBox = CismapBroker.getInstance()
+                            .getMappingComponent()
+                            .getCurrentBoundingBox();
+                final Collection<Coordinate> coordinates = new ArrayList<Coordinate>();
+                coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
+                coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY1()));
+                coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY2()));
+                coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY2()));
+                coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
+                final GeometryFactory gf = new GeometryFactory();
+                final LineString boundingBoxGeom = gf.createLineString(coordinates.toArray(new Coordinate[0]));
 
-        //~ Methods ------------------------------------------------------------
+                // ermitteln welche Punkte sich innerhalb der Boundingbox befinden
+                final Coordinate fromCoord = feature.getStationFeature(FROM).getGeometry().getCoordinate();
+                final Coordinate toCoord = feature.getStationFeature(TO).getGeometry().getCoordinate();
+                final boolean testFrom = (fromCoord.x > boundingBox.getX1())
+                            && (fromCoord.x < boundingBox.getX2())
+                            && (fromCoord.y > boundingBox.getY1())
+                            && (fromCoord.y < boundingBox.getY2());
+                final boolean testTo = (toCoord.x > boundingBox.getX1())
+                            && (toCoord.x < boundingBox.getX2())
+                            && (toCoord.y > boundingBox.getY1())
+                            && (toCoord.y < boundingBox.getY2());
 
-        @Override
-        public void beansDropped(final ArrayList<CidsBean> beans) {
-            if (isEnabled()) {
-                CidsBean routeBean = null;
-                for (final CidsBean bean : beans) {
-                    if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
-                        routeBean = bean;
-                        break;
+                // Startwerte festlegen
+                final LineString featureGeom = (LineString)feature.getGeometry();
+                double minPosition = (testFrom) ? 0 : featureGeom.getLength();
+                double maxPosition = (testTo) ? featureGeom.getLength() : 0;
+
+                // Coordinaten durchlaufen und anhand der Position auf der Linie sortieren
+                final Geometry intersectionGeom = featureGeom.intersection(boundingBoxGeom);
+                for (final Coordinate coord : intersectionGeom.getCoordinates()) {
+                    final double position = LinearReferencedPointFeature.getPositionOnLine(
+                            coord,
+                            featureGeom);
+                    if (position > maxPosition) {
+                        maxPosition = position;
+                    }
+                    if (position < minPosition) {
+                        minPosition = position;
                     }
                 }
-                if (routeBean != null) {
-                    if (cidsBean == null) {
-                        cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName)
-                                    .getEmptyInstance()
-                                    .getBean();
-                    }
-                    fillFromRoute(cidsBean, routeBean);
-                    setCidsBean(cidsBean);
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("no route found in dropped objects");
-                    }
+
+                // sollte max größer min sein, dann umdrehen
+                if (minPosition > maxPosition) {
+                    final double tmp = minPosition;
+                    minPosition = maxPosition;
+                    maxPosition = tmp;
+                }
+
+                // ermittelte from und to Position setzen
+                changeStationValue(minPosition, FROM);
+                changeStationValue(maxPosition, TO);
+            } else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("no route found in dropped objects");
                 }
             }
         }
