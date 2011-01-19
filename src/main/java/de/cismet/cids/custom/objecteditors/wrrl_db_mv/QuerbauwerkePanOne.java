@@ -394,6 +394,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gwk_wrrl}"),
                 jCheckBox1,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

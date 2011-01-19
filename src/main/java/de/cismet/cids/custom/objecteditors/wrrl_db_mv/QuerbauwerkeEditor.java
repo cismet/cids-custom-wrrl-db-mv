@@ -377,97 +377,100 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         final MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "querbauwerke");
         final MetaClass mcGeom = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "geom");
 
+        String queryWkFg = "";
+        String queryWkSg = "";
         final int id = (Integer)cidsBean.getProperty("id");
         final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-        final double wert = (Double)stat09.getProperty("wert");
-        final CidsBean route = (CidsBean)stat09.getProperty("route");
-        final long gwk = (Long)route.getProperty("gwk");
+        if (stat09 != null) {
+            final double wert = (Double)stat09.getProperty("wert");
+            final CidsBean route = (CidsBean)stat09.getProperty("route");
+            final long gwk = (Long)route.getProperty("gwk");
 
-        final String queryWkFg = "SELECT "
-                    + "   " + mcWkFg.getID() + ", "
-                    + "   wk_fg." + mcWkFg.getPrimaryKey() + " "
-                    + "FROM "
-                    + "   " + mcWkFg.getTableName() + " AS wk_fg, "
-                    + "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, "
-                    + "   " + mcWkTeil.getTableName() + " AS wk_teil, "
-                    + "   " + mcStation.getTableName() + " AS stat_von, "
-                    + "   " + mcStation.getTableName() + " AS stat_bis, "
-                    + "   " + mcRoute.getTableName() + " AS route "
-                    + "WHERE "
-                    + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
-                    + "   wk_fg_teile.teil = wk_teil.id AND "
-                    + "   wk_teil.von = stat_von.id AND "
-                    + "   wk_teil.bis = stat_bis.id AND "
-                    + "   stat_von.route = route.id AND "
-                    + "   route.gwk = " + Long.toString(gwk) + " AND ( "
-                    + "      (stat_von.wert <= " + Double.toString(wert) + " AND stat_bis.wert >= "
-                    + Double.toString(wert) + ") OR "
-                    + "      (stat_bis.wert <= " + Double.toString(wert) + " AND stat_von.wert >= "
-                    + Double.toString(wert) + ") "
-                    + "   ) "
-                    + ";";
+            queryWkFg = "SELECT "
+                        + "   " + mcWkFg.getID() + ", "
+                        + "   wk_fg." + mcWkFg.getPrimaryKey() + " "
+                        + "FROM "
+                        + "   " + mcWkFg.getTableName() + " AS wk_fg, "
+                        + "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, "
+                        + "   " + mcWkTeil.getTableName() + " AS wk_teil, "
+                        + "   " + mcStation.getTableName() + " AS stat_von, "
+                        + "   " + mcStation.getTableName() + " AS stat_bis, "
+                        + "   " + mcRoute.getTableName() + " AS route "
+                        + "WHERE "
+                        + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
+                        + "   wk_fg_teile.teil = wk_teil.id AND "
+                        + "   wk_teil.von = stat_von.id AND "
+                        + "   wk_teil.bis = stat_bis.id AND "
+                        + "   stat_von.route = route.id AND "
+                        + "   route.gwk = " + Long.toString(gwk) + " AND ( "
+                        + "      (stat_von.wert <= " + Double.toString(wert) + " AND stat_bis.wert >= "
+                        + Double.toString(wert) + ") OR "
+                        + "      (stat_bis.wert <= " + Double.toString(wert) + " AND stat_von.wert >= "
+                        + Double.toString(wert) + ") "
+                        + "   ) "
+                        + ";";
 
-        final String queryWkSg = "SELECT "
-                    + "   " + mcWkSg.getID() + ", "
-                    + "   wk_sg." + mcWkSg.getPrimaryKey() + " "
-                    + "FROM "
-                    + "   " + mcWkSg.getTableName() + " AS wk_sg, "
-                    + "   " + mcGeom.getTableName() + " AS geom_sg, "
-                    + "   ( "
-                    + "      SELECT "
-                    + "         querbauwerke.id AS id, "
-                    + "         station_von.wert AS wert, "
-                    + "         route.gwk AS gwk, "
-                    + "         ST_Line_Substring( "
-                    + "            geom_route.geo_field, "
-                    + "            (case when station_von.wert < station_bis.wert then station_von.wert else station_bis.wert end ) / length2d(geom_route.geo_field), "
-                    + "            (case when station_von.wert < station_bis.wert then station_bis.wert else station_von.wert end ) / length2d(geom_route.geo_field) "
-                    + "         ) AS geom "
-                    + "      FROM "
-                    + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
-                    + "         " + mcStation.getTableName() + " AS station_von, "
-                    + "         " + mcStation.getTableName() + " AS station_bis, "
-                    + "         " + mcRoute.getTableName() + " AS route, "
-                    + "         " + mcGeom.getTableName() + " AS geom_route "
-                    + "      WHERE "
-                    + "         querbauwerke.stat09 = station_von.id AND "
-                    + "         querbauwerke.stat09_bis = station_bis.id AND "
-                    + "         station_von.route = route.id AND "
-                    + "         route.geom = geom_route.id "
-                    + "   ) AS qbw, "
-                    + "   ( "
-                    + "      SELECT "
-                    + "         querbauwerke.id AS id, "
-                    + "         ST_Extent(geom_route.geo_field) AS geom "
-                    + "      FROM "
-                    + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
-                    + "         " + mcStation.getTableName() + " AS station_von, "
-                    + "         " + mcRoute.getTableName() + " AS route, "
-                    + "         " + mcGeom.getTableName() + " AS geom_route "
-                    + "      WHERE "
-                    + "         querbauwerke.stat09 = station_von.id AND "
-                    + "         station_von.route = route.id AND "
-                    + "         route.geom = geom_route.id "
-                    + "      GROUP BY querbauwerke.id "
-                    + "   ) AS qbw_ext "
-                    + "WHERE "
-                    + "   qbw.id = " + id + " AND "
-                    + "   wk_sg.geom = geom_sg.id AND "
-                    + "   qbw.id = qbw_ext.id AND "
-                    + "   geom_sg.geo_field && qbw_ext.geom AND "
-                    + "   ST_Intersects( "
-                    + "      geom_sg.geo_field, "
-                    + "      qbw.geom "
-                    + "   ) "
-                    + ";";
-
-        final MetaObject[] mosWkFg;
-        final MetaObject[] mosWkSg;
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("queryWkFg  => " + queryWkFg);
-            LOG.debug("queryWkSg  => " + queryWkSg);
+            queryWkSg = "SELECT "
+                        + "   " + mcWkSg.getID() + ", "
+                        + "   wk_sg." + mcWkSg.getPrimaryKey() + " "
+                        + "FROM "
+                        + "   " + mcWkSg.getTableName() + " AS wk_sg, "
+                        + "   " + mcGeom.getTableName() + " AS geom_sg, "
+                        + "   ( "
+                        + "      SELECT "
+                        + "         querbauwerke.id AS id, "
+                        + "         station_von.wert AS wert, "
+                        + "         route.gwk AS gwk, "
+                        + "         ST_Line_Substring( "
+                        + "            geom_route.geo_field, "
+                        + "            (case when station_von.wert < station_bis.wert then station_von.wert else station_bis.wert end ) / length2d(geom_route.geo_field), "
+                        + "            (case when station_von.wert < station_bis.wert then station_bis.wert else station_von.wert end ) / length2d(geom_route.geo_field) "
+                        + "         ) AS geom "
+                        + "      FROM "
+                        + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
+                        + "         " + mcStation.getTableName() + " AS station_von, "
+                        + "         " + mcStation.getTableName() + " AS station_bis, "
+                        + "         " + mcRoute.getTableName() + " AS route, "
+                        + "         " + mcGeom.getTableName() + " AS geom_route "
+                        + "      WHERE "
+                        + "         querbauwerke.stat09 = station_von.id AND "
+                        + "         querbauwerke.stat09_bis = station_bis.id AND "
+                        + "         station_von.route = route.id AND "
+                        + "         route.geom = geom_route.id "
+                        + "   ) AS qbw, "
+                        + "   ( "
+                        + "      SELECT "
+                        + "         querbauwerke.id AS id, "
+                        + "         ST_Extent(geom_route.geo_field) AS geom "
+                        + "      FROM "
+                        + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
+                        + "         " + mcStation.getTableName() + " AS station_von, "
+                        + "         " + mcRoute.getTableName() + " AS route, "
+                        + "         " + mcGeom.getTableName() + " AS geom_route "
+                        + "      WHERE "
+                        + "         querbauwerke.stat09 = station_von.id AND "
+                        + "         station_von.route = route.id AND "
+                        + "         route.geom = geom_route.id "
+                        + "      GROUP BY querbauwerke.id "
+                        + "   ) AS qbw_ext "
+                        + "WHERE "
+                        + "   qbw.id = " + id + " AND "
+                        + "   wk_sg.geom = geom_sg.id AND "
+                        + "   qbw.id = qbw_ext.id AND "
+                        + "   geom_sg.geo_field && qbw_ext.geom AND "
+                        + "   ST_Intersects( "
+                        + "      geom_sg.geo_field, "
+                        + "      qbw.geom "
+                        + "   ) "
+                        + ";";
         }
         try {
+            final MetaObject[] mosWkFg;
+            final MetaObject[] mosWkSg;
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("queryWkFg  => " + queryWkFg);
+                LOG.debug("queryWkSg  => " + queryWkSg);
+            }
             mosWkFg = SessionManager.getProxy().getMetaObjectByQuery(queryWkFg, 0);
             mosWkSg = SessionManager.getProxy().getMetaObjectByQuery(queryWkSg, 0);
 
