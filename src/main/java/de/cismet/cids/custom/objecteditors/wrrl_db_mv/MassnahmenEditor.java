@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
+import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.TimestampConverter;
@@ -95,6 +96,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
+    private RouteWBDropBehavior dropBehaviorListener;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blbSpace;
@@ -204,10 +206,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     public MassnahmenEditor() {
         initComponents();
         deActivateGUI(false);
-        linearReferencedLineEditor.setMetaClassName("MASSNAHMEN");  // NOI18N
-        linearReferencedLineEditor.setFromStationField("stat_von"); // NOI18N
-        linearReferencedLineEditor.setToStationField("stat_bis");   // NOI18N
-        linearReferencedLineEditor.setRealGeomField("real_geom");   // NOI18N
+        dropBehaviorListener = new RouteWBDropBehavior(this);
+        linearReferencedLineEditor.setMetaClassName("MASSNAHMEN");        // NOI18N
+        linearReferencedLineEditor.setFromStationField("stat_von");       // NOI18N
+        linearReferencedLineEditor.setToStationField("stat_bis");         // NOI18N
+        linearReferencedLineEditor.setRealGeomField("real_geom");         // NOI18N
+        linearReferencedLineEditor.setDropBehavior(dropBehaviorListener); // NOI18N
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
                 @Override
@@ -237,9 +241,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            dropBehaviorListener.setWkFg((CidsBean)cidsBean.getProperty("wk_fg"));
             linearReferencedLineEditor.setCidsBean(cidsBean);
         } else {
             deActivateGUI(false);
+            dropBehaviorListener.setWkFg(null);
         }
         bindReadOnlyFields();
         showOrHideGeometryEditors();

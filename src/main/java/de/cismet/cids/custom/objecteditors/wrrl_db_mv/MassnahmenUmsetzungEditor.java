@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 
@@ -60,6 +61,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
     private ArrayList<CidsBean> beansToSave = new ArrayList<CidsBean>();
     private JList referencedList;
+    private RouteWBDropBehavior dropBehaviorListener;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbGeom;
@@ -95,11 +97,12 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      */
     public MassnahmenUmsetzungEditor() {
         initComponents();
+        dropBehaviorListener = new RouteWBDropBehavior(this);
         linearReferencedLineEditor.setMetaClassName("MASSNAHMENUMSETZUNG"); // NOI18N
         linearReferencedLineEditor.setFromStationField("mass_stat_v");      // NOI18N
         linearReferencedLineEditor.setToStationField("mass_stat_b");        // NOI18N
         linearReferencedLineEditor.setRealGeomField("real_geom");           // NOI18N
-        linearReferencedLineEditor.setCidsBean(cidsBean);
+        linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
                 @Override
@@ -449,9 +452,11 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
+            dropBehaviorListener.setWkFg((CidsBean)cidsBean.getProperty("wk_fg"));
             bindingGroup.bind();
             deActivateGUIElements(true);
         } else {
+            dropBehaviorListener.setWkFg(null);
             deActivateGUIElements(false);
         }
 
