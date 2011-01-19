@@ -7,6 +7,10 @@
 ****************************************************/
 package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
+import java.text.DecimalFormat;
+
+import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -21,6 +25,13 @@ public class RohrleitungToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return String.valueOf("Rohrleitung " + cidsBean.getMetaObject().getID());
+        final CidsBean stationVon = (CidsBean)cidsBean.getProperty("station_von");
+        final CidsBean stationBis = (CidsBean)cidsBean.getProperty("station_bis");
+        final String wertVon = new DecimalFormat("#.#").format((Double)stationVon.getProperty("wert"));
+        final String wertBis = new DecimalFormat("#.#").format((Double)stationBis.getProperty("wert"));
+        final CidsBean route = (CidsBean)stationVon.getProperty("route");
+        final String gwk = String.valueOf(route.getProperty("gwk"));
+
+        return String.valueOf(gwk + "@" + wertVon + "-" + wertBis);
     }
 }

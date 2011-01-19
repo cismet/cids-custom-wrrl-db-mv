@@ -583,7 +583,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
 
     @Override
     public String getTitle() {
-        return cidsBean.toString();
+        return "Rohrleitung " + cidsBean.toString();
     }
 
     @Override
