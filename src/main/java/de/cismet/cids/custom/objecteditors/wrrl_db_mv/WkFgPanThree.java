@@ -105,14 +105,14 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblPhyto.setText("Phytoplankton");
+        lblPhyto.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanFive.lblPhyto.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblPhyto, gridBagConstraints);
 
-        lblMacPhyto.setText("Makrophyten");
+        lblMacPhyto.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanFive.lblMacPhyto.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -121,7 +121,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblMacPhyto, gridBagConstraints);
 
-        lblBenInv.setText("MZB");
+        lblBenInv.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanFive.lblBenInv.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -130,7 +130,7 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblBenInv, gridBagConstraints);
 
-        lblFish.setText("Fische");
+        lblFish.setText(org.openide.util.NbBundle.getMessage(WkFgPanThree.class, "WkFgPanFive.lblFish.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -139,8 +139,12 @@ public class WkFgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblFish, gridBagConstraints);
 
-        lblConfidence.setText("Verlässlichkeit d. biol. Bew.");
-        lblConfidence.setToolTipText("Verlässlichkeit der biologischen Bewertung");
+        lblConfidence.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanThree.class,
+                "WkFgPanFive.lblConfidence.text"));        // NOI18N
+        lblConfidence.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WkFgPanThree.class,
+                "WkFgPanFive.lblConfidence.tooltiptext")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;

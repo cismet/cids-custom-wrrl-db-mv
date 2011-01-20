@@ -464,7 +464,9 @@
             </Container>
             <Component class="javax.swing.JLabel" name="lblWkK">
               <Properties>
-                <Property name="text" type="java.lang.String" value="WK-K&#xfc;rzel"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkSgPanOne.lblWkK.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Wasserk&#xf6;rper-K&#xfc;rzel"/>
               </Properties>
               <Constraints>

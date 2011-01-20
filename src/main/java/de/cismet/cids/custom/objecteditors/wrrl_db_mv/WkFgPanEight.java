@@ -18,7 +18,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class WkFgPanEight extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -53,7 +53,7 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
     /**
      * Creates new form WkFgPanOne.
      */
-    public WkSgPanSix() {
+    public WkFgPanEight() {
         initComponents();
     }
 
@@ -109,8 +109,12 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblRisk_chem.setText("Chemischer Zustand");
-        lblRisk_chem.setToolTipText("Risikoabschätzung Chemischer Zustand");
+        lblRisk_chem.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_chem.text"));        // NOI18N
+        lblRisk_chem.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_chem.tooltiptext")); // NOI18N
         lblRisk_chem.setMaximumSize(new java.awt.Dimension(170, 17));
         lblRisk_chem.setMinimumSize(new java.awt.Dimension(170, 17));
         lblRisk_chem.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -120,8 +124,12 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblRisk_chem, gridBagConstraints);
 
-        lblRisk_ecpo.setText("Ökologisches Potenzial");
-        lblRisk_ecpo.setToolTipText("Risikoabschätzung Ökologisches Potenzial");
+        lblRisk_ecpo.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_ecpo.text"));        // NOI18N
+        lblRisk_ecpo.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_ecpo.tooltiptext")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -130,8 +138,12 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblRisk_ecpo, gridBagConstraints);
 
-        lblRisk_ecst.setText("Ökologischer Zustand");
-        lblRisk_ecst.setToolTipText("Risikoabschätzung Ökologischer Zustand");
+        lblRisk_ecst.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_ecst.text"));        // NOI18N
+        lblRisk_ecst.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_ecst.tooltiptext")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -140,8 +152,12 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblRisk_ecst, gridBagConstraints);
 
-        lblRisk_total.setText("Gesamtbewertung");
-        lblRisk_total.setToolTipText("Risikoabschätzung Gesamtbewertung");
+        lblRisk_total.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_total.text"));        // NOI18N
+        lblRisk_total.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_total.tooltiptext")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -150,8 +166,12 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblRisk_total, gridBagConstraints);
 
-        lblRisk_date.setText("Gültigkeitsdatum");
-        lblRisk_date.setToolTipText("Gültigkeitsdatum der Risikoabschätzung");
+        lblRisk_date.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_date.text"));        // NOI18N
+        lblRisk_date.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblRisk_date.tooltiptext")); // NOI18N
         lblRisk_date.setMaximumSize(new java.awt.Dimension(170, 17));
         lblRisk_date.setMinimumSize(new java.awt.Dimension(170, 17));
         lblRisk_date.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -163,7 +183,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblRisk_date, gridBagConstraints);
 
-        lblPad_within.setText("Trinkwasserentnahme");
+        lblPad_within.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblPad_within.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
@@ -172,7 +194,9 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblPad_within, gridBagConstraints);
 
-        lblPa_d_stat.setText("Zustand TW-Schutzgebiet");
+        lblPa_d_stat.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanEight.class,
+                "WkFgPanEight.lblPad_d_stat.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
@@ -319,6 +343,16 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         dcRisk_date.setMaximumSize(new java.awt.Dimension(300, 23));
         dcRisk_date.setMinimumSize(new java.awt.Dimension(300, 23));
         dcRisk_date.setPreferredSize(new java.awt.Dimension(300, 23));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_date}"),
+                dcRisk_date,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(dcRisk_date.getConverter());
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;

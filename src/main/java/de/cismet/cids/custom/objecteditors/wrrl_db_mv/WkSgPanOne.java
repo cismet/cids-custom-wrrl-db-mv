@@ -521,7 +521,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridheight = 3;
         panInfoContent.add(panContrImpactSrc, gridBagConstraints);
 
-        lblWkK.setText("WK-Kürzel");
+        lblWkK.setText(org.openide.util.NbBundle.getMessage(WkSgPanOne.class, "WkSgPanOne.lblWkK.text")); // NOI18N
         lblWkK.setToolTipText("Wasserkörper-Kürzel");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

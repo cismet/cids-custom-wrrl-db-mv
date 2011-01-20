@@ -12,10 +12,28 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
+import java.math.BigDecimal;
+
+import java.util.Vector;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+
+import de.cismet.cids.custom.util.CidsBeanSupport;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -25,65 +43,35 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgPanSix.class);
+
     //~ Instance fields --------------------------------------------------------
 
+    private final MstTableModel model = new MstTableModel();
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGenCond;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbNH4_GK_alt;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbNH4_OW_RaKon;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbNO3_GK_alt;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbNges_GK_alt;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbO2_GK_MVRL;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbO2_OW_RaKon;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbOPO4_GK_alt;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbOPO4_OW_RaKon;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPGes_GK_alt;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPGes_OW_RaKon;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGkPcQk;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblBemerkung;
-    private javax.swing.JLabel lblBemerkung1;
-    private javax.swing.JLabel lblBemerkung2;
-    private javax.swing.JLabel lblBemerkung3;
-    private javax.swing.JLabel lblBemerkung4;
-    private javax.swing.JLabel lblBemerkung5;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton jbVorb;
+    private javax.swing.JTable jtMstTab1;
     private javax.swing.JLabel lblGenCond;
-    private javax.swing.JLabel lblGueteKlasse;
-    private javax.swing.JLabel lblGueteKlasse1;
-    private javax.swing.JLabel lblGueteKlasse2;
-    private javax.swing.JLabel lblGueteKlasse3;
-    private javax.swing.JLabel lblGueteKlasse4;
-    private javax.swing.JLabel lblGueteKlasse5;
+    private javax.swing.JLabel lblGenCondBemerkung;
+    private javax.swing.JLabel lblGenCondGkQk;
+    private javax.swing.JLabel lblGenCondJahr;
+    private javax.swing.JLabel lblGenCondMst;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblRakon;
-    private javax.swing.JLabel lblRakon1;
-    private javax.swing.JLabel lblRakon4;
-    private javax.swing.JLabel lblRakon5;
     private javax.swing.JLabel lblSpace;
     private javax.swing.JPanel panAllgemein;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JPanel panNH4;
-    private javax.swing.JPanel panNO3;
-    private javax.swing.JPanel panNges;
-    private javax.swing.JPanel panPhosphor;
-    private javax.swing.JPanel panPhosporGes;
-    private javax.swing.JPanel panSauerstoff;
-    private javax.swing.JScrollPane scpNH4_Bemerk;
-    private javax.swing.JScrollPane scpNO3_Bemerk;
-    private javax.swing.JScrollPane scpNges_Bemerk;
-    private javax.swing.JScrollPane scpO2_Bemerk;
-    private javax.swing.JScrollPane scpOPO4_Bemerk;
-    private javax.swing.JScrollPane scpPGes_Bemerk;
-    private javax.swing.JTextArea taNH4_Bemerk;
-    private javax.swing.JTextArea taNO3_Bemerk;
-    private javax.swing.JTextArea taNges_Bemerk;
-    private javax.swing.JTextArea taO2_Bemerk;
-    private javax.swing.JTextArea taOPO4_Bemerk;
-    private javax.swing.JTextArea taPGes_Bemerk;
+    private javax.swing.JTextField txtJahrPcqk;
+    private javax.swing.JTextField txtMst;
+    private javax.swing.JTextField txtPcQkBemerkung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -115,54 +103,19 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         jScrollPane1 = new javax.swing.JScrollPane();
         panInfoContent = new javax.swing.JPanel();
         lblSpace = new javax.swing.JLabel();
-        panSauerstoff = new javax.swing.JPanel();
-        cbO2_OW_RaKon = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbO2_GK_MVRL = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        scpO2_Bemerk = new javax.swing.JScrollPane();
-        taO2_Bemerk = new javax.swing.JTextArea();
-        lblGueteKlasse = new javax.swing.JLabel();
-        lblRakon = new javax.swing.JLabel();
-        lblBemerkung = new javax.swing.JLabel();
-        panPhosporGes = new javax.swing.JPanel();
-        cbPGes_OW_RaKon = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbPGes_GK_alt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        scpPGes_Bemerk = new javax.swing.JScrollPane();
-        taPGes_Bemerk = new javax.swing.JTextArea();
-        lblGueteKlasse1 = new javax.swing.JLabel();
-        lblRakon1 = new javax.swing.JLabel();
-        lblBemerkung1 = new javax.swing.JLabel();
-        panPhosphor = new javax.swing.JPanel();
-        cbOPO4_OW_RaKon = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbOPO4_GK_alt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        scpOPO4_Bemerk = new javax.swing.JScrollPane();
-        taOPO4_Bemerk = new javax.swing.JTextArea();
-        lblGueteKlasse4 = new javax.swing.JLabel();
-        lblRakon4 = new javax.swing.JLabel();
-        lblBemerkung4 = new javax.swing.JLabel();
-        panNH4 = new javax.swing.JPanel();
-        cbNH4_GK_alt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        cbNH4_OW_RaKon = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        scpNH4_Bemerk = new javax.swing.JScrollPane();
-        taNH4_Bemerk = new javax.swing.JTextArea();
-        lblGueteKlasse5 = new javax.swing.JLabel();
-        lblRakon5 = new javax.swing.JLabel();
-        lblBemerkung5 = new javax.swing.JLabel();
-        panNges = new javax.swing.JPanel();
-        scpNges_Bemerk = new javax.swing.JScrollPane();
-        taNges_Bemerk = new javax.swing.JTextArea();
-        cbNges_GK_alt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        lblGueteKlasse2 = new javax.swing.JLabel();
-        lblBemerkung2 = new javax.swing.JLabel();
-        panNO3 = new javax.swing.JPanel();
-        scpNO3_Bemerk = new javax.swing.JScrollPane();
-        taNO3_Bemerk = new javax.swing.JTextArea();
-        cbNO3_GK_alt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        lblGueteKlasse3 = new javax.swing.JLabel();
-        lblBemerkung3 = new javax.swing.JLabel();
         panAllgemein = new javax.swing.JPanel();
         lblGenCond = new javax.swing.JLabel();
-        cbGenCond = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        jSeparator1 = new javax.swing.JSeparator();
+        cbGkPcQk = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        lblGenCondJahr = new javax.swing.JLabel();
+        lblGenCondBemerkung = new javax.swing.JLabel();
+        lblGenCondMst = new javax.swing.JLabel();
+        txtJahrPcqk = new javax.swing.JTextField();
+        txtMst = new javax.swing.JTextField();
+        txtPcQkBemerkung = new javax.swing.JTextField();
+        lblGenCondGkQk = new javax.swing.JLabel();
+        jbVorb = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtMstTab1 = new javax.swing.JTable();
 
         setMinimumSize(new java.awt.Dimension(910, 650));
         setOpaque(false);
@@ -190,619 +143,151 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panInfoContent.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(lblSpace, gridBagConstraints);
 
-        panSauerstoff.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("Sauerstoff"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        panSauerstoff.setOpaque(false);
-        panSauerstoff.setLayout(new java.awt.GridBagLayout());
-
-        cbO2_OW_RaKon.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbO2_OW_RaKon.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbO2_OW_RaKon.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_ow_rakon}"),
-                cbO2_OW_RaKon,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSauerstoff.add(cbO2_OW_RaKon, gridBagConstraints);
-
-        cbO2_GK_MVRL.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbO2_GK_MVRL.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbO2_GK_MVRL.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_gk_mvrl}"),
-                cbO2_GK_MVRL,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSauerstoff.add(cbO2_GK_MVRL, gridBagConstraints);
-
-        scpO2_Bemerk.setMaximumSize(new java.awt.Dimension(200, 75));
-        scpO2_Bemerk.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpO2_Bemerk.setPreferredSize(new java.awt.Dimension(200, 75));
-
-        taO2_Bemerk.setColumns(20);
-        taO2_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        taO2_Bemerk.setRows(4);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_bemerk}"),
-                taO2_Bemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        scpO2_Bemerk.setViewportView(taO2_Bemerk);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSauerstoff.add(scpO2_Bemerk, gridBagConstraints);
-
-        lblGueteKlasse.setText("Güteklasse");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSauerstoff.add(lblGueteKlasse, gridBagConstraints);
-
-        lblRakon.setText("RAKON");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panSauerstoff.add(lblRakon, gridBagConstraints);
-
-        lblBemerkung.setText("Bemerkung");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(7, 5, 5, 5);
-        panSauerstoff.add(lblBemerkung, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(panSauerstoff, gridBagConstraints);
-
-        panPhosporGes.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("Phosphor Gesamt"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        panPhosporGes.setOpaque(false);
-        panPhosporGes.setLayout(new java.awt.GridBagLayout());
-
-        cbPGes_OW_RaKon.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbPGes_OW_RaKon.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbPGes_OW_RaKon.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_ow_rakon}"),
-                cbPGes_OW_RaKon,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosporGes.add(cbPGes_OW_RaKon, gridBagConstraints);
-
-        cbPGes_GK_alt.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbPGes_GK_alt.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbPGes_GK_alt.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_gk_alt}"),
-                cbPGes_GK_alt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosporGes.add(cbPGes_GK_alt, gridBagConstraints);
-
-        scpPGes_Bemerk.setMaximumSize(new java.awt.Dimension(200, 75));
-        scpPGes_Bemerk.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpPGes_Bemerk.setPreferredSize(new java.awt.Dimension(200, 75));
-
-        taPGes_Bemerk.setColumns(20);
-        taPGes_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        taPGes_Bemerk.setRows(4);
-        taPGes_Bemerk.setMinimumSize(new java.awt.Dimension(44, 18));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pges_bemerk}"),
-                taPGes_Bemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        scpPGes_Bemerk.setViewportView(taPGes_Bemerk);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosporGes.add(scpPGes_Bemerk, gridBagConstraints);
-
-        lblGueteKlasse1.setText("Güteklasse");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosporGes.add(lblGueteKlasse1, gridBagConstraints);
-
-        lblRakon1.setText("RAKON");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosporGes.add(lblRakon1, gridBagConstraints);
-
-        lblBemerkung1.setText("Bemerkung");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(7, 5, 5, 5);
-        panPhosporGes.add(lblBemerkung1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(panPhosporGes, gridBagConstraints);
-
-        panPhosphor.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("OPO4-Phosphor"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        panPhosphor.setOpaque(false);
-        panPhosphor.setLayout(new java.awt.GridBagLayout());
-
-        cbOPO4_OW_RaKon.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbOPO4_OW_RaKon.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbOPO4_OW_RaKon.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_ow_rakon}"),
-                cbOPO4_OW_RaKon,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosphor.add(cbOPO4_OW_RaKon, gridBagConstraints);
-
-        cbOPO4_GK_alt.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbOPO4_GK_alt.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbOPO4_GK_alt.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_gk_alt}"),
-                cbOPO4_GK_alt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosphor.add(cbOPO4_GK_alt, gridBagConstraints);
-
-        scpOPO4_Bemerk.setMaximumSize(new java.awt.Dimension(200, 75));
-        scpOPO4_Bemerk.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpOPO4_Bemerk.setPreferredSize(new java.awt.Dimension(200, 75));
-
-        taOPO4_Bemerk.setColumns(20);
-        taOPO4_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11));
-        taOPO4_Bemerk.setRows(4);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_bemerk}"),
-                taOPO4_Bemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        scpOPO4_Bemerk.setViewportView(taOPO4_Bemerk);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosphor.add(scpOPO4_Bemerk, gridBagConstraints);
-
-        lblGueteKlasse4.setText("Güteklasse");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosphor.add(lblGueteKlasse4, gridBagConstraints);
-
-        lblRakon4.setText("RAKON");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhosphor.add(lblRakon4, gridBagConstraints);
-
-        lblBemerkung4.setText("Bemerkung");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(7, 5, 5, 5);
-        panPhosphor.add(lblBemerkung4, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(panPhosphor, gridBagConstraints);
-
-        panNH4.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("NH4"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        panNH4.setOpaque(false);
-        panNH4.setLayout(new java.awt.GridBagLayout());
-
-        cbNH4_GK_alt.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbNH4_GK_alt.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbNH4_GK_alt.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_gk_alt}"),
-                cbNH4_GK_alt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNH4.add(cbNH4_GK_alt, gridBagConstraints);
-
-        cbNH4_OW_RaKon.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbNH4_OW_RaKon.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbNH4_OW_RaKon.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_ow_rakon}"),
-                cbNH4_OW_RaKon,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNH4.add(cbNH4_OW_RaKon, gridBagConstraints);
-
-        scpNH4_Bemerk.setMaximumSize(new java.awt.Dimension(200, 75));
-        scpNH4_Bemerk.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpNH4_Bemerk.setPreferredSize(new java.awt.Dimension(200, 75));
-
-        taNH4_Bemerk.setColumns(20);
-        taNH4_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        taNH4_Bemerk.setRows(4);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_bemerk}"),
-                taNH4_Bemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        scpNH4_Bemerk.setViewportView(taNH4_Bemerk);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNH4.add(scpNH4_Bemerk, gridBagConstraints);
-
-        lblGueteKlasse5.setText("Güteklasse");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNH4.add(lblGueteKlasse5, gridBagConstraints);
-
-        lblRakon5.setText("RAKON");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNH4.add(lblRakon5, gridBagConstraints);
-
-        lblBemerkung5.setText("Bemerkung");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(7, 5, 5, 5);
-        panNH4.add(lblBemerkung5, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(panNH4, gridBagConstraints);
-
-        panNges.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("N Gesamt"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        panNges.setOpaque(false);
-        panNges.setLayout(new java.awt.GridBagLayout());
-
-        scpNges_Bemerk.setMaximumSize(new java.awt.Dimension(200, 75));
-        scpNges_Bemerk.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpNges_Bemerk.setPreferredSize(new java.awt.Dimension(200, 75));
-
-        taNges_Bemerk.setColumns(20);
-        taNges_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        taNges_Bemerk.setRows(5);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nges_bemerk}"),
-                taNges_Bemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        scpNges_Bemerk.setViewportView(taNges_Bemerk);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panNges.add(scpNges_Bemerk, gridBagConstraints);
-
-        cbNges_GK_alt.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbNges_GK_alt.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbNges_GK_alt.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nges_gk_alt}"),
-                cbNges_GK_alt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panNges.add(cbNges_GK_alt, gridBagConstraints);
-
-        lblGueteKlasse2.setText("Güteklasse");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNges.add(lblGueteKlasse2, gridBagConstraints);
-
-        lblBemerkung2.setText("Bemerkung");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(7, 5, 5, 5);
-        panNges.add(lblBemerkung2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(panNges, gridBagConstraints);
-
-        panNO3.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("NO3"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        panNO3.setOpaque(false);
-        panNO3.setLayout(new java.awt.GridBagLayout());
-
-        scpNO3_Bemerk.setMaximumSize(new java.awt.Dimension(200, 75));
-        scpNO3_Bemerk.setMinimumSize(new java.awt.Dimension(200, 75));
-        scpNO3_Bemerk.setPreferredSize(new java.awt.Dimension(200, 75));
-
-        taNO3_Bemerk.setColumns(20);
-        taNO3_Bemerk.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        taNO3_Bemerk.setRows(5);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_bemerk}"),
-                taNO3_Bemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        scpNO3_Bemerk.setViewportView(taNO3_Bemerk);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNO3.add(scpNO3_Bemerk, gridBagConstraints);
-
-        cbNO3_GK_alt.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbNO3_GK_alt.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbNO3_GK_alt.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_gk_alt}"),
-                cbNO3_GK_alt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNO3.add(cbNO3_GK_alt, gridBagConstraints);
-
-        lblGueteKlasse3.setText("Güteklasse");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNO3.add(lblGueteKlasse3, gridBagConstraints);
-
-        lblBemerkung3.setText("Bemerkung");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(7, 5, 5, 5);
-        panNO3.add(lblBemerkung3, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(panNO3, gridBagConstraints);
-
-        panAllgemein.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder("Allgemein"),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        panAllgemein.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         panAllgemein.setOpaque(false);
         panAllgemein.setLayout(new java.awt.GridBagLayout());
 
-        lblGenCond.setText("Allgemeine Physikalisch-Chemische QK");
+        lblGenCond.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAllgemein.add(lblGenCond, gridBagConstraints);
 
-        cbGenCond.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGenCond.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGenCond.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkPcQk.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbGkPcQk.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbGkPcQk.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond}"),
-                cbGenCond,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_qk}"),
+                cbGkPcQk,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        cbGenCond.addActionListener(new java.awt.event.ActionListener() {
+        cbGkPcQk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbGenCondActionPerformed(evt);
+                    cbGkPcQkActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAllgemein.add(cbGenCond, gridBagConstraints);
+        panAllgemein.add(cbGkPcQk, gridBagConstraints);
+
+        lblGenCondJahr.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanSix.class,
+                "WkFgPanSix.lblGenCondJahr.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCondJahr, gridBagConstraints);
+
+        lblGenCondBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanSix.class,
+                "WkFgPanSix.lblGenCondBemerkung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCondBemerkung, gridBagConstraints);
+
+        lblGenCondMst.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCondMst.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCondMst, gridBagConstraints);
+
+        txtJahrPcqk.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrPcqk.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr_pcqk}"),
+                txtJahrPcqk,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrPcqk, gridBagConstraints);
+
+        txtMst.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMst.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mst}"),
+                txtMst,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMst, gridBagConstraints);
+
+        txtPcQkBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtPcQkBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pc_qk_bemerkung}"),
+                txtPcQkBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtPcQkBemerkung, gridBagConstraints);
+
+        lblGenCondGkQk.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanSix.class,
+                "WkFgPanSix.lblGenCondGkQk.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCondGkQk, gridBagConstraints);
+
+        jbVorb.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.jbVorb.text")); // NOI18N
+        jbVorb.setMinimumSize(new java.awt.Dimension(85, 20));
+        jbVorb.setPreferredSize(new java.awt.Dimension(85, 20));
+        jbVorb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbVorbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(jbVorb, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -812,13 +297,24 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(35, 5, 5, 5);
         panInfoContent.add(panAllgemein, gridBagConstraints);
+
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(800, 100));
+        jScrollPane3.setOpaque(false);
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(800, 100));
+
+        jtMstTab1.setModel(model);
+        jScrollPane3.setViewportView(jtMstTab1);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(jSeparator1, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 15, 5);
+        panInfoContent.add(jScrollPane3, gridBagConstraints);
 
         jScrollPane1.setViewportView(panInfoContent);
 
@@ -834,9 +330,102 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGenCondActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGenCondActionPerformed
+    private void cbGkPcQkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGkPcQkActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbGenCondActionPerformed
+    } //GEN-LAST:event_cbGkPcQkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorbActionPerformed
+        final CidsBean measure = getTheCurrentlyWorstMeasure();
+
+        if (measure != null) {
+            Object o = measure.getProperty("gk_pc_mst");
+
+            if (o != null) {
+                cbGkPcQk.setSelectedItem(o);
+            } else {
+                cbGkPcQk.setSelectedIndex(-1);
+            }
+
+            o = measure.getProperty("messjahr");
+
+            if (o != null) {
+                txtJahrPcqk.setText(o.toString());
+            } else {
+                txtJahrPcqk.setText("");
+            }
+
+            o = measure.getProperty("bemerkung_pc");
+            if (o != null) {
+                txtPcQkBemerkung.setText(o.toString());
+            } else {
+                txtPcQkBemerkung.setText("");
+            }
+
+            o = measure.getProperty("messstelle.messstelle");
+            if (o != null) {
+                txtMst.setText(o.toString());
+            } else {
+                txtMst.setText("");
+            }
+        }
+    } //GEN-LAST:event_jbVorbActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private CidsBean getTheCurrentlyWorstMeasure() {
+        final Vector<CidsBean> beans = model.getData();
+        int latestYear = 0;
+        int worstValue = 0;
+        CidsBean measure = null;
+
+        for (final CidsBean cbean : beans) {
+            final Integer year = (Integer)cbean.getProperty("messjahr");
+            if (year != null) {
+                if (latestYear == 0) {
+                    latestYear = year;
+                    measure = cbean;
+                    final CidsBean tmp = (CidsBean)cbean.getProperty("gk_pc_mst");
+                    if (cidsBean != null) {
+                        try {
+                            worstValue = Integer.parseInt((String)tmp.getProperty("value"));
+                        } catch (final NumberFormatException e) {
+                            LOG.error("Field value does not contain a number", e);
+                        }
+                    }
+                }
+            } else {
+                if (latestYear == year) {
+                    if (cidsBean != null) {
+                        try {
+                            final CidsBean qualityTmp = (CidsBean)cbean.getProperty("gk_pc_mst");
+                            if (qualityTmp != null) {
+                                final int valTmp = Integer.parseInt((String)qualityTmp.getProperty("value"));
+
+                                if (valTmp > worstValue) {
+                                    worstValue = valTmp;
+                                    measure = cbean;
+                                }
+                            }
+                        } catch (final NumberFormatException e) {
+                            LOG.error("Field value does not contain a number", e);
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return measure;
+    }
 
     @Override
     public CidsBean getCidsBean() {
@@ -852,11 +441,190 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            model.refreshData();
         }
     }
 
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+// @Override
+// public void valueChanged(final ListSelectionEvent e) {
+// if (!e.getValueIsAdjusting()) {
+// if (e.getFirstIndex() > -1) {
+// final CidsBean sbean = model.getData().get(e.getFirstIndex());
+// Object val = sbean.getProperty("gk_pc_mst");
+// if (val != null) {
+// lblGkQkVal.setText(val.toString());
+// } else {
+// lblGkQkVal.setText("");
+// }
+// val = sbean.getProperty("bemerkung_pc");
+// if (val != null) {
+// lblBemerkungVal.setText(val.toString());
+// } else {
+// lblBemerkungVal.setText("");
+// }
+// val = sbean.getProperty("messjahr");
+// if (val != null) {
+// lblJahrVal.setText(val.toString());
+// } else {
+// lblJahrVal.setText("");
+// }
+// }
+// }
+// }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class MstTableModel extends AbstractTableModel {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                "chemie_mst_messungen");
+        private String[][] header = {
+                { "MST", "messstelle.messstelle" },    // NOI18N
+                { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
+                { "Jahr", "messjahr" },                // NOI18N
+                { "GK PC MST", "gk_pc_mst" },          // NOI18N
+                { "GK GW-Überschreitung?", "" },       // NOI18N
+                { "Bemerkung PC Mst", "bemerkung_pc" } // NOI18N
+            };
+        private Vector<CidsBean> data = new Vector<CidsBean>();
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int getRowCount() {
+            return data.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return header.length;
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            if (columnIndex < header.length) {
+                return header[columnIndex][0];
+            } else {
+                return "";
+            }
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            return Object.class;
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
+                if (columnIndex == 4) {
+                    // column OW-Überschreitung?
+                    return (isLimitExceeded(data.get(rowIndex)) ? "ja" : "nein");
+                } else {
+                    final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
+                    if (value != null) {
+                        if (value instanceof CidsBean) {
+                            return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
+                        } else {
+                            return String.valueOf(value);
+                        }
+                    } else {
+                        return "-";                                                       // NOI18N
+                    }
+                }
+            } else {
+                return "";                                                                // NOI18N
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   cbean  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private boolean isLimitExceeded(final CidsBean cbean) {
+            final String[][] OW = {
+                    { "opo4_owert_rakon", "opo4_mittelwert" },
+                    { "ges_p_owert_rakon", "ges_p_mittelwert" },
+                    { "nh4_owert_rakon", "nh4_mittelwert" },
+                    { "no3_n_owert_rakon", "no3_n_mittelwert" },
+                    { "ges_n_owert_rakon", "ges_n_mittelwert" },
+                    { "cl_owert_rakon", "cl_mittelwert" },
+                    { "o2_owert_rakon", "o2_mittelwert" }
+                };
+
+            for (int i = 0; i < OW.length; ++i) {
+                final BigDecimal ow = (BigDecimal)cbean.getProperty(OW[i][0]);
+                final BigDecimal val = (BigDecimal)cbean.getProperty(OW[i][1]);
+                if ((ow != null) && (val != null) && (ow.compareTo(val) == -1)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+            // nothing to do, because it is not allowed to modify columns
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void refreshData() {
+            try {
+                data.clear();
+                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+                query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
+                query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
+                query += " order by messjahr desc";                                                                 // NOI18N
+
+                final MetaObject[] MetaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+                for (final MetaObject mo : MetaObjects) {
+                    data.add(mo.getBean());
+                }
+                fireTableDataChanged();
+            } catch (final ConnectionException e) {
+                LOG.error("Error while trying to receive measurements.", e); // NOI18N
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public Vector<CidsBean> getData() {
+            return data;
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void clearModel() {
+            data.clear();
+        }
     }
 }
