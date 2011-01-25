@@ -51,7 +51,6 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeolCat;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRiver_cat;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSizeCat;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblContinua;
     private javax.swing.JLabel lblGeolCat;
     private javax.swing.JLabel lblHeading;
@@ -102,11 +101,10 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         cbGeolCat = new ScrollableComboBox();
         cbSizeCat = new ScrollableComboBox();
         lblSpace = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
 
-        setMinimumSize(new java.awt.Dimension(520, 290));
+        setMinimumSize(new java.awt.Dimension(620, 290));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(520, 290));
+        setPreferredSize(new java.awt.Dimension(700, 290));
         setLayout(new java.awt.BorderLayout());
 
         panHeadQuality.setBackground(new java.awt.Color(51, 51, 51));
@@ -188,6 +186,7 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(txtReport, gridBagConstraints);
@@ -206,7 +205,9 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panQualityContent.add(cbRiver_cat, gridBagConstraints);
@@ -225,7 +226,9 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbContinua, gridBagConstraints);
@@ -244,7 +247,9 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbGeolCat, gridBagConstraints);
@@ -263,7 +268,9 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbSizeCat, gridBagConstraints);
@@ -272,14 +279,6 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridy = 8;
         gridBagConstraints.weighty = 1.0;
         panQualityContent.add(lblSpace, gridBagConstraints);
-
-        jPanel1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 8;
-        gridBagConstraints.weightx = 1.0;
-        panQualityContent.add(jPanel1, gridBagConstraints);
 
         panQuality.add(panQualityContent, java.awt.BorderLayout.CENTER);
 

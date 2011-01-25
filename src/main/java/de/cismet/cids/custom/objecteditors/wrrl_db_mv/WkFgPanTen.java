@@ -241,7 +241,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblBioGkJahr, gridBagConstraints);
 
         txtBioGkJahr.setMinimumSize(new java.awt.Dimension(100, 20));
@@ -267,14 +267,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblBioGkBemerkung, gridBagConstraints);
 
         lblGK.setText(org.openide.util.NbBundle.getMessage(WkFgPanTen.class, "WkFgPanFive.lblGK.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblGK, gridBagConstraints);
 
         cbConfidence.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -380,7 +380,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblPhytoGkMst, gridBagConstraints);
 
         txtPhytoBemerk.setMinimumSize(new java.awt.Dimension(300, 20));
@@ -908,7 +908,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 @Override
                 public void run() {
                     final CidsBean measurement = getLatestMeasurement("gk_mzb_gesamt");
-                    LOG.fatal("measurement: " + measurement.getClass().getName());
                     if (measurement != null) {
                         cbBen_Inv.setSelectedItem(measurement.getProperty("gk_mzb_gesamt"));
                         txtBenInvGkJahr.setText(String.valueOf(measurement.getProperty("messjahr")));
