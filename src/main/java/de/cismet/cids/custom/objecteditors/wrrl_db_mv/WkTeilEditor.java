@@ -26,17 +26,13 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
     public static final String PROP_WKTEIL_TO = "bis";         // NOI18N
     public static final String PROP_WKTEIL_GEOM = "real_geom"; // NOI18N
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // the jalopy skip configuration of this codeblock can be remove as soon as another instance field is present -> bug
 
-    //~ Instance fields --------------------------------------------------------
-
-    // NOI18N
-
+    //J-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor1;
     // End of variables declaration//GEN-END:variables
-
-    //~ Constructors -----------------------------------------------------------
+    //J+
 
     /**
      * Creates new form WkTeilEditor.
@@ -44,8 +40,6 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
     public WkTeilEditor() {
         initComponents();
     }
-
-    //~ Methods ----------------------------------------------------------------
 
     @Override
     public synchronized void setCidsBean(final CidsBean cidsBean) {

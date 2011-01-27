@@ -98,7 +98,8 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
-import de.cismet.security.Proxy;
+import de.cismet.netutil.Proxy;
+
 import de.cismet.security.WebDavClient;
 
 import de.cismet.tools.BrowserLauncher;
