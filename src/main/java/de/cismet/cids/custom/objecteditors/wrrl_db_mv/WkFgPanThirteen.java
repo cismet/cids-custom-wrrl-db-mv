@@ -197,7 +197,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
         lblHeading.setText(org.openide.util.NbBundle.getMessage(
                 WkFgPanThirteen.class,
-                "WkFgPanEleven.lblHeading.text")); // NOI18N
+                "WkFgPanThirteen.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -1047,9 +1047,9 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                 query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
                 query += " order by messjahr desc";                                                                 // NOI18N
 
-                final MetaObject[] MetaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
-                for (final MetaObject mo : MetaObjects) {
+                for (final MetaObject mo : metaObjects) {
                     data.add(mo.getBean());
                 }
                 fireTableDataChanged();

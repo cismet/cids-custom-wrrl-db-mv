@@ -1105,7 +1105,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      * @param  property  DOCUMENT ME!
      */
     private void setField(final CidsBean sbean, final JLabel lab, final String property) {
-        final Object val = sbean.getProperty("gk_pc_mst");
+        final Object val = sbean.getProperty(property);
 
         if (val != null) {
             lab.setText(val.toString());
@@ -1237,9 +1237,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
                 query += " order by messjahr desc";                                                                 // NOI18N
 
-                final MetaObject[] MetaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
-                for (final MetaObject mo : MetaObjects) {
+                for (final MetaObject mo : metaObjects) {
                     data.add(mo.getBean());
                 }
                 fireTableDataChanged();

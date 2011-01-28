@@ -726,7 +726,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.non_comp}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.non_comp.name}"),
                 lblEcoStoffe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
