@@ -17,6 +17,8 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.search.CidsServerSearch;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import java.awt.Color;
 
 import java.beans.PropertyChangeEvent;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
@@ -68,7 +72,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LawaEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LawaEditor.class);
     private static final String ROUTE_FEATURE_CLASS_NAME =
         "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature"; // NOI18N
     private static final int NO_NEIGHBOUR_FOUND = -1;
@@ -78,6 +82,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     private boolean readOnly = false;
 
     private CidsBean cidsBean;
+    /** this variable contains the realGeom object, the current LawaEditor object is registered on as listener. */
+    private CidsBean realGeom;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blbSpace;
@@ -148,8 +154,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         try {
             new CidsBeanDropTarget(this);
         } catch (final Exception ex) {
-            if (log.isDebugEnabled()) {
-                log.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
             }
         }
     }
@@ -165,9 +171,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
 
         bindingGroup.unbind();
-        if (this.cidsBean != null) {
-            this.cidsBean.removePropertyChangeListener(this);
-        }
+        removeListener();
 
         this.cidsBean = cidsBean;
 
@@ -176,7 +180,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
-            cidsBean.addPropertyChangeListener(this);
+
             linearReferencedLineEditor.setCidsBean(cidsBean);
             final Object lawa_nr = cidsBean.getProperty("lawa_nr");
 
@@ -184,6 +188,13 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                 lblValLawa_nr.setText(lawa_nr.toString());
             } else {
                 lblValLawa_nr.setText("");
+            }
+
+            cidsBean.addPropertyChangeListener(this);
+
+            if (cidsBean.getProperty("real_geom") != null) {
+                realGeom = (CidsBean)cidsBean.getProperty("real_geom");
+                realGeom.addPropertyChangeListener(this);
             }
 
             lblFoot.setText("");
@@ -254,11 +265,11 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                     result = ((Integer)o).intValue();
                 }
             } else {
-                log.error("Server error in getNeighbourType(). Cids server search return null. " // NOI18N
+                LOG.error("Server error in getNeighbourType(). Cids server search return null. " // NOI18N
                             + "See the server logs for further information");              // NOI18N
             }
         } catch (ConnectionException e) {
-            log.error("Exception during a cids server search.", e);                        // NOI18N
+            LOG.error("Exception during a cids server search.", e);                        // NOI18N
         }
 
         return result;
@@ -267,26 +278,28 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     /**
      * DOCUMENT ME!
      *
+     * @param   realGeom  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
-    private String getWk_k() {
+    private String getWk_k(final Geometry realGeom) {
         String result = null;
-        if (linearReferencedLineEditor.getFeature() == null) {
+        if (realGeom == null) {
             return null;
         }
         try {
-            final String geom = linearReferencedLineEditor.getFeature().getGeometry().toText();
+            final String geom = realGeom.toText(); // linearReferencedLineEditor.getFeature().getGeometry().toText();
             final CidsBean route = StationEditor.getRouteBean((CidsBean)cidsBean.getProperty("stat_von"));
 
             if (route == null) {
-                log.error("Route not found");
+                LOG.error("Route not found");
                 return null;
             }
 
             final Object routeId = route.getProperty("id");
 
             if (routeId == null) {
-                log.error("Route id not found");
+                LOG.error("Route id not found");
                 return null;
             }
 
@@ -302,11 +315,11 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                     result = o.toString();
                 }
             } else {
-                log.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
                             + "See the server logs for further information");     // NOI18N
             }
         } catch (ConnectionException e) {
-            log.error("Exception during a cids server search.", e);               // NOI18N
+            LOG.error("Exception during a cids server search.", e);               // NOI18N
         }
 
         return result;
@@ -595,7 +608,17 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void dispose() {
         linearReferencedLineEditor.dispose();
+        removeListener();
         bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void removeListener() {
+        if (realGeom != null) {
+            realGeom.removePropertyChangeListener(this);
+        }
         if (cidsBean != null) {
             cidsBean.removePropertyChangeListener(this);
         }
@@ -625,23 +648,74 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     public JComponent getFooterComponent() {
         return panFooter;
     }
-
+    /**
+     * When the route or a station of the LinearReferencedLineEditor will be changed, this method is invoked and can
+     * change the wk_k property if required.
+     *
+     * @param  evt  DOCUMENT ME!
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("real_geom") && (evt.getNewValue() != null)
-                    && (((CidsBean)evt.getNewValue()).getProperty("geo_field") != null) && !readOnly) {
-            final String wkk = getWk_k();
-            if (wkk != null) {
-                lblValWk_k.setText(wkk);
-                try {
-                    cidsBean.setProperty("wk_k", wkk);
-                    if (log.isDebugEnabled()) {
-                        log.debug("wk_k updated");
+        if (!readOnly) {
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("propertyChange " + evt.getPropertyName());
+                        }
+
+                        if (evt.getPropertyName().equals("real_geom")) {
+                            // the geom CidsBean from the cidsBean object was changed
+                            if (evt.getNewValue() != null) {
+                                ((CidsBean)evt.getNewValue()).addPropertyChangeListener(LawaEditor.this);
+                            } else {
+                                if (realGeom != null) {
+                                    realGeom.removePropertyChangeListener(LawaEditor.this);
+                                }
+                            }
+                        } else if (evt.getPropertyName().equals("geo_field") && (evt.getNewValue() != null)) {
+                            // the geo_field of the geom CidsBean from the cidsBean object was changed
+                            final String wkk = getWk_k((Geometry)evt.getNewValue());
+
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("change wk_k to " + wkk);
+                            }
+
+                            if (wkk != null) {
+                                lblValWk_k.setText(wkk);
+                                try {
+                                    final Object o = cidsBean.getProperty("wk_k");
+
+                                    if (o instanceof String) {
+                                        // the synchronisation avoids that more than one message dialog
+                                        // is showing, if the wk-fg has changed. (The problem is that one change fires
+                                        // more than one property change event)
+                                        synchronized (LOG) {
+                                            if (!wkk.equals((String)o)) {
+                                                JOptionPane.showMessageDialog(
+                                                    LawaEditor.this,
+                                                    "Durch die Änderung der Stationierung hat "
+                                                            + "sich der Wasserkörper geändert.",
+                                                    "Änderung am Wasserkörper",
+                                                    JOptionPane.INFORMATION_MESSAGE);
+                                                cidsBean.setProperty("wk_k", wkk);
+                                            }
+                                        }
+                                    } else {
+                                        cidsBean.setProperty("wk_k", wkk);
+                                    }
+
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("wk_k updated");
+                                    }
+                                } catch (final Exception e) {
+                                    LOG.error("Cannot assign the new wk_k to the cids bean", e);
+                                }
+                            }
+                        }
                     }
-                } catch (final Exception e) {
-                    log.error("Cannot assign the new wk_k to the cids bean", e);
-                }
-            }
+                }).start();
         }
     }
 
@@ -653,7 +727,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                     try {
                         cidsBean.setProperty("wk_k", bean.getProperty("wk_k"));
                     } catch (final Exception e) {
-                        log.error("Error while setting a new wk_k", e);
+                        LOG.error("Error while setting a new wk_k", e);
                     }
                 }
             }

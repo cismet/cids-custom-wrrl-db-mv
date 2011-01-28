@@ -71,7 +71,7 @@ public class WkkSearch extends CidsServerSearch {
 
         if (ms != null) {
             try {
-                final String query = String.format(QUERY, geometry, route);
+                final String query = String.format(QUERY, route, geometry);
                 if (getLog().isDebugEnabled()) {
                     getLog().debug("query: " + query); // NOI18N
                 }
