@@ -11,11 +11,14 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.middleware.types.MetaClass;
 
+import org.jdesktop.beansbinding.Converter;
+
 import java.sql.Timestamp;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.reports.WkSgReport;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
@@ -30,6 +33,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.TitleComponentProvider;
 
 /**
  * DOCUMENT ME!
@@ -37,7 +41,10 @@ import de.cismet.tools.gui.FooterComponentProvider;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSaveListener, FooterComponentProvider {
+public class WkSgRenderer extends JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    FooterComponentProvider,
+    TitleComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -54,11 +61,13 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnReport;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ExcemptionRenderer excemptionEditor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeadingAusnahme;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panAusnahmen;
@@ -67,6 +76,7 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     private javax.swing.JPanel panQualitaet;
     private javax.swing.JPanel panRisiken;
     private javax.swing.JLabel panSpace;
+    private javax.swing.JPanel panTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
     private javax.swing.JTabbedPane tpMain;
@@ -152,6 +162,9 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
+        panTitle = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
+        btnReport = new javax.swing.JButton();
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkSgPanOne = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanOne();
@@ -185,6 +198,51 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
+
+        panTitle.setOpaque(false);
+
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"),
+                lblTitle,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new CidsbeanToStringConverter());
+        bindingGroup.addBinding(binding);
+
+        btnReport.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer.png")));         // NOI18N
+        btnReport.setText(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "FotodokumentationRenderer.btnReport.text"));                                                     // NOI18N
+        btnReport.setBorder(null);
+        btnReport.setBorderPainted(false);
+        btnReport.setContentAreaFilled(false);
+        btnReport.setFocusPainted(false);
+        btnReport.setPressedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer_pressed.png"))); // NOI18N
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnReportActionPerformed(evt);
+                }
+            });
+
+        final javax.swing.GroupLayout panTitleLayout = new javax.swing.GroupLayout(panTitle);
+        panTitle.setLayout(panTitleLayout);
+        panTitleLayout.setHorizontalGroup(
+            panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                panTitleLayout.createSequentialGroup().addContainerGap().addComponent(lblTitle).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                    446,
+                    Short.MAX_VALUE).addComponent(btnReport)));
+        panTitleLayout.setVerticalGroup(
+            panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(lblTitle)
+                        .addComponent(btnReport));
 
         setLayout(new java.awt.BorderLayout());
 
@@ -388,6 +446,15 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
         }
     }                                                                                       //GEN-LAST:event_lstAusnahmenValueChanged
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnReportActionPerformed
+        WkSgReport.showReport(cidsBean);
+    }                                                                             //GEN-LAST:event_btnReportActionPerformed
+
     @Override
     public void dispose() {
         wkSgPanOne.dispose();
@@ -433,5 +500,32 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, EditorSave
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    @Override
+    public JComponent getTitleComponent() {
+        return panTitle;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class CidsbeanToStringConverter extends Converter<CidsBean, String> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String convertForward(final CidsBean s) {
+            return getTitle();
+        }
+
+        @Override
+        public CidsBean convertReverse(final String t) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 }

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="555" pageHeight="822" whenNoDataType="BlankPage" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkSgScriptlet" whenResourceMissingType="Empty">
+	<parameter name="map" class="java.awt.Image" isForPrompting="false"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="lw_name" class="java.lang.String"/>
+	<field name="ls_name" class="java.lang.String"/>
+	<field name="wk_k" class="java.lang.String"/>
+	<field name="see_id" class="java.lang.String"/>
+	<field name="ty_na_lw" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="rbd_cd" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="planu_cd" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="wa_cd" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="flaeche_ha" class="java.lang.Float"/>
+	<field name="tiefe_max" class="java.lang.Float"/>
+	<field name="tiefe_mitt" class="java.lang.Float"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="482">
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="80" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tiefe_max}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="0" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lw_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="32" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ty_na_lw}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="64" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{flaeche_ha}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="16" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ls_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="48" width="80" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{rbd_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="64" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[String.valueOf($F{tiefe_mitt}.floatValue() * $F{flaeche_ha}.floatValue() * 10000)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="0" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_k}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="16" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{see_id}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="80" width="155" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tiefe_mitt}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="48" width="80" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{planu_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="475" y="48" width="80" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wa_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="285" y="80" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Mittl. Tiefe:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="64" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Volumen:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Max. Tiefe:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="64" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Fläche:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="32" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[See Typ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="16" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[See Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Wasserkörper Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="0" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Wasserkörper Kürzel:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="16" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[See Nummer:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="48" width="105" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Flussgebietseinheit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="48" width="90" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Planungseinheit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="48" width="110" height="16"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Bearbeitungsgebiet:]]></text>
+			</staticText>
+			<image scaleImage="RealSize">
+				<reportElement x="0" y="107" width="555" height="375"/>
+				<imageExpression class="java.awt.Image"><![CDATA[$P{map}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band/>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
