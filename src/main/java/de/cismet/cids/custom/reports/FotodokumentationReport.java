@@ -23,6 +23,9 @@
  */
 package de.cismet.cids.custom.reports;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.jasperreports.ReportSwingWorker;
@@ -43,8 +46,9 @@ public class FotodokumentationReport {
      * @param  cidsBean  DOCUMENT ME!
      */
     public static void showReport(final CidsBean cidsBean) {
+        final Collection<CidsBean> coll = new ArrayList<CidsBean>();
         final ReportSwingWorker worker = new ReportSwingWorker(
-                cidsBean,
+                coll,
                 "/de/cismet/cids/custom/reports/fotodokumentation.jasper");
         worker.execute();
     }
