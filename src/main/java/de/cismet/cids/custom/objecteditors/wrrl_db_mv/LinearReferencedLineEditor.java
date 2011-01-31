@@ -108,6 +108,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private String metaClassName;
     private CidsBean cidsBean;
 
+    private boolean changedSinceDrop = false;
+
     private Collection<LinearReferencedLineEditorListener> listeners =
         new ArrayList<LinearReferencedLineEditorListener>();
 
@@ -178,6 +180,15 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean hasChangedSinceDrop() {
+        return changedSinceDrop;
+    }
 
     /**
      * DOCUMENT ME!
@@ -633,6 +644,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         try {
             lockBeanChange(true, isFrom);
+
+            changedSinceDrop = true;
 
             final CidsBean stationBean = getStationBean(isFrom);
 
@@ -1284,6 +1297,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 if (routeBean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
                     if ((behavior == null) || behavior.checkForAdding(routeBean)) {
                         addFromRoute(routeBean);
+                        changedSinceDrop = false;
                     }
                     return;
                 }
