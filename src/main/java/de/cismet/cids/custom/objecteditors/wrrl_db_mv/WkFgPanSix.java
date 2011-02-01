@@ -423,6 +423,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panOrtho.setLayout(new java.awt.GridBagLayout());
 
         lblLawa.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
+        lblLawa.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblLawa.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -431,6 +433,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panOrtho.add(lblLawa, gridBagConstraints);
 
         lblRakon.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
+        lblRakon.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblRakon.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -489,8 +493,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panOrtho, gridBagConstraints);
 
         panAmm.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -500,6 +505,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panAmm.setLayout(new java.awt.GridBagLayout());
 
         lblLawa1.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
+        lblLawa1.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblLawa1.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -508,6 +515,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panAmm.add(lblLawa1, gridBagConstraints);
 
         lblRakon1.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
+        lblRakon1.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblRakon1.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -566,8 +575,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panAmm, gridBagConstraints);
 
         panGesN.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -577,6 +587,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panGesN.setLayout(new java.awt.GridBagLayout());
 
         lblLawa2.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
+        lblLawa2.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblLawa2.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -623,8 +635,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panGesN, gridBagConstraints);
 
         panPhos.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -634,6 +647,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhos.setLayout(new java.awt.GridBagLayout());
 
         lblLawa3.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
+        lblLawa3.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblLawa3.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -642,6 +657,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panPhos.add(lblLawa3, gridBagConstraints);
 
         lblRakon3.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
+        lblRakon3.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblRakon3.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -700,8 +717,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panPhos, gridBagConstraints);
 
         panNit.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -711,6 +729,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panNit.setLayout(new java.awt.GridBagLayout());
 
         lblLawa4.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
+        lblLawa4.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblLawa4.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -759,7 +779,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panNit, gridBagConstraints);
 
         panChlor.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -769,6 +789,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panChlor.setLayout(new java.awt.GridBagLayout());
 
         lblLawa5.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
+        lblLawa5.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblLawa5.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -777,6 +799,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panChlor.add(lblLawa5, gridBagConstraints);
 
         lblRakon5.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
+        lblRakon5.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblRakon5.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -835,8 +859,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panChlor, gridBagConstraints);
 
         panO2.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -846,6 +871,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         panO2.setLayout(new java.awt.GridBagLayout());
 
         lblRakon4.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
+        lblRakon4.setMinimumSize(new java.awt.Dimension(45, 20));
+        lblRakon4.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -880,8 +907,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(panO2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

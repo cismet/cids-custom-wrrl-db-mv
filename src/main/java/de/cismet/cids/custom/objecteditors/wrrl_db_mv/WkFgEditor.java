@@ -13,8 +13,10 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 
 import java.sql.Timestamp;
 
@@ -62,8 +64,14 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private static final MetaClass AUSNAHME_MC;
+    private static final MetaClass GROUP_MC = ClassCacheMultiple.getMetaClass(
+            CidsBeanSupport.DOMAIN_NAME,
+            "wk_group");
+    private static final MetaClass GROUP_AGGR_MC = ClassCacheMultiple.getMetaClass(
+            CidsBeanSupport.DOMAIN_NAME,
+            "wk_group_aggr");
 
     static {
         AUSNAHME_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EXCEMPTION");
@@ -115,14 +123,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      * Creates new form WkFgEditor.
      */
     public WkFgEditor() {
-//        try {
-//            MetaClass qscMetaClass = ClassCacheMultiple.getMetaClass("WRRL_DB_MV", "quality_status_code");
-//            qualityStatusCodeModel = DefaultBindableReferenceCombo.getModelByMetaClass(qscMetaClass, false);
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
 
         wkTeileEditor1.addLinearReferencedLineEditorListener(new LinearReferencedLineArrayEditorListener() {
 
@@ -549,7 +551,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                     "ausnahmen");
             excemptionCollection.add(newBean);
         } catch (Exception ex) {
-            log.error(ex, ex);
+            LOG.error(ex, ex);
         }
     }                                                                                  //GEN-LAST:event_btnAddAusnahmeActionPerformed
 
@@ -630,7 +632,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
             } catch (Exception ex) {
-                log.error(ex, ex);
+                LOG.error(ex, ex);
             }
         }
         return true;
@@ -639,5 +641,65 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wk_fg  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean getGroup(final CidsBean wk_fg) {
+        try {
+            final String query = "select " + GROUP_MC.getID() + ", g." + GROUP_MC.getPrimaryKey()            // NOI18N
+                        + " from " + GROUP_MC.getTableName() + " g, wk_group_fgs f"                          // NOI18N
+                        + " WHERE g.wk_fgs = f.wk_group_reference AND f.wk_fg = " + wk_fg.getProperty("id"); // NOI18N
+
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            if ((metaObjects != null) && (metaObjects.length > 1)) {
+                LOG.warn("More than one group for the wk_fg found.");
+            }
+
+            if ((metaObjects != null) && (metaObjects.length > 0)) {
+                return metaObjects[0].getBean();
+            } else {
+                return null;
+            }
+        } catch (final ConnectionException e) {
+            LOG.error("Error while trying to receive the group for a wk_fg.", e); // NOI18N
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   group  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean getGroupAggr(final CidsBean group) {
+        try {
+            final String query = "select " + GROUP_AGGR_MC.getID() + ", g." + GROUP_AGGR_MC.getPrimaryKey()             // NOI18N
+                        + " from " + GROUP_AGGR_MC.getTableName() + " g, wk_group_aggr_groups f"                        // NOI18N
+                        + " WHERE g.wk_groups = f.wk_group_aggr_reference AND f.wk_group = " + group.getProperty("id"); // NOI18N
+
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            if ((metaObjects != null) && (metaObjects.length > 1)) {
+                LOG.warn("More than one aggregation group for the wk_group found.");
+            }
+
+            if ((metaObjects != null) && (metaObjects.length > 0)) {
+                return metaObjects[0].getBean();
+            } else {
+                return null;
+            }
+        } catch (final ConnectionException e) {
+            LOG.error("Error while trying to receive the aggregation group for a wk_group.", e); // NOI18N
+            return null;
+        }
     }
 }

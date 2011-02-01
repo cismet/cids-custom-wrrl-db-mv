@@ -1461,18 +1461,6 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
     /**
      * DOCUMENT ME!
      */
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
     @Override
     public void dispose() {
         bindingGroup.unbind();

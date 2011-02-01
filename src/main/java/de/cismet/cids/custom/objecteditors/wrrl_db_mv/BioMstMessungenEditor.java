@@ -832,18 +832,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
     /**
      * DOCUMENT ME!
      */
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
     @Override
     public void dispose() {
         bindingGroup.unbind();
