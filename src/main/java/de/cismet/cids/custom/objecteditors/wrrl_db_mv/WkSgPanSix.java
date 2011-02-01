@@ -319,6 +319,16 @@ public class WkSgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         dcRisk_date.setMaximumSize(new java.awt.Dimension(300, 23));
         dcRisk_date.setMinimumSize(new java.awt.Dimension(300, 23));
         dcRisk_date.setPreferredSize(new java.awt.Dimension(300, 23));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.risk_date}"),
+                dcRisk_date,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(dcRisk_date.getConverter());
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
