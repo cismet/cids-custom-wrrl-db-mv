@@ -912,7 +912,6 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
 
     @Override
     public void valueChanged(final ListSelectionEvent e) {
-        LOG.fatal("value changed");
         if (!e.getValueIsAdjusting()) {
             if (e.getFirstIndex() > -1) {
                 final CidsBean sbean = model.getData().get(e.getFirstIndex());

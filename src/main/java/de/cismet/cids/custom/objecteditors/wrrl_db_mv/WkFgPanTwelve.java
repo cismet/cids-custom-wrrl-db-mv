@@ -12,6 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.JOptionPane;
+
 import de.cismet.cids.custom.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -26,6 +29,10 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @version  $Revision$, $Date$
  */
 public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsBeanStore {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgPanTwelve.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -342,6 +349,13 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         jbVorb.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanTwelve.jbVorb.text")); // NOI18N
         jbVorb.setMinimumSize(new java.awt.Dimension(100, 20));
         jbVorb.setPreferredSize(new java.awt.Dimension(100, 20));
+        jbVorb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbVorbActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
@@ -773,6 +787,85 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
     private void cbEco_statActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbEco_statActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_cbEco_statActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorbActionPerformed
+        setValues();
+    }                                                                          //GEN-LAST:event_jbVorbActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setValues() {
+        final String[] props = { "bio_gk", "ben_inv", "mac_phyto", "phyto", "fish", "hydromorph", "gk_pc_qk" };
+        int worstCase = -1;
+        CidsBean worstCaseObject = null;
+
+        for (final String tmp : props) {
+            final CidsBean obj = (CidsBean)cidsBean.getProperty(tmp);
+            if (obj != null) {
+                final String valString = (String)obj.getProperty("value");
+
+                if (valString != null) {
+                    try {
+                        final int val = Integer.parseInt(valString);
+                        if (val > worstCase) {
+                            worstCase = val;
+                            worstCaseObject = obj;
+                        }
+                    } catch (final NumberFormatException e) {
+                        if (valString.equals("U")) {
+                            worstCase = 100;
+                            worstCaseObject = obj;
+                        } else {
+                            break;
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        try {
+            if (worstCase != -1) {
+                if (worstCaseObject != null) {
+                    cidsBean.setProperty("eco_stat", worstCaseObject);
+                    cidsBean.setProperty("eco_pot", worstCaseObject);
+
+                    final CidsBean uqn = (CidsBean)cidsBean.getProperty("non_comp");
+
+                    if ((uqn != null) && (worstCase != 100)) {
+                        final String val = (String)uqn.getProperty("value");
+                        if ((val != null) && val.equals("N")) {
+                            if (worstCase <= 2) {
+                                final ComboBoxModel cbm = cbEco_stat.getModel();
+                                for (int i = 0; i < cbm.getSize(); ++i) {
+                                    final CidsBean bean = (CidsBean)cbm.getElementAt(i);
+                                    final Object va = bean.getProperty("value");
+                                    if ((va instanceof String) && va.equals("3")) {
+                                        cidsBean.setProperty("eco_stat", bean);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                JOptionPane.showInternalMessageDialog(
+                    this,
+                    "Es sind keine Bewertungen für eine Vorbelegung vorhanden.",
+                    "Keine Bewertungen",
+                    JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (final Exception e) {
+            LOG.error("Error wile setting eco_stat and eco_pot.", e);
+        }
+    }
 
     @Override
     public CidsBean getCidsBean() {

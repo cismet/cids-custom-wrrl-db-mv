@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.BioMstMessungenRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.CoordinateConverter;
 
@@ -46,17 +45,18 @@ import de.cismet.tools.gui.FooterComponentProvider;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
+public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     EditorSaveListener,
     FooterComponentProvider,
     DocumentListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BioMstStammdatenEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            ChemieMstStammdatenEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             CidsBeanSupport.DOMAIN_NAME,
-            "bio_mst_messungen");
+            "chemie_mst_messungen");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -67,10 +67,10 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     private boolean noDocumentUpdate = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.BioMstMessungenEditor bioMstMessungenEditor1;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.BioMstMessungenRenderer bioMstMessungenRenderer1;
     private javax.swing.JButton btnBack1;
     private javax.swing.JButton btnForward;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor chemieMstMessungenEditor1;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ChemieMstMessungenRenderer chemieMstMessungenRenderer1;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblGew;
     private javax.swing.JLabel lblGewVal;
@@ -83,8 +83,6 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblLawaVal;
     private javax.swing.JLabel lblMst;
     private javax.swing.JLabel lblMstCodeVal;
-    private javax.swing.JLabel lblSti;
-    private javax.swing.JLabel lblStiVal;
     private javax.swing.JLabel lblWk;
     private javax.swing.JLabel lblWkVal;
     private javax.swing.JPanel panFooter;
@@ -102,7 +100,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     /**
      * Creates new form WkFgEditor.
      */
-    public BioMstStammdatenEditor() {
+    public ChemieMstStammdatenEditor() {
         this(false);
     }
 
@@ -111,7 +109,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public BioMstStammdatenEditor(final boolean readOnly) {
+    public ChemieMstStammdatenEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
         txtJahr.getDocument().addDocumentListener(this);
@@ -134,9 +132,9 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
             bindingGroup.bind();
         } else {
             if (!readOnly) {
-                bioMstMessungenEditor1.setCidsBean(null);
+                chemieMstMessungenEditor1.setCidsBean(null);
             } else {
-                bioMstMessungenRenderer1.setCidsBean(null);
+                chemieMstMessungenRenderer1.setCidsBean(null);
             }
         }
 
@@ -176,18 +174,17 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         lblWkVal = new javax.swing.JLabel();
         lblHRVal = new javax.swing.JLabel();
         lblLawaVal = new javax.swing.JLabel();
-        lblSti = new javax.swing.JLabel();
-        lblStiVal = new javax.swing.JLabel();
         lblMst = new javax.swing.JLabel();
-        if (!readOnly) {
-            bioMstMessungenEditor1 = new BioMstMessungenEditor(readOnly);
-        }
         panScr = new javax.swing.JPanel();
         txtJahr = new javax.swing.JTextField();
         btnBack1 = new javax.swing.JButton();
         btnForward = new javax.swing.JButton();
+        if (!readOnly) {
+            chemieMstMessungenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor();
+        }
         if (readOnly) {
-            bioMstMessungenRenderer1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.BioMstMessungenRenderer();
+            chemieMstMessungenRenderer1 =
+                new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ChemieMstMessungenRenderer();
         }
 
         panFooter.setOpaque(false);
@@ -201,12 +198,12 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(910, 650));
-        setPreferredSize(new java.awt.Dimension(910, 650));
+        setMinimumSize(new java.awt.Dimension(1000, 800));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(910, 650));
-        panInfo.setPreferredSize(new java.awt.Dimension(910, 650));
+        panInfo.setMinimumSize(new java.awt.Dimension(1000, 800));
+        panInfo.setPreferredSize(new java.awt.Dimension(1000, 800));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -229,7 +226,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         panStamm.setLayout(new java.awt.GridBagLayout());
 
         lblGew.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
+                ChemieMstStammdatenEditor.class,
                 "BioMstStammdatenEditor.lblGew.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -240,7 +237,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         panStamm.add(lblGew, gridBagConstraints);
 
         lblLage.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
+                ChemieMstStammdatenEditor.class,
                 "BioMstStammdatenEditor.lblLage.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -317,7 +314,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         panStamm.add(lblLageVal, gridBagConstraints);
 
         lblWk.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
+                ChemieMstStammdatenEditor.class,
                 "BioMstStammdatenEditor.lblWk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -328,7 +325,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         panStamm.add(lblWk, gridBagConstraints);
 
         lblHR.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
+                ChemieMstStammdatenEditor.class,
                 "BioMstStammdatenEditor.lblHR.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -339,7 +336,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         panStamm.add(lblHR, gridBagConstraints);
 
         lblLawa.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
+                ChemieMstStammdatenEditor.class,
                 "BioMstStammdatenEditor.lblLawa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -416,41 +413,8 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(lblLawaVal, gridBagConstraints);
 
-        lblSti.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
-                "BioMstStammdatenEditor.lblSti.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblSti, gridBagConstraints);
-
-        lblStiVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblStiVal.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sti_typ}"),
-                lblStiVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("error");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblStiVal, gridBagConstraints);
-
         lblMst.setText(org.openide.util.NbBundle.getMessage(
-                BioMstStammdatenEditor.class,
+                ChemieMstStammdatenEditor.class,
                 "BioMstStammdatenEditor.lblMst.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -467,17 +431,6 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 10);
         panInfoContent.add(panStamm, gridBagConstraints);
-
-        if (!readOnly) {
-        }
-        if (!readOnly) {
-            gridBagConstraints = new java.awt.GridBagConstraints();
-            gridBagConstraints.gridx = 0;
-            gridBagConstraints.gridy = 3;
-            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-            gridBagConstraints.weighty = 1.0;
-            panInfoContent.add(bioMstMessungenEditor1, gridBagConstraints);
-        }
 
         panScr.setOpaque(false);
         panScr.setLayout(new java.awt.GridBagLayout());
@@ -554,15 +507,24 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
+        if (!readOnly) {
+        }
+        if (!readOnly) {
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.weighty = 1.0;
+            panInfoContent.add(chemieMstMessungenEditor1, gridBagConstraints);
+        }
+
         if (readOnly) {
         }
         if (readOnly) {
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
-            gridBagConstraints.gridy = 3;
-            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+            gridBagConstraints.gridy = 2;
             gridBagConstraints.weighty = 1.0;
-            panInfoContent.add(bioMstMessungenRenderer1, gridBagConstraints);
+            panInfoContent.add(chemieMstMessungenRenderer1, gridBagConstraints);
         }
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
@@ -606,9 +568,9 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
                     synchronized (cidsBean) {
                         final CidsBean measure = getDataForYear(newYear, measureNumber);
                         if (!readOnly) {
-                            bioMstMessungenEditor1.setCidsBean(measure);
+                            chemieMstMessungenEditor1.setCidsBean(measure);
                         } else {
-                            bioMstMessungenRenderer1.setCidsBean(measure);
+                            chemieMstMessungenRenderer1.setCidsBean(measure);
                         }
                     }
                 }
@@ -642,23 +604,40 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
                         synchronized (cidsBean) {
                             final CidsBean measure = getDataForYear(newYear, measureNumber);
                             if (!readOnly) {
-                                bioMstMessungenEditor1.setCidsBean(measure);
+                                chemieMstMessungenEditor1.setCidsBean(measure);
                             } else {
-                                bioMstMessungenRenderer1.setCidsBean(measure);
+                                chemieMstMessungenRenderer1.setCidsBean(measure);
                             }
                         }
                     }
                 }).start();
         } else {
             if (!readOnly) {
-                bioMstMessungenEditor1.setCidsBean(measure);
+                chemieMstMessungenEditor1.setCidsBean(measure);
             } else {
-                bioMstMessungenRenderer1.setCidsBean(measure);
+                chemieMstMessungenRenderer1.setCidsBean(measure);
             }
         }
 
         noDocumentUpdate = false;
     } //GEN-LAST:event_btnForwardActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void saveLastMeasure() {
+        if (!readOnly) {
+            final CidsBean lastMeasure = chemieMstMessungenEditor1.getCidsBean();
+
+            if (lastMeasure != null) {
+                try {
+                    lastMeasure.persist();
+                } catch (final Exception e) {
+                    LOG.error("Exception ehile saving the last measure.", e);
+                }
+            }
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -674,26 +653,9 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
 
         final CidsBean measure = getDataForYear(year, measureNumber);
         if (!readOnly) {
-            bioMstMessungenEditor1.setCidsBean(measure);
+            chemieMstMessungenEditor1.setCidsBean(measure);
         } else {
-            bioMstMessungenRenderer1.setCidsBean(measure);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void saveLastMeasure() {
-        if (!readOnly) {
-            final CidsBean lastMeasure = bioMstMessungenEditor1.getCidsBean();
-
-            if (lastMeasure != null) {
-                try {
-                    lastMeasure.persist();
-                } catch (final Exception e) {
-                    LOG.error("Exception ehile saving the last measure.", e);
-                }
-            }
+            chemieMstMessungenRenderer1.setCidsBean(measure);
         }
     }
 
@@ -755,7 +717,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean getDataForYear(final int year, final int number) {
         try {
             String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-            query += " m, bio_mst_stammdaten s";                                                                // NOI18N
+            query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
             query += " WHERE m.messstelle = s.id AND s.id = " + cidsBean.getProperty("id");                     // NOI18N
             query += " AND messjahr = " + year + " order by id asc";                                            // NOI18N
 

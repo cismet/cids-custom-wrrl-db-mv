@@ -25,7 +25,7 @@ public class DateConverter extends Converter<Date, String> {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(YearTimestampConverter.class); // NOI18N
+    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DateConverter.class); // NOI18N
     private static final DateConverter INSTANCE = new DateConverter();
 
     //~ Methods ----------------------------------------------------------------

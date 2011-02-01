@@ -9,15 +9,21 @@ package de.cismet.cids.custom.reports;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
+
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.jasperreports.ReportSwingWorker;
 
 /**

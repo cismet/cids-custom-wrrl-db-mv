@@ -8,6 +8,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 /**
@@ -27,7 +28,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
 
     //~ Instance fields --------------------------------------------------------
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify
 
     // NOI18N
 
