@@ -15,7 +15,8 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 
-import de.cismet.cids.custom.util.StationToMapRegistry;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -40,8 +41,29 @@ public class MassnahmenFeatureRenderer extends CustomCidsFeatureRenderer {
 
     private static final Color RIVER_COLOR = new Color(101, 156, 239);
     private static final Stroke RIVER_STROKE = new CustomFixedWidthStroke(5f);
+    private static List<LinearReferencedLineFeature> createdFeatures = new ArrayList<LinearReferencedLineFeature>();
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    public static synchronized void clear() {
+        for (final LinearReferencedLineFeature tmp : createdFeatures) {
+            CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeature(tmp);
+        }
+        createdFeatures.clear();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  f  DOCUMENT ME!
+     */
+    private static synchronized void add(final LinearReferencedLineFeature f) {
+        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(f);
+        createdFeatures.add(f);
+    }
 
     @Override
     public Paint getLinePaint(final CidsFeature subFeature) {
@@ -70,7 +92,7 @@ public class MassnahmenFeatureRenderer extends CustomCidsFeatureRenderer {
                     routeGeometry);
             final LinearReferencedLineFeature f = new LinearReferencedLineFeature(stat_von_feature, stat_bis_feature);
             if (!CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures().contains(f)) {
-                CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(f);
+                add(f);
             }
         }
     }

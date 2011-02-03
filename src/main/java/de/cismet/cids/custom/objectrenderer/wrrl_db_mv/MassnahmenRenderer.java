@@ -14,13 +14,11 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
 import java.sql.Timestamp;
 
-import java.util.ArrayList;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.MassnahmenFeatureRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -28,6 +26,8 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -1056,6 +1056,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        MassnahmenFeatureRenderer.clear();
     }
 
     @Override

@@ -37,6 +37,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.MassnahmenFeatureRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
