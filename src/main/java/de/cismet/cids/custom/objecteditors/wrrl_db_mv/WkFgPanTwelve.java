@@ -166,7 +166,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanEleven.lblHeading.text")); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanTwelve.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
