@@ -99,6 +99,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private javax.swing.JPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private javax.swing.JPanel panHydroQk;
+    private javax.swing.JPanel panLawa;
     private javax.swing.JPanel panMelInf;
     private javax.swing.JPanel panOekoZd;
     private javax.swing.JPanel panPhysChemQk;
@@ -107,6 +108,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private javax.swing.JScrollPane scpAusnahmen;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanEleven wkFgPanEleven1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFourteen wkFgPanFourteen1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanOne wkFgPanOne;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSeven wkFgPanSeven1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSix wkFgPanSix;
@@ -185,6 +187,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             wkFgPanSeven1.setCidsBean(cidsBean);
             wkFgPanTwelve1.setCidsBean(cidsBean);
             wkFgPanThirteen1.setCidsBean(cidsBean);
+            wkFgPanFourteen1.setCidsBean(cidsBean);
 
             bindingGroup.bind();
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
@@ -236,6 +239,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         wkFgPanEleven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanEleven();
         panChemZust = new javax.swing.JPanel();
         wkFgPanThirteen1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanThirteen();
+        panLawa = new javax.swing.JPanel();
+        wkFgPanFourteen1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFourteen();
         panMelInf = new javax.swing.JPanel();
         panSpace = new javax.swing.JLabel();
         wkFgPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSeven();
@@ -359,6 +364,22 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panChemZust.add(wkFgPanThirteen1, gridBagConstraints);
 
         tpMain.addTab("Chemischer Zustand", panChemZust);
+
+        panLawa.setMinimumSize(new java.awt.Dimension(910, 650));
+        panLawa.setOpaque(false);
+        panLawa.setPreferredSize(new java.awt.Dimension(910, 650));
+        panLawa.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panLawa.add(wkFgPanFourteen1, gridBagConstraints);
+
+        tpMain.addTab("LAWA-Typen", panLawa);
 
         panMelInf.setOpaque(false);
         panMelInf.setLayout(new java.awt.GridBagLayout());
@@ -607,6 +628,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         wkFgPanSeven1.dispose();
         excemptionEditor.dispose();
         wkTeileEditor1.dispose();
+        wkFgPanFourteen1.dispose();
         bindingGroup.unbind();
     }
 

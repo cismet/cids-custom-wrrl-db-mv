@@ -36,7 +36,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 /**
  * DOCUMENT ME!
  *
- * @author   stefan
+ * @author   therter
  * @version  $Revision$, $Date$
  */
 public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBeanStore {

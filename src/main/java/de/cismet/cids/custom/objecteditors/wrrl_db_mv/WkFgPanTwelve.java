@@ -25,7 +25,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 /**
  * DOCUMENT ME!
  *
- * @author   stefan
+ * @author   therter
  * @version  $Revision$, $Date$
  */
 public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsBeanStore {
@@ -886,14 +886,14 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                     }
                 }
             } else {
-                JOptionPane.showInternalMessageDialog(
+                JOptionPane.showMessageDialog(
                     this,
                     "Es sind keine Bewertungen für eine Vorbelegung vorhanden.",
                     "Keine Bewertungen",
                     JOptionPane.WARNING_MESSAGE);
             }
         } catch (final Exception e) {
-            LOG.error("Error wile setting eco_stat and eco_pot.", e);
+            LOG.error("Error while setting eco_stat and eco_pot.", e);
         }
     }
 

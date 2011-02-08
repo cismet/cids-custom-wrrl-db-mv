@@ -20,7 +20,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 /**
  * DOCUMENT ME!
  *
- * @author   stefan
+ * @author   therter
  * @version  $Revision$, $Date$
  */
 public class WkFgPanNine extends javax.swing.JPanel implements DisposableCidsBeanStore {

@@ -38,7 +38,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 /**
  * DOCUMENT ME!
  *
- * @author   stefan
+ * @author   therter
  * @version  $Revision$, $Date$
  */
 public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCidsBeanStore, ListSelectionListener {
