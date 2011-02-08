@@ -41,8 +41,9 @@ public class RouteWBDropBehavior implements LinearReferencedLineEditorDropBehavi
 
     //~ Instance fields --------------------------------------------------------
 
-    CidsBean wkFg = null;
-    Component comp = null;
+    private CidsBean wkFg = null;
+    private Component comp = null;
+    private boolean routeChanged = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -63,6 +64,7 @@ public class RouteWBDropBehavior implements LinearReferencedLineEditorDropBehavi
      * @param  wkFg  DOCUMENT ME!
      */
     public void setWkFg(final CidsBean wkFg) {
+        this.routeChanged = false;
         this.wkFg = wkFg;
     }
 
@@ -91,6 +93,7 @@ public class RouteWBDropBehavior implements LinearReferencedLineEditorDropBehavi
                         if (route != null) {
                             final int id = (Integer)route.getProperty("id");
                             if (id == droppedRouteId) {
+                                routeChanged = true;
                                 return true;
                             }
                         }
@@ -112,5 +115,14 @@ public class RouteWBDropBehavior implements LinearReferencedLineEditorDropBehavi
             "Route ungültig",
             JOptionPane.ERROR_MESSAGE);
         return false;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isRouteChanged() {
+        return routeChanged;
     }
 }

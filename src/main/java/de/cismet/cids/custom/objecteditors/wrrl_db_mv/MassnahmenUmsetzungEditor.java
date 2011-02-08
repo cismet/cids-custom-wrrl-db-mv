@@ -446,6 +446,20 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         dispose();
         this.cidsBean = cidsBean;
 
+        if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
+            final int ans = JOptionPane.showConfirmDialog(
+                    this,
+                    "Sie haben die Stationen nicht geändert, nachdem Sie eine "
+                            + "neue Route ausgewählt haben. Möchten Sie die Stationen ändern?",
+                    "Keine Änderung der Stationen",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (ans == JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+
         if (cidsBean != null) {
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).setCidsMetaObject(cidsBean.getMetaObject());
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).initForNewBinding();
@@ -667,6 +681,20 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public boolean prepareForSave() {
+        if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
+            final int ans = JOptionPane.showConfirmDialog(
+                    this,
+                    "Sie haben die Stationen nicht geändert, nachdem Sie eine "
+                            + "neue Route ausgewählt haben. Möchten Sie die Stationen ändern?",
+                    "Keine Änderung der Stationen",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (ans == JOptionPane.YES_OPTION) {
+                return false;
+            }
+        }
+
         for (final CidsBean bean : beansToDelete) {
             try {
                 bean.persist();

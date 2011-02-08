@@ -1874,7 +1874,22 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public boolean prepareForSave() {
         if (cidsBean != null) {
+            if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
+                final int ans = JOptionPane.showConfirmDialog(
+                        this,
+                        "Sie haben die Stationen nicht geändert, nachdem Sie eine "
+                                + "neue Route ausgewählt haben. Möchten Sie die Stationen ändern?",
+                        "Keine Änderung der Stationen",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+
+                if (ans == JOptionPane.YES_OPTION) {
+                    return false;
+                }
+            }
+
             try {
+                linearReferencedLineEditor.hasChangedSinceDrop();
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());   // NOI18N
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis())); // NOI18N
 
