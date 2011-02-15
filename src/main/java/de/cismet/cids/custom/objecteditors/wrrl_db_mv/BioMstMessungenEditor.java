@@ -52,6 +52,15 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGkMzb;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPhyto;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JCheckBox jcGesDiatomeen;
+    private javax.swing.JCheckBox jcGesMacPhyto;
+    private javax.swing.JCheckBox jcGesPerlodes;
+    private javax.swing.JCheckBox jcGesPerlodesAd;
+    private javax.swing.JCheckBox jcGesPhylib;
+    private javax.swing.JCheckBox jcGesPhyto;
+    private javax.swing.JCheckBox jcGesSI;
+    private javax.swing.JLabel lblDiatTrophie;
+    private javax.swing.JLabel lblDiatTrophieVal;
     private javax.swing.JLabel lblDiatomeen;
     private javax.swing.JLabel lblDiatomeenVal;
     private javax.swing.JLabel lblFiBS;
@@ -63,7 +72,9 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblMacPhytenVal;
     private javax.swing.JLabel lblMacPhyto;
     private javax.swing.JLabel lblPerlodes;
+    private javax.swing.JLabel lblPerlodesAd;
     private javax.swing.JLabel lblPerlodesVal;
+    private javax.swing.JLabel lblPerlodesValAd;
     private javax.swing.JLabel lblPhylib;
     private javax.swing.JLabel lblPhylibVal;
     private javax.swing.JLabel lblPhyto;
@@ -228,6 +239,17 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         lblFiBSVal = new javax.swing.JLabel();
         lblPhyto = new javax.swing.JLabel();
         lblPhytoVal = new javax.swing.JLabel();
+        jcGesPerlodes = new javax.swing.JCheckBox();
+        jcGesSI = new javax.swing.JCheckBox();
+        jcGesPhylib = new javax.swing.JCheckBox();
+        jcGesPhyto = new javax.swing.JCheckBox();
+        jcGesMacPhyto = new javax.swing.JCheckBox();
+        jcGesDiatomeen = new javax.swing.JCheckBox();
+        lblPerlodesAd = new javax.swing.JLabel();
+        lblPerlodesValAd = new javax.swing.JLabel();
+        jcGesPerlodesAd = new javax.swing.JCheckBox();
+        lblDiatTrophieVal = new javax.swing.JLabel();
+        lblDiatTrophie = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -260,8 +282,8 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblMZB, gridBagConstraints);
 
-        lblSTITVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblSTITVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblSTITVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblSTITVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -276,7 +298,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -411,14 +432,14 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 "BioMstStammdatenEditor.lblSi.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSi, gridBagConstraints);
 
-        lblSTIMVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblSTIMVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblSTIMVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblSTIMVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -433,14 +454,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSTIMVal, gridBagConstraints);
 
-        lblPerlodesVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblPerlodesVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblPerlodesVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblPerlodesVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -455,14 +475,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblPerlodesVal, gridBagConstraints);
 
-        lblSIVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblSIVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblSIVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblSIVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -476,8 +495,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -527,8 +545,8 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblMacPhyten, gridBagConstraints);
 
-        lblSTIMPVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblSTIMPVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblSTIMPVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblSTIMPVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -543,14 +561,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSTIMPVal, gridBagConstraints);
 
-        lblPhylibVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblPhylibVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblPhylibVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblPhylibVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -565,14 +582,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblPhylibVal, gridBagConstraints);
 
-        lblPhytobVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblPhytobVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblPhytobVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblPhytobVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -587,14 +603,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblPhytobVal, gridBagConstraints);
 
-        lblMacPhytenVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblMacPhytenVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblMacPhytenVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblMacPhytenVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -609,14 +624,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblMacPhytenVal, gridBagConstraints);
 
-        lblDiatomeenVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblDiatomeenVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblDiatomeenVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblDiatomeenVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -631,7 +645,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -653,7 +666,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 "BioMstStammdatenEditor.lblFisch.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
@@ -673,7 +686,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         jPanel4.add(cbFisch, gridBagConstraints);
@@ -692,7 +705,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -704,7 +717,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 "BioMstStammdatenEditor.lblPhytoPl.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
@@ -724,7 +737,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         jPanel4.add(cbPhyto, gridBagConstraints);
@@ -743,7 +756,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -755,14 +768,14 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 "BioMstStammdatenEditor.lblFiBS.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblFiBS, gridBagConstraints);
 
-        lblFiBSVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblFiBSVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblFiBSVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblFiBSVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -776,8 +789,7 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -788,14 +800,14 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 "BioMstStammdatenEditor.lblPhyto.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblPhyto, gridBagConstraints);
 
-        lblPhytoVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblPhytoVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblPhytoVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblPhytoVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -809,12 +821,215 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblPhytoVal, gridBagConstraints);
+
+        jcGesPerlodes.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPerlodes.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_gesichert}"),
+                jcGesPerlodes,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesPerlodes, gridBagConstraints);
+
+        jcGesSI.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesSI.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_sl_gesichert}"),
+                jcGesSI,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesSI, gridBagConstraints);
+
+        jcGesPhylib.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPhylib.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_gesichert}"),
+                jcGesPhylib,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesPhylib, gridBagConstraints);
+
+        jcGesPhyto.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPhyto.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_phytobenthos_gesichert}"),
+                jcGesPhyto,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesPhyto, gridBagConstraints);
+
+        jcGesMacPhyto.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesMacPhyto.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_makrophyten_gesichert}"),
+                jcGesMacPhyto,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesMacPhyto, gridBagConstraints);
+
+        jcGesDiatomeen.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesDiatomeen.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_diatomeen_gesichert}"),
+                jcGesDiatomeen,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesDiatomeen, gridBagConstraints);
+
+        lblPerlodesAd.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstStammdatenEditor.lblPerlodesAd.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblPerlodesAd, gridBagConstraints);
+
+        lblPerlodesValAd.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblPerlodesValAd.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_ad.name}"),
+                lblPerlodesValAd,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblPerlodesValAd, gridBagConstraints);
+
+        jcGesPerlodesAd.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPerlodesAd.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_ad_gesichert}"),
+                jcGesPerlodesAd,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jcGesPerlodesAd, gridBagConstraints);
+
+        lblDiatTrophieVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblDiatTrophieVal.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_diat_trophie.name}"),
+                lblDiatTrophieVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblDiatTrophieVal, gridBagConstraints);
+
+        lblDiatTrophie.setText(org.openide.util.NbBundle.getMessage(
+                BioMstMessungenEditor.class,
+                "BioMstStammdatenEditor.lblDiatTrophie.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblDiatTrophie, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
