@@ -371,24 +371,26 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJusAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJusAddActionPerformed
+    private void btnJusAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJusAddActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgJustificationCataloge);
         dlgJustificationCataloge.setSize(300, 150);
         dlgJustificationCataloge.setVisible(true);
-    }                                                                             //GEN-LAST:event_btnJusAddActionPerformed
+    }//GEN-LAST:event_btnJusAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJusRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJusRemoveActionPerformed
+    private void btnJusRemoveActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJusRemoveActionPerformed
         final Object selection = lstExJus.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
                     this,
-                    "Soll das XXX wirklich gelöscht werden?",
-                    "XXX entfernen",
+                    "Soll die Ausnahme '"
+                            + selection.toString()
+                            + "' wirklich gelöscht werden?",
+                    "Ausnahme entfernen",
                     JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
@@ -402,23 +404,23 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
                 }
             }
         }
-    }                                                                                //GEN-LAST:event_btnJusRemoveActionPerformed
+    }//GEN-LAST:event_btnJusRemoveActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJustfificationAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJustfificationAbortActionPerformed
+    private void btnJustfificationAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustfificationAbortActionPerformed
         dlgJustificationCataloge.setVisible(false);
-    }                                                                                          //GEN-LAST:event_btnJustfificationAbortActionPerformed
+    }//GEN-LAST:event_btnJustfificationAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJustfificationOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJustfificationOkActionPerformed
+    private void btnJustfificationOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustfificationOkActionPerformed
         final Object selection = cbJustfificationCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -430,7 +432,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
             }
         }
         dlgJustificationCataloge.setVisible(false);
-    }                                                                                       //GEN-LAST:event_btnJustfificationOkActionPerformed
+    }//GEN-LAST:event_btnJustfificationOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
