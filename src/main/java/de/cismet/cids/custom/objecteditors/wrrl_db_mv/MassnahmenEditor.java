@@ -121,6 +121,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPressur_cd;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPrioritaet;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRevital;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStalu;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSuppl_cd;
     private javax.swing.JDialog dlgMeas;
     private javax.swing.JDialog dlgMeas15;
@@ -194,7 +195,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JTextField txtKosten;
     private javax.swing.JTextField txtMassn_id;
     private javax.swing.JTextField txtReal;
-    private javax.swing.JTextField txtStalu;
     private javax.swing.JTextField txtZiele;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -436,8 +436,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblValGwk = new javax.swing.JLabel();
         lblMassn_id = new javax.swing.JLabel();
         lblStalu = new javax.swing.JLabel();
-        txtStalu = new javax.swing.JTextField();
         txtMassn_id = new javax.swing.JTextField();
+        cbStalu = new ScrollableComboBox();
         jPanel3 = new javax.swing.JPanel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -1061,25 +1061,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel2.add(lblStalu, gridBagConstraints);
 
-        txtStalu.setMinimumSize(new java.awt.Dimension(200, 25));
-        txtStalu.setPreferredSize(new java.awt.Dimension(200, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
-                txtStalu,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel2.add(txtStalu, gridBagConstraints);
-
         txtMassn_id.setMinimumSize(new java.awt.Dimension(200, 25));
         txtMassn_id.setPreferredSize(new java.awt.Dimension(200, 25));
 
@@ -1099,6 +1080,26 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(txtMassn_id, gridBagConstraints);
+
+        cbStalu.setMinimumSize(new java.awt.Dimension(200, 25));
+        cbStalu.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
+                cbStalu,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(cbStalu, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

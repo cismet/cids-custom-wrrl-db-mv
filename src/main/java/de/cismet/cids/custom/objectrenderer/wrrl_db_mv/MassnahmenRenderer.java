@@ -671,10 +671,11 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu.stalu}"),
                 lblValStalu,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
