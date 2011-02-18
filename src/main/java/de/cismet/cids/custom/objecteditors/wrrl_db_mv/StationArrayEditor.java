@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
-import de.cismet.cids.custom.util.StationToMapRegistry;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -35,7 +34,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDropListener, LinearReferencingConstants {
+public class StationArrayEditor extends javax.swing.JPanel implements LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -50,10 +49,10 @@ public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDr
     private CidsBeanDropTarget cidsBeanDropTarget;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel dropPanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private de.cismet.tools.gui.SemiRoundedPanel semiRoundedPanel1;
     // End of variables declaration//GEN-END:variables
@@ -65,31 +64,9 @@ public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDr
      */
     public StationArrayEditor() {
         initComponents();
-
-        try {
-            new CidsBeanDropTarget(this);
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("error while creating CidsBeanDropTarget");
-            }
-        }
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    @Override
-    public void beansDropped(final ArrayList<CidsBean> beans) {
-        for (final CidsBean bean : beans) {
-            if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
-                final StationEditor editor = new StationEditor();
-                editor.setCidsBean(createStationFromRoute(bean));
-                addEditor(editor);
-                cidsBeans.add(editor.getCidsBean());
-            } else {
-                return;
-            }
-        }
-    }
 
     /**
      * DOCUMENT ME!
@@ -180,7 +157,7 @@ public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDr
         this.cidsBeans = cidsBeans;
 
         if (cidsBeanDropTarget == null) {
-            cidsBeanDropTarget = new CidsBeanDropTarget(this);
+            cidsBeanDropTarget = new CidsBeanDropTarget(dropPanel);
         }
 
 //        if (stationenMap != null) {
@@ -292,8 +269,8 @@ public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDr
         semiRoundedPanel1 = new de.cismet.tools.gui.SemiRoundedPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        dropPanel = new DropPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(200, 100));
         setOpaque(false);
@@ -317,13 +294,42 @@ public class StationArrayEditor extends javax.swing.JPanel implements CidsBeanDr
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
         roundedPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setOpaque(false);
+        dropPanel.setOpaque(false);
 
-        jLabel2.setText(" "); // NOI18N
-        jPanel2.add(jLabel2);
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(
+                StationArrayEditor.class,
+                "StationArrayEditor.jLabel3.text")); // NOI18N
+        dropPanel.add(jLabel3);
 
-        roundedPanel1.add(jPanel2, java.awt.BorderLayout.SOUTH);
+        roundedPanel1.add(dropPanel, java.awt.BorderLayout.SOUTH);
 
         add(roundedPanel1);
     } // </editor-fold>//GEN-END:initComponents
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DropPanel extends JPanel implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            for (final CidsBean bean : beans) {
+                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                    final StationEditor editor = new StationEditor();
+                    editor.setCidsBean(createStationFromRoute(bean));
+                    addEditor(editor);
+                    cidsBeans.add(editor.getCidsBean());
+                } else {
+                    return;
+                }
+            }
+        }
+    }
 }

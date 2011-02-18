@@ -36,8 +36,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implements CidsBeanDropListener,
-    LinearReferencingConstants {
+public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implements LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -58,9 +57,9 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
     private String metaClassName;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel dropPanel;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private de.cismet.tools.gui.SemiRoundedPanel semiRoundedPanel1;
@@ -75,7 +74,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
         initComponents();
 
         try {
-            new CidsBeanDropTarget(this);
+            new CidsBeanDropTarget(dropPanel);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while creating CidsBeanDropTarget");
@@ -147,21 +146,6 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
      */
     public void setTitle(final String title) {
         lblTitle.setText(title);
-    }
-
-    @Override
-    public void beansDropped(final ArrayList<CidsBean> beans) {
-        for (final CidsBean bean : beans) {
-            if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
-                final LinearReferencedLineEditor editor = createEditor();
-                editor.setMetaClassName(metaClassName);
-                editor.setCidsBean(createBeanFromRoute(bean));
-                addEditor(editor);
-                cidsBeans.add(editor.getCidsBean());
-            } else {
-                return;
-            }
-        }
     }
 
     /**
@@ -387,8 +371,8 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
         semiRoundedPanel1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblTitle = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        dropPanel = new DropPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(200, 100));
         setOpaque(false);
@@ -409,17 +393,47 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
 
         jPanel1.setMinimumSize(new java.awt.Dimension(100, 48));
         jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.setLayout(new java.awt.GridLayout());
         roundedPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(10, 24));
-        jPanel2.setOpaque(false);
+        dropPanel.setMinimumSize(new java.awt.Dimension(10, 24));
+        dropPanel.setOpaque(false);
 
-        jLabel2.setText(" "); // NOI18N
-        jPanel2.add(jLabel2);
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineArrayEditor.class,
+                "LinearReferencedLineArrayEditor.jLabel3.text")); // NOI18N
+        dropPanel.add(jLabel3);
 
-        roundedPanel1.add(jPanel2, java.awt.BorderLayout.SOUTH);
+        roundedPanel1.add(dropPanel, java.awt.BorderLayout.SOUTH);
 
         add(roundedPanel1);
     } // </editor-fold>//GEN-END:initComponents
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DropPanel extends JPanel implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            for (final CidsBean bean : beans) {
+                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                    final LinearReferencedLineEditor editor = createEditor();
+                    editor.setMetaClassName(metaClassName);
+                    editor.setCidsBean(createBeanFromRoute(bean));
+                    addEditor(editor);
+                    cidsBeans.add(editor.getCidsBean());
+                } else {
+                    return;
+                }
+            }
+        }
+    }
 }
