@@ -183,7 +183,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
             chemieMstMessungenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor();
         }
         if (readOnly) {
-            chemieMstMessungenRenderer1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ChemieMstMessungenRenderer();
+            chemieMstMessungenRenderer1 =
+                new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ChemieMstMessungenRenderer();
         }
 
         panFooter.setOpaque(false);
@@ -218,11 +219,15 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        panStamm.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Stammdaten"));
+        panStamm.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
+                "Stammdaten"));
         panStamm.setOpaque(false);
         panStamm.setLayout(new java.awt.GridBagLayout());
 
-        lblGew.setText(org.openide.util.NbBundle.getMessage(ChemieMstStammdatenEditor.class, "BioMstStammdatenEditor.lblGew.text")); // NOI18N
+        lblGew.setText(org.openide.util.NbBundle.getMessage(
+                ChemieMstStammdatenEditor.class,
+                "BioMstStammdatenEditor.lblGew.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -231,7 +236,9 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblGew, gridBagConstraints);
 
-        lblLage.setText(org.openide.util.NbBundle.getMessage(ChemieMstStammdatenEditor.class, "BioMstStammdatenEditor.lblLage.text")); // NOI18N
+        lblLage.setText(org.openide.util.NbBundle.getMessage(
+                ChemieMstStammdatenEditor.class,
+                "BioMstStammdatenEditor.lblLage.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -243,7 +250,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         lblMstCodeVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblMstCodeVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.messstelle}"), lblMstCodeVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.messstelle}"),
+                lblMstCodeVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -260,7 +272,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         lblGewVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblGewVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser}"), lblGewVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser}"),
+                lblGewVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -277,7 +294,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         lblLageVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblLageVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lage}"), lblLageVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lage}"),
+                lblLageVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -291,7 +313,9 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblLageVal, gridBagConstraints);
 
-        lblWk.setText(org.openide.util.NbBundle.getMessage(ChemieMstStammdatenEditor.class, "BioMstStammdatenEditor.lblWk.text")); // NOI18N
+        lblWk.setText(org.openide.util.NbBundle.getMessage(
+                ChemieMstStammdatenEditor.class,
+                "BioMstStammdatenEditor.lblWk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -300,7 +324,9 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panStamm.add(lblWk, gridBagConstraints);
 
-        lblHR.setText(org.openide.util.NbBundle.getMessage(ChemieMstStammdatenEditor.class, "BioMstStammdatenEditor.lblHR.text")); // NOI18N
+        lblHR.setText(org.openide.util.NbBundle.getMessage(
+                ChemieMstStammdatenEditor.class,
+                "BioMstStammdatenEditor.lblHR.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -309,7 +335,9 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panStamm.add(lblHR, gridBagConstraints);
 
-        lblLawa.setText(org.openide.util.NbBundle.getMessage(ChemieMstStammdatenEditor.class, "BioMstStammdatenEditor.lblLawa.text")); // NOI18N
+        lblLawa.setText(org.openide.util.NbBundle.getMessage(
+                ChemieMstStammdatenEditor.class,
+                "BioMstStammdatenEditor.lblLawa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
@@ -321,7 +349,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         lblWkVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblWkVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"), lblWkVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"),
+                lblWkVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -338,7 +371,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         lblHRVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblHRVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"), lblHRVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"),
+                lblHRVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("/");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         binding.setConverter(new CoordinateConverter());
@@ -356,7 +394,13 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         lblLawaVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblLawaVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_typ.code}-${cidsBean.lawa_typ.description}"), lblLawaVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create(
+                    "${cidsBean.lawa_typ.code}-${cidsBean.lawa_typ.description}"),
+                lblLawaVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -370,7 +414,9 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(lblLawaVal, gridBagConstraints);
 
-        lblMst.setText(org.openide.util.NbBundle.getMessage(ChemieMstStammdatenEditor.class, "BioMstStammdatenEditor.lblMst.text")); // NOI18N
+        lblMst.setText(org.openide.util.NbBundle.getMessage(
+                ChemieMstStammdatenEditor.class,
+                "BioMstStammdatenEditor.lblMst.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -398,7 +444,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panScr.add(txtJahr, gridBagConstraints);
 
-        btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left.png"))); // NOI18N
+        btnBack1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left.png")));          // NOI18N
         btnBack1.setBorder(null);
         btnBack1.setBorderPainted(false);
         btnBack1.setContentAreaFilled(false);
@@ -406,13 +453,17 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         btnBack1.setMaximumSize(new java.awt.Dimension(30, 30));
         btnBack1.setMinimumSize(new java.awt.Dimension(30, 30));
         btnBack1.setPreferredSize(new java.awt.Dimension(30, 30));
-        btnBack1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left-pressed.png"))); // NOI18N
-        btnBack1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left-selected.png"))); // NOI18N
+        btnBack1.setPressedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left-pressed.png")));  // NOI18N
+        btnBack1.setRolloverIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-left-selected.png"))); // NOI18N
         btnBack1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBack1ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnBack1ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -420,7 +471,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panScr.add(btnBack1, gridBagConstraints);
 
-        btnForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right.png"))); // NOI18N
+        btnForward.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right.png")));          // NOI18N
         btnForward.setBorder(null);
         btnForward.setBorderPainted(false);
         btnForward.setContentAreaFilled(false);
@@ -428,13 +480,17 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         btnForward.setMaximumSize(new java.awt.Dimension(30, 30));
         btnForward.setMinimumSize(new java.awt.Dimension(30, 30));
         btnForward.setPreferredSize(new java.awt.Dimension(30, 30));
-        btnForward.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right-pressed.png"))); // NOI18N
-        btnForward.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right-selected.png"))); // NOI18N
+        btnForward.setPressedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right-pressed.png")));  // NOI18N
+        btnForward.setRolloverIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/arrow-right-selected.png"))); // NOI18N
         btnForward.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnForwardActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnForwardActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -484,14 +540,14 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
+    private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBack1ActionPerformed
         int year = getCurrentlyEnteredYear();
 
         saveLastMeasure();
@@ -520,13 +576,13 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
                     }
                 }
             }).start();
-    }//GEN-LAST:event_btnBack1ActionPerformed
+    } //GEN-LAST:event_btnBack1ActionPerformed
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
+    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
         int year = getCurrentlyEnteredYear();
 
         saveLastMeasure();
@@ -565,7 +621,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         }
 
         noDocumentUpdate = false;
-    }//GEN-LAST:event_btnForwardActionPerformed
+    } //GEN-LAST:event_btnForwardActionPerformed
 
     /**
      * DOCUMENT ME!

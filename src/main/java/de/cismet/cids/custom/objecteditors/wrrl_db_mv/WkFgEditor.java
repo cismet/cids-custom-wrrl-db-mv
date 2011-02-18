@@ -422,15 +422,23 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         lstAusnahmen.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ausnahmen}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstAusnahmen);
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.ausnahmen}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstAusnahmen);
         bindingGroup.addBinding(jListBinding);
 
         lstAusnahmen.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstAusnahmenValueChanged(evt);
-            }
-        });
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    lstAusnahmenValueChanged(evt);
+                }
+            });
         scpAusnahmen.setViewportView(lstAusnahmen);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -444,24 +452,34 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panContrAusnahmen.setOpaque(false);
         panContrAusnahmen.setLayout(new java.awt.GridBagLayout());
 
-        btnAddAusnahme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddAusnahme.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnAddImpactSrc.text")); // NOI18N
+        btnAddAusnahme.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddAusnahme.setText(org.openide.util.NbBundle.getMessage(
+                WkFgEditor.class,
+                "WkFgPanOne.btnAddImpactSrc.text"));                                                           // NOI18N
         btnAddAusnahme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddAusnahmeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddAusnahmeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         panContrAusnahmen.add(btnAddAusnahme, gridBagConstraints);
 
-        btnRemAusnahme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemAusnahme.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnRemImpactSrc.text")); // NOI18N
+        btnRemAusnahme.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemAusnahme.setText(org.openide.util.NbBundle.getMessage(
+                WkFgEditor.class,
+                "WkFgPanOne.btnRemImpactSrc.text"));                                                              // NOI18N
         btnRemAusnahme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemAusnahmeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemAusnahmeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -513,7 +531,12 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panGeo.setOpaque(false);
         panGeo.setLayout(new java.awt.GridBagLayout());
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.teile}"), wkTeileEditor1, org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.teile}"),
+                wkTeileEditor1,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -556,14 +579,14 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         tpMain.getAccessibleContext().setAccessibleName("Qualitaetsinformationen 1");
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAusnahmeActionPerformed
+    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddAusnahmeActionPerformed
         try {
             final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("EXCEMPTION");
             final Collection<CidsBean> excemptionCollection = CidsBeanSupport.getBeanCollectionFromProperty(
@@ -573,28 +596,28 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
-    }//GEN-LAST:event_btnAddAusnahmeActionPerformed
+    }                                                                                  //GEN-LAST:event_btnAddAusnahmeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
+    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstAusnahmenValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = lstAusnahmen.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 excemptionEditor.setCidsBean((CidsBean)selObj);
             }
         }
-    }//GEN-LAST:event_lstAusnahmenValueChanged
+    }                                                                                       //GEN-LAST:event_lstAusnahmenValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemAusnahmeActionPerformed
+    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemAusnahmeActionPerformed
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -614,7 +637,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 }
             }
         }
-    }//GEN-LAST:event_btnRemAusnahmeActionPerformed
+    }                                                                                  //GEN-LAST:event_btnRemAusnahmeActionPerformed
 
     @Override
     public void dispose() {
