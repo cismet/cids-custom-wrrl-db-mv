@@ -1007,7 +1007,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
         add(jPanel4, gridBagConstraints);
 
         bindingGroup.bind();

@@ -12,9 +12,12 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import java.awt.EventQueue;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor;
 import de.cismet.cids.custom.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -139,6 +142,13 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        setColors();
+                    }
+                });
         } else {
             clearForm();
         }
@@ -194,6 +204,13 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         txtIndpolBemerkMst.setText("");
         lblGkPhysChem.setText("");
         lblPhysChemBem.setText("");
+        lblMittelOrth.setOpaque(false);
+        lblMittelAmm.setOpaque(false);
+        lblMittelChlor.setOpaque(false);
+        lblMittelGesN.setOpaque(false);
+        lblMittelNit.setOpaque(false);
+        lblMittelO2.setOpaque(false);
+        lblMittelPhos.setOpaque(false);
     }
 
     /**
@@ -1452,11 +1469,24 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
         add(jPanel4, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setColors() {
+        ChemieMstMessungenEditor.setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelNit, null, lbl90PerzentilNit);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelO2, lblOWertO2, null);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos);
+    }
 
     /**
      * DOCUMENT ME!

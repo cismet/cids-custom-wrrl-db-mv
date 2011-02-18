@@ -12,7 +12,11 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.ScrollableComboBox;
@@ -41,6 +45,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ChemieMstMessungenEditor.class);
+    private static final Color LIGHT_BLUE = new Color(0, 154, 255);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -155,6 +160,14 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 setEnable(true);
             }
             bindingGroup.bind();
+
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        setColors();
+                    }
+                });
         } else {
             if (!readOnly) {
                 setEnable(false);
@@ -216,6 +229,13 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         txtIndpolBemerkMst.setText("");
         txtPhysChemBem.setText("");
         cbGkPhysChem.setSelectedIndex(-1);
+        lblMittelOrth.setOpaque(false);
+        lblMittelAmm.setOpaque(false);
+        lblMittelChlor.setOpaque(false);
+        lblMittelGesN.setOpaque(false);
+        lblMittelNit.setOpaque(false);
+        lblMittelO2.setOpaque(false);
+        lblMittelPhos.setOpaque(false);
     }
 
     /**
@@ -1439,7 +1459,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
         add(jPanel4, gridBagConstraints);
 
         bindingGroup.bind();
@@ -1448,15 +1468,66 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     /**
      * DOCUMENT ME!
      */
+    private void setColors() {
+        setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth);
+        setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm);
+        setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor);
+        setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN);
+        setColorOfField(lblMittelNit, null, lbl90PerzentilNit);
+        setColorOfField(lblMittelO2, lblOWertO2, null);
+        setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos);
+    }
+
     /**
      * DOCUMENT ME!
+     *
+     * @param  mit  DOCUMENT ME!
+     * @param  ow   DOCUMENT ME!
+     * @param  pe   DOCUMENT ME!
      */
+    public static void setColorOfField(final JLabel mit, final JLabel ow, final JLabel pe) {
+        try {
+            final double mitD = Double.parseDouble(mit.getText());
+            double oD = Double.MAX_VALUE;
+            double hgrD = Double.MAX_VALUE;
+
+            if (ow != null) {
+                oD = Double.parseDouble(ow.getText());
+            }
+
+            if (pe != null) {
+                hgrD = Double.parseDouble(pe.getText());
+            }
+
+            mit.setBackground(calcColor(mitD, oD, hgrD));
+            mit.setOpaque(true);
+            mit.repaint();
+        } catch (NumberFormatException e) {
+            mit.setOpaque(false);
+        }
+    }
+
     /**
      * DOCUMENT ME!
+     *
+     * @param   mittel  DOCUMENT ME!
+     * @param   o       DOCUMENT ME!
+     * @param   hgr     DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
      */
-    /**
-     * DOCUMENT ME!
-     */
+    public static Color calcColor(final double mittel, final double o, final double hgr) {
+        if ((mittel <= hgr) && (hgr != Double.MAX_VALUE)) {
+            return LIGHT_BLUE;
+        } else if (mittel <= o) {
+            return Color.GREEN;
+        } else if (mittel <= (2 * o)) {
+            return Color.ORANGE;
+        } else {
+            return Color.RED;
+        }
+    }
+
     /**
      * DOCUMENT ME!
      */
