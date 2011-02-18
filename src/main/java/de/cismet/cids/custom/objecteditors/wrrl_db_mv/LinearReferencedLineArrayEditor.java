@@ -11,8 +11,8 @@ import Sirius.server.middleware.types.MetaClass;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
@@ -245,9 +246,8 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
     private void addEditor(final LinearReferencedLineEditor editor) {
         editors.add(editor);
 
-        final JPanel panItem = new JPanel(new GridBagLayout());
+        final JPanel panItem = new JPanel(new BorderLayout(5, 5));
         panItem.setOpaque(false);
-        GridBagConstraints gridBagConstraints;
         final JButton btnRemove = new JButton();
 
         btnRemove.setIcon(new javax.swing.ImageIcon(
@@ -262,20 +262,13 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
                 }
             });
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        panItem.add(editor, gridBagConstraints);
+        final JPanel panEast = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panEast.add(btnRemove);
+        panEast.setOpaque(false);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets.left = 5;
-        gridBagConstraints.insets.right = 5;
-        gridBagConstraints.anchor = GridBagConstraints.WEST;
-        panItem.add(btnRemove, gridBagConstraints);
+        panItem.add(editor, BorderLayout.CENTER);
+        panItem.add(panEast, BorderLayout.EAST);
+        panItem.add(new JSeparator(), BorderLayout.SOUTH);
 
         editorButtonMap.put(btnRemove, editor);
         jPanel1.add(panItem);
@@ -393,7 +386,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
 
         jPanel1.setMinimumSize(new java.awt.Dimension(100, 48));
         jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
         roundedPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         dropPanel.setMinimumSize(new java.awt.Dimension(10, 24));

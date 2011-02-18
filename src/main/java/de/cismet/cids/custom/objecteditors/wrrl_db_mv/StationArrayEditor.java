@@ -9,8 +9,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
@@ -186,9 +187,8 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
     private void addEditor(final StationEditor stationEditor) {
         stationEditors.add(stationEditor);
 
-        final JPanel panItem = new JPanel(new GridBagLayout());
+        final JPanel panItem = new JPanel(new BorderLayout());
         panItem.setOpaque(false);
-        GridBagConstraints gridBagConstraints;
         final JButton btnRemove = new JButton();
 
         btnRemove.setIcon(new javax.swing.ImageIcon(
@@ -203,20 +203,13 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
                 }
             });
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        panItem.add(stationEditor, gridBagConstraints);
+        final JPanel panEast = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panEast.add(btnRemove);
+        panEast.setOpaque(false);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets.left = 5;
-        gridBagConstraints.insets.right = 5;
-        gridBagConstraints.anchor = GridBagConstraints.WEST;
-        panItem.add(btnRemove, gridBagConstraints);
+        panItem.add(stationEditor, BorderLayout.CENTER);
+        panItem.add(panEast, BorderLayout.EAST);
+        panItem.add(new JSeparator(), BorderLayout.SOUTH);
 
         stationenMap.put(btnRemove, stationEditor);
         jPanel1.add(panItem);
