@@ -25,6 +25,11 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestJeanEditor.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor stationArrayEditor;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor wkTeilEditor;
@@ -160,8 +165,13 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
 
         wkTeilEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor();
         stationEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
-        wkTeileEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
+        jPanel1 = new javax.swing.JPanel();
         stationArrayEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        wkTeileEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -198,21 +208,8 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(stationEditor, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teile}"),
-                wkTeileEditor,
-                org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
-        bindingGroup.addBinding(binding);
-
-        wkTeileEditor.setLayout(new java.awt.GridLayout(1, 0));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(wkTeileEditor, gridBagConstraints);
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -224,10 +221,68 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(stationArrayEditor, gridBagConstraints);
+
+        jPanel3.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(jPanel3, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(jPanel1, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teile}"),
+                wkTeileEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+        bindingGroup.addBinding(binding);
+
+        wkTeileEditor.setLayout(new java.awt.GridLayout(1, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(stationArrayEditor, gridBagConstraints);
+        jPanel2.add(wkTeileEditor, gridBagConstraints);
+
+        jPanel4.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jPanel4, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(jPanel2, gridBagConstraints);
+
+        jPanel5.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel5, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
