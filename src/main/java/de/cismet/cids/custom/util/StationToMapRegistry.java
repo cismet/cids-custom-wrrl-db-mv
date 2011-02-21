@@ -206,9 +206,6 @@ public class StationToMapRegistry implements LinearReferencingConstants {
             final LinearReferencedPointFeature to) {
         final LinearReferencedLineFeature linRefLine = new LinearReferencedLineFeature(from, to);
 
-        final LinearReferencedPointFeature linRefFromPoint = linRefLine.getStationFeature(FROM);
-        final LinearReferencedPointFeature linRefToPoint = linRefLine.getStationFeature(TO);
-
         linRefLine.setLinePaint(getNextColor());
 
         return (LinearReferencedLineFeature)addFeature(cidsBean, linRefLine);
