@@ -44,8 +44,6 @@ import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.EditorSaveListener;
-
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -56,7 +54,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -510,23 +508,5 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     @Override
     public void setTitle(final String title) {
         // NOP
-    }
-
-    @Override
-    public void editorClosed(final EditorSaveStatus status) {
-        // NOP
-    }
-
-    @Override
-    public boolean prepareForSave() {
-        if (cidsBean != null) {
-            try {
-                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
-            } catch (Exception ex) {
-                LOG.error(ex, ex);
-            }
-        }
-        return true;
     }
 }

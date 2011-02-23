@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -30,9 +29,7 @@ import de.cismet.tools.gui.FooterComponentProvider;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
-    EditorSaveListener,
-    FooterComponentProvider {
+public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer, FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -1029,16 +1026,6 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
     @Override
     public void setTitle(final String title) {
         // NOP
-    }
-
-    @Override
-    public void editorClosed(final EditorSaveStatus status) {
-        // TODO ?
-    }
-
-    @Override
-    public boolean prepareForSave() {
-        return true;
     }
 
     @Override

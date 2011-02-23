@@ -24,6 +24,7 @@ import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
@@ -676,7 +677,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     }
 
     @Override
-    public void editorClosed(final EditorSaveStatus status) {
+    public void editorClosed(final EditorClosedEvent event) {
     }
 
     @Override

@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
 import Sirius.server.middleware.types.MetaClass;
 
 import org.jdesktop.beansbinding.Converter;
@@ -26,7 +24,6 @@ import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -41,10 +38,7 @@ import de.cismet.tools.gui.TitleComponentProvider;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkSgRenderer extends JPanel implements CidsBeanRenderer,
-    EditorSaveListener,
-    FooterComponentProvider,
-    TitleComponentProvider {
+public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComponentProvider, TitleComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -495,24 +489,6 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer,
     @Override
     public void setTitle(final String title) {
         // NOP
-    }
-
-    @Override
-    public void editorClosed(final EditorSaveStatus status) {
-        // TODO ?
-    }
-
-    @Override
-    public boolean prepareForSave() {
-        if (cidsBean != null) {
-            try {
-                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-                cidsBean.setProperty("av_date", new java.sql.Timestamp(System.currentTimeMillis()));
-            } catch (Exception ex) {
-                log.error(ex, ex);
-            }
-        }
-        return true;
     }
 
     @Override

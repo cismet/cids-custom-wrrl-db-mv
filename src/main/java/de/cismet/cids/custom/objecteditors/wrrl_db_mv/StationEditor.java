@@ -943,7 +943,11 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         panEdit.setOpaque(false);
         panEdit.setLayout(new java.awt.GridBagLayout());
 
-        spinValue.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        spinValue.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                Double.valueOf(0.0d),
+                null,
+                Double.valueOf(1.0d)));
         spinValue.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -952,7 +956,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         panEdit.add(spinValue, gridBagConstraints);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png")));          // NOI18N
         jLabel5.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.jLabel5.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -972,14 +977,21 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panEdit.add(labGwk, gridBagConstraints);
 
-        splitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-left.png"))); // NOI18N
-        splitButton.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.splitButton.text")); // NOI18N
-        splitButton.setToolTipText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.splitButton.toolTipText")); // NOI18N
+        splitButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-left.png"))); // NOI18N
+        splitButton.setText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.splitButton.text"));                                                            // NOI18N
+        splitButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.splitButton.toolTipText"));                                                     // NOI18N
         splitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                splitButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    splitButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
@@ -988,14 +1000,21 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         panEdit.add(splitButton, gridBagConstraints);
 
-        badGeomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation.png"))); // NOI18N
-        badGeomButton.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.badGeomButton.text")); // NOI18N
-        badGeomButton.setToolTipText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.badGeomButton.toolTipText")); // NOI18N
+        badGeomButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation.png"))); // NOI18N
+        badGeomButton.setText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.badGeomButton.text"));                                                        // NOI18N
+        badGeomButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.badGeomButton.toolTipText"));                                                 // NOI18N
         badGeomButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                badGeomButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    badGeomButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1014,14 +1033,21 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         panEdit.add(jPanel2, gridBagConstraints);
 
-        badGeomCorrectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/node-delete.png"))); // NOI18N
-        badGeomCorrectButton.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.badGeomCorrectButton.text")); // NOI18N
-        badGeomCorrectButton.setToolTipText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.badGeomCorrectButton.toolTipText")); // NOI18N
+        badGeomCorrectButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/node-delete.png"))); // NOI18N
+        badGeomCorrectButton.setText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.badGeomCorrectButton.text"));                                                 // NOI18N
+        badGeomCorrectButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.badGeomCorrectButton.toolTipText"));                                          // NOI18N
         badGeomCorrectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                badGeomCorrectButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    badGeomCorrectButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1058,34 +1084,34 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         panError.add(jLabel4, new java.awt.GridBagConstraints());
 
         add(panError, "error");
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splitButtonActionPerformed
+    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_splitButtonActionPerformed
         split();
-    }//GEN-LAST:event_splitButtonActionPerformed
+    }                                                                               //GEN-LAST:event_splitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomButtonActionPerformed
+    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomButtonActionPerformed
         badGeomButtonPressed();
-    }//GEN-LAST:event_badGeomButtonActionPerformed
+    }                                                                                 //GEN-LAST:event_badGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomCorrectButtonActionPerformed
+    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomCorrectButtonActionPerformed
         badGeomCorrectButtonPressed();
-    }//GEN-LAST:event_badGeomCorrectButtonActionPerformed
+    }                                                                                        //GEN-LAST:event_badGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!

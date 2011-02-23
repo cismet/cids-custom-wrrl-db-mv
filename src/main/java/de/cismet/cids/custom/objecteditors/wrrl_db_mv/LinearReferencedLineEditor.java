@@ -1380,7 +1380,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         jPanel1.add(panLine, gridBagConstraints);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.jLabel1.text_1")); // NOI18N
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.jLabel1.text_1")); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(28, 28));
         jLabel1.setMinimumSize(new java.awt.Dimension(28, 28));
         jLabel1.setPreferredSize(new java.awt.Dimension(28, 28));
@@ -1392,7 +1394,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         jPanel1.add(jLabel1, gridBagConstraints);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.jLabel2.text_1")); // NOI18N
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.jLabel2.text_1")); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(28, 28));
         jLabel2.setMinimumSize(new java.awt.Dimension(28, 28));
         jLabel2.setPreferredSize(new java.awt.Dimension(28, 28));
@@ -1403,8 +1407,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png"))); // NOI18N
-        jLabel5.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.jLabel5.text_1")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png"))); // NOI18N
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.jLabel5.text_1"));                                           // NOI18N
         jLabel5.setMaximumSize(new java.awt.Dimension(13, 28));
         jLabel5.setMinimumSize(new java.awt.Dimension(13, 28));
         jLabel5.setPreferredSize(new java.awt.Dimension(13, 28));
@@ -1414,8 +1421,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(jLabel5, gridBagConstraints);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png"))); // NOI18N
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.jLabel6.text_1")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/station.png"))); // NOI18N
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.jLabel6.text_1"));                                           // NOI18N
         jLabel6.setMaximumSize(new java.awt.Dimension(13, 28));
         jLabel6.setMinimumSize(new java.awt.Dimension(13, 28));
         jLabel6.setPreferredSize(new java.awt.Dimension(13, 28));
@@ -1427,7 +1437,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         labGwk.setForeground(new java.awt.Color(128, 128, 128));
         labGwk.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labGwk.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.labGwk.text_1")); // NOI18N
+        labGwk.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.labGwk.text_1")); // NOI18N
         labGwk.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1437,56 +1449,84 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.weightx = 1.0;
         jPanel1.add(labGwk, gridBagConstraints);
 
-        fromBadGeomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation.png"))); // NOI18N
-        fromBadGeomButton.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.fromBadGeomButton.text")); // NOI18N
-        fromBadGeomButton.setToolTipText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.fromBadGeomButton.toolTipText")); // NOI18N
+        fromBadGeomButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation.png"))); // NOI18N
+        fromBadGeomButton.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.fromBadGeomButton.text"));                                       // NOI18N
+        fromBadGeomButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.fromBadGeomButton.toolTipText"));                                // NOI18N
         fromBadGeomButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fromBadGeomButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    fromBadGeomButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(fromBadGeomButton, gridBagConstraints);
 
-        toBadGeomButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation.png"))); // NOI18N
-        toBadGeomButton.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.toBadGeomButton.text")); // NOI18N
-        toBadGeomButton.setToolTipText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.toBadGeomButton.toolTipText")); // NOI18N
+        toBadGeomButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation.png"))); // NOI18N
+        toBadGeomButton.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.toBadGeomButton.text"));                                         // NOI18N
+        toBadGeomButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.toBadGeomButton.toolTipText"));                                  // NOI18N
         toBadGeomButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toBadGeomButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    toBadGeomButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(toBadGeomButton, gridBagConstraints);
 
-        fromBadGeomCorrectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/node-delete.png"))); // NOI18N
-        fromBadGeomCorrectButton.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.fromBadGeomCorrectButton.text_1")); // NOI18N
-        fromBadGeomCorrectButton.setToolTipText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.fromBadGeomCorrectButton.toolTipText")); // NOI18N
+        fromBadGeomCorrectButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/node-delete.png"))); // NOI18N
+        fromBadGeomCorrectButton.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.fromBadGeomCorrectButton.text_1"));                              // NOI18N
+        fromBadGeomCorrectButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.fromBadGeomCorrectButton.toolTipText"));                         // NOI18N
         fromBadGeomCorrectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fromBadGeomCorrectButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    fromBadGeomCorrectButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(fromBadGeomCorrectButton, gridBagConstraints);
 
-        toBadGeomCorrectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/node-delete-child.png"))); // NOI18N
-        toBadGeomCorrectButton.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.toBadGeomCorrectButton.text_1")); // NOI18N
-        toBadGeomCorrectButton.setToolTipText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.toBadGeomCorrectButton.toolTipText")); // NOI18N
+        toBadGeomCorrectButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/node-delete-child.png"))); // NOI18N
+        toBadGeomCorrectButton.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.toBadGeomCorrectButton.text_1"));                                      // NOI18N
+        toBadGeomCorrectButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.toBadGeomCorrectButton.toolTipText"));                                 // NOI18N
         toBadGeomCorrectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toBadGeomCorrectButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    toBadGeomCorrectButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -1522,7 +1562,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panSpinner.setOpaque(false);
         panSpinner.setLayout(new java.awt.GridBagLayout());
 
-        spinFrom.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        spinFrom.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                Double.valueOf(0.0d),
+                null,
+                Double.valueOf(1.0d)));
         spinFrom.setMinimumSize(new java.awt.Dimension(100, 28));
         spinFrom.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1532,7 +1576,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         panSpinner.add(spinFrom, gridBagConstraints);
 
-        spinTo.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        spinTo.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                Double.valueOf(0.0d),
+                null,
+                Double.valueOf(1.0d)));
         spinTo.setMinimumSize(new java.awt.Dimension(100, 28));
         spinTo.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1551,14 +1599,21 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.weighty = 1.0;
         panSpinner.add(jPanel4, gridBagConstraints);
 
-        fromStationSplitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-left.png"))); // NOI18N
-        fromStationSplitButton.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.fromStationSplitButton.text")); // NOI18N
-        fromStationSplitButton.setToolTipText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.fromStationSplitButton.toolTipText")); // NOI18N
+        fromStationSplitButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-left.png"))); // NOI18N
+        fromStationSplitButton.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.fromStationSplitButton.text"));                                    // NOI18N
+        fromStationSplitButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.fromStationSplitButton.toolTipText"));                             // NOI18N
         fromStationSplitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fromStationSplitButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    fromStationSplitButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1566,14 +1621,21 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         panSpinner.add(fromStationSplitButton, gridBagConstraints);
 
-        toStationSplitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-right.png"))); // NOI18N
-        toStationSplitButton.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.toStationSplitButton.text")); // NOI18N
-        toStationSplitButton.setToolTipText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.toStationSplitButton.toolTipText")); // NOI18N
+        toStationSplitButton.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-right.png"))); // NOI18N
+        toStationSplitButton.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.toStationSplitButton.text"));                                       // NOI18N
+        toStationSplitButton.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.toStationSplitButton.toolTipText"));                                // NOI18N
         toStationSplitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toStationSplitButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    toStationSplitButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -1594,7 +1656,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panAdd.setLayout(new java.awt.GridBagLayout());
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.jLabel3.text_1")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.jLabel3.text_1")); // NOI18N
         panAdd.add(jLabel3, new java.awt.GridBagConstraints());
 
         add(panAdd, "add");
@@ -1602,65 +1666,67 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panError.setOpaque(false);
         panError.setLayout(new java.awt.GridBagLayout());
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineEditor.class, "LinearReferencedLineEditor.jLabel4.text_1")); // NOI18N
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.jLabel4.text_1")); // NOI18N
         panError.add(jLabel4, new java.awt.GridBagConstraints());
 
         add(panError, "error");
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void fromStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromStationSplitButtonActionPerformed
+    private void fromStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_fromStationSplitButtonActionPerformed
         splitStation(FROM);
-    }//GEN-LAST:event_fromStationSplitButtonActionPerformed
+    }                                                                                          //GEN-LAST:event_fromStationSplitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void toStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toStationSplitButtonActionPerformed
+    private void toStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_toStationSplitButtonActionPerformed
         splitStation(TO);
-    }//GEN-LAST:event_toStationSplitButtonActionPerformed
+    }                                                                                        //GEN-LAST:event_toStationSplitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void toBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toBadGeomCorrectButtonActionPerformed
+    private void toBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_toBadGeomCorrectButtonActionPerformed
         badGeomCorrectButtonPressed(TO);
-    }//GEN-LAST:event_toBadGeomCorrectButtonActionPerformed
+    }                                                                                          //GEN-LAST:event_toBadGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void toBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toBadGeomButtonActionPerformed
+    private void toBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_toBadGeomButtonActionPerformed
         badGeomButtonPressed(TO);
-    }//GEN-LAST:event_toBadGeomButtonActionPerformed
+    }                                                                                   //GEN-LAST:event_toBadGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void fromBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromBadGeomCorrectButtonActionPerformed
+    private void fromBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_fromBadGeomCorrectButtonActionPerformed
         badGeomCorrectButtonPressed(FROM);
-    }//GEN-LAST:event_fromBadGeomCorrectButtonActionPerformed
+    }                                                                                            //GEN-LAST:event_fromBadGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void fromBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromBadGeomButtonActionPerformed
+    private void fromBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_fromBadGeomButtonActionPerformed
         badGeomButtonPressed(FROM);
-    }//GEN-LAST:event_fromBadGeomButtonActionPerformed
+    }                                                                                     //GEN-LAST:event_fromBadGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!

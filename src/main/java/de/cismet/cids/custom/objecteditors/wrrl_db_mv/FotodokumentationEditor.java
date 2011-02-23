@@ -92,6 +92,7 @@ import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -1664,8 +1665,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     }
 
     @Override
-    public void editorClosed(final EditorSaveStatus status) {
-        if (EditorSaveStatus.SAVE_SUCCESS == status) {
+    public void editorClosed(final EditorClosedEvent event) {
+        if (EditorSaveStatus.SAVE_SUCCESS == event.getStatus()) {
             for (final CidsBean deleteBean : removedFotoBeans) {
                 deleteFileFromWebDAV(WEB_DAV_DIRECTORY + deleteBean.getProperty("file"));
                 try {

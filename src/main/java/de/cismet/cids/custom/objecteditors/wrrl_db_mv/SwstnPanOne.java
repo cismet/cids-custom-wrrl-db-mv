@@ -22,6 +22,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
@@ -740,7 +741,7 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
     }
 
     @Override
-    public void editorClosed(final EditorSaveStatus status) {
+    public void editorClosed(final EditorClosedEvent event) {
     }
 
     @Override

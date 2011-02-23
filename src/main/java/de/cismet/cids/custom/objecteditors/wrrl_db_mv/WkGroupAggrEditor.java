@@ -40,6 +40,7 @@ import de.cismet.cids.custom.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
@@ -318,7 +319,7 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
     }
 
     @Override
-    public void editorClosed(final EditorSaveStatus status) {
+    public void editorClosed(final EditorClosedEvent event) {
         // TODO ?
     }
 

@@ -36,6 +36,7 @@ import de.cismet.cids.custom.util.CoordinateConverter;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
@@ -738,7 +739,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     }
 
     @Override
-    public void editorClosed(final EditorSaveStatus status) {
+    public void editorClosed(final EditorClosedEvent event) {
         // TODO ?
     }
 
