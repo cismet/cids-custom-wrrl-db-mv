@@ -24,6 +24,7 @@ import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -35,7 +36,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class StationArrayEditor extends javax.swing.JPanel implements LinearReferencingConstants {
+public class StationArrayEditor extends JPanel implements DisposableCidsBeanStore, LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -43,7 +44,8 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
 
     //~ Instance fields --------------------------------------------------------
 
-    private Collection<CidsBean> cidsBeans;
+    private CidsBean cidsBean;
+    private String arrayField;
     private Collection<StationEditor> stationEditors = new ArrayList<StationEditor>();
     private HashMap<JButton, StationEditor> stationenMap = new HashMap<JButton, StationEditor>();
     private Collection<StationArrayEditorListener> listeners = new ArrayList<StationArrayEditorListener>();
@@ -69,6 +71,23 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arrayField  DOCUMENT ME!
+     */
+    public final void setFields(final String arrayField) {
+        setArrayField(arrayField);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arrayField  DOCUMENT ME!
+     */
+    private void setArrayField(final String arrayField) {
+        this.arrayField = arrayField;
+    }
     /**
      * DOCUMENT ME!
      *
@@ -146,37 +165,7 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
      * @return  DOCUMENT ME!
      */
     public Collection<CidsBean> getCidsBeans() {
-        return cidsBeans;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cidsBeans  DOCUMENT ME!
-     */
-    public void setCidsBeans(final Collection<CidsBean> cidsBeans) {
-        this.cidsBeans = cidsBeans;
-
-        if (cidsBeanDropTarget == null) {
-            cidsBeanDropTarget = new CidsBeanDropTarget(dropPanel);
-        }
-
-//        if (stationenMap != null) {
-//            stationenMap.clear();
-//            jPanel1.removeAll();
-//        }
-
-        if (cidsBeans.size() > 0) {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(cidsBeans.size());
-        } else {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(1);
-        }
-
-        for (final CidsBean stationBean : cidsBeans) {
-            final StationEditor stationEditor = new StationEditor();
-            stationEditor.setCidsBean(stationBean);
-            addEditor(stationEditor);
-        }
+        return (Collection<CidsBean>)cidsBean.getProperty(arrayField);
     }
 
     /**
@@ -225,6 +214,8 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
      * @param  stationEditor  DOCUMENT ME!
      */
     private void removeEditor(final StationEditor stationEditor) {
+        final Collection<CidsBean> cidsBeans = getCidsBeans();
+
         cidsBeans.remove(stationEditor.getCidsBean());
 
         jPanel1.remove(stationEditor.getParent());
@@ -245,6 +236,7 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void dispose() {
         for (final StationEditor stationEditor : stationEditors) {
             stationEditor.dispose();
@@ -300,6 +292,39 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
         add(roundedPanel1);
     } // </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
+
+        final Collection<CidsBean> cidsBeans = getCidsBeans();
+
+        if (cidsBeanDropTarget == null) {
+            cidsBeanDropTarget = new CidsBeanDropTarget(dropPanel);
+        }
+
+//        if (stationenMap != null) {
+//            stationenMap.clear();
+//            jPanel1.removeAll();
+//        }
+
+        if (cidsBeans.size() > 0) {
+            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(cidsBeans.size());
+        } else {
+            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(1);
+        }
+
+        for (final CidsBean stationBean : cidsBeans) {
+            final StationEditor stationEditor = new StationEditor();
+            stationEditor.setCidsBean(stationBean);
+            addEditor(stationEditor);
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -318,7 +343,7 @@ public class StationArrayEditor extends javax.swing.JPanel implements LinearRefe
                     final StationEditor editor = new StationEditor();
                     editor.setCidsBean(createStationFromRoute(bean));
                     addEditor(editor);
-                    cidsBeans.add(editor.getCidsBean());
+                    getCidsBeans().add(editor.getCidsBean());
                 } else {
                     return;
                 }

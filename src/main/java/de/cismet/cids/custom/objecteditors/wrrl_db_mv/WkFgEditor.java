@@ -109,6 +109,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private javax.swing.JLabel panSpace;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor teileEditor;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanEleven wkFgPanEleven1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFourteen wkFgPanFourteen1;
@@ -118,7 +119,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanTen wkFgPanTen;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanThirteen wkFgPanThirteen1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanTwelve wkFgPanTwelve1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor wkTeileEditor1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -131,7 +131,13 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
 
-        wkTeileEditor1.addLinearReferencedLineEditorListener(new LinearReferencedLineArrayEditorListener() {
+        teileEditor.setFields(
+            "teile",
+            WkTeilEditor.PROP_WKTEIL_FROM,
+            WkTeilEditor.PROP_WKTEIL_TO,
+            WkTeilEditor.PROP_WKTEIL_GEOM);
+
+        teileEditor.addLinearReferencedLineArrayEditorListener(new LinearReferencedLineArrayEditorListener() {
 
                 @Override
                 public void editorAdded(final LinearReferencedLineEditor source) {
@@ -259,7 +265,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         panGeo = new javax.swing.JPanel();
-        wkTeileEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor();
+        teileEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -535,9 +541,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.teile}"),
-                wkTeileEditor1,
-                org.jdesktop.beansbinding.BeanProperty.create("cidsBeans"));
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"),
+                teileEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -547,7 +553,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        panGeo.add(wkTeileEditor1, gridBagConstraints);
+        panGeo.add(teileEditor, gridBagConstraints);
 
         jPanel2.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -650,7 +656,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         wkFgPanThirteen1.dispose();
         wkFgPanSeven1.dispose();
         excemptionEditor.dispose();
-        wkTeileEditor1.dispose();
+        teileEditor.dispose();
         wkFgPanFourteen1.dispose();
         bindingGroup.unbind();
     }

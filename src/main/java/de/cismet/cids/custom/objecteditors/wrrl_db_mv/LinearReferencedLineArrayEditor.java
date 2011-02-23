@@ -26,6 +26,7 @@ import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -37,21 +38,24 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implements LinearReferencingConstants {
+public class LinearReferencedLineArrayEditor extends JPanel implements DisposableCidsBeanStore,
+    LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkTeileEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            LinearReferencedLineArrayEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    private Collection<CidsBean> cidsBeans;
     private Collection<LinearReferencedLineEditor> editors = new ArrayList<LinearReferencedLineEditor>();
     private HashMap<JButton, LinearReferencedLineEditor> editorButtonMap =
         new HashMap<JButton, LinearReferencedLineEditor>();
     private Collection<LinearReferencedLineArrayEditorListener> listeners =
         new ArrayList<LinearReferencedLineArrayEditorListener>();
 
+    private CidsBean cidsBean;
+    private String arrayField;
     private String fromStationField;
     private String toStationField;
     private String realGeomField;
@@ -116,9 +120,36 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
     /**
      * DOCUMENT ME!
      *
+     * @param  arrayField        DOCUMENT ME!
+     * @param  fromStationField  DOCUMENT ME!
+     * @param  toStationField    DOCUMENT ME!
+     * @param  realGeomField     DOCUMENT ME!
+     */
+    public final void setFields(final String arrayField,
+            final String fromStationField,
+            final String toStationField,
+            final String realGeomField) {
+        setArrayField(arrayField);
+        setFromStationField(fromStationField);
+        setToStationField(toStationField);
+        setRealGeomField(realGeomField);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arrayField  DOCUMENT ME!
+     */
+    private void setArrayField(final String arrayField) {
+        this.arrayField = arrayField;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  fromStationField  DOCUMENT ME!
      */
-    public final void setFromStationField(final String fromStationField) {
+    private void setFromStationField(final String fromStationField) {
         this.fromStationField = fromStationField;
     }
 
@@ -127,7 +158,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
      *
      * @param  toStationField  DOCUMENT ME!
      */
-    public final void setToStationField(final String toStationField) {
+    private void setToStationField(final String toStationField) {
         this.toStationField = toStationField;
     }
 
@@ -136,7 +167,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
      *
      * @param  realGeomField  DOCUMENT ME!
      */
-    public final void setRealGeomField(final String realGeomField) {
+    private void setRealGeomField(final String realGeomField) {
         this.realGeomField = realGeomField;
     }
 
@@ -213,27 +244,34 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<CidsBean> getCidsBeans() {
-        return cidsBeans;
+    private Collection<CidsBean> getCidsBeans() {
+        return (Collection<CidsBean>)getCidsBean().getProperty(arrayField);
+    }
+
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  cidsBeans  DOCUMENT ME!
+     * @param  cidsBean  DOCUMENT ME!
      */
-    public void setCidsBeans(final Collection<CidsBean> cidsBeans) {
-        this.cidsBeans = cidsBeans;
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
 
-        if (cidsBeans.size() > 0) {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(cidsBeans.size());
+        final Collection<CidsBean> childBeans = getCidsBeans();
+        if (childBeans.size() > 0) {
+            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(childBeans.size());
         } else {
             ((java.awt.GridLayout)jPanel1.getLayout()).setRows(1);
         }
 
-        for (final CidsBean cidsBean : cidsBeans) {
+        for (final CidsBean childBean : childBeans) {
             final LinearReferencedLineEditor editor = createEditor();
-            editor.setCidsBean(cidsBean);
+            editor.setCidsBean(childBean);
             addEditor(editor);
         }
     }
@@ -327,6 +365,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
      * @param  editor  DOCUMENT ME!
      */
     private void removeEditor(final LinearReferencedLineEditor editor) {
+        final Collection<CidsBean> cidsBeans = getCidsBeans();
         cidsBeans.remove(editor.getCidsBean());
 
         jPanel1.remove(editor.getParent());
@@ -347,6 +386,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void dispose() {
         for (final LinearReferencedLineEditor editor : editors) {
             editor.dispose();
@@ -360,6 +400,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         roundedPanel1 = new de.cismet.tools.gui.RoundedPanel();
         semiRoundedPanel1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblTitle = new javax.swing.JLabel();
@@ -377,9 +418,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
 
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitle.setText(org.openide.util.NbBundle.getMessage(
-                LinearReferencedLineArrayEditor.class,
-                "LinearReferencedLineArrayEditor.lblTitle.text")); // NOI18N
+        lblTitle.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineArrayEditor.class, "LinearReferencedLineArrayEditor.lblTitle.text_1")); // NOI18N
         semiRoundedPanel1.add(lblTitle, java.awt.BorderLayout.CENTER);
 
         roundedPanel1.add(semiRoundedPanel1, java.awt.BorderLayout.NORTH);
@@ -393,15 +432,13 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
         dropPanel.setOpaque(false);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(
-                LinearReferencedLineArrayEditor.class,
-                "LinearReferencedLineArrayEditor.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineArrayEditor.class, "LinearReferencedLineArrayEditor.jLabel3.text")); // NOI18N
         dropPanel.add(jLabel3);
 
         roundedPanel1.add(dropPanel, java.awt.BorderLayout.SOUTH);
 
         add(roundedPanel1);
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     //~ Inner Classes ----------------------------------------------------------
 
@@ -422,7 +459,7 @@ public class LinearReferencedLineArrayEditor extends javax.swing.JPanel implemen
                     editor.setMetaClassName(metaClassName);
                     editor.setCidsBean(createBeanFromRoute(bean));
                     addEditor(editor);
-                    cidsBeans.add(editor.getCidsBean());
+                    getCidsBeans().add(editor.getCidsBean());
                 } else {
                     return;
                 }

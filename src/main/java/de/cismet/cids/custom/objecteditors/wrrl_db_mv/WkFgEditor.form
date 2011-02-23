@@ -472,9 +472,9 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeileEditor" name="wkTeileEditor1">
+            <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor" name="teileEditor">
               <BindingProperties>
-                <BindingProperty name="cidsBeans" source="Form" sourcePath="${cidsBean.teile}" target="wkTeileEditor1" targetPath="cidsBeans" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="cidsBean" source="Form" sourcePath="${cidsBean}" target="teileEditor" targetPath="cidsBean" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
