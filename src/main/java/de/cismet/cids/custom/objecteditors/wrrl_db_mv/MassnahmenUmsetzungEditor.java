@@ -678,6 +678,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
@@ -712,7 +713,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             }
         }
 
-        return true;
+        boolean save = true;
+        save &= linearReferencedLineEditor.prepareForSave();
+        return save;
     }
 
     /**

@@ -637,12 +637,14 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        boolean save = true;
+        save &= linearReferencedLineEditor.prepareForSave();
+        return save;
     }
 
     @Override

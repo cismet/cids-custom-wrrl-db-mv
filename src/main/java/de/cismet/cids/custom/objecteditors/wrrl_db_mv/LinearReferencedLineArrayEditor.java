@@ -28,9 +28,14 @@ import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.CurrentStackTrace;
 
 /**
  * DOCUMENT ME!
@@ -39,6 +44,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @version  $Revision$, $Date$
  */
 public class LinearReferencedLineArrayEditor extends JPanel implements DisposableCidsBeanStore,
+    EditorSaveListener,
     LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
@@ -48,7 +54,9 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
     //~ Instance fields --------------------------------------------------------
 
-    private Collection<LinearReferencedLineEditor> editors = new ArrayList<LinearReferencedLineEditor>();
+    HashMap<CidsBean, LinearReferencedLineEditor> editorMap = new HashMap<CidsBean, LinearReferencedLineEditor>();
+
+    // private Collection<LinearReferencedLineEditor> editors = new ArrayList<LinearReferencedLineEditor>();
     private HashMap<JButton, LinearReferencedLineEditor> editorButtonMap =
         new HashMap<JButton, LinearReferencedLineEditor>();
     private Collection<LinearReferencedLineArrayEditorListener> listeners =
@@ -87,25 +95,6 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         }
     }
 
-    /**
-     * Creates a new LinearReferencedLineArrayEditor object.
-     *
-     * @param  metaClassName     DOCUMENT ME!
-     * @param  fromStationField  DOCUMENT ME!
-     * @param  toStationField    DOCUMENT ME!
-     * @param  realGeomField     DOCUMENT ME!
-     */
-    public LinearReferencedLineArrayEditor(final String metaClassName,
-            final String fromStationField,
-            final String toStationField,
-            final String realGeomField) {
-        this();
-        setMetaClassName(metaClassName);
-        setFromStationField(fromStationField);
-        setToStationField(toStationField);
-        setRealGeomField(realGeomField);
-    }
-
     //~ Methods ----------------------------------------------------------------
 
     /**
@@ -113,22 +102,25 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      *
      * @param  metaClassName  DOCUMENT ME!
      */
-    public final void setMetaClassName(final String metaClassName) {
+    private void setMetaClassName(final String metaClassName) {
         this.metaClassName = metaClassName;
     }
 
     /**
      * DOCUMENT ME!
      *
+     * @param  metaClassName     DOCUMENT ME!
      * @param  arrayField        DOCUMENT ME!
      * @param  fromStationField  DOCUMENT ME!
      * @param  toStationField    DOCUMENT ME!
      * @param  realGeomField     DOCUMENT ME!
      */
-    public final void setFields(final String arrayField,
+    public final void setFields(final String metaClassName,
+            final String arrayField,
             final String fromStationField,
             final String toStationField,
             final String realGeomField) {
+        setMetaClassName(metaClassName);
         setArrayField(arrayField);
         setFromStationField(fromStationField);
         setToStationField(toStationField);
@@ -282,7 +274,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      * @param  editor  DOCUMENT ME!
      */
     private void addEditor(final LinearReferencedLineEditor editor) {
-        editors.add(editor);
+        editorMap.put(editor.getCidsBean(), editor);
 
         final JPanel panItem = new JPanel(new BorderLayout(5, 5));
         panItem.setOpaque(false);
@@ -377,7 +369,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
             ((java.awt.GridLayout)jPanel1.getLayout()).setRows(1);
         }
 
-        editors.remove(editor);
+        editorMap.remove(editor.getCidsBean());
 
         revalidate();
         fireEditorRemoved(editor);
@@ -388,7 +380,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      */
     @Override
     public void dispose() {
-        for (final LinearReferencedLineEditor editor : editors) {
+        for (final LinearReferencedLineEditor editor : editorMap.values()) {
             editor.dispose();
         }
     }
@@ -400,7 +392,6 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         roundedPanel1 = new de.cismet.tools.gui.RoundedPanel();
         semiRoundedPanel1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblTitle = new javax.swing.JLabel();
@@ -418,7 +409,9 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitle.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineArrayEditor.class, "LinearReferencedLineArrayEditor.lblTitle.text_1")); // NOI18N
+        lblTitle.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineArrayEditor.class,
+                "LinearReferencedLineArrayEditor.lblTitle.text_1")); // NOI18N
         semiRoundedPanel1.add(lblTitle, java.awt.BorderLayout.CENTER);
 
         roundedPanel1.add(semiRoundedPanel1, java.awt.BorderLayout.NORTH);
@@ -432,13 +425,36 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         dropPanel.setOpaque(false);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(LinearReferencedLineArrayEditor.class, "LinearReferencedLineArrayEditor.jLabel3.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineArrayEditor.class,
+                "LinearReferencedLineArrayEditor.jLabel3.text")); // NOI18N
         dropPanel.add(jLabel3);
 
         roundedPanel1.add(dropPanel, java.awt.BorderLayout.SOUTH);
 
         add(roundedPanel1);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        final CidsBean savedBean = event.getSavedBean();
+        if (savedBean != null) {
+            LOG.fatal("array closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+            for (final CidsBean savedChildBean : (Collection<CidsBean>)savedBean.getProperty(arrayField)) {
+                final LinearReferencedLineEditor editor = editorMap.get(savedChildBean);
+                editor.editorClosed(new EditorClosedEvent(event.getStatus(), savedChildBean));
+            }
+        }
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        boolean save = true;
+        for (final LinearReferencedLineEditor editor : editorMap.values()) {
+            save &= editor.prepareForSave();
+        }
+        return save;
+    }
 
     //~ Inner Classes ----------------------------------------------------------
 

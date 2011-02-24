@@ -1870,7 +1870,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
@@ -1902,7 +1902,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 LOG.error("Error in prepareForSave.", ex); // NOI18N
             }
         }
-        return true;
+
+        boolean save = true;
+        save &= linearReferencedLineEditor.prepareForSave();
+        return save;
     }
 
     @Override

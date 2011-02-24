@@ -10,6 +10,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 /**
  * DOCUMENT ME!
@@ -17,7 +19,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class WkTeilEditor extends DefaultCustomObjectEditor {
+public class WkTeilEditor extends DefaultCustomObjectEditor implements EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -96,4 +98,16 @@ public class WkTeilEditor extends DefaultCustomObjectEditor {
         setLayout(new java.awt.BorderLayout());
         add(linearReferencedLineEditor1, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor1.editorClosed(event);
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        boolean save = true;
+        save &= linearReferencedLineEditor1.prepareForSave();
+        return save;
+    }
 }

@@ -7,7 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
@@ -18,7 +22,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class TestJeanEditor extends DefaultCustomObjectEditor {
+public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -46,6 +50,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
         initComponents();
 
         teileEditor.setFields(
+            WkTeilEditor.MC_WKTEIL,
             "wk_teile",
             WkTeilEditor.PROP_WKTEIL_FROM,
             WkTeilEditor.PROP_WKTEIL_TO,
@@ -294,4 +299,20 @@ public class TestJeanEditor extends DefaultCustomObjectEditor {
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        final CidsBean savedBean = event.getSavedBean();
+        final CidsBean savedTeilBean = (savedBean == null) ? null : (CidsBean)savedBean.getProperty("wk_teil");
+        wkTeilEditor.editorClosed(new EditorClosedEvent(event.getStatus(), savedTeilBean));
+        teileEditor.editorClosed(event);
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        boolean save = true;
+        save &= wkTeilEditor.prepareForSave();
+        save &= teileEditor.prepareForSave();
+        return save;
+    }
 }

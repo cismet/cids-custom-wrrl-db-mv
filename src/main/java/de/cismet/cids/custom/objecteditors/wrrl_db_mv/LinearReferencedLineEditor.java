@@ -7,7 +7,10 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -47,6 +50,9 @@ import de.cismet.cids.custom.util.StationToMapRegistryListener;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
@@ -69,7 +75,8 @@ import de.cismet.tools.CurrentStackTrace;
  */
 public class LinearReferencedLineEditor extends JPanel implements DisposableCidsBeanStore,
     LinearReferencingConstants,
-    CidsBeanDropListener {
+    CidsBeanDropListener,
+    EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -137,7 +144,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel labGwk;
@@ -1274,8 +1280,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private CidsBean getStationBean(final boolean isFrom) {
-        final String stationField = getStationField(isFrom);
-        return (CidsBean)getCidsBean().getProperty(stationField);
+        final CidsBean cidsBean = getCidsBean();
+        if (cidsBean == null) {
+            return null;
+        }
+        return (CidsBean)cidsBean.getProperty(getStationField(isFrom));
     }
 
     /**
@@ -1284,7 +1293,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private CidsBean getRouteBean() {
-        return (CidsBean)getStationBean(FROM).getProperty(PROP_STATION_ROUTE);
+        final CidsBean stationBean = getStationBean(FROM);
+        if (stationBean == null) {
+            return null;
+        }
+        return (CidsBean)stationBean.getProperty(PROP_STATION_ROUTE);
     }
 
     /**
@@ -1293,16 +1306,26 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private CidsBean getRouteGeomBean() {
-        return (CidsBean)getRouteBean().getProperty(PROP_ROUTE_GEOM);
+        final CidsBean routeBean = getRouteBean();
+        if (routeBean == null) {
+            return null;
+        }
+        return (CidsBean)routeBean.getProperty(PROP_ROUTE_GEOM);
     }
 
     /**
      * DOCUMENT ME!
      *
+     * @param   cidsBean       DOCUMENT ME!
+     * @param   realGeomField  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
-    private CidsBean getRealGeomBean() {
-        return (CidsBean)getCidsBean().getProperty(getRealGeomField());
+    public static CidsBean getRealGeomBean(final CidsBean cidsBean, final String realGeomField) {
+        if (cidsBean == null) {
+            return null;
+        }
+        return (CidsBean)cidsBean.getProperty(realGeomField);
     }
 
     /**
@@ -1313,7 +1336,24 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @throws  Exception  DOCUMENT ME!
      */
     private void setRealGeometry(final Geometry line) throws Exception {
-        getRealGeomBean().setProperty(PROP_GEOM_GEOFIELD, line);
+        setRealGeometry(line, getCidsBean(), getRealGeomField());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   line           DOCUMENT ME!
+     * @param   cidsBean       DOCUMENT ME!
+     * @param   realGeomField  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private static void setRealGeometry(final Geometry line, final CidsBean cidsBean, final String realGeomField)
+            throws Exception {
+        final CidsBean realGeomBean = getRealGeomBean(cidsBean, realGeomField);
+        if (realGeomBean != null) {
+            realGeomBean.setProperty(PROP_GEOM_GEOFIELD, line);
+        }
     }
 
     @Override
@@ -1333,7 +1373,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel3 = new javax.swing.JPanel();
         panEdit = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         panLine = new javax.swing.JPanel();
@@ -1864,5 +1903,102 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 LOG.debug("no route found in dropped objects");
             }
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isFrom        DOCUMENT ME!
+     * @param  targetIsFrom  DOCUMENT ME!
+     */
+    private void updateSnappedRealGeoms(final boolean isFrom, final boolean targetIsFrom) {
+        LOG.fatal("quellstation: " + ((isFrom) ? "VON" : "ZU") + " | zielstation: " + ((targetIsFrom) ? "VON" : "ZU"));
+        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, getMetaClassName());
+
+        final int ownId = getCidsBean().getMetaObject().getId();
+        final int stationId = getStationBean(isFrom).getMetaObject().getId();
+        final String query = "SELECT "
+                    + "   " + mcLine.getId() + ", "
+                    + "   " + mcLine.getPrimaryKey() + " "
+                    + "FROM "
+                    + "   " + mcLine.getTableName() + " "
+                    + "WHERE "
+                    + "   " + mcLine.getPrimaryKey() + " != " + ownId + " AND "
+                    + "   " + getStationField(targetIsFrom) + " = " + stationId + " "
+                    + ";";
+        LOG.fatal("query: " + query);
+
+        try {
+            // wk_teile mit gleicher station an einem Ende holen
+            final MetaObject[] mos = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            for (final MetaObject mo : mos) {
+                // bean des wk_teils
+                final CidsBean targetBean = mo.getBean();
+
+                LOG.fatal("target: " + targetBean.getMOString());
+
+                // beans der stationen
+                final CidsBean targetFromBean = (CidsBean)targetBean.getProperty(getStationField(FROM));
+                final CidsBean targetToBean = (CidsBean)targetBean.getProperty(getStationField(TO));
+
+                // features erzeugen um damit die Geometrie neu zu berechnen
+                final LinearReferencedPointFeature targetFromFeature = new LinearReferencedPointFeature(StationEditor
+                                .getLinearValue(targetFromBean),
+                        StationEditor.getRouteGeometry(targetFromBean));
+                final LinearReferencedPointFeature targetToFeature = new LinearReferencedPointFeature(StationEditor
+                                .getLinearValue(targetToBean),
+                        StationEditor.getRouteGeometry(targetToBean));
+                final LinearReferencedLineFeature targetFeature = new LinearReferencedLineFeature(
+                        targetFromFeature,
+                        targetToFeature);
+
+                final LinearReferencedPointFeature targetStationFeature = (targetIsFrom) ? targetFromFeature
+                                                                                         : targetToFeature;
+
+                // gesnappte Station auf den selben StationierungsWert wie das Original setzen
+                targetStationFeature.moveToPosition(getStationFeature(isFrom).getCurrentPosition());
+
+                // von feature neu berechnete geometrie im wk_teil setzen
+                LinearReferencedLineEditor.setRealGeometry(targetFeature.getGeometry(), targetBean, getRealGeomField());
+
+                // wk_teil speichern
+                targetBean.persist();
+            }
+        } catch (Exception ex) {
+            LOG.fatal("", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isFrom  DOCUMENT ME!
+     */
+    private void updateSnappedRealGeoms(final boolean isFrom) {
+        updateSnappedRealGeoms(isFrom, FROM);
+        updateSnappedRealGeoms(isFrom, TO);
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            final CidsBean savedBean = event.getSavedBean();
+            if (savedBean != null) {
+                LOG.fatal("editor closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+                final CidsBean oldCidsBean = getCidsBean();
+                setCidsBean(event.getSavedBean());
+
+                updateSnappedRealGeoms(FROM);
+                updateSnappedRealGeoms(TO);
+
+                setCidsBean(oldCidsBean);
+            }
+        }
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        return true;
     }
 }

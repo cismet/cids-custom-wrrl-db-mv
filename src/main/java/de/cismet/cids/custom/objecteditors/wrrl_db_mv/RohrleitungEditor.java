@@ -22,6 +22,8 @@ import javax.swing.JLabel;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -38,7 +40,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRenderer {
+public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -588,6 +590,18 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
 
     @Override
     public void setTitle(final String title) {
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        boolean save = true;
+        save &= linearReferencedLineEditor.prepareForSave();
+        return save;
     }
 
     //~ Inner Classes ----------------------------------------------------------

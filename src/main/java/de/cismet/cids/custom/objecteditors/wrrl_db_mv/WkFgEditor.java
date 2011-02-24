@@ -132,6 +132,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         tpMain.setUI(new TabbedPaneUITransparent());
 
         teileEditor.setFields(
+            WkTeilEditor.MC_WKTEIL,
             "teile",
             WkTeilEditor.PROP_WKTEIL_FROM,
             WkTeilEditor.PROP_WKTEIL_TO,
@@ -673,7 +674,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        teileEditor.editorClosed(event);
     }
 
     @Override
@@ -686,7 +687,10 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 LOG.error(ex, ex);
             }
         }
-        return true;
+
+        boolean save = true;
+        save &= teileEditor.prepareForSave();
+        return save;
     }
 
     @Override
