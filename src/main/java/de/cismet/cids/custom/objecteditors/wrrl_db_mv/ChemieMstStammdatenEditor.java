@@ -18,7 +18,9 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -66,6 +68,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     private CidsBean cidsBean;
     private int measureNumber = 0;
     private boolean noDocumentUpdate = false;
+    private List<CidsBean> beansToSave = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack1;
@@ -551,8 +554,6 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBack1ActionPerformed
         int year = getCurrentlyEnteredYear();
 
-        saveLastMeasure();
-
         if (--measureNumber < 0) {
             measureNumber = 0;
             --year;
@@ -567,13 +568,9 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
 
                 @Override
                 public void run() {
-                    synchronized (cidsBean) {
+                    synchronized (ChemieMstStammdatenEditor.this) {
                         final CidsBean measure = getDataForYear(newYear, measureNumber);
-                        if (!readOnly) {
-                            chemieMstMessungenEditor1.setCidsBean(measure);
-                        } else {
-                            chemieMstMessungenRenderer1.setCidsBean(measure);
-                        }
+                        showNewMeasure(measure);
                     }
                 }
             }).start();
@@ -585,8 +582,6 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
      */
     private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
         int year = getCurrentlyEnteredYear();
-
-        saveLastMeasure();
 
         noDocumentUpdate = true;
         txtJahr.setText(String.valueOf(year));
@@ -603,40 +598,28 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
 
                     @Override
                     public void run() {
-                        synchronized (cidsBean) {
+                        synchronized (ChemieMstStammdatenEditor.this) {
                             final CidsBean measure = getDataForYear(newYear, measureNumber);
-                            if (!readOnly) {
-                                chemieMstMessungenEditor1.setCidsBean(measure);
-                            } else {
-                                chemieMstMessungenRenderer1.setCidsBean(measure);
-                            }
+                            showNewMeasure(measure);
                         }
                     }
                 }).start();
         } else {
-            if (!readOnly) {
-                chemieMstMessungenEditor1.setCidsBean(measure);
-            } else {
-                chemieMstMessungenRenderer1.setCidsBean(measure);
-            }
+            showNewMeasure(measure);
         }
 
         noDocumentUpdate = false;
     } //GEN-LAST:event_btnForwardActionPerformed
 
     /**
-     * DOCUMENT ME!
+     * adds the last processed bean to the beansToSave list, if it is not in, yet.
      */
     private void saveLastMeasure() {
         if (!readOnly) {
             final CidsBean lastMeasure = chemieMstMessungenEditor1.getCidsBean();
 
-            if (lastMeasure != null) {
-                try {
-                    lastMeasure.persist();
-                } catch (final Exception e) {
-                    LOG.error("Exception ehile saving the last measure.", e);
-                }
+            if ((lastMeasure != null) && !beansToSave.contains(lastMeasure)) {
+                beansToSave.add(lastMeasure);
             }
         }
     }
@@ -651,11 +634,19 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         final int year = getCurrentlyEnteredYear();
         measureNumber = 0;
 
-        saveLastMeasure();
-
         final CidsBean measure = getDataForYear(year, measureNumber);
+        showNewMeasure(measure);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  measure  DOCUMENT ME!
+     */
+    private void showNewMeasure(final CidsBean measure) {
         if (!readOnly) {
-            chemieMstMessungenEditor1.setCidsBean(measure);
+            saveLastMeasure();
+            chemieMstMessungenEditor1.setCidsBean(measure, cidsBean);
         } else {
             chemieMstMessungenRenderer1.setCidsBean(measure);
         }
@@ -680,6 +671,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        beansToSave.clear();
     }
 
     @Override
@@ -700,6 +692,15 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     @Override
     public boolean prepareForSave() {
         saveLastMeasure();
+        for (final CidsBean tmp : beansToSave) {
+            try {
+                tmp.persist();
+            } catch (final Exception e) {
+                LOG.error("Exception ehile saving the last measure.", e);
+            }
+        }
+
+        beansToSave.clear();
         return true;
     }
 
@@ -726,7 +727,15 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
             if ((metaObjects != null) && (number >= 0) && (number < metaObjects.length)) {
-                return metaObjects[number].getBean();
+                final CidsBean retVal = metaObjects[number].getBean();
+                int index = -1;
+
+                // if the bean is already in the beansToSave list, the bean from the list should be used
+                if ((index = beansToSave.indexOf(retVal)) != -1) {
+                    return beansToSave.get(index);
+                } else {
+                    return retVal;
+                }
             } else {
                 return null;
             }

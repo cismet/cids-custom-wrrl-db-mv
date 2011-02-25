@@ -12,8 +12,13 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import java.awt.Color;
 import java.awt.EventQueue;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -149,6 +154,16 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        setCidsBean(cidsBean, null);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     * @param  parent    DOCUMENT ME!
+     */
+    public void setCidsBean(final CidsBean cidsBean, final CidsBean parent) {
         bindingGroup.unbind();
 
         this.cidsBean = cidsBean;
@@ -169,6 +184,16 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                         setColors();
                     }
                 });
+
+            if (parent != null) {
+                EventQueue.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            cidsBean.addPropertyChangeListener(new SubObjectPropertyChangedListener(parent));
+                        }
+                    });
+            }
         } else {
             if (!readOnly) {
                 setEnable(false);
@@ -1560,5 +1585,39 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public class SubObjectPropertyChangedListener implements PropertyChangeListener {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final CidsBean parent;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new SubObjectPropertyChangedListener object.
+         *
+         * @param  parent  DOCUMENT ME!
+         */
+        public SubObjectPropertyChangedListener(final CidsBean parent) {
+            this.parent = parent;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+            if (parent != null) {
+                parent.setArtificialChangeFlag(true);
+            }
+        }
     }
 }

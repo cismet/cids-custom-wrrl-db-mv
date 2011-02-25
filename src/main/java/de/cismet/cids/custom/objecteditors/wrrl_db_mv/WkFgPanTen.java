@@ -975,7 +975,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     final CidsBean measurement = getLatestMeasurement("gk_fische_gesamt");
 
                     if (measurement != null) {
-                        cbFisch.setSelectedItem(measurement.getProperty("gk_phytoplankton_gesamt"));
+                        cbFisch.setSelectedItem(measurement.getProperty("gk_fische_gesamt"));
                         txtFishGkJahr.setText(String.valueOf(measurement.getProperty("messjahr")));
                         txtFishBemerk.setText(String.valueOf(measurement.getProperty("bemerkung_fische")));
                         txtFishGkMst.setText(String.valueOf(measurement.getProperty("messstelle.messstelle")));

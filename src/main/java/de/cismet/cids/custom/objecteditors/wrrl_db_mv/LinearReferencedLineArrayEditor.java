@@ -237,6 +237,9 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      * @return  DOCUMENT ME!
      */
     private Collection<CidsBean> getCidsBeans() {
+        if (getCidsBean() == null) {
+            return new ArrayList<CidsBean>();
+        }
         return (Collection<CidsBean>)getCidsBean().getProperty(arrayField);
     }
 

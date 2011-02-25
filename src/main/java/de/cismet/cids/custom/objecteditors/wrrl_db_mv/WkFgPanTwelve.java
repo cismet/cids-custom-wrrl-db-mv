@@ -12,6 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -28,7 +31,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsBeanStore, PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -40,7 +43,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEcoPot;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEco_stat;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEcoStat;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -51,7 +54,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
     private javax.swing.JLabel lblBiolQk1;
     private javax.swing.JLabel lblBiolQk2;
     private javax.swing.JLabel lblEco;
-    private javax.swing.JLabel lblEcoPat;
+    private javax.swing.JLabel lblEcoPot;
     private javax.swing.JLabel lblEcoStat;
     private javax.swing.JLabel lblEcoStoffe;
     private javax.swing.JLabel lblFische;
@@ -80,10 +83,10 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JTextField txtHymoGkBemerkung1;
-    private javax.swing.JTextField txtHymoGkJahr1;
-    private javax.swing.JTextField txtMorphBemerk;
-    private javax.swing.JTextField txtMorphGkJahr2;
+    private javax.swing.JTextField txtEcoPotBemerk;
+    private javax.swing.JTextField txtEcoPotJahr;
+    private javax.swing.JTextField txtEcoStatBemerkung;
+    private javax.swing.JTextField txtEcoStatJahr;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -118,14 +121,14 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         lblGk = new javax.swing.JLabel();
         lblJahr = new javax.swing.JLabel();
         lblBemerk = new javax.swing.JLabel();
-        txtHymoGkBemerkung1 = new javax.swing.JTextField();
-        txtHymoGkJahr1 = new javax.swing.JTextField();
-        cbEco_stat = new ScrollableComboBox();
+        txtEcoStatBemerkung = new javax.swing.JTextField();
+        txtEcoStatJahr = new javax.swing.JTextField();
+        cbEcoStat = new ScrollableComboBox();
         lblEcoStat = new javax.swing.JLabel();
-        lblEcoPat = new javax.swing.JLabel();
+        lblEcoPot = new javax.swing.JLabel();
         cbEcoPot = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        txtMorphGkJahr2 = new javax.swing.JTextField();
-        txtMorphBemerk = new javax.swing.JTextField();
+        txtEcoPotJahr = new javax.swing.JTextField();
+        txtEcoPotBemerk = new javax.swing.JTextField();
         jbVorb = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblBiolQk = new javax.swing.JLabel();
@@ -206,14 +209,14 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblBemerk, gridBagConstraints);
 
-        txtHymoGkBemerkung1.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtHymoGkBemerkung1.setPreferredSize(new java.awt.Dimension(300, 20));
+        txtEcoStatBemerkung.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtEcoStatBemerkung.setPreferredSize(new java.awt.Dimension(300, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat_bemerkung}"),
-                txtHymoGkBemerkung1,
+                txtEcoStatBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -224,16 +227,16 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtHymoGkBemerkung1, gridBagConstraints);
+        panInfoContent.add(txtEcoStatBemerkung, gridBagConstraints);
 
-        txtHymoGkJahr1.setMinimumSize(new java.awt.Dimension(100, 20));
-        txtHymoGkJahr1.setPreferredSize(new java.awt.Dimension(100, 20));
+        txtEcoStatJahr.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtEcoStatJahr.setPreferredSize(new java.awt.Dimension(100, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat_jahr}"),
-                txtHymoGkJahr1,
+                txtEcoStatJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -243,24 +246,24 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtHymoGkJahr1, gridBagConstraints);
+        panInfoContent.add(txtEcoStatJahr, gridBagConstraints);
 
-        cbEco_stat.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbEco_stat.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbEcoStat.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbEcoStat.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat}"),
-                cbEco_stat,
+                cbEcoStat,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        cbEco_stat.addActionListener(new java.awt.event.ActionListener() {
+        cbEcoStat.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbEco_statActionPerformed(evt);
+                    cbEcoStatActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -269,7 +272,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbEco_stat, gridBagConstraints);
+        panInfoContent.add(cbEcoStat, gridBagConstraints);
 
         lblEcoStat.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanEleven.lblEcoStat.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -279,13 +282,13 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblEcoStat, gridBagConstraints);
 
-        lblEcoPat.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanEleven.lblEcoPat.text")); // NOI18N
+        lblEcoPot.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanEleven.lblEcoPat.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblEcoPat, gridBagConstraints);
+        panInfoContent.add(lblEcoPot, gridBagConstraints);
 
         cbEcoPot.setMaximumSize(new java.awt.Dimension(200, 25));
         cbEcoPot.setMinimumSize(new java.awt.Dimension(200, 20));
@@ -307,14 +310,14 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbEcoPot, gridBagConstraints);
 
-        txtMorphGkJahr2.setMinimumSize(new java.awt.Dimension(100, 20));
-        txtMorphGkJahr2.setPreferredSize(new java.awt.Dimension(100, 20));
+        txtEcoPotJahr.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtEcoPotJahr.setPreferredSize(new java.awt.Dimension(100, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot_jahr}"),
-                txtMorphGkJahr2,
+                txtEcoPotJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -324,16 +327,16 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtMorphGkJahr2, gridBagConstraints);
+        panInfoContent.add(txtEcoPotJahr, gridBagConstraints);
 
-        txtMorphBemerk.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtMorphBemerk.setPreferredSize(new java.awt.Dimension(300, 20));
+        txtEcoPotBemerk.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtEcoPotBemerk.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot_bemerkung}"),
-                txtMorphBemerk,
+                txtEcoPotBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -344,7 +347,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtMorphBemerk, gridBagConstraints);
+        panInfoContent.add(txtEcoPotBemerk, gridBagConstraints);
 
         jbVorb.setText(org.openide.util.NbBundle.getMessage(WkFgPanTwelve.class, "WkFgPanTwelve.jbVorb.text")); // NOI18N
         jbVorb.setMinimumSize(new java.awt.Dimension(100, 20));
@@ -814,9 +817,9 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbEco_statActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbEco_statActionPerformed
+    private void cbEcoStatActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbEcoStatActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbEco_statActionPerformed
+    } //GEN-LAST:event_cbEcoStatActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -873,7 +876,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                         final String val = (String)uqn.getProperty("value");
                         if ((val != null) && val.equals("N")) {
                             if (worstCase <= 2) {
-                                final ComboBoxModel cbm = cbEco_stat.getModel();
+                                final ComboBoxModel cbm = cbEcoStat.getModel();
                                 for (int i = 0; i < cbm.getSize(); ++i) {
                                     final CidsBean bean = (CidsBean)cbm.getElementAt(i);
                                     final Object va = bean.getProperty("value");
@@ -911,11 +914,58 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+
+            final CidsBean evk = (CidsBean)cidsBean.getProperty("evk");
+
+            if (evk != null) {
+                final String value = (String)evk.getProperty("value");
+                activateGUIElements(value.equals("1"));
+            }
+
+            cidsBean.addPropertyChangeListener(this);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  ecoStat  DOCUMENT ME!
+     */
+    private void activateGUIElements(final boolean ecoStat) {
+        lblEcoStat.setVisible(ecoStat);
+        cbEcoStat.setVisible(ecoStat);
+        txtEcoStatJahr.setVisible(ecoStat);
+        txtEcoStatBemerkung.setVisible(ecoStat);
+
+        lblEcoPot.setVisible(!ecoStat);
+        cbEcoPot.setVisible(!ecoStat);
+        txtEcoPotBemerk.setVisible(!ecoStat);
+        txtEcoPotJahr.setVisible(!ecoStat);
+
+        final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = ((ecoStat) ? 1 : 2);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.remove(jbVorb);
+        panInfoContent.add(jbVorb, gridBagConstraints);
+        panInfoContent.validate();
     }
 
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        cidsBean.removePropertyChangeListener(this);
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("evk")) {
+            final CidsBean evk = (CidsBean)cidsBean.getProperty("evk");
+
+            if (evk != null) {
+                final String value = (String)evk.getProperty("value");
+                activateGUIElements(value.equals("1"));
+            }
+        }
     }
 }

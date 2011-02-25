@@ -313,7 +313,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel4.add(lblSi, gridBagConstraints);
 
         lblSTIMVal.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -409,7 +409,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel4.add(lblPhytob, gridBagConstraints);
 
         lblMacPhyten.setText(org.openide.util.NbBundle.getMessage(
@@ -420,7 +420,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel4.add(lblMacPhyten, gridBagConstraints);
 
         lblSTIMPVal.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -536,7 +536,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel4.add(lblDiatomeen, gridBagConstraints);
 
         lblFisch.setText(org.openide.util.NbBundle.getMessage(
@@ -861,7 +861,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel4.add(lblPerlodesAd, gridBagConstraints);
 
         lblPerlodesValAd.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -973,7 +973,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         jPanel4.add(lblDiatTrophie, gridBagConstraints);
 
         lblDiatTrophieVal.setMinimumSize(new java.awt.Dimension(150, 20));

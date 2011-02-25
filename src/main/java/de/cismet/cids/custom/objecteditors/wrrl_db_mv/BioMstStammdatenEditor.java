@@ -18,18 +18,15 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.BioMstMessungenRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.CoordinateConverter;
 
@@ -42,10 +39,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
-import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.PureNewFeature;
-import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -74,6 +67,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private int measureNumber = 0;
     private boolean noDocumentUpdate = false;
+    private List<CidsBean> beansToSave = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.BioMstMessungenEditor bioMstMessungenEditor1;
@@ -597,8 +591,6 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
     private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBack1ActionPerformed
         int year = getCurrentlyEnteredYear();
 
-        saveLastMeasure();
-
         if (--measureNumber < 0) {
             measureNumber = 0;
             --year;
@@ -613,13 +605,9 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
 
                 @Override
                 public void run() {
-                    synchronized (cidsBean) {
+                    synchronized (BioMstStammdatenEditor.this) {
                         final CidsBean measure = getDataForYear(newYear, measureNumber);
-                        if (!readOnly) {
-                            bioMstMessungenEditor1.setCidsBean(measure);
-                        } else {
-                            bioMstMessungenRenderer1.setCidsBean(measure);
-                        }
+                        showNewMeasure(measure);
                     }
                 }
             }).start();
@@ -631,8 +619,6 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
      */
     private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
         int year = getCurrentlyEnteredYear();
-
-        saveLastMeasure();
 
         noDocumentUpdate = true;
         txtJahr.setText(String.valueOf(year));
@@ -649,60 +635,53 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
 
                     @Override
                     public void run() {
-                        synchronized (cidsBean) {
+                        synchronized (BioMstStammdatenEditor.this) {
                             final CidsBean measure = getDataForYear(newYear, measureNumber);
-                            if (!readOnly) {
-                                bioMstMessungenEditor1.setCidsBean(measure);
-                            } else {
-                                bioMstMessungenRenderer1.setCidsBean(measure);
-                            }
+                            showNewMeasure(measure);
                         }
                     }
                 }).start();
         } else {
-            if (!readOnly) {
-                bioMstMessungenEditor1.setCidsBean(measure);
-            } else {
-                bioMstMessungenRenderer1.setCidsBean(measure);
-            }
+            showNewMeasure(measure);
         }
 
         noDocumentUpdate = false;
     } //GEN-LAST:event_btnForwardActionPerformed
 
     /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
+     * shows the measure of the currently entered year.
      */
     private void refreshMeasures() {
         final int year = getCurrentlyEnteredYear();
         measureNumber = 0;
 
-        saveLastMeasure();
-
         final CidsBean measure = getDataForYear(year, measureNumber);
+        showNewMeasure(measure);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  measure  DOCUMENT ME!
+     */
+    private void showNewMeasure(final CidsBean measure) {
         if (!readOnly) {
-            bioMstMessungenEditor1.setCidsBean(measure);
+            saveLastMeasure();
+            bioMstMessungenEditor1.setCidsBean(measure, cidsBean);
         } else {
             bioMstMessungenRenderer1.setCidsBean(measure);
         }
     }
 
     /**
-     * DOCUMENT ME!
+     * adds the last processed bean to the beansToSave list, if it is not in, yet.
      */
     private void saveLastMeasure() {
         if (!readOnly) {
             final CidsBean lastMeasure = bioMstMessungenEditor1.getCidsBean();
 
-            if (lastMeasure != null) {
-                try {
-                    lastMeasure.persist();
-                } catch (final Exception e) {
-                    LOG.error("Exception ehile saving the last measure.", e);
-                }
+            if ((lastMeasure != null) && !beansToSave.contains(lastMeasure)) {
+                beansToSave.add(lastMeasure);
             }
         }
     }
@@ -740,12 +719,21 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        LOG.error("editorClosed");
     }
 
     @Override
     public boolean prepareForSave() {
         saveLastMeasure();
+        for (final CidsBean tmp : beansToSave) {
+            try {
+                tmp.persist();
+            } catch (final Exception e) {
+                LOG.error("Exception ehile saving the last measure.", e);
+            }
+        }
+
+        beansToSave.clear();
         return true;
     }
 
@@ -772,7 +760,15 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
             if ((metaObjects != null) && (number >= 0) && (number < metaObjects.length)) {
-                return metaObjects[number].getBean();
+                final CidsBean retVal = metaObjects[number].getBean();
+                int index = -1;
+
+                // if the bean is already in the beansToSave list, the bean from the list should be used
+                if ((index = beansToSave.indexOf(retVal)) != -1) {
+                    return beansToSave.get(index);
+                } else {
+                    return retVal;
+                }
             } else {
                 return null;
             }
