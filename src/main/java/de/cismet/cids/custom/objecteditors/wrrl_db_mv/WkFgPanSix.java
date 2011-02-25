@@ -28,6 +28,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.QualityStatusCodeComparator;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -154,7 +155,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         lblSpace = new javax.swing.JLabel();
         panAllgemein = new javax.swing.JPanel();
         lblGenCond = new javax.swing.JLabel();
-        cbGkPcQk = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbGkPcQk = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
         lblGenCondJahr = new javax.swing.JLabel();
         lblGenCondBemerkung = new javax.swing.JLabel();
         lblGenCondMst = new javax.swing.JLabel();

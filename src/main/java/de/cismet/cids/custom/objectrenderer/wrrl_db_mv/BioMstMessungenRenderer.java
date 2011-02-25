@@ -796,6 +796,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesPerlodes.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenRenderer.jcGesSTIT.text")); // NOI18N
+        jcGesPerlodes.setContentAreaFilled(false);
         jcGesPerlodes.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -816,6 +817,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesPerlodesAd.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPerlodesAd.setContentAreaFilled(false);
         jcGesPerlodesAd.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -836,6 +838,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesSI.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesSI.setContentAreaFilled(false);
         jcGesSI.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -888,6 +891,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesPhylib.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPhylib.setContentAreaFilled(false);
         jcGesPhylib.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -908,6 +912,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesPhyto.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesPhyto.setContentAreaFilled(false);
         jcGesPhyto.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -928,6 +933,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesMacPhyto.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesMacPhyto.setContentAreaFilled(false);
         jcGesMacPhyto.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -948,6 +954,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         jcGesDiatomeen.setText(org.openide.util.NbBundle.getMessage(
                 BioMstMessungenRenderer.class,
                 "BioMstMessungenEditor.jcGesSTIT.text")); // NOI18N
+        jcGesDiatomeen.setContentAreaFilled(false);
         jcGesDiatomeen.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(

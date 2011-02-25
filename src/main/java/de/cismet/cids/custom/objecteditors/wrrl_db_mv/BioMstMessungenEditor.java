@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
@@ -22,6 +20,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -244,10 +243,10 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         jPanel4 = new javax.swing.JPanel();
         lblMZB = new javax.swing.JLabel();
         lblSTITVal = new javax.swing.JLabel();
-        cbGkMzb = new ScrollableComboBox();
+        cbGkMzb = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtMzbBem = new javax.swing.JTextField();
         lblMacPhyto = new javax.swing.JLabel();
-        cbGkMacPhyto = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbGkMacPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtMacPhytoBem = new javax.swing.JTextField();
         lblSTIT = new javax.swing.JLabel();
         lblSTIM = new javax.swing.JLabel();
@@ -267,10 +266,10 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         lblDiatomeenVal = new javax.swing.JLabel();
         lblDiatomeen = new javax.swing.JLabel();
         lblFisch = new javax.swing.JLabel();
-        cbFisch = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbFisch = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtFischBem = new javax.swing.JTextField();
         lblPhytoPl = new javax.swing.JLabel();
-        cbPhyto = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtPhytoBem = new javax.swing.JTextField();
         lblFiBS = new javax.swing.JLabel();
         lblFiBSVal = new javax.swing.JLabel();

@@ -18,6 +18,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -123,10 +124,10 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         lblBemerk = new javax.swing.JLabel();
         txtEcoStatBemerkung = new javax.swing.JTextField();
         txtEcoStatJahr = new javax.swing.JTextField();
-        cbEcoStat = new ScrollableComboBox();
+        cbEcoStat = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblEcoStat = new javax.swing.JLabel();
         lblEcoPot = new javax.swing.JLabel();
-        cbEcoPot = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbEcoPot = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtEcoPotJahr = new javax.swing.JTextField();
         txtEcoPotBemerk = new javax.swing.JTextField();
         jbVorb = new javax.swing.JButton();

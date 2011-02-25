@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -137,7 +138,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         lblBio_gk = new javax.swing.JLabel();
-        cbBioGk = new ScrollableComboBox();
+        cbBioGk = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblBioGkJahr = new javax.swing.JLabel();
         txtBioGkJahr = new javax.swing.JTextField();
         lblBioGkBemerkung = new javax.swing.JLabel();
@@ -145,22 +146,22 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         cbConfidence = new ScrollableComboBox();
         jTextField1 = new javax.swing.JTextField();
         txtPhytoGkJahr = new javax.swing.JTextField();
-        cbPhyto = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtPhytoGkMst = new javax.swing.JTextField();
         lblPhyto = new javax.swing.JLabel();
         lblPhytoGkMst = new javax.swing.JLabel();
         txtPhytoBemerk = new javax.swing.JTextField();
-        cbBen_Inv = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbBen_Inv = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblBenInv = new javax.swing.JLabel();
         txtBenInvMst = new javax.swing.JTextField();
         txtBenInvGkJahr = new javax.swing.JTextField();
         txtBenInvBemerk = new javax.swing.JTextField();
-        cbMacPhyto = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbMacPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblMacPhyto = new javax.swing.JLabel();
         txtMacPhytoGkMst = new javax.swing.JTextField();
         txtMacPhytoGkJahr = new javax.swing.JTextField();
         txtMacPhytoBemerk = new javax.swing.JTextField();
-        cbFisch = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbFisch = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblFish = new javax.swing.JLabel();
         txtFishGkMst = new javax.swing.JTextField();
         txtFishGkJahr = new javax.swing.JTextField();

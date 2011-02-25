@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -24,6 +22,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.YesNoConverter;
 
@@ -288,7 +287,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         lblFoot = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblPhyChem = new javax.swing.JLabel();
-        cbGkPhysChem = new ScrollableComboBox();
+        cbGkPhysChem = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtPhysChemBem = new javax.swing.JTextField();
         panOrtho = new javax.swing.JPanel();
         lblLawa = new javax.swing.JLabel();

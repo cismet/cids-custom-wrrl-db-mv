@@ -12,6 +12,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -93,19 +94,19 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
         lblBemerk = new javax.swing.JLabel();
         txtHymoGkBemerkung1 = new javax.swing.JTextField();
         txtHymoGkJahr1 = new javax.swing.JTextField();
-        cbHymoGk1 = new ScrollableComboBox();
+        cbHymoGk1 = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblHymo = new javax.swing.JLabel();
         lblMorphCond = new javax.swing.JLabel();
-        cbMorpCond1 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbMorpCond1 = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtMorphGkJahr2 = new javax.swing.JTextField();
         txtMorphBemerk = new javax.swing.JTextField();
         lblDurchg = new javax.swing.JLabel();
         txtRivContBemerk = new javax.swing.JTextField();
         txtRivContGkMst = new javax.swing.JTextField();
-        cbRivCont = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbRivCont = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblHydroReg = new javax.swing.JLabel();
         txtHydroRegBemerk = new javax.swing.JTextField();
-        cbHydroReg = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbHydroReg = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtHydroRegjahr = new javax.swing.JTextField();
 
         setMinimumSize(new java.awt.Dimension(910, 650));
