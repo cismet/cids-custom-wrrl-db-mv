@@ -27,6 +27,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestJeanEditor.class);
+    private static final String PROP_TESTJEAN_STATION = "station";
+    private static final String PROP_TESTJEAN_STATIONEN = "stationen";
+    private static final String PROP_TESTJEAN_WKTEIL = "wk_teil";
+    private static final String PROP_TESTJEAN_WKTEILE = "wk_teile";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -34,10 +38,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor linieEditor;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor linienEditor;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor stationenEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor teileEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor wkTeilEditor;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -49,14 +53,9 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     public TestJeanEditor() {
         initComponents();
 
-        teileEditor.setFields(
-            WkTeilEditor.MC_WKTEIL,
-            "wk_teile",
-            WkTeilEditor.PROP_WKTEIL_FROM,
-            WkTeilEditor.PROP_WKTEIL_TO,
-            WkTeilEditor.PROP_WKTEIL_GEOM);
-
-        stationenEditor.setFields("stationen");
+        linieEditor.getWrappedEditor().setFields(WkTeilEditor.MC_WKTEIL, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
+        linienEditor.setFields(WkTeilEditor.MC_WKTEIL, PROP_TESTJEAN_WKTEILE, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
+        stationenEditor.setFields(PROP_TESTJEAN_STATIONEN);
 
         stationEditor.addStationEditorListener(new StationEditorListener() {
 
@@ -64,7 +63,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                 public void stationCreated() {
                     zoomToFeatures();
                     try {
-                        cidsBean.setProperty("station", stationEditor.getCidsBean());
+                        cidsBean.setProperty(PROP_TESTJEAN_STATION, stationEditor.getCidsBean());
                     } catch (Exception ex) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("error while setting new cidsbean for station", ex);
@@ -73,14 +72,14 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                 }
             });
 
-        wkTeilEditor.getWrappedEditor()
+        linieEditor.getWrappedEditor()
                 .addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
                         @Override
                         public void linearReferencedLineCreated() {
                             zoomToFeatures();
                             try {
-                                cidsBean.setProperty("wk_teil", wkTeilEditor.getCidsBean());
+                                cidsBean.setProperty(PROP_TESTJEAN_WKTEIL, linieEditor.getCidsBean());
                             } catch (Exception ex) {
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("error while setting new cidsbean for wk_teil", ex);
@@ -89,7 +88,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                         }
                     });
 
-        teileEditor.addLinearReferencedLineArrayEditorListener(new LinearReferencedLineArrayEditorListener() {
+        linienEditor.addLinearReferencedLineArrayEditorListener(new LinearReferencedLineArrayEditorListener() {
 
                 @Override
                 public void editorAdded(final LinearReferencedLineEditor source) {
@@ -151,14 +150,14 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
             }
         }
         try {
-            wkTeilEditor.dispose();
+            linieEditor.dispose();
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while dispose", ex);
             }
         }
         try {
-            teileEditor.dispose();
+            linienEditor.dispose();
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while dispose", ex);
@@ -176,13 +175,13 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        wkTeilEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor();
+        linieEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor();
         stationEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
         jPanel1 = new javax.swing.JPanel();
         stationenEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        teileEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor();
+        linienEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
 
@@ -192,7 +191,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teil}"),
-                wkTeilEditor,
+                linieEditor,
                 org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
@@ -203,7 +202,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(wkTeilEditor, gridBagConstraints);
+        add(linieEditor, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -261,18 +260,18 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"),
-                teileEditor,
+                linienEditor,
                 org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
-        teileEditor.setLayout(new java.awt.GridLayout(1, 0));
+        linienEditor.setLayout(new java.awt.GridLayout(1, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(teileEditor, gridBagConstraints);
+        jPanel2.add(linienEditor, gridBagConstraints);
 
         jPanel4.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -304,15 +303,15 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     public void editorClosed(final EditorClosedEvent event) {
         final CidsBean savedBean = event.getSavedBean();
         final CidsBean savedTeilBean = (savedBean == null) ? null : (CidsBean)savedBean.getProperty("wk_teil");
-        wkTeilEditor.editorClosed(new EditorClosedEvent(event.getStatus(), savedTeilBean));
-        teileEditor.editorClosed(event);
+        linieEditor.editorClosed(new EditorClosedEvent(event.getStatus(), savedTeilBean));
+        linienEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
         boolean save = true;
-        save &= wkTeilEditor.prepareForSave();
-        save &= teileEditor.prepareForSave();
+        save &= linieEditor.prepareForSave();
+        save &= linienEditor.prepareForSave();
         return save;
     }
 }

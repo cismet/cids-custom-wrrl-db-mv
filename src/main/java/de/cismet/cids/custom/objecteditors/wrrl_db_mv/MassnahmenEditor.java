@@ -37,8 +37,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.MassnahmenFeatureRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
@@ -209,10 +209,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         initComponents();
         deActivateGUI(false);
         dropBehaviorListener = new RouteWBDropBehavior(this);
-        linearReferencedLineEditor.setMetaClassName("MASSNAHMEN");        // NOI18N
-        linearReferencedLineEditor.setFromStationField("stat_von");       // NOI18N
-        linearReferencedLineEditor.setToStationField("stat_bis");         // NOI18N
-        linearReferencedLineEditor.setRealGeomField("real_geom");         // NOI18N
+        linearReferencedLineEditor.setFields("MASSNAHMEN", "linie");      // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener); // NOI18N
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
@@ -339,8 +336,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      * @return  DOCUMENT ME!
      */
     private String getGwk() {
-        if (cidsBean.getProperty("stat_von") != null) {                        // NOI18N
-            return String.valueOf(cidsBean.getProperty("stat_von.route.gwk")); // NOI18N
+        if (cidsBean.getProperty("linie") != null) {                           // NOI18N
+            return String.valueOf(cidsBean.getProperty(
+                        "linie."
+                                + LinearReferencingConstants.PROP_STATIONLINIE_FROM
+                                + "."
+                                + LinearReferencingConstants.PROP_STATION_ROUTE
+                                + "."
+                                + LinearReferencingConstants.PROP_ROUTE_GWK)); // NOI18N
         } else {
             return "";
         }
@@ -1486,8 +1489,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 10, 20);
         panInfoContent.add(jPanel3, gridBagConstraints);
 
-        panGeo.setMinimumSize(new java.awt.Dimension(640, 120));
-        panGeo.setPreferredSize(new java.awt.Dimension(640, 120));
+        panGeo.setMinimumSize(new java.awt.Dimension(640, 140));
+        panGeo.setPreferredSize(new java.awt.Dimension(640, 140));
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -1504,6 +1507,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
 
         panGeo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
@@ -1965,28 +1971,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private void copyGeometries(final String wkId) {
         // delete old geometries
-        // delete stat_von if exists
         try {
-            CidsBeanSupport.deleteStationIfExists(cidsBean, "stat_von", beansToDelete); // NOI18N
-            cidsBean.setProperty("stat_von", null);                                     // NOI18N
+            CidsBeanSupport.deleteStationlineIfExists(cidsBean, "linie", beansToDelete); // NOI18N
+            cidsBean.setProperty("linie", null);                                         // NOI18N
         } catch (final Exception e) {
-            LOG.error("Cannot delete cids bean.", e);                                   // NOI18N
-        }
-
-        // stat_bis if exists
-        try {
-            CidsBeanSupport.deleteStationIfExists(cidsBean, "stat_bis", beansToDelete); // NOI18N
-            cidsBean.setProperty("stat_bis", null);                                     // NOI18N
-        } catch (final Exception e) {
-            LOG.error("Cannot delete cids bean.", e);                                   // NOI18N
-        }
-
-        // delete real_geom if exists
-        try {
-            CidsBeanSupport.deletePropertyIfExists(cidsBean, "real_geom", beansToDelete); // NOI18N
-            cidsBean.setProperty("real_geom", null);                                      // NOI18N
-        } catch (final Exception e) {
-            LOG.error("Cannot delete cids bean.", e);                                     // NOI18N
+            LOG.error("Cannot delete cids bean.", e);                                    // NOI18N
         }
 
         // delete additional_geom if exists
@@ -2047,14 +2036,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 final CidsBean teil = teile.get(0);
 
                 try {
-                    final CidsBean geom = CidsBeanSupport.cloneCidsBean((CidsBean)teil.getProperty("real_geom")); // NOI18N
-                    final CidsBean stat_von = CidsBeanSupport.cloneStation((CidsBean)teil.getProperty("von"));    // NOI18N
-                    final CidsBean stat_bis = CidsBeanSupport.cloneStation((CidsBean)teil.getProperty("bis"));    // NOI18N
-                    cidsBean.setProperty("real_geom", geom);                                                      // NOI18N
-                    cidsBean.setProperty("stat_von", stat_von);                                                   // NOI18N
-                    cidsBean.setProperty("stat_bis", stat_bis);                                                   // NOI18N
+                    final CidsBean lineBean = (CidsBean)teil.getProperty("linie");
+                    final CidsBean clonedLineBean = CidsBeanSupport.cloneStationline(lineBean); // NOI18N
+                    cidsBean.setProperty("linie", clonedLineBean);
                 } catch (final Exception e) {
-                    LOG.error("Cannot copy the new geometry.", e);                                                // NOI18N
+                    LOG.error("Cannot copy the new geometry.", e);                              // NOI18N
                 }
             }
         }

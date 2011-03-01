@@ -101,10 +101,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      * DOCUMENT ME!
      */
     private void initLinearReferencedLineEditor() {
-        linearReferencedLineEditor.setMetaClassName("Rohrleitung");
-        linearReferencedLineEditor.setFromStationField("station_von");
-        linearReferencedLineEditor.setToStationField("station_bis");
-        linearReferencedLineEditor.setRealGeomField("real_geom");
+        linearReferencedLineEditor.setFields("Rohrleitung", "linie");
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
                 @Override
@@ -475,8 +472,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbMassnahmen, gridBagConstraints);
 
-        panInfo1.setMinimumSize(new java.awt.Dimension(640, 120));
-        panInfo1.setPreferredSize(new java.awt.Dimension(640, 120));
+        panInfo1.setMinimumSize(new java.awt.Dimension(640, 140));
+        panInfo1.setPreferredSize(new java.awt.Dimension(640, 140));
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -495,6 +492,10 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
 
         panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
@@ -513,7 +514,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station_bis.route.routenname}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.station_von.route.routenname}"),
                 jLabel1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");

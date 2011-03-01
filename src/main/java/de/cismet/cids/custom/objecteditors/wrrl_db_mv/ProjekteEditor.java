@@ -1115,9 +1115,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final Object beanColl = cidsBean.getProperty("umsetzung");
                     if (beanColl instanceof Collection) {
                         ((Collection)beanColl).remove(beanToDelete);
-                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_v", beansToDelete);      // NOI18N
-                        CidsBeanSupport.deleteStationIfExists(beanToDelete, "mass_stat_b", beansToDelete);      // NOI18N
-                        CidsBeanSupport.deletePropertyIfExists(beanToDelete, "real_geom", beansToDelete);       // NOI18N
+                        CidsBeanSupport.deleteStationlineIfExists(beanToDelete, "linie", beansToDelete);
                         CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete); // NOI18N
                         beanToDelete.delete();
                         massnahmenUmsetzungEditor1.setCidsBean(null);

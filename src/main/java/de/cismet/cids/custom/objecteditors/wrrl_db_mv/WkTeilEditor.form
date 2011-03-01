@@ -20,9 +20,6 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor" name="linearReferencedLineEditor1">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor(&#xa;    MC_WKTEIL,&#xa;    PROP_WKTEIL_FROM,&#xa;    PROP_WKTEIL_TO,&#xa;    PROP_WKTEIL_GEOM&#xa;)"/>
-      </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="Center"/>

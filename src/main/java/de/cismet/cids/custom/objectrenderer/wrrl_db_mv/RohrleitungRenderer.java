@@ -261,7 +261,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station_bis.route.routenname}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.station_von.route.routenname}"),
                 jLabel1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");

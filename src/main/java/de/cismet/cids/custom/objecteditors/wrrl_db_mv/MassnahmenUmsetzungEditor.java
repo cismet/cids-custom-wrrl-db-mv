@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.server.middleware.types.MetaClass;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +15,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.StationToMapRegistry;
@@ -29,7 +28,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -99,10 +97,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     public MassnahmenUmsetzungEditor() {
         initComponents();
         dropBehaviorListener = new RouteWBDropBehavior(this);
-        linearReferencedLineEditor.setMetaClassName("MASSNAHMENUMSETZUNG"); // NOI18N
-        linearReferencedLineEditor.setFromStationField("mass_stat_v");      // NOI18N
-        linearReferencedLineEditor.setToStationField("mass_stat_b");        // NOI18N
-        linearReferencedLineEditor.setRealGeomField("real_geom");           // NOI18N
+        linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
         linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
@@ -365,8 +360,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
 
         panGeo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
@@ -640,21 +636,23 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                 cidsBean.setProperty("measure_type_code", meas.get(0)); // NOI18N
             }
 
-            if ((act.getProperty("stat_von") != null) && (act.getProperty("stat_bis") != null)) { // NOI18N
-                final CidsBean statFrom = (CidsBean)act.getProperty("stat_von");                  // NOI18N
-                final CidsBean statTo = (CidsBean)act.getProperty("stat_bis");                    // NOI18N
-                final CidsBean realGeom = (CidsBean)act.getProperty("real_geom");                 // NOI18N
+            final CidsBean linBean = (CidsBean)act.getProperty("linie");
+            if (linBean != null) {                                                                                      // NOI18N
+                final CidsBean statFrom = (CidsBean)linBean.getProperty(
+                        LinearReferencingConstants.PROP_STATIONLINIE_FROM);                                             // NOI18N
+                final CidsBean statTo = (CidsBean)linBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO); // NOI18N
+                final CidsBean realGeom = (CidsBean)linBean.getProperty(
+                        LinearReferencingConstants.PROP_STATIONLINIE_GEOM);                                             // NOI18N
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("statFrom " + statFrom.getProperty(LinearReferencingConstants.PROP_STATION_VALUE));       // NOI18N
+                }
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("statTo " + statTo.getProperty(LinearReferencingConstants.PROP_STATION_VALUE));           // NOI18N
+                }
 
-                LOG.error("statFrom " + statFrom.getProperty("wert")); // NOI18N
-                LOG.error("statTo " + statTo.getProperty("wert"));     // NOI18N
+                CidsBeanSupport.deleteStationlineIfExists(cidsBean, "linie", beansToDelete); // NOI18N
 
-                CidsBeanSupport.deleteStationIfExists(cidsBean, "mass_stat_v", beansToDelete); // NOI18N
-                CidsBeanSupport.deleteStationIfExists(cidsBean, "mass_stat_b", beansToDelete); // NOI18N
-                CidsBeanSupport.deletePropertyIfExists(cidsBean, "real_geom", beansToDelete);  // NOI18N
-
-                cidsBean.setProperty("mass_stat_v", CidsBeanSupport.cloneStation(statFrom)); // NOI18N
-                cidsBean.setProperty("mass_stat_b", CidsBeanSupport.cloneStation(statTo));   // NOI18N
-                cidsBean.setProperty("real_geom", CidsBeanSupport.cloneCidsBean(realGeom));  // NOI18N
+                cidsBean.setProperty("linie", CidsBeanSupport.cloneStationline(linBean));
                 linearReferencedLineEditor.setCidsBean(cidsBean);
             }
 

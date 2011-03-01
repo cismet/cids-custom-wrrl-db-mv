@@ -28,13 +28,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LawaTypeNeighbourSearch;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -134,10 +134,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         initComponents();
         if (!readOnly) {
             lblValLawa_nr.setVisible(false);
-            linearReferencedLineEditor.setMetaClassName("LAWA");        // NOI18N
-            linearReferencedLineEditor.setFromStationField("stat_von"); // NOI18N
-            linearReferencedLineEditor.setToStationField("stat_bis");   // NOI18N
-            linearReferencedLineEditor.setRealGeomField("real_geom");   // NOI18N
+            linearReferencedLineEditor.setFields("LAWA", "linie");
             linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
 
                     @Override
@@ -290,7 +287,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         }
         try {
             final String geom = realGeom.toText(); // linearReferencedLineEditor.getFeature().getGeometry().toText();
-            final CidsBean route = StationEditor.getRouteBean((CidsBean)cidsBean.getProperty("stat_von"));
+            final CidsBean route = (CidsBean)cidsBean.getProperty("linie."
+                            + LinearReferencingConstants.PROP_STATIONLINIE_FROM
+                            + LinearReferencingConstants.PROP_STATION_ROUTE);
 
             if (route == null) {
                 LOG.error("Route not found");
@@ -520,8 +519,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weighty = 1.0;
         add(jPanel2, gridBagConstraints);
 
-        panInfo1.setMinimumSize(new java.awt.Dimension(640, 120));
-        panInfo1.setPreferredSize(new java.awt.Dimension(640, 120));
+        panInfo1.setMinimumSize(new java.awt.Dimension(640, 140));
+        panInfo1.setPreferredSize(new java.awt.Dimension(640, 140));
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -539,7 +538,10 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 4;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
 
         lblTypUnterhalb.setText("Typ unterhalb");

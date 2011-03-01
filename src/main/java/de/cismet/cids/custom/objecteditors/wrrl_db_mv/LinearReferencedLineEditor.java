@@ -118,10 +118,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private LinearReferencedLineEditorDropBehavior dropBehavior;
     private Feature fromBadGeomFeature;
     private Feature toBadGeomFeature;
-    private String fromStationField;
-    private String toStationField;
-    private String realGeomField;
     private String metaClassName;
+    private String lineField;
     private CidsBean cidsBean;
     private BoundingBox boundingbox;
 
@@ -185,26 +183,19 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         initStationToMapRegistryListener(TO);
     }
 
-    /**
-     * Creates a new LinearReferencedLineEditor object.
-     *
-     * @param  metaClassName     DOCUMENT ME!
-     * @param  fromStationField  DOCUMENT ME!
-     * @param  toStationField    DOCUMENT ME!
-     * @param  realGeomField     DOCUMENT ME!
-     */
-    public LinearReferencedLineEditor(final String metaClassName,
-            final String fromStationField,
-            final String toStationField,
-            final String realGeomField) {
-        this();
-        setMetaClassName(metaClassName);
-        setFromStationField(fromStationField);
-        setToStationField(toStationField);
-        setRealGeomField(realGeomField);
-    }
-
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  metaClassName  DOCUMENT ME!
+     * @param  lineField      DOCUMENT ME!
+     */
+    public final void setFields(final String metaClassName,
+            final String lineField) {
+        setMetaClassName(metaClassName);
+        setLineField(lineField);
+    }
 
     /**
      * DOCUMENT ME!
@@ -240,24 +231,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
-     * @param  fromStationField  DOCUMENT ME!
-     */
-    public final void setFromStationField(final String fromStationField) {
-        setStationField(fromStationField, FROM);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  toStationField  DOCUMENT ME!
-     */
-    public final void setToStationField(final String toStationField) {
-        setStationField(toStationField, TO);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @return  DOCUMENT ME!
      */
     public LinearReferencedLineFeature getFeature() {
@@ -284,7 +257,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
 
-        if (checkProperties() && (getStationBean(FROM) != null) && (getStationBean(TO) != null)) {
+        if ((getStationBean(FROM) != null) && (getStationBean(TO) != null)) {
             setStationBean(getStationBean(FROM), FROM);
             setStationBean(getStationBean(TO), TO);
             setLineBean(cidsBean);
@@ -365,21 +338,25 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private String getStationField(final boolean isFrom) {
-        return (isFrom) ? fromStationField : toStationField;
+        return (isFrom) ? PROP_STATIONLINIE_FROM : PROP_STATIONLINIE_TO;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  field   DOCUMENT ME!
-     * @param  isFrom  DOCUMENT ME!
+     * @param  lineField  DOCUMENT ME!
      */
-    private void setStationField(final String field, final boolean isFrom) {
-        if (isFrom) {
-            fromStationField = field;
-        } else {
-            toStationField = field;
-        }
+    private void setLineField(final String lineField) {
+        this.lineField = lineField;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getLineField() {
+        return lineField;
     }
 
     /**
@@ -555,24 +532,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @return  DOCUMENT ME!
      */
-    public String getRealGeomField() {
-        return realGeomField;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  realGeomField  DOCUMENT ME!
-     */
-    public final void setRealGeomField(final String realGeomField) {
-        this.realGeomField = realGeomField;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
     public String getMetaClassName() {
         return metaClassName;
     }
@@ -582,7 +541,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  metaClassName  DOCUMENT ME!
      */
-    public final void setMetaClassName(final String metaClassName) {
+    private void setMetaClassName(final String metaClassName) {
         this.metaClassName = metaClassName;
     }
 
@@ -657,7 +616,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             if (getCidsBean() != null) {
                 try {
                     final String stationField = getStationField(isFrom);
-                    getCidsBean().setProperty(stationField, stationBean);
+                    getLineBean().setProperty(stationField, stationBean);
                 } catch (Exception ex) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("error while setting cidsbean for merging stations", ex);
@@ -766,43 +725,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     }
 
     /**
-     * BEAN.<<
-     *
-     * @return  DOCUMENT ME!
-     */
-    private boolean checkProperties() {
-        if (getCidsBean() == null) {
-            return false;
-        }
-        boolean fromStationFound = false;
-        boolean toStationFound = false;
-        boolean realGeomFound = false;
-        for (final String propertyName : getCidsBean().getPropertyNames()) {
-            if (propertyName.equals(getStationField(FROM))) {
-                fromStationFound = true;
-            }
-            if (propertyName.equals(getStationField(TO))) {
-                toStationFound = true;
-            }
-            if (propertyName.equals(getRealGeomField())) {
-                realGeomFound = true;
-            }
-        }
-
-        if (fromStationFound && toStationFound && realGeomFound) {
-            return true;
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Error, property not found! | fromStationField found = '" + getStationField(FROM) + "' "
-                            + fromStationFound + ", toStationField found = '" + getStationField(TO) + "' "
-                            + toStationFound
-                            + ", realGeomField found = '" + getRealGeomField() + "' " + realGeomFound);
-            }
-            return false;
-        }
-    }
-
-    /**
      * DOCUMENT ME!
      *
      * @param  card  DOCUMENT ME!
@@ -827,13 +749,16 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
-     * @param  cidsBean   DOCUMENT ME!
      * @param  routeBean  DOCUMENT ME!
+     * @param  cidsBean   DOCUMENT ME!
+     * @param  lineField  DOCUMENT ME!
      */
-    private void fillFromRoute(final CidsBean cidsBean, final CidsBean routeBean) {
+    public static void fillFromRoute(final CidsBean routeBean, final CidsBean cidsBean, final String lineField) {
+        final MetaClass linieMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATIONLINE);
         final MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION);
         final MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_GEOM);
 
+        final CidsBean linieBean = linieMC.getEmptyInstance().getBean();
         final CidsBean fromBean = stationMC.getEmptyInstance().getBean();
         final CidsBean toBean = stationMC.getEmptyInstance().getBean();
         final CidsBean geomBean = geomMC.getEmptyInstance().getBean();
@@ -852,9 +777,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                             .getLength());
             toBean.setProperty(PROP_STATION_GEOM, toGeomBean);
 
-            cidsBean.setProperty(getStationField(FROM), fromBean);
-            cidsBean.setProperty(getStationField(TO), toBean);
-            cidsBean.setProperty(getRealGeomField(), geomBean);
+            linieBean.setProperty(PROP_STATIONLINIE_FROM, fromBean);
+            linieBean.setProperty(PROP_STATIONLINIE_TO, toBean);
+            linieBean.setProperty(PROP_STATIONLINIE_GEOM, geomBean);
+
+            cidsBean.setProperty(lineField, linieBean);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Error while filling bean", ex);
@@ -1127,7 +1054,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("change line geom");
                 }
-                setRealGeometry(getFeature().getGeometry());
+                setGeometry(getFeature().getGeometry());
             }
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
@@ -1269,7 +1196,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private Geometry getRouteGeometry() {
-        return (Geometry)getRouteGeomBean().getProperty(PROP_GEOM_GEOFIELD);
+        final CidsBean routeGeomBean = getRouteGeomBean();
+        if (routeGeomBean == null) {
+            return null;
+        }
+        return (Geometry)routeGeomBean.getProperty(PROP_GEOM_GEOFIELD);
     }
 
     /**
@@ -1280,11 +1211,47 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private CidsBean getStationBean(final boolean isFrom) {
-        final CidsBean cidsBean = getCidsBean();
+        return getStationBean(getLineBean(), isFrom);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   lineBean  DOCUMENT ME!
+     * @param   isFrom    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean getStationBean(final CidsBean lineBean, final boolean isFrom) {
+        if (lineBean == null) {
+            return null;
+        }
+        final String stationField = (isFrom) ? PROP_STATIONLINIE_FROM : PROP_STATIONLINIE_TO;
+        return (CidsBean)lineBean.getProperty(stationField);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private CidsBean getLineBean() {
+        return getLineBean(getCidsBean(), getLineField());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean   DOCUMENT ME!
+     * @param   lineField  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static CidsBean getLineBean(final CidsBean cidsBean, final String lineField) {
         if (cidsBean == null) {
             return null;
         }
-        return (CidsBean)cidsBean.getProperty(getStationField(isFrom));
+        return (CidsBean)cidsBean.getProperty(lineField);
     }
 
     /**
@@ -1316,16 +1283,15 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
-     * @param   cidsBean       DOCUMENT ME!
-     * @param   realGeomField  DOCUMENT ME!
+     * @param   lineBean  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public static CidsBean getRealGeomBean(final CidsBean cidsBean, final String realGeomField) {
-        if (cidsBean == null) {
+    public static CidsBean getGeomBean(final CidsBean lineBean) {
+        if (lineBean == null) {
             return null;
         }
-        return (CidsBean)cidsBean.getProperty(realGeomField);
+        return (CidsBean)lineBean.getProperty(PROP_STATIONLINIE_GEOM);
     }
 
     /**
@@ -1335,24 +1301,22 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private void setRealGeometry(final Geometry line) throws Exception {
-        setRealGeometry(line, getCidsBean(), getRealGeomField());
+    private void setGeometry(final Geometry line) throws Exception {
+        setGeometry(line, getLineBean());
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param   line           DOCUMENT ME!
-     * @param   cidsBean       DOCUMENT ME!
-     * @param   realGeomField  DOCUMENT ME!
+     * @param   line      DOCUMENT ME!
+     * @param   lineBean  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private static void setRealGeometry(final Geometry line, final CidsBean cidsBean, final String realGeomField)
-            throws Exception {
-        final CidsBean realGeomBean = getRealGeomBean(cidsBean, realGeomField);
-        if (realGeomBean != null) {
-            realGeomBean.setProperty(PROP_GEOM_GEOFIELD, line);
+    private static void setGeometry(final Geometry line, final CidsBean lineBean) throws Exception {
+        final CidsBean geomBean = getGeomBean(lineBean);
+        if (geomBean != null) {
+            geomBean.setProperty(PROP_GEOM_GEOFIELD, line);
         }
     }
 
@@ -1828,7 +1792,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                         .getEmptyInstance()
                         .getBean();
         }
-        fillFromRoute(cidsBean, routeBean);
+        fillFromRoute(routeBean, cidsBean, getLineField());
         setCidsBean(cidsBean);
 
         // Geometrie für BoundingBox erzeufen
@@ -1912,10 +1876,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  targetIsFrom  DOCUMENT ME!
      */
     private void updateSnappedRealGeoms(final boolean isFrom, final boolean targetIsFrom) {
-        LOG.fatal("quellstation: " + ((isFrom) ? "VON" : "ZU") + " | zielstation: " + ((targetIsFrom) ? "VON" : "ZU"));
-        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, getMetaClassName());
+        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATIONLINE);
 
-        final int ownId = getCidsBean().getMetaObject().getId();
+        final int ownLineId = getLineBean().getMetaObject().getId();
         final int stationId = getStationBean(isFrom).getMetaObject().getId();
         final String query = "SELECT "
                     + "   " + mcLine.getId() + ", "
@@ -1923,7 +1886,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                     + "FROM "
                     + "   " + mcLine.getTableName() + " "
                     + "WHERE "
-                    + "   " + mcLine.getPrimaryKey() + " != " + ownId + " AND "
+                    + "   " + mcLine.getPrimaryKey() + " != " + ownLineId + " AND "
                     + "   " + getStationField(targetIsFrom) + " = " + stationId + " "
                     + ";";
         LOG.fatal("query: " + query);
@@ -1960,7 +1923,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 targetStationFeature.moveToPosition(getStationFeature(isFrom).getCurrentPosition());
 
                 // von feature neu berechnete geometrie im wk_teil setzen
-                LinearReferencedLineEditor.setRealGeometry(targetFeature.getGeometry(), targetBean, getRealGeomField());
+                LinearReferencedLineEditor.setGeometry(targetFeature.getGeometry(), targetBean);
 
                 // wk_teil speichern
                 targetBean.persist();

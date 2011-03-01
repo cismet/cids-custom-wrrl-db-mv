@@ -40,7 +40,6 @@ public final class CidsBeanSupport {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBeanSupport.class);
     public static final String FIELD_NOT_SET = "<nicht gesetzt>";
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CidsBeanSupport.class);
     public static final String DOMAIN_NAME = "WRRL_DB_MV";
 
     //~ Constructors -----------------------------------------------------------
@@ -140,7 +139,40 @@ public final class CidsBeanSupport {
 
         if (station instanceof CidsBean) {
             final CidsBean cbean = (CidsBean)station;
-            deletePropertyIfExists(cbean, "real_point", beansToDelete);
+            deletePropertyIfExists(cbean, LinearReferencingConstants.PROP_STATION_GEOM, beansToDelete);
+            cbean.delete();
+            beansToDelete.add(cbean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean           DOCUMENT ME!
+     * @param   propertyName   DOCUMENT ME!
+     * @param   beansToDelete  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void deleteStationlineIfExists(final CidsBean bean,
+            final String propertyName,
+            final List<CidsBean> beansToDelete) throws Exception {
+        final Object line = bean.getProperty(propertyName);
+
+        if (line instanceof CidsBean) {
+            final CidsBean cbean = (CidsBean)line;
+            CidsBeanSupport.deleteStationIfExists(
+                cbean,
+                LinearReferencingConstants.PROP_STATIONLINIE_FROM,
+                beansToDelete); // NOI18N
+            CidsBeanSupport.deleteStationIfExists(
+                cbean,
+                LinearReferencingConstants.PROP_STATIONLINIE_TO,
+                beansToDelete); // NOI18N
+            CidsBeanSupport.deletePropertyIfExists(
+                cbean,
+                LinearReferencingConstants.PROP_STATIONLINIE_GEOM,
+                beansToDelete); // NOI18N
             cbean.delete();
             beansToDelete.add(cbean);
         }
@@ -183,12 +215,48 @@ public final class CidsBeanSupport {
         }
         final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
 
-        clone.setProperty("wert", bean.getProperty("wert"));
+        clone.setProperty(
+            LinearReferencingConstants.PROP_STATION_VALUE,
+            bean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE));
 
-        if (bean.getProperty("real_point") instanceof CidsBean) {
-            clone.setProperty("real_point", cloneCidsBean((CidsBean)bean.getProperty("real_point")));
+        final Object geom = bean.getProperty(LinearReferencingConstants.PROP_STATION_GEOM);
+        if (geom instanceof CidsBean) {
+            clone.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, cloneCidsBean((CidsBean)geom));
         }
-        clone.setProperty("route", bean.getProperty("route"));
+        clone.setProperty(
+            LinearReferencingConstants.PROP_STATION_ROUTE,
+            bean.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE));
+
+        return clone;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static CidsBean cloneStationline(final CidsBean bean) throws Exception {
+        if (bean == null) {
+            return null;
+        }
+        final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
+
+        final Object fromBean = bean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+        if (fromBean instanceof CidsBean) {
+            clone.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, cloneStation((CidsBean)fromBean));
+        }
+        final Object toBean = bean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        if (toBean instanceof CidsBean) {
+            clone.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, cloneStation((CidsBean)toBean));
+        }
+        final Object geomBean = bean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM);
+        if (geomBean instanceof CidsBean) {
+            clone.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, cloneCidsBean((CidsBean)geomBean));
+        }
 
         return clone;
     }

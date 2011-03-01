@@ -66,7 +66,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
-    private static final MetaClass AUSNAHME_MC;
+    private static final String PROP_WKFG_WKTEILE = "teile";
     private static final MetaClass GROUP_MC = ClassCacheMultiple.getMetaClass(
             CidsBeanSupport.DOMAIN_NAME,
             "wk_group");
@@ -74,9 +74,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             CidsBeanSupport.DOMAIN_NAME,
             "wk_group_aggr");
 
-    static {
-        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EXCEMPTION");
-    }
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 
     //~ Instance fields --------------------------------------------------------
@@ -133,10 +130,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         teileEditor.setFields(
             WkTeilEditor.MC_WKTEIL,
-            "teile",
-            WkTeilEditor.PROP_WKTEIL_FROM,
-            WkTeilEditor.PROP_WKTEIL_TO,
-            WkTeilEditor.PROP_WKTEIL_GEOM);
+            PROP_WKFG_WKTEILE,
+            WkTeilEditor.PROP_WKTEIL_STATIONLINE);
 
         teileEditor.addLinearReferencedLineArrayEditorListener(new LinearReferencedLineArrayEditorListener() {
 

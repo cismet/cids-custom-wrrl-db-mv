@@ -9,6 +9,8 @@ package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
 import java.text.DecimalFormat;
 
+import de.cismet.cids.custom.util.LinearReferencingConstants;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.CustomToStringConverter;
@@ -25,12 +27,17 @@ public class RohrleitungToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        final CidsBean stationVon = (CidsBean)cidsBean.getProperty("station_von");
-        final CidsBean stationBis = (CidsBean)cidsBean.getProperty("station_bis");
-        final String wertVon = new DecimalFormat("#.#").format((Double)stationVon.getProperty("wert"));
-        final String wertBis = new DecimalFormat("#.#").format((Double)stationBis.getProperty("wert"));
-        final CidsBean route = (CidsBean)stationVon.getProperty("route");
-        final String gwk = String.valueOf(route.getProperty("gwk"));
+        final CidsBean lineBean = (CidsBean)cidsBean.getProperty("linie");
+        final CidsBean stationVon = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+        final CidsBean stationBis = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        final String wertVon =
+            new DecimalFormat("#.#").format((Double)stationVon.getProperty(
+                    LinearReferencingConstants.PROP_STATION_VALUE));
+        final String wertBis =
+            new DecimalFormat("#.#").format((Double)stationBis.getProperty(
+                    LinearReferencingConstants.PROP_STATION_VALUE));
+        final CidsBean route = (CidsBean)stationVon.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+        final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
 
         return String.valueOf(gwk + "@" + wertVon + "-" + wertBis);
     }

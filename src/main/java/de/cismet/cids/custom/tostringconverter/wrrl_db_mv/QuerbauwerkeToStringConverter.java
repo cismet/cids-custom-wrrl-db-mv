@@ -9,6 +9,8 @@ package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
 import java.text.DecimalFormat;
 
+import de.cismet.cids.custom.util.LinearReferencingConstants;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.CustomToStringConverter;
@@ -26,9 +28,10 @@ public class QuerbauwerkeToStringConverter extends CustomToStringConverter {
     @Override
     public String createString() {
         final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-        final String wert = new DecimalFormat("#.#").format((Double)stat09.getProperty("wert"));
-        final CidsBean route = (CidsBean)stat09.getProperty("route");
-        final String gwk = String.valueOf(route.getProperty("gwk"));
+        final String wert =
+            new DecimalFormat("#.#").format((Double)stat09.getProperty(LinearReferencingConstants.PROP_STATION_VALUE));
+        final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+        final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
         return "Querbauwerk " + gwk + "@" + wert;
     }
 }

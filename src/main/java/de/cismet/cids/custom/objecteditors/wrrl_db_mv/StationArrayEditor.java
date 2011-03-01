@@ -96,8 +96,12 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
      * @return  DOCUMENT ME!
      */
     private static CidsBean createStationFromRoute(final CidsBean routeBean) {
-        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "STATION");
-        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "GEOM");
+        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                LinearReferencingConstants.MC_STATION);
+        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                LinearReferencingConstants.MC_GEOM);
 
         final CidsBean stationBean = stationMC.getEmptyInstance().getBean();
         final CidsBean geomBean = geomMC.getEmptyInstance().getBean();

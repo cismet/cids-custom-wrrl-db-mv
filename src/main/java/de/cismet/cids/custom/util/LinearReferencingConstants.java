@@ -33,11 +33,16 @@ public interface LinearReferencingConstants {
 
     //~ Instance fields --------------------------------------------------------
 
-    String MC_STATION = "station"; // NOI18N
-    String MC_ROUTE = "route";     // NOI18N
-    String MC_GEOM = "geom";       // NOI18N
+    String MC_STATIONLINE = "station_linie"; // NOI18N
+    String MC_STATION = "station";           // NOI18N
+    String MC_ROUTE = "route";               // NOI18N
+    String MC_GEOM = "geom";                 // NOI18N
 
     String PROP_ID = "id"; // NOI18N
+
+    String PROP_STATIONLINIE_FROM = "von";  // NOI18N
+    String PROP_STATIONLINIE_TO = "bis";    // NOI18N
+    String PROP_STATIONLINIE_GEOM = "geom"; // NOI18N
 
     String PROP_STATION_VALUE = "wert";      // NOI18N
     String PROP_STATION_ROUTE = "route";     // NOI18N

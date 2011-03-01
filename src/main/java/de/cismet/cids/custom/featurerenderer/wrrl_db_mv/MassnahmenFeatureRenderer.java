@@ -18,6 +18,8 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cismet.cids.custom.util.LinearReferencingConstants;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
@@ -77,20 +79,23 @@ public class MassnahmenFeatureRenderer extends CustomCidsFeatureRenderer {
 
     @Override
     public void assign() {
-        final CidsBean stat_von = (CidsBean)cidsBean.getProperty("stat_von");
-        final CidsBean stat_bis = (CidsBean)cidsBean.getProperty("stat_bis");
+        final CidsBean lineBean = (CidsBean)cidsBean.getProperty("linie");
+        final CidsBean vonBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+        final CidsBean bisBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
 
-        if ((stat_von != null) && (stat_bis != null)) {
-            final CidsBean route = (CidsBean)stat_von.getProperty("route");
-            final Geometry routeGeometry = (Geometry)((CidsBean)route.getProperty("geom")).getProperty("geo_field");
+        if ((vonBean != null) && (bisBean != null)) {
+            final CidsBean route = (CidsBean)vonBean.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+            final Geometry routeGeometry = (Geometry)
+                ((CidsBean)route.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
+                    LinearReferencingConstants.PROP_GEOM_GEOFIELD);
 
-            final LinearReferencedPointFeature stat_von_feature = new LinearReferencedPointFeature((Double)
-                    stat_von.getProperty("wert"),
+            final LinearReferencedPointFeature vonFeature = new LinearReferencedPointFeature((Double)
+                    vonBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
                     routeGeometry);
-            final LinearReferencedPointFeature stat_bis_feature = new LinearReferencedPointFeature((Double)
-                    stat_bis.getProperty("wert"),
+            final LinearReferencedPointFeature bisFeature = new LinearReferencedPointFeature((Double)
+                    bisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
                     routeGeometry);
-            final LinearReferencedLineFeature f = new LinearReferencedLineFeature(stat_von_feature, stat_bis_feature);
+            final LinearReferencedLineFeature f = new LinearReferencedLineFeature(vonFeature, bisFeature);
             if (!CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures().contains(f)) {
                 add(f);
             }

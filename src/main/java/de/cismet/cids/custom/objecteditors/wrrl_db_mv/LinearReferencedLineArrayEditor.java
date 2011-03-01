@@ -64,10 +64,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
     private CidsBean cidsBean;
     private String arrayField;
-    private String fromStationField;
-    private String toStationField;
-    private String realGeomField;
     private String metaClassName;
+    private String lineField;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel dropPanel;
@@ -100,6 +98,15 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    private String getMetaClassName() {
+        return metaClassName;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  metaClassName  DOCUMENT ME!
      */
     private void setMetaClassName(final String metaClassName) {
@@ -109,22 +116,16 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     /**
      * DOCUMENT ME!
      *
-     * @param  metaClassName     DOCUMENT ME!
-     * @param  arrayField        DOCUMENT ME!
-     * @param  fromStationField  DOCUMENT ME!
-     * @param  toStationField    DOCUMENT ME!
-     * @param  realGeomField     DOCUMENT ME!
+     * @param  metaClassName  DOCUMENT ME!
+     * @param  arrayField     DOCUMENT ME!
+     * @param  lineField      fromStationField DOCUMENT ME!
      */
     public final void setFields(final String metaClassName,
             final String arrayField,
-            final String fromStationField,
-            final String toStationField,
-            final String realGeomField) {
+            final String lineField) {
         setMetaClassName(metaClassName);
         setArrayField(arrayField);
-        setFromStationField(fromStationField);
-        setToStationField(toStationField);
-        setRealGeomField(realGeomField);
+        setLineField(lineField);
     }
 
     /**
@@ -139,28 +140,19 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     /**
      * DOCUMENT ME!
      *
-     * @param  fromStationField  DOCUMENT ME!
+     * @return  DOCUMENT ME!
      */
-    private void setFromStationField(final String fromStationField) {
-        this.fromStationField = fromStationField;
+    private String getLineField() {
+        return lineField;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  toStationField  DOCUMENT ME!
+     * @param  lineField  DOCUMENT ME!
      */
-    private void setToStationField(final String toStationField) {
-        this.toStationField = toStationField;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  realGeomField  DOCUMENT ME!
-     */
-    private void setRealGeomField(final String realGeomField) {
-        this.realGeomField = realGeomField;
+    private void setLineField(final String lineField) {
+        this.lineField = lineField;
     }
 
     /**
@@ -179,10 +171,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      */
     protected LinearReferencedLineEditor createEditor() {
         final LinearReferencedLineEditor editor = new LinearReferencedLineEditor();
-        editor.setMetaClassName(metaClassName);
-        editor.setFromStationField(fromStationField);
-        editor.setToStationField(toStationField);
-        editor.setRealGeomField(realGeomField);
+        editor.setFields(getMetaClassName(), getLineField());
         return editor;
     }
 
@@ -319,38 +308,10 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      * @return  DOCUMENT ME!
      */
     protected CidsBean createBeanFromRoute(final CidsBean routeBean) {
-        final MetaClass segmentMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName);
-        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION);
-        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_GEOM);
+        final MetaClass parentMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName);
+        final CidsBean newBean = parentMC.getEmptyInstance().getBean();
 
-        final CidsBean newBean = segmentMC.getEmptyInstance().getBean();
-        final CidsBean fromBean = stationMC.getEmptyInstance().getBean();
-        final CidsBean toBean = stationMC.getEmptyInstance().getBean();
-        final CidsBean geomBean = geomMC.getEmptyInstance().getBean();
-        final CidsBean fromGeomBean = geomMC.getEmptyInstance().getBean();
-        final CidsBean toGeomBean = geomMC.getEmptyInstance().getBean();
-
-        try {
-            fromBean.setProperty(PROP_STATION_ROUTE, routeBean);
-            fromBean.setProperty(PROP_STATION_VALUE, 0d);
-            fromBean.setProperty(PROP_STATION_GEOM, fromGeomBean);
-
-            toBean.setProperty(PROP_STATION_ROUTE, routeBean);
-            toBean.setProperty(
-                PROP_STATION_VALUE,
-                ((Geometry)((CidsBean)routeBean.getProperty(PROP_ROUTE_GEOM)).getProperty(PROP_GEOM_GEOFIELD))
-                            .getLength());
-            toBean.setProperty(PROP_STATION_GEOM, toGeomBean);
-
-            newBean.setProperty(fromStationField, fromBean);
-            newBean.setProperty(toStationField, toBean);
-            newBean.setProperty(realGeomField, geomBean);
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Error while creating new bean", ex);
-            }
-        }
-
+        LinearReferencedLineEditor.fillFromRoute(routeBean, newBean, getLineField());
         return newBean;
     }
 
@@ -475,7 +436,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
             for (final CidsBean bean : beans) {
                 if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
                     final LinearReferencedLineEditor editor = createEditor();
-                    editor.setMetaClassName(metaClassName);
+                    editor.setFields(getMetaClassName(), getLineField());
                     editor.setCidsBean(createBeanFromRoute(bean));
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());

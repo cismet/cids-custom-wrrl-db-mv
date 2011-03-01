@@ -40,6 +40,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -303,7 +304,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
 
                         @Override
                         public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals("wert")) {
+                            if (pce.getPropertyName().equals(LinearReferencingConstants.PROP_STATION_VALUE)) {
                                 wertChanged();
                             }
                         }
@@ -340,8 +341,15 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
         final MetaClass mcWkFgTeile = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg_teile");
         final MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_teil");
-        final MetaClass mcStation = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "station");
-        final MetaClass mcRoute = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "route");
+        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                LinearReferencingConstants.MC_STATIONLINE);
+        final MetaClass mcStation = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                LinearReferencingConstants.MC_STATION);
+        final MetaClass mcRoute = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                LinearReferencingConstants.MC_ROUTE);
 
         final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
         final MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "querbauwerke");
@@ -352,9 +360,9 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         final int id = (Integer)cidsBean.getProperty("id");
         final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
         if (stat09 != null) {
-            final double wert = (Double)stat09.getProperty("wert");
-            final CidsBean route = (CidsBean)stat09.getProperty("route");
-            final long gwk = (Long)route.getProperty("gwk");
+            final double wert = (Double)stat09.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
+            final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+            final long gwk = (Long)route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK);
 
             queryWkFg = "SELECT "
                         + "   " + mcWkFg.getID() + ", "
@@ -363,19 +371,27 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
                         + "   " + mcWkFg.getTableName() + " AS wk_fg, "
                         + "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, "
                         + "   " + mcWkTeil.getTableName() + " AS wk_teil, "
-                        + "   " + mcStation.getTableName() + " AS stat_von, "
-                        + "   " + mcStation.getTableName() + " AS stat_bis, "
+                        + "   " + mcLine.getTableName() + " AS linie, "
+                        + "   " + mcStation.getTableName() + " AS von, "
+                        + "   " + mcStation.getTableName() + " AS bis, "
                         + "   " + mcRoute.getTableName() + " AS route "
                         + "WHERE "
                         + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
                         + "   wk_fg_teile.teil = wk_teil.id AND "
-                        + "   wk_teil.von = stat_von.id AND "
-                        + "   wk_teil.bis = stat_bis.id AND "
-                        + "   stat_von.route = route.id AND "
-                        + "   route.gwk = " + Long.toString(gwk) + " AND ( "
-                        + "      (stat_von.wert <= " + Double.toString(wert) + " AND stat_bis.wert >= "
+                        + "   wk_teil.linie = linie." + LinearReferencingConstants.PROP_ID + " AND "
+                        + "   linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM + " = von."
+                        + LinearReferencingConstants.PROP_ID + " AND "
+                        + "   linie." + LinearReferencingConstants.PROP_STATIONLINIE_TO + " = bis."
+                        + LinearReferencingConstants.PROP_ID + " AND "
+                        + "   von." + LinearReferencingConstants.PROP_STATION_ROUTE + " = route."
+                        + LinearReferencingConstants.PROP_ID + " AND "
+                        + "   route." + LinearReferencingConstants.PROP_ROUTE_GWK + " = " + Long.toString(gwk)
+                        + " AND ( "
+                        + "      (von." + LinearReferencingConstants.PROP_STATION_VALUE + " <= " + Double.toString(wert)
+                        + " AND bis." + LinearReferencingConstants.PROP_STATION_VALUE + " >= "
                         + Double.toString(wert) + ") OR "
-                        + "      (stat_bis.wert <= " + Double.toString(wert) + " AND stat_von.wert >= "
+                        + "      (bis." + LinearReferencingConstants.PROP_STATION_VALUE + " <= " + Double.toString(wert)
+                        + " AND von." + LinearReferencingConstants.PROP_STATION_VALUE + " >= "
                         + Double.toString(wert) + ") "
                         + "   ) "
                         + ";";
@@ -480,9 +496,11 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     private void updateQbwId() {
         try {
             final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-            final String wert = new DecimalFormat("#.#").format((Double)stat09.getProperty("wert"));
-            final CidsBean route = (CidsBean)stat09.getProperty("route");
-            final String gwk = String.valueOf(route.getProperty("gwk"));
+            final String wert =
+                new DecimalFormat("#.#").format((Double)stat09.getProperty(
+                        LinearReferencingConstants.PROP_STATION_VALUE));
+            final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+            final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
             querbauwerkePanOne.setQbwId(gwk + "@" + wert);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {

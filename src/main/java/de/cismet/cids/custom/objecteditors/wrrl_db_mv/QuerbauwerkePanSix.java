@@ -28,9 +28,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import de.cismet.cids.custom.util.CoordinateConverter;
 
 import de.cismet.cids.dynamics.CidsBean;

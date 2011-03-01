@@ -7,6 +7,10 @@
 ****************************************************/
 package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
+import de.cismet.cids.custom.util.LinearReferencingConstants;
+
+import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -25,28 +29,21 @@ public class LawaToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        Object gwk = cidsBean.getProperty("stat_von.route.gwk");
-        Object stat_von = cidsBean.getProperty("stat_von.wert");
-        Object stat_bis = cidsBean.getProperty("stat_bis.wert");
+        final CidsBean statVonBean = (CidsBean)cidsBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+        final CidsBean statBisBean = (CidsBean)cidsBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        final Long gwk = (Long)cidsBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_FROM + "."
+                        + LinearReferencingConstants.PROP_STATION_ROUTE + "."
+                        + LinearReferencingConstants.PROP_ROUTE_GWK);
+        final Double von = (Double)statVonBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
+        final Double bis = (Double)statBisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
 
-        if (stat_von == null) {
-            stat_von = "unbekannt";
-        }
+        final String gwkString = (gwk == null) ? "unbekannt" : String.valueOf(gwk);
+        final String vonString = (von == null) ? "unbekannt" : String.valueOf(von.intValue());
+        final String bisString = (bis == null) ? "unbekannt" : String.valueOf(bis.intValue());
 
-        if (stat_bis == null) {
-            stat_bis = "unbekannt";
-        }
-
-        if (gwk == null) {
-            gwk = "unbekannt";
-        }
-
-        if ((stat_von instanceof Double) && (stat_bis instanceof Double)) {
-            final int von = ((Double)stat_von).intValue();
-            final int bis = ((Double)stat_bis).intValue();
-            return gwk.toString() + " [" + von + " - " + bis + "]";
-        } else {
-            return gwk.toString() + " [" + stat_von.toString() + " - " + stat_bis.toString() + "]";
-        }
+        return gwkString + " [" + vonString + " - " + bisString + "]";
     }
 }

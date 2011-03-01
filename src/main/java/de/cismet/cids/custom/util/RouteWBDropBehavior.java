@@ -86,15 +86,19 @@ public class RouteWBDropBehavior implements LinearReferencedLineEditorDropBehavi
 
             if (teile != null) {
                 for (final CidsBean bean : teile) {
-                    final CidsBean stat = (CidsBean)bean.getProperty("von");
-
-                    if (stat != null) {
-                        final CidsBean route = (CidsBean)stat.getProperty("route");
-                        if (route != null) {
-                            final int id = (Integer)route.getProperty("id");
-                            if (id == droppedRouteId) {
-                                routeChanged = true;
-                                return true;
+                    final CidsBean line = (CidsBean)bean.getProperty("linie");
+                    if (line != null) {
+                        final CidsBean stat = (CidsBean)line.getProperty(
+                                LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+                        if (stat != null) {
+                            final CidsBean route = (CidsBean)stat.getProperty(
+                                    LinearReferencingConstants.PROP_STATION_ROUTE);
+                            if (route != null) {
+                                final int id = (Integer)route.getProperty(LinearReferencingConstants.PROP_ID);
+                                if (id == droppedRouteId) {
+                                    routeChanged = true;
+                                    return true;
+                                }
                             }
                         }
                     }

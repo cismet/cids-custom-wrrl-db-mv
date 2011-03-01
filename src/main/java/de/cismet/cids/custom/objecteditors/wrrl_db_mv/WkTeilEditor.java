@@ -23,10 +23,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements EditorSav
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String MC_WKTEIL = "wk_teil";          // NOI18N
-    public static final String PROP_WKTEIL_FROM = "von";       // NOI18N
-    public static final String PROP_WKTEIL_TO = "bis";         // NOI18N
-    public static final String PROP_WKTEIL_GEOM = "real_geom"; // NOI18N
+    public static final String MC_WKTEIL = "wk_teil";             // NOI18N
+    public static final String PROP_WKTEIL_STATIONLINE = "linie"; // NOI18N
 
     //~ Instance fields --------------------------------------------------------
 
@@ -46,6 +44,8 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements EditorSav
      */
     public WkTeilEditor() {
         initComponents();
+
+        linearReferencedLineEditor1.setFields(MC_WKTEIL, PROP_WKTEIL_STATIONLINE);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -88,11 +88,7 @@ public class WkTeilEditor extends DefaultCustomObjectEditor implements EditorSav
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        linearReferencedLineEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor(
-                MC_WKTEIL,
-                PROP_WKTEIL_FROM,
-                PROP_WKTEIL_TO,
-                PROP_WKTEIL_GEOM);
+        linearReferencedLineEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());

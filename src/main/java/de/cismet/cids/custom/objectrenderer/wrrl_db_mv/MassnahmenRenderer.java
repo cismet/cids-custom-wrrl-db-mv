@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.MassnahmenFeatureRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -227,8 +228,14 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
      * @return  the currently assigned gwk
      */
     private String getGwk() {
-        if (cidsBean.getProperty("stat_von") != null) {                        // NOI18N
-            return String.valueOf(cidsBean.getProperty("stat_von.route.gwk")); // NOI18N
+        if (cidsBean.getProperty("linie") != null) {                           // NOI18N
+            return String.valueOf(cidsBean.getProperty(
+                        "linie."
+                                + LinearReferencingConstants.PROP_STATIONLINIE_FROM
+                                + "."
+                                + LinearReferencingConstants.PROP_STATION_ROUTE
+                                + "."
+                                + LinearReferencingConstants.PROP_ROUTE_GWK)); // NOI18N
         } else {
             return "";
         }
