@@ -258,7 +258,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
             for (final CidsBean wkTeilBean : wkTeile) {
-                final CidsBean geomBean = (CidsBean)wkTeilBean.getProperty("real_geom");
+                final CidsBean geomBean = (CidsBean)wkTeilBean.getProperty("linie.geom");
                 final LineString geom = (LineString)geomBean.getProperty("geo_field");
                 lineStrings.add(geom);
             }

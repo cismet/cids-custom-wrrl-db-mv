@@ -190,8 +190,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
 
             cidsBean.addPropertyChangeListener(this);
 
-            if (cidsBean.getProperty("real_geom") != null) {
-                realGeom = (CidsBean)cidsBean.getProperty("real_geom");
+            if (cidsBean.getProperty("linie.geom") != null) {
+                realGeom = (CidsBean)cidsBean.getProperty("linie.geom");
                 realGeom.addPropertyChangeListener(this);
             }
 
@@ -670,7 +670,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                             LOG.debug("propertyChange " + evt.getPropertyName());
                         }
 
-                        if (evt.getPropertyName().equals("real_geom")) {
+                        if (evt.getPropertyName().equals("geom")) {
                             // the geom CidsBean from the cidsBean object was changed
                             if (evt.getNewValue() != null) {
                                 ((CidsBean)evt.getNewValue()).addPropertyChangeListener(LawaEditor.this);
