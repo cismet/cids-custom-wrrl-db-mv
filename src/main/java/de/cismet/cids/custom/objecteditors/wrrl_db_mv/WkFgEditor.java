@@ -17,6 +17,7 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.search.CidsServerSearch;
 
 import java.sql.Timestamp;
 
@@ -33,6 +34,7 @@ import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.util.WkFgGroupSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -700,22 +702,29 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      *
      * @return  DOCUMENT ME!
      */
-    public static CidsBean getGroup(final CidsBean wk_fg) {
+    public static String[] getGroup(final CidsBean wk_fg) {
         try {
-            final String query = "select " + GROUP_MC.getID() + ", g." + GROUP_MC.getPrimaryKey()            // NOI18N
-                        + " from " + GROUP_MC.getTableName() + " g, wk_group_fgs f"                          // NOI18N
-                        + " WHERE g.wk_fgs = f.wk_group_reference AND f.wk_fg = " + wk_fg.getProperty("id"); // NOI18N
+            final CidsServerSearch search = new WkFgGroupSearch(String.valueOf(wk_fg.getProperty("id")));
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
 
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() == 2)) {
+                final Object o = resArray.get(0).get(0);
+                final Object aggrO = resArray.get(0).get(1);
 
-            if ((metaObjects != null) && (metaObjects.length > 1)) {
-                LOG.warn("More than one group for the wk_fg found.");
-            }
-
-            if ((metaObjects != null) && (metaObjects.length > 0)) {
-                return metaObjects[0].getBean();
+                if ((o instanceof String) && ((aggrO == null) || (aggrO instanceof String))) {
+                    return new String[] { (String)o, (String)aggrO };
+                } else {
+                    LOG.error("Wrong data returned from the server. This should never happen.");
+                    return new String[] { null, null };
+                }
             } else {
-                return null;
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Cids server search return null. " // NOI18N
+                                + "See the server logs for further information"); // NOI18N
+                }
+                return new String[] { null, null };
             }
         } catch (final ConnectionException e) {
             LOG.error("Error while trying to receive the group for a wk_fg.", e); // NOI18N
@@ -736,7 +745,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                         + " from " + GROUP_AGGR_MC.getTableName() + " g, wk_group_aggr_groups f"                        // NOI18N
                         + " WHERE g.wk_groups = f.wk_group_aggr_reference AND f.wk_group = " + group.getProperty("id"); // NOI18N
 
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            final MetaObject[] metaObjects = SessionManager.getProxy()
+                        .getMetaObjectByQuery(SessionManager.getSession().getUser(), query);
+//            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
             if ((metaObjects != null) && (metaObjects.length > 1)) {
                 LOG.warn("More than one aggregation group for the wk_group found.");

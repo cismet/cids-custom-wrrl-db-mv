@@ -34,9 +34,6 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 import de.cismet.tools.gui.TitleComponentProvider;
 
 /**
@@ -50,11 +47,7 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WkFgRenderer.class);
-    private static final MetaClass AUSNAHME_MC;
 
-    static {
-        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EXCEMPTION");
-    }
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 
     //~ Instance fields --------------------------------------------------------
@@ -66,27 +59,30 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ExcemptionRenderer excemptionEditor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panAusnahmen;
+    private javax.swing.JPanel panBiol;
+    private javax.swing.JPanel panChem;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private javax.swing.JPanel panQualitaet1;
-    private javax.swing.JPanel panQualitaet2;
-    private javax.swing.JLabel panSpace;
+    private javax.swing.JPanel panHydro;
+    private javax.swing.JPanel panMeldInf;
+    private javax.swing.JPanel panOeko;
+    private javax.swing.JPanel panQualitaet3;
     private javax.swing.JPanel panTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
     private javax.swing.JTabbedPane tpMain;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanFive wkFgPanFive;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanFour wkFgPanFour;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanEleven wkFgPanEleven1;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanOne wkFgPanOne;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanSix wkFgPanSix;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanThree wkFgPanThree;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanTwo wkFgPanTwo;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanSeven wkFgPanSeven1;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanSix wkFgPanSix1;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanTen wkFgPanTen1;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanThirteen wkFgPanThirteen1;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanTwelve wkFgPanTwelve1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -96,14 +92,8 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
      * Creates new form WkFgEditor.
      */
     public WkFgRenderer() {
-//        try {
-//            MetaClass qscMetaClass = ClassCacheMultiple.getMetaClass("WRRL_DB_MV", "quality_status_code");
-//            qualityStatusCodeModel = DefaultBindableReferenceCombo.getModelByMetaClass(qscMetaClass, false);
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -122,11 +112,12 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
                 bindingGroup,
                 cidsBean);
             wkFgPanOne.setCidsBean(cidsBean);
-            wkFgPanTwo.setCidsBean(cidsBean);
-            wkFgPanThree.setCidsBean(cidsBean);
-            wkFgPanFour.setCidsBean(cidsBean);
-            wkFgPanFive.setCidsBean(cidsBean);
-            wkFgPanSix.setCidsBean(cidsBean);
+            wkFgPanEleven1.setCidsBean(cidsBean);
+            wkFgPanSeven1.setCidsBean(cidsBean);
+            wkFgPanTen1.setCidsBean(cidsBean);
+            wkFgPanThirteen1.setCidsBean(cidsBean);
+            wkFgPanTwelve1.setCidsBean(cidsBean);
+            wkFgPanSix1.setCidsBean(cidsBean);
             bindingGroup.bind();
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
             Object avUser = cidsBean.getProperty("av_user");
@@ -145,10 +136,6 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
         } else {
             lblFoot.setText("");
         }
-//        MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-//        if (!mappingComponent.isFixedMapExtent()) {
-//            CismapBroker.getInstance().getMappingComponent().zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-//        }
     }
 
     @Override
@@ -174,15 +161,18 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
         wkFgPanOne = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanOne();
-        panQualitaet1 = new javax.swing.JPanel();
-        wkFgPanTwo = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanTwo();
-        wkFgPanThree = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanThree();
-        wkFgPanFour = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanFour();
-        wkFgPanFive = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanFive();
-        panSpace = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        panQualitaet2 = new javax.swing.JPanel();
-        wkFgPanSix = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanSix();
+        panOeko = new javax.swing.JPanel();
+        wkFgPanTwelve1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanTwelve();
+        panBiol = new javax.swing.JPanel();
+        wkFgPanTen1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanTen();
+        panQualitaet3 = new javax.swing.JPanel();
+        wkFgPanSix1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanSix();
+        panHydro = new javax.swing.JPanel();
+        wkFgPanEleven1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanEleven();
+        panChem = new javax.swing.JPanel();
+        wkFgPanThirteen1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanThirteen();
+        panMeldInf = new javax.swing.JPanel();
+        wkFgPanSeven1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkFgPanSeven();
         panAusnahmen = new javax.swing.JPanel();
         excemptionEditor = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ExcemptionRenderer();
         roundedPanel1 = new de.cismet.tools.gui.RoundedPanel();
@@ -205,7 +195,7 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
 
         panTitle.setOpaque(false);
 
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -248,8 +238,8 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
             panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(lblTitle)
                         .addComponent(btnReport));
 
-        setMinimumSize(new java.awt.Dimension(1200, 681));
-        setPreferredSize(new java.awt.Dimension(1200, 681));
+        setMinimumSize(new java.awt.Dimension(1200, 735));
+        setPreferredSize(new java.awt.Dimension(1200, 735));
         setLayout(new java.awt.BorderLayout());
 
         panAllgemeines.setOpaque(false);
@@ -269,77 +259,96 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
 
         tpMain.addTab("Allgemeines", panAllgemeines);
 
-        panQualitaet1.setOpaque(false);
-        panQualitaet1.setLayout(new java.awt.GridBagLayout());
+        panOeko.setOpaque(false);
+        panOeko.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 15);
-        panQualitaet1.add(wkFgPanTwo, gridBagConstraints);
-
-        wkFgPanThree.setMinimumSize(new java.awt.Dimension(450, 200));
-        wkFgPanThree.setPreferredSize(new java.awt.Dimension(450, 200));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 15);
-        panQualitaet1.add(wkFgPanThree, gridBagConstraints);
-
-        wkFgPanFour.setMinimumSize(new java.awt.Dimension(450, 200));
-        wkFgPanFour.setPreferredSize(new java.awt.Dimension(450, 200));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
-        panQualitaet1.add(wkFgPanFour, gridBagConstraints);
-
-        wkFgPanFive.setMinimumSize(new java.awt.Dimension(470, 220));
-        wkFgPanFive.setPreferredSize(new java.awt.Dimension(470, 220));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 0);
-        panQualitaet1.add(wkFgPanFive, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.weighty = 1.0;
-        panQualitaet1.add(panSpace, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        panQualitaet1.add(jPanel2, gridBagConstraints);
-
-        tpMain.addTab("Qualitätsinformationen (1)", panQualitaet1);
-
-        panQualitaet2.setMinimumSize(new java.awt.Dimension(910, 650));
-        panQualitaet2.setOpaque(false);
-        panQualitaet2.setPreferredSize(new java.awt.Dimension(910, 650));
-        panQualitaet2.setLayout(new java.awt.GridBagLayout());
-
-        wkFgPanSix.setMinimumSize(new java.awt.Dimension(875, 100));
-        wkFgPanSix.setPreferredSize(new java.awt.Dimension(875, 75));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        panQualitaet2.add(wkFgPanSix, gridBagConstraints);
+        panOeko.add(wkFgPanTwelve1, gridBagConstraints);
 
-        tpMain.addTab("Qualitätsinformationen (2)", panQualitaet2);
+        tpMain.addTab("Ökologischer Zustand", panOeko);
+
+        panBiol.setMinimumSize(new java.awt.Dimension(910, 650));
+        panBiol.setOpaque(false);
+        panBiol.setPreferredSize(new java.awt.Dimension(910, 650));
+        panBiol.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panBiol.add(wkFgPanTen1, gridBagConstraints);
+
+        tpMain.addTab("Biologischer Zustand", panBiol);
+
+        panQualitaet3.setMinimumSize(new java.awt.Dimension(910, 650));
+        panQualitaet3.setOpaque(false);
+        panQualitaet3.setPreferredSize(new java.awt.Dimension(910, 650));
+        panQualitaet3.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panQualitaet3.add(wkFgPanSix1, gridBagConstraints);
+
+        tpMain.addTab("Physikalisch Chemische QK", panQualitaet3);
+
+        panHydro.setMinimumSize(new java.awt.Dimension(910, 650));
+        panHydro.setOpaque(false);
+        panHydro.setPreferredSize(new java.awt.Dimension(910, 650));
+        panHydro.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panHydro.add(wkFgPanEleven1, gridBagConstraints);
+
+        tpMain.addTab("Hydromorphologische QK", panHydro);
+
+        panChem.setMinimumSize(new java.awt.Dimension(910, 650));
+        panChem.setOpaque(false);
+        panChem.setPreferredSize(new java.awt.Dimension(910, 650));
+        panChem.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panChem.add(wkFgPanThirteen1, gridBagConstraints);
+
+        tpMain.addTab("Chemischer Zustand", panChem);
+
+        panMeldInf.setMinimumSize(new java.awt.Dimension(910, 650));
+        panMeldInf.setOpaque(false);
+        panMeldInf.setPreferredSize(new java.awt.Dimension(910, 650));
+        panMeldInf.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panMeldInf.add(wkFgPanSeven1, gridBagConstraints);
+
+        tpMain.addTab("Melderelevante Informationen", panMeldInf);
 
         panAusnahmen.setOpaque(false);
         panAusnahmen.setLayout(new java.awt.GridBagLayout());
@@ -421,7 +430,7 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
         add(tpMain, java.awt.BorderLayout.PAGE_START);
-        tpMain.getAccessibleContext().setAccessibleName("Qualitaetsinformationen 1");
+        tpMain.getAccessibleContext().setAccessibleName("Ökologischer Zustand");
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -452,11 +461,12 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
     @Override
     public void dispose() {
         wkFgPanOne.dispose();
-        wkFgPanTwo.dispose();
-        wkFgPanThree.dispose();
-        wkFgPanFour.dispose();
-        wkFgPanFive.dispose();
-        wkFgPanSix.dispose();
+        wkFgPanEleven1.dispose();
+        wkFgPanSeven1.dispose();
+        wkFgPanSix1.dispose();
+        wkFgPanTen1.dispose();
+        wkFgPanThirteen1.dispose();
+        wkFgPanTwelve1.dispose();
         excemptionEditor.dispose();
         bindingGroup.unbind();
     }
@@ -470,28 +480,6 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
     public void setTitle(final String title) {
         // NOP
     }
-//
-//    @Override
-//    public void editorClosed(EditorSaveStatus status) {
-//        //TODO ?
-//    }
-//
-//    @Override
-//    public void prepareForSave() {
-//        if (cidsBean != null) {
-//            try {
-//                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-//                cidsBean.setProperty("av_date", new java.sql.Timestamp(System.currentTimeMillis()));
-//            } catch (Exception ex) {
-//                log.error(ex, ex);
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public JComponent getFooterComponent() {
-//        return panFooter;
-//    }
 
     //~ Inner Classes ----------------------------------------------------------
 

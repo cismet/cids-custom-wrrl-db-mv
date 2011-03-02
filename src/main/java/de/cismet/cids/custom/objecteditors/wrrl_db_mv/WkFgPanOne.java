@@ -12,11 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
 import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
+
+import java.awt.EventQueue;
 
 import java.util.Collection;
 
@@ -145,14 +143,14 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         dlgImpactCataloge = new javax.swing.JDialog();
         lblImpactCataloge = new javax.swing.JLabel();
-        final DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo(IMPACT_MC, true, true);
+        final DefaultBindableReferenceCombo cb1 = new ScrollableComboBox(IMPACT_MC, true, true);
         cbImpactCataloge = cb1;
         panMenButtonsImpact = new javax.swing.JPanel();
         btnImpactAbort = new javax.swing.JButton();
         btnImpactOk = new javax.swing.JButton();
         dlgImpactSrcCataloge = new javax.swing.JDialog();
         lblImpactSrcCataloge = new javax.swing.JLabel();
-        final DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(IMPACT_SRC_MC, true, true);
+        final DefaultBindableReferenceCombo cb2 = new ScrollableComboBox(IMPACT_SRC_MC, true, true);
         cbImpactSrcCataloge = cb2;
         panMenButtonsImpactSrc = new javax.swing.JPanel();
         btnMenImpactSrcAbort = new javax.swing.JButton();
@@ -1095,7 +1093,14 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-            setGroup();
+
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        setGroup();
+                    }
+                }).start();
         } else {
             lblWkGroupVal.setText("");
             lblWkGroupAggrVal.setText("");
@@ -1106,20 +1111,31 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * DOCUMENT ME!
      */
     private void setGroup() {
-        final CidsBean group = WkFgEditor.getGroup(cidsBean);
+        final String[] group = WkFgEditor.getGroup(cidsBean);
 
         if (group != null) {
-            final CidsBean groupAggr = WkFgEditor.getGroupAggr(group);
-            lblWkGroupVal.setText(group.toString());
+            EventQueue.invokeLater(new Runnable() {
 
-            if (groupAggr != null) {
-                lblWkGroupAggrVal.setText(groupAggr.toString());
-            } else {
-                lblWkGroupAggrVal.setText(CidsBeanSupport.FIELD_NOT_SET);
-            }
+                    @Override
+                    public void run() {
+                        lblWkGroupVal.setText(group[0]);
+
+                        if (group[1] != null) {
+                            lblWkGroupAggrVal.setText(group[1]);
+                        } else {
+                            lblWkGroupAggrVal.setText(CidsBeanSupport.FIELD_NOT_SET);
+                        }
+                    }
+                });
         } else {
-            lblWkGroupVal.setText(CidsBeanSupport.FIELD_NOT_SET);
-            lblWkGroupAggrVal.setText(CidsBeanSupport.FIELD_NOT_SET);
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        lblWkGroupVal.setText(CidsBeanSupport.FIELD_NOT_SET);
+                        lblWkGroupAggrVal.setText(CidsBeanSupport.FIELD_NOT_SET);
+                    }
+                });
         }
     }
 
