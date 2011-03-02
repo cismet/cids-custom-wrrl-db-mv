@@ -19,10 +19,10 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblUserKey">
+    <Component class="javax.swing.JLabel" name="lblUsrKey">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="GeoHintEditor.lblUserKey.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="GeoHintEditor.lblUsrKey.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -118,9 +118,9 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtUserValue">
+    <Component class="javax.swing.JTextField" name="txtUsrValue">
       <BindingProperties>
-        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.user}" target="txtUserValue" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.usr}" target="txtUsrValue" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
         </BindingProperty>
       </BindingProperties>
@@ -132,7 +132,7 @@
     </Component>
     <Component class="de.cismet.cids.editors.DefaultBindableTimestampChooser" name="dbtcTimestampValue">
       <BindingProperties>
-        <BindingProperty name="date" source="Form" sourcePath="${cidsBean.timestamp}" target="dbtcTimestampValue" targetPath="date" updateStrategy="0" immediately="false">
+        <BindingProperty name="timestamp" source="Form" sourcePath="${cidsBean.timestamp}" target="dbtcTimestampValue" targetPath="timestamp" updateStrategy="0" immediately="false">
           <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
             <Connection code="dbtcTimestampValue.getConverter()" type="code"/>
           </Property>
