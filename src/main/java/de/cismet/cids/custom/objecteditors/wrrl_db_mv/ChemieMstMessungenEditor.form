@@ -1235,6 +1235,14 @@
               <Dimension value="[200, 20]"/>
             </Property>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_nat}" target="lblUNonCompVal" targetPath="text" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="YesNoConverter.getInstance()" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="1" gridY="10" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="18" weightX="0.0" weightY="0.0"/>
@@ -1250,6 +1258,11 @@
               <Dimension value="[330, 20]"/>
             </Property>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_nat_welche}" target="lblUNonCompBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+            </BindingProperty>
+          </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="2" gridY="10" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="18" weightX="1.0" weightY="0.0"/>

@@ -20,6 +20,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.math.BigDecimal;
 
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -1022,7 +1023,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      * @return  DOCUMENT ME!
      */
     private CidsBean getTheCurrentlyWorstMeasure() {
-        final Vector<CidsBean> beans = model.getData();
+        final List<CidsBean> beans = model.getData();
         int latestYear = 0;
         int worstValue = 0;
         CidsBean measure = null;
@@ -1082,7 +1083,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-            model.refreshData();
+            model.fireTableDataChanged();
+
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        model.refreshData(cidsBean);
+                    }
+                }).start();
         }
     }
 
@@ -1151,13 +1160,16 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @version  $Revision$, $Date$
      */
-    private class MstTableModel extends AbstractTableModel {
+    public static class MstTableModel extends AbstractTableModel {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                "chemie_mst_messungen");
 
         //~ Instance fields ----------------------------------------------------
 
-        private final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
-                "chemie_mst_messungen");
         private String[][] header = {
                 { "MST", "messstelle.messstelle" },    // NOI18N
                 { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
@@ -1166,13 +1178,18 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 { "GK GW-Überschreitung?", "" },       // NOI18N
                 { "Bemerkung PC Mst", "bemerkung_pc" } // NOI18N
             };
-        private Vector<CidsBean> data = new Vector<CidsBean>();
+        private List<CidsBean> data = new Vector<CidsBean>();
+        private boolean isInitialised = false;
 
         //~ Methods ------------------------------------------------------------
 
         @Override
         public int getRowCount() {
-            return data.size();
+            if (!isInitialised) {
+                return 1;
+            } else {
+                return data.size();
+            }
         }
 
         @Override
@@ -1201,7 +1218,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
+            if (!isInitialised) {
+                return "lade ...";
+            } else if ((rowIndex < data.size()) && (columnIndex < header.length)) {
                 if (columnIndex == 4) {
                     // column OW-Überschreitung?
                     return (isLimitExceeded(data.get(rowIndex)) ? "ja" : "nein");
@@ -1258,8 +1277,10 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         /**
          * DOCUMENT ME!
+         *
+         * @param  cidsBean  DOCUMENT ME!
          */
-        public void refreshData() {
+        public void refreshData(final CidsBean cidsBean) {
             try {
                 data.clear();
                 String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
@@ -1272,6 +1293,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 for (final MetaObject mo : metaObjects) {
                     data.add(mo.getBean());
                 }
+                isInitialised = true;
                 fireTableDataChanged();
             } catch (final ConnectionException e) {
                 LOG.error("Error while trying to receive measurements.", e); // NOI18N
@@ -1283,7 +1305,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
          *
          * @return  DOCUMENT ME!
          */
-        public Vector<CidsBean> getData() {
+        public List<CidsBean> getData() {
             return data;
         }
 

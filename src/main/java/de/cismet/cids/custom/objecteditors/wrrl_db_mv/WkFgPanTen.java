@@ -18,6 +18,7 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -848,10 +849,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_mzb_gesamt");     // NOI18N
+                    model.refreshData("gk_mzb_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                       //GEN-LAST:event_jbMzbMstActionPerformed
+    }                                                                 //GEN-LAST:event_jbMzbMstActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -863,10 +864,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_mp_gesamt");     // NOI18N
+                    model.refreshData("gk_mp_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                      //GEN-LAST:event_jbMzbMst1ActionPerformed
+    }                                                                //GEN-LAST:event_jbMzbMst1ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -878,10 +879,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_phytoplankton_gesamt");     // NOI18N
+                    model.refreshData("gk_phytoplankton_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                                 //GEN-LAST:event_jbMzbMst2ActionPerformed
+    }                                                                           //GEN-LAST:event_jbMzbMst2ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -893,10 +894,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_fische_gesamt");     // NOI18N
+                    model.refreshData("gk_fische_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                          //GEN-LAST:event_jbMzbMst3ActionPerformed
+    }                                                                    //GEN-LAST:event_jbMzbMst3ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1016,7 +1017,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      * @return  DOCUMENT ME!
      */
     private CidsBean getLatestMeasurement(final String filedName) {
-        final Vector<CidsBean> measurements = model.getMeasurements(filedName, true);
+        final List<CidsBean> measurements = model.getMeasurements(filedName, true, cidsBean);
 
         if ((measurements != null) && (measurements.size() > 0)) {
             return measurements.get(0);
@@ -1038,13 +1039,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @version  $Revision$, $Date$
      */
-    private class MstTableModel extends AbstractTableModel {
+    public static class MstTableModel extends AbstractTableModel {
 
         //~ Instance fields ----------------------------------------------------
 
         private MetaClass mc;
         private String[][] header;
-        private Vector<CidsBean> data = new Vector<CidsBean>();
+        private List<CidsBean> data = new Vector<CidsBean>();
+        private boolean isLoading = false;
 
         //~ Constructors -------------------------------------------------------
 
@@ -1063,7 +1065,11 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
         @Override
         public int getRowCount() {
-            return data.size();
+            if (isLoading) {
+                return 1;
+            } else {
+                return data.size();
+            }
         }
 
         @Override
@@ -1092,7 +1098,9 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
+            if (isLoading) {
+                return "lade ...";
+            } else if ((rowIndex < data.size()) && (columnIndex < header.length)) {
                 final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
                 if (value != null) {
                     if (value instanceof CidsBean) {
@@ -1117,13 +1125,19 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
          * DOCUMENT ME!
          *
          * @param  fieldName  DOCUMENT ME!
+         * @param  cidsBean   DOCUMENT ME!
          */
-        public void refreshData(final String fieldName) {
-            final Vector<CidsBean> measurements = getMeasurements(fieldName, false);
+        public void refreshData(final String fieldName, final CidsBean cidsBean) {
+            isLoading = true;
+            fireTableDataChanged();
+
+            final List<CidsBean> measurements = getMeasurements(fieldName, false, cidsBean);
             data.clear();
             if (measurements != null) {
                 data = measurements;
             }
+
+            isLoading = false;
             fireTableDataChanged();
         }
 
@@ -1132,11 +1146,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
          *
          * @param   fieldName   DOCUMENT ME!
          * @param   onlyLatest  DOCUMENT ME!
+         * @param   cidsBean    DOCUMENT ME!
          *
          * @return  DOCUMENT ME!
          */
-        public Vector<CidsBean> getMeasurements(final String fieldName, final boolean onlyLatest) {
-            final Vector<CidsBean> measurements = new Vector<CidsBean>();
+        public List<CidsBean> getMeasurements(final String fieldName,
+                final boolean onlyLatest,
+                final CidsBean cidsBean) {
+            final List<CidsBean> measurements = new Vector<CidsBean>();
 
             try {
                 String query = "select " + mc.getID() + ", m." + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N

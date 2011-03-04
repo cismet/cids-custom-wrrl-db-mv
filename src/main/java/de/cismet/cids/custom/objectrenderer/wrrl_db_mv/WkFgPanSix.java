@@ -12,29 +12,14 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
-import java.math.BigDecimal;
-
-import java.util.Vector;
-
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
-
-import de.cismet.cids.custom.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -50,7 +35,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
     //~ Instance fields --------------------------------------------------------
 
-    private final MstTableModel model = new MstTableModel();
+    private final de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSix.MstTableModel model =
+        new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSix.MstTableModel();
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -953,68 +939,6 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private CidsBean getTheCurrentlyWorstMeasure() {
-        final Vector<CidsBean> beans = model.getData();
-        int latestYear = 0;
-        int worstValue = 0;
-        CidsBean measure = null;
-
-        for (final CidsBean cbean : beans) {
-            final Integer year = (Integer)cbean.getProperty("messjahr");
-            if (year != null) {
-                if (latestYear == 0) {
-                    latestYear = year;
-                    measure = cbean;
-                    final CidsBean tmp = (CidsBean)cbean.getProperty("gk_pc_mst");
-                    if (cidsBean != null) {
-                        try {
-                            worstValue = Integer.parseInt((String)tmp.getProperty("value"));
-                        } catch (final NumberFormatException e) {
-                            LOG.error("Field value does not contain a number", e);
-                        }
-                    }
-                }
-            } else {
-                if (latestYear == year) {
-                    if (cidsBean != null) {
-                        try {
-                            final CidsBean qualityTmp = (CidsBean)cbean.getProperty("gk_pc_mst");
-                            if (qualityTmp != null) {
-                                final int valTmp = Integer.parseInt((String)qualityTmp.getProperty("value"));
-
-                                if (valTmp > worstValue) {
-                                    worstValue = valTmp;
-                                    measure = cbean;
-                                }
-                            }
-                        } catch (final NumberFormatException e) {
-                            LOG.error("Field value does not contain a number", e);
-                        }
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        return measure;
-    }
-
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -1029,7 +953,14 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-            model.refreshData();
+            model.fireTableDataChanged();
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        model.refreshData(cidsBean);
+                    }
+                }).start();
         }
     }
 
@@ -1088,157 +1019,6 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
             lab.setText(val.toString());
         } else {
             lab.setText("");
-        }
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class MstTableModel extends AbstractTableModel {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
-                "chemie_mst_messungen");
-        private String[][] header = {
-                { "MST", "messstelle.messstelle" },    // NOI18N
-                { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
-                { "Jahr", "messjahr" },                // NOI18N
-                { "GK PC MST", "gk_pc_mst" },          // NOI18N
-                { "GK GW-Überschreitung?", "" },       // NOI18N
-                { "Bemerkung PC Mst", "bemerkung_pc" } // NOI18N
-            };
-        private Vector<CidsBean> data = new Vector<CidsBean>();
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public int getRowCount() {
-            return data.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return header.length;
-        }
-
-        @Override
-        public String getColumnName(final int columnIndex) {
-            if (columnIndex < header.length) {
-                return header[columnIndex][0];
-            } else {
-                return "";
-            }
-        }
-
-        @Override
-        public Class<?> getColumnClass(final int columnIndex) {
-            return Object.class;
-        }
-
-        @Override
-        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-            return false;
-        }
-
-        @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
-                if (columnIndex == 4) {
-                    // column OW-Überschreitung?
-                    return (isLimitExceeded(data.get(rowIndex)) ? "ja" : "nein");
-                } else {
-                    final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
-                    if (value != null) {
-                        if (value instanceof CidsBean) {
-                            return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
-                        } else {
-                            return String.valueOf(value);
-                        }
-                    } else {
-                        return "-";                                                       // NOI18N
-                    }
-                }
-            } else {
-                return "";                                                                // NOI18N
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   cbean  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        private boolean isLimitExceeded(final CidsBean cbean) {
-            final String[][] OW = {
-                    { "opo4_owert_rakon", "opo4_mittelwert" },
-                    { "ges_p_owert_rakon", "ges_p_mittelwert" },
-                    { "nh4_owert_rakon", "nh4_mittelwert" },
-                    { "no3_n_owert_rakon", "no3_n_mittelwert" },
-                    { "ges_n_owert_rakon", "ges_n_mittelwert" },
-                    { "cl_owert_rakon", "cl_mittelwert" },
-                    { "o2_owert_rakon", "o2_mittelwert" }
-                };
-
-            for (int i = 0; i < OW.length; ++i) {
-                final BigDecimal ow = (BigDecimal)cbean.getProperty(OW[i][0]);
-                final BigDecimal val = (BigDecimal)cbean.getProperty(OW[i][1]);
-                if ((ow != null) && (val != null) && (ow.compareTo(val) == -1)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        @Override
-        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-            // nothing to do, because it is not allowed to modify columns
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void refreshData() {
-            try {
-                data.clear();
-                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-                query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
-                query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
-                query += " order by messjahr desc";                                                                 // NOI18N
-
-                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                for (final MetaObject mo : metaObjects) {
-                    data.add(mo.getBean());
-                }
-                fireTableDataChanged();
-            } catch (final ConnectionException e) {
-                LOG.error("Error while trying to receive measurements.", e); // NOI18N
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public Vector<CidsBean> getData() {
-            return data;
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void clearModel() {
-            data.clear();
         }
     }
 }

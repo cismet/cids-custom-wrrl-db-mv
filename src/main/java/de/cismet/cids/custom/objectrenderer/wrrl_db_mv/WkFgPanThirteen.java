@@ -12,18 +12,9 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
-import java.util.Vector;
-
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 
@@ -31,8 +22,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -48,7 +37,8 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
 
     //~ Instance fields --------------------------------------------------------
 
-    private final MstTableModel model = new MstTableModel();
+    private final de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanThirteen.MstTableModel model =
+        new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanThirteen.MstTableModel();
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -865,26 +855,6 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
      *
      * @return  DOCUMENT ME!
      */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -898,7 +868,15 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
-            model.refreshData();
+            model.fireTableDataChanged();
+
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        model.refreshData(cidsBean);
+                    }
+                }).start();
             bindingGroup.bind();
         }
     }
@@ -950,125 +928,6 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
             lbl.setText(val.toString());
         } else {
             lbl.setText(CidsBeanSupport.FIELD_NOT_SET);
-        }
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class MstTableModel extends AbstractTableModel {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
-                "chemie_mst_messungen");
-        private String[][] header = {
-                { "MST", "messstelle.messstelle" },           // NOI18N
-                { "WK", "messstelle.wk_fg.wk_k" },            // NOI18N
-                { "Jahr", "messjahr" },                       // NOI18N
-                { "Ü SM", "u_schwermetalle" },                // NOI18N
-                { "Ü PSM-Überschreitung?", "u_psm" },         // NOI18N
-                { "Ü IndStoffe", "u_ind_stoffe" },            // NOI18N
-                { "Ü Andere PrioStoffe", "u_andere_stoffe" }, // NOI18N
-                { "Ü gefährl Prio", "u_eco_stoffe" }          // NOI18N
-            };
-        private Vector<CidsBean> data = new Vector<CidsBean>();
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public int getRowCount() {
-            return data.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return header.length;
-        }
-
-        @Override
-        public String getColumnName(final int columnIndex) {
-            if (columnIndex < header.length) {
-                return header[columnIndex][0];
-            } else {
-                return "";
-            }
-        }
-
-        @Override
-        public Class<?> getColumnClass(final int columnIndex) {
-            return Object.class;
-        }
-
-        @Override
-        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-            return false;
-        }
-
-        @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
-                final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
-                if (value != null) {
-                    if (value instanceof CidsBean) {
-                        return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
-                    } else {
-                        return String.valueOf(value);
-                    }
-                } else {
-                    return "-";                                                       // NOI18N
-                }
-            } else {
-                return "";                                                            // NOI18N
-            }
-        }
-
-        @Override
-        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-            // nothing to do, because it is not allowed to modify columns
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void refreshData() {
-            try {
-                data.clear();
-                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-                query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
-                query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
-                query += " order by messjahr desc";                                                                 // NOI18N
-
-                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                for (final MetaObject mo : metaObjects) {
-                    data.add(mo.getBean());
-                }
-                fireTableDataChanged();
-            } catch (final ConnectionException e) {
-                LOG.error("Error while trying to receive measurements.", e); // NOI18N
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public Vector<CidsBean> getData() {
-            return data;
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void clearModel() {
-            data.clear();
         }
     }
 }

@@ -1343,6 +1343,17 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
         lblUNonCompVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblUNonCompVal.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_nat}"),
+                lblUNonCompVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setConverter(YesNoConverter.getInstance());
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
@@ -1352,6 +1363,16 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
         lblUNonCompBemerkMst.setMinimumSize(new java.awt.Dimension(330, 20));
         lblUNonCompBemerkMst.setPreferredSize(new java.awt.Dimension(330, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_nat_welche}"),
+                lblUNonCompBemerkMst,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;

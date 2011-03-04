@@ -18,6 +18,7 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -891,7 +892,15 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
-            model.refreshData();
+            model.fireTableDataChanged();
+
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        model.refreshData(cidsBean);
+                    }
+                }).start();
             bindingGroup.bind();
         }
     }
@@ -953,30 +962,38 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
      *
      * @version  $Revision$, $Date$
      */
-    private class MstTableModel extends AbstractTableModel {
+    public static class MstTableModel extends AbstractTableModel {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                CidsBeanSupport.DOMAIN_NAME,
+                "chemie_mst_messungen");
 
         //~ Instance fields ----------------------------------------------------
 
-        private final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
-                "chemie_mst_messungen");
         private String[][] header = {
-                { "MST", "messstelle.messstelle" },           // NOI18N
-                { "WK", "messstelle.wk_fg.wk_k" },            // NOI18N
-                { "Jahr", "messjahr" },                       // NOI18N
-                { "Ü SM", "u_schwermetalle" },                // NOI18N
-                { "Ü PSM-Überschreitung?", "u_psm" },         // NOI18N
-                { "Ü IndStoffe", "u_ind_stoffe" },            // NOI18N
-                { "Ü Andere PrioStoffe", "u_andere_stoffe" }, // NOI18N
-                { "Ü gefährl Prio", "u_eco_stoffe" }          // NOI18N
+                { "MST", "messstelle.messstelle" },            // NOI18N
+                { "WK", "messstelle.wk_fg.wk_k" },             // NOI18N
+                { "Jahr", "messjahr" },                        // NOI18N
+                { "Ü SM?", "u_schwermetalle" },                // NOI18N
+                { "Ü PSM?", "u_psm" },                         // NOI18N
+                { "Ü IndStoffe?", "u_ind_stoffe" },            // NOI18N
+                { "Ü Andere PrioStoffe?", "u_andere_stoffe" }, // NOI18N
+                { "Ü gefährl Prio?", "u_eco_stoffe" }          // NOI18N
             };
-        private Vector<CidsBean> data = new Vector<CidsBean>();
+        private List<CidsBean> data = new Vector<CidsBean>();
+        private Boolean isInitialised = false;
 
         //~ Methods ------------------------------------------------------------
 
         @Override
         public int getRowCount() {
-            return data.size();
+            if (!isInitialised) {
+                return 1;
+            } else {
+                return data.size();
+            }
         }
 
         @Override
@@ -1005,11 +1022,15 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
 
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
+            if (!isInitialised) {
+                return "lade ...";
+            } else if ((rowIndex < data.size()) && (columnIndex < header.length)) {
                 final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
                 if (value != null) {
                     if (value instanceof CidsBean) {
                         return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
+                    } else if (value instanceof Boolean) {
+                        return (((Boolean)value).booleanValue() ? "Ja" : "Nein");
                     } else {
                         return String.valueOf(value);
                     }
@@ -1028,8 +1049,10 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
 
         /**
          * DOCUMENT ME!
+         *
+         * @param  cidsBean  DOCUMENT ME!
          */
-        public void refreshData() {
+        public void refreshData(final CidsBean cidsBean) {
             try {
                 data.clear();
                 String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
@@ -1042,6 +1065,8 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                 for (final MetaObject mo : metaObjects) {
                     data.add(mo.getBean());
                 }
+
+                isInitialised = true;
                 fireTableDataChanged();
             } catch (final ConnectionException e) {
                 LOG.error("Error while trying to receive measurements.", e); // NOI18N
@@ -1053,7 +1078,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
          *
          * @return  DOCUMENT ME!
          */
-        public Vector<CidsBean> getData() {
+        public List<CidsBean> getData() {
             return data;
         }
 

@@ -12,16 +12,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
 import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
-import java.util.Vector;
-
-import javax.swing.JOptionPane;
-import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 
@@ -56,7 +47,8 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
             { "GK PhyP", "gk_phytoplankton_gesamt" }, // NOI18N
             { "GK Fische", "gk_fische_gesamt" }       // NOI18N
         };
-    private final MstTableModel model = new MstTableModel(mc, header);
+    private final de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanTen.MstTableModel model =
+        new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanTen.MstTableModel(mc, header);
 
     private CidsBean cidsBean;
 
@@ -822,25 +814,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void jbMzbMstActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMstActionPerformed
         new Thread(new Runnable() {
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_mzb_gesamt");     // NOI18N
+                    model.refreshData("gk_mzb_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                       //GEN-LAST:event_jbMzbMstActionPerformed
+    }                                                                 //GEN-LAST:event_jbMzbMstActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -852,10 +834,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_mp_gesamt");     // NOI18N
+                    model.refreshData("gk_mp_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                      //GEN-LAST:event_jbMzbMst1ActionPerformed
+    }                                                                //GEN-LAST:event_jbMzbMst1ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -867,10 +849,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_phytoplankton_gesamt");     // NOI18N
+                    model.refreshData("gk_phytoplankton_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                                 //GEN-LAST:event_jbMzbMst2ActionPerformed
+    }                                                                           //GEN-LAST:event_jbMzbMst2ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -882,26 +864,11 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
                 @Override
                 public void run() {
-                    model.refreshData("gk_fische_gesamt");     // NOI18N
+                    model.refreshData("gk_fische_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                          //GEN-LAST:event_jbMzbMst3ActionPerformed
+    }                                                                    //GEN-LAST:event_jbMzbMst3ActionPerformed
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
     /**
      * DOCUMENT ME!
      *
@@ -928,167 +895,5 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     public void dispose() {
         model.clearModel();
         bindingGroup.unbind();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   filedName  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private CidsBean getLatestMeasurement(final String filedName) {
-        final Vector<CidsBean> measurements = model.getMeasurements(filedName, true);
-
-        if ((measurements != null) && (measurements.size() > 0)) {
-            return measurements.get(0);
-        } else {
-            JOptionPane.showMessageDialog(
-                this,
-                "Es wurden keine passenden Messergebnisse gefunden.",
-                "keine Messergebnisse",
-                JOptionPane.ERROR_MESSAGE);
-        }
-
-        return null;
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class MstTableModel extends AbstractTableModel {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private MetaClass mc;
-        private String[][] header;
-        private Vector<CidsBean> data = new Vector<CidsBean>();
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new MstTableModel object.
-         *
-         * @param  mc      DOCUMENT ME!
-         * @param  header  DOCUMENT ME!
-         */
-        public MstTableModel(final MetaClass mc, final String[][] header) {
-            this.mc = mc;
-            this.header = header;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public int getRowCount() {
-            return data.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return header.length;
-        }
-
-        @Override
-        public String getColumnName(final int columnIndex) {
-            if (columnIndex < header.length) {
-                return header[columnIndex][0];
-            } else {
-                return "";
-            }
-        }
-
-        @Override
-        public Class<?> getColumnClass(final int columnIndex) {
-            return Object.class;
-        }
-
-        @Override
-        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-            return false;
-        }
-
-        @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((rowIndex < data.size()) && (columnIndex < header.length)) {
-                final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
-                if (value != null) {
-                    if (value instanceof CidsBean) {
-                        return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
-                    } else {
-                        return String.valueOf(value);
-                    }
-                } else {
-                    return "keine Bewertung";                                         // NOI18N
-                }
-            } else {
-                return "";                                                            // NOI18N
-            }
-        }
-
-        @Override
-        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-            // nothing to do, because it is not allowed to modify columns
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  fieldName  DOCUMENT ME!
-         */
-        public void refreshData(final String fieldName) {
-            final Vector<CidsBean> measurements = getMeasurements(fieldName, false);
-            data.clear();
-            if (measurements != null) {
-                data = measurements;
-            }
-            fireTableDataChanged();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   fieldName   DOCUMENT ME!
-         * @param   onlyLatest  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        public Vector<CidsBean> getMeasurements(final String fieldName, final boolean onlyLatest) {
-            final Vector<CidsBean> measurements = new Vector<CidsBean>();
-
-            try {
-                String query = "select " + mc.getID() + ", m." + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
-                query += " m, bio_mst_stammdaten s";                                                                // NOI18N
-                query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
-                query += " AND m." + fieldName + " is not null order by messjahr desc";                             // NOI18N
-
-                if (onlyLatest) {
-                    query += " limit 1";
-                }
-
-                final MetaObject[] MetaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                for (final MetaObject mo : MetaObjects) {
-                    measurements.add(mo.getBean());
-                }
-
-                return measurements;
-            } catch (final ConnectionException e) {
-                LOG.error("Error while trying to receive measurements.", e); // NOI18N
-            }
-
-            return null;
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void clearModel() {
-            data.clear();
-        }
     }
 }
