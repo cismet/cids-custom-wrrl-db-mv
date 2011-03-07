@@ -50,6 +50,8 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.Crs;
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -57,6 +59,8 @@ import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.commons.interaction.CrsChangeListener;
+import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -101,6 +105,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     private CidsBean cidsBean;
     private Collection<StationEditorListener> listeners = new ArrayList<StationEditorListener>();
     private LinearReferencedPointFeatureListener featureListener;
+    private CrsChangeListener crsChangeListener;
     private StationToMapRegistryListener stationToMapRegistryListener;
     private LinearReferencedLineEditorDropBehavior dropBehavior;
     private Feature badGeomFeature;
@@ -112,11 +117,11 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     private javax.swing.JToggleButton badGeomButton;
     private javax.swing.JButton badGeomCorrectButton;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel labGwk;
+    private javax.swing.JLabel lblError;
     private javax.swing.JPanel panAdd;
     private javax.swing.JPanel panEdit;
     private javax.swing.JPanel panError;
@@ -144,6 +149,9 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         initSpinnerListener();
         initFeatureListener();
         initStationToMapRegistryListener();
+        initCrsChangeListener();
+
+        CismapBroker.getInstance().addCrsChangeListener(getCrsChangeListener());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -287,6 +295,24 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @return  DOCUMENT ME!
      */
+    private CrsChangeListener getCrsChangeListener() {
+        return crsChangeListener;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  crsChangeListener  DOCUMENT ME!
+     */
+    private void setCrsChangeListener(final CrsChangeListener crsChangeListener) {
+        this.crsChangeListener = crsChangeListener;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     private PropertyChangeListener getCidsBeanListener() {
         return cidsBeanListener;
     }
@@ -374,6 +400,43 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                     updateSplitButton();
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initCrsChangeListener() {
+        setCrsChangeListener(new CrsChangeListener() {
+
+                @Override
+                public void crsChanged(final CrsChangedEvent event) {
+                    if (!isCrsSupported(event.getCurrentCrs())) {
+                        showCrsNotSupported();
+                    } else {
+                        init();
+                    }
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void showCrsNotSupported() {
+        cleanup();
+        setErrorMsg("Das aktuelle CRS wird vom Stationierungseditor nicht unterstützt.");
+        showCard(Card.error);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   crs  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isCrsSupported(final Crs crs) {
+        return CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833;
     }
 
     /**
@@ -677,60 +740,108 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         return 0d;
     }
 
-    @Override
-    public void setCidsBean(final CidsBean cidsBean) {
-        final CidsBean oldBean = getCidsBean();
-        if (oldBean != null) {
-            final LinearReferencedPointFeature oldFeature = STATION_TO_MAP_REGISTRY.removeStationFeature(oldBean);
-            if (oldFeature != null) {
-                oldFeature.removeListener(getFeatureListener());
+    /**
+     * DOCUMENT ME!
+     */
+    private void cleanup() {
+        if (isInited()) {
+            final CidsBean cidsBean = getCidsBean();
+            if (cidsBean != null) {
+                // altes feature entfernen
+                final LinearReferencedPointFeature oldFeature = STATION_TO_MAP_REGISTRY.removeStationFeature(cidsBean);
+                if (oldFeature != null) {
+                    // listener auf altem Feature entfernen
+                    oldFeature.removeListener(getFeatureListener());
+                }
+
+                // listener von der alten Bean entfernen
+                cidsBean.removePropertyChangeListener(getCidsBeanListener());
+                STATION_TO_MAP_REGISTRY.removeListener(cidsBean, getStationToMapRegistryListener());
             }
 
-            // listener von der alten Bean entfernen
-            oldBean.removePropertyChangeListener(getCidsBeanListener());
-            STATION_TO_MAP_REGISTRY.removeListener(oldBean, getStationToMapRegistryListener());
-        }
-
-        this.cidsBean = cidsBean;
-
-        if (cidsBean != null) {
-            final double distance = StationEditor.distanceToOwnLine(cidsBean);
-
-            if (distance > 1) {
-                setBadGeomFeature(createBadGeomFeature(StationEditor.getPointGeometry(cidsBean)));
-            } else {
+            final Feature badGeomFeature = getBadGeomFeature();
+            if (badGeomFeature != null) {
+                // badgeomfeature entfernen.
+                MAPPING_COMPONENT.getFeatureCollection().removeFeature(badGeomFeature);
                 setBadGeomFeature(null);
             }
-            updateBadGeomButton();
-
-            STATION_TO_MAP_REGISTRY.addListener(cidsBean, getStationToMapRegistryListener());
-            cidsBean.addPropertyChangeListener(getCidsBeanListener());
-
-            final LinearReferencedPointFeature feature = STATION_TO_MAP_REGISTRY.addStationFeature(cidsBean);
-            feature.addListener(getFeatureListener());
-
-            if (ico != null) {
-                feature.setIconImage(ico);
-            }
-
-            cidsBeanChanged(getLinearValue(cidsBean));
-            fireStationCreated();
-
-            ((SpinnerNumberModel)getValueSpinner().getModel()).setMaximum(feature.getLineGeometry().getLength());
-            labGwk.setText("Route: " + Long.toString(getRouteGwk(cidsBean)));
-
-            showCard(Card.edit);
-
-            setInited(true);
-        } else {
-            if (getBadGeomFeature() != null) {
-                MAPPING_COMPONENT.getFeatureCollection().removeFeature(getBadGeomFeature());
-                setBadGeomFeature(null);
-            }
-            showCard(Card.add);
 
             setInited(false);
+
+            // auf startzustand setzen => hinzufügenpanel anzeigen
+            showCard(Card.add);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void init() {
+        // wird das aktuelle crs unterstützt ?
+        if (!isCrsSupported(CismapBroker.getInstance().getSrs())) {
+            showCrsNotSupported();
+            // noch nicht initialisiert ?
+        } else if (!isInited()) {
+            final CidsBean cidsBean = getCidsBean();
+            if (cidsBean != null) {
+                // badgeom feature und button nur falls die realgeom weiter als 1 von der route entfernt ist
+                final double distance = StationEditor.distanceToOwnLine(cidsBean);
+                if (distance > 1) {
+                    setBadGeomFeature(createBadGeomFeature(StationEditor.getPointGeometry(cidsBean)));
+                } else {
+                    setBadGeomFeature(null);
+                }
+                updateBadGeomButton();
+
+                // die aktuelle cidsBean als listener bei stationtomapregistry anmelden
+                STATION_TO_MAP_REGISTRY.addListener(cidsBean, getStationToMapRegistryListener());
+                // auf änderungen an der cidsbean horchen
+                cidsBean.addPropertyChangeListener(getCidsBeanListener());
+
+                // feature erzeugen und auf der Karte anzeigen lassen
+                final LinearReferencedPointFeature feature = STATION_TO_MAP_REGISTRY.addStationFeature(cidsBean);
+                if (ico != null) {
+                    feature.setIconImage(ico);
+                }
+                // auf änderungen des features horchen
+                feature.addListener(getFeatureListener());
+
+                cidsBeanChanged(getLinearValue(cidsBean));
+                fireStationCreated();
+
+                // spinner auf intervall der neuen route anpassen
+                ((SpinnerNumberModel)getValueSpinner().getModel()).setMaximum(feature.getLineGeometry().getLength());
+                // neuen routennamen anzeigen
+                labGwk.setText("Route: " + Long.toString(getRouteGwk(cidsBean)));
+
+                // editier panel anzeigen
+                showCard(Card.edit);
+
+                // fertig intialisiert
+                setInited(true);
+            } else {
+                showCard(Card.add);
+            }
+        }
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        // aufräumen falls vorher cidsbean schon gesetzt war
+        cleanup();
+        // neue cidsbean setzen
+        this.cidsBean = cidsBean;
+        // neu initialisieren
+        init();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  msg  DOCUMENT ME!
+     */
+    private void setErrorMsg(final String msg) {
+        lblError.setText(msg);
     }
 
     /**
@@ -797,7 +908,9 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
 
     @Override
     public void dispose() {
-        setCidsBean(null);
+        cleanup();
+
+        CismapBroker.getInstance().removeCrsChangeListener(getCrsChangeListener());
     }
 
     /**
@@ -934,7 +1047,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         panAdd = new AddPanel();
         jLabel3 = new javax.swing.JLabel();
         panError = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
 
         setEnabled(false);
         setOpaque(false);
@@ -1080,8 +1193,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         panError.setOpaque(false);
         panError.setLayout(new java.awt.GridBagLayout());
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.jLabel4.text")); // NOI18N
-        panError.add(jLabel4, new java.awt.GridBagConstraints());
+        lblError.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.lblError.text")); // NOI18N
+        panError.add(lblError, new java.awt.GridBagConstraints());
 
         add(panError, "error");
     } // </editor-fold>//GEN-END:initComponents

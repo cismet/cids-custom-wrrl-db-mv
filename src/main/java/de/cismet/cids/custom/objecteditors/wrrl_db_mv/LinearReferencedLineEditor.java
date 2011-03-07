@@ -58,12 +58,16 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.Crs;
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.commons.interaction.CrsChangeListener;
+import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -116,6 +120,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private StationToMapRegistryListener fromStationToMapRegistryListener;
     private StationToMapRegistryListener toStationToMapRegistryListener;
     private LinearReferencedLineEditorDropBehavior dropBehavior;
+    private CrsChangeListener crsChangeListener;
     private Feature fromBadGeomFeature;
     private Feature toBadGeomFeature;
     private String metaClassName;
@@ -137,7 +142,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
@@ -145,6 +149,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel labGwk;
+    private javax.swing.JLabel lblError;
     private javax.swing.JPanel panAdd;
     private javax.swing.JPanel panEdit;
     private javax.swing.JPanel panError;
@@ -181,6 +186,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         initSpinnerListener(TO);
         initStationToMapRegistryListener(FROM);
         initStationToMapRegistryListener(TO);
+
+        initCrsChangeListener();
+
+        CismapBroker.getInstance().addCrsChangeListener(getCrsChangeListener());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -251,36 +260,108 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         return cidsBean;
     }
 
-    // >> BEAN
+    /**
+     * >> BEAN.
+     */
+    private void cleanup() {
+        if (isInited()) {
+            final LinearReferencedLineFeature oldFeature = getFeature();
+            if (oldFeature != null) {
+                final CidsBean oldBean = STATION_TO_MAP_REGISTRY.getCidsBean(oldFeature);
+                STATION_TO_MAP_REGISTRY.removeLinearReferencedLineFeature(oldBean);
+            }
+            setFeature(null);
 
-    @Override
-    public void setCidsBean(final CidsBean cidsBean) {
-        this.cidsBean = cidsBean;
-
-        if ((getStationBean(FROM) != null) && (getStationBean(TO) != null)) {
-            setStationBean(getStationBean(FROM), FROM);
-            setStationBean(getStationBean(TO), TO);
-            setLineBean(cidsBean);
-
-            stationBeanChanged(FROM);
-            stationBeanChanged(TO);
-
-            ((SpinnerNumberModel)getStationSpinner(FROM).getModel()).setMaximum(getRouteGeometry().getLength());
-            ((SpinnerNumberModel)getStationSpinner(TO).getModel()).setMaximum(getRouteGeometry().getLength());
-            labGwk.setText("Route: " + Long.toString(StationEditor.getRouteGwk(getStationBean(FROM))));
-
-            showCard(Card.edit);
-
-            setInited(true);
-        } else {
-            setStationBean(null, FROM);
-            setStationBean(null, TO);
-            setLineBean(null);
+            cleanupStationBean(FROM);
+            cleanupStationBean(TO);
 
             showCard(Card.add);
 
             setInited(false);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isFrom  DOCUMENT ME!
+     */
+    private void cleanupStationBean(final boolean isFrom) {
+        final StationToMapRegistryListener stationToMapRegistryListener = getStationToMapRegistryListener(isFrom);
+        final PropertyChangeListener stationBeanListener = getStationBeanListener(isFrom);
+        final LinearReferencedPointFeatureListener stationFeatureListener = getStationFeatureListener(isFrom);
+
+        // aufräumen
+        final LinearReferencedPointFeature stationFeature = getStationFeature(isFrom);
+        if (stationFeature != null) {
+            final CidsBean stationBean = STATION_TO_MAP_REGISTRY.getCidsBean(stationFeature);
+            if (stationBean != null) {
+                STATION_TO_MAP_REGISTRY.removeStationFeature(stationBean);
+                stationFeature.removeListener(stationFeatureListener);
+                stationBean.removePropertyChangeListener(stationBeanListener);
+                STATION_TO_MAP_REGISTRY.removeListener(stationBean, stationToMapRegistryListener);
+            }
+            // bean ist null, feature also auch
+            setLinearReferencedPointFeature(null, isFrom);
+
+            if (getBadGeomFeature(isFrom) != null) {
+                MAPPING_COMPONENT.getFeatureCollection().removeFeature(getBadGeomFeature(isFrom));
+                setBadGeomFeature(null, isFrom);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void init() {
+        // wird das aktuelle crs unterstützt ?
+        if (!isCrsSupported(CismapBroker.getInstance().getSrs())) {
+            showCrsNotSupported();
+            // noch nicht initialisiert ?
+        } else if (!isInited()) {
+            final CidsBean cidsBean = getCidsBean();
+            if (cidsBean != null) {
+                setStationBean(getStationBean(FROM), FROM);
+                setStationBean(getStationBean(TO), TO);
+
+                // feature erzeugen
+                final LinearReferencedLineFeature feature = STATION_TO_MAP_REGISTRY.addLinearReferencedLineFeature(
+                        cidsBean,
+                        getStationFeature(FROM),
+                        getStationFeature(TO));
+
+                // farbe setzen
+                final Color color = (Color)feature.getLinePaint();
+                panLine.setBackground(color);
+
+                setFeature(feature);
+                fireLineAdded();
+
+                stationBeanChanged(FROM);
+                stationBeanChanged(TO);
+
+                ((SpinnerNumberModel)getStationSpinner(FROM).getModel()).setMaximum(getRouteGeometry().getLength());
+                ((SpinnerNumberModel)getStationSpinner(TO).getModel()).setMaximum(getRouteGeometry().getLength());
+                labGwk.setText("Route: " + Long.toString(StationEditor.getRouteGwk(getStationBean(FROM))));
+
+                showCard(Card.edit);
+
+                setInited(true);
+            } else {
+                showCard(Card.add);
+            }
+        }
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        // aufräumen falls vorher cidsbean schon gesetzt war
+        cleanup();
+        // neue cidsbean setzen
+        this.cidsBean = cidsBean;
+        // neu initialisieren
+        init();
     }
 
     /**
@@ -443,6 +524,24 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    private CrsChangeListener getCrsChangeListener() {
+        return crsChangeListener;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  crsChangeListener  DOCUMENT ME!
+     */
+    private void setCrsChangeListener(final CrsChangeListener crsChangeListener) {
+        this.crsChangeListener = crsChangeListener;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   isFrom  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -566,31 +665,14 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
-     * @param  stationBean  DOCUMENT ME!
-     * @param  isFrom       DOCUMENT ME!
+     * @param  isFrom  DOCUMENT ME!
      */
-    private void setStationBean(final CidsBean stationBean, final boolean isFrom) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setStationBean " + stationBean, new CurrentStackTrace());
-        }
-
+    private void initStation(final boolean isFrom) {
         final StationToMapRegistryListener stationToMapRegistryListener = getStationToMapRegistryListener(isFrom);
         final PropertyChangeListener stationBeanListener = getStationBeanListener(isFrom);
-        final LinearReferencedPointFeature oldStationFeature = getStationFeature(isFrom);
         final LinearReferencedPointFeatureListener stationFeatureListener = getStationFeatureListener(isFrom);
 
-        // aufräumen
-        if (oldStationFeature != null) {
-            final CidsBean oldStationBean = STATION_TO_MAP_REGISTRY.getCidsBean(oldStationFeature);
-            if (oldStationBean != null) {
-                STATION_TO_MAP_REGISTRY.removeStationFeature(oldStationBean);
-                oldStationFeature.removeListener(stationFeatureListener);
-                oldStationBean.removePropertyChangeListener(stationBeanListener);
-                STATION_TO_MAP_REGISTRY.removeListener(oldStationBean, stationToMapRegistryListener);
-            }
-        }
-
-        LinearReferencedPointFeature stationFeature;
+        final CidsBean stationBean = getStationBean(isFrom);
         if (stationBean != null) {
             final double distance = StationEditor.distanceToOwnLine(stationBean);
 
@@ -607,34 +689,37 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             STATION_TO_MAP_REGISTRY.addListener(stationBean, stationToMapRegistryListener);
 
             // feature erzeugen
-            stationFeature = STATION_TO_MAP_REGISTRY.addStationFeature(stationBean);
+            final LinearReferencedPointFeature stationFeature = STATION_TO_MAP_REGISTRY.addStationFeature(stationBean);
 
             // feature listener
             stationFeature.addListener(stationFeatureListener);
 
-            // bean setzen
-            if (getCidsBean() != null) {
-                try {
-                    final String stationField = getStationField(isFrom);
-                    getLineBean().setProperty(stationField, stationBean);
-                } catch (Exception ex) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("error while setting cidsbean for merging stations", ex);
-                    }
-                }
-            }
-        } else {
-            // bean ist null, feature also auch
-            stationFeature = null;
+            // feature setzen
+            setLinearReferencedPointFeature(stationFeature, isFrom);
+        }
+    }
 
-            if (getBadGeomFeature(isFrom) != null) {
-                MAPPING_COMPONENT.getFeatureCollection().removeFeature(getBadGeomFeature(isFrom));
-                setBadGeomFeature(null, isFrom);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  stationBean  DOCUMENT ME!
+     * @param  isFrom       DOCUMENT ME!
+     */
+    private void setStationBean(final CidsBean stationBean, final boolean isFrom) {
+        cleanupStationBean(isFrom);
+
+        // bean setzen
+        if (getCidsBean() != null) {
+            try {
+                getLineBean().setProperty(getStationField(isFrom), stationBean);
+            } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while setting cidsbean for station", ex);
+                }
             }
         }
 
-        // feature setzen
-        setLinearReferencedPointFeature(stationFeature, isFrom);
+        initStation(isFrom);
     }
 
     /**
@@ -687,41 +772,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         final Feature badFeature = getBadGeomFeature(isFrom);
         feature.moveTo(badFeature.getGeometry().getCoordinate());
         zoomToBadFeature(isFrom);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cidsBean  DOCUMENT ME!
-     */
-    private void setLineBean(final CidsBean cidsBean) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setLineBean " + cidsBean, new CurrentStackTrace());
-        }
-        final LinearReferencedLineFeature oldFeature = getFeature();
-
-        if (oldFeature != null) {
-            final CidsBean oldBean = STATION_TO_MAP_REGISTRY.getCidsBean(oldFeature);
-            STATION_TO_MAP_REGISTRY.removeLinearReferencedLineFeature(oldBean);
-        }
-
-        if (cidsBean != null) {
-            // feature erzeugen
-            final LinearReferencedLineFeature feature = STATION_TO_MAP_REGISTRY.addLinearReferencedLineFeature(
-                    cidsBean,
-                    getStationFeature(FROM),
-                    getStationFeature(TO));
-
-            // farbe setzen
-            final Color color = (Color)feature.getLinePaint();
-            panLine.setBackground(color);
-
-            setFeature(feature);
-            fireLineAdded();
-        } else {
-            // bean ist null, also feature auch
-            setFeature(null);
-        }
     }
 
     /**
@@ -791,7 +841,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     @Override
     public void dispose() {
-        setCidsBean(null);
+        cleanup();
+
+        CismapBroker.getInstance().removeCrsChangeListener(getCrsChangeListener());
     }
 
     /**
@@ -881,6 +933,53 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         setStationFeatureListener(featureListener, isFrom);
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initCrsChangeListener() {
+        setCrsChangeListener(new CrsChangeListener() {
+
+                @Override
+                public void crsChanged(final CrsChangedEvent event) {
+                    if (!isCrsSupported(event.getCurrentCrs())) {
+                        showCrsNotSupported();
+                    } else {
+                        init();
+                    }
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void showCrsNotSupported() {
+        cleanup();
+        setErrorMsg("Das aktuelle CRS wird vom Stationierungseditor nicht unterstützt.");
+        showCard(Card.error);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  msg  DOCUMENT ME!
+     */
+    private void setErrorMsg(final String msg) {
+        lblError.setText(msg);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   crs  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isCrsSupported(final Crs crs) {
+        return CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833;
+    }
+
     /**
      * cidsbean ändern.
      *
@@ -1360,7 +1459,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panAdd = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         panError = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
 
         setOpaque(false);
         setLayout(new java.awt.CardLayout());
@@ -1669,10 +1768,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panError.setOpaque(false);
         panError.setLayout(new java.awt.GridBagLayout());
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(
+        lblError.setText(org.openide.util.NbBundle.getMessage(
                 LinearReferencedLineEditor.class,
-                "LinearReferencedLineEditor.jLabel4.text_1")); // NOI18N
-        panError.add(jLabel4, new java.awt.GridBagConstraints());
+                "LinearReferencedLineEditor.lblError.text_1")); // NOI18N
+        panError.add(lblError, new java.awt.GridBagConstraints());
 
         add(panError, "error");
     } // </editor-fold>//GEN-END:initComponents

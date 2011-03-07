@@ -169,7 +169,11 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
      * @return  DOCUMENT ME!
      */
     public Collection<CidsBean> getCidsBeans() {
-        return (Collection<CidsBean>)cidsBean.getProperty(arrayField);
+        if (cidsBean != null) {
+            return (Collection<CidsBean>)cidsBean.getProperty(arrayField);
+        } else {
+            return new ArrayList<CidsBean>();
+        }
     }
 
     /**
