@@ -23,8 +23,24 @@
  */
 package de.cismet.cids.custom.featurerenderer.wrrl_db_mv;
 
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.middleware.types.MetaObject;
+
+import org.apache.log4j.Logger;
+
+import org.openide.util.NbBundle;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Paint;
+
+import java.sql.Timestamp;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
@@ -40,18 +56,90 @@ public class GeoHintFeatureRenderer extends CustomCidsFeatureRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Color GEOHINT_COLOR = new Color(38, 92, 255);
+    private static final Color GEOHINT_COLOR_HIGH_PRIORITY = new Color(255, 0, 0);
+    private static final Color GEOHINT_COLOR_NORMAL_PRIORITY = new Color(255, 255, 0);
+    private static final Color GEOHINT_COLOR_LOW_PRIORITY = new Color(0, 255, 0);
+    private static final Color GEOHINT_COLOR_FALLBACK = new Color(0, 0, 255);
+
+    private static Logger LOG = Logger.getLogger(GeoHintFeatureRenderer.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private JPanel pnlMore;
+    private JLabel lblUsrAndTimestamp;
+    private JLabel lblComment;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new GeoHintFeatureRenderer object.
+     */
+    public GeoHintFeatureRenderer() {
+        initComponents();
+    }
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void initComponents() {
+        pnlMore = new JPanel();
+        lblUsrAndTimestamp = new JLabel();
+        lblComment = new JLabel();
+
+        pnlMore.setLayout(new BorderLayout());
+        pnlMore.add(lblUsrAndTimestamp, BorderLayout.PAGE_START);
+        pnlMore.add(lblComment, BorderLayout.CENTER);
+
+        add(pnlMore);
+    }
+
+    @Override
+    public void setMetaObject(final MetaObject metaObject) throws ConnectionException {
+        super.setMetaObject(metaObject);
+
+        if (cidsBean != null) {
+            final String usr = (String)cidsBean.getProperty("usr");
+            final String comment = (String)cidsBean.getProperty("comment");
+            final Timestamp timestamp = (Timestamp)cidsBean.getProperty("timestamp");
+
+            lblUsrAndTimestamp.setText(NbBundle.getMessage(
+                    GeoHintFeatureRenderer.class,
+                    "GeoHintFeatureRenderer.lblUsrAndTimestamp.text",
+                    usr,
+                    timestamp));
+            lblComment.setText(comment);
+        }
+    }
+
     @Override
     public Paint getLinePaint(final CidsFeature subFeature) {
-        return GEOHINT_COLOR;
+        return getFillingStyle();
     }
 
     @Override
     public Paint getFillingStyle() {
-        return GEOHINT_COLOR;
+        Paint result = GEOHINT_COLOR_FALLBACK;
+
+        if (cidsBean != null) {
+            final Object priority = cidsBean.getProperty("priority");
+            if (priority instanceof CidsBean) {
+                final CidsBean priorityBean = (CidsBean)priority;
+                if (priorityBean.getProperty("id") instanceof Integer) {
+                    final Integer priorityValue = (Integer)priorityBean.getProperty("id");
+                    if (priorityValue.intValue() == 1) {
+                        result = GEOHINT_COLOR_HIGH_PRIORITY;
+                    } else if (priorityValue.intValue() == 2) {
+                        result = GEOHINT_COLOR_NORMAL_PRIORITY;
+                    } else if (priorityValue.intValue() == 3) {
+                        result = GEOHINT_COLOR_LOW_PRIORITY;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     @Override
