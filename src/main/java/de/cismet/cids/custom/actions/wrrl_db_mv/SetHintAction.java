@@ -146,9 +146,6 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             geometry.setProperty("geo_field", feature.getGeometry());
             hint.setProperty("geometry", geometry);
 
-            /*MetaObject priorityMetaObject = priorityMetaClass.getEmptyInstance();
-             *CidsBean priority = priorityMetaObject.getBean();*/
-
             hint.persist();
         } catch (Exception ex) {
             LOG.error("Could not persist new entity for table 'geo_hint'.", ex);
@@ -176,7 +173,6 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
 
     @Override
     public int getSorter() {
-        // Position im Kontextmenü
         return 10;
     }
 }
