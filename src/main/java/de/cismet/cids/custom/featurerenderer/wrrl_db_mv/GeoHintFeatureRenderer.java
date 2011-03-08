@@ -37,8 +37,11 @@ import java.awt.Paint;
 
 import java.sql.Timestamp;
 
+import java.text.DateFormat;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -67,7 +70,7 @@ public class GeoHintFeatureRenderer extends CustomCidsFeatureRenderer {
 
     private JPanel pnlMore;
     private JLabel lblUsrAndTimestamp;
-    private JLabel lblComment;
+    private JTextArea txtAComment;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -86,11 +89,16 @@ public class GeoHintFeatureRenderer extends CustomCidsFeatureRenderer {
     private void initComponents() {
         pnlMore = new JPanel();
         lblUsrAndTimestamp = new JLabel();
-        lblComment = new JLabel();
+        txtAComment = new JTextArea();
+
+        txtAComment.setLineWrap(true);
+        txtAComment.setWrapStyleWord(true);
+        txtAComment.setEditable(false);
+        txtAComment.setBorder(null);
 
         pnlMore.setLayout(new BorderLayout());
         pnlMore.add(lblUsrAndTimestamp, BorderLayout.PAGE_START);
-        pnlMore.add(lblComment, BorderLayout.CENTER);
+        pnlMore.add(txtAComment, BorderLayout.CENTER);
 
         add(pnlMore);
     }
@@ -104,12 +112,15 @@ public class GeoHintFeatureRenderer extends CustomCidsFeatureRenderer {
             final String comment = (String)cidsBean.getProperty("comment");
             final Timestamp timestamp = (Timestamp)cidsBean.getProperty("timestamp");
 
+            final String date = DateFormat.getDateInstance().format(timestamp);
+            final String time = DateFormat.getTimeInstance().format(timestamp);
             lblUsrAndTimestamp.setText(NbBundle.getMessage(
                     GeoHintFeatureRenderer.class,
                     "GeoHintFeatureRenderer.lblUsrAndTimestamp.text",
                     usr,
-                    timestamp));
-            lblComment.setText(comment);
+                    date,
+                    time));
+            txtAComment.setText(comment);
         }
     }
 

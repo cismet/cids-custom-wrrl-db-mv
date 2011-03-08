@@ -27,6 +27,7 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.newuser.User;
 
 import org.apache.log4j.Logger;
 
@@ -126,7 +127,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             final CidsBean hint = CidsBeanSupport.createNewCidsBeanFromTableName("geo_hint");
             final CidsBean geometry = CidsBeanSupport.createNewCidsBeanFromTableName("geom");
 
-            hint.setProperty("usr", SessionManager.getSession().getUser().toString());
+            final User usr = SessionManager.getSession().getUser();
+            hint.setProperty("usr", usr.getName() + "@" + usr.getUserGroup().getName());
             hint.setProperty("timestamp", new java.sql.Timestamp(System.currentTimeMillis()));
             hint.setProperty("name", dlgSetHint.getNameProperty());
             hint.setProperty("comment", dlgSetHint.getCommentProperty());
