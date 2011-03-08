@@ -134,7 +134,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblConfidence">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Verl&#xe4;sslichk. d. &#xd6;k. Bew."/>
+                <Property name="text" type="java.lang.String" value="Verl&#xe4;sslichk. d. &#xf6;k. Bew."/>
                 <Property name="toolTipText" type="java.lang.String" value="Verl&#xe4;sslichkeit der &#xd6;kologischen Bewertung"/>
               </Properties>
               <Constraints>

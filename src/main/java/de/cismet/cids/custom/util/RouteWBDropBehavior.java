@@ -108,7 +108,7 @@ public class RouteWBDropBehavior implements LinearReferencedLineEditorDropBehavi
             JOptionPane.showMessageDialog(
                 comp,
                 "Es wurde noch kein Fließgewässer zugeordnet.",
-                "kein Fließgewässer",
+                "Kein Fließgewässer",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         }

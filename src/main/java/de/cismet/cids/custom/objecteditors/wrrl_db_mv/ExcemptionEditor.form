@@ -8,7 +8,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblJustfification">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ex_just"/>
+            <Property name="text" type="java.lang.String" value="Begr&#xfc;ndung"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

@@ -1058,7 +1058,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMassn_id, gridBagConstraints);
 
-        lblStalu.setText("Zuständiges STALU");
+        lblStalu.setText("Zuständiges StALU");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 15;

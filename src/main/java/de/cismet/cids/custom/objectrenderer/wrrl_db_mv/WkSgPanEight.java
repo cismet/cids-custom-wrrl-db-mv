@@ -82,7 +82,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Allgemeine Physikalisch-Chemische Qualitätskomponenten"); // NOI18N
+        lblHeading.setText("Allgemeine Physikalisch-chemische Qualitätskomponenten"); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -90,7 +90,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblGen_cond.setText("Allgemeine Physikalisch-Chemische QK"); // NOI18N
+        lblGen_cond.setText("Allgemeine Physikalisch-chemische QK"); // NOI18N
         lblGen_cond.setMaximumSize(new java.awt.Dimension(300, 20));
         lblGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
         lblGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
@@ -112,12 +112,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         lblValGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
         lblValGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"),
-                lblValGen_cond,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"), lblValGen_cond, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -150,7 +145,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

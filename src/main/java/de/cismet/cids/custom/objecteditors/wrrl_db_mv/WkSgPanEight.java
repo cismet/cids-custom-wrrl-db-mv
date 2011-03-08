@@ -80,7 +80,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Allgemeine Physikalisch-Chemische Qualitätskomponenten");
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(WkSgPanEight.class, "WkSgPanEight.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -88,7 +88,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblGen_cond.setText("Allgemeine Physikalisch-Chemische QK");
+        lblGen_cond.setText(org.openide.util.NbBundle.getMessage(WkSgPanEight.class, "WkSgPanEight.lblGen_cond.text")); // NOI18N
         lblGen_cond.setMaximumSize(new java.awt.Dimension(350, 20));
         lblGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
         lblGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
@@ -109,12 +109,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         cbGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
         cbGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond}"),
-                cbGen_cond,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond}"), cbGen_cond, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -145,7 +140,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

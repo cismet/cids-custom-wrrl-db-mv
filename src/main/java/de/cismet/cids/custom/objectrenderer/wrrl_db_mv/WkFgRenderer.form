@@ -222,8 +222,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Physikalisch Chemische QK">
-                <Property name="tabTitle" type="java.lang.String" value="Physikalisch Chemische QK"/>
+              <JTabbedPaneConstraints tabName="Physikalisch-chemische QK">
+                <Property name="tabTitle" type="java.lang.String" value="Physikalisch-chemische QK"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

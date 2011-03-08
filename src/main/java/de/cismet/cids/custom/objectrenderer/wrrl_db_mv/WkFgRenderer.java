@@ -198,45 +198,38 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"),
-                lblTitle,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"), lblTitle, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setConverter(new CidsbeanToStringConverter());
         bindingGroup.addBinding(binding);
 
-        btnReport.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer.png")));         // NOI18N
-        btnReport.setText(org.openide.util.NbBundle.getMessage(
-                WkFgRenderer.class,
-                "FotodokumentationRenderer.btnReport.text"));                                                     // NOI18N
+        btnReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer.png"))); // NOI18N
+        btnReport.setText(org.openide.util.NbBundle.getMessage(WkFgRenderer.class, "FotodokumentationRenderer.btnReport.text")); // NOI18N
         btnReport.setBorder(null);
         btnReport.setBorderPainted(false);
         btnReport.setContentAreaFilled(false);
         btnReport.setFocusPainted(false);
-        btnReport.setPressedIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer_pressed.png"))); // NOI18N
+        btnReport.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer_pressed.png"))); // NOI18N
         btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
 
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnReportActionPerformed(evt);
-                }
-            });
-
-        final javax.swing.GroupLayout panTitleLayout = new javax.swing.GroupLayout(panTitle);
+        javax.swing.GroupLayout panTitleLayout = new javax.swing.GroupLayout(panTitle);
         panTitle.setLayout(panTitleLayout);
         panTitleLayout.setHorizontalGroup(
-            panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panTitleLayout.createSequentialGroup().addContainerGap().addComponent(lblTitle).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                    232,
-                    Short.MAX_VALUE).addComponent(btnReport)));
+            panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panTitleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addComponent(btnReport))
+        );
         panTitleLayout.setVerticalGroup(
-            panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(lblTitle)
-                        .addComponent(btnReport));
+            panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTitle)
+            .addComponent(btnReport)
+        );
 
         setMinimumSize(new java.awt.Dimension(1200, 735));
         setPreferredSize(new java.awt.Dimension(1200, 735));
@@ -301,7 +294,7 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         panQualitaet3.add(wkFgPanSix1, gridBagConstraints);
 
-        tpMain.addTab("Physikalisch Chemische QK", panQualitaet3);
+        tpMain.addTab("Physikalisch-chemische QK", panQualitaet3);
 
         panHydro.setMinimumSize(new java.awt.Dimension(910, 650));
         panHydro.setOpaque(false);
@@ -368,23 +361,15 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
 
         lstAusnahmen.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.ausnahmen}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstAusnahmen);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ausnahmen}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstAusnahmen);
         bindingGroup.addBinding(jListBinding);
 
         lstAusnahmen.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-
-                @Override
-                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
-                    lstAusnahmenValueChanged(evt);
-                }
-            });
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstAusnahmenValueChanged(evt);
+            }
+        });
         scpAusnahmen.setViewportView(lstAusnahmen);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -433,30 +418,30 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
         tpMain.getAccessibleContext().setAccessibleName("Ökologischer Zustand");
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstAusnahmenValueChanged
+    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = lstAusnahmen.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 excemptionEditor.setCidsBean((CidsBean)selObj);
             }
         }
-    }                                                                                       //GEN-LAST:event_lstAusnahmenValueChanged
+    }//GEN-LAST:event_lstAusnahmenValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnReportActionPerformed
+    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
         WkFgReport.showReport(cidsBean);
-    }                                                                             //GEN-LAST:event_btnReportActionPerformed
+    }//GEN-LAST:event_btnReportActionPerformed
 
     @Override
     public void dispose() {
