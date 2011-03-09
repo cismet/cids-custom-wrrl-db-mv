@@ -1,10 +1,10 @@
 /***************************************************
-*
-* cismet GmbH, Saarbruecken, Germany
-*
-*              ... and it just works.
-*
-****************************************************/
+ *
+ * cismet GmbH, Saarbruecken, Germany
+ *
+ *              ... and it just works.
+ *
+ ****************************************************/
 /*
  *  Copyright (C) 2011 thorsten
  *
@@ -44,24 +44,22 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 @ServiceProvider(service = CommonFeatureAction.class)
 public class DuplicateGeometryFeatureAction extends AbstractAction implements CommonFeatureAction {
 
+    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     //~ Instance fields --------------------------------------------------------
-
     Feature f = null;
 
     //~ Constructors -----------------------------------------------------------
-
     /**
      * Creates a new DuplicateGeometryFeatureAction object.
      */
     public DuplicateGeometryFeatureAction() {
         super("Geometrie duplizieren");
         super.putValue(
-            Action.SMALL_ICON,
-            new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/wrrl-db-mv/raisePoly.png")));
+                Action.SMALL_ICON,
+                new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/wrrl-db-mv/raisePoly.png")));
     }
 
     //~ Methods ----------------------------------------------------------------
-
     @Override
     public int getSorter() {
         return 1;
@@ -84,9 +82,26 @@ public class DuplicateGeometryFeatureAction extends AbstractAction implements Co
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final PureNewFeature pnf = new PureNewFeature(f.getGeometry());
-        pnf.setEditable(true);
-        pnf.setGeometryType(null);
-        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
+        
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<PureNewFeature, Void>() {
+            @Override
+            protected PureNewFeature doInBackground() throws Exception {
+                return new PureNewFeature(f.getGeometry());
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    final PureNewFeature pnf = get();
+                    pnf.setEditable(true);
+                    pnf.setGeometryType(null);
+                    CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
+                } catch (Exception e) {
+                    log.error("Exception in Background Thread(Geometrie duplizieren)", e);
+                }
+            }
+        });
+
+
     }
 }
