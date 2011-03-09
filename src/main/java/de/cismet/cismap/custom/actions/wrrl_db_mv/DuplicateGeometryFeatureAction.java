@@ -28,10 +28,12 @@ import org.openide.util.lookup.ServiceProvider;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -102,23 +104,19 @@ public class DuplicateGeometryFeatureAction extends AbstractAction implements Co
                     wd.setVisible(true);
                 }
             });
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<PureNewFeature, Void>() {
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {
 
                 @Override
-                protected PureNewFeature doInBackground() throws Exception {
-                    return new PureNewFeature(f.getGeometry());
+                protected Void doInBackground() throws Exception {
+                    final PureNewFeature pnf = new PureNewFeature(f.getGeometry());
+                    pnf.setEditable(true);
+                    pnf.setGeometryType(null);
+                    CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
+                    return null;
                 }
 
                 @Override
                 protected void done() {
-                    try {
-                        final PureNewFeature pnf = get();
-                        pnf.setEditable(true);
-                        pnf.setGeometryType(null);
-                        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
-                    } catch (Exception e) {
-                        log.error("Exception in Background Thread(Geometrie duplizieren)", e);
-                    }
                     wd.setVisible(false);
                     wd.dispose();
                 }
@@ -160,6 +158,8 @@ class WaitDialog extends JDialog {
         prb.setIndeterminate(true);
         getContentPane().add(prb);
         setUndecorated(true);
+        final JComponent c = CismapBroker.getInstance().getMappingComponent();
+        setLocationRelativeTo(c);
         pack();
     }
 }
