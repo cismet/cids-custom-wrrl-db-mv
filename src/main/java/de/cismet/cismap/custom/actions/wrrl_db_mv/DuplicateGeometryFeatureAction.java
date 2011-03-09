@@ -1,10 +1,10 @@
 /***************************************************
- *
- * cismet GmbH, Saarbruecken, Germany
- *
- *              ... and it just works.
- *
- ****************************************************/
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  *  Copyright (C) 2011 thorsten
  *
@@ -25,15 +25,23 @@ package de.cismet.cismap.custom.actions.wrrl_db_mv;
 
 import org.openide.util.lookup.ServiceProvider;
 
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 
 import de.cismet.cismap.commons.features.CommonFeatureAction;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -44,22 +52,26 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 @ServiceProvider(service = CommonFeatureAction.class)
 public class DuplicateGeometryFeatureAction extends AbstractAction implements CommonFeatureAction {
 
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     //~ Instance fields --------------------------------------------------------
+
     Feature f = null;
 
+    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+
     //~ Constructors -----------------------------------------------------------
+
     /**
      * Creates a new DuplicateGeometryFeatureAction object.
      */
     public DuplicateGeometryFeatureAction() {
         super("Geometrie duplizieren");
         super.putValue(
-                Action.SMALL_ICON,
-                new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/wrrl-db-mv/raisePoly.png")));
+            Action.SMALL_ICON,
+            new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/wrrl-db-mv/raisePoly.png")));
     }
 
     //~ Methods ----------------------------------------------------------------
+
     @Override
     public int getSorter() {
         return 1;
@@ -82,26 +94,72 @@ public class DuplicateGeometryFeatureAction extends AbstractAction implements Co
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<PureNewFeature, Void>() {
-            @Override
-            protected PureNewFeature doInBackground() throws Exception {
-                return new PureNewFeature(f.getGeometry());
-            }
+        final WaitDialog wd = new WaitDialog();
+        EventQueue.invokeLater(new Runnable() {
 
-            @Override
-            protected void done() {
-                try {
-                    final PureNewFeature pnf = get();
-                    pnf.setEditable(true);
-                    pnf.setGeometryType(null);
-                    CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
-                } catch (Exception e) {
-                    log.error("Exception in Background Thread(Geometrie duplizieren)", e);
+                @Override
+                public void run() {
+                    wd.setVisible(true);
                 }
-            }
-        });
+            });
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<PureNewFeature, Void>() {
 
+                @Override
+                protected PureNewFeature doInBackground() throws Exception {
+                    return new PureNewFeature(f.getGeometry());
+                }
 
+                @Override
+                protected void done() {
+                    try {
+                        final PureNewFeature pnf = get();
+                        pnf.setEditable(true);
+                        pnf.setGeometryType(null);
+                        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
+                    } catch (Exception e) {
+                        log.error("Exception in Background Thread(Geometrie duplizieren)", e);
+                    }
+                    wd.setVisible(false);
+                    wd.dispose();
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        final WaitDialog w = new WaitDialog();
+        w.setVisible(true);
+    }
+}
+
+/**
+ * DOCUMENT ME!
+ *
+ * @version  $Revision$, $Date$
+ */
+class WaitDialog extends JDialog {
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new WaitDialog object.
+     */
+    public WaitDialog() {
+        super(StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()), true);
+        setLayout(new FlowLayout());
+        getContentPane().add(new JLabel(
+                new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/cids/custom/icons/wrrl-db-mv/raiseProgress.png"))));
+        final JProgressBar prb = new JProgressBar();
+        prb.setForeground(new Color(51, 153, 204));
+        prb.setBorderPainted(false);
+        prb.setIndeterminate(true);
+        getContentPane().add(prb);
+        setUndecorated(true);
+        pack();
     }
 }
