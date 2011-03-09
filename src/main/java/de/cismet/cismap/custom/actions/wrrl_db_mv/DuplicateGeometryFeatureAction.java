@@ -1,0 +1,92 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
+/*
+ *  Copyright (C) 2011 thorsten
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package de.cismet.cismap.custom.actions.wrrl_db_mv;
+
+import org.openide.util.lookup.ServiceProvider;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+import de.cismet.cismap.commons.features.CommonFeatureAction;
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.PureNewFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
+/**
+ * DOCUMENT ME!
+ *
+ * @author   thorsten
+ * @version  $Revision$, $Date$
+ */
+@ServiceProvider(service = CommonFeatureAction.class)
+public class DuplicateGeometryFeatureAction extends AbstractAction implements CommonFeatureAction {
+
+    //~ Instance fields --------------------------------------------------------
+
+    Feature f = null;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new DuplicateGeometryFeatureAction object.
+     */
+    public DuplicateGeometryFeatureAction() {
+        super("Geometrie duplizieren");
+        super.putValue(
+            Action.SMALL_ICON,
+            new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/wrrl-db-mv/raisePoly.png")));
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public int getSorter() {
+        return 1;
+    }
+
+    @Override
+    public Feature getSourceFeature() {
+        return f;
+    }
+
+    @Override
+    public boolean isActive() {
+        return !(f instanceof PureNewFeature);
+    }
+
+    @Override
+    public void setSourceFeature(final Feature source) {
+        f = source;
+    }
+
+    @Override
+    public void actionPerformed(final ActionEvent e) {
+        final PureNewFeature pnf = new PureNewFeature(f.getGeometry());
+        pnf.setEditable(true);
+        pnf.setGeometryType(null);
+        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
+    }
+}
