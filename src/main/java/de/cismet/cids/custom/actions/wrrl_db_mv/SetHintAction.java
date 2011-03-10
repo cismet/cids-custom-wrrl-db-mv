@@ -57,7 +57,8 @@ import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 /**
- * DOCUMENT ME!
+ * This action allow the user to add a hint (entity of class GEO_HINT) for
+ * an PureNewFeature.
  *
  * @author   jweintraut
  * @version  $Revision$, $Date$

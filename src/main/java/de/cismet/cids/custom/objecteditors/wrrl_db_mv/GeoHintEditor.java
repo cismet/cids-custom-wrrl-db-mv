@@ -48,7 +48,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 /**
- * DOCUMENT ME!
+ * An editor for entities of class GEO_HINT.
  *
  * @author   jweintraut
  * @version  $Revision$, $Date$

@@ -50,7 +50,10 @@ import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 /**
- * DOCUMENT ME!
+ * Renders an entity of class GEO_HINT in the mapping component (cismap Plugin).
+ * Displays the feature being colored depending on the hint's priority. Additionally,
+ * the infoPanel will display the name of the user who added this hint, the specification
+ * time and the comment.
  *
  * @author   jweintraut
  * @version  $Revision$, $Date$
@@ -84,7 +87,7 @@ public class GeoHintFeatureRenderer extends CustomCidsFeatureRenderer {
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * Initializes the necessary components.
      */
     private void initComponents() {
         pnlMore = new JPanel();

@@ -35,7 +35,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 /**
- * DOCUMENT ME!
+ * A renderer for entities of class GEO_HINT.
  *
  * @author   jweintraut
  * @version  $Revision$, $Date$

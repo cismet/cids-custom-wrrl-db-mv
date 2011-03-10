@@ -28,20 +28,23 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
-import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
 
 import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
- * DOCUMENT ME!
+ * This dialog accompanies the SetHintAction in this package.
+ * It will show a user dialog asking for a name, a comment and a priority
+ * for the hint which is to be added for a certain PureNewFeature.
+ *
+ * The class GEO_HINT additionally requires a username and a creation time,
+ * but those will be added by SetHintAction automatically, hence there
+ * is no possibility for the user to enter those information.
  *
  * @author   jweintraut
  * @version  $Revision$, $Date$
@@ -51,7 +54,8 @@ public class SetHintDialog extends javax.swing.JDialog {
     //~ Enums ------------------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * An enum representing the three entities of class PRIORITY. The chance those
+     * entities will ever change is very small, so these entities are hardcoded here.
      *
      * @version  $Revision$, $Date$
      */
@@ -88,9 +92,9 @@ public class SetHintDialog extends javax.swing.JDialog {
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new SetHintDialog object.
+     * Creates a new SetHintDialog object. Creates a modal dialog.
      *
-     * @param  parent  DOCUMENT ME!
+     * @param  parent  The component the dialog should be child of.
      */
     public SetHintDialog(final JComponent parent) {
         this(StaticSwingTools.getParentFrame(parent), true);
@@ -99,8 +103,8 @@ public class SetHintDialog extends javax.swing.JDialog {
     /**
      * Creates new form SetHintDialog.
      *
-     * @param  parent  DOCUMENT ME!
-     * @param  modal   DOCUMENT ME!
+     * @param  parent  The component the dialog should be child of.
+     * @param  modal   Whether this dialog shall be modal or not.
      */
     public SetHintDialog(final java.awt.Frame parent, final boolean modal) {
         super(parent, NbBundle.getMessage(SetHintDialog.class, "SetHintDialog.title"), modal);
@@ -278,24 +282,26 @@ public class SetHintDialog extends javax.swing.JDialog {
     } // </editor-fold>//GEN-END:initComponents
 
     /**
-     * DOCUMENT ME!
+     * The user decided to abort the specification of a hint. Reset all values and hide
+     * the dialog.
      *
-     * @param  evt  DOCUMENT ME!
+     * @param  evt  The ActionEvent object.
      */
-    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         nameProperty = "";
         commentProperty = "";
         priorityProperty = null;
         wasCancelled = true;
         setVisible(false);
-    }                                                                             //GEN-LAST:event_btnCancelActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
-     * DOCUMENT ME!
+     * The user wants to save the entered hint. Cache all information in member attributes
+     * and hide the dialog.
      *
-     * @param  evt  DOCUMENT ME!
+     * @param  evt  The ActionEvent object.
      */
-    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnOKActionPerformed
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         nameProperty = txtNameValue.getText();
         commentProperty = txtACommentValue.getText();
         if (rbPriorityHighValue.isSelected()) {
@@ -307,42 +313,39 @@ public class SetHintDialog extends javax.swing.JDialog {
         }
         wasCancelled = false;
         setVisible(false);
-    }                                                                         //GEN-LAST:event_btnOKActionPerformed
+    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
-     * DOCUMENT ME!
+     * The user has decided that this hint should be of low priority.
      *
-     * @param  evt  DOCUMENT ME!
+     * @param  evt  The ItemEvent object.
      */
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void rbPriorityLowValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityLowValueItemStateChanged
+    private void rbPriorityLowValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityLowValueItemStateChanged
         checkNotNull();
-    }                                                                                     //GEN-LAST:event_rbPriorityLowValueItemStateChanged
+    }//GEN-LAST:event_rbPriorityLowValueItemStateChanged
 
     /**
-     * DOCUMENT ME!
+     * The user has decided that this hint should be of normal priority.
      *
-     * @param  evt  DOCUMENT ME!
+     * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityNormalValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityNormalValueItemStateChanged
+    private void rbPriorityNormalValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityNormalValueItemStateChanged
         checkNotNull();
-    }                                                                                        //GEN-LAST:event_rbPriorityNormalValueItemStateChanged
+    }//GEN-LAST:event_rbPriorityNormalValueItemStateChanged
 
     /**
-     * DOCUMENT ME!
+     * The user has decided that this hint should be of high priority.
      *
-     * @param  evt  DOCUMENT ME!
+     * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityHighValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityHighValueItemStateChanged
+    private void rbPriorityHighValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityHighValueItemStateChanged
         checkNotNull();
-    }                                                                                      //GEN-LAST:event_rbPriorityHighValueItemStateChanged
+    }//GEN-LAST:event_rbPriorityHighValueItemStateChanged
 
     /**
-     * DOCUMENT ME!
+     * This method validates the user input to enable or disable the OK button.
+     * In order to enable the OK button, the JTextField and the JTextArea must have
+     * a non-empty input and a priority has to be selected.
      */
     private void checkNotNull() {
         boolean enableOK = true;
@@ -366,36 +369,36 @@ public class SetHintDialog extends javax.swing.JDialog {
     }
 
     /**
-     * DOCUMENT ME!
+     * A getter for the specified name of the hint to add.
      *
-     * @return  DOCUMENT ME!
+     * @return  The name of the hint.
      */
     public String getNameProperty() {
         return nameProperty;
     }
 
     /**
-     * DOCUMENT ME!
+     * A getter for the specified comment of the hint to add.
      *
-     * @return  DOCUMENT ME!
+     * @return  The comment of the hint.
      */
     public String getCommentProperty() {
         return commentProperty;
     }
 
     /**
-     * DOCUMENT ME!
+     * A getter for the specified priority of the hint to add.
      *
-     * @return  DOCUMENT ME!
+     * @return  The priority of the hint.
      */
     public Priority getPriorityProperty() {
         return priorityProperty;
     }
 
     /**
-     * DOCUMENT ME!
+     * A getter for the flag, if the user has aborted the specification of the hint.
      *
-     * @return  DOCUMENT ME!
+     * @return  A flag which tells whether the specification of the hint was aborted or not.
      */
     public boolean wasCancelled() {
         return wasCancelled;
@@ -404,7 +407,8 @@ public class SetHintDialog extends javax.swing.JDialog {
     //~ Inner Classes ----------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
+     * A private DocumentListener which invokes checkNotNull() in order to tell the dialog
+     * class, that the JTextField (name) or JTextArea (comment) has been changed.
      *
      * @version  $Revision$, $Date$
      */
