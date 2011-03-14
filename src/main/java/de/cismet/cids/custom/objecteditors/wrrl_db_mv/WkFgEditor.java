@@ -35,6 +35,7 @@ import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
 import de.cismet.cids.custom.util.WkFgGroupSearch;
+import de.cismet.cids.custom.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -69,12 +70,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private static final String PROP_WKFG_WKTEILE = "teile";
-    private static final MetaClass GROUP_MC = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
-            "wk_group");
-    private static final MetaClass GROUP_AGGR_MC = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
-            "wk_group_aggr");
 
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 
@@ -171,6 +166,17 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                     .getMappingComponent()
                     .zoomToAFeatureCollection(featuresToZoom, false, mappingComponent.isFixedMapScale());
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        new WrrlEditorTester("wk_fg", WkFgEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
     }
 
     @Override
@@ -427,15 +433,23 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         lstAusnahmen.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ausnahmen}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstAusnahmen);
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.ausnahmen}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstAusnahmen);
         bindingGroup.addBinding(jListBinding);
 
         lstAusnahmen.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstAusnahmenValueChanged(evt);
-            }
-        });
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    lstAusnahmenValueChanged(evt);
+                }
+            });
         scpAusnahmen.setViewportView(lstAusnahmen);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -449,24 +463,34 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panContrAusnahmen.setOpaque(false);
         panContrAusnahmen.setLayout(new java.awt.GridBagLayout());
 
-        btnAddAusnahme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddAusnahme.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnAddImpactSrc.text")); // NOI18N
+        btnAddAusnahme.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddAusnahme.setText(org.openide.util.NbBundle.getMessage(
+                WkFgEditor.class,
+                "WkFgPanOne.btnAddImpactSrc.text"));                                                           // NOI18N
         btnAddAusnahme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddAusnahmeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddAusnahmeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         panContrAusnahmen.add(btnAddAusnahme, gridBagConstraints);
 
-        btnRemAusnahme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemAusnahme.setText(org.openide.util.NbBundle.getMessage(WkFgEditor.class, "WkFgPanOne.btnRemImpactSrc.text")); // NOI18N
+        btnRemAusnahme.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemAusnahme.setText(org.openide.util.NbBundle.getMessage(
+                WkFgEditor.class,
+                "WkFgPanOne.btnRemImpactSrc.text"));                                                              // NOI18N
         btnRemAusnahme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemAusnahmeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemAusnahmeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -518,7 +542,12 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panGeo.setOpaque(false);
         panGeo.setLayout(new java.awt.GridBagLayout());
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"), teileEditor, org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"),
+                teileEditor,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -561,14 +590,14 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         tpMain.getAccessibleContext().setAccessibleName("Qualitaetsinformationen 1");
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAusnahmeActionPerformed
+    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddAusnahmeActionPerformed
         try {
             final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("EXCEMPTION");
             final Collection<CidsBean> excemptionCollection = CidsBeanSupport.getBeanCollectionFromProperty(
@@ -578,28 +607,28 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
-    }//GEN-LAST:event_btnAddAusnahmeActionPerformed
+    }                                                                                  //GEN-LAST:event_btnAddAusnahmeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
+    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstAusnahmenValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = lstAusnahmen.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 excemptionEditor.setCidsBean((CidsBean)selObj);
             }
         }
-    }//GEN-LAST:event_lstAusnahmenValueChanged
+    }                                                                                       //GEN-LAST:event_lstAusnahmenValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemAusnahmeActionPerformed
+    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemAusnahmeActionPerformed
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -619,7 +648,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 }
             }
         }
-    }//GEN-LAST:event_btnRemAusnahmeActionPerformed
+    }                                                                                  //GEN-LAST:event_btnRemAusnahmeActionPerformed
 
     @Override
     public void dispose() {
@@ -718,6 +747,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      */
     public static CidsBean getGroupAggr(final CidsBean group) {
         try {
+            final MetaClass GROUP_AGGR_MC = ClassCacheMultiple.getMetaClass(
+                    CidsBeanSupport.DOMAIN_NAME,
+                    "wk_group_aggr");
             final String query = "select " + GROUP_AGGR_MC.getID() + ", g." + GROUP_AGGR_MC.getPrimaryKey()             // NOI18N
                         + " from " + GROUP_AGGR_MC.getTableName() + " g, wk_group_aggr_groups f"                        // NOI18N
                         + " WHERE g.wk_groups = f.wk_group_aggr_reference AND f.wk_group = " + group.getProperty("id"); // NOI18N

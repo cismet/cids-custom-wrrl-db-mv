@@ -124,7 +124,9 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        lblQuantStatKey.setText(org.openide.util.NbBundle.getMessage(WkGwPanFour.class, "WkGwPanFour.lblQuantStatKey.text")); // NOI18N
+        lblQuantStatKey.setText(org.openide.util.NbBundle.getMessage(
+                WkGwPanFour.class,
+                "WkGwPanFour.lblQuantStatKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -133,7 +135,9 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblQuantStatKey, gridBagConstraints);
 
-        lblPoorQuantsKey.setText(org.openide.util.NbBundle.getMessage(WkGwPanFour.class, "WkGwPanFour.lblPoorQuantsKey.text")); // NOI18N
+        lblPoorQuantsKey.setText(org.openide.util.NbBundle.getMessage(
+                WkGwPanFour.class,
+                "WkGwPanFour.lblPoorQuantsKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -142,7 +146,9 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblPoorQuantsKey, gridBagConstraints);
 
-        lblImpactsKey.setText(org.openide.util.NbBundle.getMessage(WkGwPanFour.class, "WkGwPanFour.lblImpactsKey.text")); // NOI18N
+        lblImpactsKey.setText(org.openide.util.NbBundle.getMessage(
+                WkGwPanFour.class,
+                "WkGwPanFour.lblImpactsKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -151,7 +157,9 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblImpactsKey, gridBagConstraints);
 
-        lblReasQuantKey.setText(org.openide.util.NbBundle.getMessage(WkGwPanFour.class, "WkGwPanFour.lblReasQuantKey.text")); // NOI18N
+        lblReasQuantKey.setText(org.openide.util.NbBundle.getMessage(
+                WkGwPanFour.class,
+                "WkGwPanFour.lblReasQuantKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -174,8 +182,14 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
 
         lstPoorQuants.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.poor_quants}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstPoorQuants);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.poor_quants}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstPoorQuants);
         bindingGroup.addBinding(jListBinding);
 
         scpPoorQuants.setViewportView(lstPoorQuants);
@@ -193,7 +207,11 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         lstImpacts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impacts}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, eLProperty, lstImpacts);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                eLProperty,
+                lstImpacts);
         bindingGroup.addBinding(jListBinding);
 
         scpImpacts.setViewportView(lstImpacts);
@@ -208,7 +226,12 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         lblQuantStatValue.setMinimumSize(new java.awt.Dimension(250, 20));
         lblQuantStatValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.quant_stat.name}"), lblQuantStatValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.quant_stat.name}"),
+                lblQuantStatValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -221,7 +244,12 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         lblReasQuantValue.setMinimumSize(new java.awt.Dimension(250, 20));
         lblReasQuantValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.reas_quant.name}"), lblReasQuantValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.reas_quant.name}"),
+                lblReasQuantValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -253,7 +281,7 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

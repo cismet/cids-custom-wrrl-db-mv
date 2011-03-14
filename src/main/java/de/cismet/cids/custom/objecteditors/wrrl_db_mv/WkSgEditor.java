@@ -23,6 +23,7 @@ import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -33,8 +34,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
-import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -555,5 +554,16 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        new WrrlEditorTester("WK_SG", WkSgEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
     }
 }

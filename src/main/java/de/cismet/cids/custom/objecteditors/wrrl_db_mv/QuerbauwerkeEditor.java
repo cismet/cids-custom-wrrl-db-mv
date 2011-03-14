@@ -42,6 +42,7 @@ import java.text.DecimalFormat;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -575,5 +576,16 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             }
         }
         return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        new WrrlEditorTester("Querbauwerke", QuerbauwerkeEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
     }
 }

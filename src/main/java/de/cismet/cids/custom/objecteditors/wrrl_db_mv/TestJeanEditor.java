@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.WrrlEditorTester;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -131,6 +134,17 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                     .getMappingComponent()
                     .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        new WrrlEditorTester("TEST_JEAN", TestJeanEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
     }
 
     @Override

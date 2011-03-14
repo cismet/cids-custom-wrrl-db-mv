@@ -1783,54 +1783,54 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void fromStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromStationSplitButtonActionPerformed
+    private void fromStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_fromStationSplitButtonActionPerformed
         splitStation(FROM);
-    }//GEN-LAST:event_fromStationSplitButtonActionPerformed
+    }                                                                                          //GEN-LAST:event_fromStationSplitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void toStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toStationSplitButtonActionPerformed
+    private void toStationSplitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_toStationSplitButtonActionPerformed
         splitStation(TO);
-    }//GEN-LAST:event_toStationSplitButtonActionPerformed
+    }                                                                                        //GEN-LAST:event_toStationSplitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void toBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toBadGeomCorrectButtonActionPerformed
+    private void toBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_toBadGeomCorrectButtonActionPerformed
         badGeomCorrectButtonPressed(TO);
-    }//GEN-LAST:event_toBadGeomCorrectButtonActionPerformed
+    }                                                                                          //GEN-LAST:event_toBadGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void toBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toBadGeomButtonActionPerformed
+    private void toBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_toBadGeomButtonActionPerformed
         badGeomButtonPressed(TO);
-    }//GEN-LAST:event_toBadGeomButtonActionPerformed
+    }                                                                                   //GEN-LAST:event_toBadGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void fromBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromBadGeomCorrectButtonActionPerformed
+    private void fromBadGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_fromBadGeomCorrectButtonActionPerformed
         badGeomCorrectButtonPressed(FROM);
-    }//GEN-LAST:event_fromBadGeomCorrectButtonActionPerformed
+    }                                                                                            //GEN-LAST:event_fromBadGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void fromBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromBadGeomButtonActionPerformed
+    private void fromBadGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_fromBadGeomButtonActionPerformed
         badGeomButtonPressed(FROM);
-    }//GEN-LAST:event_fromBadGeomButtonActionPerformed
+    }                                                                                     //GEN-LAST:event_fromBadGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!

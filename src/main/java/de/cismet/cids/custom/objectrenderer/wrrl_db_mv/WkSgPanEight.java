@@ -112,7 +112,12 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         lblValGen_cond.setMinimumSize(new java.awt.Dimension(300, 20));
         lblValGen_cond.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"), lblValGen_cond, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gen_cond.name}"),
+                lblValGen_cond,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -145,7 +150,7 @@ public class WkSgPanEight extends javax.swing.JPanel implements DisposableCidsBe
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
