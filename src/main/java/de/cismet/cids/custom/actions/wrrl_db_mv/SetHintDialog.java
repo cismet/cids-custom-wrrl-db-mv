@@ -28,7 +28,6 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
-
 import org.openide.util.NbBundle;
 
 import javax.swing.JComponent;
@@ -38,13 +37,11 @@ import javax.swing.event.DocumentListener;
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
- * This dialog accompanies the SetHintAction in this package.
- * It will show a user dialog asking for a name, a comment and a priority
- * for the hint which is to be added for a certain PureNewFeature.
+ * This dialog accompanies the SetHintAction in this package. It will show a user dialog asking for a name, a comment
+ * and a priority for the hint which is to be added for a certain PureNewFeature.
  *
- * The class GEO_HINT additionally requires a username and a creation time,
- * but those will be added by SetHintAction automatically, hence there
- * is no possibility for the user to enter those information.
+ * <p>The class GEO_HINT additionally requires a username and a creation time, but those will be added by SetHintAction
+ * automatically, hence there is no possibility for the user to enter those information.</p>
  *
  * @author   jweintraut
  * @version  $Revision$, $Date$
@@ -54,8 +51,8 @@ public class SetHintDialog extends javax.swing.JDialog {
     //~ Enums ------------------------------------------------------------------
 
     /**
-     * An enum representing the three entities of class PRIORITY. The chance those
-     * entities will ever change is very small, so these entities are hardcoded here.
+     * An enum representing the three entities of class PRIORITY. The chance those entities will ever change is very
+     * small, so these entities are hardcoded here.
      *
      * @version  $Revision$, $Date$
      */
@@ -282,26 +279,24 @@ public class SetHintDialog extends javax.swing.JDialog {
     } // </editor-fold>//GEN-END:initComponents
 
     /**
-     * The user decided to abort the specification of a hint. Reset all values and hide
-     * the dialog.
+     * The user decided to abort the specification of a hint. Reset all values and hide the dialog.
      *
      * @param  evt  The ActionEvent object.
      */
-    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {       //GEN-FIRST:event_btnCancelActionPerformed
         nameProperty = "";
         commentProperty = "";
         priorityProperty = null;
         wasCancelled = true;
         setVisible(false);
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }                                                                                   //GEN-LAST:event_btnCancelActionPerformed
 
     /**
-     * The user wants to save the entered hint. Cache all information in member attributes
-     * and hide the dialog.
+     * The user wants to save the entered hint. Cache all information in member attributes and hide the dialog.
      *
      * @param  evt  The ActionEvent object.
      */
-    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {              //GEN-FIRST:event_btnOKActionPerformed
         nameProperty = txtNameValue.getText();
         commentProperty = txtACommentValue.getText();
         if (rbPriorityHighValue.isSelected()) {
@@ -313,39 +308,38 @@ public class SetHintDialog extends javax.swing.JDialog {
         }
         wasCancelled = false;
         setVisible(false);
-    }//GEN-LAST:event_btnOKActionPerformed
+    }                                                                                      //GEN-LAST:event_btnOKActionPerformed
 
     /**
      * The user has decided that this hint should be of low priority.
      *
      * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityLowValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityLowValueItemStateChanged
+    private void rbPriorityLowValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityLowValueItemStateChanged
         checkNotNull();
-    }//GEN-LAST:event_rbPriorityLowValueItemStateChanged
+    }                                                                                     //GEN-LAST:event_rbPriorityLowValueItemStateChanged
 
     /**
      * The user has decided that this hint should be of normal priority.
      *
      * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityNormalValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityNormalValueItemStateChanged
+    private void rbPriorityNormalValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityNormalValueItemStateChanged
         checkNotNull();
-    }//GEN-LAST:event_rbPriorityNormalValueItemStateChanged
+    }                                                                                        //GEN-LAST:event_rbPriorityNormalValueItemStateChanged
 
     /**
      * The user has decided that this hint should be of high priority.
      *
      * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityHighValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityHighValueItemStateChanged
+    private void rbPriorityHighValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityHighValueItemStateChanged
         checkNotNull();
-    }//GEN-LAST:event_rbPriorityHighValueItemStateChanged
+    }                                                                                      //GEN-LAST:event_rbPriorityHighValueItemStateChanged
 
     /**
-     * This method validates the user input to enable or disable the OK button.
-     * In order to enable the OK button, the JTextField and the JTextArea must have
-     * a non-empty input and a priority has to be selected.
+     * This method validates the user input to enable or disable the OK button. In order to enable the OK button, the
+     * JTextField and the JTextArea must have a non-empty input and a priority has to be selected.
      */
     private void checkNotNull() {
         boolean enableOK = true;
@@ -407,8 +401,8 @@ public class SetHintDialog extends javax.swing.JDialog {
     //~ Inner Classes ----------------------------------------------------------
 
     /**
-     * A private DocumentListener which invokes checkNotNull() in order to tell the dialog
-     * class, that the JTextField (name) or JTextArea (comment) has been changed.
+     * A private DocumentListener which invokes checkNotNull() in order to tell the dialog class, that the JTextField
+     * (name) or JTextArea (comment) has been changed.
      *
      * @version  $Revision$, $Date$
      */
