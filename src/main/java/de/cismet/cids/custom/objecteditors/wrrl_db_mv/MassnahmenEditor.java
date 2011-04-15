@@ -1925,6 +1925,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {        // NOI18N
                     bindToWb(WB_PROPERTIES[0], bean);
+                    dropBehaviorListener.setWkFg(bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) { // NOI18N
                     bindToWb(WB_PROPERTIES[1], bean);
                 }

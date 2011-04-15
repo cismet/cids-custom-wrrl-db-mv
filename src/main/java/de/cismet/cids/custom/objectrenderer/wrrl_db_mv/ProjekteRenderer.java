@@ -49,7 +49,6 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -227,6 +226,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         lblProjekt_nr.setText("Projektnummer");
+        lblProjekt_nr.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -744,7 +744,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlUmsetzungValueChanged
+    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlUmsetzungValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlUmsetzung.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -768,14 +768,14 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
                 }
             }
         }
-    } //GEN-LAST:event_jlUmsetzungValueChanged
+    }//GEN-LAST:event_jlUmsetzungValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikatorValueChanged
+    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikatorValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -786,14 +786,14 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
                 projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
-    }                                                                                      //GEN-LAST:event_jlIndikatorValueChanged
+    }//GEN-LAST:event_jlIndikatorValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlIndikator1ValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikator1ValueChanged
+    private void jlIndikator1ValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikator1ValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator1.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -804,7 +804,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
                 projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
-    }                                                                                       //GEN-LAST:event_jlIndikator1ValueChanged
+    }//GEN-LAST:event_jlIndikator1ValueChanged
 
     @Override
     public void dispose() {

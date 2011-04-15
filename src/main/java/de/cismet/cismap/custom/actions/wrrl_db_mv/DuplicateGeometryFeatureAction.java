@@ -159,7 +159,7 @@ class WaitDialog extends JDialog {
         getContentPane().add(prb);
         setUndecorated(true);
         final JComponent c = CismapBroker.getInstance().getMappingComponent();
-        setLocationRelativeTo(c);
         pack();
+        setLocationRelativeTo(c);
     }
 }
