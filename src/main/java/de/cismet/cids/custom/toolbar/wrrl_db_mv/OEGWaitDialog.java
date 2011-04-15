@@ -28,6 +28,8 @@
  */
 package de.cismet.cids.custom.toolbar.wrrl_db_mv;
 
+import org.apache.log4j.Logger;
+
 /**
  * DOCUMENT ME!
  *
@@ -35,6 +37,10 @@ package de.cismet.cids.custom.toolbar.wrrl_db_mv;
  * @version  $Revision$, $Date$
  */
 public class OEGWaitDialog extends javax.swing.JDialog {
+
+    //~ Instance fields --------------------------------------------------------
+
+    private javax.swing.SwingWorker worker = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -71,12 +77,22 @@ public class OEGWaitDialog extends javax.swing.JDialog {
         jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(283, 98));
-        setPreferredSize(new java.awt.Dimension(283, 98));
         setUndecorated(true);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+
+                @Override
+                public void keyPressed(final java.awt.event.KeyEvent evt) {
+                    formKeyPressed(evt);
+                }
+                @Override
+                public void keyTyped(final java.awt.event.KeyEvent evt) {
+                    formKeyTyped(evt);
+                }
+            });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/toolbar/wrrl_db_mv/oeg_wait.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/toolbar/wrrl_db_mv/oeg_wait.png")));               // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(OEGWaitDialog.class, "OEGWaitDialog.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -97,7 +113,9 @@ public class OEGWaitDialog extends javax.swing.JDialog {
         jProgressBar1.setBorderPainted(false);
         jProgressBar1.setIndeterminate(true);
         jProgressBar1.setMaximumSize(new java.awt.Dimension(110, 20));
-        jProgressBar1.setString(org.openide.util.NbBundle.getMessage(OEGWaitDialog.class, "OEGWaitDialog.jProgressBar1.string")); // NOI18N
+        jProgressBar1.setString(org.openide.util.NbBundle.getMessage(
+                OEGWaitDialog.class,
+                "OEGWaitDialog.jProgressBar1.string")); // NOI18N
         jProgressBar1.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -107,8 +125,40 @@ public class OEGWaitDialog extends javax.swing.JDialog {
         getContentPane().add(jProgressBar1, gridBagConstraints);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formKeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_formKeyTyped
+    }                                                              //GEN-LAST:event_formKeyTyped
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_formKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+            this.dispose();
+            if (getWorker() != null) {
+                getWorker().cancel(true);
+            }
+        }
+    }                                                                //GEN-LAST:event_formKeyPressed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  evt DOCUMENT ME!
+     */
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  evt DOCUMENT ME!
+     */
     /**
      * DOCUMENT ME!
      *
@@ -130,5 +180,23 @@ public class OEGWaitDialog extends javax.swing.JDialog {
                     dialog.setVisible(true);
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the worker
+     */
+    public javax.swing.SwingWorker getWorker() {
+        return worker;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  worker  the worker thread in the background, this waiting dialog is waiting for
+     */
+    public void setWorker(final javax.swing.SwingWorker worker) {
+        this.worker = worker;
     }
 }

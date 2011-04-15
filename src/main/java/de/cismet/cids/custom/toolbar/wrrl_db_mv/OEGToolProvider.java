@@ -1,10 +1,10 @@
 /***************************************************
- *
- * cismet GmbH, Saarbruecken, Germany
- *
- *              ... and it just works.
- *
- ****************************************************/
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  *  Copyright (C) 2011 thorsten
  *
@@ -39,11 +39,13 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.Cursor;
+import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
@@ -62,9 +64,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.collections.TypeSafeCollections;
+
 import de.cismet.tools.gui.StaticSwingTools;
-import java.awt.EventQueue;
-import java.util.Vector;
 
 /**
  * DOCUMENT ME!
@@ -76,14 +77,18 @@ import java.util.Vector;
 public class OEGToolProvider implements ToolbarComponentsProvider {
 
     //~ Static fields/initializers ---------------------------------------------
+
     public static final String OEG_GESAMT = "OEG_GESAMT";
     public static final String OEG_EINZELN = "OEG_EINZELN";
+
     //~ Instance fields --------------------------------------------------------
+
     OEGWaitDialog waiting = null;
-    private final List<ToolbarComponentDescription> toolbarComponents;
-    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     ArrayList<MetaClass> oegGesamt = null;
     ArrayList<MetaClass> oegEinzeln = null;
+    private final List<ToolbarComponentDescription> toolbarComponents;
+    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -108,28 +113,32 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
         cmdOEGGesamt.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cmdOEGGesamt.addActionListener(new java.awt.event.ActionListener() {
 
-            @Override
-            public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                try {
-                    if (CismapBroker.getInstance().getMappingComponent().getInputListener(
-                            OEGToolProvider.OEG_GESAMT)
-                            == null) {
-                        CismapBroker.getInstance().getMappingComponent().addInputListener(OEGToolProvider.OEG_GESAMT, new PBasicInputEventHandler() {
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    try {
+                        if (
+                            CismapBroker.getInstance().getMappingComponent().getInputListener(
+                                        OEGToolProvider.OEG_GESAMT)
+                                    == null) {
+                            CismapBroker.getInstance()
+                                    .getMappingComponent()
+                                    .addInputListener(OEGToolProvider.OEG_GESAMT, new PBasicInputEventHandler() {
 
-                            @Override
-                            public void mouseClicked(final PInputEvent event) {
-                                OegSearch(OEG_GESAMT, event);
-
-                            }
-                        });
-                        CismapBroker.getInstance().getMappingComponent().putCursor(OEGToolProvider.OEG_GESAMT, new Cursor(Cursor.CROSSHAIR_CURSOR));
+                                            @Override
+                                            public void mouseClicked(final PInputEvent event) {
+                                                OegSearch(OEG_GESAMT, event);
+                                            }
+                                        });
+                            CismapBroker.getInstance()
+                                    .getMappingComponent()
+                                    .putCursor(OEGToolProvider.OEG_GESAMT, new Cursor(Cursor.CROSSHAIR_CURSOR));
+                        }
+                        CismapBroker.getInstance().getMappingComponent().setInteractionMode(OEGToolProvider.OEG_GESAMT);
+                    } catch (Exception e) {
+                        log.error("Fehler beim Aufruf des OEG-Tools", e);
                     }
-                    CismapBroker.getInstance().getMappingComponent().setInteractionMode(OEGToolProvider.OEG_GESAMT);
-                } catch (Exception e) {
-                    log.error("Fehler beim Aufruf des OEG-Tools", e);
                 }
-            }
-        });
+            });
 
         final JToggleButton cmdOEGEinzel = new JToggleButton();
         cmdOEGEinzel.setText("OEG (Einzeln)");
@@ -143,24 +152,34 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
         cmdOEGEinzel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cmdOEGEinzel.addActionListener(new java.awt.event.ActionListener() {
 
-            @Override
-            public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                if (CismapBroker.getInstance().getMappingComponent().getInputListener(OEGToolProvider.OEG_EINZELN)
-                        == null) {
-                    CismapBroker.getInstance().getMappingComponent().addInputListener(OEGToolProvider.OEG_EINZELN, new PBasicInputEventHandler() {
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    if (
+                        CismapBroker.getInstance().getMappingComponent().getInputListener(OEGToolProvider.OEG_EINZELN)
+                                == null) {
+                        CismapBroker.getInstance()
+                                .getMappingComponent()
+                                .addInputListener(OEGToolProvider.OEG_EINZELN, new PBasicInputEventHandler() {
 
-                        @Override
-                        public void mouseClicked(final PInputEvent event) {
-                            super.mouseClicked(event);
-                            OegSearch(OEG_EINZELN, event);
-                        }
-                    });
-                    CismapBroker.getInstance().getMappingComponent().putCursor(OEGToolProvider.OEG_EINZELN, new Cursor(Cursor.CROSSHAIR_CURSOR));
+                                        @Override
+                                        public void mouseClicked(final PInputEvent event) {
+                                            super.mouseClicked(event);
+                                            OegSearch(OEG_EINZELN, event);
+                                        }
+                                    });
+                        CismapBroker.getInstance()
+                                .getMappingComponent()
+                                .putCursor(OEGToolProvider.OEG_EINZELN, new Cursor(Cursor.CROSSHAIR_CURSOR));
+                    }
+                    CismapBroker.getInstance().getMappingComponent().setInteractionMode(OEGToolProvider.OEG_EINZELN);
                 }
-                CismapBroker.getInstance().getMappingComponent().setInteractionMode(OEGToolProvider.OEG_EINZELN);
-            }
-        });
+            });
 
+        log.error("CismapBroker.getInstance(): " + CismapBroker.getInstance());
+        log.error("CismapBroker.getInstance().getMappingComponent(): "
+                    + CismapBroker.getInstance().getMappingComponent());
+        log.error("CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup(): "
+                    + CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup());
         CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup().add(cmdOEGGesamt);
         CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup().add(cmdOEGEinzel);
 
@@ -183,6 +202,7 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
     }
 
     //~ Methods ----------------------------------------------------------------
+
     @Override
     public String getPluginName() {
         return "OEGTool";
@@ -193,119 +213,126 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
         return toolbarComponents;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  type   DOCUMENT ME!
+     * @param  event  DOCUMENT ME!
+     */
     private void OegSearch(final String type, final PInputEvent event) {
         final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
+        waiting = new OEGWaitDialog(StaticSwingTools.getFirstParentFrame(mc), true);
+        final javax.swing.SwingWorker<Collection<Feature>, Void> search =
+            new javax.swing.SwingWorker<Collection<Feature>, Void>() {
 
+                @Override
+                protected Collection<Feature> doInBackground() throws Exception {
+                    final Point geom = mc.getPointGeometryFromPInputEvent(
+                            event);
+                    final Geometry transformed = CrsTransformer.transformToDefaultCrs(geom);
+                    // Damits auch mit -1 funzt:
+                    transformed.setSRID(
+                        CismapBroker.getInstance().getDefaultCrsAlias());
+
+                    final GeoSearch gs = new GeoSearch(transformed);
+
+                    if (type.equals(OEG_GESAMT)) {
+                        if (oegGesamt == null) {
+                            oegGesamt = new ArrayList<MetaClass>();
+                            try {
+                                oegGesamt.add(
+                                    CidsBean.getMetaClassFromTableName(
+                                        "WRRL_DB_MV",
+                                        "oeg_einzugsgebiet"));
+                                oegGesamt.add(
+                                    CidsBean.getMetaClassFromTableName(
+                                        "WRRL_DB_MV",
+                                        "oeg_kummuliert"));
+                            } catch (Exception exception) {
+                                log.error(
+                                    "Fehler beim Setzen der KLassen",
+                                    exception);
+                            }
+                        }
+                        gs.setValidClasses(oegGesamt);
+                    } else {
+                        if (oegEinzeln == null) {
+                            oegEinzeln = new ArrayList<MetaClass>();
+                            try {
+                                oegEinzeln.add(
+                                    CidsBean.getMetaClassFromTableName(
+                                        "WRRL_DB_MV",
+                                        "oeg_einzugsgebiet"));
+                                oegEinzeln.add(
+                                    CidsBean.getMetaClassFromTableName(
+                                        "WRRL_DB_MV",
+                                        "oeg_kummuliert_ref"));
+                            } catch (Exception exception) {
+                                log.error(
+                                    "Fehler beim Setzen der KLassen",
+                                    exception);
+                            }
+                        }
+
+                        gs.setValidClasses(oegEinzeln);
+                    }
+                    final ArrayList<Feature> cfs = new ArrayList<Feature>();
+                    final Collection res = SessionManager.getProxy()
+                                .customServerSearch(
+                                    SessionManager.getSession().getUser(),
+                                    gs);
+                    for (final Object o : res) {
+                        final MetaObjectNode mon = (MetaObjectNode)o;
+                        final MetaObject mo = SessionManager.getProxy()
+                                    .getMetaObject(
+                                        mon.getObjectId(),
+                                        mon.getClassId(),
+                                        mon.getDomain());
+                        final CidsFeature cf = new CidsFeature(mo);
+                        cfs.add(cf);
+                    }
+                    return cfs;
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final Collection<Feature> result = get();
+
+                        final Collection<Feature> expandedResults = new ArrayList<Feature>((int)(result.size() * 1.6));
+                        for (final Feature f : result) {
+                            if (f instanceof FeatureGroup) {
+                                final List<Feature> allFeaturesToAdd = new ArrayList<Feature>(
+                                        FeatureGroups.expandAll((FeatureGroup)f));
+                                expandedResults.addAll(allFeaturesToAdd);
+                            }
+                            expandedResults.add(f);
+                        }
+
+                        mc.getFeatureCollection().substituteFeatures(expandedResults);
+
+                        if (!mc.isFixedMapExtent()) {
+                            mc.zoomToFeatureCollection(mc.isFixedMapScale());
+                        }
+                    } catch (Exception e) {
+                        log.error("Exception in Background Thread", e);
+                    }
+
+                    waiting.dispose();
+                }
+            };
+
+        de.cismet.tools.CismetThreadPool.execute(search);
 
         EventQueue.invokeLater(new Runnable() {
 
-            @Override
-            public void run() {
-                waiting = new OEGWaitDialog(
-                        StaticSwingTools.getFirstParentFrame(mc),
-                        true);
-                waiting.pack();
-                waiting.setLocationRelativeTo(mc);
-                waiting.setVisible(true);
-            }
-        });
-
-        de.cismet.tools.CismetThreadPool.execute(
-                new javax.swing.SwingWorker<Collection<Feature>, Void>() {
-
-                    @Override
-                    protected Collection<Feature> doInBackground()
-                            throws Exception {
-                        final Point geom = mc.getPointGeometryFromPInputEvent(
-                                event);
-                        final Geometry transformed = CrsTransformer.transformToDefaultCrs(geom);
-                        // Damits auch mit -1 funzt:
-                        transformed.setSRID(
-                                CismapBroker.getInstance().getDefaultCrsAlias());
-
-                        final GeoSearch gs = new GeoSearch(transformed);
-
-                        if (type.equals(OEG_GESAMT)) {
-                            if (oegGesamt == null) {
-                                oegGesamt = new ArrayList<MetaClass>();
-                                try {
-                                    oegGesamt.add(
-                                            CidsBean.getMetaClassFromTableName(
-                                            "WRRL_DB_MV",
-                                            "oeg_einzugsgebiet"));
-                                    oegGesamt.add(
-                                            CidsBean.getMetaClassFromTableName(
-                                            "WRRL_DB_MV",
-                                            "oeg_kummuliert"));
-                                } catch (Exception exception) {
-                                    log.error(
-                                            "Fehler beim Setzen der KLassen",
-                                            exception);
-                                }
-                            }
-                            gs.setValidClasses(oegGesamt);
-                        } else {
-                            if (oegEinzeln == null) {
-                                oegEinzeln = new ArrayList<MetaClass>();
-                                try {
-                                    oegEinzeln.add(
-                                            CidsBean.getMetaClassFromTableName(
-                                            "WRRL_DB_MV",
-                                            "oeg_einzugsgebiet"));
-                                    oegEinzeln.add(
-                                            CidsBean.getMetaClassFromTableName(
-                                            "WRRL_DB_MV",
-                                            "oeg_kummuliert_ref"));
-                                } catch (Exception exception) {
-                                    log.error(
-                                            "Fehler beim Setzen der KLassen",
-                                            exception);
-                                }
-                            }
-
-                            gs.setValidClasses(oegEinzeln);
-                        }
-                        final ArrayList<Feature> cfs = new ArrayList<Feature>();
-                        final Collection res = SessionManager.getProxy().customServerSearch(
-                                SessionManager.getSession().getUser(),
-                                gs);
-                        for (final Object o : res) {
-                            final MetaObjectNode mon = (MetaObjectNode) o;
-                            final MetaObject mo = SessionManager.getProxy().getMetaObject(
-                                    mon.getObjectId(),
-                                    mon.getClassId(),
-                                    mon.getDomain());
-                            final CidsFeature cf = new CidsFeature(mo);
-                            cfs.add(cf);
-                        }
-                        return cfs;
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            final Collection<Feature> result = get();
-
-                            Collection<Feature> expandedResults=new ArrayList<Feature>((int)(result.size()*1.6));
-                            for (Feature f : result) {
-                                if (f instanceof FeatureGroup) {
-                                    final List<Feature> allFeaturesToAdd = new ArrayList<Feature>(FeatureGroups.expandAll((FeatureGroup) f));
-                                    expandedResults.addAll(allFeaturesToAdd);
-                                }
-                                expandedResults.add(f);
-
-                            }
-
-                            mc.getFeatureCollection().substituteFeatures(expandedResults);
-
-                            if (!mc.isFixedMapExtent()) {
-                                mc.zoomToFeatureCollection(mc.isFixedMapScale());
-                            }
-                        } catch (Exception e) {
-                            log.error("Exception in Background Thread", e);
-                        }
-                        waiting.dispose();
-                    }
-                });
+                @Override
+                public void run() {
+                    waiting.setWorker(search);
+                    waiting.pack();
+                    waiting.setLocationRelativeTo(mc);
+                    waiting.setVisible(true);
+                }
+            });
     }
 }
