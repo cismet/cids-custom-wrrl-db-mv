@@ -610,7 +610,9 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      */
     private void updateRealGeom() {
         try {
-            StationEditor.setPointGeometry(getFeature().getGeometry(), getCidsBean());
+            final Geometry geom = getFeature().getGeometry();
+            geom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+            StationEditor.setPointGeometry(geom, getCidsBean());
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while setting the " + PROP_STATION_GEOM + "property", ex);

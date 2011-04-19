@@ -1147,15 +1147,18 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("change station geom");
                 }
-                final Geometry geometry = stationFeature.getGeometry();
-                StationEditor.setPointGeometry(geometry, stationBean);
+                final Geometry pointGeom = getFeature().getGeometry();
+                pointGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+                StationEditor.setPointGeometry(pointGeom, stationBean);
             }
             // realgeom der Linie anpassen
             if (getFeature() != null) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("change line geom");
                 }
-                setGeometry(getFeature().getGeometry());
+                final Geometry lineGeom = getFeature().getGeometry();
+                lineGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+                setGeometry(lineGeom);
             }
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
