@@ -24,6 +24,10 @@
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.types.treenode.RootTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -37,8 +41,12 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.awt.event.ActionEvent;
 
+import java.util.Enumeration;
+
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import de.cismet.cids.custom.actions.wrrl_db_mv.SetHintDialog.Priority;
 import de.cismet.cids.custom.util.CidsBeanSupport;
@@ -54,7 +62,10 @@ import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.CommonFeatureAction;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.PureNewFeature;
+import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 /**
  * This action allow the user to add a hint (entity of class GEO_HINT) for an PureNewFeature.
@@ -118,6 +129,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             priorityId = 3;
         }
 
+        CidsBean persistedHint = null;
+
         try {
             final MetaClass priorityMetaClass = ClassCacheMultiple.getMetaClass(
                     CidsBeanSupport.DOMAIN_NAME,
@@ -148,7 +161,7 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             geometry.setProperty("geo_field", feature.getGeometry());
             hint.setProperty("geometry", geometry);
 
-            hint.persist();
+            persistedHint = hint.persist();
         } catch (Exception ex) {
             LOG.error("Could not persist new entity for table 'geo_hint'.", ex);
             JOptionPane.showMessageDialog(CismapBroker.getInstance().getMappingComponent(),
@@ -156,6 +169,63 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorTitle"),
                 JOptionPane.ERROR_MESSAGE);
         }
+
+        if (persistedHint == null) {
+            LOG.error("Could not persist new entity for table 'geo_hint'.");
+            JOptionPane.showMessageDialog(CismapBroker.getInstance().getMappingComponent(),
+                NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorMessage"),
+                NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorTitle"),
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        updateMappingComponent(persistedHint);
+        updateCatalogueTree();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void updateCatalogueTree() {
+        final MetaCatalogueTree catalogueTree = ComponentRegistry.getRegistry().getCatalogueTree();
+        final DefaultTreeModel catalogueTreeModel = (DefaultTreeModel)catalogueTree.getModel();
+        final Enumeration<TreePath> expandedPaths = catalogueTree.getExpandedDescendants(new TreePath(
+                    catalogueTreeModel.getRoot()));
+        TreePath selectionPath = catalogueTree.getSelectionPath();
+
+        RootTreeNode rootTreeNode = null;
+        try {
+            rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+        } catch (ConnectionException ex) {
+            LOG.error("Updating catalogue tree after successful insertion of 'geo_hint' entity failed.", ex);
+            return;
+        }
+
+        catalogueTreeModel.setRoot(rootTreeNode);
+        catalogueTreeModel.reload();
+
+        if (selectionPath == null) {
+            while (expandedPaths.hasMoreElements()) {
+                final TreePath expandedPath = expandedPaths.nextElement();
+                if ((selectionPath == null) || (selectionPath.getPathCount() < selectionPath.getPathCount())) {
+                    selectionPath = expandedPath;
+                }
+            }
+        }
+        catalogueTree.exploreSubtree(selectionPath);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   persistedHint  DOCUMENT ME!
+     *
+     * @throws  IllegalArgumentException  DOCUMENT ME!
+     */
+    private void updateMappingComponent(final CidsBean persistedHint) throws IllegalArgumentException {
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        mappingComponent.getFeatureCollection().removeFeature(feature);
+        mappingComponent.getFeatureCollection().addFeature(new CidsFeature(persistedHint.getMetaObject()));
     }
 
     @Override
