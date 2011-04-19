@@ -160,6 +160,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
+        massnahmenUmsetzungEditor1.setCidsBean(null);
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
