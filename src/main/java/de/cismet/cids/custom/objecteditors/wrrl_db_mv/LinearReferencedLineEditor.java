@@ -2049,10 +2049,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+        if (event.getStatus() != EditorSaveStatus.SAVE_SUCCESS) {
             final CidsBean savedBean = event.getSavedBean();
             if (savedBean != null) {
-                LOG.fatal("editor closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("editor closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+                }
                 final CidsBean oldCidsBean = getCidsBean();
                 setCidsBean(event.getSavedBean());
 

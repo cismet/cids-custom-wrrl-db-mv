@@ -9,8 +9,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -403,10 +401,14 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     public void editorClosed(final EditorClosedEvent event) {
         final CidsBean savedBean = event.getSavedBean();
         if (savedBean != null) {
-            LOG.fatal("array closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("array closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+            }
             for (final CidsBean savedChildBean : (Collection<CidsBean>)savedBean.getProperty(arrayField)) {
                 final LinearReferencedLineEditor editor = editorMap.get(savedChildBean);
-                editor.editorClosed(new EditorClosedEvent(event.getStatus(), savedChildBean));
+                if (editor != null) {
+                    editor.editorClosed(new EditorClosedEvent(event.getStatus(), savedChildBean));
+                }
             }
         }
     }
