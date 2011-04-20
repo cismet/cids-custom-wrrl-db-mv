@@ -47,6 +47,7 @@ public class FotodokumentationReport {
      */
     public static void showReport(final CidsBean cidsBean) {
         final Collection<CidsBean> coll = new ArrayList<CidsBean>();
+        coll.add(cidsBean);
         final ReportSwingWorker worker = new ReportSwingWorker(
                 coll,
                 "/de/cismet/cids/custom/reports/fotodokumentation.jasper");
