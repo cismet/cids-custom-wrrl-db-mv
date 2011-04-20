@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkSgScriptlet">
+	<import value="de.cismet.cids.dynamics.CidsBean"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/jruiz/NetBeansProjects/svn/cids-custom-wrrl-db-mv/src/main/resources/de/cismet/cids/custom/reports/"]]></defaultValueExpression>
@@ -11,8 +12,7 @@
 	<field name="real" class="java.math.BigDecimal"/>
 	<field name="kosten" class="java.math.BigDecimal"/>
 	<field name="ziele" class="java.lang.String"/>
-	<field name="stat_von" class="de.cismet.cids.dynamics.CidsBean"/>
-	<field name="stat_bis" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="linie" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="massn_typ" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="revital" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
@@ -430,7 +430,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{stat_von}.getProperty("wert").toString()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="130" y="0" width="50" height="16"/>
@@ -442,7 +442,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{stat_bis}.getProperty("wert").toString()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="280" y="0" width="80" height="16"/>

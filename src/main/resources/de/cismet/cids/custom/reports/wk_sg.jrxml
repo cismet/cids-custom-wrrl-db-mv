@@ -37,22 +37,22 @@
 					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.generateMap()]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_steckbrief.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_steckbrief.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="50" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_ueberblick.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_ueberblick.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="100" width="275" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{impact})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_belastungen.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_belastungen.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="280" y="100" width="275" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{impact_src})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_belausw.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_belausw.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
 				<reportElement positionType="Float" x="0" y="150" width="555" height="1"/>
@@ -67,17 +67,17 @@
 			<subreport>
 				<reportElement positionType="Float" x="0" y="192" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_bio.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_bio.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="242" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_phys.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_phys.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="292" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_hydro.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_hydro.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
 				<reportElement positionType="Float" x="0" y="342" width="555" height="40"/>
@@ -89,7 +89,7 @@
 			<subreport>
 				<reportElement positionType="Float" x="0" y="382" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_chem.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_chem.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
 				<reportElement positionType="Float" x="0" y="432" width="555" height="40"/>
@@ -101,7 +101,7 @@
 			<subreport>
 				<reportElement positionType="Float" x="0" y="472" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "wk_sg_quali.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_sg_quali.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
