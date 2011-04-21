@@ -62,7 +62,6 @@ public class FotodokumentationFeatureRenderer extends CustomCidsFeatureRenderer 
 
     @Override
     public FeatureAnnotationSymbol getPointSymbol() {
-        log.fatal("TADAAA!");
         final List<CidsBean> fotos = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "fotos");
         for (final CidsBean foto : fotos) {
             final Object winkelObj = foto.getProperty("angle");
