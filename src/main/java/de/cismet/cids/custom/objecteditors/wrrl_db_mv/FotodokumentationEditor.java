@@ -13,12 +13,18 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
 
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.lf5.viewer.LogFactor5Dialog;
 
 import org.jdesktop.beansbinding.Converter;
+
+import org.openide.util.Exceptions;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -95,6 +101,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
@@ -120,6 +128,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final MetaClass WK_FG_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(FotodokumentationEditor.class);
     private static final ImageIcon ERROR_ICON = new ImageIcon(FotodokumentationEditor.class.getResource(
                 "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/file-broken.png"));
@@ -230,12 +239,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPicture;
     private javax.swing.JLabel lblSpace;
-    private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTxtAngel;
     private javax.swing.JLabel lblTxtGeom;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserTxt;
+    private javax.swing.JLabel lblWkFg;
+    private javax.swing.JLabel lblWkFgDesc;
     private javax.swing.JList lstFotos;
     private javax.swing.JPanel panButtons;
     private javax.swing.JPanel panCard;
@@ -258,7 +268,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JTextArea taDescriptionDoku;
     private javax.swing.JTextField txtDokumentationName;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtStaeun;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -405,7 +414,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         setComponentEditable(taDescriptionDoku);
         setComponentEditable(txtDokumentationName);
         setComponentEditable(txtName);
-        setComponentEditable(txtStaeun);
         if (!editable) {
             final EmptyBorder eBorder = new EmptyBorder(0, 0, 0, 0);
             scpDescription.setBorder(eBorder);
@@ -441,6 +449,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
+        refreshWkFg();
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
@@ -470,6 +479,31 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             lstFotos.setModel(new DefaultListModel());
         }
         defineButtonStatus();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshWkFg() {
+        if (cidsBean == null) {
+            lblWkFg.setText(" ");
+        } else {
+            try {
+                final int wk_fg_id = (Integer)cidsBean.getProperty("wk_fg");
+                String query = "SELECT " + WK_FG_MC.getID() + ", wk_fg." + WK_FG_MC.getPrimaryKey() + " ";
+                query += "FROM " + WK_FG_MC.getTableName() + " AS wk_fg ";
+                query += "WHERE wk_fg.id = " + wk_fg_id + ";";
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                final CidsBean wkfgBean = metaObjects[0].getBean();
+                log.fatal(wkfgBean.getMOString());
+                lblWkFg.setText((String)wkfgBean.getProperty("wk_k"));
+            } catch (Exception ex) {
+                if (log.isDebugEnabled()) {
+                    log.debug("fehler while refreshing wk_fg label", ex);
+                }
+                lblWkFg.setText("<Error>");
+            }
+        }
     }
 
     @Override
@@ -635,9 +669,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         roundedPanel1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
-        lblStaeun = new javax.swing.JLabel();
+        lblWkFgDesc = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
-        txtStaeun = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         scpFotoList = new javax.swing.JScrollPane();
         lstFotos = new javax.swing.JList();
@@ -655,6 +688,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         jLabel1 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         lblDateTxt = new javax.swing.JLabel();
+        lblWkFg = new javax.swing.JLabel();
         rpVorschau = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingVorschau = new javax.swing.JLabel();
@@ -780,16 +814,16 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weightx = 1.0;
         roundedPanel1.add(panHeadInfo, gridBagConstraints);
 
-        lblStaeun.setFont(new java.awt.Font("Tahoma", 1, 11));
-        lblStaeun.setText(org.openide.util.NbBundle.getMessage(
+        lblWkFgDesc.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblWkFgDesc.setText(org.openide.util.NbBundle.getMessage(
                 FotodokumentationEditor.class,
-                "FotodokumentationEditor.lblStaeun.text")); // NOI18N
+                "FotodokumentationEditor.lblWkFgDesc.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        roundedPanel1.add(lblStaeun, gridBagConstraints);
+        roundedPanel1.add(lblWkFgDesc, gridBagConstraints);
 
         lblUser.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblUser.setText(org.openide.util.NbBundle.getMessage(
@@ -801,26 +835,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblUser, gridBagConstraints);
-
-        txtStaeun.setMinimumSize(new java.awt.Dimension(350, 25));
-        txtStaeun.setPreferredSize(new java.awt.Dimension(350, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.staeun}"),
-                txtStaeun,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        roundedPanel1.add(txtStaeun, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -995,6 +1009,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblUserTxt, gridBagConstraints);
 
@@ -1066,6 +1081,17 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblDateTxt, gridBagConstraints);
 
+        lblWkFg.setText(org.openide.util.NbBundle.getMessage(
+                FotodokumentationEditor.class,
+                "FotodokumentationEditor.lblWkFg.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel1.add(lblWkFg, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1104,7 +1130,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         panPreview.setOpaque(false);
         panPreview.setLayout(new java.awt.GridBagLayout());
 
-        lblPicture.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPicture.setFont(new java.awt.Font("Tahoma", 1, 14));
         lblPicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPicture.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblPicture.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
