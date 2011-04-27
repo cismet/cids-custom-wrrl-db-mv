@@ -485,12 +485,9 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.massn_ref}" target="jLabel2" targetPath="text" updateStrategy="0" immediately="false">
+            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.massn_ref.massn_id}" target="jLabel2" targetPath="text" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="&lt;Error&gt;"/>
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                <Connection code="new MassnRefConverter()" type="code"/>
-              </Property>
+              <Property name="incompletePathValue" type="java.lang.String" value="keine Ma&#xdf;nahme zugewiesen"/>
               <Property name="name" type="java.lang.String" value="massnahmenbinding"/>
             </BindingProperty>
           </BindingProperties>
@@ -519,7 +516,7 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.massn_ref.massn_fin}" target="jLabel4" targetPath="text" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="&lt;keine Ma&#xdf;nahme zugewiesen&gt;"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="-"/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new YesNoConverter()" type="code"/>
               </Property>

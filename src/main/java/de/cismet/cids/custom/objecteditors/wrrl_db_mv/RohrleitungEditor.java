@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import org.jdesktop.beansbinding.Converter;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -543,13 +541,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref.massn_id}"),
                 jLabel2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"),
                 "massnahmenbinding");
         binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(new MassnRefConverter());
+        binding.setSourceUnreadableValue("keine Maßnahme zugewiesen");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -576,7 +573,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
                 jLabel4,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<keine Maßnahme zugewiesen>");
+        binding.setSourceUnreadableValue("-");
         binding.setConverter(new YesNoConverter());
         bindingGroup.addBinding(binding);
 
@@ -675,38 +672,12 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
 
             if (toAdd != null) {
                 try {
+                    LOG.fatal("dropped: " + toAdd.getMOString());
                     cidsBean.setProperty("massn_ref", toAdd);
                 } catch (Exception ex) {
-                    LOG.fatal("error while setting massn_id", ex);
+                    LOG.fatal("error while setting massn_ref", ex);
                 }
             }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class MassnRefConverter extends Converter<CidsBean, String> {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public String convertForward(final CidsBean bean) {
-            try {
-                return Integer.toString((Integer)bean.getProperty("id"));
-            } catch (Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("error while converting massn_ref to string", ex);
-                }
-                return null;
-            }
-        }
-
-        @Override
-        public CidsBean convertReverse(final String t) {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 }

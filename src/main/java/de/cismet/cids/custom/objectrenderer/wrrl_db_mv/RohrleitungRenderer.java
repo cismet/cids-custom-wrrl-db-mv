@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import org.jdesktop.beansbinding.Converter;
-
 import de.cismet.cids.custom.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -439,12 +437,11 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref.massn_id}"),
                 jLabel10,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(new MassnRefConverter());
+        binding.setSourceUnreadableValue("keine Maßnahme zugewiesen");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -472,7 +469,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
                 jLabel12,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<Maßnahme nicht gesetzt>");
+        binding.setSourceUnreadableValue("-");
         binding.setConverter(new YesNoConverter());
         bindingGroup.addBinding(binding);
 
@@ -522,34 +519,5 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
 
     @Override
     public void setTitle(final String title) {
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class MassnRefConverter extends Converter<CidsBean, String> {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public String convertForward(final CidsBean bean) {
-            try {
-                return Integer.toString((Integer)bean.getProperty("id"));
-            } catch (Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("error while converting massn_ref to string", ex);
-                }
-                return null;
-            }
-        }
-
-        @Override
-        public CidsBean convertReverse(final String t) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 }
