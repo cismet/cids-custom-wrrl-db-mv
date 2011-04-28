@@ -1064,7 +1064,6 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
     @Override
     public void dispose() {
         bindingGroup.unbind();
-        MassnahmenFeatureRenderer.clear();
     }
 
     @Override

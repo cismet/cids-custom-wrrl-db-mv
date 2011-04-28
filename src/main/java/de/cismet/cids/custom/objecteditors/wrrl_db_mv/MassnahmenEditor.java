@@ -211,13 +211,13 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         dropBehaviorListener = new RouteWBDropBehavior(this);
         linearReferencedLineEditor.setFields("MASSNAHMEN", "linie");      // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener); // NOI18N
-        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
-
-                @Override
-                public void linearReferencedLineCreated() {
-                    zoomToFeature();
-                }
-            });
+//        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+//
+//                @Override
+//                public void linearReferencedLineCreated() {
+//                    zoomToFeature();
+//                }
+//            });
         try {
             new CidsBeanDropTarget(this);
         } catch (final Exception ex) {
