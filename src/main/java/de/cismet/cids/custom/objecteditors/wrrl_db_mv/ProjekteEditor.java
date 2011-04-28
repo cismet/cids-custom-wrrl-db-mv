@@ -95,6 +95,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JCheckBox jcLand;
     private javax.swing.JList jlIndikator;
     private javax.swing.JList jlIndikator1;
     private javax.swing.JList jlUmsetzung;
@@ -245,6 +246,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblGeometrie = new javax.swing.JLabel();
         txtValKurzBez = new javax.swing.JTextField();
         lblKurzBez = new javax.swing.JLabel();
+        jcLand = new javax.swing.JCheckBox();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading2 = new javax.swing.JLabel();
@@ -704,7 +706,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(dcValM_ende, gridBagConstraints);
 
-        cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbGeom.setMinimumSize(new java.awt.Dimension(200, 20));
         cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -717,21 +719,22 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(cbGeom, gridBagConstraints);
 
+        lblGeometrie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblGeometrie.setText("Geometrie");
         lblGeometrie.setToolTipText("Bezeichnung des Projektes");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblGeometrie, gridBagConstraints);
 
@@ -762,6 +765,35 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         jPanel3.add(lblKurzBez, gridBagConstraints);
+
+        jcLand.setText(org.openide.util.NbBundle.getMessage(ProjekteEditor.class, "ProjekteEditor.jcLand.text")); // NOI18N
+        jcLand.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landesweit}"),
+                jcLand,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        jcLand.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jcLandActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(jcLand, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1410,6 +1442,15 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         dlgIndikatorUms.setVisible(false);
     } //GEN-LAST:event_btnIndikatorUmsOkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jcLandActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jcLandActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_jcLandActionPerformed
 
     @Override
     public void dispose() {

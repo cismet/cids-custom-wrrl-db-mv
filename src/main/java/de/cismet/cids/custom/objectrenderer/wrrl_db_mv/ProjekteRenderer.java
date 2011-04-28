@@ -56,6 +56,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JCheckBox jcLand;
     private javax.swing.JList jlIndikator;
     private javax.swing.JList jlIndikator1;
     private javax.swing.JList jlUmsetzung;
@@ -179,6 +180,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         lblValFoerdersumme = new javax.swing.JLabel();
         lblValM_beginn = new javax.swing.JLabel();
         lblValM_ende = new javax.swing.JLabel();
+        jcLand = new javax.swing.JCheckBox();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading2 = new javax.swing.JLabel();
@@ -416,6 +418,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -537,6 +540,36 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblValM_ende, gridBagConstraints);
+
+        jcLand.setText(org.openide.util.NbBundle.getMessage(ProjekteRenderer.class, "ProjekteRenderer.jcLand.text")); // NOI18N
+        jcLand.setContentAreaFilled(false);
+        jcLand.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landesweit}"),
+                jcLand,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        jcLand.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jcLandActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        jPanel3.add(jcLand, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -744,7 +777,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlUmsetzungValueChanged
+    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlUmsetzungValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlUmsetzung.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -768,14 +801,14 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
                 }
             }
         }
-    }//GEN-LAST:event_jlUmsetzungValueChanged
+    } //GEN-LAST:event_jlUmsetzungValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikatorValueChanged
+    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikatorValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -786,14 +819,14 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
                 projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
-    }//GEN-LAST:event_jlIndikatorValueChanged
+    }                                                                                      //GEN-LAST:event_jlIndikatorValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlIndikator1ValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikator1ValueChanged
+    private void jlIndikator1ValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikator1ValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator1.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -804,7 +837,16 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
                 projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
-    }//GEN-LAST:event_jlIndikator1ValueChanged
+    }                                                                                       //GEN-LAST:event_jlIndikator1ValueChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jcLandActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jcLandActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_jcLandActionPerformed
 
     @Override
     public void dispose() {
