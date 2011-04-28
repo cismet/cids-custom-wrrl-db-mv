@@ -13,6 +13,7 @@
 package de.cismet.cismap.custom.wfsforms;
 
 
+
 import org.deegree.datatypes.QualifiedName;
 import org.deegree.model.feature.DefaultFeature;
 import org.deegree.model.feature.FeatureProperty;
@@ -41,6 +42,15 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.wfsforms.AbstractWFSForm;
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
+import de.cismet.cismap.commons.wfsforms.WFSFormQuery;
+import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Vector;
+import javax.swing.JFrame;
 
 /**
  * DOCUMENT ME!
@@ -177,17 +187,23 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
      * DOCUMENT ME!
      */
     private void doSearch() {
+        try {
         if (txtSearch.getText().length() >= 3) {
             if (log.isDebugEnabled()) {
                 log.debug("doSearch");                      // NOI18N
             }
             final HashMap<String, String> hm = new HashMap<String, String>();
-            hm.put("@@search_text@@", txtSearch.getText()); // NOI18N
+            String newString=getRightEncodedString(txtSearch.getText());
+            hm.put("@@search_text@@", newString); // NOI18N
             requestRefresh("cboGemeinden", hm);                  // NOI18N
         } else {
             lblBehind.setText(org.openide.util.NbBundle.getMessage(
                     WFSFormGemeindenSearch.class,
                     "WFSFormGemeindenSearch.lblBehind.text"));    // NOI18N
+        }
+        }
+        catch (Exception e){
+            log.error("Fehler beim Ausführen der Suche",e);
         }
     }
 
@@ -434,5 +450,72 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
             cboGemeinden.setSelectedItem(cboGemeinden.getItemAt(0));
             cboGemeinden.setEditable(true);
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Log4JQuickConfig.configure4LumbermillOnLocalhost();
+        final WFSFormQuery gem = new WFSFormQuery();
+        gem.setComponentName("cboGemeinden");                                                     // NOI18N
+        gem.setServerUrl("http://wfs.fis-wasser-mv.de/services");
+        gem.setPropertyNamespace("http://www.deegree.org/app");
+        gem.setPropertyPrefix("app");
+        gem.setDisplayTextProperty("gen");                                        // NOI18N
+        gem.setExtentProperty("the_geom");                                                 // NOI18N
+        gem.setFilename("/de/cismet/cismap/custom/wfsforms/gemeindentestrequest.xml");                                               // NOI18N
+        gem.setId("gemeinden_suche");                                                                  // NOI18N
+        gem.setIdProperty("id");                                                           // NOI18N
+        gem.setTitle("Suche nach Gemeinden");                                                                  // NOI18N
+        gem.setType(WFSFormQuery.FOLLOWUP);
+        gem.setWfsQueryString(readFileFromRessourceAsString("/de/cismet/cismap/custom/wfsforms/gemeindentestrequest.xml")); // NOI18N
+
+        System.out.println(gem.getWfsQueryString());
+
+        JFrame f=new JFrame("Test");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        WFSFormGemeindenSearch s=new WFSFormGemeindenSearch();
+        final Vector<WFSFormQuery> v = new Vector<WFSFormQuery>();
+        v.add(gem);
+        s.setQueries(v);
+        f.getContentPane().setLayout(new BorderLayout());
+        f.getContentPane().add(s,BorderLayout.CENTER);
+        f.pack();
+        f.setVisible(true);
+    }
+
+    private static String readFileFromRessourceAsString(final String file) throws java.io.IOException {
+        Log4JQuickConfig.configure4LumbermillOnLocalhost();
+        final StringBuffer fileData = new StringBuffer(1000);
+        URL url = WFSFormGemeindenSearch.class.getResource(file);
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        char[] buf = new char[1024];
+        int numRead = 0;
+        while ((numRead = reader.read(buf)) != -1) {
+            final String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+            buf = new char[1024];
+        }
+        reader.close();
+        return fileData.toString();
+    }
+
+    private String getRightEncodedString(String s) {
+//        try {
+//            return new String(s.getBytes("UTF-8"), "ISO-8859-1");
+//        }
+//        catch (Exception e){
+//            log.error("Fehler beim KOnvertieren",e);
+//            return null;
+//        }
+
+        String ret=s;
+        ret=ret.replaceAll("ä","&#228;");
+        ret=ret.replaceAll("Ä","&#196;");
+        ret=ret.replaceAll("ö","&#246;");
+        ret=ret.replaceAll("Ö","&#214;");
+        ret=ret.replaceAll("ü","&#252;");
+        ret=ret.replaceAll("Ü","&#220;");
+        return ret;
+
+
     }
 }
