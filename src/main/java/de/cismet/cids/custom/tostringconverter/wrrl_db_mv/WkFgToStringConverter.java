@@ -37,6 +37,12 @@ public class WkFgToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return String.valueOf(cidsBean.getProperty("wk_k"));
+        final Object wk = cidsBean.getProperty("wk_k");
+
+        if (wk != null) {
+            return String.valueOf(cidsBean.getProperty("wk_k"));
+        } else {
+            return "unbenannt";
+        }
     }
 }
