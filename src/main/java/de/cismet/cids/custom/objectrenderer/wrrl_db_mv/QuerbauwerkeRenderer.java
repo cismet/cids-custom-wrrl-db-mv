@@ -294,18 +294,8 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
                                 } catch (Exception ex) {
                                     LOG.error("Error while parsing the property bauwerk.value", ex);
                                 }
-                                LOG.error("bauwerk_value " + bauwerk_value);
                                 querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
                                 querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
-                            }
-                        }
-                    });
-                ((CidsBean)cidsBean.getProperty("stat09")).addPropertyChangeListener(new PropertyChangeListener() {
-
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals(LinearReferencingConstants.PROP_STATION_VALUE)) {
-                                wertChanged();
                             }
                         }
                     });
@@ -314,6 +304,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
                     LOG.debug("error while autosetting properties", ex);
                 }
             }
+            updateQbwId();
             // aus Performancegründen nicht in wertChanged
             updateWaKoerper();
 
@@ -325,13 +316,6 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
 
             bindingGroup.bind();
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void wertChanged() {
-        updateQbwId();
     }
 
     /**

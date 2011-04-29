@@ -331,20 +331,13 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                             }
                         }
                     });
-                ((CidsBean)cidsBean.getProperty("stat09")).addPropertyChangeListener(new PropertyChangeListener() {
-
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals(LinearReferencingConstants.PROP_STATION_VALUE)) {
-                                wertChanged();
-                            }
-                        }
-                    });
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error while autosetting properties", ex);
                 }
             }
+
+            updateQbwId();
             // aus Performancegründen nicht in wertChanged
             updateWaKoerper();
 
@@ -357,13 +350,6 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
             bindingGroup.bind();
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void wertChanged() {
-        updateQbwId();
     }
 
     /**
@@ -535,7 +521,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             querbauwerkePanOne.setQbwId(gwk + "@" + wert);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("error while auto-setting qbw_id", ex);
+                LOG.error("error while auto-setting qbw_id", ex);
             }
         }
     }
