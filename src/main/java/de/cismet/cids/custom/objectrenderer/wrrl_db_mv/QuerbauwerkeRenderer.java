@@ -278,7 +278,6 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
                 } catch (Exception ex) {
                     LOG.error("Error while parsing the property bauwerk.value", ex);
                 }
-                LOG.error("bauwerk_value " + bauwerk_value);
                 querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
                 querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
 
