@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
+import de.cismet.cids.custom.util.MeasureTypeCodeRenderer;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.StationToMapRegistry;
@@ -211,13 +212,13 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         dropBehaviorListener = new RouteWBDropBehavior(this);
         linearReferencedLineEditor.setFields("MASSNAHMEN", "linie");      // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener); // NOI18N
-//        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
-//
-//                @Override
-//                public void linearReferencedLineCreated() {
-//                    zoomToFeature();
-//                }
-//            });
+        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+
+                @Override
+                public void linearReferencedLineCreated() {
+                    zoomToFeature();
+                }
+            });
         try {
             new CidsBeanDropTarget(this);
         } catch (final Exception ex) {
@@ -2063,35 +2064,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     }
 
     //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class MeasureTypeCodeRenderer extends DefaultListCellRenderer {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public Component getListCellRendererComponent(final JList list,
-                final Object value,
-                final int index,
-                final boolean isSelected,
-                final boolean cellHasFocus) {
-            final Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            if ((result instanceof JLabel) && (value instanceof CidsBean)) {
-                final CidsBean bean = (CidsBean)value;
-
-                final String text = bean.getProperty("value") + " - " + bean.getProperty("wk_type") + " - "
-                            + bean.getProperty("pressure_group") + " - " + bean.getProperty("name") + " - "
-                            + bean.getProperty("measure_type");
-                ((JLabel)result).setText(text);
-            }
-
-            return result;
-        }
-    }
 
     /**
      * DOCUMENT ME!

@@ -142,13 +142,13 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
         lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(
@@ -156,7 +156,7 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
                 "MassnahmenUmsetzungRenderer.lblBeschrDerMa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
@@ -219,12 +219,12 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         wirkungPan1.setPreferredSize(new java.awt.Dimension(380, 115));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel2.add(wirkungPan1, gridBagConstraints);
 
         lblValMassnahme_nr.setMinimumSize(new java.awt.Dimension(250, 20));
@@ -252,12 +252,13 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel2.add(lblValMeasure_type_code, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

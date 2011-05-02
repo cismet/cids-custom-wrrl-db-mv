@@ -7,8 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JList;
@@ -16,18 +19,22 @@ import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.MeasureTypeCodeRenderer;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.StationToMapRegistry;
+import de.cismet.cids.custom.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -54,6 +61,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             MassnahmenUmsetzungEditor.class);
     private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
 
+    private static final MetaClass MTC_MC;
+
+    static {
+        MTC_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.de_measure_type_code");
+        LOG.error("MTC_MC " + MTC_MC);
+    }
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
@@ -63,12 +77,18 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private RouteWBDropBehavior dropBehaviorListener;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnArtAbort;
+    private javax.swing.JButton btnArtOk;
+    private javax.swing.JComboBox cbArtKatalog;
     private javax.swing.JComboBox cbGeom;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMeasure_type_code;
+    private javax.swing.JDialog dlgArtKatalog;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblArtKatalog;
     private javax.swing.JLabel lblBeschrDerMa;
     private javax.swing.JLabel lblGeom;
     private javax.swing.JLabel lblHeading;
@@ -85,6 +105,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JPanel panMenButtonsArt;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan wirkungPan1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -96,6 +117,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      */
     public MassnahmenUmsetzungEditor() {
         initComponents();
+        jTextField1.setEditable(false);
         dropBehaviorListener = new RouteWBDropBehavior(this);
         linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
@@ -149,6 +171,17 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        dlgArtKatalog = new javax.swing.JDialog();
+        lblArtKatalog = new javax.swing.JLabel();
+        final DefaultBindableReferenceCombo cb1 = new ScrollableComboBox(
+                MTC_MC,
+                true,
+                true,
+                new CustomElementComparator());
+        cbArtKatalog = cb1;
+        panMenButtonsArt = new javax.swing.JPanel();
+        btnArtAbort = new javax.swing.JButton();
+        btnArtOk = new javax.swing.JButton();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -161,9 +194,10 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         lblValWk_k = new javax.swing.JLabel();
         lblMassnahme_nr = new javax.swing.JLabel();
         lblMeasure_type_code = new javax.swing.JLabel();
-        cbMeasure_type_code = new ScrollableComboBox();
         wirkungPan1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan();
         lblValMassnahme_nr = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         panGeo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
@@ -172,6 +206,69 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         jPanel1 = new javax.swing.JPanel();
         cbGeom = new DefaultCismapGeometryComboBoxEditor();
         lblGeom = new javax.swing.JLabel();
+
+        dlgArtKatalog.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblArtKatalog.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.lblArtKatalog.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgArtKatalog.getContentPane().add(lblArtKatalog, gridBagConstraints);
+
+        cbArtKatalog.setMinimumSize(new java.awt.Dimension(750, 18));
+        cbArtKatalog.setPreferredSize(new java.awt.Dimension(750, 18));
+        cbArtKatalog.setRenderer(new MeasureTypeCodeRenderer());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgArtKatalog.getContentPane().add(cbArtKatalog, gridBagConstraints);
+
+        panMenButtonsArt.setLayout(new java.awt.GridBagLayout());
+
+        btnArtAbort.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.btnArtAbort.text")); // NOI18N
+        btnArtAbort.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnArtAbortActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsArt.add(btnArtAbort, gridBagConstraints);
+
+        btnArtOk.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.btnArtOk.text")); // NOI18N
+        btnArtOk.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnArtOk.setMinimumSize(new java.awt.Dimension(85, 23));
+        btnArtOk.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnArtOk.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnArtOkActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsArt.add(btnArtOk, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgArtKatalog.getContentPane().add(panMenButtonsArt, gridBagConstraints);
 
         setMinimumSize(new java.awt.Dimension(440, 675));
         setOpaque(false);
@@ -220,13 +317,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
         lblBeschrDerMa.setText(org.openide.util.NbBundle.getMessage(
@@ -234,7 +331,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                 "MassnahmenUmsetzungEditor.lblBeschrDerMa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
@@ -290,36 +387,16 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMeasure_type_code, gridBagConstraints);
 
-        cbMeasure_type_code.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbMeasure_type_code.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code}"),
-                cbMeasure_type_code,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
-        jPanel2.add(cbMeasure_type_code, gridBagConstraints);
-
         wirkungPan1.setMinimumSize(new java.awt.Dimension(380, 115));
         wirkungPan1.setPreferredSize(new java.awt.Dimension(380, 115));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel2.add(wirkungPan1, gridBagConstraints);
 
         lblValMassnahme_nr.setMinimumSize(new java.awt.Dimension(250, 20));
@@ -332,6 +409,47 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 5);
         jPanel2.add(lblValMassnahme_nr, gridBagConstraints);
+
+        jTextField1.setEditable(false);
+        jTextField1.setMinimumSize(new java.awt.Dimension(200, 20));
+        jTextField1.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.measure_type_code.name}"),
+                jTextField1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
+        jPanel2.add(jTextField1, gridBagConstraints);
+
+        jButton1.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungEditor.class,
+                "MassnahmenUmsetzungEditor.jbModMass.text")); // NOI18N
+        jButton1.setMinimumSize(new java.awt.Dimension(65, 20));
+        jButton1.setPreferredSize(new java.awt.Dimension(65, 20));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
+        jPanel2.add(jButton1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -433,6 +551,55 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnArtAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnArtAbortActionPerformed
+        dlgArtKatalog.setVisible(false);
+    }                                                                               //GEN-LAST:event_btnArtAbortActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnArtOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnArtOkActionPerformed
+        try {
+            final Object selection = cbArtKatalog.getSelectedItem();
+            if (selection instanceof CidsBean) {
+                cidsBean.setProperty("measure_type_code", selection);
+            }
+        } catch (Exception e) {
+            LOG.error("Error while changing property measure_type_code.", e);
+        }
+        dlgArtKatalog.setVisible(false);
+    }                                                                            //GEN-LAST:event_btnArtOkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
+        if (cbGeom.isEnabled()) {
+            UIUtil.findOptimalPositionOnScreen(dlgArtKatalog);
+            dlgArtKatalog.setSize(800, 150);
+            dlgArtKatalog.setVisible(true);
+        }
+    }                                                                            //GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -534,7 +701,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      */
     private void deActivateGUIElements(final boolean enable) {
         jTextArea1.setEnabled(enable);
-        cbMeasure_type_code.setEnabled(enable);
+//        cbMeasure_type_code.setEnabled(enable);
         cbGeom.setEnabled(enable);
         linearReferencedLineEditor.setEnabled(enable);
     }
@@ -565,6 +732,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {             // NOI18N
                     bindToWb(WB_PROPERTIES[0], bean);
+                    dropBehaviorListener.setWkFg(bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {      // NOI18N
                     bindToWb(WB_PROPERTIES[1], bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {      // NOI18N
@@ -724,6 +892,72 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             panGeo.setVisible(false);
         } else {
             panGeo.setVisible(true);
+        }
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class CustomElementComparator implements Comparator<CidsBean> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private int integerIndex = 0;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new CustomElementComparator object.
+         */
+        public CustomElementComparator() {
+        }
+
+        /**
+         * Creates a new CustomElementComparator object.
+         *
+         * @param  integerIndex  DOCUMENT ME!
+         */
+        public CustomElementComparator(final int integerIndex) {
+            this.integerIndex = integerIndex;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            if ((o1 != null) && (o2 != null)) {
+                final String strValue1 = (String)o1.getProperty("value");
+                final String strValue2 = (String)o2.getProperty("value");
+
+                if ((strValue1 != null) && (strValue2 != null)) {
+                    try {
+                        final Integer value1 = Integer.parseInt(strValue1.substring(integerIndex));
+                        final Integer value2 = Integer.parseInt(strValue2.substring(integerIndex));
+
+                        return value1.intValue() - value2.intValue();
+                    } catch (NumberFormatException e) {
+                        // nothing to do, because not every 'value'-property contains a integer
+                    }
+
+                    return strValue1.compareTo(strValue2);
+                } else {
+                    if ((strValue1 == null) && (strValue2 == null)) {
+                        return 0;
+                    } else {
+                        return ((strValue1 == null) ? -1 : 1);
+                    }
+                }
+            } else {
+                if ((o1 == null) && (o2 == null)) {
+                    return 0;
+                } else {
+                    return ((o1 == null) ? -1 : 1);
+                }
+            }
         }
     }
 }
