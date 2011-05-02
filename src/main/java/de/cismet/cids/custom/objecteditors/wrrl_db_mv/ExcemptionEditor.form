@@ -182,7 +182,7 @@
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.ex_cat}" target="cbExCat" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo(EX_CAT_MC, true, true)"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -206,7 +206,7 @@
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.ex_date}" target="cbExDate" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo(EX_DATE_MC, true, true)"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -230,7 +230,7 @@
             <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.ex_typ}" target="csExTyp" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo(EX_TYPE_MC, true, true)"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

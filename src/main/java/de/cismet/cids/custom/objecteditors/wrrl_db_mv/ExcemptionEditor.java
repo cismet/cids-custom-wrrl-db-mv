@@ -41,9 +41,15 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final MetaClass EX_JUST_MC;
+    private static final MetaClass EX_CAT_MC;
+    private static final MetaClass EX_TYPE_MC;
+    private static final MetaClass EX_DATE_MC;
 
     static {
         EX_JUST_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_JUSTIFICATION");
+        EX_CAT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_CAT");
+        EX_TYPE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_TYP");
+        EX_DATE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_DATE");
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -82,6 +88,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
      */
     public ExcemptionEditor() {
         initComponents();
+        deActivateGUIElements(false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -109,9 +116,9 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         lblExTyp = new javax.swing.JLabel();
         lblExDate = new javax.swing.JLabel();
         lblExJus = new javax.swing.JLabel();
-        cbExCat = new DefaultBindableReferenceCombo();
-        cbExDate = new DefaultBindableReferenceCombo();
-        csExTyp = new DefaultBindableReferenceCombo();
+        cbExCat = new DefaultBindableReferenceCombo(EX_CAT_MC, true, true);
+        cbExDate = new DefaultBindableReferenceCombo(EX_DATE_MC, true, true);
+        csExTyp = new DefaultBindableReferenceCombo(EX_TYPE_MC, true, true);
         scpExJus = new javax.swing.JScrollPane();
         lstExJus = new javax.swing.JList();
         panControl = new javax.swing.JPanel();
@@ -372,9 +379,11 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
      * @param  evt  DOCUMENT ME!
      */
     private void btnJusAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJusAddActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgJustificationCataloge);
-        dlgJustificationCataloge.setSize(300, 150);
-        dlgJustificationCataloge.setVisible(true);
+        if (cbExCat.isEnabled()) {
+            UIUtil.findOptimalPositionOnScreen(dlgJustificationCataloge);
+            dlgJustificationCataloge.setSize(300, 150);
+            dlgJustificationCataloge.setVisible(true);
+        }
     }                                                                             //GEN-LAST:event_btnJusAddActionPerformed
 
     /**
@@ -383,24 +392,26 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
      * @param  evt  DOCUMENT ME!
      */
     private void btnJusRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJusRemoveActionPerformed
-        final Object selection = lstExJus.getSelectedValue();
-        if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(
-                    this,
-                    "Soll die Ausnahme '"
-                            + selection.toString()
-                            + "' wirklich gelöscht werden?",
-                    "Ausnahme entfernen",
-                    JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean)selection;
-                    final Object beanColl = cidsBean.getProperty("ex_jus");
-                    if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
+        if (cbExCat.isEnabled()) {
+            final Object selection = lstExJus.getSelectedValue();
+            if (selection != null) {
+                final int answer = JOptionPane.showConfirmDialog(
+                        this,
+                        "Soll die Ausnahme '"
+                                + selection.toString()
+                                + "' wirklich gelöscht werden?",
+                        "Ausnahme entfernen",
+                        JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    try {
+                        final CidsBean beanToDelete = (CidsBean)selection;
+                        final Object beanColl = cidsBean.getProperty("ex_jus");
+                        if (beanColl instanceof Collection) {
+                            ((Collection)beanColl).remove(beanToDelete);
+                        }
+                    } catch (Exception e) {
+                        UIUtil.showExceptionToUser(e, this);
                     }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
                 }
             }
         }
@@ -449,10 +460,24 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
                 this.cidsBean);
             bindingGroup.bind();
         }
+
+        deActivateGUIElements(cidsBean != null);
     }
 
     @Override
     public void dispose() {
         bindingGroup.unbind();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  activate  DOCUMENT ME!
+     */
+    private void deActivateGUIElements(final boolean activate) {
+        cbExCat.setEnabled(activate);
+        cbExDate.setEnabled(activate);
+        csExTyp.setEnabled(activate);
+        lstExJus.setEnabled(activate);
     }
 }

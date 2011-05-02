@@ -643,6 +643,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                     if (beanColl instanceof Collection) {
                         ((Collection)beanColl).remove(beanToDelete);
                     }
+                    excemptionEditor.setCidsBean(null);
                 } catch (Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
