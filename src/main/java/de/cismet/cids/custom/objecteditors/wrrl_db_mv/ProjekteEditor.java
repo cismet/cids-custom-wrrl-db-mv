@@ -256,7 +256,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panContrImpactSrc = new javax.swing.JPanel();
         btnRemUmsetzung = new javax.swing.JButton();
         btnAddUmsetzung = new javax.swing.JButton();
-        massnahmenUmsetzungEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenUmsetzungEditor();
+        massnahmenUmsetzungEditor1 = new MassnahmenUmsetzungEditor(false);
         panDeMeas1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo3 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading3 = new javax.swing.JLabel();

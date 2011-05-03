@@ -9,11 +9,20 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 
+import org.openide.util.NbBundle;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -70,6 +79,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean isStandalone = true;
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
     private ArrayList<CidsBean> beansToSave = new ArrayList<CidsBean>();
@@ -113,32 +123,79 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form MassnahmenUmsetzungEditor.
+     * Creates a new MassnahmenUmsetzungEditor object.
      */
     public MassnahmenUmsetzungEditor() {
-        initComponents();
-        jTextField1.setEditable(false);
-        dropBehaviorListener = new RouteWBDropBehavior(this);
-        linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
-        linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
-        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+        this(true);
+    }
 
-                @Override
-                public void linearReferencedLineCreated() {
-                    zoomToFeature();
+    /**
+     * Creates new form MassnahmenUmsetzungEditor.
+     *
+     * @param  isStandalone  DOCUMENT ME!
+     */
+    public MassnahmenUmsetzungEditor(final boolean isStandalone) {
+        this.isStandalone = isStandalone;
+
+        if (!isStandalone) {
+            initComponents();
+            jTextField1.setEditable(false);
+            dropBehaviorListener = new RouteWBDropBehavior(this);
+            linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
+            linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
+            linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+
+                    @Override
+                    public void linearReferencedLineCreated() {
+                        zoomToFeature();
+                    }
+                });
+            deActivateGUIElements(false);
+            try {
+                new CidsBeanDropTarget(this);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
                 }
-            });
-        deActivateGUIElements(false);
-        try {
-            new CidsBeanDropTarget(this);
-        } catch (final Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
             }
+        } else {
+            final JLabel hintLabel = new JLabel();
+            hintLabel.setText(NbBundle.getMessage(
+                    MassnahmenUmsetzungEditor.class,
+                    "MassnahmenUmsetzungEditor.hintLabel.text"));
+            setLayout(new GridBagLayout());
+            final GridBagConstraints constraints = new GridBagConstraints(
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    0,
+                    GridBagConstraints.CENTER,
+                    GridBagConstraints.NONE,
+                    new Insets(5, 5, 5, 5),
+                    0,
+                    0);
+            add(hintLabel, constraints);
         }
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arg  DOCUMENT ME!
+     */
+    public static void main(final String[] arg) {
+        final JFrame f = new JFrame("Test");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final MassnahmenUmsetzungEditor s = new MassnahmenUmsetzungEditor();
+        f.getContentPane().setLayout(new BorderLayout());
+        f.getContentPane().add(s, BorderLayout.CENTER);
+        f.pack();
+        f.setVisible(true);
+    }
 
     /**
      * DOCUMENT ME!
@@ -607,6 +664,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        if (isStandalone) {
+            return;
+        }
         dispose();
         this.cidsBean = cidsBean;
 
@@ -646,9 +706,11 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void dispose() {
-        ((DefaultCismapGeometryComboBoxEditor)cbGeom).dispose();
-        linearReferencedLineEditor.dispose();
-        bindingGroup.unbind();
+        if (!isStandalone) {
+            ((DefaultCismapGeometryComboBoxEditor)cbGeom).dispose();
+            linearReferencedLineEditor.dispose();
+            bindingGroup.unbind();
+        }
     }
 
     @Override
@@ -728,6 +790,9 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void beansDropped(final ArrayList<CidsBean> beans) {
+        if (isStandalone) {
+            return;
+        }
         if (cidsBean != null) {
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {             // NOI18N
@@ -844,11 +909,16 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        linearReferencedLineEditor.editorClosed(event);
+        if (!isStandalone) {
+            linearReferencedLineEditor.editorClosed(event);
+        }
     }
 
     @Override
     public boolean prepareForSave() {
+        if (isStandalone) {
+            return true;
+        }
         if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
             final int ans = JOptionPane.showConfirmDialog(
                     this,
