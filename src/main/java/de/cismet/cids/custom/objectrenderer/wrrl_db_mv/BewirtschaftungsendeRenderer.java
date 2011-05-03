@@ -28,6 +28,11 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import de.cismet.cids.custom.util.BewirtschaftungsendeHelper;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -47,18 +52,35 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
 
     //~ Instance fields --------------------------------------------------------
 
+    private final BewirtschaftungsendeHelper helper = new BewirtschaftungsendeHelper();
     private CidsBean cidsBean;
+    private final PropertyChangeListener helperListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent evt) {
+                if ((evt.getSource() == helper) && evt.getPropertyName().equals(BewirtschaftungsendeHelper.PROP_WK)) {
+                    final CidsBean wkBean = (CidsBean)evt.getNewValue();
+                    if (wkBean != null) {
+                        lblWk.setText((String)wkBean.getProperty("wk_k"));
+                    } else {
+                        lblWk.setText("-");
+                    }
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkungKey;
     private javax.swing.JPanel lblSpacingBottom;
     private javax.swing.JLabel lblStatKey;
+    private javax.swing.JLabel lblWk;
     private javax.swing.JScrollPane scpBemerkung;
     private javax.swing.JTextArea txtBemerkungValue;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -71,6 +93,7 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
      */
     public BewirtschaftungsendeRenderer() {
         initComponents();
+        helper.addPropertyChangeListener(helperListener);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -95,6 +118,8 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblWk = new javax.swing.JLabel();
         lblSpacingBottom = new javax.swing.JPanel();
 
         setOpaque(false);
@@ -108,7 +133,7 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
                 "BewirtschaftungsendeRenderer.lblBemerkungKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -132,8 +157,9 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(scpBemerkung, gridBagConstraints);
 
@@ -186,10 +212,31 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         jPanel1.add(jLabel4);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jPanel1, gridBagConstraints);
+
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(
+                BewirtschaftungsendeRenderer.class,
+                "BewirtschaftungsendeRenderer.jLabel5.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel5, gridBagConstraints);
+
+        lblWk.setText(org.openide.util.NbBundle.getMessage(
+                BewirtschaftungsendeRenderer.class,
+                "BewirtschaftungsendeRenderer.lblWk.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblWk, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -212,6 +259,7 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        helper.setCidsBean(cidsBean);
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
@@ -226,7 +274,8 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
 
     @Override
     public void dispose() {
-        // NOP
+        helper.dispose();
+        helper.removeListener(helperListener);
     }
 
     @Override

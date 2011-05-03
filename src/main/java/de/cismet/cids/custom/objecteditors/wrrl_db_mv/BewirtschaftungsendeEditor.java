@@ -7,18 +7,19 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.util.BewirtschaftungsendeHelper;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.editors.EditorClosedEvent;
-import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -36,7 +37,7 @@ import de.cismet.cismap.navigatorplugin.CidsFeature;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer, StationEditorListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -45,13 +46,30 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
     //~ Instance fields --------------------------------------------------------
 
+    private final BewirtschaftungsendeHelper helper = new BewirtschaftungsendeHelper();
     private CidsBean cidsBean;
+    private final PropertyChangeListener helperListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent evt) {
+                if ((evt.getSource() == helper) && evt.getPropertyName().equals(BewirtschaftungsendeHelper.PROP_WK)) {
+                    final CidsBean wkBean = (CidsBean)evt.getNewValue();
+                    if (wkBean != null) {
+                        lblWk.setText((String)wkBean.getProperty("wk_k"));
+                    } else {
+                        lblWk.setText("-");
+                    }
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkungKey;
     private javax.swing.JPanel lblSpacingBottom;
     private javax.swing.JLabel lblStatKey;
+    private javax.swing.JLabel lblWk;
     private javax.swing.JScrollPane scpBemerkung;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
     private javax.swing.JTextArea txtBemerkungValue;
@@ -65,23 +83,23 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
      */
     public BewirtschaftungsendeEditor() {
         initComponents();
-        stationEditor1.addStationEditorListener(new StationEditorListener() {
-
-                @Override
-                public void stationCreated() {
-                    try {
-                        zoomToFeatures();
-                        cidsBean.setProperty("stat", stationEditor1.getCidsBean());
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
-                        }
-                    }
-                }
-            });
+        stationEditor1.addStationEditorListener(this);
+        helper.addPropertyChangeListener(helperListener);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void stationCreated() {
+        try {
+            zoomToFeatures();
+            cidsBean.setProperty("stat", stationEditor1.getCidsBean());
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
+            }
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -97,16 +115,18 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        // cidsFeature rausschmeissen
-        final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
-        final Collection<Feature> features = new ArrayList<Feature>();
-        features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
-        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
-
+        helper.setCidsBean(cidsBean);
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
             bindingGroup.bind();
+
+            // cidsFeature rausschmeissen
+            final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
+            final Collection<Feature> features = new ArrayList<Feature>();
+            features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
+            CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
+
             zoomToFeatures();
         }
     }
@@ -132,6 +152,8 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         scpBemerkung = new javax.swing.JScrollPane();
         txtBemerkungValue = new javax.swing.JTextArea();
         lblStatKey = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblWk = new javax.swing.JLabel();
         lblSpacingBottom = new javax.swing.JPanel();
 
         setOpaque(false);
@@ -143,7 +165,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         lblBemerkungKey.setText("Bemerkung");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -160,6 +182,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(stationEditor1, gridBagConstraints);
@@ -181,8 +204,9 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(scpBemerkung, gridBagConstraints);
 
@@ -194,6 +218,21 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblStatKey, gridBagConstraints);
+
+        jLabel1.setText("Wasserkörper");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblWk, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -215,6 +254,8 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void dispose() {
+        helper.dispose();
+        helper.removeListener(helperListener);
         stationEditor1.dispose();
         bindingGroup.unbind();
     }
@@ -227,16 +268,6 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
     @Override
     public void setTitle(final String title) {
         // NOP
-    }
-
-    @Override
-    public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
-    }
-
-    @Override
-    public boolean prepareForSave() {
-        return true;
     }
 
     /**
