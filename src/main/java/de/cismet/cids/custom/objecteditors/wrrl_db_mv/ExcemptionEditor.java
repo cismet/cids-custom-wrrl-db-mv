@@ -27,6 +27,7 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.converters.SqlDateToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -117,7 +118,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         lblExDate = new javax.swing.JLabel();
         lblExJus = new javax.swing.JLabel();
         cbExCat = new DefaultBindableReferenceCombo(EX_CAT_MC, true, true);
-        cbExDate = new DefaultBindableReferenceCombo(EX_DATE_MC, true, true);
+        cbExDate = new DefaultBindableReferenceCombo(EX_DATE_MC, true, false);
         csExTyp = new DefaultBindableReferenceCombo(EX_TYPE_MC, true, true);
         scpExJus = new javax.swing.JScrollPane();
         lstExJus = new javax.swing.JList();
