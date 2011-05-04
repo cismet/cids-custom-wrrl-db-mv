@@ -312,7 +312,8 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
             for (final CidsBean routeBean : beans) {
                 if (routeBean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
                     final StationEditor editor = new StationEditor();
-                    editor.setCidsBean(LinearReferencingHelper.createStationBeanFromRouteBean(routeBean));
+                    final CidsBean stationBean = LinearReferencingHelper.createStationBeanFromRouteBean(routeBean);
+                    editor.setCidsBean(stationBean);
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());
                 } else {

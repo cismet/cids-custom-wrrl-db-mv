@@ -747,33 +747,32 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      * DOCUMENT ME!
      */
     private void cleanup() {
-        if (isInited()) {
-            final CidsBean cidsBean = getCidsBean();
-            if (cidsBean != null) {
-                // altes feature entfernen
-                final LinearReferencedPointFeature oldFeature = STATION_TO_MAP_REGISTRY.removeStationFeature(cidsBean);
-                if (oldFeature != null) {
-                    // listener auf altem Feature entfernen
-                    oldFeature.removeListener(getFeatureListener());
-                }
-
-                // listener von der alten Bean entfernen
-                cidsBean.removePropertyChangeListener(getCidsBeanListener());
-                STATION_TO_MAP_REGISTRY.removeListener(cidsBean, getStationToMapRegistryListener());
+        final CidsBean stationBean = getCidsBean();
+        if (stationBean != null) {
+            // altes feature entfernen
+            final LinearReferencedPointFeature oldFeature = STATION_TO_MAP_REGISTRY.removeStationFeature(
+                    stationBean);
+            if (oldFeature != null) {
+                // listener auf altem Feature entfernen
+                oldFeature.removeListener(getFeatureListener());
             }
 
-            final Feature badGeomFeature = getBadGeomFeature();
-            if (badGeomFeature != null) {
-                // badgeomfeature entfernen.
-                MAPPING_COMPONENT.getFeatureCollection().removeFeature(badGeomFeature);
-                setBadGeomFeature(null);
-            }
-
-            setInited(false);
-
-            // auf startzustand setzen => hinzufügenpanel anzeigen
-            showCard(Card.add);
+            // listener von der alten Bean entfernen
+            stationBean.removePropertyChangeListener(getCidsBeanListener());
+            STATION_TO_MAP_REGISTRY.removeListener(stationBean, getStationToMapRegistryListener());
         }
+
+        final Feature badGeomFeature = getBadGeomFeature();
+        if (badGeomFeature != null) {
+            // badgeomfeature entfernen.
+            MAPPING_COMPONENT.getFeatureCollection().removeFeature(badGeomFeature);
+            setBadGeomFeature(null);
+        }
+
+        setInited(false);
+
+        // auf startzustand setzen => hinzufügenpanel anzeigen
+        showCard(Card.add);
     }
 
     /**
@@ -785,40 +784,41 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
             showCrsNotSupported();
             // noch nicht initialisiert ?
         } else if (!isInited()) {
-            final CidsBean cidsBean = getCidsBean();
-            if (cidsBean != null) {
+            final CidsBean stationBean = getCidsBean();
+            if (stationBean != null) {
                 // badgeom feature und button nur falls die realgeom weiter als 1 von der route entfernt ist
                 final double distance = LinearReferencingHelper.distanceOfStationGeomToRouteGeomFromStationBean(
-                        cidsBean);
+                        stationBean);
                 if (distance > 1) {
                     setBadGeomFeature(createBadGeomFeature(
-                            LinearReferencingHelper.getPointGeometryFromStationBean(cidsBean)));
+                            LinearReferencingHelper.getPointGeometryFromStationBean(stationBean)));
                 } else {
                     setBadGeomFeature(null);
                 }
                 updateBadGeomButton();
 
                 // die aktuelle cidsBean als listener bei stationtomapregistry anmelden
-                STATION_TO_MAP_REGISTRY.addListener(cidsBean, getStationToMapRegistryListener());
+                STATION_TO_MAP_REGISTRY.addListener(stationBean, getStationToMapRegistryListener());
                 // auf änderungen an der cidsbean horchen
-                cidsBean.addPropertyChangeListener(getCidsBeanListener());
+                stationBean.addPropertyChangeListener(getCidsBeanListener());
 
                 // feature erzeugen und auf der Karte anzeigen lassen
-                final LinearReferencedPointFeature feature = STATION_TO_MAP_REGISTRY.addStationFeature(cidsBean);
+                final LinearReferencedPointFeature feature = STATION_TO_MAP_REGISTRY.addStationFeature(stationBean);
                 if (ico != null) {
                     feature.setIconImage(ico);
                 }
                 // auf änderungen des features horchen
                 feature.addListener(getFeatureListener());
 
-                cidsBeanChanged(LinearReferencingHelper.getLinearValueFromStationBean(cidsBean));
+                cidsBeanChanged(LinearReferencingHelper.getLinearValueFromStationBean(stationBean));
                 fireStationCreated();
 
                 // spinner auf intervall der neuen route anpassen
                 ((SpinnerNumberModel)getValueSpinner().getModel()).setMaximum(Math.ceil(
                         feature.getLineGeometry().getLength()));
                 // neuen routennamen anzeigen
-                labGwk.setText("Route: " + Long.toString(LinearReferencingHelper.getRouteGwkFromStationBean(cidsBean)));
+                labGwk.setText("Route: "
+                            + Long.toString(LinearReferencingHelper.getRouteGwkFromStationBean(stationBean)));
 
                 // editier panel anzeigen
                 showCard(Card.edit);

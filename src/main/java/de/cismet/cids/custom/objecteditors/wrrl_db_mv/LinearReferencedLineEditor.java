@@ -256,21 +256,19 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * >> BEAN.
      */
     private void cleanup() {
-        if (isInited()) {
-            final LinearReferencedLineFeature oldFeature = getFeature();
-            if (oldFeature != null) {
-                final CidsBean oldBean = STATION_TO_MAP_REGISTRY.getCidsBean(oldFeature);
-                STATION_TO_MAP_REGISTRY.removeLinearReferencedLineFeature(oldBean);
-            }
-            setFeature(null);
-
-            cleanupStationBean(FROM);
-            cleanupStationBean(TO);
-
-            showCard(Card.add);
-
-            setInited(false);
+        final LinearReferencedLineFeature oldFeature = getFeature();
+        if (oldFeature != null) {
+            final CidsBean oldBean = STATION_TO_MAP_REGISTRY.getCidsBean(oldFeature);
+            STATION_TO_MAP_REGISTRY.removeLinearReferencedLineFeature(oldBean);
         }
+        setFeature(null);
+
+        cleanupStationBean(FROM);
+        cleanupStationBean(TO);
+
+        showCard(Card.add);
+
+        setInited(false);
     }
 
     /**
@@ -803,33 +801,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  lineField  DOCUMENT ME!
      */
     public static void fillFromRoute(final CidsBean routeBean, final CidsBean cidsBean, final String lineField) {
-        final MetaClass linieMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATIONLINE);
-        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATION);
-        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_GEOM);
-
-        final CidsBean linieBean = linieMC.getEmptyInstance().getBean();
-        final CidsBean fromBean = stationMC.getEmptyInstance().getBean();
-        final CidsBean toBean = stationMC.getEmptyInstance().getBean();
-        final CidsBean geomBean = geomMC.getEmptyInstance().getBean();
-        final CidsBean fromGeomBean = geomMC.getEmptyInstance().getBean();
-        final CidsBean toGeomBean = geomMC.getEmptyInstance().getBean();
-
         try {
-            fromBean.setProperty(PROP_STATION_ROUTE, routeBean);
-            fromBean.setProperty(PROP_STATION_VALUE, 0d);
-            fromBean.setProperty(PROP_STATION_GEOM, fromGeomBean);
-
-            toBean.setProperty(PROP_STATION_ROUTE, routeBean);
-            toBean.setProperty(
-                PROP_STATION_VALUE,
-                ((Geometry)((CidsBean)routeBean.getProperty(PROP_ROUTE_GEOM)).getProperty(PROP_GEOM_GEOFIELD))
-                            .getLength());
-            toBean.setProperty(PROP_STATION_GEOM, toGeomBean);
-
-            linieBean.setProperty(PROP_STATIONLINIE_FROM, fromBean);
-            linieBean.setProperty(PROP_STATIONLINIE_TO, toBean);
-            linieBean.setProperty(PROP_STATIONLINIE_GEOM, geomBean);
-
+            final CidsBean linieBean = LinearReferencingHelper.createLineBeanFromRouteBean(routeBean);
             cidsBean.setProperty(lineField, linieBean);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {

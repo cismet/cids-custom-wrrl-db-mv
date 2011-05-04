@@ -38,8 +38,6 @@ public class StationToMapRegistry implements LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationToMapRegistry.class);
-
     private static final Color[] COLORS = new Color[] {
             new Color(41, 86, 178),
             new Color(101, 156, 239),

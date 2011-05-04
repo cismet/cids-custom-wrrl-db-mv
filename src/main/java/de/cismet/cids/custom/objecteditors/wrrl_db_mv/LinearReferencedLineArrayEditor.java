@@ -434,7 +434,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
                 if (bean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
                     final LinearReferencedLineEditor editor = createEditor();
                     editor.setFields(getMetaClassName(), getLineField());
-                    editor.setCidsBean(createBeanFromRoute(bean));
+                    final CidsBean lineBean = createBeanFromRoute(bean);
+                    editor.setCidsBean(lineBean);
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());
                 } else {

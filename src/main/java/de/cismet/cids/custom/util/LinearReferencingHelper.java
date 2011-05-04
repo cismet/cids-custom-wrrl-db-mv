@@ -46,6 +46,8 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
             CidsBeanSupport.DOMAIN_NAME,
             CN_STATIONLINE);
     private static MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATION);
+    private static int NEW_STATION_ID = -1;
+    private static int NEW_LINE_ID = -1;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -193,6 +195,11 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
             stationBean.setProperty(PROP_STATION_ROUTE, routeBean);
             stationBean.setProperty(PROP_STATION_VALUE, 0d);
             stationBean.setProperty(PROP_STATION_GEOM, geomBean);
+
+            stationBean.setProperty("id", NEW_STATION_ID);
+            stationBean.getMetaObject().setID(NEW_STATION_ID);
+
+            NEW_STATION_ID--;
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Error while filling bean", ex);
@@ -223,6 +230,11 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
             linieBean.setProperty(PROP_STATIONLINIE_FROM, fromBean);
             linieBean.setProperty(PROP_STATIONLINIE_TO, toBean);
             linieBean.setProperty(PROP_STATIONLINIE_GEOM, geomBean);
+
+            linieBean.setProperty("id", NEW_LINE_ID);
+            linieBean.getMetaObject().setID(NEW_LINE_ID);
+
+            NEW_LINE_ID--;
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Error while filling bean", ex);
