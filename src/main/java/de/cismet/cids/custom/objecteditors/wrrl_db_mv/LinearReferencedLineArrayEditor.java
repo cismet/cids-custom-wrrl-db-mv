@@ -45,11 +45,6 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     EditorSaveListener,
     LinearReferencingConstants {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            LinearReferencedLineArrayEditor.class);
-
     //~ Instance fields --------------------------------------------------------
 
     HashMap<CidsBean, LinearReferencedLineEditor> editorMap = new HashMap<CidsBean, LinearReferencedLineEditor>();
@@ -436,7 +431,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
             for (final CidsBean bean : beans) {
-                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                if (bean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
                     final LinearReferencedLineEditor editor = createEditor();
                     editor.setFields(getMetaClassName(), getLineField());
                     editor.setCidsBean(createBeanFromRoute(bean));

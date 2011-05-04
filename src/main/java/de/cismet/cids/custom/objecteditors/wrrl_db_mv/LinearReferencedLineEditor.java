@@ -17,8 +17,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
-import org.apache.log4j.Logger;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -27,6 +25,7 @@ import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import javax.swing.event.DocumentListener;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencedLineEditorDropBehavior;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
-import de.cismet.cids.custom.util.StationToMapRegistry;
+import de.cismet.cids.custom.util.LinearReferencingHelper;
 import de.cismet.cids.custom.util.StationToMapRegistryListener;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -61,7 +60,6 @@ import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.Crs;
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
@@ -81,12 +79,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     LinearReferencingConstants,
     CidsBeanDropListener,
     EditorSaveListener {
-
-    //~ Static fields/initializers ---------------------------------------------
-
-    private static final Logger LOG = Logger.getLogger(LinearReferencedLineEditor.class);
-    private static final StationToMapRegistry STATION_TO_MAP_REGISTRY = StationToMapRegistry.getInstance();
-    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Enums ------------------------------------------------------------------
 
@@ -341,9 +333,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 stationBeanChanged(FROM);
                 stationBeanChanged(TO);
 
-                ((SpinnerNumberModel)getStationSpinner(FROM).getModel()).setMaximum(getRouteGeometry().getLength());
-                ((SpinnerNumberModel)getStationSpinner(TO).getModel()).setMaximum(getRouteGeometry().getLength());
-                labGwk.setText("Route: " + Long.toString(StationEditor.getRouteGwk(getStationBean(FROM))));
+                ((SpinnerNumberModel)getStationSpinner(FROM).getModel()).setMaximum(Math.ceil(
+                        getRouteGeometry().getLength()));
+                ((SpinnerNumberModel)getStationSpinner(TO).getModel()).setMaximum(Math.ceil(
+                        getRouteGeometry().getLength()));
+                labGwk.setText("Route: "
+                            + Long.toString(LinearReferencingHelper.getRouteGwkFromStationBean(getStationBean(FROM))));
 
                 showCard(Card.edit);
 
@@ -676,10 +671,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         final CidsBean stationBean = getStationBean(isFrom);
         if (stationBean != null) {
-            final double distance = StationEditor.distanceToOwnLine(stationBean);
+            final double distance = LinearReferencingHelper.distanceOfStationGeomToRouteGeomFromStationBean(
+                    stationBean);
 
             if (distance > 1) {
-                setBadGeomFeature(StationEditor.createBadGeomFeature(StationEditor.getPointGeometry(stationBean)),
+                setBadGeomFeature(StationEditor.createBadGeomFeature(
+                        LinearReferencingHelper.getPointGeometryFromStationBean(stationBean)),
                     isFrom);
             } else {
                 setBadGeomFeature(null, isFrom);
@@ -806,9 +803,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  lineField  DOCUMENT ME!
      */
     public static void fillFromRoute(final CidsBean routeBean, final CidsBean cidsBean, final String lineField) {
-        final MetaClass linieMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATIONLINE);
-        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATION);
-        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_GEOM);
+        final MetaClass linieMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATIONLINE);
+        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATION);
+        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_GEOM);
 
         final CidsBean linieBean = linieMC.getEmptyInstance().getBean();
         final CidsBean fromBean = stationMC.getEmptyInstance().getBean();
@@ -1016,17 +1013,18 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         try {
             lockSpinnerChange(true, isFrom);
 
-            try {
-                final Double value;
-                final JSpinner spinner = getStationSpinner(isFrom);
-                final AbstractFormatter formatter = ((JSpinner.DefaultEditor)spinner.getEditor()).getTextField()
-                            .getFormatter();
-                value = (Double)formatter.stringToValue(((JSpinner.DefaultEditor)spinner.getEditor()).getTextField()
-                                .getText());
-                changeStationValue(value, isFrom);
-            } catch (ParseException ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("error parsing spinner", ex);
+            final AbstractFormatter formatter = ((JSpinner.DefaultEditor)getStationSpinner(isFrom).getEditor())
+                        .getTextField().getFormatter();
+            final String text = ((JSpinner.DefaultEditor)getStationSpinner(isFrom).getEditor()).getTextField()
+                        .getText();
+            if (!text.isEmpty()) {
+                try {
+                    final double value = (Double)formatter.stringToValue(text);
+                    changeStationValue(value, isFrom);
+                } catch (ParseException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("error parsing spinner", ex);
+                    }
                 }
             }
         } finally {
@@ -1069,6 +1067,22 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
+     * @param   isFrom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public double getStationValue(final boolean isFrom) {
+        final CidsBean stationBean = getStationBean(isFrom);
+        if (stationBean != null) {
+            return LinearReferencingHelper.getLinearValueFromStationBean(stationBean);
+        } else {
+            return 0d;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  isFrom  DOCUMENT ME!
      */
     private void updateSplitButton(final boolean isFrom) {
@@ -1105,7 +1119,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         if (!isSpinnerChangeLocked(isFrom)) {
             final JSpinner stationSpinner = getStationSpinner(isFrom);
-            stationSpinner.setValue(value);
+            stationSpinner.setValue(Math.round(value));
         }
     }
 
@@ -1119,6 +1133,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         if (!isFeatureChangeLocked(isFrom)) {
             final LinearReferencedPointFeature stationFeature = getStationFeature(isFrom);
             if (stationFeature != null) {
+                stationFeature.setInfoFormat(new DecimalFormat("###"));
                 stationFeature.moveToPosition(value);
             } else {
                 if (LOG.isDebugEnabled()) {
@@ -1147,16 +1162,21 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("change station geom");
                 }
-                final Geometry pointGeom = getFeature().getGeometry();
+
+                final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(LinearReferencingHelper
+                                .getLinearValueFromStationBean(stationBean),
+                        LinearReferencingHelper.getRouteGeometryFromStationBean(stationBean));
                 pointGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
-                StationEditor.setPointGeometry(pointGeom, stationBean);
+                LinearReferencingHelper.setPointGeometryToStationBean(pointGeom, stationBean);
             }
             // realgeom der Linie anpassen
             if (getFeature() != null) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("change line geom");
                 }
-                final Geometry lineGeom = getFeature().getGeometry();
+                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(getStationValue(FROM),
+                        getStationValue(TO),
+                        LinearReferencingHelper.getRouteGeometryFromStationBean(getStationBean(isFrom)));
                 lineGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
                 setGeometry(lineGeom);
             }
@@ -1178,7 +1198,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             LOG.debug("change bean value to " + value);
         }
         final CidsBean stationBean = getStationBean(isFrom);
-        final double oldValue = StationEditor.getLinearValue(stationBean);
+        final double oldValue = LinearReferencingHelper.getLinearValueFromStationBean(stationBean);
 
         if (oldValue != value) {
             try {
@@ -1186,7 +1206,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                     MAPPING_COMPONENT.getFeatureCollection().select(getStationFeature(isFrom));
                 }
                 if (!isBeanChangeLocked(isFrom)) {
-                    StationEditor.setLinearValue(value, stationBean);
+                    LinearReferencingHelper.setLinearValueToStationBean((double)Math.round(value), stationBean);
                 }
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
@@ -1315,23 +1335,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private CidsBean getStationBean(final boolean isFrom) {
-        return getStationBean(getLineBean(), isFrom);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   lineBean  DOCUMENT ME!
-     * @param   isFrom    DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static CidsBean getStationBean(final CidsBean lineBean, final boolean isFrom) {
-        if (lineBean == null) {
-            return null;
-        }
-        final String stationField = (isFrom) ? PROP_STATIONLINIE_FROM : PROP_STATIONLINIE_TO;
-        return (CidsBean)lineBean.getProperty(stationField);
+        return LinearReferencingHelper.getStationBeanFromLineBean(getLineBean(), isFrom);
     }
 
     /**
@@ -1387,41 +1391,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
-     * @param   lineBean  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static CidsBean getGeomBean(final CidsBean lineBean) {
-        if (lineBean == null) {
-            return null;
-        }
-        return (CidsBean)lineBean.getProperty(PROP_STATIONLINIE_GEOM);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param   line  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
     private void setGeometry(final Geometry line) throws Exception {
-        setGeometry(line, getLineBean());
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   line      DOCUMENT ME!
-     * @param   lineBean  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    private static void setGeometry(final Geometry line, final CidsBean lineBean) throws Exception {
-        final CidsBean geomBean = getGeomBean(lineBean);
-        if (geomBean != null) {
-            geomBean.setProperty(PROP_GEOM_GEOFIELD, line);
-        }
+        LinearReferencingHelper.setGeometryToLineBean(line, getLineBean());
     }
 
     @Override
@@ -1669,11 +1644,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panSpinner.setOpaque(false);
         panSpinner.setLayout(new java.awt.GridBagLayout());
 
-        spinFrom.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                Double.valueOf(0.0d),
-                null,
-                Double.valueOf(1.0d)));
+        spinFrom.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 0.0d, 1.0d));
+        spinFrom.setEditor(new javax.swing.JSpinner.NumberEditor(spinFrom, "###"));
         spinFrom.setMinimumSize(new java.awt.Dimension(100, 28));
         spinFrom.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1683,11 +1655,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         panSpinner.add(spinFrom, gridBagConstraints);
 
-        spinTo.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                Double.valueOf(0.0d),
-                null,
-                Double.valueOf(1.0d)));
+        spinTo.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 0.0d, 1.0d));
+        spinTo.setEditor(new javax.swing.JSpinner.NumberEditor(spinTo, "###"));
         spinTo.setMinimumSize(new java.awt.Dimension(100, 28));
         spinTo.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1873,7 +1842,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private void splitStation(final boolean isFrom) {
         final double oldPosition = getStationFeature(isFrom).getCurrentPosition();
 
-        final CidsBean stationBean = StationEditor.createFromRoute(StationEditor.getRouteBean(getStationBean(isFrom)));
+        final CidsBean stationBean = LinearReferencingHelper.createStationBeanFromRouteBean(LinearReferencingHelper
+                        .getRouteBeanFromStationBean(getStationBean(isFrom)));
         setStationBean(stationBean, isFrom);
         stationBeanChanged(isFrom);
 
@@ -1959,7 +1929,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void beansDropped(final ArrayList<CidsBean> cidsBeans) {
         if (isEnabled()) {
             for (final CidsBean routeBean : cidsBeans) {
-                if (routeBean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+                if (routeBean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
                     if ((getDropBehavior() == null) || getDropBehavior().checkForAdding(routeBean)) {
                         addFromRoute(routeBean);
                         setChangedSinceDrop(false);
@@ -1980,7 +1950,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  targetIsFrom  DOCUMENT ME!
      */
     private void updateSnappedRealGeoms(final boolean isFrom, final boolean targetIsFrom) {
-        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, MC_STATIONLINE);
+        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATIONLINE);
 
         final int ownLineId = getLineBean().getMetaObject().getId();
         final int stationId = getStationBean(isFrom).getMetaObject().getId();
@@ -2010,12 +1980,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 final CidsBean targetToBean = (CidsBean)targetBean.getProperty(getStationField(TO));
 
                 // features erzeugen um damit die Geometrie neu zu berechnen
-                final LinearReferencedPointFeature targetFromFeature = new LinearReferencedPointFeature(StationEditor
-                                .getLinearValue(targetFromBean),
-                        StationEditor.getRouteGeometry(targetFromBean));
-                final LinearReferencedPointFeature targetToFeature = new LinearReferencedPointFeature(StationEditor
-                                .getLinearValue(targetToBean),
-                        StationEditor.getRouteGeometry(targetToBean));
+                final LinearReferencedPointFeature targetFromFeature = new LinearReferencedPointFeature(
+                        LinearReferencingHelper.getLinearValueFromStationBean(targetFromBean),
+                        LinearReferencingHelper.getRouteGeometryFromStationBean(targetFromBean));
+                final LinearReferencedPointFeature targetToFeature = new LinearReferencedPointFeature(
+                        LinearReferencingHelper.getLinearValueFromStationBean(targetToBean),
+                        LinearReferencingHelper.getRouteGeometryFromStationBean(targetToBean));
                 final LinearReferencedLineFeature targetFeature = new LinearReferencedLineFeature(
                         targetFromFeature,
                         targetToFeature);
@@ -2027,7 +1997,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 targetStationFeature.moveToPosition(getStationFeature(isFrom).getCurrentPosition());
 
                 // von feature neu berechnete geometrie im wk_teil setzen
-                LinearReferencedLineEditor.setGeometry(targetFeature.getGeometry(), targetBean);
+                LinearReferencingHelper.setGeometryToLineBean(targetFeature.getGeometry(), targetBean);
 
                 // wk_teil speichern
                 targetBean.persist();

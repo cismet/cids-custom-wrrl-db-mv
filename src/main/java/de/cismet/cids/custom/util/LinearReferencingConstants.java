@@ -23,6 +23,11 @@
  */
 package de.cismet.cids.custom.util;
 
+import org.apache.log4j.Logger;
+
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 /**
  * DOCUMENT ME!
  *
@@ -31,12 +36,19 @@ package de.cismet.cids.custom.util;
  */
 public interface LinearReferencingConstants {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    Logger LOG = Logger.getLogger(LinearReferencingConstants.class);
+
+    StationToMapRegistry STATION_TO_MAP_REGISTRY = StationToMapRegistry.getInstance();
+    MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
+
     //~ Instance fields --------------------------------------------------------
 
-    String MC_STATIONLINE = "station_linie"; // NOI18N
-    String MC_STATION = "station";           // NOI18N
-    String MC_ROUTE = "route";               // NOI18N
-    String MC_GEOM = "geom";                 // NOI18N
+    String CN_STATIONLINE = "station_linie"; // NOI18N
+    String CN_STATION = "station";           // NOI18N
+    String CN_ROUTE = "route";               // NOI18N
+    String CN_GEOM = "geom";                 // NOI18N
 
     String PROP_ID = "id"; // NOI18N
 

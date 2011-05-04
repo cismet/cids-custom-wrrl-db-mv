@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.server.middleware.types.MetaClass;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -20,15 +18,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -37,10 +34,6 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @version  $Revision$, $Date$
  */
 public class StationArrayEditor extends JPanel implements DisposableCidsBeanStore, LinearReferencingConstants {
-
-    //~ Static fields/initializers ---------------------------------------------
-
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationArrayEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -87,36 +80,6 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
      */
     private void setArrayField(final String arrayField) {
         this.arrayField = arrayField;
-    }
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   routeBean  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private static CidsBean createStationFromRoute(final CidsBean routeBean) {
-        final MetaClass stationMC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
-                LinearReferencingConstants.MC_STATION);
-        final MetaClass geomMC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
-                LinearReferencingConstants.MC_GEOM);
-
-        final CidsBean stationBean = stationMC.getEmptyInstance().getBean();
-        final CidsBean geomBean = geomMC.getEmptyInstance().getBean();
-
-        try {
-            stationBean.setProperty(PROP_STATION_ROUTE, routeBean);
-            stationBean.setProperty(PROP_STATION_VALUE, 0d);
-            stationBean.setProperty(PROP_STATION_GEOM, geomBean);
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Error while creating wkteil bean", ex);
-            }
-        }
-
-        return stationBean;
     }
 
     /**
@@ -346,10 +309,10 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
 
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
-            for (final CidsBean bean : beans) {
-                if (bean.getMetaObject().getMetaClass().getName().equals(MC_ROUTE)) {
+            for (final CidsBean routeBean : beans) {
+                if (routeBean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
                     final StationEditor editor = new StationEditor();
-                    editor.setCidsBean(createStationFromRoute(bean));
+                    editor.setCidsBean(LinearReferencingHelper.createStationBeanFromRouteBean(routeBean));
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());
                 } else {

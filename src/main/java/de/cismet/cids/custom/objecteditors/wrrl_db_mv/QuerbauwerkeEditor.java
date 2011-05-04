@@ -361,13 +361,13 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         final MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_teil");
         final MetaClass mcLine = ClassCacheMultiple.getMetaClass(
                 CidsBeanSupport.DOMAIN_NAME,
-                LinearReferencingConstants.MC_STATIONLINE);
+                LinearReferencingConstants.CN_STATIONLINE);
         final MetaClass mcStation = ClassCacheMultiple.getMetaClass(
                 CidsBeanSupport.DOMAIN_NAME,
-                LinearReferencingConstants.MC_STATION);
+                LinearReferencingConstants.CN_STATION);
         final MetaClass mcRoute = ClassCacheMultiple.getMetaClass(
                 CidsBeanSupport.DOMAIN_NAME,
-                LinearReferencingConstants.MC_ROUTE);
+                LinearReferencingConstants.CN_ROUTE);
 
         final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
         final MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "querbauwerke");

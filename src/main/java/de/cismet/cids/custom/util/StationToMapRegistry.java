@@ -16,8 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.features.Feature;
@@ -170,10 +168,10 @@ public class StationToMapRegistry implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     public LinearReferencedPointFeature addStationFeature(final CidsBean cidsBean) {
-        final double value = StationEditor.getLinearValue(cidsBean);
+        final double value = LinearReferencingHelper.getLinearValueFromStationBean(cidsBean);
 
-        final Geometry routeGeometry = StationEditor.getRouteGeometry(cidsBean);
-        addRouteFeature(StationEditor.getRouteBean(cidsBean), routeGeometry);
+        final Geometry routeGeometry = LinearReferencingHelper.getRouteGeometryFromStationBean(cidsBean);
+        addRouteFeature(LinearReferencingHelper.getRouteBeanFromStationBean(cidsBean), routeGeometry);
 
         final LinearReferencedPointFeature linRefPoint = new LinearReferencedPointFeature(value, routeGeometry);
 
@@ -254,7 +252,7 @@ public class StationToMapRegistry implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     public LinearReferencedPointFeature removeStationFeature(final CidsBean cidsBean) {
-        removeRouteFeature(StationEditor.getRouteBean(cidsBean));
+        removeRouteFeature(LinearReferencingHelper.getRouteBeanFromStationBean(cidsBean));
         return (LinearReferencedPointFeature)removeFeature(cidsBean);
     }
 
