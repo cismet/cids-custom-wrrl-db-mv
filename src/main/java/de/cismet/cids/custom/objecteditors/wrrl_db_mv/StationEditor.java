@@ -35,6 +35,7 @@ import javax.swing.event.DocumentListener;
 import de.cismet.cids.custom.util.LinearReferencedLineEditorDropBehavior;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.LinearReferencingHelper;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.StationToMapRegistryListener;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -48,6 +49,7 @@ import de.cismet.cismap.commons.Crs;
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
 import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
@@ -97,6 +99,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     private LinearReferencedLineEditorDropBehavior dropBehavior;
     private Feature badGeomFeature;
     private BoundingBox boundingbox;
+    private boolean isAutoZoomActivated = true;
 
     private boolean changedSinceDrop = false;
 
@@ -150,7 +153,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @return  DOCUMENT ME!
      */
-    public boolean addStationEditorListener(final StationEditorListener listener) {
+    public boolean addListener(final StationEditorListener listener) {
         return listeners.add(listener);
     }
 
@@ -161,7 +164,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @return  DOCUMENT ME!
      */
-    public boolean removeStationEditorListener(final StationEditorListener listener) {
+    public boolean removeListener(final StationEditorListener listener) {
         return listeners.remove(listener);
     }
 
@@ -1150,6 +1153,30 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         MAPPING_COMPONENT.zoomToAFeatureCollection(aFeatureCollection, false, MAPPING_COMPONENT.isFixedMapScale());
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Feature> getZoomFeatures() {
+        final Collection<Feature> zoomFeatures = new ArrayList<Feature>();
+        addZoomFeaturesToCollection(zoomFeatures);
+        return zoomFeatures;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  collection  DOCUMENT ME!
+     */
+    public void addZoomFeaturesToCollection(final Collection<Feature> collection) {
+        final Feature pointFeature = getFeature();
+        if (pointFeature != null) {
+            final Feature boundedFeature = new PureNewFeature(pointFeature.getGeometry().buffer(500));
+            collection.add(boundedFeature);
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -1170,15 +1197,15 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                         routeBean = bean;
                         setChangedSinceDrop(false);
                     }
-                    break;
+                    setCidsBean(LinearReferencingHelper.createStationBeanFromRouteBean(routeBean));
+                    if (isAutoZoomActivated) {
+                        MapUtil.zoomToFeatureCollection(getZoomFeatures());
+                    }
+                    return;
                 }
             }
-            if (routeBean != null) {
-                setCidsBean(LinearReferencingHelper.createStationBeanFromRouteBean(routeBean));
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("no route found in dropped objects");
-                }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("no route found in dropped objects");
             }
         }
     }

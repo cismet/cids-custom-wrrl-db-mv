@@ -39,8 +39,12 @@ import java.beans.PropertyChangeListener;
 
 import java.text.DecimalFormat;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.WrrlEditorTester;
 
@@ -53,6 +57,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -67,6 +72,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkeEditor.class);
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -99,12 +105,11 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         initComponents();
 
-        querbauwerkePanSix.getStat09Editor().addStationEditorListener(new StationEditorListener() {
+        querbauwerkePanSix.getStat09Editor().addListener(new StationEditorListener() {
 
                 @Override
                 public void stationCreated() {
                     try {
-                        zoomToFeatures();
                         cidsBean.setProperty("stat09", querbauwerkePanSix.getStat09Editor().getCidsBean());
                     } catch (Exception ex) {
                         if (LOG.isDebugEnabled()) {
@@ -113,12 +118,11 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                     }
                 }
             });
-        querbauwerkePanSix.getStat09BisEditor().addStationEditorListener(new StationEditorListener() {
+        querbauwerkePanSix.getStat09BisEditor().addListener(new StationEditorListener() {
 
                 @Override
                 public void stationCreated() {
                     try {
-                        zoomToFeatures();
                         cidsBean.setProperty("stat09_bis", querbauwerkePanSix.getStat09BisEditor().getCidsBean());
                     } catch (Exception ex) {
                         if (LOG.isDebugEnabled()) {
@@ -137,12 +141,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
      * DOCUMENT ME!
      */
     private void zoomToFeatures() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-        }
+        final Collection<Feature> zoomFeatures = new ArrayList<Feature>();
+        querbauwerkePanSix.getStat09Editor().addZoomFeaturesToCollection(zoomFeatures);
+        querbauwerkePanSix.getStat09BisEditor().addZoomFeaturesToCollection(zoomFeatures);
+        MapUtil.zoomToFeatureCollection(zoomFeatures);
     }
 
     /**
@@ -349,6 +351,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             querbauwerkePanSix.setCidsBean(cidsBean);
 
             bindingGroup.bind();
+            zoomToFeatures();
         }
     }
 

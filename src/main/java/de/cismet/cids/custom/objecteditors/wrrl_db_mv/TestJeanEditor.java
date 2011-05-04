@@ -34,6 +34,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     private static final String PROP_TESTJEAN_STATIONEN = "stationen";
     private static final String PROP_TESTJEAN_WKTEIL = "wk_teil";
     private static final String PROP_TESTJEAN_WKTEILE = "wk_teile";
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -60,11 +61,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
         linienEditor.setFields(WkTeilEditor.MC_WKTEIL, PROP_TESTJEAN_WKTEILE, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
         stationenEditor.setFields(PROP_TESTJEAN_STATIONEN);
 
-        stationEditor.addStationEditorListener(new StationEditorListener() {
+        stationEditor.addListener(new StationEditorListener() {
 
                 @Override
                 public void stationCreated() {
-                    zoomToFeatures();
                     try {
                         cidsBean.setProperty(PROP_TESTJEAN_STATION, stationEditor.getCidsBean());
                     } catch (Exception ex) {
@@ -75,45 +75,17 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
                 }
             });
 
-        linieEditor.getWrappedEditor()
-                .addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
+        linieEditor.getWrappedEditor().addListener(new LinearReferencedLineEditorListener() {
 
-                        @Override
-                        public void linearReferencedLineCreated() {
-                            zoomToFeatures();
-                            try {
-                                cidsBean.setProperty(PROP_TESTJEAN_WKTEIL, linieEditor.getCidsBean());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("error while setting new cidsbean for wk_teil", ex);
-                                }
-                            }
+                @Override
+                public void linearReferencedLineCreated() {
+                    try {
+                        cidsBean.setProperty(PROP_TESTJEAN_WKTEIL, linieEditor.getCidsBean());
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while setting new cidsbean for wk_teil", ex);
                         }
-                    });
-
-        linienEditor.addLinearReferencedLineArrayEditorListener(new LinearReferencedLineArrayEditorListener() {
-
-                @Override
-                public void editorAdded(final LinearReferencedLineEditor source) {
-                    zoomToFeatures();
-                }
-
-                @Override
-                public void editorRemoved(final LinearReferencedLineEditor source) {
-                    zoomToFeatures();
-                }
-            });
-
-        stationenEditor.addStationEditorListener(new StationArrayEditorListener() {
-
-                @Override
-                public void editorAdded(final StationEditor source) {
-                    zoomToFeatures();
-                }
-
-                @Override
-                public void editorRemoved(final StationEditor source) {
-                    zoomToFeatures();
+                    }
                 }
             });
 
@@ -123,18 +95,6 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void zoomToFeatures() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-        }
-    }
 
     /**
      * DOCUMENT ME!

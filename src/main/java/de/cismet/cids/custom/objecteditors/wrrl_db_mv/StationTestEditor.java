@@ -7,10 +7,16 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import de.cismet.cids.custom.util.MapUtil;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
+import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -25,6 +31,7 @@ public class StationTestEditor extends DefaultCustomObjectEditor {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StationTestEditor.class);
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -43,18 +50,6 @@ public class StationTestEditor extends DefaultCustomObjectEditor {
      */
     public StationTestEditor() {
         initComponents();
-
-        final StationEditorListener listener = new StationEditorListener() {
-
-                @Override
-                public void stationCreated() {
-                    zoomToFeatures();
-                }
-            };
-
-        stationEditor1.addStationEditorListener(listener);
-        stationEditor2.addStationEditorListener(listener);
-        stationEditor3.addStationEditorListener(listener);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -63,18 +58,18 @@ public class StationTestEditor extends DefaultCustomObjectEditor {
      * DOCUMENT ME!
      */
     private void zoomToFeatures() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-        }
+        final Collection<Feature> zoomFeatures = new ArrayList<Feature>();
+        stationEditor1.addZoomFeaturesToCollection(zoomFeatures);
+        stationEditor2.addZoomFeaturesToCollection(zoomFeatures);
+        stationEditor3.addZoomFeaturesToCollection(zoomFeatures);
+        MapUtil.zoomToFeatureCollection(zoomFeatures);
     }
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         LOG.fatal("cidsBean is null: " + (cidsBean == null));
         super.setCidsBean(cidsBean);
+        zoomToFeatures();
     }
 
     @Override

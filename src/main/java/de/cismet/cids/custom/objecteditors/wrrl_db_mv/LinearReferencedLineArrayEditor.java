@@ -22,6 +22,7 @@ import javax.swing.JSeparator;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.MapUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -32,6 +33,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cismap.commons.features.Feature;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -175,7 +178,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      *
      * @return  DOCUMENT ME!
      */
-    public boolean addLinearReferencedLineArrayEditorListener(final LinearReferencedLineArrayEditorListener listener) {
+    public boolean addListener(final LinearReferencedLineArrayEditorListener listener) {
         return listeners.add(listener);
     }
 
@@ -186,8 +189,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      *
      * @return  DOCUMENT ME!
      */
-    public boolean removeLinearReferencedLineArrayEditorListener(
-            final LinearReferencedLineArrayEditorListener listener) {
+    public boolean removeListener(final LinearReferencedLineArrayEditorListener listener) {
         return listeners.remove(listener);
     }
 
@@ -417,6 +419,28 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         return save;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Feature> getZoomFeatures() {
+        final Collection<Feature> zoomFeatures = new ArrayList<Feature>();
+        addZoomFeaturesToCollection(zoomFeatures);
+        return zoomFeatures;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  collection  DOCUMENT ME!
+     */
+    public void addZoomFeaturesToCollection(final Collection<Feature> collection) {
+        for (final LinearReferencedLineEditor editor : editorMap.values()) {
+            editor.addZoomFeaturesToCollection(collection);
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -438,6 +462,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
                     editor.setCidsBean(lineBean);
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());
+                    MapUtil.zoomToFeatureCollection(editor.getZoomFeatures());
                 } else {
                     return;
                 }

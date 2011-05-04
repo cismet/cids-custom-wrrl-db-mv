@@ -35,6 +35,7 @@ import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LawaTypeNeighbourSearch;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -49,7 +50,6 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureGroup;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -77,6 +77,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     private static final String ROUTE_FEATURE_CLASS_NAME =
         "de.cismet.cids.custom.util.StationToMapRegistry$RouteFeature"; // NOI18N
     private static final int NO_NEIGHBOUR_FOUND = -1;
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -135,13 +136,6 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         if (!readOnly) {
             lblValLawa_nr.setVisible(false);
             linearReferencedLineEditor.setFields("LAWA", "linie");
-            linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
-
-                    @Override
-                    public void linearReferencedLineCreated() {
-                        zoomToFeature();
-                    }
-                });
             panLineOberhalb.setVisible(false);
             panLineUnterhalb.setVisible(false);
         } else {
@@ -166,7 +160,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
         final Collection<Feature> features = new ArrayList<Feature>();
         features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
-        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
+        MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
 
         bindingGroup.unbind();
         removeListener();
@@ -196,7 +190,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
             }
 
             lblFoot.setText("");
-            zoomToFeature();
+            zoomToFeatures();
         } else {
             lblValLawa_nr.setText("");
             lblFoot.setText("");
@@ -328,30 +322,8 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     /**
      * DOCUMENT ME!
      */
-    private void zoomToFeature() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            final Object o = cidsBean.getProperty("wk_k");
-
-            if (o != null) {
-                final Collection<Feature> collection = new ArrayList<Feature>();
-                final FeatureCollection fCol = mappingComponent.getFeatureCollection();
-
-                for (final Feature feature : fCol.getAllFeatures()) {
-                    if (!feature.getClass().getName().equals(ROUTE_FEATURE_CLASS_NAME)) {
-                        collection.add(feature);
-                    }
-                }
-
-                CismapBroker.getInstance()
-                        .getMappingComponent()
-                        .zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
-            } else {
-                CismapBroker.getInstance()
-                        .getMappingComponent()
-                        .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-            }
-        }
+    private void zoomToFeatures() {
+        MapUtil.zoomToFeatureCollection(linearReferencedLineEditor.getZoomFeatures());
     }
 
     @Override

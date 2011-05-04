@@ -44,6 +44,7 @@ import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencedLineEditorDropBehavior;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.LinearReferencingHelper;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.StationToMapRegistryListener;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -60,6 +61,7 @@ import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.Crs;
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeatureListener;
@@ -119,9 +121,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private String lineField;
     private CidsBean cidsBean;
     private BoundingBox boundingbox;
-
+    private boolean isAutoZoomActivated = true;
     private boolean inited = false;
-
     private boolean changedSinceDrop = false;
 
     private Collection<LinearReferencedLineEditorListener> listeners =
@@ -214,7 +215,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @return  DOCUMENT ME!
      */
-    public boolean addLinearReferencedLineEditorListener(final LinearReferencedLineEditorListener listener) {
+    public boolean addListener(final LinearReferencedLineEditorListener listener) {
         return listeners.add(listener);
     }
 
@@ -225,7 +226,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @return  DOCUMENT ME!
      */
-    public boolean removeLinearReferencedLineEditorListener(final LinearReferencedLineEditorListener listener) {
+    public boolean removeListener(final LinearReferencedLineEditorListener listener) {
         return listeners.remove(listener);
     }
 
@@ -757,6 +758,33 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         aFeatureCollection.add(getFeature());
         // TODO boundingbox
         MAPPING_COMPONENT.zoomToAFeatureCollection(aFeatureCollection, false, MAPPING_COMPONENT.isFixedMapScale());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Feature> getZoomFeatures() {
+        final Collection<Feature> zoomFeatures = new ArrayList<Feature>();
+        addZoomFeaturesToCollection(zoomFeatures);
+        return zoomFeatures;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  collection  DOCUMENT ME!
+     */
+    public void addZoomFeaturesToCollection(final Collection<Feature> collection) {
+        final Feature fromStationFeature = getStationFeature(FROM);
+        final Feature toStationFeature = getStationFeature(TO);
+        if ((fromStationFeature != null) && (toStationFeature != null)) {
+            final Feature boundedFromFeature = new PureNewFeature(fromStationFeature.getGeometry().buffer(500));
+            final Feature boundedToFeature = new PureNewFeature(toStationFeature.getGeometry().buffer(500));
+            collection.add(boundedFromFeature);
+            collection.add(boundedToFeature);
+        }
     }
 
     /**
@@ -1833,14 +1861,14 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  routeBean  DOCUMENT ME!
      */
     private void addFromRoute(final CidsBean routeBean) {
-        CidsBean cidsBean = getCidsBean();
-        if (cidsBean == null) {
-            cidsBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, getMetaClassName())
+        CidsBean lineBean = getCidsBean();
+        if (lineBean == null) {
+            lineBean = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, getMetaClassName())
                         .getEmptyInstance()
                         .getBean();
         }
-        fillFromRoute(routeBean, cidsBean, getLineField());
-        setCidsBean(cidsBean);
+        fillFromRoute(routeBean, lineBean, getLineField());
+        setCidsBean(lineBean);
 
         // Geometrie für BoundingBox erzeufen
         final BoundingBox boundingBox = MAPPING_COMPONENT.getCurrentBoundingBox();
@@ -1906,6 +1934,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                     if ((getDropBehavior() == null) || getDropBehavior().checkForAdding(routeBean)) {
                         addFromRoute(routeBean);
                         setChangedSinceDrop(false);
+                    }
+                    if (isAutoZoomActivated) {
+                        MapUtil.zoomToFeatureCollection(getZoomFeatures());
                     }
                     return;
                 }

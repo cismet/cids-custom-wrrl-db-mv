@@ -20,12 +20,15 @@ import javax.swing.JSeparator;
 
 import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.LinearReferencingHelper;
+import de.cismet.cids.custom.util.MapUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+
+import de.cismet.cismap.commons.features.Feature;
 
 /**
  * DOCUMENT ME!
@@ -89,7 +92,7 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
      *
      * @return  DOCUMENT ME!
      */
-    public boolean addStationEditorListener(final StationArrayEditorListener listener) {
+    public boolean addListener(final StationArrayEditorListener listener) {
         return listeners.add(listener);
     }
 
@@ -296,6 +299,28 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Feature> getZoomFeaturse() {
+        final Collection<Feature> zoomFeatures = new ArrayList<Feature>();
+        addZoomFeaturesToCollection(zoomFeatures);
+        return zoomFeatures;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  collection  DOCUMENT ME!
+     */
+    public void addZoomFeaturesToCollection(final Collection<Feature> collection) {
+        for (final StationEditor editor : stationEditors) {
+            editor.addZoomFeaturesToCollection(collection);
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -315,6 +340,7 @@ public class StationArrayEditor extends JPanel implements DisposableCidsBeanStor
                     final CidsBean stationBean = LinearReferencingHelper.createStationBeanFromRouteBean(routeBean);
                     editor.setCidsBean(stationBean);
                     addEditor(editor);
+                    MapUtil.zoomToFeatureCollection(editor.getZoomFeatures());
                     getCidsBeans().add(editor.getCidsBean());
                 } else {
                     return;

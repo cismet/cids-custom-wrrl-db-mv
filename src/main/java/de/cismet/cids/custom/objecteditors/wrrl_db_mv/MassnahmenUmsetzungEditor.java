@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.MeasureTypeCodeRenderer;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
@@ -50,7 +51,6 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -69,7 +69,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             MassnahmenUmsetzungEditor.class);
     private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
-
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
     private static final MetaClass MTC_MC;
 
     static {
@@ -143,19 +143,12 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             dropBehaviorListener = new RouteWBDropBehavior(this);
             linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
             linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
-            linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
-
-                    @Override
-                    public void linearReferencedLineCreated() {
-                        zoomToFeature();
-                    }
-                });
             deActivateGUIElements(false);
             try {
                 new CidsBeanDropTarget(this);
             } catch (final Exception ex) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex);     // NOI18N
                 }
             }
         } else {
@@ -200,22 +193,8 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     /**
      * DOCUMENT ME!
      */
-    private void zoomToFeature() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            final Collection<Feature> collection = new ArrayList<Feature>();
-            final FeatureCollection fCol = mappingComponent.getFeatureCollection();
-
-            for (final Feature feature : fCol.getAllFeatures()) {
-                if (!(feature instanceof StationToMapRegistry.RouteFeature)) {
-                    collection.add(feature);
-                }
-            }
-
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
-        }
+    private void zoomToFeatures() {
+        MapUtil.zoomToFeatureCollection(linearReferencedLineEditor.getZoomFeatures());
     }
 
     /**
@@ -693,6 +672,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             dropBehaviorListener.setWkFg((CidsBean)cidsBean.getProperty("wk_fg"));
             bindingGroup.bind();
             deActivateGUIElements(true);
+            zoomToFeatures();
         } else {
             dropBehaviorListener.setWkFg(null);
             deActivateGUIElements(false);

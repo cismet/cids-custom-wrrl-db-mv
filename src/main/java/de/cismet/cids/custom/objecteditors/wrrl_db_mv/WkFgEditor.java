@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
@@ -48,7 +49,6 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureGroup;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -70,6 +70,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private static final String PROP_WKFG_WKTEILE = "teile";
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 
@@ -129,19 +130,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             WkTeilEditor.MC_WKTEIL,
             PROP_WKFG_WKTEILE,
             WkTeilEditor.PROP_WKTEIL_STATIONLINE);
-
-        teileEditor.addLinearReferencedLineArrayEditorListener(new LinearReferencedLineArrayEditorListener() {
-
-                @Override
-                public void editorAdded(final LinearReferencedLineEditor source) {
-                    zoomToFeatures();
-                }
-
-                @Override
-                public void editorRemoved(final LinearReferencedLineEditor source) {
-                    zoomToFeatures();
-                }
-            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -150,22 +138,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      * DOCUMENT ME!
      */
     private void zoomToFeatures() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            final FeatureCollection features = CismapBroker.getInstance().getMappingComponent().getFeatureCollection();
-            final List<Feature> featureList = features.getAllFeatures();
-            final List<Feature> featuresToZoom = new ArrayList<Feature>();
-
-            for (final Feature f : featureList) {
-                if (!(f instanceof StationToMapRegistry.RouteFeature)) {
-                    featuresToZoom.add(f);
-                }
-            }
-
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToAFeatureCollection(featuresToZoom, false, mappingComponent.isFixedMapScale());
-        }
+        MapUtil.zoomToFeatureCollection(teileEditor.getZoomFeatures());
     }
 
     /**
@@ -185,7 +158,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
         final Collection<Feature> features = new ArrayList<Feature>();
         features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
-        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
+        MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
 
         bindingGroup.unbind();
         this.cidsBean = cidsBean;

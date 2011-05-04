@@ -96,6 +96,9 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
      * @throws  Exception  DOCUMENT ME!
      */
     public static void setLinearValueToStationBean(final Double value, final CidsBean stationBean) throws Exception {
+        if (stationBean == null) {
+            return;
+        }
         stationBean.setProperty(PROP_STATION_VALUE, value);
     }
 
@@ -155,6 +158,9 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     private static CidsBean getPointGeomBeanFromStationBean(final CidsBean stationBean) {
+        if (stationBean == null) {
+            return null;
+        }
         return (CidsBean)stationBean.getProperty(PROP_STATION_GEOM);
     }
 
@@ -166,6 +172,9 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     public static CidsBean getRouteBeanFromStationBean(final CidsBean stationBean) {
+        if (stationBean == null) {
+            return null;
+        }
         return (CidsBean)stationBean.getProperty(PROP_STATION_ROUTE);
     }
 
@@ -216,6 +225,10 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     public static CidsBean createLineBeanFromRouteBean(final CidsBean routeBean) {
+        if (routeBean == null) {
+            return null;
+        }
+
         final CidsBean linieBean = MC_STATIONLINIE.getEmptyInstance().getBean();
         final CidsBean fromBean = createStationBeanFromRouteBean(routeBean);
         final CidsBean toBean = createStationBeanFromRouteBean(routeBean);
@@ -251,6 +264,9 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     public static double getLinearValueFromStationBean(final CidsBean stationBean) {
+        if (stationBean == null) {
+            return 0d;
+        }
         return (Double)stationBean.getProperty(PROP_STATION_VALUE);
     }
 

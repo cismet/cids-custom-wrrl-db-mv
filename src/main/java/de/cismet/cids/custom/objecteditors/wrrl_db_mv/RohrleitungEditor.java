@@ -18,6 +18,7 @@ import java.util.Collection;
 import javax.swing.JLabel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.WrrlEditorTester;
 import de.cismet.cids.custom.util.YesNoConverter;
 
@@ -47,6 +48,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RohrleitungEditor.class);
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -108,32 +110,13 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      */
     private void initLinearReferencedLineEditor() {
         linearReferencedLineEditor.setFields("Rohrleitung", "linie");
-        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
-
-                @Override
-                public void linearReferencedLineCreated() {
-                    zoomToFeatures();
-                }
-            });
     }
 
     /**
      * DOCUMENT ME!
      */
     private void zoomToFeatures() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            final Collection<Feature> fc = new ArrayList<Feature>();
-            for (final Feature f
-                        : CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures()) {
-                if (f.equals(linearReferencedLineEditor.getFeature())) {
-                    fc.add(f);
-                }
-            }
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToAFeatureCollection(fc, true, mappingComponent.isFixedMapScale());
-        }
+        MapUtil.zoomToFeatureCollection(linearReferencedLineEditor.getZoomFeatures());
     }
 
     /**
@@ -676,9 +659,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    } //GEN-LAST:event_jCheckBox1ActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -695,6 +678,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
                 this.cidsBean);
             linearReferencedLineEditor.setCidsBean(cidsBean);
             bindingGroup.bind();
+            zoomToFeatures();
         }
     }
 

@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.BewirtschaftungsendeHelper;
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -37,7 +38,7 @@ import de.cismet.cismap.navigatorplugin.CidsFeature;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer, StationEditorListener {
+public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -45,6 +46,8 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
             BewirtschaftungsendeEditor.class);
 
     //~ Instance fields --------------------------------------------------------
+
+    MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     private final BewirtschaftungsendeHelper helper = new BewirtschaftungsendeHelper();
     private CidsBean cidsBean;
@@ -83,34 +86,29 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
      */
     public BewirtschaftungsendeEditor() {
         initComponents();
-        stationEditor1.addStationEditorListener(this);
+        stationEditor1.addListener(new StationEditorListener() {
+
+                @Override
+                public void stationCreated() {
+                    try {
+                        cidsBean.setProperty("stat", stationEditor1.getCidsBean());
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
+                        }
+                    }
+                }
+            });
         helper.addPropertyChangeListener(helperListener);
     }
 
     //~ Methods ----------------------------------------------------------------
 
-    @Override
-    public void stationCreated() {
-        try {
-            zoomToFeatures();
-            cidsBean.setProperty("stat", stationEditor1.getCidsBean());
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("error while assigning new station-cidsbean to the cidsbean", ex);
-            }
-        }
-    }
-
     /**
      * DOCUMENT ME!
      */
     private void zoomToFeatures() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToFeatureCollection(mappingComponent.isFixedMapScale());
-        }
+        MapUtil.zoomToFeatureCollection(stationEditor1.getZoomFeatures());
     }
 
     @Override
@@ -125,7 +123,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
             final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
             final Collection<Feature> features = new ArrayList<Feature>();
             features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
-            CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeatures(features);
+            MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
 
             zoomToFeatures();
         }

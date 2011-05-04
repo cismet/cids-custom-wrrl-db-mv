@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.MaxWBNumberSearch;
 import de.cismet.cids.custom.util.MeasureTypeCodeRenderer;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
@@ -62,7 +63,6 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -85,6 +85,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private static final MetaClass DE_MEASURE_TYPE_CODE_MC;
     private static final MetaClass DE_MEASURE_TYPE_CODE_AFTER2015_MC;
     private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
+    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     static {
         DE_MEASURE_TYPE_CODE_MC = ClassCacheMultiple.getMetaClass(
@@ -212,13 +213,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         dropBehaviorListener = new RouteWBDropBehavior(this);
         linearReferencedLineEditor.setFields("MASSNAHMEN", "linie");      // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener); // NOI18N
-        linearReferencedLineEditor.addLinearReferencedLineEditorListener(new LinearReferencedLineEditorListener() {
-
-                @Override
-                public void linearReferencedLineCreated() {
-                    zoomToFeature();
-                }
-            });
         try {
             new CidsBeanDropTarget(this);
         } catch (final Exception ex) {
@@ -243,6 +237,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             bindingGroup.bind();
             dropBehaviorListener.setWkFg((CidsBean)cidsBean.getProperty("wk_fg"));
             linearReferencedLineEditor.setCidsBean(cidsBean);
+            zoomToFeatures();
         } else {
             deActivateGUI(false);
             dropBehaviorListener.setWkFg(null);
@@ -353,22 +348,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     /**
      * DOCUMENT ME!
      */
-    private void zoomToFeature() {
-        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-        if (!mappingComponent.isFixedMapExtent()) {
-            final Collection<Feature> collection = new ArrayList<Feature>();
-            final FeatureCollection fCol = mappingComponent.getFeatureCollection();
-
-            for (final Feature feature : fCol.getAllFeatures()) {
-                if (!(feature instanceof StationToMapRegistry.RouteFeature)) {
-                    collection.add(feature);
-                }
-            }
-
-            CismapBroker.getInstance()
-                    .getMappingComponent()
-                    .zoomToAFeatureCollection(collection, true, mappingComponent.isFixedMapScale());
-        }
+    private void zoomToFeatures() {
+        MapUtil.zoomToFeatureCollection(linearReferencedLineEditor.getZoomFeatures());
     }
 
     /**
