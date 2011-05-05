@@ -29,14 +29,20 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -46,6 +52,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -62,24 +69,33 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkGroupEditor.class);
+    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(
+            CidsBeanSupport.DOMAIN_NAME,
+            "wk_fg");
+    private static final MetaClass MC_WK_GROUP_AGGR = ClassCacheMultiple.getMetaClass(
+            CidsBeanSupport.DOMAIN_NAME,
+            "wk_group_aggr");
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private final CidsBeanDropTarget dropTarget = new CidsBeanDropTarget(this);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRemWkFg;
     private de.cismet.cids.editors.DefaultBindableColorChooser defaultBindableColorChooser1;
     private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JList lstWkWgs;
-    private javax.swing.JPanel panWkFgs;
+    private javax.swing.JList lstWkFgs;
+    private javax.swing.JPanel panWkGroupFgs;
     private javax.swing.JScrollPane scpWkFgs;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -92,7 +108,19 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
     public WkGroupEditor() {
         initComponents();
 
-        new CidsBeanDropTarget(this);
+        jComboBox1.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    if (cidsBean != null) {
+                        try {
+                            cidsBean.setProperty("wk_group_aggr", (CidsBean)jComboBox1.getSelectedItem());
+                        } catch (Exception ex) {
+                            LOG.error("error while setting wk_group_aggr", ex);
+                        }
+                    }
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -106,6 +134,8 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
+        updateWkGroupAggrCb();
+        retrieveWkFgBeansFor(cidsBean);
 
         if (cidsBean != null) {
             bindingGroup.bind();
@@ -130,10 +160,12 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         jLabel2 = new javax.swing.JLabel();
         defaultBindableColorChooser1 = new de.cismet.cids.editors.DefaultBindableColorChooser();
         scpWkFgs = new javax.swing.JScrollPane();
-        lstWkWgs = new javax.swing.JList();
-        panWkFgs = new javax.swing.JPanel();
+        lstWkFgs = new javax.swing.JList();
+        panWkGroupFgs = new javax.swing.JPanel();
         btnRemWkFg = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
 
         jDialog1.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -179,7 +211,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         jLabel2.setText(org.openide.util.NbBundle.getMessage(WkGroupEditor.class, "WkGroupEditor.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -199,7 +231,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel2.add(defaultBindableColorChooser1, gridBagConstraints);
@@ -207,29 +239,19 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         scpWkFgs.setMinimumSize(new java.awt.Dimension(400, 200));
         scpWkFgs.setPreferredSize(new java.awt.Dimension(400, 200));
 
-        lstWkWgs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.wk_fgs}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstWkWgs);
-        bindingGroup.addBinding(jListBinding);
-
-        scpWkFgs.setViewportView(lstWkWgs);
+        lstWkFgs.setModel(new DefaultListModel());
+        lstWkFgs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scpWkFgs.setViewportView(lstWkFgs);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(scpWkFgs, gridBagConstraints);
 
-        panWkFgs.setOpaque(false);
-        panWkFgs.setLayout(new java.awt.GridBagLayout());
+        panWkGroupFgs.setOpaque(false);
+        panWkGroupFgs.setLayout(new java.awt.GridBagLayout());
 
         btnRemWkFg.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
@@ -244,21 +266,37 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panWkFgs.add(btnRemWkFg, gridBagConstraints);
+        panWkGroupFgs.add(btnRemWkFg, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        jPanel2.add(panWkFgs, gridBagConstraints);
+        jPanel2.add(panWkGroupFgs, gridBagConstraints);
 
         jLabel5.setText(org.openide.util.NbBundle.getMessage(WkGroupEditor.class, "WkGroupEditor.jLabel5.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jLabel5, gridBagConstraints);
+
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(WkGroupEditor.class, "WkGroupEditor.jLabel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jLabel3, gridBagConstraints);
+
+        jComboBox1.setModel(new DefaultComboBoxModel());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jComboBox1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -269,15 +307,9 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                540,
-                Short.MAX_VALUE));
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                11,
-                Short.MAX_VALUE));
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -295,7 +327,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
      * @param  evt  DOCUMENT ME!
      */
     private void btnRemWkFgActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWkFgActionPerformed
-        final Object selection = lstWkWgs.getSelectedValue();
+        final Object selection = lstWkFgs.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
                     this,
@@ -303,15 +335,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean)selection;
-                    final Object beanColl = cidsBean.getProperty("wk_fgs");
-                    if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
-                    }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
-                }
+                getWkFgModel().removeElement(selection);
             }
         }
     }                                                                              //GEN-LAST:event_btnRemWkFgActionPerformed
@@ -333,7 +357,17 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        if (event.getStatus().equals(EditorSaveStatus.SAVE_SUCCESS)) {
+            for (final Object object : getWkFgModel().toArray()) {
+                final CidsBean wkFgBean = (CidsBean)object;
+                try {
+                    wkFgBean.setProperty("wk_group", cidsBean);
+                    wkFgBean.persist();
+                } catch (Exception ex) {
+                    LOG.error("error while setting wk_group to wk_fg", ex);
+                }
+            }
+        }
     }
 
     @Override
@@ -344,23 +378,82 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
     @Override
     public void beansDropped(final ArrayList<CidsBean> beans) {
         for (final CidsBean bean : beans) {
-            final Collection<CidsBean> wkFgs = (Collection<CidsBean>)cidsBean.getProperty("wk_fgs");
+            if (bean.getMetaObject().getMetaClass().getTableName().equals("WK_FG")) {
+                getWkFgModel().addElement(bean);
+                cidsBean.setArtificialChangeFlag(true);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private DefaultListModel getWkFgModel() {
+        return (DefaultListModel)lstWkFgs.getModel();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private DefaultComboBoxModel getWkGroupAggrModel() {
+        return (DefaultComboBoxModel)jComboBox1.getModel();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void updateWkGroupAggrCb() {
+        getWkGroupAggrModel().removeAllElements();
+        final String wkFgQuery = "SELECT "
+                    + "   " + MC_WK_GROUP_AGGR.getID() + ", "
+                    + "   " + MC_WK_GROUP_AGGR.getPrimaryKey() + " "
+                    + "FROM "
+                    + "   " + MC_WK_GROUP_AGGR.getTableName() + " "
+                    + ";";
+        try {
+            final MetaObject[] wkGroupAggrMos = SessionManager.getProxy().getMetaObjectByQuery(wkFgQuery, 0);
+
+            getWkGroupAggrModel().addElement(null);
+            for (final MetaObject wkGroupAggrMo : wkGroupAggrMos) {
+                getWkGroupAggrModel().addElement(wkGroupAggrMo.getBean());
+            }
+        } catch (Exception ex) {
+            LOG.error("error while loading wkGroupAggrs", ex);
+        }
+        if (cidsBean != null) {
+            getWkGroupAggrModel().setSelectedItem(cidsBean.getProperty("wk_group_aggr"));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkGroupBean  DOCUMENT ME!
+     */
+    private void retrieveWkFgBeansFor(final CidsBean wkGroupBean) {
+        getWkFgModel().clear();
+        if (wkGroupBean != null) {
+            final int wkGroupId = (Integer)wkGroupBean.getProperty("id");
+            final String wkFgQuery = "SELECT "
+                        + "   " + MC_WK_FG.getID() + ", "
+                        + "   " + MC_WK_FG.getPrimaryKey() + " "
+                        + "FROM "
+                        + "   " + MC_WK_FG.getTableName() + " "
+                        + "WHERE "
+                        + "   wk_group = " + wkGroupId + " "
+                        + ";";
             try {
-                final String tableName = SessionManager.getProxy()
-                            .getMetaClass(bean.getMetaObject().getClassKey())
-                            .getTableName();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(tableName + " dropped");
+                final MetaObject[] wkFgMos = SessionManager.getProxy().getMetaObjectByQuery(wkFgQuery, 0);
+
+                for (final MetaObject wkFgMo : wkFgMos) {
+                    getWkFgModel().addElement(wkFgMo.getBean());
                 }
-                if (tableName.equals("WK_FG")) {
-                    wkFgs.add(bean);
-                } else {
-                    return;
-                }
-            } catch (ConnectionException ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("SessionManager.getProxy().getMetaClass()", ex);
-                }
+            } catch (Exception ex) {
+                LOG.error("error while loading wkFgs", ex);
             }
         }
     }

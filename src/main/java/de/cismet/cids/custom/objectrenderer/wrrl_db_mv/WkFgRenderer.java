@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import Sirius.server.middleware.types.MetaClass;
-
 import org.jdesktop.beansbinding.Converter;
 
 import java.sql.Timestamp;
@@ -22,15 +20,12 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.reports.WkFgReport;
-import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 

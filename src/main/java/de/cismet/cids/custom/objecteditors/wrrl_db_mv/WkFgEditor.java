@@ -17,13 +17,11 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-import Sirius.server.search.CidsServerSearch;
 
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -31,11 +29,9 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.MapUtil;
-import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
-import de.cismet.cids.custom.util.WkFgGroupSearch;
 import de.cismet.cids.custom.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -673,77 +669,5 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   wk_fg  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static String[] getGroup(final CidsBean wk_fg) {
-        try {
-            final CidsServerSearch search = new WkFgGroupSearch(String.valueOf(wk_fg.getProperty("id")));
-            final Collection res = SessionManager.getProxy()
-                        .customServerSearch(SessionManager.getSession().getUser(), search);
-            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
-
-            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() == 2)) {
-                final Object o = resArray.get(0).get(0);
-                final Object aggrO = resArray.get(0).get(1);
-
-                if ((o instanceof String) && ((aggrO == null) || (aggrO instanceof String))) {
-                    return new String[] { (String)o, (String)aggrO };
-                } else {
-                    LOG.error("Wrong data returned from the server. This should never happen.");
-                    return new String[] { null, null };
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Cids server search return null. " // NOI18N
-                                + "See the server logs for further information"); // NOI18N
-                }
-                return new String[] { null, null };
-            }
-        } catch (final ConnectionException e) {
-            LOG.error("Error while trying to receive the group for a wk_fg.", e); // NOI18N
-            return null;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   group  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static CidsBean getGroupAggr(final CidsBean group) {
-        try {
-            final MetaClass GROUP_AGGR_MC = ClassCacheMultiple.getMetaClass(
-                    CidsBeanSupport.DOMAIN_NAME,
-                    "wk_group_aggr");
-            final String query = "select " + GROUP_AGGR_MC.getID() + ", g." + GROUP_AGGR_MC.getPrimaryKey()             // NOI18N
-                        + " from " + GROUP_AGGR_MC.getTableName() + " g, wk_group_aggr_groups f"                        // NOI18N
-                        + " WHERE g.wk_groups = f.wk_group_aggr_reference AND f.wk_group = " + group.getProperty("id"); // NOI18N
-
-            final MetaObject[] metaObjects = SessionManager.getProxy()
-                        .getMetaObjectByQuery(SessionManager.getSession().getUser(), query);
-//            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-            if ((metaObjects != null) && (metaObjects.length > 1)) {
-                LOG.warn("More than one aggregation group for the wk_group found.");
-            }
-
-            if ((metaObjects != null) && (metaObjects.length > 0)) {
-                return metaObjects[0].getBean();
-            } else {
-                return null;
-            }
-        } catch (final ConnectionException e) {
-            LOG.error("Error while trying to receive the aggregation group for a wk_group.", e); // NOI18N
-            return null;
-        }
     }
 }

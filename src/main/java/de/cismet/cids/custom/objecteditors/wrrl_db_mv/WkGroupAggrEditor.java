@@ -34,10 +34,6 @@ import Sirius.navigator.exception.ConnectionException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.JOptionPane;
-
-import de.cismet.cids.custom.util.UIUtil;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
@@ -67,18 +63,13 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRemWkGroup;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JList lstWkGroups;
-    private javax.swing.JPanel panWkGroups;
-    private javax.swing.JScrollPane scpWkGroups;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -125,11 +116,6 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        panWkGroups = new javax.swing.JPanel();
-        btnRemWkGroup = new javax.swing.JButton();
-        scpWkGroups = new javax.swing.JScrollPane();
-        lstWkGroups = new javax.swing.JList();
-        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
         jDialog1.getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -183,71 +169,14 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         jPanel2.add(jPanel3, gridBagConstraints);
 
-        panWkGroups.setOpaque(false);
-        panWkGroups.setLayout(new java.awt.GridBagLayout());
-
-        btnRemWkGroup.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemWkGroup.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnRemWkGroupActionPerformed(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panWkGroups.add(btnRemWkGroup, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        jPanel2.add(panWkGroups, gridBagConstraints);
-
-        scpWkGroups.setMinimumSize(new java.awt.Dimension(400, 200));
-        scpWkGroups.setPreferredSize(new java.awt.Dimension(400, 200));
-
-        lstWkGroups.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.wk_groups}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstWkGroups);
-        bindingGroup.addBinding(jListBinding);
-
-        scpWkGroups.setViewportView(lstWkGroups);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(scpWkGroups, gridBagConstraints);
-
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(
-                WkGroupAggrEditor.class,
-                "WkGroupAggrEditor.jLabel2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jLabel2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel2, gridBagConstraints);
 
@@ -263,7 +192,7 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                39,
+                249,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -278,31 +207,7 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
      */
-    private void btnRemWkGroupActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWkGroupActionPerformed
-        final Object selection = lstWkGroups.getSelectedValue();
-        if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(
-                    this,
-                    "Soll der Eintrag wirklich gelöscht werden?",
-                    "Eintrag entfernen",
-                    JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean)selection;
-                    final Object beanColl = cidsBean.getProperty("wk_groups");
-                    if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
-                    }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
-                }
-            }
-        }
-    }                                                                                 //GEN-LAST:event_btnRemWkGroupActionPerformed
-
     @Override
     public void dispose() {
         bindingGroup.unbind();

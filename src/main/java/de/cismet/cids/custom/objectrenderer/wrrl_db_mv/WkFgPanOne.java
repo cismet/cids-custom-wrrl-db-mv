@@ -709,7 +709,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group_aggr.value}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group.wk_group_aggr.value}"),
                 lblValWkGroupAggr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -1000,46 +1000,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             } catch (Exception e) {
                 log.warn("Eror during bind", e);
             }
-
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        setGroup();
-                    }
-                }).start();
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void setGroup() {
-        final String[] group = WkFgEditor.getGroup(cidsBean);
-
-        if (group != null) {
-            EventQueue.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        lblValWkGroup.setText(group[0]);
-
-                        if (group[1] != null) {
-                            lblValWkGroupAggr.setText(group[1]);
-                        } else {
-                            lblValWkGroupAggr.setText(CidsBeanSupport.FIELD_NOT_SET);
-                        }
-                    }
-                });
-        } else {
-            EventQueue.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        lblValWkGroup.setText(CidsBeanSupport.FIELD_NOT_SET);
-                        lblValWkGroupAggr.setText(CidsBeanSupport.FIELD_NOT_SET);
-                    }
-                });
         }
     }
 

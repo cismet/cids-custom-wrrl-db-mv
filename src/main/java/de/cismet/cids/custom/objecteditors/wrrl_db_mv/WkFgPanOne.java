@@ -429,7 +429,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblKuestenWk, gridBagConstraints);
 
-        lblWkGroup.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblWkGroup.text")); // NOI18N
+        lblWkGroup.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblWkGroup.text_1")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
@@ -883,6 +883,17 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbTypEvkK, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group.value}"),
+                lblWkGroupVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
@@ -890,6 +901,17 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
         panInfoContent.add(lblWkGroupVal, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_group.wk_group_aggr.value}"),
+                lblWkGroupAggrVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
@@ -1093,49 +1115,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        setGroup();
-                    }
-                }).start();
-        } else {
-            lblWkGroupVal.setText("");
-            lblWkGroupAggrVal.setText("");
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void setGroup() {
-        final String[] group = WkFgEditor.getGroup(cidsBean);
-
-        if (group != null) {
-            EventQueue.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        lblWkGroupVal.setText(group[0]);
-
-                        if (group[1] != null) {
-                            lblWkGroupAggrVal.setText(group[1]);
-                        } else {
-                            lblWkGroupAggrVal.setText(CidsBeanSupport.FIELD_NOT_SET);
-                        }
-                    }
-                });
-        } else {
-            EventQueue.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        lblWkGroupVal.setText(CidsBeanSupport.FIELD_NOT_SET);
-                        lblWkGroupAggrVal.setText(CidsBeanSupport.FIELD_NOT_SET);
-                    }
-                });
         }
     }
 
