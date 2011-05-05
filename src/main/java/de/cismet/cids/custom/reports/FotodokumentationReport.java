@@ -28,7 +28,11 @@ import java.util.Collection;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.jasperreports.ReportSwingWorker;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -50,7 +54,9 @@ public class FotodokumentationReport {
         coll.add(cidsBean);
         final ReportSwingWorker worker = new ReportSwingWorker(
                 coll,
-                "/de/cismet/cids/custom/reports/fotodokumentation.jasper");
+                "/de/cismet/cids/custom/reports/fotodokumentation.jasper",
+                true,
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()));
         worker.execute();
     }
 }

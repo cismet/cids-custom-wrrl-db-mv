@@ -22,7 +22,11 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.jasperreports.ReportSwingWorker;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -55,7 +59,11 @@ public class WkFgReport {
         reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
 
-        final ReportSwingWorker worker = new ReportSwingWorker(beans, reports);
+        final ReportSwingWorker worker = new ReportSwingWorker(
+                beans,
+                reports,
+                true,
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()));
         worker.execute();
     }
 
