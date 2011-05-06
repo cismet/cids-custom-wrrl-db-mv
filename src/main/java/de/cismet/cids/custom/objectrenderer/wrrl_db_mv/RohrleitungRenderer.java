@@ -126,7 +126,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         panContent.setOpaque(false);
         panContent.setLayout(new java.awt.GridBagLayout());
 
-        txtDescGwName.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescGwName.text")); // NOI18N
+        txtDescGwName.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescGwName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -135,7 +137,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescGwName, gridBagConstraints);
 
-        txtDescSQAId.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescSQAId.text")); // NOI18N
+        txtDescSQAId.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescSQAId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -144,7 +148,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescSQAId, gridBagConstraints);
 
-        txtDescDurchmesser.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescDurchmesser.text")); // NOI18N
+        txtDescDurchmesser.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescDurchmesser.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -153,7 +159,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescDurchmesser, gridBagConstraints);
 
-        txtDescAbsturz.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescAbsturz.text")); // NOI18N
+        txtDescAbsturz.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescAbsturz.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -162,7 +170,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescAbsturz, gridBagConstraints);
 
-        txtDescAbsturzAuslauf.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescAbsturzAuslauf.text")); // NOI18N
+        txtDescAbsturzAuslauf.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescAbsturzAuslauf.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -171,7 +181,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescAbsturzAuslauf, gridBagConstraints);
 
-        txtDescBemerkung.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescBemerkung.text")); // NOI18N
+        txtDescBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescBemerkung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 13;
@@ -180,7 +192,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescBemerkung, gridBagConstraints);
 
-        txtDescLaenge.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescLaenge.text")); // NOI18N
+        txtDescLaenge.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescLaenge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -189,7 +203,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescLaenge, gridBagConstraints);
 
-        txtDescOekoDurch.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescOekoDurch.text")); // NOI18N
+        txtDescOekoDurch.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescOekoDurch.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -198,7 +214,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtDescOekoDurch, gridBagConstraints);
 
-        txtDescSediment.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.txtDescSediment.text")); // NOI18N
+        txtDescSediment.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.txtDescSediment.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -216,7 +234,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         taBemerkung.setRows(5);
         taBemerkung.setEnabled(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                taBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scpBemerkung.setViewportView(taBemerkung);
@@ -230,7 +253,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(scpBemerkung, gridBagConstraints);
 
-        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.lblMassnahmen.text")); // NOI18N
+        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.lblMassnahmen.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -239,7 +264,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblMassnahmen, gridBagConstraints);
 
-        lblMassnahmenId.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.lblMassnahmenId.text")); // NOI18N
+        lblMassnahmenId.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.lblMassnahmenId.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -251,7 +278,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel1.setMinimumSize(new java.awt.Dimension(500, 20));
         jLabel1.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.routenname}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.routenname}"),
+                jLabel1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
@@ -267,7 +299,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel2.setMinimumSize(new java.awt.Dimension(200, 20));
         jLabel2.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"), jLabel2, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"),
+                jLabel2,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -282,7 +319,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel3.setMinimumSize(new java.awt.Dimension(200, 20));
         jLabel3.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.absturz.name}"), jLabel3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.absturz.name}"),
+                jLabel3,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -297,7 +339,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel4.setMinimumSize(new java.awt.Dimension(200, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk.name}"), jLabel4, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk.name}"),
+                jLabel4,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -312,7 +359,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel5.setMinimumSize(new java.awt.Dimension(200, 20));
         jLabel5.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sediment.name}"), jLabel5, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sediment.name}"),
+                jLabel5,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -327,7 +379,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel6.setMinimumSize(new java.awt.Dimension(200, 20));
         jLabel6.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn.name}"), jLabel6, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn.name}"),
+                jLabel6,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -342,7 +399,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel7.setMinimumSize(new java.awt.Dimension(75, 20));
         jLabel7.setPreferredSize(new java.awt.Dimension(75, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge_m}"), jLabel7, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge_m}"),
+                jLabel7,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -357,7 +419,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel8.setMinimumSize(new java.awt.Dimension(75, 20));
         jLabel8.setPreferredSize(new java.awt.Dimension(75, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.durchmess}"), jLabel8, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.durchmess}"),
+                jLabel8,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -372,7 +439,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel9.setMinimumSize(new java.awt.Dimension(75, 20));
         jLabel9.setPreferredSize(new java.awt.Dimension(75, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.abst_r_end}"), jLabel9, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.abst_r_end}"),
+                jLabel9,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -387,7 +459,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel10.setMinimumSize(new java.awt.Dimension(500, 20));
         jLabel10.setPreferredSize(new java.awt.Dimension(500, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref.massn_id}"), jLabel10, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref.massn_id}"),
+                jLabel10,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("keine Maßnahme zugewiesen");
         bindingGroup.addBinding(binding);
@@ -400,7 +477,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jLabel10, gridBagConstraints);
 
-        jLabel11.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.jLabel11.text")); // NOI18N
+        jLabel11.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.jLabel11.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
@@ -409,7 +488,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jLabel11, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref.massn_fin}"), jLabel12, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_ref.massn_fin}"),
+                jLabel12,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("-");
         binding.setConverter(new YesNoConverter());
@@ -423,7 +507,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jLabel12, gridBagConstraints);
 
-        jLabel13.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.jLabel13.text")); // NOI18N
+        jLabel13.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.jLabel13.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
@@ -432,7 +518,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jLabel13, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zurueckgebaut}"), jLabel14, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zurueckgebaut}"),
+                jLabel14,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("Nein");
         binding.setSourceUnreadableValue("<Error>");
         binding.setConverter(new YesNoConverter());
@@ -446,7 +537,9 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jLabel14, gridBagConstraints);
 
-        jLabel15.setText(org.openide.util.NbBundle.getMessage(RohrleitungRenderer.class, "RohrleitungRenderer.jLabel15.text")); // NOI18N
+        jLabel15.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.jLabel15.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
@@ -462,7 +555,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         add(panContent, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

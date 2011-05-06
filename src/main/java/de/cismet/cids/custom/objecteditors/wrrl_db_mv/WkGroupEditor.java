@@ -193,7 +193,12 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         jTextField1.setMinimumSize(new java.awt.Dimension(400, 20));
         jTextField1.setPreferredSize(new java.awt.Dimension(400, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.value}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.value}"),
+                jTextField1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -215,8 +220,13 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         defaultBindableColorChooser1.setMinimumSize(new java.awt.Dimension(250, 20));
         defaultBindableColorChooser1.setPreferredSize(new java.awt.Dimension(250, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.color}"), defaultBindableColorChooser1, org.jdesktop.beansbinding.BeanProperty.create("color"));
-        binding.setConverter(((DefaultBindableColorChooser) defaultBindableColorChooser1).getConverter());
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.color}"),
+                defaultBindableColorChooser1,
+                org.jdesktop.beansbinding.BeanProperty.create("color"));
+        binding.setConverter(((DefaultBindableColorChooser)defaultBindableColorChooser1).getConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -243,12 +253,15 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         panWkGroupFgs.setOpaque(false);
         panWkGroupFgs.setLayout(new java.awt.GridBagLayout());
 
-        btnRemWkFg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemWkFg.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemWkFg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemWkFgActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemWkFgActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -291,16 +304,12 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
 
         jPanel1.setOpaque(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -310,14 +319,14 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         add(jPanel1, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemWkFgActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemWkFgActionPerformed
+    private void btnRemWkFgActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWkFgActionPerformed
         final Object selection = lstWkFgs.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -329,7 +338,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
                 getWkFgModel().removeElement(selection);
             }
         }
-    }//GEN-LAST:event_btnRemWkFgActionPerformed
+    }                                                                              //GEN-LAST:event_btnRemWkFgActionPerformed
 
     @Override
     public void dispose() {
