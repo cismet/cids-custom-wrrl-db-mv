@@ -157,10 +157,12 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         // cidsFeature rausschmeissen
-        final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
-        final Collection<Feature> features = new ArrayList<Feature>();
-        features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
-        MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
+        if (!readOnly) {
+            final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
+            final Collection<Feature> features = new ArrayList<Feature>();
+            features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
+            MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
+        }
 
         bindingGroup.unbind();
         removeListener();
@@ -190,7 +192,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
             }
 
             lblFoot.setText("");
-            zoomToFeatures();
+            if (!readOnly) {
+                zoomToFeatures();
+            }
         } else {
             lblValLawa_nr.setText("");
             lblFoot.setText("");
