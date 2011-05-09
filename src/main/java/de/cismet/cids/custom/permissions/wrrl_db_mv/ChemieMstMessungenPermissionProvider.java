@@ -25,35 +25,18 @@ package de.cismet.cids.custom.permissions.wrrl_db_mv;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import java.util.Collection;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 /**
  * DOCUMENT ME!
  *
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class WkFgPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class ChemieMstMessungenPermissionProvider extends BasicGeometryFomFilePermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
-        Geometry g = null;
-
-        for (final CidsBean bean : (Collection<CidsBean>)cidsBean.getProperty("teile")) {
-            final Geometry teilGeom = (Geometry)bean.getProperty("linie.geom.geo_field");
-            if (teilGeom != null) {
-                if (g == null) {
-                    g = teilGeom;
-                } else {
-                    g.union(teilGeom);
-                }
-            }
-        }
-
-        return g;
+        return (Geometry)cidsBean.getProperty("messstelle.geom.geo_field");
     }
 }
