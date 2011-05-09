@@ -31,12 +31,25 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class GeoHintPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class QuerbauwerkePermissionProvider extends BasicGeometryFomFilePermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
-        return (Geometry)cidsBean.getProperty("point.geo_field");
+        final Object stat09 = cidsBean.getProperty("stat09.real_point.geo_field");
+        final Object stat09Bis = cidsBean.getProperty("stat09bis.real_point.geo_field");
+        final Geometry stat09Geom = (stat09 instanceof Geometry) ? (Geometry)stat09 : null;
+        final Geometry stat09BisGeom = (stat09Bis instanceof Geometry) ? (Geometry)stat09Bis : null;
+
+        if (stat09Geom != null) {
+            if (stat09BisGeom != null) {
+                return stat09Geom.union(stat09Geom);
+            } else {
+                return stat09Geom;
+            }
+        } else {
+            return stat09BisGeom;
+        }
     }
 }

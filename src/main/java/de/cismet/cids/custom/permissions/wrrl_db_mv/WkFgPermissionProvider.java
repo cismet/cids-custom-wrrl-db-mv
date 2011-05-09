@@ -25,18 +25,35 @@ package de.cismet.cids.custom.permissions.wrrl_db_mv;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.util.Collection;
+
+import de.cismet.cids.dynamics.CidsBean;
+
 /**
  * DOCUMENT ME!
  *
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class GeoHintPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class WkFgPermissionProvider extends BasicGeometryFomFilePermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
-        return (Geometry)cidsBean.getProperty("point.geo_field");
+        Geometry g = null;
+
+        for (final CidsBean bean : (Collection<CidsBean>)cidsBean.getProperty("teile")) {
+            final Geometry teilGeom = (Geometry)bean.getProperty("linie.geom");
+            if (teilGeom != null) {
+                if (g == null) {
+                    g = teilGeom;
+                } else {
+                    g.union(teilGeom);
+                }
+            }
+        }
+
+        return g;
     }
 }

@@ -31,7 +31,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class GeoHintPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class FotodokumentationPermissionProvider extends BasicGeometryFomFilePermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 

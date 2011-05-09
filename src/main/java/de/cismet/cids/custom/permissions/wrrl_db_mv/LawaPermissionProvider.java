@@ -31,12 +31,12 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class GeoHintPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class LawaPermissionProvider extends BasicGeometryFomFilePermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
-        return (Geometry)cidsBean.getProperty("point.geo_field");
+        return (Geometry)cidsBean.getProperty("linie.geom.geo_field");
     }
 }
