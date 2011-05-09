@@ -22,6 +22,10 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class WkSgPanNine extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final String CD_LS_PREFIX = "DEMV_LS_";
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
@@ -36,10 +40,10 @@ public class WkSgPanNine extends javax.swing.JPanel implements DisposableCidsBea
     private javax.swing.JLabel lblLsName;
     private javax.swing.JLabel lblSizeCat;
     private javax.swing.JLabel lblSpace;
+    private javax.swing.JLabel lblValCdLs;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality;
     private de.cismet.tools.gui.RoundedPanel panQuality;
     private javax.swing.JPanel panQualityContent;
-    private javax.swing.JTextField txtCd_ls;
     private javax.swing.JTextField txtLsName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -76,10 +80,10 @@ public class WkSgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         cbGeolCat = new ScrollableComboBox();
         cbSizeCat = new ScrollableComboBox();
         lblSpace = new javax.swing.JLabel();
-        txtCd_ls = new javax.swing.JTextField();
         txtLsName = new javax.swing.JTextField();
         lblDepthCat = new javax.swing.JLabel();
         cbDepthCat = new ScrollableComboBox();
+        lblValCdLs = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(620, 290));
         setOpaque(false);
@@ -183,28 +187,6 @@ public class WkSgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.weighty = 1.0;
         panQualityContent.add(lblSpace, gridBagConstraints);
 
-        txtCd_ls.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtCd_ls.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cd_ls}"),
-                txtCd_ls,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("<error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panQualityContent.add(txtCd_ls, gridBagConstraints);
-
         txtLsName.setMinimumSize(new java.awt.Dimension(300, 20));
         txtLsName.setPreferredSize(new java.awt.Dimension(300, 20));
 
@@ -257,6 +239,17 @@ public class WkSgPanNine extends javax.swing.JPanel implements DisposableCidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panQualityContent.add(cbDepthCat, gridBagConstraints);
 
+        lblValCdLs.setMinimumSize(new java.awt.Dimension(300, 20));
+        lblValCdLs.setPreferredSize(new java.awt.Dimension(300, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        panQualityContent.add(lblValCdLs, gridBagConstraints);
+
         panQuality.add(panQualityContent, java.awt.BorderLayout.CENTER);
 
         add(panQuality, java.awt.BorderLayout.CENTER);
@@ -278,6 +271,9 @@ public class WkSgPanNine extends javax.swing.JPanel implements DisposableCidsBea
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            lblValCdLs.setText(CD_LS_PREFIX + String.valueOf(cidsBean.getProperty("wk_k")));
+        } else {
+            lblValCdLs.setText("");
         }
     }
 

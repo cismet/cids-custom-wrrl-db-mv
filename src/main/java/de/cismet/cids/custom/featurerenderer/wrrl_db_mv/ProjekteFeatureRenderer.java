@@ -28,7 +28,6 @@ import java.awt.Paint;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
-
 /**
  * DOCUMENT ME!
  *
