@@ -36,14 +36,12 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
  */
 public interface LinearReferencingConstants {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
     Logger LOG = Logger.getLogger(LinearReferencingConstants.class);
 
     StationToMapRegistry STATION_TO_MAP_REGISTRY = StationToMapRegistry.getInstance();
     MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
-
-    //~ Instance fields --------------------------------------------------------
 
     String CN_STATIONLINE = "station_linie"; // NOI18N
     String CN_STATION = "station";           // NOI18N

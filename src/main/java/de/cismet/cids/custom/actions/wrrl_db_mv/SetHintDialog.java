@@ -61,6 +61,19 @@ public class SetHintDialog extends javax.swing.JDialog {
         //~ Enum constants -----------------------------------------------------
 
         LOW, NORMAL, HIGH;
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String toString() {
+            if (LOW.equals(this)) {
+                return "Niedrig";
+            } else if (NORMAL.equals(this)) {
+                return "Normal";
+            } else {
+                return "Hoch";
+            }
+        }
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -283,20 +296,20 @@ public class SetHintDialog extends javax.swing.JDialog {
      *
      * @param  evt  The ActionEvent object.
      */
-    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {       //GEN-FIRST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnCancelActionPerformed
         nameProperty = "";
         commentProperty = "";
         priorityProperty = null;
         wasCancelled = true;
         setVisible(false);
-    }                                                                                   //GEN-LAST:event_btnCancelActionPerformed
+    }                                                                             //GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * The user wants to save the entered hint. Cache all information in member attributes and hide the dialog.
      *
      * @param  evt  The ActionEvent object.
      */
-    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {              //GEN-FIRST:event_btnOKActionPerformed
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnOKActionPerformed
         nameProperty = txtNameValue.getText();
         commentProperty = txtACommentValue.getText();
         if (rbPriorityHighValue.isSelected()) {
@@ -308,7 +321,7 @@ public class SetHintDialog extends javax.swing.JDialog {
         }
         wasCancelled = false;
         setVisible(false);
-    }                                                                                      //GEN-LAST:event_btnOKActionPerformed
+    }                                                                         //GEN-LAST:event_btnOKActionPerformed
 
     /**
      * The user has decided that this hint should be of low priority.
