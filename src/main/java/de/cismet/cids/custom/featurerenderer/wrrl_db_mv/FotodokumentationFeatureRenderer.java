@@ -67,7 +67,7 @@ public class FotodokumentationFeatureRenderer extends CustomCidsFeatureRenderer 
             final Object winkelObj = foto.getProperty("angle");
             if (winkelObj instanceof Integer) {
                 final int winkel = (Integer)winkelObj;
-                final BufferedImage rotatedArrow = ImageUtil.rotateImage(ARROW, winkel);
+                final BufferedImage rotatedArrow = ImageUtil.rotateImage(ARROW, -winkel);
                 final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(rotatedArrow);
 //                symb.setSweetSpotX(0.5);
 //                symb.setSweetSpotY(0.5);
