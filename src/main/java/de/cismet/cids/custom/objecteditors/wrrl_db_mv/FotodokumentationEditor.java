@@ -55,10 +55,6 @@ import java.io.UnsupportedEncodingException;
 
 import java.lang.ref.SoftReference;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -547,7 +543,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private boolean deleteFileFromWebDAV(final String fileName) {
         if ((fileName != null) && (fileName.length() > 0)) {
             try {
-                webDavClient.delete(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
+                webDavClient.delete(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"));
                 return true;
             } catch (Exception ex) {
                 log.error(ex, ex);
@@ -570,7 +566,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                     "Bild wird übertragen...",
                     new FileInputStream(toUpload)));
         try {
-            webDavClient.put(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"), bfis);
+            webDavClient.put(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"), bfis);
         } finally {
             IOUtils.closeQuietly(bfis);
         }
@@ -596,7 +592,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      */
     private BufferedImage downloadImageFromWebDAV(final String fileName) throws IOException {
         final InputStream iStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY
-                        + URLEncoder.encode(fileName, "UTF-8"));
+                        + fileName.replaceAll(" ", "%20"));
+        log.fatal(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"));
         try {
             final ImageInputStream iiStream = ImageIO.createImageInputStream(iStream);
             final ImageReader reader = ImageIO.getImageReaders(iiStream).next();
@@ -1539,7 +1536,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             if (fileProperty != null) {
                 try {
                     final String fileName = fileProperty.toString();
-                    BrowserLauncher.openURL(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
+                    BrowserLauncher.openURL(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"));
                 } catch (Exception ex) {
                     log.warn(ex, ex);
                 }
@@ -1716,7 +1713,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             for (final CidsBean deleteBean : removedFotoBeans) {
                 final String fileName = (String)deleteBean.getProperty("file");
                 try {
-                    deleteFileFromWebDAV(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
+                    deleteFileFromWebDAV(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"));
                     deleteBean.delete();
                 } catch (Exception ex) {
                     log.error(ex, ex);
@@ -1725,11 +1722,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         } else {
             for (final CidsBean deleteBean : removeNewAddedFotoBean) {
                 final String fileName = (String)deleteBean.getProperty("file");
-                try {
-                    deleteFileFromWebDAV(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
-                } catch (UnsupportedEncodingException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
+                deleteFileFromWebDAV(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"));
             }
         }
     }
