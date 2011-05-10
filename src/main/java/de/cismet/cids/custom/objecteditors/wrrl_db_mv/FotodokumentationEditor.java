@@ -13,14 +13,12 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.lf5.viewer.LogFactor5Dialog;
 
 import org.jdesktop.beansbinding.Converter;
 
@@ -53,8 +51,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import java.lang.ref.SoftReference;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,6 +79,7 @@ import javax.imageio.stream.ImageInputStream;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ProgressMonitor;
@@ -101,6 +105,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -291,6 +297,10 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         this.resizeListenerEnabled = true;
         this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
         initComponents();
+        if (editable) {
+            new CidsBeanDropTarget(lblWkFg);
+        }
+
         setEditable();
 //        Proxy.fromPreferences()
         fileChooser = new JFileChooser();
@@ -489,14 +499,22 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             lblWkFg.setText(" ");
         } else {
             try {
-                final int wk_fg_id = (Integer)cidsBean.getProperty("wk_fg");
-                String query = "SELECT " + WK_FG_MC.getID() + ", wk_fg." + WK_FG_MC.getPrimaryKey() + " ";
-                query += "FROM " + WK_FG_MC.getTableName() + " AS wk_fg ";
-                query += "WHERE wk_fg.id = " + wk_fg_id + ";";
-                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-                final CidsBean wkfgBean = metaObjects[0].getBean();
-                log.fatal(wkfgBean.getMOString());
-                lblWkFg.setText((String)wkfgBean.getProperty("wk_k"));
+                final Object wk_fg = cidsBean.getProperty("wk_fg");
+                if (wk_fg == null) {
+                    lblWkFg.setText("<nicht gesetzt>");
+                } else {
+                    final int wk_fg_id = (Integer)wk_fg;
+                    String query = "SELECT " + WK_FG_MC.getID() + ", wk_fg." + WK_FG_MC.getPrimaryKey() + " ";
+                    query += "FROM " + WK_FG_MC.getTableName() + " AS wk_fg ";
+                    query += "WHERE wk_fg.id = " + wk_fg_id + ";";
+                    final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                    if (metaObjects.length > 0) {
+                        final CidsBean wkfgBean = metaObjects[0].getBean();
+                        lblWkFg.setText((String)wkfgBean.getProperty("wk_k"));
+                    } else {
+                        lblWkFg.setText("<nicht gefunden>");
+                    }
+                }
             } catch (Exception ex) {
                 if (log.isDebugEnabled()) {
                     log.debug("fehler while refreshing wk_fg label", ex);
@@ -529,7 +547,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private boolean deleteFileFromWebDAV(final String fileName) {
         if ((fileName != null) && (fileName.length() > 0)) {
             try {
-                webDavClient.delete(WEB_DAV_DIRECTORY + fileName);
+                webDavClient.delete(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
                 return true;
             } catch (Exception ex) {
                 log.error(ex, ex);
@@ -552,7 +570,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                     "Bild wird übertragen...",
                     new FileInputStream(toUpload)));
         try {
-            webDavClient.put(WEB_DAV_DIRECTORY + fileName, bfis);
+            webDavClient.put(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"), bfis);
         } finally {
             IOUtils.closeQuietly(bfis);
         }
@@ -577,7 +595,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      * @throws  IOException  DOCUMENT ME!
      */
     private BufferedImage downloadImageFromWebDAV(final String fileName) throws IOException {
-        final InputStream iStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY + fileName);
+        final InputStream iStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY
+                        + URLEncoder.encode(fileName, "UTF-8"));
         try {
             final ImageInputStream iiStream = ImageIO.createImageInputStream(iStream);
             final ImageReader reader = ImageIO.getImageReaders(iiStream).next();
@@ -688,7 +707,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         jLabel1 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         lblDateTxt = new javax.swing.JLabel();
-        lblWkFg = new javax.swing.JLabel();
+        lblWkFg = new WkFgLabel();
         rpVorschau = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingVorschau = new javax.swing.JLabel();
@@ -1519,7 +1538,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             final Object fileProperty = selection.getProperty("file");
             if (fileProperty != null) {
                 try {
-                    BrowserLauncher.openURL(WEB_DAV_DIRECTORY + fileProperty.toString());
+                    final String fileName = fileProperty.toString();
+                    BrowserLauncher.openURL(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
                 } catch (Exception ex) {
                     log.warn(ex, ex);
                 }
@@ -1694,8 +1714,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     public void editorClosed(final EditorClosedEvent event) {
         if (EditorSaveStatus.SAVE_SUCCESS == event.getStatus()) {
             for (final CidsBean deleteBean : removedFotoBeans) {
-                deleteFileFromWebDAV(WEB_DAV_DIRECTORY + deleteBean.getProperty("file"));
+                final String fileName = (String)deleteBean.getProperty("file");
                 try {
+                    deleteFileFromWebDAV(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
                     deleteBean.delete();
                 } catch (Exception ex) {
                     log.error(ex, ex);
@@ -1703,7 +1724,12 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             }
         } else {
             for (final CidsBean deleteBean : removeNewAddedFotoBean) {
-                deleteFileFromWebDAV(WEB_DAV_DIRECTORY + deleteBean.getProperty("file"));
+                final String fileName = (String)deleteBean.getProperty("file");
+                try {
+                    deleteFileFromWebDAV(WEB_DAV_DIRECTORY + URLEncoder.encode(fileName, "UTF-8"));
+                } catch (UnsupportedEncodingException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
             }
         }
     }
@@ -1921,6 +1947,38 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             } finally {
                 if (image == null) {
                     showWait(false);
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class WkFgLabel extends JLabel implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            if (editable) {
+                CidsBean toAdd = null;
+                for (final CidsBean bean : beans) {
+                    if (bean.getMetaObject().getMetaClass().getName().equals("wk_fg")) {
+                        toAdd = bean;
+                        break;
+                    }
+                }
+
+                if (toAdd != null) {
+                    try {
+                        cidsBean.setProperty("wk_fg", toAdd.getProperty("id"));
+                        refreshWkFg();
+                    } catch (Exception ex) {
+                        log.error("error while setting wk_fg", ex);
+                    }
                 }
             }
         }
