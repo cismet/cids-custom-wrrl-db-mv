@@ -81,7 +81,7 @@ public class SetHintDialog extends javax.swing.JDialog {
     private String nameProperty;
     private String commentProperty;
     private Priority priorityProperty;
-    private boolean wasCancelled;
+    private boolean wasCancelled = true;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -296,20 +296,20 @@ public class SetHintDialog extends javax.swing.JDialog {
      *
      * @param  evt  The ActionEvent object.
      */
-    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnCancelActionPerformed
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         nameProperty = "";
         commentProperty = "";
         priorityProperty = null;
         wasCancelled = true;
         setVisible(false);
-    }                                                                             //GEN-LAST:event_btnCancelActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * The user wants to save the entered hint. Cache all information in member attributes and hide the dialog.
      *
      * @param  evt  The ActionEvent object.
      */
-    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnOKActionPerformed
+    private void btnOKActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         nameProperty = txtNameValue.getText();
         commentProperty = txtACommentValue.getText();
         if (rbPriorityHighValue.isSelected()) {
@@ -321,34 +321,34 @@ public class SetHintDialog extends javax.swing.JDialog {
         }
         wasCancelled = false;
         setVisible(false);
-    }                                                                         //GEN-LAST:event_btnOKActionPerformed
+    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
      * The user has decided that this hint should be of low priority.
      *
      * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityLowValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityLowValueItemStateChanged
+    private void rbPriorityLowValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityLowValueItemStateChanged
         checkNotNull();
-    }                                                                                     //GEN-LAST:event_rbPriorityLowValueItemStateChanged
+    }//GEN-LAST:event_rbPriorityLowValueItemStateChanged
 
     /**
      * The user has decided that this hint should be of normal priority.
      *
      * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityNormalValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityNormalValueItemStateChanged
+    private void rbPriorityNormalValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityNormalValueItemStateChanged
         checkNotNull();
-    }                                                                                        //GEN-LAST:event_rbPriorityNormalValueItemStateChanged
+    }//GEN-LAST:event_rbPriorityNormalValueItemStateChanged
 
     /**
      * The user has decided that this hint should be of high priority.
      *
      * @param  evt  The ItemEvent object.
      */
-    private void rbPriorityHighValueItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_rbPriorityHighValueItemStateChanged
+    private void rbPriorityHighValueItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbPriorityHighValueItemStateChanged
         checkNotNull();
-    }                                                                                      //GEN-LAST:event_rbPriorityHighValueItemStateChanged
+    }//GEN-LAST:event_rbPriorityHighValueItemStateChanged
 
     /**
      * This method validates the user input to enable or disable the OK button. In order to enable the OK button, the
