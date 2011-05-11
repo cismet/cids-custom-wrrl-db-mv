@@ -69,8 +69,8 @@ public class FotodokumentationFeatureRenderer extends CustomCidsFeatureRenderer 
                 final int winkel = (Integer)winkelObj;
                 final BufferedImage rotatedArrow = ImageUtil.rotateImage(ARROW, -winkel);
                 final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(rotatedArrow);
-//                symb.setSweetSpotX(0.5);
-//                symb.setSweetSpotY(0.5);
+                symb.setSweetSpotX(0.5);
+                symb.setSweetSpotY(0.5);
                 return symb;
             }
         }
