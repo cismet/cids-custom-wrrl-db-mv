@@ -67,6 +67,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * This action allow the user to add a hint (entity of class GEO_HINT) for an PureNewFeature.
  *
@@ -114,7 +116,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
     @Override
     public void actionPerformed(final ActionEvent e) {
         final SetHintDialog dlgSetHint = new SetHintDialog(CismapBroker.getInstance().getMappingComponent());
-        UIUtil.findOptimalPositionOnScreen(dlgSetHint);
+        dlgSetHint.setLocationRelativeTo(StaticSwingTools.getParentFrame(
+                CismapBroker.getInstance().getMappingComponent()));
         dlgSetHint.setVisible(true);
 
         if (dlgSetHint.wasCancelled()) {
