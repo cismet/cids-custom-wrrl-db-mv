@@ -38,13 +38,13 @@ import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
  */
 
 @ServiceProvider(service = CidsClientToolbarItem.class)
-public class FotodokumentationToolbarAction extends AbstractNewObjectToolbarAction {
+public class ProjekteToolbarAction extends AbstractNewObjectToolbarAction {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String getSorterString() {
-        return "A";
+        return "H";
     }
 
     @Override
@@ -54,11 +54,11 @@ public class FotodokumentationToolbarAction extends AbstractNewObjectToolbarActi
 
     @Override
     public String getTableName() {
-        return "Fotodokumentation";
+        return "projekte";
     }
 
     @Override
     public String getTooltipString() {
-        return "neue Fotodokumentation anlegen";
+        return "neues Projekt anlegen";
     }
 }
