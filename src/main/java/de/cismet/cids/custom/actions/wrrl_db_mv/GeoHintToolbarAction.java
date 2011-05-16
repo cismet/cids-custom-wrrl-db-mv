@@ -37,7 +37,8 @@ import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
  * @version  $Revision$, $Date$
  */
 
-@ServiceProvider(service = CidsClientToolbarItem.class)
+/* wird aktuell nicht benutzt */
+//@ServiceProvider(service = CidsClientToolbarItem.class)
 public class GeoHintToolbarAction extends AbstractNewObjectToolbarAction {
 
     //~ Methods ----------------------------------------------------------------

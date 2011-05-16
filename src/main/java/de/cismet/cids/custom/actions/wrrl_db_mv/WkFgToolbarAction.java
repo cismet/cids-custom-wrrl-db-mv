@@ -59,6 +59,6 @@ public class WkFgToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getTooltipString() {
-        return "neues Fließgewässer anlegen";
+        return "neuen FG-Wasserkörper anlegen";
     }
 }
