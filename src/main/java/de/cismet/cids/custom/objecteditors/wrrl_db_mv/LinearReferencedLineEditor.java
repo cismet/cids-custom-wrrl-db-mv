@@ -1135,6 +1135,14 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     /**
      * DOCUMENT ME!
+     */
+    public void updateRealGeoms() {
+        updateRealGeoms(FROM);
+        updateRealGeoms(TO);
+    }
+
+    /**
+     * DOCUMENT ME!
      *
      * @param   isFrom  DOCUMENT ME!
      *

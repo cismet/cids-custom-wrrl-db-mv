@@ -460,6 +460,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
                     editor.setFields(getMetaClassName(), getLineField());
                     final CidsBean lineBean = createBeanFromRoute(bean);
                     editor.setCidsBean(lineBean);
+                    editor.updateRealGeoms();
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());
                     MapUtil.zoomToFeatureCollection(editor.getZoomFeatures());
