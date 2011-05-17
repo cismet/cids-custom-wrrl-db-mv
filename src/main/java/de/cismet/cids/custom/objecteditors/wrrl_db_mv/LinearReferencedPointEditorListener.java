@@ -15,12 +15,12 @@ import java.util.EventListener;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public interface StationEditorListener extends EventListener {
+public interface LinearReferencedPointEditorListener extends EventListener {
 
     //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
      */
-    void stationCreated();
+    void pointCreated();
 }

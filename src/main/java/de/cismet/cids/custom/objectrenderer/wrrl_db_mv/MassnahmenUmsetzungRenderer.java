@@ -43,15 +43,20 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblBeschrDerMa;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblMassnahme_nr;
     private javax.swing.JLabel lblMeasure_type_code;
     private javax.swing.JLabel lblValMassnahme_nr;
     private javax.swing.JLabel lblValMeasure_type_code;
     private javax.swing.JLabel lblValWk_k;
     private javax.swing.JLabel lblWk_k;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private de.cismet.tools.gui.RoundedPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WirkungPan wirkungPan1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -64,6 +69,8 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
     public MassnahmenUmsetzungRenderer() {
         initComponents();
         jTextArea1.setEditable(false);
+        linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
+
         deActivateGUIElements(false);
     }
 
@@ -94,6 +101,11 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         wirkungPan1 = new WirkungPan(true);
         lblValMassnahme_nr = new javax.swing.JLabel();
         lblValMeasure_type_code = new javax.swing.JLabel();
+        panGeo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        linearReferencedLineEditor = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer();
 
         setMinimumSize(new java.awt.Dimension(440, 675));
         setOpaque(false);
@@ -271,6 +283,39 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 5, 20);
         panInfoContent.add(jPanel2, gridBagConstraints);
 
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenUmsetzungRenderer.class,
+                "MassnahmenUmsetzungRenderer.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panGeo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
+
+        panGeo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
+        panInfoContent.add(panGeo, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -304,12 +349,14 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
             deActivateGUIElements(false);
         }
 
+        linearReferencedLineEditor.setCidsBean(cidsBean);
         wirkungPan1.setCidsBean(cidsBean);
         bindReadOnlyFields();
     }
 
     @Override
     public void dispose() {
+        linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }
 

@@ -797,7 +797,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenUmsetzungEditor" name="massnahmenUmsetzungEditor1">
+    <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenUmsetzungEditor" name="massnahmenUmsetzungEditor">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[460, 660]"/>

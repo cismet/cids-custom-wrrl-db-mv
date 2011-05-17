@@ -17,7 +17,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +31,6 @@ import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.MeasureTypeCodeRenderer;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
-import de.cismet.cids.custom.util.StationToMapRegistry;
 import de.cismet.cids.custom.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -50,10 +48,6 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
-import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 /**
  * DOCUMENT ME!
  *
@@ -69,7 +63,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             MassnahmenUmsetzungEditor.class);
     private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
-    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
     private static final MetaClass MTC_MC;
 
     static {
@@ -854,8 +847,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                 final CidsBean statFrom = (CidsBean)linBean.getProperty(
                         LinearReferencingConstants.PROP_STATIONLINIE_FROM);                                             // NOI18N
                 final CidsBean statTo = (CidsBean)linBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO); // NOI18N
-                final CidsBean realGeom = (CidsBean)linBean.getProperty(
-                        LinearReferencingConstants.PROP_STATIONLINIE_GEOM);                                             // NOI18N
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("statFrom " + statFrom.getProperty(LinearReferencingConstants.PROP_STATION_VALUE));       // NOI18N
                 }

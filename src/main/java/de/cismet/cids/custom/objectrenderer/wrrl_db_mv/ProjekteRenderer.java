@@ -86,7 +86,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
     private javax.swing.JLabel lblfoerdersatz;
     private javax.swing.JLabel lblkost_gesamt;
     private javax.swing.JLabel lbltraeger;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.MassnahmenUmsetzungRenderer massnahmenUmsetzungRenderer1;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.MassnahmenUmsetzungRenderer massnahmenUmsetzungRenderer;
     private de.cismet.tools.gui.RoundedPanel panDeMeas;
     private de.cismet.tools.gui.RoundedPanel panDeMeas1;
     private javax.swing.JPanel panFooter;
@@ -108,7 +108,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
      */
     public ProjekteRenderer() {
         initComponents();
-        massnahmenUmsetzungRenderer1.setList(jlUmsetzung);
+        massnahmenUmsetzungRenderer.setList(jlUmsetzung);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -116,6 +116,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
+        massnahmenUmsetzungRenderer.setCidsBean(null);
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
@@ -200,8 +201,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         panInfoContent4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jlIndikator1 = new javax.swing.JList();
-        massnahmenUmsetzungRenderer1 =
-            new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.MassnahmenUmsetzungRenderer();
+        massnahmenUmsetzungRenderer = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.MassnahmenUmsetzungRenderer();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -754,15 +754,15 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
         add(panMaInd, gridBagConstraints);
 
-        massnahmenUmsetzungRenderer1.setMinimumSize(new java.awt.Dimension(470, 660));
-        massnahmenUmsetzungRenderer1.setPreferredSize(new java.awt.Dimension(470, 660));
+        massnahmenUmsetzungRenderer.setMinimumSize(new java.awt.Dimension(470, 660));
+        massnahmenUmsetzungRenderer.setPreferredSize(new java.awt.Dimension(470, 660));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        add(massnahmenUmsetzungRenderer1, gridBagConstraints);
+        add(massnahmenUmsetzungRenderer, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -783,7 +783,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
             if (selObj instanceof CidsBean) {
                 final Object o = ((CidsBean)selObj).getProperty("massnahme");              // NOI18N
                 if ((o instanceof CidsBean) || (o == null)) {
-                    massnahmenUmsetzungRenderer1.setCidsBean((CidsBean)selObj);
+                    massnahmenUmsetzungRenderer.setCidsBean((CidsBean)selObj);
                     final List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)
                             selObj,
                             "indikator");                                                  // NOI18N
@@ -850,7 +850,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
 
     @Override
     public void dispose() {
-        massnahmenUmsetzungRenderer1.dispose();
+        massnahmenUmsetzungRenderer.dispose();
         projekteIndikatorenEditor1.dispose();
         bindingGroup.unbind();
     }

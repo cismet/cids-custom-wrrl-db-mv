@@ -61,10 +61,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
         linienEditor.setFields(WkTeilEditor.MC_WKTEIL, PROP_TESTJEAN_WKTEILE, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
         stationenEditor.setFields(PROP_TESTJEAN_STATIONEN);
 
-        stationEditor.addListener(new StationEditorListener() {
+        stationEditor.addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
-                public void stationCreated() {
+                public void pointCreated() {
                     try {
                         cidsBean.setProperty(PROP_TESTJEAN_STATION, stationEditor.getCidsBean());
                     } catch (Exception ex) {

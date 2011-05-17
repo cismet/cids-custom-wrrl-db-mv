@@ -105,10 +105,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         initComponents();
 
-        querbauwerkePanSix.getStat09Editor().addListener(new StationEditorListener() {
+        querbauwerkePanSix.getStat09Editor().addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
-                public void stationCreated() {
+                public void pointCreated() {
                     try {
                         cidsBean.setProperty("stat09", querbauwerkePanSix.getStat09Editor().getCidsBean());
                     } catch (Exception ex) {
@@ -118,10 +118,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                     }
                 }
             });
-        querbauwerkePanSix.getStat09BisEditor().addListener(new StationEditorListener() {
+        querbauwerkePanSix.getStat09BisEditor().addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
-                public void stationCreated() {
+                public void pointCreated() {
                     try {
                         cidsBean.setProperty("stat09_bis", querbauwerkePanSix.getStat09BisEditor().getCidsBean());
                     } catch (Exception ex) {

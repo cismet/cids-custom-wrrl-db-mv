@@ -58,6 +58,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblGwk;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
     private javax.swing.JLabel lblHeading4;
@@ -90,17 +91,21 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
     private javax.swing.JLabel lblWk_name;
     private javax.swing.JLabel lblZiele;
     private javax.swing.JLabel lbllfdnr;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JList lstMeas15;
     private javax.swing.JList lstMeas21;
     private javax.swing.JList lstdeMeas;
     private de.cismet.tools.gui.RoundedPanel panDeMeas;
     private javax.swing.JPanel panFooter;
+    private de.cismet.tools.gui.RoundedPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo4;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panInfoContent2;
     private javax.swing.JPanel panInfoContent3;
     private javax.swing.JPanel panInfoContent4;
@@ -126,6 +131,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValMassn_id.setBorder(null);
         lblValMassn_id.setOpaque(false);
         lblValMassn_id.setEditable(false);
+        linearReferencedLineEditor.setFields("MASSNAHMEN", "linie"); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -139,10 +145,23 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
+            linearReferencedLineEditor.setCidsBean(cidsBean);
             bindingGroup.bind();
         }
 
+        showOrHideGeometryEditors();
         bindReadOnlyFields();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void showOrHideGeometryEditors() {
+        if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[1]) != null)) {
+            panGeo.setVisible(false);
+        } else {
+            panGeo.setVisible(true);
+        }
     }
 
     @Override
@@ -316,6 +335,11 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValPressure_cd = new javax.swing.JLabel();
         lblValSuppl_cd = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        panGeo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        linearReferencedLineEditor = new LinearReferencedLineRenderer();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -1037,6 +1061,40 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 20);
         panInfoContent.add(jPanel1, gridBagConstraints);
 
+        panGeo.setMinimumSize(new java.awt.Dimension(640, 140));
+        panGeo.setPreferredSize(new java.awt.Dimension(640, 140));
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText("Geometrie");
+        panHeadInfo1.add(lblHeading1);
+
+        panGeo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
+
+        panGeo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 20, 10, 20);
+        panInfoContent.add(panGeo, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1061,6 +1119,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        linearReferencedLineEditor.dispose();
     }
 
     @Override

@@ -70,18 +70,14 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkungKey;
     private javax.swing.JPanel lblSpacingBottom;
     private javax.swing.JLabel lblStatKey;
     private javax.swing.JLabel lblWk;
     private javax.swing.JScrollPane scpBemerkung;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.StationRenderer stationRenderer1;
     private javax.swing.JTextArea txtBemerkungValue;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -113,13 +109,9 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         scpBemerkung = new javax.swing.JScrollPane();
         txtBemerkungValue = new javax.swing.JTextArea();
         lblStatKey = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblWk = new javax.swing.JLabel();
+        stationRenderer1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.StationRenderer();
         lblSpacingBottom = new javax.swing.JPanel();
 
         setOpaque(false);
@@ -174,49 +166,6 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblStatKey, gridBagConstraints);
 
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat.wert}"),
-                jLabel1,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        jPanel1.add(jLabel1);
-
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(
-                BewirtschaftungsendeRenderer.class,
-                "BewirtschaftungsendeRenderer.jLabel2.text")); // NOI18N
-        jPanel1.add(jLabel2);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat.route.gwk}"),
-                jLabel3,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("<Error>");
-        bindingGroup.addBinding(binding);
-
-        jPanel1.add(jLabel3);
-
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(
-                BewirtschaftungsendeRenderer.class,
-                "BewirtschaftungsendeRenderer.jLabel4.text")); // NOI18N
-        jPanel1.add(jLabel4);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jPanel1, gridBagConstraints);
-
         jLabel5.setText(org.openide.util.NbBundle.getMessage(
                 BewirtschaftungsendeRenderer.class,
                 "BewirtschaftungsendeRenderer.jLabel5.text")); // NOI18N
@@ -237,6 +186,19 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblWk, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stat}"),
+                stationRenderer1,
+                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(stationRenderer1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

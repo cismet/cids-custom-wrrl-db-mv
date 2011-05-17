@@ -40,7 +40,7 @@ public interface LinearReferencingConstants {
 
     Logger LOG = Logger.getLogger(LinearReferencingConstants.class);
 
-    StationToMapRegistry STATION_TO_MAP_REGISTRY = StationToMapRegistry.getInstance();
+    StationToMapRegistry MAP_REGISTRY = StationToMapRegistry.getInstance();
     MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     String CN_STATIONLINE = "station_linie"; // NOI18N

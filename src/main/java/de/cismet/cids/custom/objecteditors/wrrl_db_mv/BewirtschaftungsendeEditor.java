@@ -86,10 +86,10 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
      */
     public BewirtschaftungsendeEditor() {
         initComponents();
-        stationEditor1.addListener(new StationEditorListener() {
+        stationEditor1.addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
-                public void stationCreated() {
+                public void pointCreated() {
                     try {
                         cidsBean.setProperty("stat", stationEditor1.getCidsBean());
                     } catch (Exception ex) {

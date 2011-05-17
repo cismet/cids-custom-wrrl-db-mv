@@ -52,9 +52,14 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblMassnahmen;
     private javax.swing.JLabel lblMassnahmenId;
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer linearReferencedLineRenderer1;
     private javax.swing.JPanel panContent;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private javax.swing.JPanel panInfoContent1;
     private javax.swing.JScrollPane scpBemerkung;
     private javax.swing.JTextArea taBemerkung;
     private javax.swing.JLabel txtDescAbsturz;
@@ -76,6 +81,8 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
      */
     public RohrleitungRenderer() {
         initComponents();
+
+        initLinearReferencedLineEditor();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -119,6 +126,12 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        linearReferencedLineRenderer1 =
+            new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer();
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -542,11 +555,47 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
                 "RohrleitungRenderer.jLabel15.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         panContent.add(jLabel15, gridBagConstraints);
+
+        panInfo1.setMinimumSize(new java.awt.Dimension(640, 140));
+        panInfo1.setPreferredSize(new java.awt.Dimension(640, 140));
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                RohrleitungRenderer.class,
+                "RohrleitungRenderer.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent1.add(linearReferencedLineRenderer1, gridBagConstraints);
+
+        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panContent.add(panInfo1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -557,6 +606,13 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void initLinearReferencedLineEditor() {
+        linearReferencedLineRenderer1.setFields("Rohrleitung", "linie");
+    }
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -566,6 +622,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
         bindingGroup.unbind();
+        linearReferencedLineRenderer1.setCidsBean(cidsBean);
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,

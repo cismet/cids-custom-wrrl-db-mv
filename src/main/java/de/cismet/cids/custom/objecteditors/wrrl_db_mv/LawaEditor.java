@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LawaTypeNeighbourSearch;
 import de.cismet.cids.custom.util.LinearReferencingConstants;
@@ -132,14 +133,15 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
      */
     public LawaEditor(final boolean readOnly) {
         this.readOnly = readOnly;
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor.setFields("LAWA", "linie");
+
         initComponents();
         if (!readOnly) {
             lblValLawa_nr.setVisible(false);
-            linearReferencedLineEditor.setFields("LAWA", "linie");
             panLineOberhalb.setVisible(false);
             panLineUnterhalb.setVisible(false);
         } else {
-            linearReferencedLineEditor.setEnabled(false);
             cbLawa_nr.setVisible(false);
         }
 
@@ -363,7 +365,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
-        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        linearReferencedLineEditor = linearReferencedLineEditor;
         lblTypUnterhalb = new javax.swing.JLabel();
         lblTypOberhalb = new javax.swing.JLabel();
         lblValTypUnterhalb = new javax.swing.JLabel();

@@ -13,7 +13,6 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JLabel;
 
@@ -33,10 +32,6 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 /**
  * DOCUMENT ME!
  *
@@ -48,7 +43,6 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RohrleitungEditor.class);
-    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -507,7 +501,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
 
         panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
@@ -608,9 +602,6 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         jCheckBox1.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
                 "RohrleitungEditor.jCheckBox1.text")); // NOI18N
-        jCheckBox1.setMaximumSize(new java.awt.Dimension(300, 24));
-        jCheckBox1.setMinimumSize(new java.awt.Dimension(300, 24));
-        jCheckBox1.setPreferredSize(new java.awt.Dimension(300, 24));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -632,7 +623,6 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 12;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jCheckBox1, gridBagConstraints);
@@ -674,13 +664,13 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
         bindingGroup.unbind();
+        linearReferencedLineEditor.setCidsBean(cidsBean);
         if (cidsBean != null) {
-            this.cidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
-            linearReferencedLineEditor.setCidsBean(cidsBean);
             bindingGroup.bind();
             zoomToFeatures();
         }
@@ -694,7 +684,11 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
 
     @Override
     public String getTitle() {
-        return "Rohrleitung " + cidsBean.toString();
+        if (cidsBean == null) {
+            return "neue Rohrleitung";
+        } else {
+            return "Rohrleitung " + cidsBean.toString();
+        }
     }
 
     @Override

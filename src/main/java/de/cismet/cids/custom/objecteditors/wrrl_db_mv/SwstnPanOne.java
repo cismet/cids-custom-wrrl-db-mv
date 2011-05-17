@@ -96,10 +96,10 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
                 org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
         bindingGroup.addBinding(binding);
 
-        stationEditor.addListener(new StationEditorListener() {
+        stationEditor.addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
-                public void stationCreated() {
+                public void pointCreated() {
                     try {
                         cidsBean.setProperty("station", stationEditor.getCidsBean());
                     } catch (Exception ex) {

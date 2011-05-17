@@ -135,7 +135,9 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblUsrKey, gridBagConstraints);
 
-        lblCommentKey.setText(org.openide.util.NbBundle.getMessage(GeoHintEditor.class, "GeoHintEditor.lblCommentKey.text")); // NOI18N
+        lblCommentKey.setText(org.openide.util.NbBundle.getMessage(
+                GeoHintEditor.class,
+                "GeoHintEditor.lblCommentKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -144,7 +146,9 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblCommentKey, gridBagConstraints);
 
-        lblPriorityKey.setText(org.openide.util.NbBundle.getMessage(GeoHintEditor.class, "GeoHintEditor.lblPriorityKey.text")); // NOI18N
+        lblPriorityKey.setText(org.openide.util.NbBundle.getMessage(
+                GeoHintEditor.class,
+                "GeoHintEditor.lblPriorityKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -153,7 +157,9 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblPriorityKey, gridBagConstraints);
 
-        lblTimestampKey.setText(org.openide.util.NbBundle.getMessage(GeoHintEditor.class, "GeoHintEditor.lblTimestampKey.text")); // NOI18N
+        lblTimestampKey.setText(org.openide.util.NbBundle.getMessage(
+                GeoHintEditor.class,
+                "GeoHintEditor.lblTimestampKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -170,7 +176,12 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         taCommentValue.setFont(new java.awt.Font("Tahoma", 0, 11));
         taCommentValue.setRows(5);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.comment}"), taCommentValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.comment}"),
+                taCommentValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scpComment.setViewportView(taCommentValue);
@@ -185,7 +196,9 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(scpComment, gridBagConstraints);
 
-        lblGeometryKey.setText(org.openide.util.NbBundle.getMessage(GeoHintEditor.class, "GeoHintEditor.lblGeometryKey.text")); // NOI18N
+        lblGeometryKey.setText(org.openide.util.NbBundle.getMessage(
+                GeoHintEditor.class,
+                "GeoHintEditor.lblGeometryKey.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -194,7 +207,12 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblGeometryKey, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.usr}"), txtUsrValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.usr}"),
+                txtUsrValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -205,7 +223,12 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(txtUsrValue, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.timestamp}"), dbtcTimestampValue, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.timestamp}"),
+                dbtcTimestampValue,
+                org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
         binding.setConverter(dbtcTimestampValue.getConverter());
         bindingGroup.addBinding(binding);
 
@@ -217,9 +240,15 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(dbtcTimestampValue, gridBagConstraints);
 
-        cbPriorityValue.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbPriorityValue.setModel(new javax.swing.DefaultComboBoxModel(
+                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.priority}"), cbPriorityValue, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.priority}"),
+                cbPriorityValue,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -230,7 +259,12 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(cbPriorityValue, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geometry}"), cbGeometryValue, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geometry}"),
+                cbGeometryValue,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeometryValue).getConverter());
         bindingGroup.addBinding(binding);
 
@@ -249,7 +283,12 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblName, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"), txtName, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtName,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -259,7 +298,7 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
         add(txtName, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
