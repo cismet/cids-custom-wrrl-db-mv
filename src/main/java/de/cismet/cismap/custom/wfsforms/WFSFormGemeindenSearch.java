@@ -514,6 +514,7 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         ret=ret.replaceAll("Ö","&#214;");
         ret=ret.replaceAll("ü","&#252;");
         ret=ret.replaceAll("Ü","&#220;");
+        ret=ret.replaceAll("ß","&#223;");
         return ret;
 
 
