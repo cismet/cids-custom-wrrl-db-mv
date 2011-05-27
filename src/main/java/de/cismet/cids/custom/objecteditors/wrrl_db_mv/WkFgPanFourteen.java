@@ -673,13 +673,19 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
             }
 
             final LawaType noType = lawaTypes.get(-1);
-            percentageTotal += noType.getTotalLength() * 100 / wkFgTotalLength;
-            lengthTotal += noType.getTotalLength();
-            counterTotal += noType.getCount();
+            if (noType != null) {
+                percentageTotal += noType.getTotalLength() * 100 / wkFgTotalLength;
+                lengthTotal += noType.getTotalLength();
+                counterTotal += noType.getCount();
+            }
             data[counter][0] = "kein Typ";
-            data[counter][1] = String.valueOf(round(noType.getTotalLength() * 100 / wkFgTotalLength, 1));
-            data[counter][2] = String.valueOf(round(noType.getTotalLength(), 0));
-            data[counter][3] = String.valueOf(noType.getCount());
+            if (noType != null) {
+                data[counter][1] = String.valueOf(round(noType.getTotalLength() * 100 / wkFgTotalLength, 1));
+                data[counter][2] = String.valueOf(round(noType.getTotalLength(), 0));
+                data[counter][3] = String.valueOf(noType.getCount());
+            } else {
+                --counter;
+            }
             ++counter;
             data[counter][0] = "Gesamt";
             data[counter][1] = String.valueOf(round(percentageTotal, 1));

@@ -19,12 +19,10 @@ import java.text.SimpleDateFormat;
 
 import java.util.Collection;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.tostringconverter.wrrl_db_mv.ExDateToStringConverter;
 import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.util.DateConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -303,6 +301,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(DateConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
