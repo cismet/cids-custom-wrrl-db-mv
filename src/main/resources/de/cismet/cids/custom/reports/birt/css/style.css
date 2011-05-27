@@ -1,0 +1,187 @@
+html {
+  margin: 10px;
+  padding: 0;
+}
+
+body {
+  background: rgb(212, 208, 200);
+  margin: 0;
+  padding: 0;
+}
+
+html, body, table, td, div {
+  font-family: Arial, Helvetica, sansserif;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+}
+
+body > table {
+  background: url(../img/descriptionPane_body.png) repeat-x;
+}
+
+body table table:first-child {
+  background: rgb(212, 208, 200);
+  margin: 0;
+  width: 100% !important;
+}
+
+body table table {
+  background: none;
+  margin: 10px;
+  width: auto !important;
+}
+
+body table table.tableInfo, body table table.tableLink {
+  background: none;
+}
+
+body table table.tableInfo {
+  margin: 20px 0px 20px 10px;
+  width: 400px !important;
+}
+
+body table table.tableLink {
+  margin-bottom: 40px;
+  width: 700px !important;
+}
+
+body table tr td table tr th {
+  background-color: #989490;
+  border: 1px solid #FFFFFF;
+}
+
+body table tr td table tr td {
+  background-color: #C8C4BC;
+  border: 1px solid #FFFFFF;
+}
+
+table.tableInfo tr td, table.tableLink tr td {
+  border: 0 none;
+  background: none;
+}
+
+.headerLeft {
+  border: 0;
+  margin: 0;
+  padding: 0px;
+  width: 15px;
+  height: 63px;
+  background: url(../img/descriptionPane_header_left.png);
+}
+
+.headerCenter {
+  border: 0;
+  margin: 0px 15px;
+  padding: 0px;
+  height: 63px;
+  background: url(../img/descriptionPane_header_center.png) repeat-x;
+}
+
+.headerRight {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 15px;
+  height: 63px;
+  background-image: url(../img/descriptionPane_header_right.png);
+}
+
+.headerPage {
+  /*background: none repeat scroll 0 0 #3C3A39;*/
+  color: #FFFFFF;
+  font-family: Arial,Helvetica,sansserif;
+  font-size: 1.8em;
+  font-weight: bold;
+  padding: 0.7em 0em 0em 0em;
+  text-align: left;
+}
+
+.headerSubreport {
+  background: none repeat scroll 0 0 #3C3A39;
+  color: #FFFFFF;
+  font-family: Arial,Helvetica,sansserif;
+  font-size: 1.2em;
+  margin-top: 2em;
+  padding: 0.5em 0 0.2em 0.5em;
+}
+
+.tableLink a, .tableLink a:link, .tableLink a:visited {
+  display: block;
+  background: #3C3A39;
+  text-align: right;
+  vertical-align: text-bottom;
+  color:  #FFFFFF;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 1em 0.5em 0em 0em;
+  border: 1px solid #3C3A39;
+}
+
+.tableLink a:hover {
+  background: #C8C4BC;
+}
+
+.linkToOverview {}
+
+.tableLink .linkToOverview a, .tableLink .linkToOverview a:link, .tableLink .linkToOverview a:visited {
+  background: #989490;
+}
+
+.tableLink .linkToOverview a:hover {
+  background: #C8C4BC;
+}
+
+.cellHeader, .cellOdd, .cellEven {
+  font-family: Arial,Helvetica,sansserif;
+  padding: 2px 5px;
+}
+
+.cellHeader {
+  background-color: #989490;
+  border: 0 none;
+  color: #000000;
+  text-align: center;
+}
+
+.cellOdd {
+  background-color: #C8C4BC;
+  color: #000000;
+  text-align: center;
+}
+
+.cellEven {
+  background-color: #A7BFDE;
+  color: #000000;
+  text-align: center;
+}
+
+.footerLeft {
+  border: 0;
+  margin: 0px;
+  padding: 0px;
+  width: 15px;
+  height: 35px;
+  background: url(../img/descriptionPane_footer_left.png);
+}
+
+.footerCenter {
+  border: 0;
+  margin: 0px 15px;
+  padding: 0px;
+  height: 35px;
+  background: url(../img/descriptionPane_footer_center.png) repeat-x;
+}
+
+.footerRight {
+  border: 0;
+  margin: 0px;
+  padding: 0px;
+  width: 15px;
+  height: 35px;
+  background-image: url(../img/descriptionPane_footer_right.png);
+}
+
