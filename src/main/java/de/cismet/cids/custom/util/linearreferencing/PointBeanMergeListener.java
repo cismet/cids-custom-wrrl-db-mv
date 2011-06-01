@@ -21,7 +21,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.cismet.cids.custom.util;
+package de.cismet.cids.custom.util.linearreferencing;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -31,16 +31,19 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public interface LinearReferencedLineEditorDropBehavior {
+public interface PointBeanMergeListener {
 
     //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
      *
-     * @param   cidsBean  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
+     * @param  withPointBean  DOCUMENT ME!
      */
-    boolean checkForAdding(CidsBean cidsBean);
+    void pointBeanMerged(CidsBean withPointBean);
+
+    /**
+     * DOCUMENT ME!
+     */
+    void pointBeanSplitted();
 }

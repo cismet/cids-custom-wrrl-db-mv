@@ -18,9 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import de.cismet.cids.custom.util.LinearReferencingConstants;
-import de.cismet.cids.custom.util.LinearReferencingHelper;
 import de.cismet.cids.custom.util.MapUtil;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;

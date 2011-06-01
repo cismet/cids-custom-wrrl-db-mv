@@ -40,8 +40,8 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 

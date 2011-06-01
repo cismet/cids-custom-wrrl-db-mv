@@ -18,7 +18,7 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 

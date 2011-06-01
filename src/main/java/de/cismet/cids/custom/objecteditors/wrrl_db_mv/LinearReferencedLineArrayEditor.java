@@ -11,6 +11,9 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.MapUtil;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -62,14 +65,16 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     private String arrayField;
     private String metaClassName;
     private String lineField;
+    private String otherLinesFromQueryPart;
+    private String otherLinesWhereQueryPart;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel dropPanel;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblTitle;
-    private de.cismet.tools.gui.RoundedPanel roundedPanel1;
-    private de.cismet.tools.gui.SemiRoundedPanel semiRoundedPanel1;
+    private javax.swing.JPanel panDrop;
+    private javax.swing.JPanel panLines;
+    private de.cismet.tools.gui.RoundedPanel panRounded;
+    private de.cismet.tools.gui.SemiRoundedPanel panSemiRounded;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -81,7 +86,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         initComponents();
 
         try {
-            new CidsBeanDropTarget(dropPanel);
+            new CidsBeanDropTarget(panDrop);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while creating CidsBeanDropTarget");
@@ -90,6 +95,18 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  otherLinesFromQueryPart   DOCUMENT ME!
+     * @param  otherLinesWhereQueryPart  DOCUMENT ME!
+     */
+    public void setOtherLinesQueryAddition(final String otherLinesFromQueryPart,
+            final String otherLinesWhereQueryPart) {
+        this.otherLinesFromQueryPart = otherLinesFromQueryPart;
+        this.otherLinesWhereQueryPart = otherLinesWhereQueryPart;
+    }
 
     /**
      * DOCUMENT ME!
@@ -241,15 +258,9 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
 
-        final Collection<CidsBean> childBeans = getCidsBeans();
-        if (childBeans.size() > 0) {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(childBeans.size());
-        } else {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(1);
-        }
-
-        for (final CidsBean childBean : childBeans) {
+        for (final CidsBean childBean : getCidsBeans()) {
             final LinearReferencedLineEditor editor = createEditor();
+            editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
             editor.setCidsBean(childBean);
             addEditor(editor);
         }
@@ -283,13 +294,21 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         panEast.add(btnRemove);
         panEast.setOpaque(false);
 
-        panItem.add(editor, BorderLayout.CENTER);
+        final JPanel panEditor = new JPanel(new GridBagLayout());
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new Insets(5, 5, 5, 5);
+        panEditor.setOpaque(false);
+        panEditor.add(editor, gridBagConstraints);
+
+        panItem.add(panEditor, BorderLayout.CENTER);
         panItem.add(panEast, BorderLayout.EAST);
         panItem.add(new JSeparator(), BorderLayout.SOUTH);
 
         editorButtonMap.put(btnRemove, editor);
-        jPanel1.add(panItem);
-        ((java.awt.GridLayout)jPanel1.getLayout()).setRows(jPanel1.getComponentCount());
+        panLines.add(panItem);
 
         revalidate();
         fireEditorAdded(editor);
@@ -319,15 +338,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         final Collection<CidsBean> cidsBeans = getCidsBeans();
         cidsBeans.remove(editor.getCidsBean());
 
-        jPanel1.remove(editor.getParent());
+        panLines.remove(editor.getParent().getParent());
         editor.dispose();
-
-        if (cidsBeans.size() > 0) {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(cidsBeans.size());
-        } else {
-            ((java.awt.GridLayout)jPanel1.getLayout()).setRows(1);
-        }
-
         editorMap.remove(editor.getCidsBean());
 
         revalidate();
@@ -342,6 +354,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         for (final LinearReferencedLineEditor editor : editorMap.values()) {
             editor.dispose();
         }
+        // TODO weg damit, gehört in editorclosed rein
+        CIDSBEAN_CACHE.clear();
     }
 
     /**
@@ -351,47 +365,62 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        roundedPanel1 = new de.cismet.tools.gui.RoundedPanel();
-        semiRoundedPanel1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        panRounded = new de.cismet.tools.gui.RoundedPanel();
+        panSemiRounded = new de.cismet.tools.gui.SemiRoundedPanel();
         lblTitle = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        dropPanel = new DropPanel();
+        panLines = new javax.swing.JPanel();
+        panDrop = new DropPanel();
         jLabel3 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(200, 100));
         setOpaque(false);
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        semiRoundedPanel1.setBackground(new java.awt.Color(51, 51, 51));
-        semiRoundedPanel1.setMinimumSize(new java.awt.Dimension(55, 24));
-        semiRoundedPanel1.setPreferredSize(new java.awt.Dimension(0, 24));
+        panRounded.setLayout(new java.awt.GridBagLayout());
+
+        panSemiRounded.setBackground(new java.awt.Color(51, 51, 51));
+        panSemiRounded.setMinimumSize(new java.awt.Dimension(55, 24));
+        panSemiRounded.setPreferredSize(new java.awt.Dimension(0, 24));
 
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText(org.openide.util.NbBundle.getMessage(
                 LinearReferencedLineArrayEditor.class,
                 "LinearReferencedLineArrayEditor.lblTitle.text_1")); // NOI18N
-        semiRoundedPanel1.add(lblTitle, java.awt.BorderLayout.CENTER);
+        panSemiRounded.add(lblTitle, java.awt.BorderLayout.CENTER);
 
-        roundedPanel1.add(semiRoundedPanel1, java.awt.BorderLayout.NORTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panRounded.add(panSemiRounded, gridBagConstraints);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(100, 48));
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
-        roundedPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
+        panLines.setMinimumSize(new java.awt.Dimension(100, 48));
+        panLines.setOpaque(false);
+        panLines.setLayout(new javax.swing.BoxLayout(panLines, javax.swing.BoxLayout.Y_AXIS));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panRounded.add(panLines, gridBagConstraints);
 
-        dropPanel.setMinimumSize(new java.awt.Dimension(10, 24));
-        dropPanel.setOpaque(false);
+        panDrop.setMinimumSize(new java.awt.Dimension(10, 24));
+        panDrop.setOpaque(false);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText(org.openide.util.NbBundle.getMessage(
                 LinearReferencedLineArrayEditor.class,
                 "LinearReferencedLineArrayEditor.jLabel3.text")); // NOI18N
-        dropPanel.add(jLabel3);
+        panDrop.add(jLabel3);
 
-        roundedPanel1.add(dropPanel, java.awt.BorderLayout.SOUTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        panRounded.add(panDrop, gridBagConstraints);
 
-        add(roundedPanel1);
+        add(panRounded);
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
@@ -399,7 +428,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         final CidsBean savedBean = event.getSavedBean();
         if (savedBean != null) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("array closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
+                LOG.debug("SavedBean: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
             }
             for (final CidsBean savedChildBean : (Collection<CidsBean>)savedBean.getProperty(arrayField)) {
                 final LinearReferencedLineEditor editor = editorMap.get(savedChildBean);

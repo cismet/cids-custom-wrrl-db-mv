@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
-import de.cismet.cids.custom.util.LinearReferencingConstants;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 

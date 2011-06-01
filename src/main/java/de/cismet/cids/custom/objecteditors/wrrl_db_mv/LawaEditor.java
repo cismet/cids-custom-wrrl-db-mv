@@ -35,9 +35,9 @@ import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.LawaTypeNeighbourSearch;
-import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.MapUtil;
 import de.cismet.cids.custom.util.WkkSearch;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -286,7 +286,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
             return null;
         }
         try {
-            final String geom = realGeom.toText(); // linearReferencedLineEditor.getFeature().getGeometry().toText();
+            final String geom = realGeom.toText(); // linearReferencedLineEditor.getLineFeature().getGeometry().toText();
             final CidsBean route = (CidsBean)cidsBean.getProperty("linie."
                             + LinearReferencingConstants.PROP_STATIONLINIE_FROM
                             + LinearReferencingConstants.PROP_STATION_ROUTE);
@@ -520,6 +520,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
 
         lblTypUnterhalb.setText("Typ unterhalb");

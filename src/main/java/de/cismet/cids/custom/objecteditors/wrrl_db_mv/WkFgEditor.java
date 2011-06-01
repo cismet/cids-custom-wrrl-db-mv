@@ -126,6 +126,10 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             WkTeilEditor.MC_WKTEIL,
             PROP_WKFG_WKTEILE,
             WkTeilEditor.PROP_WKTEIL_STATIONLINE);
+
+        teileEditor.setOtherLinesQueryAddition(
+            "wk_fg, wk_fg_teile, wk_teil",
+            "wk_fg.id = wk_fg_teile.wk_fg_reference AND wk_fg_teile.teil = wk_teil.id AND wk_teil.linie = ");
     }
 
     //~ Methods ----------------------------------------------------------------

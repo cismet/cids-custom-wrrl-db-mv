@@ -18,8 +18,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.LinearReferencingConstants;
 import de.cismet.cids.custom.util.TimestampConverter;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 

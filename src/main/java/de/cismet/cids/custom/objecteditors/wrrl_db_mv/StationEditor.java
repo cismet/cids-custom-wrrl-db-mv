@@ -33,11 +33,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import de.cismet.cids.custom.util.LinearReferencedLineEditorDropBehavior;
-import de.cismet.cids.custom.util.LinearReferencingConstants;
-import de.cismet.cids.custom.util.LinearReferencingHelper;
 import de.cismet.cids.custom.util.MapUtil;
-import de.cismet.cids.custom.util.StationToMapRegistryListener;
+import de.cismet.cids.custom.util.linearreferencing.FeatureRegistryListener;
+import de.cismet.cids.custom.util.linearreferencing.LineEditorDropBehavior;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.util.linearreferencing.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -97,8 +97,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         new ArrayList<LinearReferencedPointEditorListener>();
     private LinearReferencedPointFeatureListener featureListener;
     private CrsChangeListener crsChangeListener;
-    private StationToMapRegistryListener mapRegistryListener;
-    private LinearReferencedLineEditorDropBehavior dropBehavior;
+    private FeatureRegistryListener mapRegistryListener;
+    private LineEditorDropBehavior dropBehavior;
     private Feature badGeomFeature;
     private XBoundingBox boundingbox;
     private boolean isAutoZoomActivated = true;
@@ -232,7 +232,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      * @return  DOCUMENT ME!
      */
     public LinearReferencedPointFeature getFeature() {
-        return (LinearReferencedPointFeature)MAP_REGISTRY.getFeature(getCidsBean());
+        return (LinearReferencedPointFeature)FEATURE_REGISTRY.getFeature(getCidsBean());
     }
 
     /**
@@ -303,7 +303,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @return  DOCUMENT ME!
      */
-    private StationToMapRegistryListener getMapRegistryListener() {
+    private FeatureRegistryListener getMapRegistryListener() {
         return mapRegistryListener;
     }
 
@@ -312,7 +312,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @param  mapRegistryListener  DOCUMENT ME!
      */
-    private void setMapRegistryListener(final StationToMapRegistryListener mapRegistryListener) {
+    private void setMapRegistryListener(final FeatureRegistryListener mapRegistryListener) {
         this.mapRegistryListener = mapRegistryListener;
     }
 
@@ -384,7 +384,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @return  DOCUMENT ME!
      */
-    public LinearReferencedLineEditorDropBehavior getDropBehavior() {
+    public LineEditorDropBehavior getDropBehavior() {
         return dropBehavior;
     }
 
@@ -393,7 +393,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @param  dropBehavior  DOCUMENT ME!
      */
-    public void setDropBehavior(final LinearReferencedLineEditorDropBehavior dropBehavior) {
+    public void setDropBehavior(final LineEditorDropBehavior dropBehavior) {
         this.dropBehavior = dropBehavior;
     }
 
@@ -419,7 +419,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      * DOCUMENT ME!
      */
     private void initMapRegistryListener() {
-        setMapRegistryListener(new StationToMapRegistryListener() {
+        setMapRegistryListener(new FeatureRegistryListener() {
 
                 @Override
                 public void FeatureCountChanged() {
@@ -494,7 +494,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                 @Override
                 public void featureMerged(final LinearReferencedPointFeature mergePoint,
                         final LinearReferencedPointFeature withPoint) {
-                    final CidsBean withBean = MAP_REGISTRY.getCidsBean(withPoint);
+                    final CidsBean withBean = FEATURE_REGISTRY.getCidsBean(withPoint);
                     setCidsBean(withBean);
 
                     updateSplitButton();
@@ -814,14 +814,14 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         if (isEditable()) {
             if (pointBean != null) {
                 // altes feature entfernen
-                final LinearReferencedPointFeature oldFeature = MAP_REGISTRY.removeStationFeature(
+                final LinearReferencedPointFeature oldFeature = FEATURE_REGISTRY.removeStationFeature(
                         pointBean);
                 if (oldFeature != null) {
                     // listener auf altem Feature entfernen
                     oldFeature.removeListener(getFeatureListener());
                 }
 
-                MAP_REGISTRY.removeListener(pointBean, getMapRegistryListener());
+                FEATURE_REGISTRY.removeListener(pointBean, getMapRegistryListener());
             }
 
             final Feature badGeomFeature = getBadGeomFeature();
@@ -875,10 +875,10 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                     }
 
                     // die aktuelle cidsBean als listener bei stationtomapregistry anmelden
-                    MAP_REGISTRY.addListener(pointBean, getMapRegistryListener());
+                    FEATURE_REGISTRY.addListener(pointBean, getMapRegistryListener());
 
                     // feature erzeugen und auf der Karte anzeigen lassen
-                    final LinearReferencedPointFeature feature = MAP_REGISTRY.addStationFeature(pointBean);
+                    final LinearReferencedPointFeature feature = FEATURE_REGISTRY.addStationFeature(pointBean);
                     if (ico != null) {
                         feature.setIconImage(ico);
                     }
@@ -953,7 +953,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      */
     private void updateSplitButton() {
         if (getCidsBean() != null) {
-            getSplitButton().setVisible(MAP_REGISTRY.getCounter(getCidsBean()) > 1);
+            getSplitButton().setVisible(FEATURE_REGISTRY.getCounter(getCidsBean()) > 1);
         }
     }
 

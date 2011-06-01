@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.util;
+package de.cismet.cids.custom.util.linearreferencing;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -34,7 +34,7 @@ import de.cismet.tools.CurrentStackTrace;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class StationToMapRegistry implements LinearReferencingConstants {
+public class FeatureRegistry implements LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -46,24 +46,24 @@ public class StationToMapRegistry implements LinearReferencingConstants {
             new Color(255, 91, 0)
         };
 
-    private static StationToMapRegistry instance = new StationToMapRegistry();
+    private static FeatureRegistry instance = new FeatureRegistry();
 
     //~ Instance fields --------------------------------------------------------
 
     private HashMap<CidsBean, Feature> featureReg = new HashMap<CidsBean, Feature>();
     private HashMap<Feature, CidsBean> cidsBeanReg = new HashMap<Feature, CidsBean>();
     private HashMap<CidsBean, Integer> counterMap = new HashMap<CidsBean, Integer>();
-    private HashMap<CidsBean, Collection<StationToMapRegistryListener>> listenerMap =
-        new HashMap<CidsBean, Collection<StationToMapRegistryListener>>();
+    private HashMap<CidsBean, Collection<FeatureRegistryListener>> listenerMap =
+        new HashMap<CidsBean, Collection<FeatureRegistryListener>>();
 
     private int colorIndex = 0;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new StationToMapRegistry object.
+     * Creates a new FeatureRegistry object.
      */
-    private StationToMapRegistry() {
+    private FeatureRegistry() {
         // static
     }
 
@@ -84,7 +84,7 @@ public class StationToMapRegistry implements LinearReferencingConstants {
      *
      * @return  DOCUMENT ME!
      */
-    public static StationToMapRegistry getInstance() {
+    public static FeatureRegistry getInstance() {
         return instance;
     }
 
@@ -96,9 +96,9 @@ public class StationToMapRegistry implements LinearReferencingConstants {
      *
      * @return  DOCUMENT ME!
      */
-    public boolean addListener(final CidsBean cidsBean, final StationToMapRegistryListener listener) {
+    public boolean addListener(final CidsBean cidsBean, final FeatureRegistryListener listener) {
         if (listenerMap.get(cidsBean) == null) {
-            listenerMap.put(cidsBean, new ArrayList<StationToMapRegistryListener>());
+            listenerMap.put(cidsBean, new ArrayList<FeatureRegistryListener>());
         }
         return listenerMap.get(cidsBean).add(listener);
     }
@@ -111,8 +111,8 @@ public class StationToMapRegistry implements LinearReferencingConstants {
      *
      * @return  DOCUMENT ME!
      */
-    public boolean removeListener(final CidsBean cidsBean, final StationToMapRegistryListener listener) {
-        final Collection<StationToMapRegistryListener> listeners = listenerMap.get(cidsBean);
+    public boolean removeListener(final CidsBean cidsBean, final FeatureRegistryListener listener) {
+        final Collection<FeatureRegistryListener> listeners = listenerMap.get(cidsBean);
         if (listeners != null) {
             return listeners.remove(listener);
         } else {
@@ -126,9 +126,9 @@ public class StationToMapRegistry implements LinearReferencingConstants {
      * @param  cidsBean  DOCUMENT ME!
      */
     private void fireFeatureCountChanged(final CidsBean cidsBean) {
-        final Collection<StationToMapRegistryListener> listeners = listenerMap.get(cidsBean);
+        final Collection<FeatureRegistryListener> listeners = listenerMap.get(cidsBean);
         if (listeners != null) {
-            for (final StationToMapRegistryListener listener : listeners) {
+            for (final FeatureRegistryListener listener : listeners) {
                 listener.FeatureCountChanged();
             }
         }

@@ -16,9 +16,6 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 /**
  * DOCUMENT ME!
  *
@@ -34,7 +31,6 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     private static final String PROP_TESTJEAN_STATIONEN = "stationen";
     private static final String PROP_TESTJEAN_WKTEIL = "wk_teil";
     private static final String PROP_TESTJEAN_WKTEILE = "wk_teile";
-    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -55,10 +51,14 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
      * Creates new form TestJeanEditor.
      */
     public TestJeanEditor() {
+        LOG.fatal("TestJeanEditor");
         initComponents();
 
         linieEditor.getWrappedEditor().setFields(WkTeilEditor.MC_WKTEIL, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
         linienEditor.setFields(WkTeilEditor.MC_WKTEIL, PROP_TESTJEAN_WKTEILE, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
+        linienEditor.setOtherLinesQueryAddition(
+            "test_jean, test_jean_wkteile, wk_teil",
+            "test_jean.id = test_jean_wkteile.test_jean_reference AND test_jean_wkteile.teil = wk_teil.id AND wk_teil.linie = ");
         stationenEditor.setFields(PROP_TESTJEAN_STATIONEN);
 
         stationEditor.addListener(new LinearReferencedPointEditorListener() {
@@ -109,6 +109,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
 
     @Override
     public void dispose() {
+        LOG.fatal("dispose");
         try {
             stationEditor.dispose();
         } catch (Exception ex) {
@@ -275,6 +276,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        LOG.fatal("editorClosed");
         final CidsBean savedBean = event.getSavedBean();
         final CidsBean savedTeilBean = (savedBean == null) ? null : (CidsBean)savedBean.getProperty("wk_teil");
         linieEditor.editorClosed(new EditorClosedEvent(event.getStatus(), savedTeilBean));
@@ -283,6 +285,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
 
     @Override
     public boolean prepareForSave() {
+        LOG.fatal("prepareForSave");
         boolean save = true;
         save &= linieEditor.prepareForSave();
         save &= linienEditor.prepareForSave();

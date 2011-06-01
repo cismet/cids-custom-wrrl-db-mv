@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.util;
+package de.cismet.cids.custom.util.linearreferencing;
 
 /**
  * DOCUMENT ME!
@@ -13,7 +13,7 @@ package de.cismet.cids.custom.util;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public interface StationToMapRegistryListener {
+public interface FeatureRegistryListener {
 
     //~ Methods ----------------------------------------------------------------
 

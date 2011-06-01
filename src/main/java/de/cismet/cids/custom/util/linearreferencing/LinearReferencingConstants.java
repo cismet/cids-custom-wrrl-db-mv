@@ -21,9 +21,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.cismet.cids.custom.util;
+package de.cismet.cids.custom.util.linearreferencing;
 
 import org.apache.log4j.Logger;
+
+import de.cismet.cids.custom.util.CidsBeanCache;
 
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
@@ -40,8 +42,10 @@ public interface LinearReferencingConstants {
 
     Logger LOG = Logger.getLogger(LinearReferencingConstants.class);
 
-    StationToMapRegistry MAP_REGISTRY = StationToMapRegistry.getInstance();
+    FeatureRegistry FEATURE_REGISTRY = FeatureRegistry.getInstance();
+    PointBeanMergeRegistry MERGE_REGISTRY = PointBeanMergeRegistry.getInstance();
     MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
+    CidsBeanCache CIDSBEAN_CACHE = CidsBeanCache.getInstance();
 
     String CN_STATIONLINE = "station_linie"; // NOI18N
     String CN_STATION = "station";           // NOI18N
