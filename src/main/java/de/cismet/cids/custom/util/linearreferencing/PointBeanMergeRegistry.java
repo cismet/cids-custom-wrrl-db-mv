@@ -23,9 +23,9 @@
  */
 package de.cismet.cids.custom.util.linearreferencing;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -74,7 +74,7 @@ public class PointBeanMergeRegistry {
     public void addListener(final CidsBean pointBean, final PointBeanMergeListener listener) {
         Collection<PointBeanMergeListener> listeners = listenersMap.get(pointBean);
         if (listeners == null) {
-            listeners = new ArrayList<PointBeanMergeListener>();
+            listeners = new CopyOnWriteArrayList<PointBeanMergeListener>();
             listenersMap.put(pointBean, listeners);
         }
         listeners.add(listener);
@@ -106,7 +106,7 @@ public class PointBeanMergeRegistry {
     private Collection<PointBeanMergeListener> getListenersOfPointBean(final CidsBean pointBean) {
         final Collection<PointBeanMergeListener> listeners = listenersMap.get(pointBean);
         if (listeners == null) {
-            return new ArrayList<PointBeanMergeListener>();
+            return new CopyOnWriteArrayList<PointBeanMergeListener>();
         } else {
             return listeners;
         }

@@ -41,4 +41,13 @@ public class LinearReferencedLineRenderer extends LinearReferencedLineEditor {
     public LinearReferencedLineRenderer() {
         super(false);
     }
+
+    /**
+     * Creates a new LinearReferencedLineRenderer object.
+     *
+     * @param  isDrawingFeaturesEnabled  DOCUMENT ME!
+     */
+    public LinearReferencedLineRenderer(final boolean isDrawingFeaturesEnabled) {
+        super(false, isDrawingFeaturesEnabled);
+    }
 }

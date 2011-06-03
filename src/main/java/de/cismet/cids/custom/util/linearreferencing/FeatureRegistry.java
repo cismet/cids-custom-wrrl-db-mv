@@ -9,12 +9,10 @@ package de.cismet.cids.custom.util.linearreferencing;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import java.awt.Color;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -38,14 +36,6 @@ public class FeatureRegistry implements LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Color[] COLORS = new Color[] {
-            new Color(41, 86, 178),
-            new Color(101, 156, 239),
-            new Color(125, 189, 0),
-            new Color(220, 246, 0),
-            new Color(255, 91, 0)
-        };
-
     private static FeatureRegistry instance = new FeatureRegistry();
 
     //~ Instance fields --------------------------------------------------------
@@ -55,8 +45,6 @@ public class FeatureRegistry implements LinearReferencingConstants {
     private HashMap<CidsBean, Integer> counterMap = new HashMap<CidsBean, Integer>();
     private HashMap<CidsBean, Collection<FeatureRegistryListener>> listenerMap =
         new HashMap<CidsBean, Collection<FeatureRegistryListener>>();
-
-    private int colorIndex = 0;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -68,16 +56,6 @@ public class FeatureRegistry implements LinearReferencingConstants {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private Color getNextColor() {
-        colorIndex = (colorIndex + 1) % COLORS.length;
-        return COLORS[colorIndex];
-    }
 
     /**
      * DOCUMENT ME!
@@ -98,7 +76,7 @@ public class FeatureRegistry implements LinearReferencingConstants {
      */
     public boolean addListener(final CidsBean cidsBean, final FeatureRegistryListener listener) {
         if (listenerMap.get(cidsBean) == null) {
-            listenerMap.put(cidsBean, new ArrayList<FeatureRegistryListener>());
+            listenerMap.put(cidsBean, new CopyOnWriteArrayList<FeatureRegistryListener>());
         }
         return listenerMap.get(cidsBean).add(listener);
     }
@@ -201,8 +179,6 @@ public class FeatureRegistry implements LinearReferencingConstants {
             final LinearReferencedPointFeature from,
             final LinearReferencedPointFeature to) {
         final LinearReferencedLineFeature linRefLine = new LinearReferencedLineFeature(from, to);
-
-        linRefLine.setLinePaint(getNextColor());
 
         return (LinearReferencedLineFeature)addFeature(cidsBean, linRefLine);
     }
