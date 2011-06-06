@@ -13,10 +13,6 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
 
 import java.sql.Timestamp;
 
@@ -39,8 +35,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -66,6 +60,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
     private static final String PROP_WKFG_WKTEILE = "teile";
+    public static final String MC_WKTEIL = "wk_teil";             // NOI18N
+    public static final String PROP_WKTEIL_STATIONLINE = "linie"; // NOI18N
     private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     // private final DefaultComboBoxModel qualityStatusCodeModel;
@@ -123,9 +119,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         tpMain.setUI(new TabbedPaneUITransparent());
 
         teileEditor.setFields(
-            WkTeilEditor.MC_WKTEIL,
+            MC_WKTEIL,
             PROP_WKFG_WKTEILE,
-            WkTeilEditor.PROP_WKTEIL_STATIONLINE);
+            PROP_WKTEIL_STATIONLINE);
 
         teileEditor.setOtherLinesQueryAddition(
             "wk_fg, wk_fg_teile, wk_teil",

@@ -210,7 +210,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         initComponents();
         deActivateGUI(false);
         dropBehaviorListener = new RouteWBDropBehavior(this);
-        linearReferencedLineEditor.setFields("MASSNAHMEN", "linie");      // NOI18N
+        linearReferencedLineEditor.setLineField("linie");                 // NOI18N
         linearReferencedLineEditor.setDropBehavior(dropBehaviorListener); // NOI18N
         try {
             new CidsBeanDropTarget(this);

@@ -182,10 +182,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      *
      * @return  DOCUMENT ME!
      */
-    protected LinearReferencedLineEditor createEditor() {
-        final LinearReferencedLineEditor editor = new LinearReferencedLineEditor();
-        editor.setFields(getMetaClassName(), getLineField());
-        return editor;
+    protected static LinearReferencedLineEditor createEditor() {
+        return new LinearReferencedLineEditor();
     }
 
     /**
@@ -261,6 +259,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         for (final CidsBean childBean : getCidsBeans()) {
             final LinearReferencedLineEditor editor = createEditor();
             editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
+            editor.setLineField(getLineField());
             editor.setCidsBean(childBean);
             addEditor(editor);
         }
@@ -322,7 +321,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      * @return  DOCUMENT ME!
      */
     protected CidsBean createBeanFromRoute(final CidsBean routeBean) {
-        final MetaClass parentMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, metaClassName);
+        final MetaClass parentMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, getMetaClassName());
         final CidsBean newBean = parentMC.getEmptyInstance().getBean();
 
         LinearReferencedLineEditor.fillFromRoute(routeBean, newBean, getLineField());
@@ -486,7 +485,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
             for (final CidsBean bean : beans) {
                 if (bean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
                     final LinearReferencedLineEditor editor = createEditor();
-                    editor.setFields(getMetaClassName(), getLineField());
+                    editor.setLineField(getLineField());
                     final CidsBean lineBean = createBeanFromRoute(bean);
                     editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
                     editor.setCidsBean(lineBean);

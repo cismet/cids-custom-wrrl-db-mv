@@ -134,7 +134,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     public LawaEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
-        linearReferencedLineEditor.setFields("LAWA", "linie");
+        linearReferencedLineEditor.setLineField("linie");
 
         initComponents();
         if (!readOnly) {

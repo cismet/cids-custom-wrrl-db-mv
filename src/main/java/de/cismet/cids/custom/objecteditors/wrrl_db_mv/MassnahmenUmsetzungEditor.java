@@ -134,14 +134,14 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             initComponents();
             jTextField1.setEditable(false);
             dropBehaviorListener = new RouteWBDropBehavior(this);
-            linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
+            linearReferencedLineEditor.setLineField("linie");                 // NOI18N
             linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
             deActivateGUIElements(false);
             try {
                 new CidsBeanDropTarget(this);
             } catch (final Exception ex) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Error while creating CidsBeanDropTarget", ex);     // NOI18N
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
                 }
             }
         } else {

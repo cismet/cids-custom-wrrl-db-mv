@@ -131,7 +131,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValMassn_id.setBorder(null);
         lblValMassn_id.setOpaque(false);
         lblValMassn_id.setEditable(false);
-        linearReferencedLineEditor.setFields("MASSNAHMEN", "linie"); // NOI18N
+        linearReferencedLineEditor.setLineField("linie"); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

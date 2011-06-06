@@ -10,8 +10,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.WrrlEditorTester;
 
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
@@ -38,9 +36,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor linieEditor;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineArrayEditor linienEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor stationenEditor;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -54,40 +50,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
         LOG.fatal("TestJeanEditor");
         initComponents();
 
-        linieEditor.getWrappedEditor().setFields(WkTeilEditor.MC_WKTEIL, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
-        linienEditor.setFields(WkTeilEditor.MC_WKTEIL, PROP_TESTJEAN_WKTEILE, WkTeilEditor.PROP_WKTEIL_STATIONLINE);
         linienEditor.setOtherLinesQueryAddition(
             "test_jean, test_jean_wkteile, wk_teil",
             "test_jean.id = test_jean_wkteile.test_jean_reference AND test_jean_wkteile.teil = wk_teil.id AND wk_teil.linie = ");
         stationenEditor.setFields(PROP_TESTJEAN_STATIONEN);
-
-        stationEditor.addListener(new LinearReferencedPointEditorListener() {
-
-                @Override
-                public void pointCreated() {
-                    try {
-                        cidsBean.setProperty(PROP_TESTJEAN_STATION, stationEditor.getCidsBean());
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("error while setting new cidsbean for station", ex);
-                        }
-                    }
-                }
-            });
-
-        linieEditor.getWrappedEditor().addListener(new LinearReferencedLineEditorListener() {
-
-                @Override
-                public void linearReferencedLineCreated() {
-                    try {
-                        cidsBean.setProperty(PROP_TESTJEAN_WKTEIL, linieEditor.getCidsBean());
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("error while setting new cidsbean for wk_teil", ex);
-                        }
-                    }
-                }
-            });
 
         // stationEditor1.setImageIcon(new
         // javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ende.png")));
@@ -109,23 +75,8 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
 
     @Override
     public void dispose() {
-        LOG.fatal("dispose");
-        try {
-            stationEditor.dispose();
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("error while dispose", ex);
-            }
-        }
         try {
             stationenEditor.dispose();
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("error while dispose", ex);
-            }
-        }
-        try {
-            linieEditor.dispose();
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while dispose", ex);
@@ -150,8 +101,6 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        linieEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkTeilEditor();
-        stationEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
         jPanel1 = new javax.swing.JPanel();
         stationenEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationArrayEditor();
         jPanel3 = new javax.swing.JPanel();
@@ -162,43 +111,10 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_teil}"),
-                linieEditor,
-                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(linieEditor, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station}"),
-                stationEditor,
-                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(stationEditor, gridBagConstraints);
-
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean}"),
@@ -277,9 +193,6 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         LOG.fatal("editorClosed");
-        final CidsBean savedBean = event.getSavedBean();
-        final CidsBean savedTeilBean = (savedBean == null) ? null : (CidsBean)savedBean.getProperty("wk_teil");
-        linieEditor.editorClosed(new EditorClosedEvent(event.getStatus(), savedTeilBean));
         linienEditor.editorClosed(event);
     }
 
@@ -287,7 +200,6 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
     public boolean prepareForSave() {
         LOG.fatal("prepareForSave");
         boolean save = true;
-        save &= linieEditor.prepareForSave();
         save &= linienEditor.prepareForSave();
         return save;
     }

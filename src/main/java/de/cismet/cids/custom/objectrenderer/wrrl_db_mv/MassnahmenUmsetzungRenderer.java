@@ -69,7 +69,7 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
     public MassnahmenUmsetzungRenderer() {
         initComponents();
         jTextArea1.setEditable(false);
-        linearReferencedLineEditor.setFields("MASSNAHMENUMSETZUNG", "linie"); // NOI18N
+        linearReferencedLineEditor.setLineField("linie"); // NOI18N
 
         deActivateGUIElements(false);
     }

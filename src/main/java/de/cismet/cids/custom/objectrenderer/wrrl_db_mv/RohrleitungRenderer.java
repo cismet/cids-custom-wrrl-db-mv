@@ -610,7 +610,7 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
      * DOCUMENT ME!
      */
     private void initLinearReferencedLineEditor() {
-        linearReferencedLineRenderer1.setFields("Rohrleitung", "linie");
+        linearReferencedLineRenderer1.setLineField("linie");
     }
 
     @Override
