@@ -488,6 +488,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
                     final LinearReferencedLineEditor editor = createEditor();
                     editor.setFields(getMetaClassName(), getLineField());
                     final CidsBean lineBean = createBeanFromRoute(bean);
+                    editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
                     editor.setCidsBean(lineBean);
                     editor.updateRealGeoms();
                     addEditor(editor);
