@@ -174,6 +174,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private double backupToPointValue = 0d;
     private String otherLinesFromQueryPart;
     private String otherLinesWhereQueryPart;
+    private final ArrayList<CidsBean> otherLineBeans = new ArrayList<CidsBean>();
 
     private Collection<LinearReferencedLineEditorListener> listeners =
         new ArrayList<LinearReferencedLineEditorListener>();
@@ -767,6 +768,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             }
 
             cleanOtherLinesPanel();
+            otherLineBeans.clear();
             for (final MetaObject moOtherLine : mosOtherLines) {
                 final CidsBean otherLineBean = moOtherLine.getBean();
                 final LinearReferencedLineRenderer renderer = new LinearReferencedLineRenderer();
@@ -775,6 +777,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 renderer.updateSplitMergeControls(FROM);
                 renderer.updateSplitMergeControls(TO);
                 panOtherLines.add(renderer);
+
+                otherLineBeans.add(renderer.getLineBean());
             }
         }
 
@@ -1619,17 +1623,16 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 pointGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
                 LinearReferencingHelper.setPointGeometryToStationBean(pointGeom, pointBean);
             }
+
             // realgeom der Linie anpassen
-            if (getLineFeature() != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("change line geom");
-                }
-                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(getPointValue(FROM),
-                        getPointValue(TO),
-                        LinearReferencingHelper.getRouteGeometryFromStationBean(getPointBean(isFrom)));
-                lineGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
-                setGeometry(lineGeom);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("change line geom");
             }
+            final Geometry lineGeom = LinearReferencedLineFeature.createSubline(getPointValue(FROM),
+                    getPointValue(TO),
+                    LinearReferencingHelper.getRouteGeometryFromStationBean(getPointBean(isFrom)));
+            lineGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+            setLineGeometry(lineGeom);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Error while setting real geoms", ex);
@@ -1845,7 +1848,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @return  DOCUMENT ME!
      */
-    private CidsBean getLineBean() {
+    protected CidsBean getLineBean() {
         if (getLineField() == null) {
             return getCidsBean();
         } else {
@@ -1902,8 +1905,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private void setGeometry(final Geometry line) throws Exception {
+    private void setLineGeometry(final Geometry line) throws Exception {
         LinearReferencingHelper.setGeometryToLineBean(line, getLineBean());
+        if (getLineBean() != null) {
+            getLineBean().setArtificialChangeFlag(true);
+        }
     }
 
     @Override
@@ -2294,63 +2300,63 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromPointSplitActionPerformed
+    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromPointSplitActionPerformed
         splitPoint(FROM);
-    }                                                                                     //GEN-LAST:event_btnFromPointSplitActionPerformed
+    }//GEN-LAST:event_btnFromPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToPointSplitActionPerformed
+    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToPointSplitActionPerformed
         splitPoint(TO);
-    }                                                                                   //GEN-LAST:event_btnToPointSplitActionPerformed
+    }//GEN-LAST:event_btnToPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
+    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
         correctBadGeom(TO);
-    }                                                                                       //GEN-LAST:event_btnToBadGeomCorrectActionPerformed
+    }//GEN-LAST:event_btnToBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomActionPerformed
+    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomActionPerformed
         switchBadGeomVisibility(TO);
-    }                                                                                //GEN-LAST:event_btnToBadGeomActionPerformed
+    }//GEN-LAST:event_btnToBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
+    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
         correctBadGeom(FROM);
-    }                                                                                         //GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
+    }//GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomActionPerformed
+    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomActionPerformed
         switchBadGeomVisibility(FROM);
-    }                                                                                  //GEN-LAST:event_btnFromBadGeomActionPerformed
+    }//GEN-LAST:event_btnFromBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRouteActionPerformed
+    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRouteActionPerformed
         updateOtherLinesPanelVisibility();
-    }                                                                            //GEN-LAST:event_btnRouteActionPerformed
+    }//GEN-LAST:event_btnRouteActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2637,6 +2643,17 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
                 setCidsBean(oldCidsBean);
             }
+        } else if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            for (final CidsBean otherLineBean : otherLineBeans) {
+                if (otherLineBean.hasArtificialChangeFlag()) {
+                    try {
+                        otherLineBean.persist();
+                    } catch (Exception ex) {
+                        LOG.error("error during persist", ex);
+                    }
+                }
+            }
+            otherLineBeans.clear();
         }
         CIDSBEAN_CACHE.clear();
     }
