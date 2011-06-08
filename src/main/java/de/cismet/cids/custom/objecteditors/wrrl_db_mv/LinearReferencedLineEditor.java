@@ -556,15 +556,24 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     }
 
     @Override
-    public void setCidsBean(CidsBean cidsBean) {
+    public void setCidsBean(final CidsBean cidsBean) {
         // aufräumen falls vorher cidsbean schon gesetzt war
         cleanupLine();
 
-        // bean setzen (aber vorher mit der aus dem cache ersetzen)
-        if (cidsBean != null) {
-            cidsBean = CIDSBEAN_CACHE.getCidsBeanForMetaObject(cidsBean.getMetaObject());
-        }
         this.cidsBean = cidsBean;
+
+        // cache für beans setzen
+        final CidsBean cachedLineBean = CIDSBEAN_CACHE.getCachedBeanFor(getLineBean());
+        final CidsBean cachedFromPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(FROM));
+        final CidsBean cachedToPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(TO));
+
+        // beans mit denen aus dem Cache erstzen
+        // (nur wenn nicht editable, sonst werden die änderungen an der bean unter umständen nicht gespeichert)
+        if (!isEditable()) {
+            setLineBean(cachedLineBean);
+            setPointBean(cachedFromPointBean, FROM);
+            setPointBean(cachedToPointBean, TO);
+        }
 
         // position der punkte sichern (für reset)
         backupPointValue(FROM);
@@ -1073,24 +1082,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  pointBean  DOCUMENT ME!
      * @param  isFrom     DOCUMENT ME!
      */
-    private void setPointBean(CidsBean pointBean, final boolean isFrom) {
+    private void setPoint(final CidsBean pointBean, final boolean isFrom) {
         cleanupPoint(isFrom);
-
-        if (pointBean != null) {
-            pointBean = CIDSBEAN_CACHE.getCidsBeanForMetaObject(pointBean.getMetaObject());
-        }
-
-        // bean setzen
-        if (getCidsBean() != null) {
-            try {
-                getLineBean().setProperty(getPointField(isFrom), pointBean);
-            } catch (Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("error while setting cidsbean for point", ex);
-                }
-            }
-        }
-
+        setPointBean(pointBean, isFrom);
         initPoint(isFrom);
     }
 
@@ -1843,11 +1837,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      */
     protected CidsBean getPointBean(final boolean isFrom) {
         final CidsBean pointBean = LinearReferencingHelper.getStationBeanFromLineBean(getLineBean(), isFrom);
-        if (pointBean != null) {
-            return CIDSBEAN_CACHE.getCidsBeanForMetaObject(pointBean.getMetaObject());
-        } else {
-            return null;
-        }
+        return pointBean;
     }
 
     /**
@@ -1860,11 +1850,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             return getCidsBean();
         } else {
             final CidsBean lineBean = getLineBean(getCidsBean(), getLineField());
-            if (lineBean != null) {
-                return CIDSBEAN_CACHE.getCidsBeanForMetaObject(lineBean.getMetaObject());
-            } else {
-                return null;
-            }
+            return lineBean;
         }
     }
 
@@ -2410,7 +2396,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
             final CidsBean newPointBean = LinearReferencingHelper.createStationBeanFromRouteBean(LinearReferencingHelper
                             .getRouteBeanFromStationBean(getPointBean(isFrom)));
-            setPointBean(newPointBean, isFrom);
+            setPoint(newPointBean, isFrom);
             pointBeanValueChanged(isFrom);
 
             final LinearReferencedPointFeature pointFeature = getPointFeature(isFrom);
@@ -2437,6 +2423,22 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 } catch (Exception ex) {
                     LOG.error("error while avoiding reset of editable point", ex);
                 }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pointBean  DOCUMENT ME!
+     * @param  isFrom     DOCUMENT ME!
+     */
+    private void setPointBean(final CidsBean pointBean, final boolean isFrom) {
+        try {
+            getLineBean().setProperty(getPointField(isFrom), pointBean);
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while setting cidsbean for point", ex);
             }
         }
     }
@@ -2571,7 +2573,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
             for (final MetaObject mo : mos) {
                 // bean des wk_teils
-                final CidsBean targetBean = CIDSBEAN_CACHE.getCidsBeanForMetaObject(mo);
+                final CidsBean targetBean = mo.getBean();
 
                 // beans der stationen
                 final CidsBean targetFromBean = (CidsBean)targetBean.getProperty(getPointField(FROM));
@@ -2782,7 +2784,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                             final CidsBean parentPointBean = mergeParentLineEditor.getPointBean(isParentFrom);
                             // darf nicht mergen wenn dadurch der from und der to point gleich wären
                             if (!getPointBean(isFrom).equals(mergeParentLineEditor.getPointBean(!isParentFrom))) {
-                                mergeParentLineEditor.setPointBean(getPointBean(isFrom), isParentFrom);
+                                mergeParentLineEditor.setPoint(getPointBean(isFrom), isParentFrom);
                                 mergeParentLineEditor.pointBeanValueChanged(isParentFrom);
                                 e.dropComplete(true);
                                 MERGE_REGISTRY.firePointBeanMerged(parentPointBean, getPointBean(isFrom));

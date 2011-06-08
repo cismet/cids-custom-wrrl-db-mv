@@ -254,6 +254,9 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        // TODO jeder array editor bekommt seinen eigenen cache
+        CIDSBEAN_CACHE.clear();
+
         this.cidsBean = cidsBean;
 
         for (final CidsBean childBean : getCidsBeans()) {
@@ -353,8 +356,6 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         for (final LinearReferencedLineEditor editor : editorMap.values()) {
             editor.dispose();
         }
-        // TODO weg damit, gehört in editorclosed rein
-        CIDSBEAN_CACHE.clear();
     }
 
     /**

@@ -71,15 +71,19 @@ public class CidsBeanCache {
     /**
      * DOCUMENT ME!
      *
-     * @param   metaobject  DOCUMENT ME!
+     * @param   cidsBean  metaobject DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public CidsBean getCidsBeanForMetaObject(final MetaObject metaobject) {
-        CidsBean cidsBean = cache.get(metaobject);
+    public CidsBean getCachedBeanFor(final CidsBean cidsBean) {
         if (cidsBean == null) {
-            cidsBean = metaobject.getBean();
-            cache.put(metaobject, cidsBean);
+            return null;
+        }
+        final MetaObject metaObject = cidsBean.getMetaObject();
+        CidsBean cachedBean = cache.get(metaObject);
+        if (cachedBean == null) {
+            cachedBean = metaObject.getBean();
+            cache.put(metaObject, cachedBean);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("bean cached");
             }
@@ -88,7 +92,7 @@ public class CidsBeanCache {
                 LOG.debug("cached bean is used");
             }
         }
-        return cidsBean;
+        return cachedBean;
     }
 
     /**
