@@ -439,7 +439,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                     if (!isCrsSupported(event.getCurrentCrs())) {
                         showCrsNotSupported();
                     } else {
-                        initPoint();
+                        init();
                     }
                 }
             });
@@ -846,7 +846,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
     /**
      * DOCUMENT ME!
      */
-    private void initPoint() {
+    private void init() {
         // wird das aktuelle crs unterstützt ?
         if (!isCrsSupported(CismapBroker.getInstance().getSrs())) {
             showCrsNotSupported();
@@ -878,17 +878,18 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                     FEATURE_REGISTRY.addListener(pointBean, getMapRegistryListener());
 
                     // feature erzeugen und auf der Karte anzeigen lassen
-                    final LinearReferencedPointFeature feature = FEATURE_REGISTRY.addStationFeature(pointBean);
+                    final LinearReferencedPointFeature pointFeature = FEATURE_REGISTRY.addStationFeature(pointBean);
                     if (ico != null) {
-                        feature.setIconImage(ico);
+                        pointFeature.setIconImage(ico);
                     }
+                    pointFeature.setEditable(true);
 
                     // spinner auf intervall der neuen route anpassen
                     ((SpinnerNumberModel)getValueSpinner().getModel()).setMaximum(Math.ceil(
-                            feature.getLineGeometry().getLength()));
+                            pointFeature.getLineGeometry().getLength()));
 
                     // auf änderungen des features horchen
-                    feature.addListener(getFeatureListener());
+                    pointFeature.addListener(getFeatureListener());
 
                     firePointCreated();
                 }
@@ -920,7 +921,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         this.cidsBean = cidsBean;
 
         // neu initialisieren
-        initPoint();
+        init();
 
         cidsBeanChanged(getValue());
     }
@@ -1194,27 +1195,27 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_splitButtonActionPerformed
+    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splitButtonActionPerformed
         splitPoint();
-    }                                                                               //GEN-LAST:event_splitButtonActionPerformed
+    }//GEN-LAST:event_splitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomButtonActionPerformed
+    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomButtonActionPerformed
         switchBadGeomVisibility();
-    }                                                                                 //GEN-LAST:event_badGeomButtonActionPerformed
+    }//GEN-LAST:event_badGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomCorrectButtonActionPerformed
+    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomCorrectButtonActionPerformed
         correctBadGeomCorrect();
-    }                                                                                        //GEN-LAST:event_badGeomCorrectButtonActionPerformed
+    }//GEN-LAST:event_badGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!
