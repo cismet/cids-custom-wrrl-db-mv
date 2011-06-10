@@ -65,7 +65,8 @@ public class WkSgReport {
                 beans,
                 reports,
                 true,
-                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()));
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()),
+                CismapBroker.getInstance().getCismapFolderPath());
 
         worker.execute();
     }
