@@ -98,6 +98,8 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         if (!readOnly) {
             lblValWert_char.setVisible(false);
             lblValWert_num.setVisible(false);
+            txtValWert_char.setEditable(false);
+            txtValWert_num.setEditable(false);
             try {
                 new CidsBeanDropTarget(this);
             } catch (Exception ex) {
@@ -137,6 +139,11 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
                 lblValWert_num.setText(wertNum.toString());
             } else {
                 lblValWert_num.setText("");
+            }
+
+            if (!readOnly) {
+                txtValWert_char.setEditable(true);
+                txtValWert_num.setEditable(true);
             }
         } else {
             lblFoot.setText("");
