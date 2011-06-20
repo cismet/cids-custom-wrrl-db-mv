@@ -21,10 +21,14 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
+
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -35,23 +39,24 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBeanStore, CidsBeanDropListener {
+public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBeanStore,
+    CidsBeanDropListener,
+    EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WirkungPan.class);
-    private static final String[] WB_PROPERTIES = {
-            "wirkung_wk_fg",
-            "wirkung_wk_sg",
-            "wirkung_wk_kg",
-            "wirkung_wk_gw"
-        };
+    private static final int FG_ART = 1;
+    private static final int SG_ART = 2;
+    private static final int KG_ART = 3;
+    private static final int GW_ART = 4;
 
     //~ Instance fields --------------------------------------------------------
 
     private WbModel wbListModel = new WbModel();
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRemWirkung;
@@ -197,23 +202,14 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
             if (answer == JOptionPane.YES_OPTION) {
                 try {
                     final CidsBean bean = (CidsBean)selection;
-
-                    if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
-                        removeBean(WB_PROPERTIES[0], bean);
-                    } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {
-                        removeBean(WB_PROPERTIES[1], bean);
-                    } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
-                        removeBean(WB_PROPERTIES[2], bean);
-                    } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
-                        removeBean(WB_PROPERTIES[3], bean);
-                    }
+                    removeWB(bean);
                     wbListModel.removeElement(bean);
                 } catch (Exception e) {
                     UIUtil.showExceptionToUser(e, this);
                 }
             }
         }
-    } //GEN-LAST:event_btnRemWirkungActionPerformed
+    }                                                                                 //GEN-LAST:event_btnRemWirkungActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -237,14 +233,11 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
     public void beansDropped(final ArrayList<CidsBean> beans) {
         if ((cidsBean != null) && !readOnly) {
             for (final CidsBean bean : beans) {
-                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
-                    addWB(WB_PROPERTIES[0], bean);
-                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {
-                    addWB(WB_PROPERTIES[1], bean);
-                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
-                    addWB(WB_PROPERTIES[2], bean);
-                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
-                    addWB(WB_PROPERTIES[3], bean);
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")
+                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")
+                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")
+                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
+                    addWB(bean);
                 }
             }
         }
@@ -253,32 +246,77 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
     /**
      * DOCUMENT ME!
      *
-     * @param  propertyName  DOCUMENT ME!
-     * @param  bean          DOCUMENT ME!
+     * @param  bean  DOCUMENT ME!
      */
-    private void removeBean(final String propertyName, final CidsBean bean) {
-        final Object beanColl = cidsBean.getProperty(propertyName);
+    private void removeWB(final CidsBean bean) {
+        final Object beanColl = cidsBean.getProperty("wirkung_wk");
         if (beanColl instanceof Collection) {
             ((Collection)beanColl).remove(bean);
+            try {
+                bean.delete();
+                beansToDelete.add(bean);
+            } catch (final Exception e) {
+                LOG.error("Error while deleting a bean.", e);
+            }
         }
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  propertyName   DOCUMENT ME!
-     * @param  propertyEntry  DOCUMENT ME!
+     * @param  wkBean  propertyName DOCUMENT ME!
      */
-    private void addWB(final String propertyName, final CidsBean propertyEntry) {
-        final Collection<CidsBean> collection = (Collection<CidsBean>)cidsBean.getProperty(propertyName);
+    private void addWB(final CidsBean wkBean) {
+        final Collection<CidsBean> collection = (Collection<CidsBean>)cidsBean.getProperty("wirkung_wk");
 
         if (collection == null) {
-            LOG.error("Collectiom of property " + propertyName + " is null");
+            LOG.error("Collectiom of property wirkung_wk is null");
             return;
         }
 
-        collection.add(propertyEntry);
-        wbListModel.addElement(propertyEntry);
+        try {
+            final CidsBean w = CidsBeanSupport.createNewCidsBeanFromTableName("wirkung_wk");
+            w.setProperty("wk_id", wkBean.getProperty("id"));
+
+            if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
+                w.setProperty("art", FG_ART);
+                w.setProperty("name", wkBean.getProperty("wk_k"));
+            } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) {
+                w.setProperty("art", SG_ART);
+                w.setProperty("name", wkBean.getProperty("ls_name"));
+            } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) {
+                w.setProperty("art", KG_ART);
+                w.setProperty("name", wkBean.getProperty("name"));
+            } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
+                w.setProperty("art", GW_ART);
+                w.setProperty("name", wkBean.getProperty("name"));
+            } else {
+                LOG.error("Invalid bean type found.");
+                return;
+            }
+            collection.add(w);
+            wbListModel.addElement(w);
+        } catch (Exception e) {
+            LOG.error("Cannot add object.", e);
+        }
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        for (final CidsBean bean : beansToDelete) {
+            try {
+                bean.persist();
+            } catch (final Exception e) {
+                LOG.error("Error while deleting bean", e); // NOI18N
+            }
+        }
+        beansToDelete.clear();
+
+        return true;
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -363,13 +401,10 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
         public void setElements() {
             elements.clear();
             if (cidsBean != null) {
-                for (final String propName : WB_PROPERTIES) {
-                    final Collection<CidsBean> collection = (Collection<CidsBean>)cidsBean.getProperty(propName);
-
-                    if (collection != null) {
-                        for (final CidsBean bean : collection) {
-                            elements.add(bean);
-                        }
+                final Collection<CidsBean> collection = (Collection<CidsBean>)cidsBean.getProperty("wirkung_wk");
+                if (collection != null) {
+                    for (final CidsBean bean : collection) {
+                        elements.add(bean);
                     }
                 }
             }

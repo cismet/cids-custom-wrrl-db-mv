@@ -922,6 +922,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         }
 
         boolean save = true;
+        save &= wirkungPan1.prepareForSave();
         save &= linearReferencedLineEditor.prepareForSave();
         return save;
     }

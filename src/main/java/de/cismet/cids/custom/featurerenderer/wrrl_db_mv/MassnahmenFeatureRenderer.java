@@ -80,8 +80,13 @@ public class MassnahmenFeatureRenderer extends CustomCidsFeatureRenderer {
     @Override
     public void assign() {
         final CidsBean lineBean = (CidsBean)cidsBean.getProperty("linie");
-        final CidsBean vonBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
-        final CidsBean bisBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        CidsBean vonBean = null;
+        CidsBean bisBean = null;
+
+        if (lineBean != null) {
+            vonBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+            bisBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        }
 
         if ((vonBean != null) && (bisBean != null)) {
             final CidsBean route = (CidsBean)vonBean.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
