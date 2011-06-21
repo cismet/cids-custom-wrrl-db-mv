@@ -67,6 +67,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     private String lineField;
     private String otherLinesFromQueryPart;
     private String otherLinesWhereQueryPart;
+    private boolean isOtherLinesEnabled = true;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
@@ -96,6 +97,14 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
     //~ Methods ----------------------------------------------------------------
 
+    public void setOtherLinesEnabled(final boolean isOtherLinesEnabled) {
+        this.isOtherLinesEnabled = isOtherLinesEnabled;
+    }
+
+    private boolean isOtherLinesEnabled() {
+        return isOtherLinesEnabled;
+    }
+    
     /**
      * DOCUMENT ME!
      *
@@ -261,6 +270,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
         for (final CidsBean childBean : getCidsBeans()) {
             final LinearReferencedLineEditor editor = createEditor();
+            editor.setOtherLinesEnabled(isOtherLinesEnabled());
             editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
             editor.setLineField(getLineField());
             editor.setCidsBean(childBean);

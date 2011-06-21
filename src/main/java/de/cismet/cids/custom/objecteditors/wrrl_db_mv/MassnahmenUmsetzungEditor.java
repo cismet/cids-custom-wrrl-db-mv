@@ -136,6 +136,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             dropBehaviorListener = new RouteWBDropBehavior(this);
             linearReferencedLineEditor.setLineField("linie");                 // NOI18N
             linearReferencedLineEditor.setDropBehavior(dropBehaviorListener);
+            linearReferencedLineEditor.setOtherLinesEnabled(false);
             deActivateGUIElements(false);
             try {
                 new CidsBeanDropTarget(this);
