@@ -7,10 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import javax.swing.JList;
-
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.*;
-import de.cismet.cids.custom.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -30,12 +27,12 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             MassnahmenUmsetzungRenderer.class);
-    private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private JList referencedList;
+    private Thread actionRetrievalThread = null;
+    private Thread wbRetrievalThread = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -351,7 +348,50 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
 
         linearReferencedLineEditor.setCidsBean(cidsBean);
         wirkungPan1.setCidsBean(cidsBean);
-        bindReadOnlyFields();
+//        MassnahmenUmsetzungEditor.bindReadOnlyFields(lblValWk_k, lblValMassnahme_nr, cidsBean, false);
+
+        waitForRunningThread();
+        lblValMassnahme_nr.setText("");
+        lblValWk_k.setText("");
+
+        actionRetrievalThread = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        MassnahmenUmsetzungEditor.bindActionField(lblValMassnahme_nr, cidsBean);
+                    }
+                });
+        wbRetrievalThread = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        MassnahmenUmsetzungEditor.bindWkkField(lblValWk_k, cidsBean);
+                    }
+                });
+
+        actionRetrievalThread.start();
+        wbRetrievalThread.start();
+    }
+
+    /**
+     * interrupt the last retrieval threads and wait until the threads are stopped.
+     */
+    private void waitForRunningThread() {
+        if ((actionRetrievalThread != null) && actionRetrievalThread.isAlive()) {
+            actionRetrievalThread.interrupt();
+        }
+        if ((wbRetrievalThread != null) && wbRetrievalThread.isAlive()) {
+            wbRetrievalThread.interrupt();
+        }
+
+        while (((wbRetrievalThread != null) && wbRetrievalThread.isAlive())
+                    || ((actionRetrievalThread != null) && actionRetrievalThread.isAlive())) {
+            try {
+                Thread.sleep(50);
+            } catch (final InterruptedException e) {
+                // nothing to do
+            }
+        }
     }
 
     @Override
@@ -372,63 +412,9 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
     /**
      * DOCUMENT ME!
      *
-     * @param  referencedList  DOCUMENT ME!
-     */
-    public void setList(final JList referencedList) {
-        this.referencedList = referencedList;
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void bindReadOnlyFields() {
-        if (cidsBean == null) {
-            lblValWk_k.setText("");
-            lblValMassnahme_nr.setText("");
-        } else {
-            lblValWk_k.setText(getWk_k());
-            final CidsBean massnahme = (CidsBean)cidsBean.getProperty("massnahme"); // NOI18N
-
-            if (massnahme == null) {
-                lblValMassnahme_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
-            } else {
-                final Object massn_id = massnahme.getProperty("massn_id"); // NOI18N
-
-                if (massn_id != null) {
-                    lblValMassnahme_nr.setText(massn_id.toString());
-                } else {
-                    lblValMassnahme_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
-                }
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param  enable  DOCUMENT ME!
      */
     private void deActivateGUIElements(final boolean enable) {
         jTextArea1.setEnabled(enable);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private String getWk_k() {
-        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return String.valueOf(cidsBean.getProperty("wk_fg.wk_k")); // NOI18N
-        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-            return String.valueOf(cidsBean.getProperty("wk_sg.wk_k")); // NOI18N
-        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            // TODO: Gibt es beu KG und gw kein wk_k??
-            return String.valueOf(cidsBean.getProperty("wk_kg.name")); // NOI18N
-        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return String.valueOf(cidsBean.getProperty("wk_gw.name")); // NOI18N
-        } else {
-            return CidsBeanSupport.FIELD_NOT_SET;
-        }
     }
 }

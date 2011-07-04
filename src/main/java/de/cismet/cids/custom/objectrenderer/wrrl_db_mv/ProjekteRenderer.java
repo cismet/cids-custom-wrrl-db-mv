@@ -108,7 +108,6 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
      */
     public ProjekteRenderer() {
         initComponents();
-        massnahmenUmsetzungRenderer.setList(jlUmsetzung);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -781,23 +780,19 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlUmsetzung.getSelectedValue();
             if (selObj instanceof CidsBean) {
-                final Object o = ((CidsBean)selObj).getProperty("massnahme");              // NOI18N
-                if ((o instanceof CidsBean) || (o == null)) {
-                    massnahmenUmsetzungRenderer.setCidsBean((CidsBean)selObj);
-                    final List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)
-                            selObj,
-                            "indikator");                                                  // NOI18N
+                massnahmenUmsetzungRenderer.setCidsBean((CidsBean)selObj);
+                final List<CidsBean> indikatorList = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)selObj,
+                        "indikator");                                                      // NOI18N
 
-                    // checks if the currently shown indicator is one of the list jlIndikator1, which will be cleaned
-                    final CidsBean currentIndicatior = projekteIndikatorenEditor1.getCidsBean();
-                    if ((currentIndicatior != null) && (jlIndikator1.getSelectedValue() == currentIndicatior)) {
-                        projekteIndikatorenEditor1.setCidsBean(null);
-                    }
+                // checks if the currently shown indicator is one of the list jlIndikator1, which will be cleaned
+                final CidsBean currentIndicatior = projekteIndikatorenEditor1.getCidsBean();
+                if ((currentIndicatior != null) && (jlIndikator1.getSelectedValue() == currentIndicatior)) {
+                    projekteIndikatorenEditor1.setCidsBean(null);
+                }
 
-                    jlIndikator1.removeAll();
-                    if (indikatorList != null) {
-                        jlIndikator1.setListData(indikatorList.toArray());
-                    }
+                jlIndikator1.removeAll();
+                if (indikatorList != null) {
+                    jlIndikator1.setListData(indikatorList.toArray());
                 }
             }
         }

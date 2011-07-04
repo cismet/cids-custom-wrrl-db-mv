@@ -23,6 +23,12 @@
  */
 package de.cismet.cids.custom.util;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
 import java.awt.Component;
 
 import java.util.List;
@@ -34,6 +40,8 @@ import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 /**
  * DOCUMENT ME!
  *
@@ -41,6 +49,12 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class RouteWBDropBehavior implements LineEditorDropBehavior {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            RouteWBDropBehavior.class);
+    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -60,6 +74,33 @@ public class RouteWBDropBehavior implements LineEditorDropBehavior {
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  wkFg DOCUMENT ME!
+     */
+    public void setWkFgById(final Integer id) {
+        this.routeChanged = false;
+        String query = "select " + MC_WK_FG.getID() + ", m." + MC_WK_FG.getPrimaryKey() + " from "
+                    + MC_WK_FG.getTableName(); // NOI18N
+        query += " m";                         // NOI18N
+        query += " WHERE m.id = " + id;        // NOI18N
+
+        try {
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            if (metaObjects.length == 1) {
+                this.wkFg = metaObjects[0].getBean();
+            } else {
+                LOG.error(
+                    metaObjects.length
+                            + " water bodies found, but exactly one water body should be found.");
+            }
+        } catch (ConnectionException e) {
+            LOG.error("Error while loading the water body object with query: " + query, e);
+        }
+    }
 
     /**
      * DOCUMENT ME!
