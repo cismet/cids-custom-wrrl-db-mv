@@ -8,6 +8,8 @@
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.*;
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.MassnahmenUmsetzungCache;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -33,6 +35,7 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
     private CidsBean cidsBean;
     private Thread actionRetrievalThread = null;
     private Thread wbRetrievalThread = null;
+    private MassnahmenUmsetzungCache cache;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -331,12 +334,23 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
         return cidsBean;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        CidsBean action = null;
+        CidsBean wb = null;
         dispose();
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            if (getCache() != null) {
+                action = getCache().getAction(cidsBean);
+                wb = getCache().getWB(cidsBean);
+            }
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
@@ -348,35 +362,52 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
 
         linearReferencedLineEditor.setCidsBean(cidsBean);
         wirkungPan1.setCidsBean(cidsBean);
-//        MassnahmenUmsetzungEditor.bindReadOnlyFields(lblValWk_k, lblValMassnahme_nr, cidsBean, false);
 
-        waitForRunningThread();
-        lblValMassnahme_nr.setText("");
-        lblValWk_k.setText("");
+        waitForRunningThreads();
 
-        actionRetrievalThread = new Thread(new Runnable() {
+        if ((wb == null) && (cidsBean != null) && (MassnahmenUmsetzungCache.getWk_kId(cidsBean) != null)) {
+            lblValWk_k.setText("");
 
-                    @Override
-                    public void run() {
-                        MassnahmenUmsetzungEditor.bindActionField(lblValMassnahme_nr, cidsBean);
-                    }
-                });
-        wbRetrievalThread = new Thread(new Runnable() {
+            wbRetrievalThread = new Thread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        MassnahmenUmsetzungEditor.bindWkkField(lblValWk_k, cidsBean);
-                    }
-                });
+                        @Override
+                        public void run() {
+                            MassnahmenUmsetzungCache.bindWkkField(lblValWk_k, cidsBean);
+                        }
+                    });
+            wbRetrievalThread.start();
+        } else if (wb != null) {
+            lblValWk_k.setText(String.valueOf(wb.getProperty(MassnahmenUmsetzungCache.getWk_kProperty(cidsBean))));
+        } else if ((cidsBean != null) && (MassnahmenUmsetzungCache.getWk_kId(cidsBean) == null)) {
+            lblValWk_k.setText(CidsBeanSupport.FIELD_NOT_SET);
+        } else {
+            lblValWk_k.setText("");
+        }
 
-        actionRetrievalThread.start();
-        wbRetrievalThread.start();
+        if ((action == null) && (cidsBean != null) && (cidsBean.getProperty("massnahme") != null)) {
+            lblValMassnahme_nr.setText("");
+
+            actionRetrievalThread = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            MassnahmenUmsetzungCache.bindActionField(lblValMassnahme_nr, cidsBean);
+                        }
+                    });
+            actionRetrievalThread.start();
+        } else if (action != null) {
+            lblValMassnahme_nr.setText(String.valueOf(action.getProperty("massn_id")));
+        } else if ((cidsBean != null) && (cidsBean.getProperty("massnahme") == null)) {
+            lblValMassnahme_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
+        } else {
+            lblValMassnahme_nr.setText("");
+        }
     }
 
     /**
      * interrupt the last retrieval threads and wait until the threads are stopped.
      */
-    private void waitForRunningThread() {
+    private void waitForRunningThreads() {
         if ((actionRetrievalThread != null) && actionRetrievalThread.isAlive()) {
             actionRetrievalThread.interrupt();
         }
@@ -416,5 +447,23 @@ public class MassnahmenUmsetzungRenderer extends javax.swing.JPanel implements C
      */
     private void deActivateGUIElements(final boolean enable) {
         jTextArea1.setEnabled(enable);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the cache
+     */
+    public MassnahmenUmsetzungCache getCache() {
+        return cache;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cache  the cache to set
+     */
+    public void setCache(final MassnahmenUmsetzungCache cache) {
+        this.cache = cache;
     }
 }

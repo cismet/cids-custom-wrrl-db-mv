@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.MassnahmenUmsetzungCache;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.TimestampConverter;
 import de.cismet.cids.custom.util.UIUtil;
@@ -71,6 +72,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
+    private MassnahmenUmsetzungCache cache;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddIndikator;
@@ -163,6 +165,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         bindingGroup.unbind();
         massnahmenUmsetzungEditor.setCidsBean(null);
         this.cidsBean = cidsBean;
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
@@ -189,6 +192,10 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         } else {
             lblFoot.setText("");
         }
+
+        cache = new MassnahmenUmsetzungCache(cidsBean);
+        massnahmenUmsetzungEditor.setCache(cache);
+        cache.refresh();
     }
 
     @Override

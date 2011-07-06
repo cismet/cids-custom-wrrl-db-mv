@@ -12,9 +12,12 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -23,6 +26,7 @@ import javax.swing.JPanel;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.*;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.DateConverter;
+import de.cismet.cids.custom.util.MassnahmenUmsetzungCache;
 import de.cismet.cids.custom.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -49,6 +53,7 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private MassnahmenUmsetzungCache cache;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -137,6 +142,10 @@ public class ProjekteRenderer extends JPanel implements CidsBeanRenderer, Footer
         } else {
             lblFoot.setText("");
         }
+
+        cache = new MassnahmenUmsetzungCache(cidsBean);
+        massnahmenUmsetzungRenderer.setCache(cache);
+        cache.refresh();
     }
 
     @Override

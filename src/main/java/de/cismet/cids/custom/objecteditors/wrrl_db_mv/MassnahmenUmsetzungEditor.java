@@ -7,11 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
 import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
 
 import org.openide.util.NbBundle;
 
@@ -19,8 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
-import java.lang.reflect.InvocationTargetException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,10 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.MapUtil;
+import de.cismet.cids.custom.util.MassnahmenUmsetzungCache;
 import de.cismet.cids.custom.util.MeasureTypeCodeRenderer;
 import de.cismet.cids.custom.util.RouteWBDropBehavior;
 import de.cismet.cids.custom.util.ScrollableComboBox;
@@ -69,15 +63,10 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             MassnahmenUmsetzungEditor.class);
-    private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
+    public static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
     private static final MetaClass MTC_MC = ClassCacheMultiple.getMetaClass(
             CidsBeanSupport.DOMAIN_NAME,
             "wfd.de_measure_type_code");
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen");
-    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
-    private static final MetaClass MC_WK_SG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
-    private static final MetaClass MC_WK_KG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_kg");
-    private static final MetaClass MC_WK_GW = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_gw");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -88,6 +77,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
     private JList referencedList;
     private RouteWBDropBehavior dropBehaviorListener;
     private Thread actionRetrievalThread = null;
+    private MassnahmenUmsetzungCache cache;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArtAbort;
@@ -597,16 +587,16 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnArtAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArtAbortActionPerformed
+    private void btnArtAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnArtAbortActionPerformed
         dlgArtKatalog.setVisible(false);
-    }//GEN-LAST:event_btnArtAbortActionPerformed
+    }                                                                               //GEN-LAST:event_btnArtAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnArtOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArtOkActionPerformed
+    private void btnArtOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnArtOkActionPerformed
         try {
             final Object selection = cbArtKatalog.getSelectedItem();
             if (selection instanceof CidsBean) {
@@ -616,7 +606,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             LOG.error("Error while changing property measure_type_code.", e);
         }
         dlgArtKatalog.setVisible(false);
-    }//GEN-LAST:event_btnArtOkActionPerformed
+    }                                                                            //GEN-LAST:event_btnArtOkActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -628,13 +618,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
         if (cbGeom.isEnabled()) {
             UIUtil.findOptimalPositionOnScreen(dlgArtKatalog);
             dlgArtKatalog.setSize(800, 150);
             dlgArtKatalog.setVisible(true);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }                                                                            //GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -648,11 +638,14 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        CidsBean action = null;
+        CidsBean wb = null;
         if (isStandalone) {
             return;
         }
         dispose();
         this.cidsBean = cidsBean;
+
         if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
             final int ans = JOptionPane.showConfirmDialog(
                     this,
@@ -668,45 +661,64 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         }
 
         if (cidsBean != null) {
+            if (cache != null) {
+                action = cache.getAction(cidsBean);
+                wb = cache.getWB(cidsBean);
+            }
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).setCidsMetaObject(cidsBean.getMetaObject());
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).initForNewBinding();
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
-            final CidsBean wkObject = bindWkkField(lblValWk_k, cidsBean);
-            dropBehaviorListener.setWkFg(wkObject);
+
+            if ((wb == null) && (cidsBean != null) && (MassnahmenUmsetzungCache.getWk_kId(cidsBean) != null)) {
+                final CidsBean wkObject = MassnahmenUmsetzungCache.bindWkkField(lblValWk_k, cidsBean);
+                dropBehaviorListener.setWkFg(wkObject);
+            } else if (wb != null) {
+                dropBehaviorListener.setWkFg(wb);
+                lblValWk_k.setText(String.valueOf(wb.getProperty(MassnahmenUmsetzungCache.getWk_kProperty(cidsBean))));
+            } else if ((cidsBean != null) && (MassnahmenUmsetzungCache.getWk_kId(cidsBean) == null)) {
+                lblValWk_k.setText(CidsBeanSupport.FIELD_NOT_SET);
+            } else {
+            }
+
             bindingGroup.bind();
             deActivateGUIElements(true);
             zoomToFeatures();
         } else {
             dropBehaviorListener.setWkFg(null);
             deActivateGUIElements(false);
-            bindWkkField(lblValWk_k, cidsBean);
+            lblValWk_k.setText("");
         }
 
         linearReferencedLineEditor.setCidsBean(cidsBean);
         wirkungPan1.setCidsBean(cidsBean);
-//        bindReadOnlyFields(lblValWk_k, lblValMassnahme_nr, cidsBean, true);
 
-        waitForRunningThread();
-        lblValMassnahme_nr.setText("");
+        waitForRunningThreads();
+        if ((action == null) && (cidsBean != null) && (cidsBean.getProperty("massnahme") != null)) {
+            lblValMassnahme_nr.setText("");
 
-        actionRetrievalThread = new Thread(new Runnable() {
+            actionRetrievalThread = new Thread(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        bindActionField(lblValMassnahme_nr, cidsBean);
-                    }
-                });
-
-        actionRetrievalThread.start();
-        showOrHideGeometryEditors();
+                        @Override
+                        public void run() {
+                            MassnahmenUmsetzungCache.bindActionField(lblValMassnahme_nr, cidsBean);
+                        }
+                    });
+            actionRetrievalThread.start();
+        } else if (action != null) {
+            lblValMassnahme_nr.setText(String.valueOf(action.getProperty("massn_id")));
+        } else if ((cidsBean != null) && (cidsBean.getProperty("massnahme") == null)) {
+            lblValMassnahme_nr.setText(CidsBeanSupport.FIELD_NOT_SET);
+        } else {
+            lblValMassnahme_nr.setText("");
+        }
     }
 
     /**
      * interrupt the last retrieval threads and wait until the threads are stopped.
      */
-    private void waitForRunningThread() {
+    private void waitForRunningThreads() {
         if ((actionRetrievalThread != null) && actionRetrievalThread.isAlive()) {
             actionRetrievalThread.interrupt();
         }
@@ -745,211 +757,6 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
      */
     public void setList(final JList referencedList) {
         this.referencedList = referencedList;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   lblValWk_k  DOCUMENT ME!
-     * @param   cidsBean    DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static CidsBean bindWkkField(final JLabel lblValWk_k,
-            final CidsBean cidsBean) {
-        CidsBean wkFgObject = null;
-        String labelText = "";
-
-        if (cidsBean != null) {
-            // load the water body name from the server
-            final Integer wk_id = getWk_kId(cidsBean);
-
-            if (wk_id == null) {
-                labelText = CidsBeanSupport.FIELD_NOT_SET;
-            } else {
-                final MetaClass mc = getWkMc(cidsBean);
-                String query = "select " + mc.getID() + ", m." + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
-                query += " m WHERE m.id = " + wk_id;                                                                // NOI18N
-
-                try {
-                    if (!SwingUtilities.isEventDispatchThread() && Thread.interrupted()) {
-                        return null;
-                    }
-                    final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                    if (metaObjects.length == 1) {
-                        wkFgObject = metaObjects[0].getBean();
-                        final Object wk_text = wkFgObject.getProperty(getWk_kProperty(cidsBean)); // NOI18N
-
-                        if (!SwingUtilities.isEventDispatchThread() && Thread.interrupted()) {
-                            return null;
-                        }
-                        if (wk_text != null) {
-                            labelText = wk_text.toString();
-                        } else {
-                            labelText = CidsBeanSupport.FIELD_NOT_SET;
-                        }
-                    } else {
-                        LOG.error(
-                            metaObjects.length
-                                    + " water bodies found, but exactly one water body should be found.");
-                        labelText = "Error";
-                    }
-                } catch (ConnectionException e) {
-                    LOG.error("Error while loading the water body object with query: " + query, e);
-                }
-            }
-        }
-
-        setTextInEdt(lblValWk_k, labelText);
-        return wkFgObject;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   lblValMassnahme_nr  DOCUMENT ME!
-     * @param   cidsBean            DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static CidsBean bindActionField(final JLabel lblValMassnahme_nr,
-            final CidsBean cidsBean) {
-        String labelText = "";
-        CidsBean massnahme = null;
-
-        if (cidsBean != null) {
-            // load the massn_id of the massnahme object from the server
-            final Integer massn_id = (Integer)cidsBean.getProperty("massnahme");
-
-            if (massn_id == null) {
-                labelText = CidsBeanSupport.FIELD_NOT_SET;
-            } else {
-                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from "
-                            + MC.getTableName();        // NOI18N
-                query += " m WHERE m.id = " + massn_id; // NOI18N
-
-                try {
-                    if (!SwingUtilities.isEventDispatchThread() && Thread.interrupted()) {
-                        return null;
-                    }
-                    final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                    if (metaObjects.length == 1) {
-                        massnahme = metaObjects[0].getBean();
-                        final Object massn_id_text = massnahme.getProperty("massn_id"); // NOI18N
-
-                        if (!SwingUtilities.isEventDispatchThread() && Thread.interrupted()) {
-                            return null;
-                        }
-                        if (massn_id_text != null) {
-                            labelText = massn_id_text.toString();
-                        } else {
-                            labelText = CidsBeanSupport.FIELD_NOT_SET;
-                        }
-                    } else {
-                        LOG.error(
-                            metaObjects.length
-                                    + " activity found, but exactly one activity should be found.");
-                        labelText = "Error";
-                    }
-                } catch (ConnectionException e) {
-                    LOG.error("Error while loading the measurement object with query: " + query, e);
-                }
-            }
-        }
-
-        setTextInEdt(lblValMassnahme_nr, labelText);
-        return massnahme;
-    }
-
-    /**
-     * Set the text attribute of the given label in the edt thread.
-     *
-     * @param  label  DOCUMENT ME!
-     * @param  text   DOCUMENT ME!
-     */
-    public static void setTextInEdt(final JLabel label, final String text) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            label.setText(text);
-        } else {
-            try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            label.setText(text);
-                        }
-                    });
-            } catch (final InterruptedException e) {
-                // nothing to do
-            } catch (final InvocationTargetException e) {
-                LOG.error("Exception while setting text.", e);
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   cidsBean  DOCUMENT ME!
-     *
-     * @return  the id of the water body that is set
-     */
-    private static Integer getWk_kId(final CidsBean cidsBean) {
-        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return (Integer)cidsBean.getProperty(WB_PROPERTIES[0]);
-        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-            return (Integer)cidsBean.getProperty(WB_PROPERTIES[1]);
-        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            return (Integer)cidsBean.getProperty(WB_PROPERTIES[2]);
-        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return (Integer)cidsBean.getProperty(WB_PROPERTIES[3]);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   cidsBean  DOCUMENT ME!
-     *
-     * @return  The meta class of the water body object that is set
-     */
-    private static MetaClass getWkMc(final CidsBean cidsBean) {
-        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return MC_WK_FG;
-        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-            return MC_WK_SG;
-        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            return MC_WK_KG;
-        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return MC_WK_GW;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   cidsBean  an object of the type massnahmenUmsetzung
-     *
-     * @return  the name of the name property of the water body that is set.
-     */
-    private static String getWk_kProperty(final CidsBean cidsBean) {
-        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return "wk_k"; // NOI18N
-        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
-            return "wk_k"; // NOI18N
-        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            return "name"; // NOI18N
-        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return "name"; // NOI18N
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -997,8 +804,13 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
                 }
             }
 //            bindReadOnlyFields(lblValWk_k, lblValMassnahme_nr, cidsBean, true);
-            bindActionField(lblValMassnahme_nr, cidsBean);
-            bindWkkField(lblValWk_k, cidsBean);
+            final CidsBean action = MassnahmenUmsetzungCache.bindActionField(lblValMassnahme_nr, cidsBean);
+            final CidsBean wb = MassnahmenUmsetzungCache.bindWkkField(lblValWk_k, cidsBean);
+
+            if (getCache() != null) {
+                getCache().addAction(cidsBean, action);
+                getCache().addWB(cidsBean, wb);
+            }
         }
     }
 
@@ -1158,6 +970,24 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         } else {
             panGeo.setVisible(true);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the cache
+     */
+    public MassnahmenUmsetzungCache getCache() {
+        return cache;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cache  the cache to set
+     */
+    public void setCache(final MassnahmenUmsetzungCache cache) {
+        this.cache = cache;
     }
 
     //~ Inner Classes ----------------------------------------------------------
