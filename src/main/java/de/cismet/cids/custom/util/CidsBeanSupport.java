@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JTextField;
+
 import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -315,5 +317,24 @@ public final class CidsBeanSupport {
         }
 
         return clone;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   text  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static double textToDouble(final JTextField text) {
+        double d = 0.0;
+
+        try {
+            d = Double.valueOf(text.getText());
+        } catch (final NumberFormatException e) {
+            // nothing to do
+        }
+
+        return d;
     }
 }

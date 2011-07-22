@@ -1471,8 +1471,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 10, 20);
         panInfoContent.add(jPanel3, gridBagConstraints);
 
-        panGeo.setMinimumSize(new java.awt.Dimension(640, 140));
-        panGeo.setPreferredSize(new java.awt.Dimension(640, 140));
+        panGeo.setMinimumSize(new java.awt.Dimension(640, 120));
+        panGeo.setPreferredSize(new java.awt.Dimension(640, 120));
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
