@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JOptionPane;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -493,7 +495,13 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 KartierabschnittSohlensubstrat.class,
                 "KartierabschnittSohlensubstrat.cbNe.text")); // NOI18N
         cbNe.setContentAreaFilled(false);
-        cbNe.setEnabled(false);
+        cbNe.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbNeStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
@@ -538,6 +546,47 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
+        if (cbNe.isSelected()) {
+            boolean nothing = true;
+            nothing &= CidsBeanSupport.textToDouble(tfBloecke, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfKies, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfKuenSub, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfSand, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfSchlamm, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfSteine, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfTon, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfTorf, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfTotholz, 0.0) == 0.0;
+            nothing &= CidsBeanSupport.textToDouble(tfWurzeln, 0.0) == 0.0;
+
+            if (nothing) {
+                tfBloecke.setText("0");
+                tfKies.setText("0");
+                tfKuenSub.setText("0");
+                tfSand.setText("0");
+                tfSchlamm.setText("0");
+                tfSteine.setText("0");
+                tfTon.setText("0");
+                tfTorf.setText("0");
+                tfTotholz.setText("0");
+                tfWurzeln.setText("0");
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Felder gesetzt",
+                    "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
+                    JOptionPane.INFORMATION_MESSAGE);
+                cbNe.setSelected(false);
+            }
+        }
+    } //GEN-LAST:event_cbNeStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     @Override
@@ -568,19 +617,31 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
      */
     private void fillGesamt() {
         double ges = 0.0;
-        ges += CidsBeanSupport.textToDouble(tfBloecke);
-        ges += CidsBeanSupport.textToDouble(tfKies);
-        ges += CidsBeanSupport.textToDouble(tfKuenSub);
-        ges += CidsBeanSupport.textToDouble(tfSand);
-        ges += CidsBeanSupport.textToDouble(tfSchlamm);
-        ges += CidsBeanSupport.textToDouble(tfSteine);
-        ges += CidsBeanSupport.textToDouble(tfTon);
-        ges += CidsBeanSupport.textToDouble(tfTorf);
-        ges += CidsBeanSupport.textToDouble(tfTotholz);
-        ges += CidsBeanSupport.textToDouble(tfWurzeln);
+        ges += CidsBeanSupport.textToDouble(tfBloecke, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfKies, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfKuenSub, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfSand, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfSchlamm, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfSteine, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfTon, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfTorf, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfTotholz, 0.0);
+        ges += CidsBeanSupport.textToDouble(tfWurzeln, 0.0);
         lblGes.setText("gesamt: " + ges + " %");
 
-        if (ges == 0) {
+        boolean nothing = true;
+        nothing &= CidsBeanSupport.textToDouble(tfBloecke, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfKies, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfKuenSub, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfSand, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfSchlamm, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfSteine, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfTon, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfTorf, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfTotholz, 1.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfWurzeln, 1.0) == 0.0;
+
+        if (nothing) {
             cbNe.setSelected(true);
         } else {
             cbNe.setSelected(false);

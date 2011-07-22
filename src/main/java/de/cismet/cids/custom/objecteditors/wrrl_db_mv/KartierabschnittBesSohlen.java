@@ -10,6 +10,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JOptionPane;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -327,7 +329,13 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 KartierabschnittBesSohlen.class,
                 "KartierabschnittBesSohlen.cbNe.text")); // NOI18N
         cbNe.setContentAreaFilled(false);
-        cbNe.setEnabled(false);
+        cbNe.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbNeStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 11;
@@ -355,6 +363,39 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
+        if (cbNe.isSelected()) {
+            boolean nothing = true;
+            nothing &= (CidsBeanSupport.textToDouble(tfAbwasser, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfMuell, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfSandtreiben, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfSchutt, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfSonstige, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfVerockerung, 0.0) == 0.0);
+
+            if (nothing) {
+                tfAbwasser.setText("0");
+                tfMuell.setText("0");
+                tfSandtreiben.setText("0");
+                tfSchutt.setText("0");
+                tfSonstige.setText("0");
+                tfVerockerung.setText("0");
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
+                    "Felder gesetzt",
+                    JOptionPane.INFORMATION_MESSAGE);
+                cbNe.setSelected(false);
+            }
+        }
+    } //GEN-LAST:event_cbNeStateChanged
 
     /**
      * DOCUMENT ME!
@@ -389,12 +430,12 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
      */
     private void fillNE() {
         boolean nothing = true;
-        nothing &= (CidsBeanSupport.textToDouble(tfAbwasser) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfMuell) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfSandtreiben) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfSchutt) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfSonstige) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfVerockerung) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfAbwasser, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfMuell, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfSandtreiben, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfSchutt, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfSonstige, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfVerockerung, 1.0) == 0.0);
 
         cbNe.setSelected(nothing);
     }

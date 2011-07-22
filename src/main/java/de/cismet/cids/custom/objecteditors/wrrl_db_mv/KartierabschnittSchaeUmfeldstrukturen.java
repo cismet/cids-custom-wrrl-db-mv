@@ -7,6 +7,13 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import javax.swing.JTextField;
+
+import de.cismet.cids.custom.util.FgskHelper;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -23,6 +30,8 @@ public class KartierabschnittSchaeUmfeldstrukturen extends javax.swing.JPanel im
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private JTextField[] left;
+    private JTextField[] right;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbKeineL;
@@ -66,6 +75,50 @@ public class KartierabschnittSchaeUmfeldstrukturen extends javax.swing.JPanel im
      */
     public KartierabschnittSchaeUmfeldstrukturen() {
         initComponents();
+        left = new JTextField[7];
+        left[0] = txtAgl;
+        left[1] = txtBvl;
+        left[2] = txtFtl;
+        left[3] = txtGual;
+        left[4] = txtHwl;
+        left[5] = txtMal;
+        left[6] = txtSol;
+
+        right = new JTextField[7];
+        right[0] = txtAgr;
+        right[1] = txtBvr;
+        right[2] = txtFtr;
+        right[3] = txtGuar;
+        right[4] = txtHwr;
+        right[5] = txtMar;
+        right[6] = txtSor;
+
+        final FocusListener lisl = new FocusListener() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                }
+
+                @Override
+                public void focusLost(final FocusEvent e) {
+                    FgskHelper.fillNvCheckbox(cbKeineL, left);
+                }
+            };
+
+        final FocusListener lisr = new FocusListener() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                }
+
+                @Override
+                public void focusLost(final FocusEvent e) {
+                    FgskHelper.fillNvCheckbox(cbKeineR, right);
+                }
+            };
+
+        FgskHelper.addListenerForNvCheck(lisl, left);
+        FgskHelper.addListenerForNvCheck(lisr, right);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -530,7 +583,13 @@ public class KartierabschnittSchaeUmfeldstrukturen extends javax.swing.JPanel im
         panInfoContent.add(lblkeine, gridBagConstraints);
 
         cbKeineL.setContentAreaFilled(false);
-        cbKeineL.setEnabled(false);
+        cbKeineL.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbKeineLStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 1;
@@ -539,7 +598,13 @@ public class KartierabschnittSchaeUmfeldstrukturen extends javax.swing.JPanel im
         panInfoContent.add(cbKeineL, gridBagConstraints);
 
         cbKeineR.setContentAreaFilled(false);
-        cbKeineR.setEnabled(false);
+        cbKeineR.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbKeineRStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
@@ -553,6 +618,24 @@ public class KartierabschnittSchaeUmfeldstrukturen extends javax.swing.JPanel im
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbKeineLStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineLStateChanged
+        FgskHelper.nvCheckBoxStateChange(this, cbKeineL, left);
+    }                                                                            //GEN-LAST:event_cbKeineLStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbKeineRStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineRStateChanged
+        FgskHelper.nvCheckBoxStateChange(this, cbKeineR, right);
+    }                                                                            //GEN-LAST:event_cbKeineRStateChanged
 
     @Override
     public CidsBean getCidsBean() {
@@ -568,6 +651,8 @@ public class KartierabschnittSchaeUmfeldstrukturen extends javax.swing.JPanel im
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            FgskHelper.fillNvCheckbox(cbKeineL, left);
+            FgskHelper.fillNvCheckbox(cbKeineR, right);
         }
     }
 

@@ -15,14 +15,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import java.math.BigInteger;
-
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 
@@ -407,7 +404,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laengsbaenke_ufkg}"),
                 tfUfkg,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -440,7 +436,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laengsbaenke_ib}"),
                 tfIb,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -473,7 +468,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laengsbaenke_mb}"),
                 tfMb,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -501,7 +495,13 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 FgskKartierabschnittLaufentwicklung.class,
                 "FgskKartierabschnittLaufentwicklung.cbNe.text")); // NOI18N
         cbNe.setContentAreaFilled(false);
-        cbNe.setEnabled(false);
+        cbNe.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbNeStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -574,7 +574,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufstrukturen_tv}"),
                 tfTv,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -607,7 +606,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufstrukturen_sb}"),
                 tfSb,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -640,7 +638,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufstrukturen_ibi}"),
                 tfIbi,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -673,7 +670,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufstrukturen_lg}"),
                 tfLg,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -706,7 +702,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufstrukturen_lv}"),
                 tfLv,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -739,7 +734,6 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufstrukturen_lw}"),
                 tfLw,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -767,7 +761,13 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 FgskKartierabschnittLaufentwicklung.class,
                 "FgskKartierabschnittLaufentwicklung.cbNe1.text")); // NOI18N
         cbNe1.setContentAreaFilled(false);
-        cbNe1.setEnabled(false);
+        cbNe1.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbNe1StateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -794,6 +794,66 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
+        if (cbNe.isSelected()) {
+            boolean nothing = true;
+            nothing &= (CidsBeanSupport.textToDouble(tfUfkg, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfIb, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfMb, 0.0) == 0.0);
+
+            if (nothing) {
+                tfUfkg.setText("0");
+                tfIb.setText("0");
+                tfMb.setText("0");
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
+                    "Felder gesetzt",
+                    JOptionPane.INFORMATION_MESSAGE);
+                cbNe.setSelected(false);
+            }
+        }
+    } //GEN-LAST:event_cbNeStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbNe1StateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNe1StateChanged
+        if (cbNe1.isSelected()) {
+            boolean nothing = true;
+            nothing &= (CidsBeanSupport.textToDouble(tfTv, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfSb, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfIbi, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfLw, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfLv, 0.0) == 0.0);
+            nothing &= (CidsBeanSupport.textToDouble(tfLg, 0.0) == 0.0);
+
+            if (nothing) {
+                tfTv.setText("0");
+                tfSb.setText("0");
+                tfIbi.setText("0");
+                tfLw.setText("0");
+                tfLv.setText("0");
+                tfLg.setText("0");
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
+                    "Felder gesetzt",
+                    JOptionPane.INFORMATION_MESSAGE);
+                cbNe1.setSelected(false);
+            }
+        }
+    } //GEN-LAST:event_cbNe1StateChanged
 
     /**
      * DOCUMENT ME!
@@ -831,9 +891,9 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
      */
     private void fillNELae() {
         boolean nothing = true;
-        nothing &= (CidsBeanSupport.textToDouble(tfUfkg) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfIb) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfMb) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfUfkg, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfIb, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfMb, 1.0) == 0.0);
 
         cbNe.setSelected(nothing);
     }
@@ -843,12 +903,12 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
      */
     private void fillNELst() {
         boolean nothing = true;
-        nothing &= (CidsBeanSupport.textToDouble(tfTv) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfSb) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfIbi) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfLw) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfLv) == 0.0);
-        nothing &= (CidsBeanSupport.textToDouble(tfLg) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfTv, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfSb, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfIbi, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfLw, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfLv, 1.0) == 0.0);
+        nothing &= (CidsBeanSupport.textToDouble(tfLg, 1.0) == 0.0);
 
         cbNe1.setSelected(nothing);
     }

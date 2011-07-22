@@ -322,12 +322,17 @@ public final class CidsBeanSupport {
     /**
      * DOCUMENT ME!
      *
-     * @param   text  DOCUMENT ME!
+     * @param   text       DOCUMENT ME!
+     * @param   nullValue  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public static double textToDouble(final JTextField text) {
+    public static double textToDouble(final JTextField text, final double nullValue) {
         double d = 0.0;
+
+        if (text.getText().equals("")) {
+            return nullValue;
+        }
 
         try {
             d = Double.valueOf(text.getText());

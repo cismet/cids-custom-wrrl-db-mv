@@ -97,14 +97,24 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isOtherLinesEnabled  DOCUMENT ME!
+     */
     public void setOtherLinesEnabled(final boolean isOtherLinesEnabled) {
         this.isOtherLinesEnabled = isOtherLinesEnabled;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     private boolean isOtherLinesEnabled() {
         return isOtherLinesEnabled;
     }
-    
+
     /**
      * DOCUMENT ME!
      *

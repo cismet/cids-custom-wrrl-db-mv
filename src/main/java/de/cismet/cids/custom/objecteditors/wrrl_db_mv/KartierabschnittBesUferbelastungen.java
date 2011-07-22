@@ -7,6 +7,15 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.FgskHelper;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -23,6 +32,8 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private JTextField[] left;
+    private JTextField[] right;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbKeineL;
@@ -60,6 +71,46 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
      */
     public KartierabschnittBesUferbelastungen() {
         initComponents();
+        left = new JTextField[5];
+        left[0] = txtMuel;
+        left[1] = txtEll;
+        left[2] = txtSol;
+        left[3] = txtStl;
+        left[4] = txtTsl;
+
+        right = new JTextField[5];
+        right[0] = txtMuer;
+        right[1] = txtElr;
+        right[2] = txtSor;
+        right[3] = txtStr;
+        right[4] = txtTsr;
+
+        final FocusListener lisl = new FocusListener() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                }
+
+                @Override
+                public void focusLost(final FocusEvent e) {
+                    FgskHelper.fillNvCheckbox(cbKeineL, left);
+                }
+            };
+
+        final FocusListener lisr = new FocusListener() {
+
+                @Override
+                public void focusGained(final FocusEvent e) {
+                }
+
+                @Override
+                public void focusLost(final FocusEvent e) {
+                    FgskHelper.fillNvCheckbox(cbKeineR, right);
+                }
+            };
+
+        FgskHelper.addListenerForNvCheck(lisl, left);
+        FgskHelper.addListenerForNvCheck(lisr, right);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -418,7 +469,13 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
         panInfoContent.add(lblkeine, gridBagConstraints);
 
         cbKeineL.setContentAreaFilled(false);
-        cbKeineL.setEnabled(false);
+        cbKeineL.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbKeineLStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 1;
@@ -428,7 +485,13 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
         panInfoContent.add(cbKeineL, gridBagConstraints);
 
         cbKeineR.setContentAreaFilled(false);
-        cbKeineR.setEnabled(false);
+        cbKeineR.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbKeineRStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
@@ -444,6 +507,24 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbKeineLStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineLStateChanged
+        FgskHelper.nvCheckBoxStateChange(this, cbKeineL, left);
+    }                                                                            //GEN-LAST:event_cbKeineLStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbKeineRStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineRStateChanged
+        FgskHelper.nvCheckBoxStateChange(this, cbKeineR, right);
+    }                                                                            //GEN-LAST:event_cbKeineRStateChanged
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -458,6 +539,8 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            FgskHelper.fillNvCheckbox(cbKeineL, left);
+            FgskHelper.fillNvCheckbox(cbKeineR, right);
         }
     }
 
