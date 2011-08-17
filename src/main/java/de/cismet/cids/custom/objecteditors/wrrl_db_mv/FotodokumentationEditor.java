@@ -22,8 +22,6 @@ import org.apache.commons.io.IOUtils;
 
 import org.jdesktop.beansbinding.Converter;
 
-import org.openide.util.Exceptions;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -55,14 +53,18 @@ import java.io.UnsupportedEncodingException;
 
 import java.lang.ref.SoftReference;
 
+import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -591,12 +593,16 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      * @throws  IOException  DOCUMENT ME!
      */
     private BufferedImage downloadImageFromWebDAV(final String fileName) throws IOException {
+        final String encodedFileName = encodeURL(fileName);
         final InputStream iStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY
-                        + fileName.replaceAll(" ", "%20"));
-        log.fatal(WEB_DAV_DIRECTORY + fileName.replaceAll(" ", "%20"));
+                        + encodedFileName);
+        if (log.isDebugEnabled()) {
+            log.debug("original: " + fileName + "\nweb dav path: " + WEB_DAV_DIRECTORY + encodedFileName);
+        }
         try {
             final ImageInputStream iiStream = ImageIO.createImageInputStream(iStream);
-            final ImageReader reader = ImageIO.getImageReaders(iiStream).next();
+            final Iterator<ImageReader> itReader = ImageIO.getImageReaders(iiStream);
+            final ImageReader reader = itReader.next();
             final ProgressMonitor monitor = new ProgressMonitor(this, "Bild wird übertragen...", "", 0, 100);
 //            monitor.setMillisToPopup(500);
             reader.addIIOReadProgressListener(new IIOReadProgressListener() {
@@ -664,6 +670,37 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             return result;
         } finally {
             IOUtils.closeQuietly(iStream);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   url  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  UnsupportedEncodingException  DOCUMENT ME!
+     */
+    private String encodeURL(final String url) throws UnsupportedEncodingException {
+        if (url == null) {
+            return null;
+        }
+        final String[] tokens = url.split("/", -1);
+        StringBuilder encodedURL = null;
+
+        for (final String tmp : tokens) {
+            if (encodedURL == null) {
+                encodedURL = new StringBuilder(URLEncoder.encode(tmp, "UTF-8"));
+            } else {
+                encodedURL.append("/").append(URLEncoder.encode(tmp, "UTF-8"));
+            }
+        }
+
+        if (encodedURL != null) {
+            return encodedURL.toString().replaceAll("\\+", "%20");
+        } else {
+            return "";
         }
     }
 
