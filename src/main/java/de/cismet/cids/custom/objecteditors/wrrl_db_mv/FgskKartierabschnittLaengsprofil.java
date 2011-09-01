@@ -155,7 +155,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         lblFliessgeschwindigkeit.setMinimumSize(new java.awt.Dimension(130, 17));
         lblFliessgeschwindigkeit.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
@@ -177,7 +177,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         lblBesonderheiten.setMinimumSize(new java.awt.Dimension(130, 34));
         lblBesonderheiten.setPreferredSize(new java.awt.Dimension(130, 34));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
@@ -196,7 +196,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -219,7 +219,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;

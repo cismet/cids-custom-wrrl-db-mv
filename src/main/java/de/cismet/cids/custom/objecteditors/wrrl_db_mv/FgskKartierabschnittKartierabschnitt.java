@@ -21,7 +21,7 @@ import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
-import de.cismet.cids.editors.CheckboxStateDecider;
+import de.cismet.cids.editors.FieldStateDecider;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
@@ -569,13 +569,13 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void referencedRadioButtonField1PropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_referencedRadioButtonField1PropertyChange
+    private void referencedRadioButtonField1PropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_referencedRadioButtonField1PropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             decider.setType(newValue);
             ccGewaesserSubtyp.refreshCheckboxState(decider, true);
         }
-    }                                                                                                  //GEN-LAST:event_referencedRadioButtonField1PropertyChange
+    }//GEN-LAST:event_referencedRadioButtonField1PropertyChange
 
     @Override
     public CidsBean getCidsBean() {
@@ -619,7 +619,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      *
      * @version  $Revision$, $Date$
      */
-    private class SubTypeDecider implements CheckboxStateDecider {
+    private class SubTypeDecider implements FieldStateDecider {
 
         //~ Instance fields ----------------------------------------------------
 

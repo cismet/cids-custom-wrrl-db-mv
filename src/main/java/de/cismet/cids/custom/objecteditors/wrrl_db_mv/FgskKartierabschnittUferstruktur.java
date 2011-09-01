@@ -12,12 +12,23 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
+import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.ScrollableComboBox;
+import de.cismet.cids.custom.util.YesNoDecider;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
+import de.cismet.cids.editors.DefaultBindableRadioButtonField;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -27,8 +38,19 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            FgskKartierabschnittUferstruktur.class);
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
+            CidsBeanSupport.DOMAIN_NAME,
+            "fgsk_z_uferverbau");
+    private static final int NONE_VAL = 8;
+    private static final int NONE_VAL_STATE = 4;
+
     //~ Instance fields --------------------------------------------------------
 
+    private YesNoDecider decider;
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbTypischL;
@@ -390,6 +412,13 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
         bindingGroup.addBinding(binding);
 
+        rdUferverbauL.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    rdUferverbauLPropertyChange(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -411,6 +440,13 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
         bindingGroup.addBinding(binding);
 
+        rdUferverbauR.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    rdUferverbauRPropertyChange(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -573,6 +609,111 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rdUferverbauLPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdUferverbauLPropertyChange
+        if ((evt.getPropertyName().equals("selectedElements"))) {
+            final CidsBean newValue = (CidsBean)evt.getNewValue();
+            refreshState(newValue, rdZustandL, "z_uferverbau_links_id");
+        }
+    }                                                                                    //GEN-LAST:event_rdUferverbauLPropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rdUferverbauRPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdUferverbauRPropertyChange
+        if ((evt.getPropertyName().equals("selectedElements"))) {
+            final CidsBean newValue = (CidsBean)evt.getNewValue();
+            refreshState(newValue, rdZustandR, "z_uferverbau_rechts_id");
+        }
+    }                                                                                    //GEN-LAST:event_rdUferverbauRPropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  selectedElement  DOCUMENT ME!
+     * @param  rbField          DOCUMENT ME!
+     * @param  fieldname        DOCUMENT ME!
+     */
+    private void refreshState(final CidsBean selectedElement,
+            final DefaultBindableRadioButtonField rbField,
+            final String fieldname) {
+        try {
+            final boolean enabled = isStateEnabled(selectedElement);
+
+            if (decider == null) {
+                decider = new YesNoDecider(enabled);
+                decider.addPositiveException(getZUferverbauByValue(NONE_VAL_STATE).getMetaObject());
+            } else {
+                decider.setEnable(enabled);
+            }
+
+            if (!enabled) {
+                final CidsBean none = getZUferverbauByValue(NONE_VAL_STATE);
+                cidsBean.setProperty(fieldname, none);
+                rbField.setSelectedElements(none);
+            } else {
+                final CidsBean selected = (CidsBean)rbField.getSelectedElements();
+                if (selected != null) {
+                    final Integer val = (Integer)selected.getProperty("value");
+                    if (val == NONE_VAL_STATE) {
+                        cidsBean.setProperty(fieldname, getZUferverbauByValue(1));
+                        rbField.setSelectedElements(getZUferverbauByValue(1));
+                    }
+                }
+            }
+
+            rbField.refreshCheckboxState(decider, false);
+        } catch (final Exception e) {
+            LOG.error("Error while refreshing the state.", e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isStateEnabled(final CidsBean bean) {
+        if (bean != null) {
+            final Integer value = (Integer)bean.getProperty("value");
+
+            if ((value != null) && (value == NONE_VAL)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    private CidsBean getZUferverbauByValue(final int value) throws ConnectionException {
+        final String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "
+                    + MC.getTableName() + " where value = " + value;
+        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+        if (metaObjects.length == 1) {
+            return metaObjects[0].getBean();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     @Override
@@ -592,6 +733,8 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
             kartierabschnittUebersicht1.setCidsBean(cidsBean);
             kartierabschnittBesUferbelastungen1.setCidsBean(cidsBean);
             kartierabschnittBesUferstrukturen1.setCidsBean(cidsBean);
+            refreshState((CidsBean)cidsBean.getProperty("uferverbau_links_id"), rdZustandL, "z_uferverbau_links_id");
+            refreshState((CidsBean)cidsBean.getProperty("uferverbau_rechts_id"), rdZustandR, "z_uferverbau_rechts_id");
         }
     }
 

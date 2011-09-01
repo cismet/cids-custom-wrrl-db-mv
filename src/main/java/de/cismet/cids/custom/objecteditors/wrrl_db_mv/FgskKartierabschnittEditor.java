@@ -302,7 +302,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public boolean prepareForSave() {
-        return fgskKartierabschnittKartierabschnitt1.prepareForSave();
+        boolean res = fgskKartierabschnittKartierabschnitt1.prepareForSave();
+        res &= fgskKartierabschnittQuerprofil1.prepareForSave();
+        return res;
     }
 
     @Override

@@ -16,11 +16,17 @@ import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.NumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 /**
  * DOCUMENT ME!
@@ -28,7 +34,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implements DisposableCidsBeanStore,
+    EditorSaveListener {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -325,6 +332,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 tfEinschnitttiefe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("0");
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -345,6 +353,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 tfWassertiefe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("0");
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -365,6 +374,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 tfWasserspiegelbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("0");
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -385,6 +395,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 tfSohlenbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("0");
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -405,6 +416,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 tfObereProfilbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("0");
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -576,5 +588,78 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        final double einschnitttiefe = CidsBeanSupport.textToDouble(tfEinschnitttiefe, -1);
+        final double wassertiefe = CidsBeanSupport.textToDouble(tfWassertiefe, -1);
+        final double wasserspiegelbreite = CidsBeanSupport.textToDouble(tfWasserspiegelbreite, -1);
+        final double sohlbreite = CidsBeanSupport.textToDouble(tfSohlenbreite, -1);
+        final double obereProfilbreite = CidsBeanSupport.textToDouble(tfObereProfilbreite, -1);
+
+        if (einschnitttiefe == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Einschnitttiefe wurde nicht gesetzt.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (wassertiefe == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Wassertiefe wurde nicht gesetzt.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (wasserspiegelbreite == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Wasserspiegelbreite wurde nicht gesetzt.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (sohlbreite == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Sohlbreite wurde nicht gesetzt.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (obereProfilbreite == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die obere Profiltiefe wurde nicht gesetzt.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (einschnitttiefe > wassertiefe) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Einschnitttiefe ist größer als die Wassertiefe.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (wasserspiegelbreite >= sohlbreite) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Wasserspiegelbreite ist größer oder gleich der Sohlbreite.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (obereProfilbreite >= wasserspiegelbreite) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die obere Profilbreite ist größer oder gleich der Wasserspiegelbreite.",
+                "Ungültige Eingabe",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 }

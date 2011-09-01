@@ -54,6 +54,7 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JSeparator sepMiddle;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -75,6 +76,7 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -187,8 +189,21 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(lblValGewaessername, gridBagConstraints);
 
+        lblValGewaesserabschnitt.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittUebersicht.class,
+                "KartierabschnittUebersicht.lblValGewaesserabschnitt.text")); // NOI18N
         lblValGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(150, 17));
         lblValGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(150, 17));
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser_abschnitt}"),
+                lblValGewaesserabschnitt,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -223,6 +238,8 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     @Override

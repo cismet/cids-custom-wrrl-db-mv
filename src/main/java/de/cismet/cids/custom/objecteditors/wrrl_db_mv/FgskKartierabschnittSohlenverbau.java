@@ -12,10 +12,21 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
+import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.util.YesNoDecider;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -25,8 +36,19 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            FgskKartierabschnittSohlenverbau.class);
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
+            CidsBeanSupport.DOMAIN_NAME,
+            "fgsk_z_sohlenverbau");
+    private static final int NONE_VAL = 4;
+    private static final int NONE_VAL_STATE = 4;
+
     //~ Instance fields --------------------------------------------------------
 
+    private YesNoDecider decider;
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel jpZustand;
@@ -171,6 +193,13 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
         bindingGroup.addBinding(binding);
 
+        rdSohlenverbau.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    rdSohlenverbauPropertyChange(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -257,6 +286,97 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rdSohlenverbauPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdSohlenverbauPropertyChange
+        if ((evt.getPropertyName().equals("selectedElements"))) {
+            final CidsBean newValue = (CidsBean)evt.getNewValue();
+            refreshState(newValue);
+        }
+    }                                                                                     //GEN-LAST:event_rdSohlenverbauPropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  selectedElement  DOCUMENT ME!
+     */
+    private void refreshState(final CidsBean selectedElement) {
+        try {
+            final boolean enabled = isStateEnabled(selectedElement);
+
+            if (decider == null) {
+                decider = new YesNoDecider(enabled);
+                decider.addPositiveException(getZSohlenverbauByValue(NONE_VAL_STATE).getMetaObject());
+            } else {
+                decider.setEnable(enabled);
+            }
+
+            if (!enabled) {
+                final CidsBean none = getZSohlenverbauByValue(NONE_VAL_STATE);
+                cidsBean.setProperty("z_sohlenverbau_id", none);
+                rdZustand.setSelectedElements(none);
+            } else {
+                final CidsBean selected = (CidsBean)rdZustand.getSelectedElements();
+                if (selected != null) {
+                    final Integer val = (Integer)selected.getProperty("value");
+                    if (val == NONE_VAL_STATE) {
+                        cidsBean.setProperty("z_sohlenverbau_id", getZSohlenverbauByValue(1));
+                        rdZustand.setSelectedElements(getZSohlenverbauByValue(1));
+                    }
+                }
+            }
+
+            rdZustand.refreshCheckboxState(decider, false);
+        } catch (final Exception e) {
+            LOG.error("Error while refreshing the state.", e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isStateEnabled(final CidsBean bean) {
+//        CidsBean sohle = (CidsBean)bean.getProperty("sohlenverbau_id");
+
+        if (bean != null) {
+            final Integer value = (Integer)bean.getProperty("value");
+
+            if ((value != null) && (value == NONE_VAL)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    private CidsBean getZSohlenverbauByValue(final int value) throws ConnectionException {
+        final String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "
+                    + MC.getTableName() + " where value = " + value;
+        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+        if (metaObjects.length == 1) {
+            return metaObjects[0].getBean();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     @Override
@@ -277,6 +397,7 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
             kartierabschnittSohlenstrukturen1.setCidsBean(cidsBean);
             kartierabschnittSohlensubstrat1.setCidsBean(cidsBean);
             kartierabschnittBesSohlen1.setCidsBean(cidsBean);
+            refreshState((CidsBean)cidsBean.getProperty("sohlenverbau_id"));
         }
     }
 

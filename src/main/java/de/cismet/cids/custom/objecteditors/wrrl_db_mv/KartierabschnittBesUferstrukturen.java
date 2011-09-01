@@ -176,7 +176,9 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblHeading.text")); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -185,7 +187,9 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblL.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittUferstrukturenEditor.lblL.text")); // NOI18N
+        lblL.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittUferstrukturenEditor.lblL.text")); // NOI18N
         lblL.setMaximumSize(new java.awt.Dimension(120, 17));
         lblL.setMinimumSize(new java.awt.Dimension(20, 17));
         lblL.setPreferredSize(new java.awt.Dimension(20, 17));
@@ -202,7 +206,9 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(lblSpacing, gridBagConstraints);
 
-        lblR.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblR.text")); // NOI18N
+        lblR.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblR.text")); // NOI18N
         lblR.setMaximumSize(new java.awt.Dimension(120, 17));
         lblR.setMinimumSize(new java.awt.Dimension(20, 17));
         lblR.setPreferredSize(new java.awt.Dimension(20, 17));
@@ -213,8 +219,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblR, gridBagConstraints);
 
-        lblBu.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblBu.text")); // NOI18N
-        lblBu.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblBu.toolTipText")); // NOI18N
+        lblBu.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblBu.text"));        // NOI18N
+        lblBu.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblBu.toolTipText")); // NOI18N
         lblBu.setMaximumSize(new java.awt.Dimension(120, 17));
         lblBu.setMinimumSize(new java.awt.Dimension(40, 17));
         lblBu.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -225,8 +235,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblBu, gridBagConstraints);
 
-        lblPb.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblPb.text")); // NOI18N
-        lblPb.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblPb.toolTipText")); // NOI18N
+        lblPb.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblPb.text"));        // NOI18N
+        lblPb.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblPb.toolTipText")); // NOI18N
         lblPb.setMaximumSize(new java.awt.Dimension(120, 17));
         lblPb.setMinimumSize(new java.awt.Dimension(40, 17));
         lblPb.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -237,8 +251,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblPb, gridBagConstraints);
 
-        lblUs.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblUs.text")); // NOI18N
-        lblUs.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblUs.toolTipText")); // NOI18N
+        lblUs.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblUs.text"));        // NOI18N
+        lblUs.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblUs.toolTipText")); // NOI18N
         lblUs.setMaximumSize(new java.awt.Dimension(120, 17));
         lblUs.setMinimumSize(new java.awt.Dimension(40, 17));
         lblUs.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -249,8 +267,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblUs, gridBagConstraints);
 
-        lblSb.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblSb.text")); // NOI18N
-        lblSb.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblSb.toolTipText")); // NOI18N
+        lblSb.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblSb.text"));        // NOI18N
+        lblSb.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblSb.toolTipText")); // NOI18N
         lblSb.setMaximumSize(new java.awt.Dimension(120, 17));
         lblSb.setMinimumSize(new java.awt.Dimension(40, 17));
         lblSb.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -261,8 +283,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblSb, gridBagConstraints);
 
-        lblHa.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblHa.text")); // NOI18N
-        lblHa.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblHa.toolTipText")); // NOI18N
+        lblHa.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblHa.text"));        // NOI18N
+        lblHa.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblHa.toolTipText")); // NOI18N
         lblHa.setMaximumSize(new java.awt.Dimension(120, 17));
         lblHa.setMinimumSize(new java.awt.Dimension(40, 17));
         lblHa.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -273,8 +299,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblHa, gridBagConstraints);
 
-        lblNboe.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblNboe.text")); // NOI18N
-        lblNboe.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblnboe.toolTipText")); // NOI18N
+        lblNboe.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblNboe.text"));        // NOI18N
+        lblNboe.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblnboe.toolTipText")); // NOI18N
         lblNboe.setMaximumSize(new java.awt.Dimension(120, 17));
         lblNboe.setMinimumSize(new java.awt.Dimension(40, 17));
         lblNboe.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -285,8 +315,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblNboe, gridBagConstraints);
 
-        lblSo.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblSo.text")); // NOI18N
-        lblSo.setToolTipText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblSo.toolTipText")); // NOI18N
+        lblSo.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblSo.text"));        // NOI18N
+        lblSo.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblSo.toolTipText")); // NOI18N
         lblSo.setMaximumSize(new java.awt.Dimension(120, 17));
         lblSo.setMinimumSize(new java.awt.Dimension(40, 17));
         lblSo.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -300,7 +334,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtBul.setMinimumSize(new java.awt.Dimension(40, 20));
         txtBul.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_bu_links}"), txtBul, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_bu_links}"),
+                txtBul,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -312,7 +351,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtPbl.setMinimumSize(new java.awt.Dimension(40, 20));
         txtPbl.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_pb_links}"), txtPbl, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_pb_links}"),
+                txtPbl,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -324,7 +368,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtUsl.setMinimumSize(new java.awt.Dimension(40, 20));
         txtUsl.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_us_links}"), txtUsl, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_us_links}"),
+                txtUsl,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -336,7 +385,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtSbl.setMinimumSize(new java.awt.Dimension(40, 20));
         txtSbl.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_sb_links}"), txtSbl, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_sb_links}"),
+                txtSbl,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -348,7 +402,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtHal.setMinimumSize(new java.awt.Dimension(40, 20));
         txtHal.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_ha_links}"), txtHal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_ha_links}"),
+                txtHal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -360,7 +419,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtNbl.setMinimumSize(new java.awt.Dimension(40, 20));
         txtNbl.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_nboe_links}"), txtNbl, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_nboe_links}"),
+                txtNbl,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -372,7 +436,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtSol.setMinimumSize(new java.awt.Dimension(40, 20));
         txtSol.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_so_links}"), txtSol, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_so_links}"),
+                txtSol,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,7 +453,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtBur.setMinimumSize(new java.awt.Dimension(40, 20));
         txtBur.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_bu_rechts}"), txtBur, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_bu_rechts}"),
+                txtBur,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -396,7 +470,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtPbr.setMinimumSize(new java.awt.Dimension(40, 20));
         txtPbr.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_pb_rechts}"), txtPbr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_pb_rechts}"),
+                txtPbr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -408,7 +487,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtUsr.setMinimumSize(new java.awt.Dimension(40, 20));
         txtUsr.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_us_rechts}"), txtUsr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_us_rechts}"),
+                txtUsr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -420,7 +504,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtSbr.setMinimumSize(new java.awt.Dimension(40, 20));
         txtSbr.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_sb_rechts}"), txtSbr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_sb_rechts}"),
+                txtSbr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -432,7 +521,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtHar.setMinimumSize(new java.awt.Dimension(40, 20));
         txtHar.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_ha_rechts}"), txtHar, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_ha_rechts}"),
+                txtHar,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -444,7 +538,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtnbr.setMinimumSize(new java.awt.Dimension(40, 20));
         txtnbr.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_nboe_rechts}"), txtnbr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_nboe_rechts}"),
+                txtnbr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -456,7 +555,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         txtSor.setMinimumSize(new java.awt.Dimension(40, 20));
         txtSor.setPreferredSize(new java.awt.Dimension(40, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_so_rechts}"), txtSor, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_so_rechts}"),
+                txtSor,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -465,7 +569,9 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtSor, gridBagConstraints);
 
-        lblkeine.setText(org.openide.util.NbBundle.getMessage(KartierabschnittBesUferstrukturen.class, "KartierabschnittBesUferstrukturen.lblkeine.text")); // NOI18N
+        lblkeine.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesUferstrukturen.class,
+                "KartierabschnittBesUferstrukturen.lblkeine.text")); // NOI18N
         lblkeine.setMaximumSize(new java.awt.Dimension(120, 17));
         lblkeine.setMinimumSize(new java.awt.Dimension(40, 17));
         lblkeine.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -479,10 +585,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
 
         cbKeineL.setContentAreaFilled(false);
         cbKeineL.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                cbKeineLStateChanged(evt);
-            }
-        });
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbKeineLStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 1;
@@ -493,10 +601,12 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
 
         cbKeineR.setContentAreaFilled(false);
         cbKeineR.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                cbKeineRStateChanged(evt);
-            }
-        });
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbKeineRStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
@@ -510,25 +620,25 @@ public class KartierabschnittBesUferstrukturen extends javax.swing.JPanel implem
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbKeineLStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbKeineLStateChanged
+    private void cbKeineLStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineLStateChanged
         FgskHelper.nvCheckBoxStateChange(this, cbKeineL, left);
-    }//GEN-LAST:event_cbKeineLStateChanged
+    }                                                                            //GEN-LAST:event_cbKeineLStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbKeineRStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbKeineRStateChanged
+    private void cbKeineRStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineRStateChanged
         FgskHelper.nvCheckBoxStateChange(this, cbKeineR, right);
-    }//GEN-LAST:event_cbKeineRStateChanged
+    }                                                                            //GEN-LAST:event_cbKeineRStateChanged
 
     @Override
     public CidsBean getCidsBean() {

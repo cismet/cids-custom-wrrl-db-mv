@@ -65,6 +65,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblWk;
     private javax.swing.JLabel lblWkName;
+    private javax.swing.JLabel lblWkType;
     private javax.swing.JLabel lblfliessrichtung;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
@@ -78,6 +79,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JTextField txtGewaessername;
     private javax.swing.JTextField txtWk;
     private javax.swing.JTextField txtWkName;
+    private javax.swing.JTextField txtWkType;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -127,10 +129,12 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         cbFliessgewaesser = new ScrollableComboBox();
         timErfassungsdatum = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
         linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        lblWkType = new javax.swing.JLabel();
+        txtWkType = new javax.swing.JTextField();
 
-        setMinimumSize(new java.awt.Dimension(1100, 250));
+        setMinimumSize(new java.awt.Dimension(1100, 275));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1100, 250));
+        setPreferredSize(new java.awt.Dimension(1100, 275));
         setLayout(new java.awt.BorderLayout());
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
@@ -252,6 +256,16 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaesserabschnitt.setEditable(false);
         txtGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser_abschnitt}"),
+                txtGewaesserabschnitt,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -313,7 +327,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtBearbeiter.setMinimumSize(new java.awt.Dimension(170, 20));
         txtBearbeiter.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bearbeiter}"),
@@ -390,6 +404,30 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         panInfoContent.add(linearReferencedLineEditor, gridBagConstraints);
 
+        lblWkType.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.lblWkType.text")); // NOI18N
+        lblWkType.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblWkType.setPreferredSize(new java.awt.Dimension(130, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent.add(lblWkType, gridBagConstraints);
+
+        txtWkType.setEditable(false);
+        txtWkType.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWkType.setPreferredSize(new java.awt.Dimension(170, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(txtWkType, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -424,6 +462,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
             txtGewaesserkennzahl.setText("");
             txtWk.setText("");
             txtWkName.setText("");
+            txtWkType.setText("");
         }
     }
 
@@ -434,6 +473,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         String gew = CidsBeanSupport.FIELD_NOT_SET;
         String gwk = CidsBeanSupport.FIELD_NOT_SET;
         String wkName = CidsBeanSupport.FIELD_NOT_SET;
+        String wkType = CidsBeanSupport.FIELD_NOT_SET;
         final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
         CidsBean statVon = null;
         CidsBean route = null;
@@ -470,8 +510,10 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                         final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
                         if (metaObjects.length == 1) {
                             wkName = (String)metaObjects[0].getBean().getProperty("wk_n");
+                            wkType = String.valueOf(metaObjects[0].getBean().getProperty("typ_k"));
                         } else {
                             wkName = "nicht ermittelbar";
+                            wkType = "nicht ermittelbar";
                         }
                     }
                 } else {
@@ -487,6 +529,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaesserkennzahl.setText(gwk);
         txtWk.setText(wkk);
         txtWkName.setText(wkName);
+        txtWkType.setText(wkType);
     }
 
     @Override
