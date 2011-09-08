@@ -1723,6 +1723,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                                     if ((colToAdd.size() == 1) && (cbSuppl_cd.getSelectedIndex() == -1)) {
                                         // set the value of supple_cd
                                         setRemommendedEuMeasureType(selectedBean);
+                                        setRemommendedEuPressureType(selectedBean);
                                     }
                                 }
                             }
@@ -1760,6 +1761,32 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                             model.setSelectedItem((CidsBean)o);
                             break;
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * set the field supple_cd with the label 'EU-Belastungstyp' on the recommended value, which is derived from the
+     * first element of the field de_meas_cd.
+     *
+     * @param  selectedBean  DOCUMENT ME!
+     */
+    private void setRemommendedEuPressureType(final CidsBean selectedBean) {
+        final String measureType = String.valueOf(selectedBean.getProperty("p_value"));
+
+        if (!measureType.equals("null")) {
+            final ComboBoxModel model = cbPressur_cd.getModel();
+
+            for (int i = 0; i < model.getSize(); ++i) {
+                final Object o = model.getElementAt(i);
+                if (o instanceof CidsBean) {
+                    final Object type = ((CidsBean)o).getProperty("value");
+
+                    if ((type instanceof String) && type.toString().equals(measureType)) {
+                        model.setSelectedItem((CidsBean)o);
+                        break;
                     }
                 }
             }
