@@ -521,7 +521,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                         LinearReferencingConstants.PROP_STATION_VALUE));
             final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
             final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
-            querbauwerkePanOne.setQbwId(gwk + "@" + wert);
+            querbauwerkePanOne.setQbwLage(gwk + "@" + wert);
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.error("error while auto-setting qbw_id", ex);
