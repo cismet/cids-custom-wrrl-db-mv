@@ -224,12 +224,14 @@ public class UnterhaltungsabschnitteModel implements GUPTableModel {
     /**
      * DOCUMENT ME!
      *
-     * @param   x  DOCUMENT ME!
-     * @param   y  DOCUMENT ME!
+     * @param   x    DOCUMENT ME!
+     * @param   y    DOCUMENT ME!
+     * @param   log  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private double getWeight(final int x, final int y) {
+    @Override
+    public double getWeight(final int x, final int y, final boolean log) {
         if (isEmpty()) {
             return 1.0;
         } else {
@@ -237,7 +239,11 @@ public class UnterhaltungsabschnitteModel implements GUPTableModel {
                 final List<Double> lengths = wku[x].getUnterhaltungsabschnitteLaenge();
                 double sum = 0.0;
                 for (final Double tmp : lengths) {
-                    sum += tmp;
+                    if (log) {
+                        sum += Math.log10(tmp);
+                    } else {
+                        sum += tmp;
+                    }
                 }
 
                 return sum;
@@ -245,7 +251,11 @@ public class UnterhaltungsabschnitteModel implements GUPTableModel {
                 int n = 0;
                 for (final WkUnterhaltung tmp : wku) {
                     if (tmp.getUnterhaltungsabschnitteLaenge().size() > (x - n)) {
-                        return tmp.getUnterhaltungsabschnitteLaenge().get(x - n);
+                        if (log) {
+                            return Math.log10(tmp.getUnterhaltungsabschnitteLaenge().get(x - n));
+                        } else {
+                            return tmp.getUnterhaltungsabschnitteLaenge().get(x - n);
+                        }
                     } else {
                         n += tmp.getUnterhaltungsabschnitteLaenge().size();
                     }
@@ -281,7 +291,7 @@ public class UnterhaltungsabschnitteModel implements GUPTableModel {
             return createGridBagConstraint(
                     x,
                     0,
-                    getWeight(x, y),
+                    getWeight(x, y, false),
                     ((y == 0) ? 0 : 1),
                     1,
                     ((y == 0) ? java.awt.GridBagConstraints.HORIZONTAL : java.awt.GridBagConstraints.BOTH));
@@ -492,6 +502,11 @@ public class UnterhaltungsabschnitteModel implements GUPTableModel {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean fullScreen() {
+        return isEmpty();
     }
 
     //~ Inner Classes ----------------------------------------------------------

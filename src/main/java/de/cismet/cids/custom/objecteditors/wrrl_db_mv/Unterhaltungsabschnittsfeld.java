@@ -7,7 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,10 +23,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.border.LineBorder;
 
 import de.cismet.cids.custom.util.gup.GUPTableModel;
 
@@ -38,7 +43,9 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements MouseListener, CidsBeanDropListener {
+public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements MouseListener,
+    ActionListener,
+    CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -47,9 +54,15 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
 
     //~ Instance fields --------------------------------------------------------
 
+    final JRadioButton normalScale = new JRadioButton("normal");
+    final JRadioButton logScale = new JRadioButton("logarithmisch");
+
+    private ButtonGroup scaleGroup = new ButtonGroup();
+    private final JPanel controlPanel = new JPanel();
     private List<ActionListener> actionListener = new ArrayList<ActionListener>();
     private List<CidsBeanDropListener> cidsBeanDropListener = new ArrayList<CidsBeanDropListener>();
-    private HashMap<JComponent, String> componentActionTextMap = new HashMap<JComponent, String>();
+    private HashMap<JComponent, ComponentInformation> componentActionTextMap =
+        new HashMap<JComponent, ComponentInformation>();
     private GUPTableModel model;
 
     //~ Constructors -----------------------------------------------------------
@@ -70,10 +83,24 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
 
         setLayout(new java.awt.GridBagLayout());
         setOpaque(false);
+        normalScale.addActionListener(this);
+        logScale.addActionListener(this);
+        scaleGroup.add(normalScale);
+        scaleGroup.add(logScale);
+        controlPanel.setLayout(new GridBagLayout());
+        gridBagConstraints = createGridBagConstraint(0, 0, 0, 0, 1, java.awt.GridBagConstraints.NONE);
+        controlPanel.add(normalScale, gridBagConstraints);
+        gridBagConstraints = createGridBagConstraint(1, 0, 1, 0, 1, java.awt.GridBagConstraints.NONE);
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        controlPanel.add(logScale, gridBagConstraints);
+        gridBagConstraints = createGridBagConstraint(0, 0, 0, 0, 2, java.awt.GridBagConstraints.HORIZONTAL);
+        add(controlPanel, gridBagConstraints);
+        scaleGroup.setSelected(normalScale.getModel(), true);
+
         if (model.showVerticalHeader()) {
             for (int i = 0; i < model.getRows(); ++i) {
                 final JComponent wkLab = model.getVerticalHeader(i);
-                gridBagConstraints = createGridBagConstraint(0, i, 0, 0, 1, java.awt.GridBagConstraints.HORIZONTAL);
+                gridBagConstraints = createGridBagConstraint(0, i + 1, 0, 0, 1, java.awt.GridBagConstraints.HORIZONTAL);
                 add(wkLab, gridBagConstraints);
             }
         }
@@ -87,20 +114,42 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
             for (int col = 0; col < cols; ++col) {
                 final JComponent comp = (JComponent)model.getValue(col, row);
                 gridBagConstraints = model.getConstraint(col, row);
-                componentActionTextMap.put(comp, col + ", " + row);
+                componentActionTextMap.put(comp, new ComponentInformation(col, row, gridBagConstraints));
                 comp.addMouseListener(this);
                 panel.add(comp, gridBagConstraints);
             }
 
             gridBagConstraints = createGridBagConstraint(
                     1,
-                    row,
+                    row
+                            + 1,
                     1,
                     model.getRowWeight(row),
                     1,
                     java.awt.GridBagConstraints.BOTH);
             add(panel, gridBagConstraints);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshScale() {
+        for (final JComponent tmp : componentActionTextMap.keySet()) {
+            final ComponentInformation cp = componentActionTextMap.get(tmp);
+            double weight;
+
+            if (scaleGroup.getSelection() == logScale.getModel()) {
+                weight = model.getWeight(cp.getX(), cp.getY(), true);
+            } else {
+                weight = model.getWeight(cp.getX(), cp.getY(), false);
+            }
+            cp.getConstraints().weightx = weight;
+            final Container c = tmp.getParent();
+            c.remove(tmp);
+            c.add(tmp, cp.getConstraints());
+        }
+        validate();
     }
 
     /**
@@ -311,12 +360,17 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                     }
                 }
 
-                private double getWeight(final int x, final int y) {
+                @Override
+                public double getWeight(final int x, final int y, final boolean log) {
                     if (y == 0) {
                         final List<Double> lengths = l.get(x).getUnterhaltungsabschnitteLaenge();
                         double sum = 0.0;
                         for (final Double tmp : lengths) {
-                            sum += tmp;
+                            if (log) {
+                                sum += Math.log10(tmp);
+                            } else {
+                                sum += tmp;
+                            }
                         }
 
                         return sum;
@@ -324,7 +378,11 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                         int n = 0;
                         for (final WkUnterhaltung tmp : l) {
                             if (tmp.getUnterhaltungsabschnitteLaenge().size() > (x - n)) {
-                                return tmp.getUnterhaltungsabschnitteLaenge().get(x - n);
+                                if (log) {
+                                    return Math.log10(tmp.getUnterhaltungsabschnitteLaenge().get(x - n));
+                                } else {
+                                    return tmp.getUnterhaltungsabschnitteLaenge().get(x - n);
+                                }
                             } else {
                                 n += tmp.getUnterhaltungsabschnitteLaenge().size();
                             }
@@ -347,7 +405,7 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                     return createGridBagConstraint(
                             x,
                             0,
-                            getWeight(x, y),
+                            getWeight(x, y, false),
                             ((y == 0) ? 0 : 1),
                             1,
                             ((y == 0) ? java.awt.GridBagConstraints.HORIZONTAL : java.awt.GridBagConstraints.BOTH));
@@ -374,6 +432,11 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                 @Override
                 public boolean showVerticalHeader() {
                     return true;
+                }
+
+                @Override
+                public boolean fullScreen() {
+                    return false;
                 }
 
                 class WkUnterhaltung {
@@ -445,7 +508,7 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
         if (!e.isPopupTrigger() && (e.getButton() == MouseEvent.BUTTON1)) {
             final ActionEvent ae = new ActionEvent(e.getSource(),
                     e.getID(),
-                    this.componentActionTextMap.get((JComponent)e.getSource()),
+                    this.componentActionTextMap.get((JComponent)e.getSource()).toString(),
                     e.getWhen(),
                     e.getModifiers());
 
@@ -514,5 +577,102 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
      */
     public void removeActionListener(final ActionListener listener) {
         this.actionListener.remove(listener);
+    }
+
+    @Override
+    public void actionPerformed(final ActionEvent e) {
+        refreshScale();
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class ComponentInformation {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private int x;
+        private int y;
+        private GridBagConstraints constraints;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ComponentInformation object.
+         *
+         * @param  x            DOCUMENT ME!
+         * @param  y            DOCUMENT ME!
+         * @param  constraints  DOCUMENT ME!
+         */
+        public ComponentInformation(final int x, final int y, final GridBagConstraints constraints) {
+            this.x = x;
+            this.y = y;
+            this.constraints = constraints;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the x
+         */
+        public int getX() {
+            return x;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  x  the x to set
+         */
+        public void setX(final int x) {
+            this.x = x;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the y
+         */
+        public int getY() {
+            return y;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  y  the y to set
+         */
+        public void setY(final int y) {
+            this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return x + ", " + y;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the constraints
+         */
+        public GridBagConstraints getConstraints() {
+            return constraints;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  constraints  the constraints to set
+         */
+        public void setConstraints(final GridBagConstraints constraints) {
+            this.constraints = constraints;
+        }
     }
 }

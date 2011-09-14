@@ -80,4 +80,22 @@ public interface GUPTableModel {
      * @return  DOCUMENT ME!
      */
     boolean showVerticalHeader();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   col  DOCUMENT ME!
+     * @param   row  DOCUMENT ME!
+     * @param   log  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    double getWeight(int col, int row, boolean log);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    boolean fullScreen();
 }
