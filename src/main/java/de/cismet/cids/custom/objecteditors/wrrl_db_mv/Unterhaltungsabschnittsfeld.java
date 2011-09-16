@@ -116,6 +116,7 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                 gridBagConstraints = model.getConstraint(col, row);
                 componentActionTextMap.put(comp, new ComponentInformation(col, row, gridBagConstraints));
                 comp.addMouseListener(this);
+                comp.setMinimumSize(new Dimension(1, 1));
                 panel.add(comp, gridBagConstraints);
             }
 
@@ -144,6 +145,7 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
             } else {
                 weight = model.getWeight(cp.getX(), cp.getY(), false);
             }
+            System.out.println("weight: " + weight);
             cp.getConstraints().weightx = weight;
             final Container c = tmp.getParent();
             c.remove(tmp);
@@ -223,8 +225,8 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                     wkLab.setWKName("NAM-200");
                     List<Double> uasLaenge = new ArrayList<Double>();
                     uasLaenge.add(100.0);
-                    uasLaenge.add(200.0);
-                    uasLaenge.add(400.0);
+                    uasLaenge.add(2.0);
+                    uasLaenge.add(4000.0);
                     uasLaenge.add(300.0);
                     uasLaenge.add(350.0);
                     uasLaenge.add(210.0);
@@ -362,26 +364,27 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
 
                 @Override
                 public double getWeight(final int x, final int y, final boolean log) {
+                    double result = 0.0;
+
                     if (y == 0) {
                         final List<Double> lengths = l.get(x).getUnterhaltungsabschnitteLaenge();
-                        double sum = 0.0;
                         for (final Double tmp : lengths) {
                             if (log) {
-                                sum += Math.log10(tmp);
+                                result += Math.log10(tmp);
                             } else {
-                                sum += tmp;
+                                result += tmp;
                             }
                         }
-
-                        return sum;
                     } else if (y == 1) {
                         int n = 0;
                         for (final WkUnterhaltung tmp : l) {
                             if (tmp.getUnterhaltungsabschnitteLaenge().size() > (x - n)) {
                                 if (log) {
-                                    return Math.log10(tmp.getUnterhaltungsabschnitteLaenge().get(x - n));
+                                    result = Math.log10(tmp.getUnterhaltungsabschnitteLaenge().get(x - n));
+                                    break;
                                 } else {
-                                    return tmp.getUnterhaltungsabschnitteLaenge().get(x - n);
+                                    result = tmp.getUnterhaltungsabschnitteLaenge().get(x - n);
+                                    break;
                                 }
                             } else {
                                 n += tmp.getUnterhaltungsabschnitteLaenge().size();
@@ -389,11 +392,11 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                         }
                     }
 
-                    return 0.0;
+                    return result;
                 }
 
                 private void confSize(final JComponent comp) {
-                    final Dimension d = new Dimension(0, 20);
+                    final Dimension d = new Dimension(1, 20);
                     comp.setPreferredSize(d);
                     comp.setMinimumSize(d);
                     comp.setMaximumSize(d);
@@ -458,6 +461,7 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                         this.wkLab = wkLab;
                         this.unterhaltungsabschnitte = unterhaltungsabschnitte;
                         this.unterhaltungsabschnitteLaenge = unterhaltungsabschnitteLaenge;
+//                        normalizeWeights();
                     }
 
                     /**
@@ -494,6 +498,21 @@ public class Unterhaltungsabschnittsfeld extends javax.swing.JPanel implements M
                      */
                     public List<Double> getUnterhaltungsabschnitteLaenge() {
                         return unterhaltungsabschnitteLaenge;
+                    }
+
+                    private void normalizeWeights() {
+                        double sum = 0.0;
+                        final List<Double> unterhaltungsabschnitteTmp = new ArrayList<Double>();
+
+                        for (final Double tmp : unterhaltungsabschnitteLaenge) {
+                            sum += tmp;
+                        }
+
+                        for (final Double tmp : unterhaltungsabschnitteLaenge) {
+                            unterhaltungsabschnitteTmp.add(tmp.doubleValue() / sum);
+                        }
+
+                        unterhaltungsabschnitteLaenge = unterhaltungsabschnitteTmp;
                     }
                 }
             });
