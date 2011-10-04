@@ -14,7 +14,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import de.cismet.cids.custom.tostringconverter.wrrl_db_mv.FgskKartierabschnittToStringConverter;
+import java.util.Collection;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -24,13 +24,13 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   mscholl
  * @version  $Revision$, $Date$
  */
-public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
+public class FgskKartierabschnittAggregationTitleComponent extends javax.swing.JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
     private final transient ActionListener printL;
 
-    private transient CidsBean cidsBean;
+    private transient Collection<CidsBean> cidsBeans;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPrint;
@@ -42,7 +42,7 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
     /**
      * Creates new form FgskKartierabschnittTitleComponent.
      */
-    public FgskKartierabschnittTitleComponent() {
+    public FgskKartierabschnittAggregationTitleComponent() {
         initComponents();
 
         this.printL = new PrintListener();
@@ -74,15 +74,15 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  cidsBean  DOCUMENT ME!
+     * @param  cidsBeans  DOCUMENT ME!
      */
-    public void setCidsBean(final CidsBean cidsBean) {
-        this.cidsBean = cidsBean;
+    public void setCidsBeans(final Collection<CidsBean> cidsBeans) {
+        this.cidsBeans = cidsBeans;
 
-        final FgskKartierabschnittToStringConverter conv = new FgskKartierabschnittToStringConverter();
-        final String title = conv.convert(cidsBean.getMetaObject());
-
-        setTitle(title);
+        setTitle(cidsBeans.size() + " " // NOI18N
+                    + NbBundle.getMessage(
+                        FgskKartierabschnittAggregationTitleComponent.class,
+                        "FgskKartierabschnittAggregationTitleComponent.setCidsBeans(Collection).setTitle.value")); // NOI18N
     }
 
     /**
@@ -103,8 +103,8 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setText(NbBundle.getMessage(
-                FgskKartierabschnittTitleComponent.class,
-                "FgskKartierabschnittTitleComponent.lblTitle.text")); // NOI18N
+                FgskKartierabschnittAggregationTitleComponent.class,
+                "FgskKartierabschnittAggregationTitleComponent.lblTitle.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -115,15 +115,15 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
         add(lblTitle, gridBagConstraints);
 
         btnPrint.setText(NbBundle.getMessage(
-                FgskKartierabschnittTitleComponent.class,
-                "FgskKartierabschnittTitleComponent.btnPrint.text")); // NOI18N
+                FgskKartierabschnittAggregationTitleComponent.class,
+                "FgskKartierabschnittAggregationTitleComponent.btnPrint.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnPrint, gridBagConstraints);
-    }                                                                 // </editor-fold>//GEN-END:initComponents
+    }                                                                            // </editor-fold>//GEN-END:initComponents
 
     //~ Inner Classes ----------------------------------------------------------
 
