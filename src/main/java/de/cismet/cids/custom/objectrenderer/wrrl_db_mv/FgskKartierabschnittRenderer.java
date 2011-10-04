@@ -15,7 +15,6 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.FgskKartierabschnittTitleComponent;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
