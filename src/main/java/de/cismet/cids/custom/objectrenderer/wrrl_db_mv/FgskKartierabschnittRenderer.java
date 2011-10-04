@@ -12,12 +12,17 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.FgskKartierabschnittTitleComponent;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.TitleComponentProvider;
 
 /**
  * DOCUMENT ME!
@@ -25,10 +30,13 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class FgskKartierabschnittRenderer extends JPanel implements CidsBeanRenderer, DisposableCidsBeanStore {
+public class FgskKartierabschnittRenderer extends JPanel implements CidsBeanRenderer,
+    DisposableCidsBeanStore,
+    TitleComponentProvider {
 
     //~ Instance fields --------------------------------------------------------
 
+    private final transient FgskKartierabschnittTitleComponent titleComponent;
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblExCat;
@@ -42,6 +50,7 @@ public class FgskKartierabschnittRenderer extends JPanel implements CidsBeanRend
      */
     public FgskKartierabschnittRenderer() {
         initComponents();
+        titleComponent = new FgskKartierabschnittTitleComponent();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -95,6 +104,8 @@ public class FgskKartierabschnittRenderer extends JPanel implements CidsBeanRend
     public void setCidsBean(final CidsBean cidsBean) {
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+
+            titleComponent.setCidsBean(cidsBean);
         }
     }
 
@@ -109,5 +120,10 @@ public class FgskKartierabschnittRenderer extends JPanel implements CidsBeanRend
 
     @Override
     public void setTitle(final String title) {
+    }
+
+    @Override
+    public JComponent getTitleComponent() {
+        return titleComponent;
     }
 }
