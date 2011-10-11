@@ -24,60 +24,27 @@
 package de.cismet.cids.custom.reports;
 
 import Sirius.navigator.connection.SessionManager;
-
-import Sirius.server.ServerExit;
-import Sirius.server.middleware.impls.domainserver.DomainServerImpl;
-import Sirius.server.middleware.impls.proxy.StartProxy;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-import Sirius.server.newuser.User;
-import Sirius.server.newuser.UserGroup;
-import Sirius.server.property.ServerProperties;
-import Sirius.server.registry.Registry;
 import Sirius.server.search.CidsServerSearch;
-
 import com.vividsolutions.jts.geom.Geometry;
-
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-
 import org.apache.log4j.Logger;
-
-import org.openide.util.Exceptions;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import java.rmi.RemoteException;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.WkkSearch;
-
 import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
  *
- * @author   jweintraut
  * @version  $Revision$, $Date$
  */
 public final class FgskReport extends AbstractJasperReportPrint {
@@ -85,14 +52,8 @@ public final class FgskReport extends AbstractJasperReportPrint {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final String REPORT_URL = "/de/cismet/cids/custom/reports/fgsk.jasper";
-    private static transient DomainServerImpl server;
-    private static User user;
-    private static final String SERVER_CONFIG = "/opt/cidsdistribution/server/linux/kif_WRRLDBMV/runtime.properties";
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
     private static final Logger LOG = Logger.getLogger(FgskReport.class);
-    private static Registry registry;
-    private static StartProxy proxy;
-
     private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     //~ Constructors -----------------------------------------------------------
@@ -118,34 +79,6 @@ public final class FgskReport extends AbstractJasperReportPrint {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cidsBean  DOCUMENT ME!
-     */
-    public void showReport(final CidsBean cidsBean) {
-        try {
-            final ArrayList<String> reports = new ArrayList<String>();
-            reports.add(REPORT_URL);
-            final HashMap<String, JRDataSource> dataSourcesMap = new HashMap<String, JRDataSource>(reports.size());
-            dataSourcesMap.put(REPORT_URL, new JREmptyDataSource(1));
-
-            final ReportSwingWorker worker = new ReportSwingWorker(
-                    reports,
-                    dataSourcesMap,
-                    generateReportParam(cidsBean),
-                    true,
-                    new JFrame(),
-                    "/tmp");
-            // worker.execute();
-            worker.doInBackground();
-
-            System.out.println("worker executed");
-        } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
 
     /**
      * DOCUMENT ME!
@@ -282,7 +215,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
             }
 
             final Integer sonderfallId = (Integer)bean.getProperty("sonderfall_id.value");
-
+            
             params.put("sonderfall_id", (sonderfallId == null) ? Integer.valueOf(-1) : sonderfallId);
             params.put("erlaeuterung", toString(bean.getProperty("erlaeuterung")));
             params.put("gewaesserbreite_id", bean.getProperty("gewaesserbreite_id.value"));
@@ -891,135 +824,11 @@ public final class FgskReport extends AbstractJasperReportPrint {
         this.retrieveSohlenstrukturParams(current, params);
         this.retrieveUferstrukturGewaesserumfeldParams(current, params);
 
-//        System.out.println("\n------set params--------\n" + params.toString().replaceAll(",", "\n")
-//                    + "\n--------------------------\n");
-//
-//        System.out.println("\n------all params--------\n");
-//        for (final String key : current.getPropertyNames()) {
-//            System.out.println(key + " = " + current.getProperty(key));
-//        }
-//        System.out.println("\n--------------------------\n");
-
         return params;
     }
 
     @Override
     public Map generateReportParam(final Collection<CidsBean> beans) {
         return Collections.EMPTY_MAP;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   args  DOCUMENT ME!
-     *
-     * @throws  Throwable  DOCUMENT ME!
-     */
-    public static void main(final String[] args) throws Throwable {
-//        final Properties p = new Properties();
-//        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender");
-//        p.put("log4j.appender.Remote.remoteHost", "localhost");
-//        p.put("log4j.appender.Remote.port", "4445");
-//        p.put("log4j.appender.Remote.locationInfo", "true");
-//        p.put("log4j.rootLogger", "ALL,Remote");
-//        org.apache.log4j.PropertyConfigurator.configure(p);
-//
-//        initServer();
-//
-//        final MetaObject mo1 = server.getMetaObject(user, 1, 229);
-//
-//        // TODO: so früh, wie möglich, verwenden!!!
-//        final FgskReport report = new FgskReport(mo1.getBean());
-//        report.showReport(mo1.getBean());
-//
-////        report.print();
-//
-//        stopServer();
-//
-//        System.out.println("ENDE");
-//
-//        System.exit(0);
-
-        final JFrame frame = new JFrame("TEST");
-        final JPanel panel = new JPanel();
-        final JButton button = new JButton("PRINT");
-
-        panel.add(button);
-        frame.add(panel);
-
-        frame.setSize(100, 100);
-
-        button.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(final ActionEvent ae) {
-                    try {
-                        final Properties p = new Properties();
-                        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender");
-                        p.put("log4j.appender.Remote.remoteHost", "localhost");
-                        p.put("log4j.appender.Remote.port", "4445");
-                        p.put("log4j.appender.Remote.locationInfo", "true");
-                        p.put("log4j.rootLogger", "ALL,Remote");
-                        org.apache.log4j.PropertyConfigurator.configure(p);
-                        try {
-                            initServer();
-                        } catch (Throwable ex) {
-                            Exceptions.printStackTrace(ex);
-                        }
-
-                        final MetaObject mo1 = server.getMetaObject(user, 1, 229);
-
-                        // TODO: so früh, wie möglich, verwenden!!!
-                        final FgskReport report = new FgskReport(mo1.getBean());
-//                   report.showReport(mo1.getBean());
-                        report.print();
-                    } catch (RemoteException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            });
-
-        frame.addWindowListener(new WindowAdapter() {
-
-                @Override
-                public void windowClosed(final WindowEvent we) {
-                    try {
-                        stopServer();
-                    } catch (Throwable ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                    System.exit(0);
-                }
-            });
-
-        frame.setVisible(true);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @throws  Throwable  DOCUMENT ME!
-     */
-    private static void initServer() throws Throwable {
-        registry = new Registry(1099);
-        proxy = StartProxy.getInstance(SERVER_CONFIG);
-        server = new DomainServerImpl(new ServerProperties(SERVER_CONFIG));
-        user = new User(1, "admin", "LOCAL", new UserGroup(1, "Administratoren", "LOCAL"));
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @throws  Throwable  DOCUMENT ME!
-     */
-    private static void stopServer() throws Throwable {
-        try {
-            proxy.shutdown();
-            registry.shutdown();
-
-            server.shutdown();
-        } catch (final ServerExit e) {
-            // success
-        }
     }
 }

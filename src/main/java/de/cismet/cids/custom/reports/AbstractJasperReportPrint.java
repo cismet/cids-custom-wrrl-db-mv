@@ -181,13 +181,11 @@ public abstract class AbstractJasperReportPrint {
 
         @Override
         protected JasperPrint doInBackground() throws Exception {
-            System.out.println("doInBackgizrbd");
-
             final JasperReport jasperReport;
             try {
                 jasperReport = (JasperReport)JRLoader.loadObject(getClass().getResourceAsStream(reportURL));
             } catch (Throwable e) {
-                e.printStackTrace();
+                log.error(e);
                 throw new RuntimeException(e);
             }
 
