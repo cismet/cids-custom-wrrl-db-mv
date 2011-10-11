@@ -37,10 +37,19 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JButton" name="btnPrint">
+    <Component class="javax.swing.JButton" name="btnReport">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/cismet/cids/custom/objectrenderer/wrrl_db_mv/Bundle.properties" key="FgskKartierabschnittAggregationTitleComponent.btnPrint.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/cismet/cids/custom/objectrenderer/wrrl_db_mv/Bundle.properties" key="FgskKartierabschnittAggregationTitleComponent.btnReport.text" replaceFormat="NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="borderPainted" type="boolean" value="false"/>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
+        <Property name="focusPainted" type="boolean" value="false"/>
+        <Property name="pressedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer_pressed.png"/>
         </Property>
       </Properties>
       <Constraints>

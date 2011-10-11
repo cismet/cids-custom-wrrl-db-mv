@@ -12,25 +12,31 @@
  */
 package de.cismet.cismap.custom.wfsforms;
 
-
-
 import org.deegree.datatypes.QualifiedName;
 import org.deegree.model.feature.DefaultFeature;
 import org.deegree.model.feature.FeatureProperty;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+
 import java.net.URI;
+import java.net.URL;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -43,14 +49,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.wfsforms.AbstractWFSForm;
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 import de.cismet.cismap.commons.wfsforms.WFSFormQuery;
+
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
-import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Vector;
-import javax.swing.JFrame;
 
 /**
  * DOCUMENT ME!
@@ -188,22 +188,21 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
      */
     private void doSearch() {
         try {
-        if (txtSearch.getText().length() >= 3) {
-            if (log.isDebugEnabled()) {
-                log.debug("doSearch");                      // NOI18N
+            if (txtSearch.getText().length() >= 3) {
+                if (log.isDebugEnabled()) {
+                    log.debug("doSearch");                         // NOI18N
+                }
+                final HashMap<String, String> hm = new HashMap<String, String>();
+                final String newString = getRightEncodedString(txtSearch.getText());
+                hm.put("@@search_text@@", newString);              // NOI18N
+                requestRefresh("cboGemeinden", hm);                // NOI18N
+            } else {
+                lblBehind.setText(org.openide.util.NbBundle.getMessage(
+                        WFSFormGemeindenSearch.class,
+                        "WFSFormGemeindenSearch.lblBehind.text")); // NOI18N
             }
-            final HashMap<String, String> hm = new HashMap<String, String>();
-            String newString=getRightEncodedString(txtSearch.getText());
-            hm.put("@@search_text@@", newString); // NOI18N
-            requestRefresh("cboGemeinden", hm);                  // NOI18N
-        } else {
-            lblBehind.setText(org.openide.util.NbBundle.getMessage(
-                    WFSFormGemeindenSearch.class,
-                    "WFSFormGemeindenSearch.lblBehind.text"));    // NOI18N
-        }
-        }
-        catch (Exception e){
-            log.error("Fehler beim Ausführen der Suche",e);
+        } catch (Exception e) {
+            log.error("Fehler beim Ausführen der Suche", e);
         }
     }
 
@@ -231,12 +230,16 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         setLayout(new java.awt.GridBagLayout());
 
         cmdOk.setMnemonic('P');
-        cmdOk.setText(org.openide.util.NbBundle.getMessage(WFSFormGemeindenSearch.class, "WFSFormGemeindenSearch.cmdOk.text")); // NOI18N
+        cmdOk.setText(org.openide.util.NbBundle.getMessage(
+                WFSFormGemeindenSearch.class,
+                "WFSFormGemeindenSearch.cmdOk.text")); // NOI18N
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdOkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdOkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -246,13 +249,17 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         add(cmdOk, gridBagConstraints);
 
         chkVisualize.setSelected(true);
-        chkVisualize.setToolTipText(org.openide.util.NbBundle.getMessage(WFSFormGemeindenSearch.class, "WFSFormGemeindenSearch.chkVisualize.toolTipText")); // NOI18N
+        chkVisualize.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WFSFormGemeindenSearch.class,
+                "WFSFormGemeindenSearch.chkVisualize.toolTipText")); // NOI18N
         chkVisualize.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         chkVisualize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkVisualizeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkVisualizeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
@@ -261,8 +268,11 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 0, 0);
         add(chkVisualize, gridBagConstraints);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cismap/commons/gui/res/markPoint.png"))); // NOI18N
-        jLabel1.setToolTipText(org.openide.util.NbBundle.getMessage(WFSFormGemeindenSearch.class, "WFSFormGemeindenSearch.jLabel1.toolTipText")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cismap/commons/gui/res/markPoint.png"))); // NOI18N
+        jLabel1.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WFSFormGemeindenSearch.class,
+                "WFSFormGemeindenSearch.jLabel1.toolTipText"));                              // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
@@ -272,7 +282,9 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         add(jLabel1, gridBagConstraints);
 
         chkLockScale.setSelected(true);
-        chkLockScale.setToolTipText(org.openide.util.NbBundle.getMessage(WFSFormGemeindenSearch.class, "WFSFormGemeindenSearch.chkLockScale.toolTipText")); // NOI18N
+        chkLockScale.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WFSFormGemeindenSearch.class,
+                "WFSFormGemeindenSearch.chkLockScale.toolTipText")); // NOI18N
         chkLockScale.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -282,8 +294,11 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         gridBagConstraints.insets = new java.awt.Insets(5, 14, 0, 0);
         add(chkLockScale, gridBagConstraints);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cismap/commons/gui/res/fixMapScale.png"))); // NOI18N
-        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(WFSFormGemeindenSearch.class, "WFSFormGemeindenSearch.jLabel2.toolTipText")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cismap/commons/gui/res/fixMapScale.png"))); // NOI18N
+        jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(
+                WFSFormGemeindenSearch.class,
+                "WFSFormGemeindenSearch.jLabel2.toolTipText"));                                // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
@@ -296,12 +311,15 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         txtSearch.setMinimumSize(new java.awt.Dimension(220, 19));
         txtSearch.setPreferredSize(new java.awt.Dimension(220, 19));
         txtSearch.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtSearchInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
+
+                @Override
+                public void inputMethodTextChanged(final java.awt.event.InputMethodEvent evt) {
+                    txtSearchInputMethodTextChanged(evt);
+                }
+                @Override
+                public void caretPositionChanged(final java.awt.event.InputMethodEvent evt) {
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -309,7 +327,9 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         add(txtSearch, gridBagConstraints);
 
-        lblBehind.setText(org.openide.util.NbBundle.getMessage(WFSFormGemeindenSearch.class, "WFSFormGemeindenSearch.lblBehind.text")); // NOI18N
+        lblBehind.setText(org.openide.util.NbBundle.getMessage(
+                WFSFormGemeindenSearch.class,
+                "WFSFormGemeindenSearch.lblBehind.text")); // NOI18N
         lblBehind.setMaximumSize(new java.awt.Dimension(150, 14));
         lblBehind.setMinimumSize(new java.awt.Dimension(150, 14));
         lblBehind.setPreferredSize(new java.awt.Dimension(150, 14));
@@ -324,16 +344,12 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         panFill.setMinimumSize(new java.awt.Dimension(1, 1));
         panFill.setPreferredSize(new java.awt.Dimension(1, 1));
 
-        org.jdesktop.layout.GroupLayout panFillLayout = new org.jdesktop.layout.GroupLayout(panFill);
+        final org.jdesktop.layout.GroupLayout panFillLayout = new org.jdesktop.layout.GroupLayout(panFill);
         panFill.setLayout(panFillLayout);
         panFillLayout.setHorizontalGroup(
-            panFillLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 11, Short.MAX_VALUE)
-        );
+            panFillLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 11, Short.MAX_VALUE));
         panFillLayout.setVerticalGroup(
-            panFillLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 34, Short.MAX_VALUE)
-        );
+            panFillLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 34, Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
@@ -349,10 +365,12 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         cboGemeinden.setMinimumSize(new java.awt.Dimension(27, 19));
         cboGemeinden.setPreferredSize(new java.awt.Dimension(27, 19));
         cboGemeinden.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboGemeindenActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cboGemeindenActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -373,22 +391,22 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 10);
         add(prbGemeinden, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtSearchInputMethodTextChanged(final java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtSearchInputMethodTextChanged
+    private void txtSearchInputMethodTextChanged(final java.awt.event.InputMethodEvent evt) { //GEN-FIRST:event_txtSearchInputMethodTextChanged
         log.fatal("kik");                                                                     // NOI18N
-    }//GEN-LAST:event_txtSearchInputMethodTextChanged
+    }                                                                                         //GEN-LAST:event_txtSearchInputMethodTextChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkVisualizeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVisualizeActionPerformed
+    private void chkVisualizeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkVisualizeActionPerformed
 //        MappingComponent mc = getMappingComponent();
 //        if (mc == null) {
 //            mc = CismapBroker.getInstance().getMappingComponent();
@@ -397,14 +415,14 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         if (gemeinde != null) {
             visualizePosition(gemeinde, chkVisualize.isSelected());
         }
-    }//GEN-LAST:event_chkVisualizeActionPerformed
+    } //GEN-LAST:event_chkVisualizeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
         final boolean history = true;
         MappingComponent mc = getMappingComponent();
         if (mc == null) {
@@ -420,28 +438,28 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         }
         mc.gotoBoundingBox(bb, history, scaling, animation);
         chkVisualizeActionPerformed(null);
-    }//GEN-LAST:event_cmdOkActionPerformed
+    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cboGemeindenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGemeindenActionPerformed
+    private void cboGemeindenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cboGemeindenActionPerformed
         if (log.isDebugEnabled()) {
             log.debug("cboGemeindenActionPerformed()");                              // NOI18N
         }
         if (cboGemeinden.getSelectedItem() instanceof WFSFormFeature) {
             gemeinde = (WFSFormFeature)cboGemeinden.getSelectedItem();
         }
-    }//GEN-LAST:event_cboGemeindenActionPerformed
+    }                                                                                //GEN-LAST:event_cboGemeindenActionPerformed
 
     @Override
     public void actionPerformed(final ActionEvent e) {
         lblBehind.setText(org.openide.util.NbBundle.getMessage(
                 WFSFormGemeindenSearch.class,
                 "WFSFormGemeindenSearch.lblBehind.text2",
-                new Object[] { cboGemeinden.getItemCount() }));             // NOI18N
+                new Object[] { cboGemeinden.getItemCount() }));                  // NOI18N
         if (log.isDebugEnabled()) {
             log.debug("cboGemeinden.getItemAt(0):" + cboGemeinden.getItemAt(0)); // NOI18N
         }
@@ -452,40 +470,57 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
         Log4JQuickConfig.configure4LumbermillOnLocalhost();
         final WFSFormQuery gem = new WFSFormQuery();
-        gem.setComponentName("cboGemeinden");                                                     // NOI18N
+        gem.setComponentName("cboGemeinden");                                          // NOI18N
         gem.setServerUrl("http://wfs.fis-wasser-mv.de/services");
         gem.setPropertyNamespace("http://www.deegree.org/app");
         gem.setPropertyPrefix("app");
-        gem.setDisplayTextProperty("gen");                                        // NOI18N
-        gem.setExtentProperty("the_geom");                                                 // NOI18N
-        gem.setFilename("/de/cismet/cismap/custom/wfsforms/gemeindentestrequest.xml");                                               // NOI18N
-        gem.setId("gemeinden_suche");                                                                  // NOI18N
-        gem.setIdProperty("id");                                                           // NOI18N
-        gem.setTitle("Suche nach Gemeinden");                                                                  // NOI18N
+        gem.setDisplayTextProperty("gen");                                             // NOI18N
+        gem.setExtentProperty("the_geom");                                             // NOI18N
+        gem.setFilename("/de/cismet/cismap/custom/wfsforms/gemeindentestrequest.xml"); // NOI18N
+        gem.setId("gemeinden_suche");                                                  // NOI18N
+        gem.setIdProperty("id");                                                       // NOI18N
+        gem.setTitle("Suche nach Gemeinden");                                          // NOI18N
         gem.setType(WFSFormQuery.FOLLOWUP);
-        gem.setWfsQueryString(readFileFromRessourceAsString("/de/cismet/cismap/custom/wfsforms/gemeindentestrequest.xml")); // NOI18N
+        gem.setWfsQueryString(readFileFromRessourceAsString(
+                "/de/cismet/cismap/custom/wfsforms/gemeindentestrequest.xml"));        // NOI18N
 
         System.out.println(gem.getWfsQueryString());
 
-        JFrame f=new JFrame("Test");
+        final JFrame f = new JFrame("Test");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        WFSFormGemeindenSearch s=new WFSFormGemeindenSearch();
+        final WFSFormGemeindenSearch s = new WFSFormGemeindenSearch();
         final Vector<WFSFormQuery> v = new Vector<WFSFormQuery>();
         v.add(gem);
         s.setQueries(v);
         f.getContentPane().setLayout(new BorderLayout());
-        f.getContentPane().add(s,BorderLayout.CENTER);
+        f.getContentPane().add(s, BorderLayout.CENTER);
         f.pack();
         f.setVisible(true);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   file  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  java.io.IOException  DOCUMENT ME!
+     */
     private static String readFileFromRessourceAsString(final String file) throws java.io.IOException {
         Log4JQuickConfig.configure4LumbermillOnLocalhost();
         final StringBuffer fileData = new StringBuffer(1000);
-        URL url = WFSFormGemeindenSearch.class.getResource(file);
+        final URL url = WFSFormGemeindenSearch.class.getResource(file);
         final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         char[] buf = new char[1024];
         int numRead = 0;
@@ -498,7 +533,14 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         return fileData.toString();
     }
 
-    private String getRightEncodedString(String s) {
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   s  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getRightEncodedString(final String s) {
 //        try {
 //            return new String(s.getBytes("UTF-8"), "ISO-8859-1");
 //        }
@@ -507,16 +549,14 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
 //            return null;
 //        }
 
-        String ret=s;
-        ret=ret.replaceAll("ä","&#228;");
-        ret=ret.replaceAll("Ä","&#196;");
-        ret=ret.replaceAll("ö","&#246;");
-        ret=ret.replaceAll("Ö","&#214;");
-        ret=ret.replaceAll("ü","&#252;");
-        ret=ret.replaceAll("Ü","&#220;");
-        ret=ret.replaceAll("ß","&#223;");
+        String ret = s;
+        ret = ret.replaceAll("ä", "&#228;");
+        ret = ret.replaceAll("Ä", "&#196;");
+        ret = ret.replaceAll("ö", "&#246;");
+        ret = ret.replaceAll("Ö", "&#214;");
+        ret = ret.replaceAll("ü", "&#252;");
+        ret = ret.replaceAll("Ü", "&#220;");
+        ret = ret.replaceAll("ß", "&#223;");
         return ret;
-
-
     }
 }

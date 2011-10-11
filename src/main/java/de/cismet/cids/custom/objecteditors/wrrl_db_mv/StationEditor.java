@@ -1195,27 +1195,27 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splitButtonActionPerformed
+    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_splitButtonActionPerformed
         splitPoint();
-    }//GEN-LAST:event_splitButtonActionPerformed
+    }                                                                               //GEN-LAST:event_splitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomButtonActionPerformed
+    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomButtonActionPerformed
         switchBadGeomVisibility();
-    }//GEN-LAST:event_badGeomButtonActionPerformed
+    }                                                                                 //GEN-LAST:event_badGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomCorrectButtonActionPerformed
+    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomCorrectButtonActionPerformed
         correctBadGeomCorrect();
-    }//GEN-LAST:event_badGeomCorrectButtonActionPerformed
+    }                                                                                        //GEN-LAST:event_badGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!

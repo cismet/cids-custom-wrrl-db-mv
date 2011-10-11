@@ -86,6 +86,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
+        System.out.println("----------- Test");
         if (cidsBean != null) {
             fgskKartierabschnittKartierabschnitt1.setCidsBean(cidsBean);
             fgskKartierabschnittLaufentwicklung1.setCidsBean(cidsBean);

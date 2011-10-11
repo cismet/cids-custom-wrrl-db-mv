@@ -14,6 +14,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import de.cismet.cids.custom.reports.FgskReport;
 import de.cismet.cids.custom.tostringconverter.wrrl_db_mv.FgskKartierabschnittToStringConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -33,7 +34,7 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
     private transient CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnReport;
     private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 
@@ -44,10 +45,9 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
      */
     public FgskKartierabschnittTitleComponent() {
         initComponents();
-
         this.printL = new PrintListener();
 
-        WeakListeners.create(ActionListener.class, printL, btnPrint);
+        btnReport.addActionListener(WeakListeners.create(ActionListener.class, printL, btnReport));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -95,7 +95,7 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         lblTitle = new javax.swing.JLabel();
-        btnPrint = new javax.swing.JButton();
+        btnReport = new javax.swing.JButton();
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -114,16 +114,23 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblTitle, gridBagConstraints);
 
-        btnPrint.setText(NbBundle.getMessage(
+        btnReport.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer.png")));         // NOI18N
+        btnReport.setText(NbBundle.getMessage(
                 FgskKartierabschnittTitleComponent.class,
-                "FgskKartierabschnittTitleComponent.btnPrint.text")); // NOI18N
+                "FgskKartierabschnittTitleComponent.btnReport.text"));                                            // NOI18N
+        btnReport.setBorderPainted(false);
+        btnReport.setContentAreaFilled(false);
+        btnReport.setFocusPainted(false);
+        btnReport.setPressedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer_pressed.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btnPrint, gridBagConstraints);
-    }                                                                 // </editor-fold>//GEN-END:initComponents
+        add(btnReport, gridBagConstraints);
+    }                                                                                                             // </editor-fold>//GEN-END:initComponents
 
     //~ Inner Classes ----------------------------------------------------------
 
@@ -138,7 +145,8 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            // whatever
+            final FgskReport report = new FgskReport(cidsBean);
+            report.print();
         }
     }
 }

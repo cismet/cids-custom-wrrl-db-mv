@@ -1,0 +1,3333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fließgewässerstrukturgütekartierung Mecklenburg-Vorpommern" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table" isDefault="false">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" isDefault="false" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" isDefault="false" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" isDefault="false" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="gewaessertyp_11" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("11".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_11" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_12" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("12".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_12" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_14" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("14".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_14" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_15" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("15".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_15" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_16" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("16".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_16" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_17" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("17".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_17" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_23" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("23".equals($P{gewaessertyp_id}))]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_23" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessertyp_seeausfluss" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{seeausfluss}]]></conditionExpression>
+			<style isDefault="false" style="gewaessertyp_seeausfluss" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_11_1" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("11".equals($P{gewaessertyp_id}) && $P{gewaessersubtyp}.contains("D"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_11_1" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_12_1" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("12".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("D"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_12_1" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_14_1" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("14".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("M"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_14_1" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_15_1" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("15".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("M"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_15_1" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_16_1" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("16".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("g"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_16_1" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_17_1" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("17".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("g"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_17_1" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_14_2" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("14".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("S"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_14_2" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_15_2" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("15".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("S"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_15_2" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_16_2" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("16".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("f"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_16_2" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_17_2" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("17".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("f"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_17_2" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_14_3" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("14".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("R"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_14_3" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_15_3" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("15".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("R"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_15_3" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_16_3" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("16".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("R"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_16_3" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<style name="gewaessersubtyp_17_3" isDefault="false" mode="Opaque">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[Boolean.valueOf("17".equals($P{gewaessertyp_id}) &&  $P{gewaessersubtyp}.contains("R"))]]></conditionExpression>
+			<style isDefault="false" style="gewaessersubtyp_17_3" backcolor="#CAC8C8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Table Dataset 1"/>
+	<parameter name="gew" class="java.lang.String"/>
+	<parameter name="gwk" class="java.lang.String"/>
+	<parameter name="wkk" class="java.lang.String"/>
+	<parameter name="wkName" class="java.lang.String"/>
+	<parameter name="wkType" class="java.lang.String"/>
+	<parameter name="bearbeiter" class="java.lang.String"/>
+	<parameter name="erfassungsdatum" class="java.lang.String"/>
+	<parameter name="fliessrichtung_id" class="java.lang.String"/>
+	<parameter name="gewaesser_abschnitt" class="java.lang.String"/>
+	<parameter name="stationierung" class="java.lang.String"/>
+	<parameter name="wasserfuehrung_id" class="java.lang.String"/>
+	<parameter name="sonderfall_id" class="java.lang.Integer"/>
+	<parameter name="erlaeuterung" class="java.lang.String"/>
+	<parameter name="gewaesserbreite_id" class="java.lang.Integer"/>
+	<parameter name="unterhaltungerkennbar" class="java.lang.String"/>
+	<parameter name="gewaessertyp_id" class="java.lang.String"/>
+	<parameter name="gewaessersubtyp" class="java.util.List"/>
+	<parameter name="laufkruemmung_id" class="java.lang.Integer"/>
+	<parameter name="kruemmungserosion_id" class="java.lang.Integer"/>
+	<parameter name="laengsbaenke_ufkg" class="java.lang.String"/>
+	<parameter name="laengsbaenke_ib" class="java.lang.String"/>
+	<parameter name="laengsbaenke_mb" class="java.lang.String"/>
+	<parameter name="laengsbaenke_keine" class="java.lang.String"/>
+	<parameter name="laufstrukturen_tv" class="java.lang.String"/>
+	<parameter name="laufstrukturen_sb" class="java.lang.String"/>
+	<parameter name="laufstrukturen_ibi" class="java.lang.String"/>
+	<parameter name="laufstrukturen_lw" class="java.lang.String"/>
+	<parameter name="laufstrukturen_lv" class="java.lang.String"/>
+	<parameter name="laufstrukturen_lg" class="java.lang.String"/>
+	<parameter name="laufstrukturen_keine" class="java.lang.String"/>
+	<parameter name="besonderheiten_wasserfuehrung" class="java.util.List"/>
+	<parameter name="fliessgeschwindigkeit_id" class="java.lang.Integer"/>
+	<parameter name="querbaenke_anzahl" class="java.lang.String"/>
+	<parameter name="tiefenerosion_id" class="java.lang.String"/>
+	<parameter name="tiefenvarianz_id" class="java.lang.String"/>
+	<parameter name="stroemungsdiversitaet_id" class="java.lang.String"/>
+	<parameter name="profiltyp_id" class="java.lang.Integer"/>
+	<parameter name="einschnitttiefe" class="java.lang.String"/>
+	<parameter name="wassertiefe" class="java.lang.String"/>
+	<parameter name="wasserspiegelbreite" class="java.lang.String"/>
+	<parameter name="sohlenbreite" class="java.lang.String"/>
+	<parameter name="obere_profilbreite" class="java.lang.String"/>
+	<parameter name="breitenvarianz_id" class="java.lang.Integer"/>
+	<parameter name="breitenerosion_id" class="java.lang.Integer"/>
+	<parameter name="sohlenverbau_id" class="java.lang.Integer"/>
+	<parameter name="z_sohlenverbau_id" class="java.lang.String"/>
+	<parameter name="belastung_sohle_mue" class="java.lang.String"/>
+	<parameter name="belastung_sohle_st" class="java.lang.String"/>
+	<parameter name="belastung_sohle_abw" class="java.lang.String"/>
+	<parameter name="belastung_sohle_vo" class="java.lang.String"/>
+	<parameter name="belastung_sohle_sa" class="java.lang.String"/>
+	<parameter name="belastung_sohle_so" class="java.lang.String"/>
+	<parameter name="belastung_sohle_keine" class="java.lang.String"/>
+	<parameter name="sohlenstrukturen_rip" class="java.lang.String"/>
+	<parameter name="sohlenstrukturen_th" class="java.lang.String"/>
+	<parameter name="sohlenstrukturen_wu" class="java.lang.String"/>
+	<parameter name="sohlenstrukturen_ko" class="java.lang.String"/>
+	<parameter name="sohlenstrukturen_kein" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_ton" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_san" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_kie" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_ste" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_blo" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_sch" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_tor" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_tot" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_wur" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_kue" class="java.lang.String"/>
+	<parameter name="ufervegetation_links_id" class="java.lang.String"/>
+	<parameter name="ufervegetation_rechts_id" class="java.lang.String"/>
+	<parameter name="ufervegetation_links_typical" class="java.lang.String"/>
+	<parameter name="ufervegetation_rechts_typical" class="java.lang.String"/>
+	<parameter name="uferverbau_links_id" class="java.lang.Integer"/>
+	<parameter name="uferverbau_rechts_id" class="java.lang.Integer"/>
+	<parameter name="z_uferverbau_links_id" class="java.lang.String"/>
+	<parameter name="z_uferverbau_rechts_id" class="java.lang.String"/>
+	<parameter name="uferstruktur_bu_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_pb_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_us_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_sb_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_ha_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_nboe_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_so_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_keine_links" class="java.lang.String"/>
+	<parameter name="uferstruktur_bu_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_pb_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_us_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_sb_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_ha_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_nboe_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_so_rechts" class="java.lang.String"/>
+	<parameter name="uferstruktur_keine_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_mue_links" class="java.lang.String"/>
+	<parameter name="uferbelastungen_mue_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_st_links" class="java.lang.String"/>
+	<parameter name="uferbelastungen_st_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_ts_links" class="java.lang.String"/>
+	<parameter name="uferbelastungen_ts_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_el_links" class="java.lang.String"/>
+	<parameter name="uferbelastungen_el_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_so_links" class="java.lang.String"/>
+	<parameter name="uferbelastungen_so_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_keine_rechts" class="java.lang.String"/>
+	<parameter name="uferbelastungen_keine_links" class="java.lang.String"/>
+	<parameter name="flaechennutzung_links_id" class="java.lang.String"/>
+	<parameter name="flaechennutzung_rechts_id" class="java.lang.String"/>
+	<parameter name="gewaesserrandstreifen_links_id" class="java.lang.String"/>
+	<parameter name="gewaesserrandstreifen_rechts_id" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_keine_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_fm_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_q_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_aa_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_aw_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_w_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_so_links" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_keine_rechts" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_fm_rechts" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_q_rechts" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_aa_rechts" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_aw_rechts" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_w_rechts" class="java.lang.String"/>
+	<parameter name="umfeldstrukturen_so_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_ag_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_ft_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_gua_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_bv_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_ma_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_hw_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_so_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_keine_links" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_ag_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_ft_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_gua_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_bv_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_ma_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_hw_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_so_rechts" class="java.lang.String"/>
+	<parameter name="s_umfeldstrukturen_keine_rechts" class="java.lang.String"/>
+	<parameter name="beschreibung" class="java.lang.String"/>
+	<parameter name="foto_nr" class="java.lang.String"/>
+	<parameter name="sohlensubstrat_ne" class="java.lang.String"/>
+	<parameter name="seeausfluss" class="java.lang.Boolean"/>
+	<background>
+		<band height="802">
+			<line>
+				<reportElement x="0" y="13" width="1" height="788"/>
+			</line>
+			<line>
+				<reportElement x="556" y="13" width="1" height="788"/>
+			</line>
+			<line>
+				<reportElement x="0" y="13" width="556" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="800" width="556" height="1"/>
+			</line>
+		</band>
+	</background>
+	<title>
+		<band height="14" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="12" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Fließgewässerstrukturgütekartierung Mecklenburg-Vorpommern]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement style="table_TD" x="1" y="12" width="85" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Gewässerkennzahl:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="24" width="85" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Gewässerabschnitt:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="86" y="12" width="110" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{gwk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="86" y="24" width="110" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{gewaesser_abschnitt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="0" width="85" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Gewässername:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="86" y="0" width="110" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{gew}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="196" y="0" width="66" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Stationierung:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="196" y="12" width="66" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Wasserkörper:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="196" y="24" width="66" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Wk-Typ:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="262" y="0" width="110" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{stationierung}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="262" y="12" width="110" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{wkk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="262" y="24" width="110" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{wkType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="372" y="12" width="73" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Bearbeiter:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="445" y="12" width="111" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{bearbeiter}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="445" y="24" width="111" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{foto_nr} + " / " + $P{fliessrichtung_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="372" y="0" width="73" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Datum:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="445" y="0" width="111" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{erfassungsdatum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="372" y="24" width="73" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Fotonr./Fließrtg.:]]></text>
+			</staticText>
+		</band>
+		<band height="133">
+			<line>
+				<reportElement style="table_TD" x="0" y="0" width="556" height="1"/>
+			</line>
+			<line>
+				<reportElement style="table_TD" x="151" y="0" width="1" height="133"/>
+			</line>
+			<line>
+				<reportElement style="table_TD" x="290" y="0" width="1" height="133"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="1" width="70" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Wasserführung:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="13" width="70" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Unterhaltg. erk.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="79" y="1" width="56" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{wasserfuehrung_id} != null ? $P{wasserfuehrung_id} : "MQ / NQ"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="79" y="13" width="56" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{unterhaltungerkennbar} != null ? $P{unterhaltungerkennbar} : "ja / nein"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="37" width="59" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sonderfall:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="53" width="49" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[verroht]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="65" width="49" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[sonstiges]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="31" y="53" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sonderfall_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="31" y="65" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sonderfall_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="81" width="58" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Erläuterung:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="1" width="85" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Größenklasse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="13" width="85" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Gewässerbreite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="37" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ < 1m]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="49" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ 1 - 5m]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="61" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[5 - 10m]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="73" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[> 10m]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="1" width="67" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Gewässertyp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="1" width="29" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Subtyp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="13" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Organisch geprägter Bach]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="25" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Organisch geprägter Fluss]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="37" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sandgeprägter Tieflandbach]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="49" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sand- / lehmgeprägter Tieflandfl.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="61" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Kiesgeprägter Tieflandbach]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="73" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Kiesgeprägter Tieflandfluss]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="85" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Rückstau-/brackwasserb. Ostseez.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="96" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Seeausfluss]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="gewaessertyp_11" x="447" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["11"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_12" x="447" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["12"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_14" x="447" y="37" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["14"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_15" x="447" y="49" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["15"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_16" x="447" y="61" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["16"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_17" x="447" y="72" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["17"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_23" x="447" y="84" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["23"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessertyp_seeausfluss" x="447" y="96" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_11_1" x="472" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["D"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_12_1" x="472" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["D"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_14_1" x="472" y="37" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["M"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_15_1" x="472" y="49" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["M"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_16_1" x="472" y="61" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["g"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_17_1" x="472" y="72" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["g"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_16_2" x="497" y="61" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["f"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_17_2" x="497" y="72" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["f"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_15_2" x="497" y="49" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["S"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_14_2" x="497" y="37" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["S"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_15_3" x="522" y="49" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["R"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_16_3" x="522" y="61" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["R"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_14_3" x="522" y="37" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["R"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="gewaessersubtyp_17_3" x="522" y="72" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["R"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{gewaesserbreite_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{gewaesserbreite_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{gewaesserbreite_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="73" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{gewaesserbreite_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="302" y="110" width="245" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="6" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ M - Moränen- / S - Sandgewässer; g - grobe / f - feine Substrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="120" width="245" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="6" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[D - Degrationstyp; R - Randmoorungen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-23" y="-34" width="23" height="108"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" rotation="Left">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Kartierabschnitt]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="6" y="94" width="129" height="36"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{erlaeuterung}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="108">
+			<line>
+				<reportElement style="table_TD" x="198" y="0" width="1" height="108"/>
+			</line>
+			<staticText>
+				<reportElement x="-23" y="1" width="23" height="99"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" rotation="Left">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Laufentwicklung]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="0" y="0" width="556" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="1" width="95" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Laufkrümmung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="13" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[mäandrierend]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="25" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[geschlängelt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="37" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[stark geschwungen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="49" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[mäßig geschwungen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="61" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[schwach geschwungen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="73" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[gestreckt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="85" width="95" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[geradlinig]]></text>
+			</staticText>
+			<image hAlign="Center">
+				<reportElement x="106" y="13" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/maeandr_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement x="106" y="25" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/geschlaengelt_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement x="106" y="37" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/stark_geschwungen_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement x="106" y="49" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/maessig_geschwungen_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement x="106" y="61" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/schwach_geschwungen_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement x="106" y="73" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/gestreckt_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement x="106" y="85" width="47" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/img/geradlinig_crop.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="table" x="158" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 5 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="73" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 6 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="85" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufkruemmung_id}.intValue() == 7 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="1" width="95" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Krümmungserosion]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{kruemmungserosion_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="13" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[häufig stark]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{kruemmungserosion_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="25" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[vereinzelt stark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="37" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[häufig schwach]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{kruemmungserosion_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="289" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{kruemmungserosion_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="49" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[vereinzelt schwach]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{kruemmungserosion_id}.intValue() == 5 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="61" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="322" y="0" width="1" height="108"/>
+			</line>
+			<staticText>
+				<reportElement x="327" y="1" width="95" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl der Längsbänke]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="340" y="25" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[UKFB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="370" y="25" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[IB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="400" y="25" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[MB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="430" y="25" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="340" y="13" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laengsbaenke_ufkg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="400" y="13" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laengsbaenke_mb}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="370" y="13" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laengsbaenke_ib}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="430" y="13" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laengsbaenke_keine}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="330" y="49" width="160" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl besonderer Laufstrukturen]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="400" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_ibi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="370" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="400" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[IBI]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="340" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_tv}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="430" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="340" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TV]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="430" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_lw}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="370" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_sb}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="460" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_lv}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="460" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LV]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="490" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_lg}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="490" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LG]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="520" y="61" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{laufstrukturen_keine}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="520" y="73" width="30" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+		</band>
+		<band height="77">
+			<line>
+				<reportElement style="table_TD" x="0" y="0" width="556" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="table" x="158" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{besonderheiten_wasserfuehrung}.contains(Integer.valueOf(1)) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="37" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[deutlich künstlicher Rückstau]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="13" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[sehr geringe Wasserführung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="1" width="152" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Besonderheiten der Wassserführung]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="158" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{besonderheiten_wasserfuehrung}.contains(Integer.valueOf(3)) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="25" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[staureguliert]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="158" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{besonderheiten_wasserfuehrung}.contains(Integer.valueOf(4)) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{besonderheiten_wasserfuehrung}.contains(Integer.valueOf(2)) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="49" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[trockengefallen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-23" y="0" width="23" height="76"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" rotation="Left">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Längsprofil]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="198" y="0" width="1" height="77"/>
+			</line>
+			<staticText>
+				<reportElement x="204" y="1" width="85" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fließgeschwindigkeit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="37" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[mittel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="25" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[gering]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fliessgeschwindigkeit_id}.intValue() == 5 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="289" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fliessgeschwindigkeit_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="13" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fliessgeschwindigkeit_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="49" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[hoch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="59" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[sehr hoch]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="289" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fliessgeschwindigkeit_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="289" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fliessgeschwindigkeit_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement style="table_TD" x="322" y="0" width="1" height="77"/>
+			</line>
+			<textField>
+				<reportElement style="table" x="417" y="49" width="133" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{tiefenerosion_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="417" y="25" width="133" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{stroemungsdiversitaet_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="417" y="13" width="133" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{querbaenke_anzahl}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="49" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tiefenerosion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="37" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tiefenvarianz]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="13" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Querbänke]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="25" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Strömungsdiversität]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="417" y="37" width="133" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{tiefenvarianz_id}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="103">
+			<staticText>
+				<reportElement x="-23" y="0" width="23" height="96"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" rotation="Left">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Querprofil]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="0" y="0" width="556" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="1" width="152" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Profiltyp]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="158" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profiltyp_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="37" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Erosionsprofil, variierend]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="25" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[annähernd Naturprofil]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="158" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profiltyp_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profiltyp_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="13" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Naturprofil]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="158" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profiltyp_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="49" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[verfallendes Regelprofil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="61" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Trapez, Doppeltrapez]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="158" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profiltyp_id}.intValue() == 5 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="158" y="73" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{profiltyp_id}.intValue() == 6 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="73" width="145" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[V-Profil, Kastenprofil]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="198" y="0" width="1" height="103"/>
+			</line>
+			<staticText>
+				<reportElement x="204" y="1" width="108" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Angaben in m]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="291" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{obere_profilbreite}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="49" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sohlenbreite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="25" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Wassertiefe]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="291" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{einschnitttiefe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="37" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Wasserspiegelbreite]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="291" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{wasserspiegelbreite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="291" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{wassertiefe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="13" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Einschnitttiefe]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="291" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenbreite}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="61" width="82" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[obere Profilbreite]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="322" y="0" width="1" height="103"/>
+			</line>
+			<staticText>
+				<reportElement x="327" y="1" width="61" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Breitenvarianz]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="409" y="13" width="110" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/objecteditors/wrrl_db_mv/BV_sehr_gross_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="409" y="25" width="110" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/objecteditors/wrrl_db_mv/BV_gross_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="409" y="37" width="110" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/objecteditors/wrrl_db_mv/BV_maessig_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="409" y="49" width="110" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/objecteditors/wrrl_db_mv/BV_gering_crop.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="409" y="61" width="110" height="12"/>
+				<imageExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/objecteditors/wrrl_db_mv/BV_keine_crop.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="358" y="61" width="43" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[kein]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="13" width="43" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[sehr groß]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="25" width="43" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[groß]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="49" width="43" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[gering]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="37" width="43" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[mäßig]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="527" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenvarianz_id}.intValue() == 5 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="527" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenvarianz_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="527" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenvarianz_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="527" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenvarianz_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="527" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenvarianz_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="76" width="61" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Breitenerosion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="76" width="24" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[stark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="88" width="24" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[mittel]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="440" y="88" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenerosion_id}.intValue() == 2 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="440" y="76" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenerosion_id}.intValue() == 1 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="484" y="88" width="35" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="527" y="88" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fliessgeschwindigkeit_id}.intValue() == 4 ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="484" y="76" width="35" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[schwach]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="527" y="76" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{breitenerosion_id}.intValue() == 3 ? "X" : ""]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="100">
+			<line>
+				<reportElement style="table_TD" x="0" y="0" width="556" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="-22" y="1" width="23" height="96"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" rotation="Left">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sohlenstruktur]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="101" y="49" width="80" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenverbau_id}.intValue() == 3 ? $P{z_sohlenverbau_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="37" width="89" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Massivs. m. Sediment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="49" width="89" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Massivs. o. Sediment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="61" width="89" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[kein Sohlenverbau]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="101" y="61" width="80" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenverbau_id}.intValue() == 4 ? $P{z_sohlenverbau_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="101" y="37" width="80" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenverbau_id}.intValue() == 2 ? $P{z_sohlenverbau_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="25" width="89" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Steinschüttung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="1" width="89" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Profiltyp]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="101" y="25" width="80" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenverbau_id}.intValue() == 1 ? $P{z_sohlenverbau_id} : ""]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement style="table_TD" x="198" y="0" width="1" height="100"/>
+			</line>
+			<staticText>
+				<reportElement x="101" y="13" width="80" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Zustand]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="1" width="89" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sohlensubstrat (in %)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="49" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Steine]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="13" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Lehm/Ton]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="254" y="61" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_blo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="37" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Kies]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="254" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_ton}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="49" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_ste}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="37" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_kie}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="61" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Blöcke]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="25" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sand]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="254" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_san}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="73" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Schlamm]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="254" y="73" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_sch}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="254" y="85" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_tor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="204" y="85" width="40" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Torf]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="13" width="52" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Totholz]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="342" y="25" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_wur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="342" y="43" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_kue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="342" y="13" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_tot}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="285" y="61" width="52" height="24"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[nicht einschätzbar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="25" width="52" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Wurzeln]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="342" y="66" width="23" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlensubstrat_ne}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="285" y="37" width="52" height="24"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[künstliche Substrate]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="372" y="0" width="1" height="100"/>
+			</line>
+			<textField>
+				<reportElement style="table" x="427" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenstrukturen_wu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="402" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenstrukturen_th}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="377" y="1" width="170" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl besonderer Sohlenstrukturen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="427" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[WU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="53" width="160" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl Belastungen Sohle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="452" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[KO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="377" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[RiP]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="452" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenstrukturen_ko}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="402" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TH]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="377" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenstrukturen_rip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="477" y="13" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{sohlenstrukturen_kein}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="477" y="25" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[kein]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="377" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_mue}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="477" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SA]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="452" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_vo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="427" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[AbW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="402" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="377" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[MÜ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="402" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_st}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="427" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_abw}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="477" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_sa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="452" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[VO]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="502" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_so}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="502" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[so]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="527" y="77" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[kein]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="527" y="65" width="25" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{belastung_sohle_keine}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="229">
+			<staticText>
+				<reportElement x="-23" y="0" width="23" height="199"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom" rotation="Left">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Uferstrukturur / Gewässerumfeld]]></text>
+			</staticText>
+			<line>
+				<reportElement style="table_TD" x="0" y="0" width="556" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="table" stretchType="RelativeToTallestObject" x="94" y="13" width="105" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{ufervegetation_links_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="13" width="82" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Uferbewuchs links]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="94" y="23" width="105" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{ufervegetation_rechts_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="23" width="82" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Uferbewuchs rechts]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="199" y="13" width="64" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ufervegetation_links_typical}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="23" width="64" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ufervegetation_rechts_typical}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="197" y="3" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[talraumtypisch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="36" width="63" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Uferverbau]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="136" y="46" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 1 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="46" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 1 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="46" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Beton, Mauerwerk, Pflaster, v.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="36" width="63" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[   R]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="36" width="63" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Zustand        L   ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="56" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Rasengi., Pflaster, Steins., uv.]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="136" y="56" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 2 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="56" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 2 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="66" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Steinschüttung/Steinbewurf]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="136" y="66" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 3 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="66" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 3 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="76" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[wilder Verbau]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="136" y="76" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 4 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="76" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 4 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="86" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Holzverbau]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="136" y="86" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 5 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="86" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 5 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="96" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Lebendverbau]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="136" y="96" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 6 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="199" y="96" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 6 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="136" y="116" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 8 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="116" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Buschfaschinen]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="199" y="116" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 8 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="136" y="106" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_links_id}.intValue() == 7 ? $P{z_uferverbau_links_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="106" width="129" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[kein Uferverbau]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="199" y="106" width="63" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferverbau_rechts_id}.intValue() == 7 ? $P{z_uferverbau_rechts_id} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="57" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="161" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[nBÖ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="161" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_nboe_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="109" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SB]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="31" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_bu_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="135" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_ha_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="187" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_so_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="135" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[HA]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="109" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_sb_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="133" width="161" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl besonderer Uferstrukturen]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="57" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_pb_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="31" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[BU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="187" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[so]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="83" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_us_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="83" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[US]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="31" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_bu_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="187" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_so_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="109" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_sb_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="83" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_us_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="57" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_pb_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="161" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_nboe_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="135" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_ha_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[L]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[R]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="213" y="155" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_keine_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="213" y="165" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="213" y="145" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferstruktur_keine_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="31" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_mue_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="109" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_el_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="83" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_ts_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="57" y="212" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="135" y="212" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[so]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[L]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="31" y="212" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[MÜ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="31" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_mue_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="57" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_st_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="83" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_ts_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="109" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_el_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="135" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_so_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[R]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="161" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_keine_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="83" y="212" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TS]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="161" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_keine_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="181" width="161" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl besonderer Uferbelastungen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="109" y="212" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[EL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="161" y="212" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="57" y="192" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_st_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="135" y="202" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uferbelastungen_so_rechts}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement style="table_TD" x="269" y="0" width="1" height="229"/>
+			</line>
+			<staticText>
+				<reportElement x="274" y="13" width="117" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Flächennutzung links]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="23" width="117" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Flächennutzung rechts]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="394" y="13" width="158" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{flaechennutzung_links_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="394" y="23" width="158" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{flaechennutzung_rechts_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="394" y="48" width="158" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{gewaesserrandstreifen_rechts_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="394" y="38" width="158" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{gewaesserrandstreifen_links_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="274" y="38" width="117" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Gewässerrandstreifen links]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="48" width="117" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Gewässerrandstreifen rechts]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="302" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_fm_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="458" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_keine_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="380" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_aw_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="354" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_aa_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="458" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="328" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Q]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="406" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[W]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[L]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="302" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[FM]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="302" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_fm_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="328" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_q_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="354" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_aa_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="380" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_aw_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="406" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_w_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="458" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_keine_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="277" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[R]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="432" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_so_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="354" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[AA]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="432" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_so_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="274" y="66" width="242" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl besonderer Umfeldstrukturen (bis 100 m v. Gew.)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="380" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[AW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="432" y="98" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[so]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="328" y="78" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_q_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="406" y="88" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{umfeldstrukturen_w_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="302" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_ag_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="458" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_so_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="380" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_bv_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="354" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_gua_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="458" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[so]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="328" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[FT]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="484" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_keine_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="406" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[MA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[L]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="302" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[AG]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="302" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_ag_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="328" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_ft_rechts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="354" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_gua_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="380" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_bv_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="484" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_keine_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="406" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_ma_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="458" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_so_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="277" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[R]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="432" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_hw_links}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table" x="354" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[GUA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="484" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[keine]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="432" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_hw_rechts}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="274" y="118" width="242" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Anzahl schädlicher Umfeldstrukturen (bis 100 m v. Gew.)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="380" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[BV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table" x="432" y="150" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[HW]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table" x="328" y="130" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_ft_links}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table" x="406" y="140" width="26" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{s_umfeldstrukturen_ma_rechts}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement style="table_TD" x="269" y="164" width="286" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="274" y="165" width="72" height="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Bemerkungen:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="274" y="175" width="278" height="47"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{beschreibung}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
