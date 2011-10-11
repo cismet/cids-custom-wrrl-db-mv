@@ -215,7 +215,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
             }
 
             final Integer sonderfallId = (Integer)bean.getProperty("sonderfall_id.value");
-            
+
             params.put("sonderfall_id", (sonderfallId == null) ? Integer.valueOf(-1) : sonderfallId);
             params.put("erlaeuterung", toString(bean.getProperty("erlaeuterung")));
             params.put("gewaesserbreite_id", bean.getProperty("gewaesserbreite_id.value"));
