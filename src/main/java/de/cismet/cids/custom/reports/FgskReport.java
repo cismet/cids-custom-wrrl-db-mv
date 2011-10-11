@@ -24,22 +24,30 @@
 package de.cismet.cids.custom.reports;
 
 import Sirius.navigator.connection.SessionManager;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.search.CidsServerSearch;
+
 import com.vividsolutions.jts.geom.Geometry;
+
 import org.apache.log4j.Logger;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.WkkSearch;
+
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
@@ -93,6 +101,27 @@ public final class FgskReport extends AbstractJasperReportPrint {
         }
 
         return String.valueOf(obj);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   obj  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  IllegalArgumentException  DOCUMENT ME!
+     */
+    private Integer toInteger(final Object obj) {
+        if (obj == null) {
+            return Integer.valueOf(-1);
+        }
+
+        if (!(obj instanceof Integer)) {
+            throw new IllegalArgumentException();
+        }
+
+        return (Integer)obj;
     }
 
     /**
@@ -192,33 +221,27 @@ public final class FgskReport extends AbstractJasperReportPrint {
                 LOG.error("Error while determining the water body", e);
             }
 
-            params.put("gew", gew);       // Gewässername
-            params.put("gwk", gwk);       // Gewässerkennzahl
-            params.put("wkk", wkk);       // Wasserkörper
-            params.put("wkName", wkName); // Wasserkörpername TODO: benötigt?
-            params.put("wkType", wkType); // Wk-Type
-            params.put("stationierung", statString);
+            params.put("gew", toString(gew));       // Gewässername
+            params.put("gwk", toString(gwk));       // Gewässerkennzahl
+            params.put("wkk", toString(wkk));       // Wasserkörper
+            params.put("wkName", toString(wkName)); // Wasserkörpername TODO: benötigt?
+            params.put("wkType", toString(wkType)); // Wk-Type
+            params.put("stationierung", toString(statString));
 
             params.put("gewaesser_abschnitt", toString(bean.getProperty("gewaesser_abschnitt")));
             params.put("bearbeiter", toString(bean.getProperty("bearbeiter")));
-            params.put("erfassungsdatum", DF.format(bean.getProperty("erfassungsdatum")));
+            params.put("erfassungsdatum", toString(DF.format(bean.getProperty("erfassungsdatum"))));
             params.put("fliessrichtung_id", toString(bean.getProperty("fliessrichtung_id")));
 
             params.put("wasserfuehrung_id", toString(bean.getProperty("wasserfuehrung_id")));
             params.put("foto_nr", toString(bean.getProperty("foto_nr")));
 
-            Boolean unterk = null;
-            final Object unterkObj = bean.getProperty("unterhaltungerkennbar");
-            if (unterkObj != null) {
-                unterk = (Boolean)unterkObj;
-                params.put("unterhaltungerkennbar", unterk ? "ja" : "nein");
-            }
-
-            final Integer sonderfallId = (Integer)bean.getProperty("sonderfall_id.value");
-
-            params.put("sonderfall_id", (sonderfallId == null) ? Integer.valueOf(-1) : sonderfallId);
+            Boolean unterhaltungerkennbar = (Boolean)bean.getProperty("unterhaltungerkennbar");
+            unterhaltungerkennbar = (unterhaltungerkennbar == null) ? Boolean.FALSE : unterhaltungerkennbar;
+            params.put("unterhaltungerkennbar", unterhaltungerkennbar ? "ja" : "nein");
+            params.put("sonderfall_id", toInteger(bean.getProperty("sonderfall_id.value")));
             params.put("erlaeuterung", toString(bean.getProperty("erlaeuterung")));
-            params.put("gewaesserbreite_id", bean.getProperty("gewaesserbreite_id.value"));
+            params.put("gewaesserbreite_id", toInteger(bean.getProperty("gewaesserbreite_id.value")));
             params.put("gewaessertyp_id", toString(bean.getProperty("gewaessertyp_id.value")));
 
             final List<CidsBean> subTypes = (List<CidsBean>)bean.getProperty("gewaessersubtyp");
@@ -242,10 +265,10 @@ public final class FgskReport extends AbstractJasperReportPrint {
      * @param  params  DOCUMENT ME!
      */
     private void retrieveLaufentwicklungParams(final CidsBean bean, final Map params) {
-        params.put("laufkruemmung_id", bean.getProperty("laufkruemmung_id.value"));         // Integer: 1 -
-                                                                                            // mäandrierend usw.
-        params.put("kruemmungserosion_id", bean.getProperty("kruemmungserosion_id.value")); // Integer: 1 - häufig
-                                                                                            // stark usw.
+        params.put("laufkruemmung_id", toInteger(bean.getProperty("laufkruemmung_id.value"))); // Integer: 1 -
+        // mäandrierend usw.
+        params.put("kruemmungserosion_id", toInteger(bean.getProperty("kruemmungserosion_id.value"))); // Integer: 1 - häufig
+        // stark usw.
 
         // -- Handling Längsbänke
 
@@ -308,7 +331,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
      * @param  params  DOCUMENT ME!
      */
     private void retrieveLaengsprofilParams(final CidsBean bean, final Map params) {
-        params.put("fliessgeschwindigkeit_id", bean.getProperty("fliessgeschwindigkeit_id.value"));
+        params.put("fliessgeschwindigkeit_id", toInteger(bean.getProperty("fliessgeschwindigkeit_id.value")));
         params.put("stroemungsdiversitaet_id", toString(bean.getProperty("stroemungsdiversitaet_id")));
         params.put("tiefenvarianz_id", toString(bean.getProperty("tiefenvarianz_id")));
         params.put("tiefenerosion_id", toString(bean.getProperty("tiefenerosion_id")));
@@ -331,9 +354,9 @@ public final class FgskReport extends AbstractJasperReportPrint {
      * @param  params  DOCUMENT ME!
      */
     private void retrieveQuerprofilParams(final CidsBean bean, final Map params) {
-        params.put("profiltyp_id", bean.getProperty("profiltyp_id.value"));
-        params.put("breitenvarianz_id", bean.getProperty("breitenvarianz_id.value"));
-        params.put("breitenerosion_id", bean.getProperty("breitenerosion_id.value"));
+        params.put("profiltyp_id", toInteger(bean.getProperty("profiltyp_id.value")));
+        params.put("breitenvarianz_id", toInteger(bean.getProperty("breitenvarianz_id.value")));
+        params.put("breitenerosion_id", toInteger(bean.getProperty("breitenerosion_id.value")));
 
         params.put("einschnitttiefe", toString(bean.getProperty("einschnitttiefe")));
         params.put("wassertiefe", toString(bean.getProperty("wassertiefe")));
@@ -349,7 +372,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
      * @param  params  DOCUMENT ME!
      */
     private void retrieveSohlenstrukturParams(final CidsBean bean, final Map params) {
-        params.put("sohlenverbau_id", bean.getProperty("sohlenverbau_id.value"));
+        params.put("sohlenverbau_id", toInteger(bean.getProperty("sohlenverbau_id.value")));
         params.put("z_sohlenverbau_id", toString(bean.getProperty("z_sohlenverbau_id")));
 
         // ---
@@ -483,15 +506,21 @@ public final class FgskReport extends AbstractJasperReportPrint {
 
         // ---
 
-        final Boolean isUferVegetationLinksTypical = (Boolean)bean.getProperty("ufervegetation_links_typical");
-        final Boolean isUferVegetationRechtsTypical = (Boolean)bean.getProperty("ufervegetation_rechts_typical");
+        Boolean isUferVegetationLinksTypical = (Boolean)bean.getProperty("ufervegetation_links_typical");
+        Boolean isUferVegetationRechtsTypical = (Boolean)bean.getProperty("ufervegetation_rechts_typical");
+
+        isUferVegetationLinksTypical = (isUferVegetationLinksTypical == null) ? Boolean.FALSE
+                                                                              : isUferVegetationLinksTypical;
+        isUferVegetationRechtsTypical = (isUferVegetationRechtsTypical == null) ? Boolean.FALSE
+                                                                                : isUferVegetationRechtsTypical;
+
         params.put("ufervegetation_links_typical", isUferVegetationLinksTypical ? "Ja" : "Nein");
         params.put("ufervegetation_rechts_typical", isUferVegetationRechtsTypical ? "Ja" : "Nein");
 
         // ---
 
-        params.put("uferverbau_links_id", (Integer)bean.getProperty("uferverbau_links_id.value"));
-        params.put("uferverbau_rechts_id", (Integer)bean.getProperty("uferverbau_rechts_id.value"));
+        params.put("uferverbau_links_id", toInteger(bean.getProperty("uferverbau_links_id.value")));
+        params.put("uferverbau_rechts_id", toInteger(bean.getProperty("uferverbau_rechts_id.value")));
         params.put("z_uferverbau_links_id", toString(bean.getProperty("z_uferverbau_links_id")));
         params.put("z_uferverbau_rechts_id", toString(bean.getProperty("z_uferverbau_rechts_id")));
 
