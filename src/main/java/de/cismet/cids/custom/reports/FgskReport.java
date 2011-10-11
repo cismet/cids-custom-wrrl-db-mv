@@ -49,9 +49,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import java.math.BigDecimal;
 
 import java.rmi.RemoteException;
 
@@ -59,7 +56,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -173,7 +169,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
      *
      * @return  DOCUMENT ME!
      */
-    private double convertBiGDecimalToDouble(final BigDecimal obj) {
+    private double convertNumberToDouble(final Number obj) {
         if (obj == null) {
             return 0.0;
         }
@@ -188,7 +184,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
      *
      * @return  DOCUMENT ME!
      */
-    private String convertBiGDecimalToString(final BigDecimal obj) {
+    private String convertNumberToString(final Number obj) {
         if (obj == null) {
             return "0";
         }
@@ -320,55 +316,55 @@ public final class FgskReport extends AbstractJasperReportPrint {
 
         // -- Handling Längsbänke
 
-        final BigDecimal laengsbaenkeUFGK = (BigDecimal)bean.getProperty("laengsbaenke_ufkg");
-        final BigDecimal laengsbaenkeIB = (BigDecimal)bean.getProperty("laengsbaenke_ib");
-        final BigDecimal laengsbaenkeMB = (BigDecimal)bean.getProperty("laengsbaenke_mb");
+        final Number laengsbaenkeUFGK = (Number)bean.getProperty("laengsbaenke_ufkg");
+        final Number laengsbaenkeIB = (Number)bean.getProperty("laengsbaenke_ib");
+        final Number laengsbaenkeMB = (Number)bean.getProperty("laengsbaenke_mb");
 
-        final double laengsbaenkeSum = this.convertBiGDecimalToDouble(laengsbaenkeIB)
-                    + this.convertBiGDecimalToDouble(laengsbaenkeMB)
-                    + this.convertBiGDecimalToDouble(laengsbaenkeUFGK);
+        final double laengsbaenkeSum = this.convertNumberToDouble(laengsbaenkeIB)
+                    + this.convertNumberToDouble(laengsbaenkeMB)
+                    + this.convertNumberToDouble(laengsbaenkeUFGK);
 
         params.put(
             "laengsbaenke_ufkg",
-            (laengsbaenkeSum == 0.0) ? "" : this.convertBiGDecimalToString(laengsbaenkeUFGK));
-        params.put("laengsbaenke_ib", (laengsbaenkeSum == 0.0) ? "" : this.convertBiGDecimalToString(laengsbaenkeIB));
-        params.put("laengsbaenke_mb", (laengsbaenkeSum == 0.0) ? "" : this.convertBiGDecimalToString(laengsbaenkeMB));
+            (laengsbaenkeSum == 0.0) ? "" : this.convertNumberToString(laengsbaenkeUFGK));
+        params.put("laengsbaenke_ib", (laengsbaenkeSum == 0.0) ? "" : this.convertNumberToString(laengsbaenkeIB));
+        params.put("laengsbaenke_mb", (laengsbaenkeSum == 0.0) ? "" : this.convertNumberToString(laengsbaenkeMB));
         params.put("laengsbaenke_keine", (laengsbaenkeSum == 0.0) ? "X" : "");
 
         // -- Handling Laufstrukturen
 
-        final BigDecimal laufstrukturenTV = (BigDecimal)bean.getProperty("laufstrukturen_tv");
-        final BigDecimal laufstrukturenSB = (BigDecimal)bean.getProperty("laufstrukturen_sb");
-        final BigDecimal laufstrukturenIBI = (BigDecimal)bean.getProperty("laufstrukturen_ibi");
-        final BigDecimal laufstrukturenLW = (BigDecimal)bean.getProperty("laufstrukturen_lw");
-        final BigDecimal laufstrukturenLV = (BigDecimal)bean.getProperty("laufstrukturen_lv");
-        final BigDecimal laufstrukturenLG = (BigDecimal)bean.getProperty("laufstrukturen_lg");
+        final Number laufstrukturenTV = (Number)bean.getProperty("laufstrukturen_tv");
+        final Number laufstrukturenSB = (Number)bean.getProperty("laufstrukturen_sb");
+        final Number laufstrukturenIBI = (Number)bean.getProperty("laufstrukturen_ibi");
+        final Number laufstrukturenLW = (Number)bean.getProperty("laufstrukturen_lw");
+        final Number laufstrukturenLV = (Number)bean.getProperty("laufstrukturen_lv");
+        final Number laufstrukturenLG = (Number)bean.getProperty("laufstrukturen_lg");
 
-        final double laufstrukturenSum = this.convertBiGDecimalToDouble(laufstrukturenTV)
-                    + this.convertBiGDecimalToDouble(laufstrukturenSB)
-                    + this.convertBiGDecimalToDouble(laufstrukturenIBI)
-                    + this.convertBiGDecimalToDouble(laufstrukturenLW)
-                    + this.convertBiGDecimalToDouble(laufstrukturenLV)
-                    + this.convertBiGDecimalToDouble(laufstrukturenLG);
+        final double laufstrukturenSum = this.convertNumberToDouble(laufstrukturenTV)
+                    + this.convertNumberToDouble(laufstrukturenSB)
+                    + this.convertNumberToDouble(laufstrukturenIBI)
+                    + this.convertNumberToDouble(laufstrukturenLW)
+                    + this.convertNumberToDouble(laufstrukturenLV)
+                    + this.convertNumberToDouble(laufstrukturenLG);
 
         params.put(
             "laufstrukturen_tv",
-            (laufstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(laufstrukturenTV));
+            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenTV));
         params.put(
             "laufstrukturen_sb",
-            (laufstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(laufstrukturenSB));
+            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenSB));
         params.put(
             "laufstrukturen_ibi",
-            (laufstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(laufstrukturenIBI));
+            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenIBI));
         params.put(
             "laufstrukturen_lw",
-            (laufstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(laufstrukturenLW));
+            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenLW));
         params.put(
             "laufstrukturen_lv",
-            (laufstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(laufstrukturenLV));
+            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenLV));
         params.put(
             "laufstrukturen_lg",
-            (laufstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(laufstrukturenLG));
+            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenLG));
         params.put("laufstrukturen_keine", (laufstrukturenSum == 0.0) ? "X" : "");
     }
 
@@ -425,120 +421,120 @@ public final class FgskReport extends AbstractJasperReportPrint {
 
         // ---
 
-        final BigDecimal sohlensubstratTON = (BigDecimal)bean.getProperty("sohlensubstrat_ton");
-        final BigDecimal sohlensubstratSAN = (BigDecimal)bean.getProperty("sohlensubstrat_san");
-        final BigDecimal sohlensubstratKIE = (BigDecimal)bean.getProperty("sohlensubstrat_kie");
-        final BigDecimal sohlensubstratSTE = (BigDecimal)bean.getProperty("sohlensubstrat_ste");
-        final BigDecimal sohlensubstratBLO = (BigDecimal)bean.getProperty("sohlensubstrat_blo");
-        final BigDecimal sohlensubstratSCH = (BigDecimal)bean.getProperty("sohlensubstrat_sch");
-        final BigDecimal sohlensubstratTOR = (BigDecimal)bean.getProperty("sohlensubstrat_tor");
-        final BigDecimal sohlensubstratTOT = (BigDecimal)bean.getProperty("sohlensubstrat_tot");
-        final BigDecimal sohlensubstratWUR = (BigDecimal)bean.getProperty("sohlensubstrat_wur");
-        final BigDecimal sohlensubstratKUE = (BigDecimal)bean.getProperty("sohlensubstrat_kue");
+        final Number sohlensubstratTON = (Number)bean.getProperty("sohlensubstrat_ton");
+        final Number sohlensubstratSAN = (Number)bean.getProperty("sohlensubstrat_san");
+        final Number sohlensubstratKIE = (Number)bean.getProperty("sohlensubstrat_kie");
+        final Number sohlensubstratSTE = (Number)bean.getProperty("sohlensubstrat_ste");
+        final Number sohlensubstratBLO = (Number)bean.getProperty("sohlensubstrat_blo");
+        final Number sohlensubstratSCH = (Number)bean.getProperty("sohlensubstrat_sch");
+        final Number sohlensubstratTOR = (Number)bean.getProperty("sohlensubstrat_tor");
+        final Number sohlensubstratTOT = (Number)bean.getProperty("sohlensubstrat_tot");
+        final Number sohlensubstratWUR = (Number)bean.getProperty("sohlensubstrat_wur");
+        final Number sohlensubstratKUE = (Number)bean.getProperty("sohlensubstrat_kue");
 
-        final double sohlensubstratSUM = this.convertBiGDecimalToDouble(sohlensubstratTON)
-                    + this.convertBiGDecimalToDouble(sohlensubstratSAN)
-                    + this.convertBiGDecimalToDouble(sohlensubstratKIE)
-                    + this.convertBiGDecimalToDouble(sohlensubstratSTE)
-                    + this.convertBiGDecimalToDouble(sohlensubstratBLO)
-                    + this.convertBiGDecimalToDouble(sohlensubstratSCH)
-                    + this.convertBiGDecimalToDouble(sohlensubstratTOR)
-                    + this.convertBiGDecimalToDouble(sohlensubstratTOT)
-                    + this.convertBiGDecimalToDouble(sohlensubstratWUR)
-                    + this.convertBiGDecimalToDouble(sohlensubstratKUE);
+        final double sohlensubstratSUM = this.convertNumberToDouble(sohlensubstratTON)
+                    + this.convertNumberToDouble(sohlensubstratSAN)
+                    + this.convertNumberToDouble(sohlensubstratKIE)
+                    + this.convertNumberToDouble(sohlensubstratSTE)
+                    + this.convertNumberToDouble(sohlensubstratBLO)
+                    + this.convertNumberToDouble(sohlensubstratSCH)
+                    + this.convertNumberToDouble(sohlensubstratTOR)
+                    + this.convertNumberToDouble(sohlensubstratTOT)
+                    + this.convertNumberToDouble(sohlensubstratWUR)
+                    + this.convertNumberToDouble(sohlensubstratKUE);
 
         params.put(
             "sohlensubstrat_ton",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratTON));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratTON));
         params.put(
             "sohlensubstrat_san",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratSAN));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratSAN));
         params.put(
             "sohlensubstrat_kie",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratKIE));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratKIE));
         params.put(
             "sohlensubstrat_ste",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratSTE));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratSTE));
         params.put(
             "sohlensubstrat_blo",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratBLO));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratBLO));
         params.put(
             "sohlensubstrat_sch",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratSCH));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratSCH));
         params.put(
             "sohlensubstrat_tor",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratTOR));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratTOR));
         params.put(
             "sohlensubstrat_tot",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratTOT));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratTOT));
         params.put(
             "sohlensubstrat_wur",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratWUR));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratWUR));
         params.put(
             "sohlensubstrat_kue",
-            (sohlensubstratSUM == 0.0) ? "" : this.convertBiGDecimalToString(sohlensubstratKUE));
+            (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratKUE));
         params.put("sohlensubstrat_ne", (sohlensubstratSUM == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal sohlenstrukturenRIP = (BigDecimal)bean.getProperty("sohlenstrukturen_rip");
-        final BigDecimal sohlenstrukturenTH = (BigDecimal)bean.getProperty("sohlenstrukturen_th");
-        final BigDecimal sohlenstrukturenWU = (BigDecimal)bean.getProperty("sohlenstrukturen_wu");
-        final BigDecimal sohlenstrukturenKO = (BigDecimal)bean.getProperty("sohlenstrukturen_ko");
+        final Number sohlenstrukturenRIP = (Number)bean.getProperty("sohlenstrukturen_rip");
+        final Number sohlenstrukturenTH = (Number)bean.getProperty("sohlenstrukturen_th");
+        final Number sohlenstrukturenWU = (Number)bean.getProperty("sohlenstrukturen_wu");
+        final Number sohlenstrukturenKO = (Number)bean.getProperty("sohlenstrukturen_ko");
 
-        final double sohlenstrukturenSum = this.convertBiGDecimalToDouble(sohlenstrukturenRIP)
-                    + this.convertBiGDecimalToDouble(sohlenstrukturenTH)
-                    + this.convertBiGDecimalToDouble(sohlenstrukturenWU)
-                    + this.convertBiGDecimalToDouble(sohlenstrukturenKO);
+        final double sohlenstrukturenSum = this.convertNumberToDouble(sohlenstrukturenRIP)
+                    + this.convertNumberToDouble(sohlenstrukturenTH)
+                    + this.convertNumberToDouble(sohlenstrukturenWU)
+                    + this.convertNumberToDouble(sohlenstrukturenKO);
 
         params.put(
             "sohlenstrukturen_rip",
-            (sohlenstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(sohlenstrukturenRIP));
+            (sohlenstrukturenSum == 0.0) ? "" : this.convertNumberToString(sohlenstrukturenRIP));
         params.put(
             "sohlenstrukturen_th",
-            (sohlenstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(sohlenstrukturenTH));
+            (sohlenstrukturenSum == 0.0) ? "" : this.convertNumberToString(sohlenstrukturenTH));
         params.put(
             "sohlenstrukturen_wu",
-            (sohlenstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(sohlenstrukturenWU));
+            (sohlenstrukturenSum == 0.0) ? "" : this.convertNumberToString(sohlenstrukturenWU));
         params.put(
             "sohlenstrukturen_ko",
-            (sohlenstrukturenSum == 0.0) ? "" : this.convertBiGDecimalToString(sohlenstrukturenKO));
+            (sohlenstrukturenSum == 0.0) ? "" : this.convertNumberToString(sohlenstrukturenKO));
         params.put("sohlenstrukturen_kein", (sohlenstrukturenSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal belastungSohleMUE = (BigDecimal)bean.getProperty("belastung_sohle_mue");
-        final BigDecimal belastungSohleST = (BigDecimal)bean.getProperty("belastung_sohle_st");
-        final BigDecimal belastungSohleABW = (BigDecimal)bean.getProperty("belastung_sohle_abw");
-        final BigDecimal belastungSohleVO = (BigDecimal)bean.getProperty("belastung_sohle_vo");
-        final BigDecimal belastungSohleSA = (BigDecimal)bean.getProperty("belastung_sohle_sa");
-        final BigDecimal belastungSohleSO = (BigDecimal)bean.getProperty("belastung_sohle_so");
+        final Number belastungSohleMUE = (Number)bean.getProperty("belastung_sohle_mue");
+        final Number belastungSohleST = (Number)bean.getProperty("belastung_sohle_st");
+        final Number belastungSohleABW = (Number)bean.getProperty("belastung_sohle_abw");
+        final Number belastungSohleVO = (Number)bean.getProperty("belastung_sohle_vo");
+        final Number belastungSohleSA = (Number)bean.getProperty("belastung_sohle_sa");
+        final Number belastungSohleSO = (Number)bean.getProperty("belastung_sohle_so");
 
-        final double belastungSohleSUM = this.convertBiGDecimalToDouble(belastungSohleMUE)
-                    + this.convertBiGDecimalToDouble(belastungSohleST)
-                    + this.convertBiGDecimalToDouble(belastungSohleABW)
-                    + this.convertBiGDecimalToDouble(belastungSohleVO)
-                    + this.convertBiGDecimalToDouble(belastungSohleSA)
-                    + this.convertBiGDecimalToDouble(belastungSohleSO);
+        final double belastungSohleSUM = this.convertNumberToDouble(belastungSohleMUE)
+                    + this.convertNumberToDouble(belastungSohleST)
+                    + this.convertNumberToDouble(belastungSohleABW)
+                    + this.convertNumberToDouble(belastungSohleVO)
+                    + this.convertNumberToDouble(belastungSohleSA)
+                    + this.convertNumberToDouble(belastungSohleSO);
 
         params.put(
             "belastung_sohle_mue",
-            (belastungSohleSUM == 0.0) ? "" : this.convertBiGDecimalToString(belastungSohleMUE));
+            (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleMUE));
         params.put(
             "belastung_sohle_st",
-            (belastungSohleSUM == 0.0) ? "" : this.convertBiGDecimalToString(belastungSohleST));
+            (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleST));
         params.put(
             "belastung_sohle_abw",
-            (belastungSohleSUM == 0.0) ? "" : this.convertBiGDecimalToString(belastungSohleABW));
+            (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleABW));
         params.put(
             "belastung_sohle_vo",
-            (belastungSohleSUM == 0.0) ? "" : this.convertBiGDecimalToString(belastungSohleVO));
+            (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleVO));
         params.put(
             "belastung_sohle_sa",
-            (belastungSohleSUM == 0.0) ? "" : this.convertBiGDecimalToString(belastungSohleSA));
+            (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleSA));
         params.put(
             "belastung_sohle_so",
-            (belastungSohleSUM == 0.0) ? "" : this.convertBiGDecimalToString(belastungSohleSO));
+            (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleSO));
         params.put("belastung_sohle_keine", (belastungSohleSUM == 0.0) ? "X" : "");
     }
 
@@ -568,146 +564,146 @@ public final class FgskReport extends AbstractJasperReportPrint {
 
         // ---
 
-        final BigDecimal uferstrukturLinksBU = (BigDecimal)bean.getProperty("uferstruktur_bu_links");
-        final BigDecimal uferstrukturLinksPB = (BigDecimal)bean.getProperty("uferstruktur_pb_links");
-        final BigDecimal uferstrukturLinksUS = (BigDecimal)bean.getProperty("uferstruktur_us_links");
-        final BigDecimal uferstrukturLinksSB = (BigDecimal)bean.getProperty("uferstruktur_sb_links");
-        final BigDecimal uferstrukturLinksHA = (BigDecimal)bean.getProperty("uferstruktur_ha_links");
-        final BigDecimal uferstrukturLinksNBOE = (BigDecimal)bean.getProperty("uferstruktur_nboe_links");
-        final BigDecimal uferstrukturLinksSO = (BigDecimal)bean.getProperty("uferstruktur_so_links");
+        final Number uferstrukturLinksBU = (Number)bean.getProperty("uferstruktur_bu_links");
+        final Number uferstrukturLinksPB = (Number)bean.getProperty("uferstruktur_pb_links");
+        final Number uferstrukturLinksUS = (Number)bean.getProperty("uferstruktur_us_links");
+        final Number uferstrukturLinksSB = (Number)bean.getProperty("uferstruktur_sb_links");
+        final Number uferstrukturLinksHA = (Number)bean.getProperty("uferstruktur_ha_links");
+        final Number uferstrukturLinksNBOE = (Number)bean.getProperty("uferstruktur_nboe_links");
+        final Number uferstrukturLinksSO = (Number)bean.getProperty("uferstruktur_so_links");
 
-        final double uferstrukturLinksSum = this.convertBiGDecimalToDouble(uferstrukturLinksBU)
-                    + this.convertBiGDecimalToDouble(uferstrukturLinksPB)
-                    + this.convertBiGDecimalToDouble(uferstrukturLinksUS)
-                    + this.convertBiGDecimalToDouble(uferstrukturLinksSB)
-                    + this.convertBiGDecimalToDouble(uferstrukturLinksHA)
-                    + this.convertBiGDecimalToDouble(uferstrukturLinksNBOE)
-                    + this.convertBiGDecimalToDouble(uferstrukturLinksSO);
+        final double uferstrukturLinksSum = this.convertNumberToDouble(uferstrukturLinksBU)
+                    + this.convertNumberToDouble(uferstrukturLinksPB)
+                    + this.convertNumberToDouble(uferstrukturLinksUS)
+                    + this.convertNumberToDouble(uferstrukturLinksSB)
+                    + this.convertNumberToDouble(uferstrukturLinksHA)
+                    + this.convertNumberToDouble(uferstrukturLinksNBOE)
+                    + this.convertNumberToDouble(uferstrukturLinksSO);
 
         params.put(
             "uferstruktur_bu_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksBU));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksBU));
         params.put(
             "uferstruktur_pb_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksPB));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksPB));
         params.put(
             "uferstruktur_us_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksUS));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksUS));
         params.put(
             "uferstruktur_sb_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksSB));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksSB));
         params.put(
             "uferstruktur_ha_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksHA));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksHA));
         params.put(
             "uferstruktur_nboe_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksNBOE));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksNBOE));
         params.put(
             "uferstruktur_so_links",
-            (uferstrukturLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturLinksSO));
+            (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksSO));
         params.put("uferstruktur_keine_links", (uferstrukturLinksSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal uferstrukturRechtsBU = (BigDecimal)bean.getProperty("uferstruktur_bu_rechts");
-        final BigDecimal uferstrukturRechtsPB = (BigDecimal)bean.getProperty("uferstruktur_pb_rechts");
-        final BigDecimal uferstrukturRechtsUS = (BigDecimal)bean.getProperty("uferstruktur_us_rechts");
-        final BigDecimal uferstrukturRechtsSB = (BigDecimal)bean.getProperty("uferstruktur_sb_rechts");
-        final BigDecimal uferstrukturRechtsHA = (BigDecimal)bean.getProperty("uferstruktur_ha_rechts");
-        final BigDecimal uferstrukturRechtsNBOE = (BigDecimal)bean.getProperty("uferstruktur_nboe_rechts");
-        final BigDecimal uferstrukturRechtsSO = (BigDecimal)bean.getProperty("uferstruktur_so_rechts");
+        final Number uferstrukturRechtsBU = (Number)bean.getProperty("uferstruktur_bu_rechts");
+        final Number uferstrukturRechtsPB = (Number)bean.getProperty("uferstruktur_pb_rechts");
+        final Number uferstrukturRechtsUS = (Number)bean.getProperty("uferstruktur_us_rechts");
+        final Number uferstrukturRechtsSB = (Number)bean.getProperty("uferstruktur_sb_rechts");
+        final Number uferstrukturRechtsHA = (Number)bean.getProperty("uferstruktur_ha_rechts");
+        final Number uferstrukturRechtsNBOE = (Number)bean.getProperty("uferstruktur_nboe_rechts");
+        final Number uferstrukturRechtsSO = (Number)bean.getProperty("uferstruktur_so_rechts");
 
-        final double uferstrukturRechtsSum = this.convertBiGDecimalToDouble(uferstrukturRechtsBU)
-                    + this.convertBiGDecimalToDouble(uferstrukturRechtsPB)
-                    + this.convertBiGDecimalToDouble(uferstrukturRechtsUS)
-                    + this.convertBiGDecimalToDouble(uferstrukturRechtsSB)
-                    + this.convertBiGDecimalToDouble(uferstrukturRechtsHA)
-                    + this.convertBiGDecimalToDouble(uferstrukturRechtsNBOE)
-                    + this.convertBiGDecimalToDouble(uferstrukturRechtsSO);
+        final double uferstrukturRechtsSum = this.convertNumberToDouble(uferstrukturRechtsBU)
+                    + this.convertNumberToDouble(uferstrukturRechtsPB)
+                    + this.convertNumberToDouble(uferstrukturRechtsUS)
+                    + this.convertNumberToDouble(uferstrukturRechtsSB)
+                    + this.convertNumberToDouble(uferstrukturRechtsHA)
+                    + this.convertNumberToDouble(uferstrukturRechtsNBOE)
+                    + this.convertNumberToDouble(uferstrukturRechtsSO);
 
         params.put(
             "uferstruktur_bu_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsBU));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsBU));
         params.put(
             "uferstruktur_pb_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsPB));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsPB));
         params.put(
             "uferstruktur_us_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsUS));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsUS));
         params.put(
             "uferstruktur_sb_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsSB));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsSB));
         params.put(
             "uferstruktur_ha_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsHA));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsHA));
         params.put(
             "uferstruktur_nboe_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsNBOE));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsNBOE));
         params.put(
             "uferstruktur_so_rechts",
-            (uferstrukturRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferstrukturRechtsSO));
+            (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsSO));
         params.put("uferstruktur_keine_rechts", (uferstrukturRechtsSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal uferbelastungenLinksMUE = (BigDecimal)bean.getProperty("uferbelastungen_mue_links");
-        final BigDecimal uferbelastungenLinksST = (BigDecimal)bean.getProperty("uferbelastungen_st_links");
-        final BigDecimal uferbelastungenLinksTS = (BigDecimal)bean.getProperty("uferbelastungen_ts_links");
-        final BigDecimal uferbelastungenLinksEL = (BigDecimal)bean.getProperty("uferbelastungen_el_links");
-        final BigDecimal uferbelastungenLinksSO = (BigDecimal)bean.getProperty("uferbelastungen_so_links");
+        final Number uferbelastungenLinksMUE = (Number)bean.getProperty("uferbelastungen_mue_links");
+        final Number uferbelastungenLinksST = (Number)bean.getProperty("uferbelastungen_st_links");
+        final Number uferbelastungenLinksTS = (Number)bean.getProperty("uferbelastungen_ts_links");
+        final Number uferbelastungenLinksEL = (Number)bean.getProperty("uferbelastungen_el_links");
+        final Number uferbelastungenLinksSO = (Number)bean.getProperty("uferbelastungen_so_links");
 
-        final double uferbelastungenLinksSum = this.convertBiGDecimalToDouble(uferbelastungenLinksMUE)
-                    + this.convertBiGDecimalToDouble(uferbelastungenLinksST)
-                    + this.convertBiGDecimalToDouble(uferbelastungenLinksTS)
-                    + this.convertBiGDecimalToDouble(uferbelastungenLinksEL)
-                    + this.convertBiGDecimalToDouble(uferbelastungenLinksSO);
+        final double uferbelastungenLinksSum = this.convertNumberToDouble(uferbelastungenLinksMUE)
+                    + this.convertNumberToDouble(uferbelastungenLinksST)
+                    + this.convertNumberToDouble(uferbelastungenLinksTS)
+                    + this.convertNumberToDouble(uferbelastungenLinksEL)
+                    + this.convertNumberToDouble(uferbelastungenLinksSO);
 
         params.put(
             "uferbelastungen_mue_links",
-            (uferbelastungenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenLinksMUE));
+            (uferbelastungenLinksSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenLinksMUE));
         params.put(
             "uferbelastungen_st_links",
-            (uferbelastungenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenLinksST));
+            (uferbelastungenLinksSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenLinksST));
         params.put(
             "uferbelastungen_ts_links",
-            (uferbelastungenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenLinksTS));
+            (uferbelastungenLinksSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenLinksTS));
         params.put(
             "uferbelastungen_el_links",
-            (uferbelastungenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenLinksEL));
+            (uferbelastungenLinksSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenLinksEL));
         params.put(
             "uferbelastungen_so_links",
-            (uferbelastungenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenLinksSO));
+            (uferbelastungenLinksSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenLinksSO));
         params.put("uferbelastungen_keine_links", (uferbelastungenLinksSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal uferbelastungenRechtsMUE = (BigDecimal)bean.getProperty("uferbelastungen_mue_rechts");
-        final BigDecimal uferbelastungenRechtsST = (BigDecimal)bean.getProperty("uferbelastungen_st_rechts");
-        final BigDecimal uferbelastungenRechtsTS = (BigDecimal)bean.getProperty("uferbelastungen_ts_rechts");
-        final BigDecimal uferbelastungenRechtsEL = (BigDecimal)bean.getProperty("uferbelastungen_el_rechts");
-        final BigDecimal uferbelastungenRechtsSO = (BigDecimal)bean.getProperty("uferbelastungen_so_rechts");
+        final Number uferbelastungenRechtsMUE = (Number)bean.getProperty("uferbelastungen_mue_rechts");
+        final Number uferbelastungenRechtsST = (Number)bean.getProperty("uferbelastungen_st_rechts");
+        final Number uferbelastungenRechtsTS = (Number)bean.getProperty("uferbelastungen_ts_rechts");
+        final Number uferbelastungenRechtsEL = (Number)bean.getProperty("uferbelastungen_el_rechts");
+        final Number uferbelastungenRechtsSO = (Number)bean.getProperty("uferbelastungen_so_rechts");
 
-        final double uferbelastungenRechtsSum = this.convertBiGDecimalToDouble(uferbelastungenRechtsMUE)
-                    + this.convertBiGDecimalToDouble(uferbelastungenRechtsST)
-                    + this.convertBiGDecimalToDouble(uferbelastungenRechtsTS)
-                    + this.convertBiGDecimalToDouble(uferbelastungenRechtsEL)
-                    + this.convertBiGDecimalToDouble(uferbelastungenRechtsSO);
+        final double uferbelastungenRechtsSum = this.convertNumberToDouble(uferbelastungenRechtsMUE)
+                    + this.convertNumberToDouble(uferbelastungenRechtsST)
+                    + this.convertNumberToDouble(uferbelastungenRechtsTS)
+                    + this.convertNumberToDouble(uferbelastungenRechtsEL)
+                    + this.convertNumberToDouble(uferbelastungenRechtsSO);
 
         params.put(
             "uferbelastungen_mue_rechts",
-            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenRechtsMUE));
+            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenRechtsMUE));
         params.put(
             "uferbelastungen_st_rechts",
-            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenRechtsST));
+            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenRechtsST));
         params.put(
             "uferbelastungen_ts_rechts",
-            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenRechtsTS));
+            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenRechtsTS));
         params.put(
             "uferbelastungen_el_rechts",
-            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenRechtsEL));
+            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenRechtsEL));
         params.put(
             "uferbelastungen_so_rechts",
-            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(uferbelastungenRechtsSO));
+            (uferbelastungenRechtsSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenRechtsSO));
         params.put("uferbelastungen_keine_rechts", (uferbelastungenRechtsSum == 0.0) ? "X" : "");
 
         // ---
@@ -726,156 +722,156 @@ public final class FgskReport extends AbstractJasperReportPrint {
 
         // ---
 
-        final BigDecimal umfeldStrukturenLinksFM = (BigDecimal)bean.getProperty("umfeldstrukturen_fm_links");
-        final BigDecimal umfeldStrukturenLinksQ = (BigDecimal)bean.getProperty("umfeldstrukturen_q_links");
-        final BigDecimal umfeldStrukturenLinksAA = (BigDecimal)bean.getProperty("umfeldstrukturen_aa_links");
-        final BigDecimal umfeldStrukturenLinksAW = (BigDecimal)bean.getProperty("umfeldstrukturen_aw_links");
-        final BigDecimal umfeldStrukturenLinksW = (BigDecimal)bean.getProperty("umfeldstrukturen_w_links");
-        final BigDecimal umfeldStrukturenLinksSO = (BigDecimal)bean.getProperty("umfeldstrukturen_so_links");
+        final Number umfeldStrukturenLinksFM = (Number)bean.getProperty("umfeldstrukturen_fm_links");
+        final Number umfeldStrukturenLinksQ = (Number)bean.getProperty("umfeldstrukturen_q_links");
+        final Number umfeldStrukturenLinksAA = (Number)bean.getProperty("umfeldstrukturen_aa_links");
+        final Number umfeldStrukturenLinksAW = (Number)bean.getProperty("umfeldstrukturen_aw_links");
+        final Number umfeldStrukturenLinksW = (Number)bean.getProperty("umfeldstrukturen_w_links");
+        final Number umfeldStrukturenLinksSO = (Number)bean.getProperty("umfeldstrukturen_so_links");
 
-        final double umfeldStrukturenLinksSum = this.convertBiGDecimalToDouble(umfeldStrukturenLinksFM)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenLinksQ)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenLinksAA)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenLinksAW)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenLinksW)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenLinksSO);
+        final double umfeldStrukturenLinksSum = this.convertNumberToDouble(umfeldStrukturenLinksFM)
+                    + this.convertNumberToDouble(umfeldStrukturenLinksQ)
+                    + this.convertNumberToDouble(umfeldStrukturenLinksAA)
+                    + this.convertNumberToDouble(umfeldStrukturenLinksAW)
+                    + this.convertNumberToDouble(umfeldStrukturenLinksW)
+                    + this.convertNumberToDouble(umfeldStrukturenLinksSO);
 
         params.put(
             "umfeldstrukturen_fm_links",
-            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenLinksFM));
+            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksFM));
         params.put(
             "umfeldstrukturen_q_links",
-            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenLinksQ));
+            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksQ));
         params.put(
             "umfeldstrukturen_aa_links",
-            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenLinksAA));
+            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksAA));
         params.put(
             "umfeldstrukturen_aw_links",
-            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenLinksAW));
+            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksAW));
         params.put(
             "umfeldstrukturen_w_links",
-            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenLinksW));
+            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksW));
         params.put(
             "umfeldstrukturen_so_links",
-            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenLinksSO));
+            (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksSO));
         params.put("umfeldstrukturen_keine_links", (umfeldStrukturenLinksSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal umfeldStrukturenRechtsFM = (BigDecimal)bean.getProperty("umfeldstrukturen_fm_rechts");
-        final BigDecimal umfeldStrukturenRechtsQ = (BigDecimal)bean.getProperty("umfeldstrukturen_q_rechts");
-        final BigDecimal umfeldStrukturenRechtsAA = (BigDecimal)bean.getProperty("umfeldstrukturen_aa_rechts");
-        final BigDecimal umfeldStrukturenRechtsAW = (BigDecimal)bean.getProperty("umfeldstrukturen_aw_rechts");
-        final BigDecimal umfeldStrukturenRechtsW = (BigDecimal)bean.getProperty("umfeldstrukturen_w_rechts");
-        final BigDecimal umfeldStrukturenRechtsSO = (BigDecimal)bean.getProperty("umfeldstrukturen_so_rechts");
+        final Number umfeldStrukturenRechtsFM = (Number)bean.getProperty("umfeldstrukturen_fm_rechts");
+        final Number umfeldStrukturenRechtsQ = (Number)bean.getProperty("umfeldstrukturen_q_rechts");
+        final Number umfeldStrukturenRechtsAA = (Number)bean.getProperty("umfeldstrukturen_aa_rechts");
+        final Number umfeldStrukturenRechtsAW = (Number)bean.getProperty("umfeldstrukturen_aw_rechts");
+        final Number umfeldStrukturenRechtsW = (Number)bean.getProperty("umfeldstrukturen_w_rechts");
+        final Number umfeldStrukturenRechtsSO = (Number)bean.getProperty("umfeldstrukturen_so_rechts");
 
-        final double umfeldStrukturenRechtsSum = this.convertBiGDecimalToDouble(umfeldStrukturenRechtsFM)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenRechtsQ)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenRechtsAA)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenRechtsAW)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenRechtsW)
-                    + this.convertBiGDecimalToDouble(umfeldStrukturenRechtsSO);
+        final double umfeldStrukturenRechtsSum = this.convertNumberToDouble(umfeldStrukturenRechtsFM)
+                    + this.convertNumberToDouble(umfeldStrukturenRechtsQ)
+                    + this.convertNumberToDouble(umfeldStrukturenRechtsAA)
+                    + this.convertNumberToDouble(umfeldStrukturenRechtsAW)
+                    + this.convertNumberToDouble(umfeldStrukturenRechtsW)
+                    + this.convertNumberToDouble(umfeldStrukturenRechtsSO);
 
         params.put(
             "umfeldstrukturen_fm_rechts",
-            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenRechtsFM));
+            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsFM));
         params.put(
             "umfeldstrukturen_q_rechts",
-            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenRechtsQ));
+            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsQ));
         params.put(
             "umfeldstrukturen_aa_rechts",
-            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenRechtsAA));
+            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsAA));
         params.put(
             "umfeldstrukturen_aw_rechts",
-            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenRechtsAW));
+            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsAW));
         params.put(
             "umfeldstrukturen_w_rechts",
-            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenRechtsW));
+            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsW));
         params.put(
             "umfeldstrukturen_so_rechts",
-            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(umfeldStrukturenRechtsSO));
+            (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsSO));
         params.put("umfeldstrukturen_keine_rechts", (umfeldStrukturenRechtsSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal sUmfeldStrukturenLinksAG = (BigDecimal)bean.getProperty("s_umfeldstrukturen_ag_links");
-        final BigDecimal sUmfeldStrukturenLinksFT = (BigDecimal)bean.getProperty("s_umfeldstrukturen_ft_links");
-        final BigDecimal sUmfeldStrukturenLinksGUA = (BigDecimal)bean.getProperty("s_umfeldstrukturen_gua_links");
-        final BigDecimal sUmfeldStrukturenLinksBV = (BigDecimal)bean.getProperty("s_umfeldstrukturen_bv_links");
-        final BigDecimal sUmfeldStrukturenLinksMA = (BigDecimal)bean.getProperty("s_umfeldstrukturen_ma_links");
-        final BigDecimal sUmfeldStrukturenLinksHW = (BigDecimal)bean.getProperty("s_umfeldstrukturen_hw_links");
-        final BigDecimal sUmfeldStrukturenLinksSO = (BigDecimal)bean.getProperty("s_umfeldstrukturen_so_links");
+        final Number sUmfeldStrukturenLinksAG = (Number)bean.getProperty("s_umfeldstrukturen_ag_links");
+        final Number sUmfeldStrukturenLinksFT = (Number)bean.getProperty("s_umfeldstrukturen_ft_links");
+        final Number sUmfeldStrukturenLinksGUA = (Number)bean.getProperty("s_umfeldstrukturen_gua_links");
+        final Number sUmfeldStrukturenLinksBV = (Number)bean.getProperty("s_umfeldstrukturen_bv_links");
+        final Number sUmfeldStrukturenLinksMA = (Number)bean.getProperty("s_umfeldstrukturen_ma_links");
+        final Number sUmfeldStrukturenLinksHW = (Number)bean.getProperty("s_umfeldstrukturen_hw_links");
+        final Number sUmfeldStrukturenLinksSO = (Number)bean.getProperty("s_umfeldstrukturen_so_links");
 
-        final double sUmfeldStrukturenLinksSum = this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksAG)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksFT)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksGUA)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksBV)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksMA)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksHW)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenLinksSO);
+        final double sUmfeldStrukturenLinksSum = this.convertNumberToDouble(sUmfeldStrukturenLinksAG)
+                    + this.convertNumberToDouble(sUmfeldStrukturenLinksFT)
+                    + this.convertNumberToDouble(sUmfeldStrukturenLinksGUA)
+                    + this.convertNumberToDouble(sUmfeldStrukturenLinksBV)
+                    + this.convertNumberToDouble(sUmfeldStrukturenLinksMA)
+                    + this.convertNumberToDouble(sUmfeldStrukturenLinksHW)
+                    + this.convertNumberToDouble(sUmfeldStrukturenLinksSO);
 
         params.put(
             "s_umfeldstrukturen_ag_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksAG));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksAG));
         params.put(
             "s_umfeldstrukturen_ft_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksFT));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksFT));
         params.put(
             "s_umfeldstrukturen_gua_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksGUA));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksGUA));
         params.put(
             "s_umfeldstrukturen_bv_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksBV));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksBV));
         params.put(
             "s_umfeldstrukturen_ma_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksMA));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksMA));
         params.put(
             "s_umfeldstrukturen_hw_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksHW));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksHW));
         params.put(
             "s_umfeldstrukturen_so_links",
-            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenLinksSO));
+            (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksSO));
         params.put("s_umfeldstrukturen_keine_links", (sUmfeldStrukturenLinksSum == 0.0) ? "X" : "");
 
         // ---
 
-        final BigDecimal sUmfeldStrukturenRechtsAG = (BigDecimal)bean.getProperty("s_umfeldstrukturen_ag_rechts");
-        final BigDecimal sUmfeldStrukturenRechtsFT = (BigDecimal)bean.getProperty("s_umfeldstrukturen_ft_rechts");
-        final BigDecimal sUmfeldStrukturenRechtsGUA = (BigDecimal)bean.getProperty("s_umfeldstrukturen_gua_rechts");
-        final BigDecimal sUmfeldStrukturenRechtsBV = (BigDecimal)bean.getProperty("s_umfeldstrukturen_bv_rechts");
-        final BigDecimal sUmfeldStrukturenRechtsMA = (BigDecimal)bean.getProperty("s_umfeldstrukturen_ma_rechts");
-        final BigDecimal sUmfeldStrukturenRechtsHW = (BigDecimal)bean.getProperty("s_umfeldstrukturen_hw_rechts");
-        final BigDecimal sUmfeldStrukturenRechtsSO = (BigDecimal)bean.getProperty("s_umfeldstrukturen_so_rechts");
+        final Number sUmfeldStrukturenRechtsAG = (Number)bean.getProperty("s_umfeldstrukturen_ag_rechts");
+        final Number sUmfeldStrukturenRechtsFT = (Number)bean.getProperty("s_umfeldstrukturen_ft_rechts");
+        final Number sUmfeldStrukturenRechtsGUA = (Number)bean.getProperty("s_umfeldstrukturen_gua_rechts");
+        final Number sUmfeldStrukturenRechtsBV = (Number)bean.getProperty("s_umfeldstrukturen_bv_rechts");
+        final Number sUmfeldStrukturenRechtsMA = (Number)bean.getProperty("s_umfeldstrukturen_ma_rechts");
+        final Number sUmfeldStrukturenRechtsHW = (Number)bean.getProperty("s_umfeldstrukturen_hw_rechts");
+        final Number sUmfeldStrukturenRechtsSO = (Number)bean.getProperty("s_umfeldstrukturen_so_rechts");
 
-        final double sUmfeldStrukturenRechtsSum = this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsAG)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsFT)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsGUA)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsBV)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsMA)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsHW)
-                    + this.convertBiGDecimalToDouble(sUmfeldStrukturenRechtsSO);
+        final double sUmfeldStrukturenRechtsSum = this.convertNumberToDouble(sUmfeldStrukturenRechtsAG)
+                    + this.convertNumberToDouble(sUmfeldStrukturenRechtsFT)
+                    + this.convertNumberToDouble(sUmfeldStrukturenRechtsGUA)
+                    + this.convertNumberToDouble(sUmfeldStrukturenRechtsBV)
+                    + this.convertNumberToDouble(sUmfeldStrukturenRechtsMA)
+                    + this.convertNumberToDouble(sUmfeldStrukturenRechtsHW)
+                    + this.convertNumberToDouble(sUmfeldStrukturenRechtsSO);
 
         params.put(
             "s_umfeldstrukturen_ag_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsAG));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsAG));
         params.put(
             "s_umfeldstrukturen_ft_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsFT));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsFT));
         params.put(
             "s_umfeldstrukturen_gua_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsGUA));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsGUA));
         params.put(
             "s_umfeldstrukturen_bv_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsBV));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsBV));
         params.put(
             "s_umfeldstrukturen_ma_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsMA));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsMA));
         params.put(
             "s_umfeldstrukturen_hw_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsHW));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsHW));
         params.put(
             "s_umfeldstrukturen_so_rechts",
-            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertBiGDecimalToString(sUmfeldStrukturenRechtsSO));
+            (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsSO));
         params.put("s_umfeldstrukturen_keine_rechts", (sUmfeldStrukturenRechtsSum == 0.0) ? "X" : "");
 
         // ---
