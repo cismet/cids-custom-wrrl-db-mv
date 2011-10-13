@@ -783,7 +783,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             }
             MetaObject[] mosOtherLines = null;
             try {
-                LOG.fatal("WTF ?!", new CurrentStackTrace());
                 mosOtherLines = SessionManager.getProxy().getMetaObjectByQuery(queryOtherLines, 0);
             } catch (Exception ex) {
                 LOG.error("error while loading other lines on baseline", ex);

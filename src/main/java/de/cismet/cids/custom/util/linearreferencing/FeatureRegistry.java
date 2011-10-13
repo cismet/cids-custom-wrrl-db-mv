@@ -288,7 +288,7 @@ public class FeatureRegistry implements LinearReferencingConstants {
      *
      * @param  feature  DOCUMENT ME!
      */
-    private void addFeatureToMap(final Feature feature) {
+    public static void addFeatureToMap(final Feature feature) {
         final FeatureCollection featureCollection = CismapBroker.getInstance()
                     .getMappingComponent()
                     .getFeatureCollection();
@@ -301,7 +301,7 @@ public class FeatureRegistry implements LinearReferencingConstants {
      *
      * @param  feature  DOCUMENT ME!
      */
-    private void removeFeatureFromMap(final Feature feature) {
+    public static void removeFeatureFromMap(final Feature feature) {
         final FeatureCollection featureCollection = CismapBroker.getInstance()
                     .getMappingComponent()
                     .getFeatureCollection();
