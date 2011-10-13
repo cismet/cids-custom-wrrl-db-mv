@@ -7,6 +7,10 @@
 ****************************************************/
 package de.cismet.cids.custom.util.fgsk.eval;
 
+import Sirius.server.sql.DBConnectionPool;
+import de.cismet.tools.ScriptRunner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import Sirius.navigator.connection.ConnectionFactory;
 import Sirius.navigator.connection.ConnectionInfo;
 import Sirius.navigator.connection.ConnectionSession;
@@ -32,10 +36,6 @@ import Sirius.util.Mapable;
 
 import org.apache.log4j.Logger;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -58,6 +58,7 @@ import de.cismet.remotetesthelper.RemoteTestHelperService;
 import de.cismet.remotetesthelper.ws.rest.RemoteTestHelperClient;
 
 import java.util.Arrays;
+import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 import static de.cismet.cids.custom.util.fgsk.eval.Calc.*;
@@ -101,20 +102,20 @@ public class CalcTest {
         p.put("log4j.rootLogger", "ALL,Remote");
         org.apache.log4j.PropertyConfigurator.configure(p);
 
-//        if (!Boolean.valueOf(SERVICE.initCidsSystem(TEST_DB_NAME))) {
-//            throw new IllegalStateException("cannot initilise test db");
-//        }
+        if (!Boolean.valueOf(SERVICE.initCidsSystem(TEST_DB_NAME))) {
+            throw new IllegalStateException("cannot initilise test db");
+        }
         final ServerProperties props = new ServerProperties(SERVER_CONFIG);
-//        final DBConnectionPool pool = new DBConnectionPool(props);
-//        final Connection con = pool.getConnection();
-//        final ScriptRunner runner = new ScriptRunner(con, true, false);
-//        runner.setLogWriter(null);
-//        System.out.println("Inserting test data, may take some time");
-//        runner.runScript(new BufferedReader(new InputStreamReader(
-//                CalcTest.class.getResourceAsStream("CalcTestInit.sql"))));
-//        System.out.println("Test data inserted");
-//        con.close();
-//        pool.closeConnections();
+        final DBConnectionPool pool = new DBConnectionPool(props);
+        final Connection con = pool.getConnection();
+        final ScriptRunner runner = new ScriptRunner(con, true, false);
+        runner.setLogWriter(null);
+        System.out.println("Inserting test data, may take some time");
+        runner.runScript(new BufferedReader(new InputStreamReader(
+                CalcTest.class.getResourceAsStream("CalcTestInit.sql"))));
+        System.out.println("Test data inserted");
+        con.close();
+        pool.closeConnections();
 
         registry = Sirius.server.registry.Registry.getServerInstance(1099);
         proxy = StartProxy.getInstance(SERVER_CONFIG);
@@ -156,9 +157,9 @@ public class CalcTest {
             System.err.println("exit error");
         }
 
-//        if (!Boolean.valueOf(SERVICE.dropDatabase(TEST_DB_NAME))) {
-//            throw new IllegalStateException("could not drop test db");
-//        }
+        if (!Boolean.valueOf(SERVICE.dropDatabase(TEST_DB_NAME))) {
+            throw new IllegalStateException("could not drop test db");
+        }
     }
 
     /**
@@ -184,6 +185,9 @@ public class CalcTest {
         return new Throwable().getStackTrace()[1].getMethodName();
     }
     
+    // This is only a dummy test so that junit won't complain that there is nothing to do, moreover it serves as a 
+    // reminder for the skipped tests
+    @Ignore
     @Test
     public void testDummy(){}
 
