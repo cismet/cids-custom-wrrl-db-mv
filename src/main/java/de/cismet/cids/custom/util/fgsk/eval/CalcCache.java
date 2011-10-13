@@ -21,19 +21,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import de.cismet.cids.custom.mv.fgsk.server.search.AbstractSubstrateRatingSearch.DefaultSubstrateRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.AbstractSubstrateRatingSearch.PercentSubstrateRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.AbstractTripletRatingSearch.BankFitmentRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.AbstractTripletRatingSearch.BankVegetationRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.AbstractTripletRatingSearch.BedFitmentRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.ComplexRatingSearch.DefaultComplexRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.ComplexRatingSearch.ProfileDepthBreadthRelationRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.ComplexRatingSearch.Range;
-import de.cismet.cids.custom.mv.fgsk.server.search.SectionLengthSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.SimpleMappingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.SimpleRatingSearch.DoubleRatingSearch;
-import de.cismet.cids.custom.mv.fgsk.server.search.SimpleRatingSearch.IntegerRatingSearch;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLDBMVConcurrency;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.AbstractSubstrateRatingSearch.DefaultSubstrateRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.AbstractSubstrateRatingSearch.PercentSubstrateRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.AbstractTripletRatingSearch.BankFitmentRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.AbstractTripletRatingSearch.BankVegetationRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.AbstractTripletRatingSearch.BedFitmentRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.ComplexRatingSearch.DefaultComplexRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.ComplexRatingSearch.ProfileDepthBreadthRelationRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.ComplexRatingSearch.Range;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SectionLengthSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleMappingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleRatingSearch.DoubleRatingSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleRatingSearch.IntegerRatingSearch;
 
 /**
  * DOCUMENT ME!
