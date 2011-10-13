@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import javax.swing.border.Border;
-
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -37,33 +35,41 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JPanel jpTeilbewertungUfer;
     private javax.swing.JPanel jpTeilbewertungUfer1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht kartierabschnittUebersicht1;
+    private javax.swing.JLabel lblBankRating;
+    private javax.swing.JLabel lblBankStructCritCountLeft;
+    private javax.swing.JLabel lblBankStructCritCountOverall;
+    private javax.swing.JLabel lblBankStructCritCountRight;
+    private javax.swing.JLabel lblBankStructRatingLeft;
+    private javax.swing.JLabel lblBankStructRatingOverall;
+    private javax.swing.JLabel lblBankStructRatingRight;
+    private javax.swing.JLabel lblBedRating;
+    private javax.swing.JLabel lblBedStructureCritCount;
+    private javax.swing.JLabel lblBedStructureRating;
+    private javax.swing.JLabel lblCourseEvoCritCount;
+    private javax.swing.JLabel lblCourseEvoRating;
+    private javax.swing.JLabel lblCrossProfileCritCount;
+    private javax.swing.JLabel lblCrossProfileRating;
+    private javax.swing.JLabel lblEnvRating;
     private javax.swing.JLabel lblGewaessername;
-    private javax.swing.JLabel lblGewaessername1;
-    private javax.swing.JLabel lblGewaessername2;
-    private javax.swing.JLabel lblGewaessername3;
-    private javax.swing.JLabel lblGewaessername4;
-    private javax.swing.JLabel lblGewaesserumf;
     private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
     private javax.swing.JLabel lblHeading4;
     private javax.swing.JLabel lblHeading5;
-    private javax.swing.JLabel lblKritGewaesserumf;
-    private javax.swing.JLabel lblKritLaengs;
-    private javax.swing.JLabel lblKritLaufent;
-    private javax.swing.JLabel lblKritQuerprofil;
-    private javax.swing.JLabel lblKritSohlenstr;
-    private javax.swing.JLabel lblKritUferstrTeil;
-    private javax.swing.JLabel lblLaengs;
-    private javax.swing.JLabel lblLaufent;
-    private javax.swing.JLabel lblQuerprofil;
-    private javax.swing.JLabel lblSohlenstr;
+    private javax.swing.JLabel lblLongProfileCritCount;
+    private javax.swing.JLabel lblLongProfileRating;
     private javax.swing.JLabel lblSpacing1;
     private javax.swing.JLabel lblSpacing3;
     private javax.swing.JLabel lblSpacing4;
     private javax.swing.JLabel lblSpacing5;
     private javax.swing.JLabel lblTest;
-    private javax.swing.JLabel lblUferstr;
+    private javax.swing.JLabel lblWBEnvCritCountLeft;
+    private javax.swing.JLabel lblWBEnvCritCountOverall;
+    private javax.swing.JLabel lblWBEnvCritCountRight;
+    private javax.swing.JLabel lblWBEnvRatingLeft;
+    private javax.swing.JLabel lblWBEnvRatingOverall;
+    private javax.swing.JLabel lblWBEnvRatingRight;
+    private javax.swing.JLabel lblWBRating;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
@@ -80,23 +86,31 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JPanel panInfoContent3;
     private javax.swing.JPanel panInfoContent4;
     private javax.swing.JPanel panInfoContent5;
+    private javax.swing.JTextField txtBankRating;
+    private javax.swing.JTextField txtBankStructCritCountLeft;
+    private javax.swing.JTextField txtBankStructCritCountOverall;
+    private javax.swing.JTextField txtBankStructCritCountRight;
+    private javax.swing.JTextField txtBankStructRatingLeft;
+    private javax.swing.JTextField txtBankStructRatingOverall;
+    private javax.swing.JTextField txtBankStructRatingRight;
+    private javax.swing.JTextField txtBedRating;
+    private javax.swing.JTextField txtBedStructureCritCount;
+    private javax.swing.JTextField txtBedStructureRating;
+    private javax.swing.JTextField txtCourseEvoCritCount;
+    private javax.swing.JTextField txtCourseEvoRating;
+    private javax.swing.JTextField txtCrossProfileCritCount;
+    private javax.swing.JTextField txtCrossProfileRating;
     private javax.swing.JTextField txtGewaessername;
-    private javax.swing.JTextField txtGewaessername1;
-    private javax.swing.JTextField txtGewaessername2;
-    private javax.swing.JTextField txtGewaessername3;
-    private javax.swing.JTextField txtGewaessername4;
-    private javax.swing.JTextField txtGewaesserumf;
-    private javax.swing.JTextField txtKritGewaesserumf;
-    private javax.swing.JTextField txtKritLaengs;
-    private javax.swing.JTextField txtKritLaufent;
-    private javax.swing.JTextField txtKritQuerprofil;
-    private javax.swing.JTextField txtKritSohlenstr;
-    private javax.swing.JTextField txtKritUferstrTeil;
-    private javax.swing.JTextField txtLaengs;
-    private javax.swing.JTextField txtLaufent;
-    private javax.swing.JTextField txtQuerprofil;
-    private javax.swing.JTextField txtSohlenstr;
-    private javax.swing.JTextField txtUferstr;
+    private javax.swing.JTextField txtLongProfileCritCount;
+    private javax.swing.JTextField txtLongProfileRating;
+    private javax.swing.JTextField txtWBEnvCritCountLeft;
+    private javax.swing.JTextField txtWBEnvCritCountOverall;
+    private javax.swing.JTextField txtWBEnvCritCountRight;
+    private javax.swing.JTextField txtWBEnvRating;
+    private javax.swing.JTextField txtWBEnvRatingLeft;
+    private javax.swing.JTextField txtWBEnvRatingOverall;
+    private javax.swing.JTextField txtWBEnvRatingRight;
+    private javax.swing.JTextField txtWBRating;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -132,14 +146,14 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblSpacing1 = new javax.swing.JLabel();
         lblGewaessername = new javax.swing.JLabel();
         txtGewaessername = new javax.swing.JTextField();
-        lblGewaessername1 = new javax.swing.JLabel();
-        txtGewaessername1 = new javax.swing.JTextField();
-        lblGewaessername2 = new javax.swing.JLabel();
-        txtGewaessername2 = new javax.swing.JTextField();
-        lblGewaessername3 = new javax.swing.JLabel();
-        txtGewaessername3 = new javax.swing.JTextField();
-        lblGewaessername4 = new javax.swing.JLabel();
-        txtGewaessername4 = new javax.swing.JTextField();
+        lblWBRating = new javax.swing.JLabel();
+        txtWBRating = new javax.swing.JTextField();
+        lblBedRating = new javax.swing.JLabel();
+        txtBedRating = new javax.swing.JTextField();
+        lblBankRating = new javax.swing.JLabel();
+        txtBankRating = new javax.swing.JTextField();
+        lblEnvRating = new javax.swing.JLabel();
+        txtWBEnvRating = new javax.swing.JTextField();
         jpLegende = new javax.swing.JPanel();
         panInfo3 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -152,42 +166,58 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblHeading3 = new javax.swing.JLabel();
         panInfoContent3 = new javax.swing.JPanel();
         lblSpacing3 = new javax.swing.JLabel();
-        lblLaufent = new javax.swing.JLabel();
-        txtLaufent = new javax.swing.JTextField();
-        lblKritLaufent = new javax.swing.JLabel();
-        txtKritLaufent = new javax.swing.JTextField();
-        lblLaengs = new javax.swing.JLabel();
-        txtLaengs = new javax.swing.JTextField();
-        lblKritLaengs = new javax.swing.JLabel();
-        txtKritLaengs = new javax.swing.JTextField();
-        lblSohlenstr = new javax.swing.JLabel();
-        txtSohlenstr = new javax.swing.JTextField();
-        txtKritSohlenstr = new javax.swing.JTextField();
-        lblKritSohlenstr = new javax.swing.JLabel();
+        lblCourseEvoRating = new javax.swing.JLabel();
+        txtCourseEvoRating = new javax.swing.JTextField();
+        lblCourseEvoCritCount = new javax.swing.JLabel();
+        txtCourseEvoCritCount = new javax.swing.JTextField();
+        lblLongProfileRating = new javax.swing.JLabel();
+        txtLongProfileRating = new javax.swing.JTextField();
+        lblLongProfileCritCount = new javax.swing.JLabel();
+        txtLongProfileCritCount = new javax.swing.JTextField();
+        lblCrossProfileRating = new javax.swing.JLabel();
+        lblCrossProfileCritCount = new javax.swing.JLabel();
+        lblBedStructureRating = new javax.swing.JLabel();
+        lblBedStructureCritCount = new javax.swing.JLabel();
+        txtCrossProfileRating = new javax.swing.JTextField();
+        txtCrossProfileCritCount = new javax.swing.JTextField();
+        txtBedStructureRating = new javax.swing.JTextField();
+        txtBedStructureCritCount = new javax.swing.JTextField();
         jpTeilbewertungUfer = new javax.swing.JPanel();
         panInfo5 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading4 = new javax.swing.JLabel();
         panInfoContent4 = new javax.swing.JPanel();
         lblSpacing4 = new javax.swing.JLabel();
-        lblQuerprofil = new javax.swing.JLabel();
-        txtQuerprofil = new javax.swing.JTextField();
-        lblKritQuerprofil = new javax.swing.JLabel();
-        txtKritQuerprofil = new javax.swing.JTextField();
-        lblUferstr = new javax.swing.JLabel();
-        txtUferstr = new javax.swing.JTextField();
-        lblKritUferstrTeil = new javax.swing.JLabel();
-        txtKritUferstrTeil = new javax.swing.JTextField();
+        lblBankStructRatingOverall = new javax.swing.JLabel();
+        lblBankStructRatingLeft = new javax.swing.JLabel();
+        txtBankStructRatingOverall = new javax.swing.JTextField();
+        txtBankStructCritCountOverall = new javax.swing.JTextField();
+        lblBankStructCritCountLeft = new javax.swing.JLabel();
+        lblBankStructRatingRight = new javax.swing.JLabel();
+        lblBankStructCritCountRight = new javax.swing.JLabel();
+        lblBankStructCritCountOverall = new javax.swing.JLabel();
+        txtBankStructCritCountLeft = new javax.swing.JTextField();
+        txtBankStructRatingRight = new javax.swing.JTextField();
+        txtBankStructCritCountRight = new javax.swing.JTextField();
+        txtBankStructRatingLeft = new javax.swing.JTextField();
         jpTeilbewertungUfer1 = new javax.swing.JPanel();
         panInfo6 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo5 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading5 = new javax.swing.JLabel();
         panInfoContent5 = new javax.swing.JPanel();
         lblSpacing5 = new javax.swing.JLabel();
-        lblGewaesserumf = new javax.swing.JLabel();
-        txtGewaesserumf = new javax.swing.JTextField();
-        lblKritGewaesserumf = new javax.swing.JLabel();
-        txtKritGewaesserumf = new javax.swing.JTextField();
+        lblWBEnvRatingOverall = new javax.swing.JLabel();
+        txtWBEnvRatingOverall = new javax.swing.JTextField();
+        lblWBEnvCritCountOverall = new javax.swing.JLabel();
+        txtWBEnvCritCountOverall = new javax.swing.JTextField();
+        lblWBEnvRatingRight = new javax.swing.JLabel();
+        txtWBEnvCritCountLeft = new javax.swing.JTextField();
+        lblWBEnvRatingLeft = new javax.swing.JLabel();
+        txtWBEnvRatingLeft = new javax.swing.JTextField();
+        lblWBEnvCritCountRight = new javax.swing.JLabel();
+        lblWBEnvCritCountLeft = new javax.swing.JLabel();
+        txtWBEnvRatingRight = new javax.swing.JTextField();
+        txtWBEnvCritCountRight = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(1100, 650));
         setMinimumSize(new java.awt.Dimension(1100, 650));
@@ -248,7 +278,6 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         txtGewaessername.setBorder(null);
         txtGewaessername.setEnabled(false);
         txtGewaessername.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaessername.setOpaque(false);
         txtGewaessername.setPreferredSize(new java.awt.Dimension(170, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -258,30 +287,30 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent1.add(txtGewaessername, gridBagConstraints);
 
-        lblGewaessername1.setText(org.openide.util.NbBundle.getMessage(
+        lblWBRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblGewaessername1.text")); // NOI18N
-        lblGewaessername1.setMaximumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername1.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername1.setPreferredSize(new java.awt.Dimension(130, 17));
+                "FgskKartierabschnittErgebnisse.lblWBRating.text")); // NOI18N
+        lblWBRating.setMaximumSize(new java.awt.Dimension(130, 17));
+        lblWBRating.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblWBRating.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblGewaessername1, gridBagConstraints);
+        panInfoContent1.add(lblWBRating, gridBagConstraints);
 
-        txtGewaessername1.setBorder(null);
-        txtGewaessername1.setEnabled(false);
-        txtGewaessername1.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaessername1.setOpaque(false);
-        txtGewaessername1.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtWBRating.setEditable(false);
+        txtWBRating.setBorder(null);
+        txtWBRating.setEnabled(false);
+        txtWBRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_gesamt}"),
-                txtGewaessername1,
+                txtWBRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -291,32 +320,32 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent1.add(txtGewaessername1, gridBagConstraints);
+        panInfoContent1.add(txtWBRating, gridBagConstraints);
 
-        lblGewaessername2.setText(org.openide.util.NbBundle.getMessage(
+        lblBedRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblGewaessername2.text")); // NOI18N
-        lblGewaessername2.setMaximumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername2.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername2.setPreferredSize(new java.awt.Dimension(130, 17));
+                "FgskKartierabschnittErgebnisse.lblBedRating.text")); // NOI18N
+        lblBedRating.setMaximumSize(new java.awt.Dimension(130, 17));
+        lblBedRating.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblBedRating.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblGewaessername2, gridBagConstraints);
+        panInfoContent1.add(lblBedRating, gridBagConstraints);
 
-        txtGewaessername2.setBorder(null);
-        txtGewaessername2.setEnabled(false);
-        txtGewaessername2.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaessername2.setOpaque(false);
-        txtGewaessername2.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtBedRating.setEditable(false);
+        txtBedRating.setBorder(null);
+        txtBedRating.setEnabled(false);
+        txtBedRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBedRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_sohle}"),
-                txtGewaessername2,
+                txtBedRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -326,32 +355,32 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent1.add(txtGewaessername2, gridBagConstraints);
+        panInfoContent1.add(txtBedRating, gridBagConstraints);
 
-        lblGewaessername3.setText(org.openide.util.NbBundle.getMessage(
+        lblBankRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblGewaessername3.text")); // NOI18N
-        lblGewaessername3.setMaximumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername3.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername3.setPreferredSize(new java.awt.Dimension(130, 17));
+                "FgskKartierabschnittErgebnisse.lblBankRating.text")); // NOI18N
+        lblBankRating.setMaximumSize(new java.awt.Dimension(130, 17));
+        lblBankRating.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblBankRating.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblGewaessername3, gridBagConstraints);
+        panInfoContent1.add(lblBankRating, gridBagConstraints);
 
-        txtGewaessername3.setBorder(null);
-        txtGewaessername3.setEnabled(false);
-        txtGewaessername3.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaessername3.setOpaque(false);
-        txtGewaessername3.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtBankRating.setEditable(false);
+        txtBankRating.setBorder(null);
+        txtBankRating.setEnabled(false);
+        txtBankRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_ufer}"),
-                txtGewaessername3,
+                txtBankRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -361,33 +390,33 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent1.add(txtGewaessername3, gridBagConstraints);
+        panInfoContent1.add(txtBankRating, gridBagConstraints);
 
-        lblGewaessername4.setText(org.openide.util.NbBundle.getMessage(
+        lblEnvRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblGewaessername4.text")); // NOI18N
-        lblGewaessername4.setMaximumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername4.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblGewaessername4.setPreferredSize(new java.awt.Dimension(130, 17));
+                "FgskKartierabschnittErgebnisse.lblEnvRating.text")); // NOI18N
+        lblEnvRating.setMaximumSize(new java.awt.Dimension(130, 17));
+        lblEnvRating.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblEnvRating.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblGewaessername4, gridBagConstraints);
+        panInfoContent1.add(lblEnvRating, gridBagConstraints);
 
-        txtGewaessername4.setBorder(null);
-        txtGewaessername4.setEnabled(false);
-        txtGewaessername4.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaessername4.setOpaque(false);
-        txtGewaessername4.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtWBEnvRating.setEditable(false);
+        txtWBEnvRating.setBorder(null);
+        txtWBEnvRating.setEnabled(false);
+        txtWBEnvRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_land}"),
-                txtGewaessername4,
+                txtWBEnvRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -397,7 +426,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent1.add(txtGewaessername4, gridBagConstraints);
+        panInfoContent1.add(txtWBEnvRating, gridBagConstraints);
 
         panInfo2.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
@@ -481,29 +510,30 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.weighty = 1.0;
         panInfoContent3.add(lblSpacing3, gridBagConstraints);
 
-        lblLaufent.setText(org.openide.util.NbBundle.getMessage(
+        lblCourseEvoRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblLaufent.text")); // NOI18N
-        lblLaufent.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblLaufent.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblLaufent.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblCourseEvoRating.text")); // NOI18N
+        lblCourseEvoRating.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblCourseEvoRating.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblCourseEvoRating.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        panInfoContent3.add(lblLaufent, gridBagConstraints);
+        panInfoContent3.add(lblCourseEvoRating, gridBagConstraints);
 
-        txtLaufent.setBorder(null);
-        txtLaufent.setEnabled(false);
-        txtLaufent.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtLaufent.setOpaque(false);
-        txtLaufent.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtCourseEvoRating.setEditable(false);
+        txtCourseEvoRating.setBorder(null);
+        txtCourseEvoRating.setEnabled(false);
+        txtCourseEvoRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtCourseEvoRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufentwicklung_summe_punktzahl}"),
-                txtLaufent,
+                txtCourseEvoRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -512,33 +542,34 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent3.add(txtLaufent, gridBagConstraints);
+        panInfoContent3.add(txtCourseEvoRating, gridBagConstraints);
 
-        lblKritLaufent.setText(org.openide.util.NbBundle.getMessage(
+        lblCourseEvoCritCount.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblKritLaufent.text")); // NOI18N
-        lblKritLaufent.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblKritLaufent.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblKritLaufent.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblCourseEvoCritCount.text")); // NOI18N
+        lblCourseEvoCritCount.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblCourseEvoCritCount.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblCourseEvoCritCount.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent3.add(lblKritLaufent, gridBagConstraints);
+        panInfoContent3.add(lblCourseEvoCritCount, gridBagConstraints);
 
-        txtKritLaufent.setBorder(null);
-        txtKritLaufent.setEnabled(false);
-        txtKritLaufent.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtKritLaufent.setOpaque(false);
-        txtKritLaufent.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtCourseEvoCritCount.setEditable(false);
+        txtCourseEvoCritCount.setBorder(null);
+        txtCourseEvoCritCount.setEnabled(false);
+        txtCourseEvoCritCount.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtCourseEvoCritCount.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laufentwicklung_anzahl_kriterien}"),
-                txtKritLaufent,
+                txtCourseEvoCritCount,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -547,33 +578,34 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent3.add(txtKritLaufent, gridBagConstraints);
+        panInfoContent3.add(txtCourseEvoCritCount, gridBagConstraints);
 
-        lblLaengs.setText(org.openide.util.NbBundle.getMessage(
+        lblLongProfileRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblLaengs.text")); // NOI18N
-        lblLaengs.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblLaengs.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblLaengs.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblLongProfileRating.text")); // NOI18N
+        lblLongProfileRating.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblLongProfileRating.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblLongProfileRating.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent3.add(lblLaengs, gridBagConstraints);
+        panInfoContent3.add(lblLongProfileRating, gridBagConstraints);
 
-        txtLaengs.setBorder(null);
-        txtLaengs.setEnabled(false);
-        txtLaengs.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtLaengs.setOpaque(false);
-        txtLaengs.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtLongProfileRating.setEditable(false);
+        txtLongProfileRating.setBorder(null);
+        txtLongProfileRating.setEnabled(false);
+        txtLongProfileRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtLongProfileRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laengsprofil_summe_punktzahl}"),
-                txtLaengs,
+                txtLongProfileRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -582,33 +614,34 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent3.add(txtLaengs, gridBagConstraints);
+        panInfoContent3.add(txtLongProfileRating, gridBagConstraints);
 
-        lblKritLaengs.setText(org.openide.util.NbBundle.getMessage(
+        lblLongProfileCritCount.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblKritLaengs.text")); // NOI18N
-        lblKritLaengs.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblKritLaengs.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblKritLaengs.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblLongProfileCritCount.text")); // NOI18N
+        lblLongProfileCritCount.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblLongProfileCritCount.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblLongProfileCritCount.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent3.add(lblKritLaengs, gridBagConstraints);
+        panInfoContent3.add(lblLongProfileCritCount, gridBagConstraints);
 
-        txtKritLaengs.setBorder(null);
-        txtKritLaengs.setEnabled(false);
-        txtKritLaengs.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtKritLaengs.setOpaque(false);
-        txtKritLaengs.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtLongProfileCritCount.setEditable(false);
+        txtLongProfileCritCount.setBorder(null);
+        txtLongProfileCritCount.setEnabled(false);
+        txtLongProfileCritCount.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtLongProfileCritCount.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laengsprofil_anzahl_kriterien}"),
-                txtKritLaengs,
+                txtLongProfileCritCount,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -617,78 +650,152 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent3.add(txtKritLaengs, gridBagConstraints);
+        panInfoContent3.add(txtLongProfileCritCount, gridBagConstraints);
 
-        lblSohlenstr.setText(org.openide.util.NbBundle.getMessage(
+        lblCrossProfileRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblSohlenstr.text")); // NOI18N
-        lblSohlenstr.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblSohlenstr.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblSohlenstr.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblCrossProfileRating.text")); // NOI18N
+        lblCrossProfileRating.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblCrossProfileRating.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblCrossProfileRating.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent3.add(lblSohlenstr, gridBagConstraints);
+        panInfoContent3.add(lblCrossProfileRating, gridBagConstraints);
 
-        txtSohlenstr.setBorder(null);
-        txtSohlenstr.setEnabled(false);
-        txtSohlenstr.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtSohlenstr.setOpaque(false);
-        txtSohlenstr.setPreferredSize(new java.awt.Dimension(170, 20));
+        lblCrossProfileCritCount.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblCrossProfileCritCount.text")); // NOI18N
+        lblCrossProfileCritCount.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblCrossProfileCritCount.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblCrossProfileCritCount.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent3.add(lblCrossProfileCritCount, gridBagConstraints);
+
+        lblBedStructureRating.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBedStructureRating.text")); // NOI18N
+        lblBedStructureRating.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBedStructureRating.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBedStructureRating.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent3.add(lblBedStructureRating, gridBagConstraints);
+
+        lblBedStructureCritCount.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBedStructureCritCount.text")); // NOI18N
+        lblBedStructureCritCount.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBedStructureCritCount.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBedStructureCritCount.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent3.add(lblBedStructureCritCount, gridBagConstraints);
+
+        txtCrossProfileRating.setEditable(false);
+        txtCrossProfileRating.setBorder(null);
+        txtCrossProfileRating.setEnabled(false);
+        txtCrossProfileRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtCrossProfileRating.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.querprofil_summe_punktzahl}"),
+                txtCrossProfileRating,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent3.add(txtCrossProfileRating, gridBagConstraints);
+
+        txtCrossProfileCritCount.setEditable(false);
+        txtCrossProfileCritCount.setBorder(null);
+        txtCrossProfileCritCount.setEnabled(false);
+        txtCrossProfileCritCount.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtCrossProfileCritCount.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.querprofil_anzahl_kriterien}"),
+                txtCrossProfileCritCount,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent3.add(txtCrossProfileCritCount, gridBagConstraints);
+
+        txtBedStructureRating.setEditable(false);
+        txtBedStructureRating.setBorder(null);
+        txtBedStructureRating.setEnabled(false);
+        txtBedStructureRating.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBedStructureRating.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenstruktur_summe_punktzahl}"),
-                txtSohlenstr,
+                txtBedStructureRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent3.add(txtSohlenstr, gridBagConstraints);
+        panInfoContent3.add(txtBedStructureRating, gridBagConstraints);
 
-        txtKritSohlenstr.setBorder(null);
-        txtKritSohlenstr.setEnabled(false);
-        txtKritSohlenstr.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtKritSohlenstr.setOpaque(false);
-        txtKritSohlenstr.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtBedStructureCritCount.setEditable(false);
+        txtBedStructureCritCount.setBorder(null);
+        txtBedStructureCritCount.setEnabled(false);
+        txtBedStructureCritCount.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBedStructureCritCount.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenstruktur_anzahl_kriterien}"),
-                txtKritSohlenstr,
+                txtBedStructureCritCount,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent3.add(txtKritSohlenstr, gridBagConstraints);
-
-        lblKritSohlenstr.setText(org.openide.util.NbBundle.getMessage(
-                FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblKritSohlenstr.text")); // NOI18N
-        lblKritSohlenstr.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblKritSohlenstr.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblKritSohlenstr.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent3.add(lblKritSohlenstr, gridBagConstraints);
+        panInfoContent3.add(txtBedStructureCritCount, gridBagConstraints);
 
         panInfo4.add(panInfoContent3, java.awt.BorderLayout.CENTER);
 
@@ -731,29 +838,45 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.weighty = 1.0;
         panInfoContent4.add(lblSpacing4, gridBagConstraints);
 
-        lblQuerprofil.setText(org.openide.util.NbBundle.getMessage(
+        lblBankStructRatingOverall.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblQuerprofil.text")); // NOI18N
-        lblQuerprofil.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblQuerprofil.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblQuerprofil.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblBankStructRatingOverall.text")); // NOI18N
+        lblBankStructRatingOverall.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBankStructRatingOverall.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBankStructRatingOverall.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        panInfoContent4.add(lblQuerprofil, gridBagConstraints);
+        panInfoContent4.add(lblBankStructRatingOverall, gridBagConstraints);
 
-        txtQuerprofil.setBorder(null);
-        txtQuerprofil.setEnabled(false);
-        txtQuerprofil.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtQuerprofil.setOpaque(false);
-        txtQuerprofil.setPreferredSize(new java.awt.Dimension(170, 20));
+        lblBankStructRatingLeft.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBankStructRatingLeft.text")); // NOI18N
+        lblBankStructRatingLeft.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBankStructRatingLeft.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBankStructRatingLeft.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent4.add(lblBankStructRatingLeft, gridBagConstraints);
+
+        txtBankStructRatingOverall.setEditable(false);
+        txtBankStructRatingOverall.setBorder(null);
+        txtBankStructRatingOverall.setEnabled(false);
+        txtBankStructRatingOverall.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankStructRatingOverall.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.querprofil_summe_punktzahl}"),
-                txtQuerprofil,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_summe_punktzahl}"),
+                txtBankStructRatingOverall,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -762,104 +885,97 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent4.add(txtQuerprofil, gridBagConstraints);
+        panInfoContent4.add(txtBankStructRatingOverall, gridBagConstraints);
 
-        lblKritQuerprofil.setText(org.openide.util.NbBundle.getMessage(
-                FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblKritQuerprofil.text")); // NOI18N
-        lblKritQuerprofil.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblKritQuerprofil.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblKritQuerprofil.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent4.add(lblKritQuerprofil, gridBagConstraints);
-
-        txtKritQuerprofil.setBorder(null);
-        txtKritQuerprofil.setEnabled(false);
-        txtKritQuerprofil.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtKritQuerprofil.setOpaque(false);
-        txtKritQuerprofil.setPreferredSize(new java.awt.Dimension(170, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.querprofil_anzahl_kriterien}"),
-                txtKritQuerprofil,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent4.add(txtKritQuerprofil, gridBagConstraints);
-
-        lblUferstr.setText(org.openide.util.NbBundle.getMessage(
-                FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblUferstr.text")); // NOI18N
-        lblUferstr.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblUferstr.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblUferstr.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent4.add(lblUferstr, gridBagConstraints);
-
-        txtUferstr.setBorder(null);
-        txtUferstr.setEnabled(false);
-        txtUferstr.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtUferstr.setOpaque(false);
-        txtUferstr.setPreferredSize(new java.awt.Dimension(170, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_summe_punktzahl}"),
-                txtUferstr,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent4.add(txtUferstr, gridBagConstraints);
-
-        lblKritUferstrTeil.setText(org.openide.util.NbBundle.getMessage(
-                FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblKritUferstrTeil.text")); // NOI18N
-        lblKritUferstrTeil.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblKritUferstrTeil.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblKritUferstrTeil.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent4.add(lblKritUferstrTeil, gridBagConstraints);
-
-        txtKritUferstrTeil.setBorder(null);
-        txtKritUferstrTeil.setEnabled(false);
-        txtKritUferstrTeil.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtKritUferstrTeil.setOpaque(false);
-        txtKritUferstrTeil.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtBankStructCritCountOverall.setEditable(false);
+        txtBankStructCritCountOverall.setBorder(null);
+        txtBankStructCritCountOverall.setEnabled(false);
+        txtBankStructCritCountOverall.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankStructCritCountOverall.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_anzahl_kriterien}"),
-                txtKritUferstrTeil,
+                txtBankStructCritCountOverall,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent4.add(txtBankStructCritCountOverall, gridBagConstraints);
+
+        lblBankStructCritCountLeft.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBankStructCritCountLeft.text")); // NOI18N
+        lblBankStructCritCountLeft.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBankStructCritCountLeft.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBankStructCritCountLeft.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent4.add(lblBankStructCritCountLeft, gridBagConstraints);
+
+        lblBankStructRatingRight.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBankStructRatingRight.text")); // NOI18N
+        lblBankStructRatingRight.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBankStructRatingRight.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBankStructRatingRight.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent4.add(lblBankStructRatingRight, gridBagConstraints);
+
+        lblBankStructCritCountRight.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBankStructCritCountRight.text")); // NOI18N
+        lblBankStructCritCountRight.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBankStructCritCountRight.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBankStructCritCountRight.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent4.add(lblBankStructCritCountRight, gridBagConstraints);
+
+        lblBankStructCritCountOverall.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBankStructCritCountOverall.text")); // NOI18N
+        lblBankStructCritCountOverall.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBankStructCritCountOverall.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBankStructCritCountOverall.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent4.add(lblBankStructCritCountOverall, gridBagConstraints);
+
+        txtBankStructCritCountLeft.setEditable(false);
+        txtBankStructCritCountLeft.setBorder(null);
+        txtBankStructCritCountLeft.setEnabled(false);
+        txtBankStructCritCountLeft.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankStructCritCountLeft.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_anzahl_kriterien_links}"),
+                txtBankStructCritCountLeft,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -868,7 +984,76 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent4.add(txtKritUferstrTeil, gridBagConstraints);
+        panInfoContent4.add(txtBankStructCritCountLeft, gridBagConstraints);
+
+        txtBankStructRatingRight.setEditable(false);
+        txtBankStructRatingRight.setBorder(null);
+        txtBankStructRatingRight.setEnabled(false);
+        txtBankStructRatingRight.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankStructRatingRight.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_summe_punktzahl_rechts}"),
+                txtBankStructRatingRight,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent4.add(txtBankStructRatingRight, gridBagConstraints);
+
+        txtBankStructCritCountRight.setEditable(false);
+        txtBankStructCritCountRight.setBorder(null);
+        txtBankStructCritCountRight.setEnabled(false);
+        txtBankStructCritCountRight.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankStructCritCountRight.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_anzahl_kriterien_rechts}"),
+                txtBankStructCritCountRight,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent4.add(txtBankStructCritCountRight, gridBagConstraints);
+
+        txtBankStructRatingLeft.setEditable(false);
+        txtBankStructRatingLeft.setBorder(null);
+        txtBankStructRatingLeft.setEnabled(false);
+        txtBankStructRatingLeft.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBankStructRatingLeft.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferstruktur_summe_punktzahl_links}"),
+                txtBankStructRatingLeft,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent4.add(txtBankStructRatingLeft, gridBagConstraints);
 
         panInfo5.add(panInfoContent4, java.awt.BorderLayout.CENTER);
 
@@ -911,29 +1096,32 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.weighty = 1.0;
         panInfoContent5.add(lblSpacing5, gridBagConstraints);
 
-        lblGewaesserumf.setText(org.openide.util.NbBundle.getMessage(
+        lblWBEnvRatingOverall.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblGewaesserumf.text")); // NOI18N
-        lblGewaesserumf.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblGewaesserumf.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblGewaesserumf.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblWBEnvRatingOverall.text")); // NOI18N
+        lblWBEnvRatingOverall.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingOverall.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingOverall.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        panInfoContent5.add(lblGewaesserumf, gridBagConstraints);
+        panInfoContent5.add(lblWBEnvRatingOverall, gridBagConstraints);
 
-        txtGewaesserumf.setBorder(null);
-        txtGewaesserumf.setEnabled(false);
-        txtGewaesserumf.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaesserumf.setOpaque(false);
-        txtGewaesserumf.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtWBEnvRatingOverall.setEditable(false);
+        txtWBEnvRatingOverall.setBorder(null);
+        txtWBEnvRatingOverall.setEnabled(false);
+        txtWBEnvRatingOverall.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvRatingOverall.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_summe_punktzahl}"),
-                txtGewaesserumf,
+                txtWBEnvRatingOverall,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -942,34 +1130,34 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent5.add(txtGewaesserumf, gridBagConstraints);
+        panInfoContent5.add(txtWBEnvRatingOverall, gridBagConstraints);
 
-        lblKritGewaesserumf.setText(org.openide.util.NbBundle.getMessage(
+        lblWBEnvCritCountOverall.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
-                "FgskKartierabschnittErgebnisse.lblKritGewaesserumf.text")); // NOI18N
-        lblKritGewaesserumf.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblKritGewaesserumf.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblKritGewaesserumf.setPreferredSize(new java.awt.Dimension(230, 17));
+                "FgskKartierabschnittErgebnisse.lblWBEnvCritCountOverall.text")); // NOI18N
+        lblWBEnvCritCountOverall.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountOverall.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountOverall.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent5.add(lblKritGewaesserumf, gridBagConstraints);
+        panInfoContent5.add(lblWBEnvCritCountOverall, gridBagConstraints);
 
-        txtKritGewaesserumf.setBorder(null);
-        txtKritGewaesserumf.setEnabled(false);
-        txtKritGewaesserumf.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtKritGewaesserumf.setOpaque(false);
-        txtKritGewaesserumf.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtWBEnvCritCountOverall.setEditable(false);
+        txtWBEnvCritCountOverall.setBorder(null);
+        txtWBEnvCritCountOverall.setEnabled(false);
+        txtWBEnvCritCountOverall.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvCritCountOverall.setPreferredSize(new java.awt.Dimension(170, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_summe_kriterien}"),
-                txtKritGewaesserumf,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_anzahl_kriterien}"),
+                txtWBEnvCritCountOverall,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -978,7 +1166,152 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent5.add(txtKritGewaesserumf, gridBagConstraints);
+        panInfoContent5.add(txtWBEnvCritCountOverall, gridBagConstraints);
+
+        lblWBEnvRatingRight.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblWBEnvRatingRight.text")); // NOI18N
+        lblWBEnvRatingRight.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingRight.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingRight.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent5.add(lblWBEnvRatingRight, gridBagConstraints);
+
+        txtWBEnvCritCountLeft.setEditable(false);
+        txtWBEnvCritCountLeft.setBorder(null);
+        txtWBEnvCritCountLeft.setEnabled(false);
+        txtWBEnvCritCountLeft.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvCritCountLeft.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_anzahl_kriterien_links}"),
+                txtWBEnvCritCountLeft,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent5.add(txtWBEnvCritCountLeft, gridBagConstraints);
+
+        lblWBEnvRatingLeft.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblWBEnvRatingLeft.text")); // NOI18N
+        lblWBEnvRatingLeft.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingLeft.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingLeft.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent5.add(lblWBEnvRatingLeft, gridBagConstraints);
+
+        txtWBEnvRatingLeft.setEditable(false);
+        txtWBEnvRatingLeft.setBorder(null);
+        txtWBEnvRatingLeft.setEnabled(false);
+        txtWBEnvRatingLeft.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvRatingLeft.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_summe_punktzahl_links}"),
+                txtWBEnvRatingLeft,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent5.add(txtWBEnvRatingLeft, gridBagConstraints);
+
+        lblWBEnvCritCountRight.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblWBEnvCritCountRight.text")); // NOI18N
+        lblWBEnvCritCountRight.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountRight.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountRight.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent5.add(lblWBEnvCritCountRight, gridBagConstraints);
+
+        lblWBEnvCritCountLeft.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblWBEnvCritCountLeft.text")); // NOI18N
+        lblWBEnvCritCountLeft.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountLeft.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountLeft.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent5.add(lblWBEnvCritCountLeft, gridBagConstraints);
+
+        txtWBEnvRatingRight.setEditable(false);
+        txtWBEnvRatingRight.setBorder(null);
+        txtWBEnvRatingRight.setEnabled(false);
+        txtWBEnvRatingRight.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvRatingRight.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_summe_punktzahl_rechts}"),
+                txtWBEnvRatingRight,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent5.add(txtWBEnvRatingRight, gridBagConstraints);
+
+        txtWBEnvCritCountRight.setEditable(false);
+        txtWBEnvCritCountRight.setBorder(null);
+        txtWBEnvCritCountRight.setEnabled(false);
+        txtWBEnvCritCountRight.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvCritCountRight.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesserumfeld_anzahl_kriterien_rechts}"),
+                txtWBEnvCritCountRight,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht berechnet>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent5.add(txtWBEnvCritCountRight, gridBagConstraints);
 
         panInfo6.add(panInfoContent5, java.awt.BorderLayout.CENTER);
 
