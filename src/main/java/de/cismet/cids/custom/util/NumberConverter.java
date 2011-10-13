@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class NumberConverter extends Converter<BigDecimal, String> {
+public class NumberConverter extends Converter<Double, String> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -36,17 +36,17 @@ public class NumberConverter extends Converter<BigDecimal, String> {
     }
 
     @Override
-    public String convertForward(final BigDecimal value) {
+    public String convertForward(final Double value) {
         return value.toString();
     }
 
     @Override
-    public BigDecimal convertReverse(final String value) {
+    public Double convertReverse(final String value) {
         try {
             if (value == null) {
                 return null;
             }
-            return new BigDecimal(value.replace(',', '.'));
+            return new Double(value.replace(',', '.'));
         } catch (final NumberFormatException e) {
             LOG.warn("No valid number: " + value, e);
             return null;

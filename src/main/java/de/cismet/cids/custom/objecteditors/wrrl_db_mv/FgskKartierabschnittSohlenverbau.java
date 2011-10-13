@@ -18,6 +18,9 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.YesNoDecider;
 
@@ -51,6 +54,7 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
     private YesNoDecider decider;
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private de.cismet.tools.gui.RoundedPanel jpZustand;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittBesSohlen kartierabschnittBesSohlen1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittSohlenstrukturen
@@ -92,6 +96,7 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittUebersicht1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht();
         jpZustand = new de.cismet.tools.gui.RoundedPanel();
@@ -113,7 +118,17 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -278,7 +293,11 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         panInfo.add(kartierabschnittBesSohlen1, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -298,38 +317,60 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
     /**
      * DOCUMENT ME!
      *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  selectedElement  DOCUMENT ME!
      */
     private void refreshState(final CidsBean selectedElement) {
-        try {
-            final boolean enabled = isStateEnabled(selectedElement);
+        new Thread(new Runnable() {
 
-            if (decider == null) {
-                decider = new YesNoDecider(enabled);
-                decider.addPositiveException(getZSohlenverbauByValue(NONE_VAL_STATE).getMetaObject());
-            } else {
-                decider.setEnable(enabled);
-            }
+                @Override
+                public void run() {
+                    try {
+                        final boolean enabled = isStateEnabled(selectedElement);
 
-            if (!enabled) {
-                final CidsBean none = getZSohlenverbauByValue(NONE_VAL_STATE);
-                cidsBean.setProperty("z_sohlenverbau_id", none);
-                rdZustand.setSelectedElements(none);
-            } else {
-                final CidsBean selected = (CidsBean)rdZustand.getSelectedElements();
-                if (selected != null) {
-                    final Integer val = (Integer)selected.getProperty("value");
-                    if (val == NONE_VAL_STATE) {
-                        cidsBean.setProperty("z_sohlenverbau_id", getZSohlenverbauByValue(1));
-                        rdZustand.setSelectedElements(getZSohlenverbauByValue(1));
+                        if (decider == null) {
+                            decider = new YesNoDecider(enabled);
+                            decider.addPositiveException(getZSohlenverbauByValue(NONE_VAL_STATE).getMetaObject());
+                        } else {
+                            decider.setEnable(enabled);
+                        }
+
+                        if (!enabled) {
+                            final CidsBean none = getZSohlenverbauByValue(NONE_VAL_STATE);
+                            cidsBean.setProperty("z_sohlenverbau_id", none);
+                            rdZustand.setSelectedElements(none);
+                        } else {
+                            final CidsBean selected = (CidsBean)rdZustand.getSelectedElements();
+                            if (selected != null) {
+                                final Integer val = (Integer)selected.getProperty("value");
+                                if (val == NONE_VAL_STATE) {
+                                    cidsBean.setProperty("z_sohlenverbau_id", getZSohlenverbauByValue(1));
+                                    rdZustand.setSelectedElements(getZSohlenverbauByValue(1));
+                                }
+                            }
+                        }
+
+                        rdZustand.refreshCheckboxState(decider, false);
+                    } catch (final Exception e) {
+                        LOG.error("Error while refreshing the state.", e);
                     }
                 }
-            }
-
-            rdZustand.refreshCheckboxState(decider, false);
-        } catch (final Exception e) {
-            LOG.error("Error while refreshing the state.", e);
-        }
+            }).start();
     }
 
     /**

@@ -14,6 +14,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 import java.util.HashMap;
 
@@ -42,6 +44,7 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbNe;
     private javax.swing.JCheckBox cbNe1;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jpBesLaufstrukturen;
     private javax.swing.JPanel jpKruemmung;
     private javax.swing.JPanel jpLaengsbaenke;
@@ -170,6 +173,7 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittUebersicht1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht();
         jpKruemmung = new javax.swing.JPanel();
@@ -222,7 +226,17 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -790,7 +804,11 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         panInfo.add(jpBesLaufstrukturen, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -877,6 +895,22 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
             kartierabschnittUebersicht1.setCidsBean(cidsBean);
             fillNELae();
             fillNELst();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

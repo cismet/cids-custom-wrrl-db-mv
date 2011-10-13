@@ -12,6 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import de.cismet.cids.custom.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -35,6 +38,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWasserfuehrung2;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWasserfuehrung3;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccGewaesserSubtyp;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jpLaengsprofil;
     private javax.swing.JPanel jpfliess;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht kartierabschnittUebersicht1;
@@ -82,6 +86,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittUebersicht1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht();
         jpfliess = new javax.swing.JPanel();
@@ -113,7 +118,17 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -417,7 +432,11 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(jpLaengsprofil, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -442,6 +461,22 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
                 this.cidsBean);
             bindingGroup.bind();
             kartierabschnittUebersicht1.setCidsBean(cidsBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

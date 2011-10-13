@@ -7,14 +7,26 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import Sirius.navigator.Navigator;
+import Sirius.navigator.ui.progress.ProgressDialog;
+import Sirius.navigator.ui.progress.ProgressPanel;
+
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
+import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.EventQueue;
+import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.Collection;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.ProgressMonitor;
 
 import de.cismet.cids.custom.reports.FgskReport;
 
@@ -147,7 +159,18 @@ public class FgskKartierabschnittAggregationTitleComponent extends javax.swing.J
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            final FgskReport report = new FgskReport(cidsBeans);
+            Component c = FgskKartierabschnittAggregationTitleComponent.this.getParent();
+            JFrame frame = null;
+
+            while ((c != null) && !(c instanceof JFrame)) {
+                c = c.getParent();
+            }
+
+            if (c instanceof JFrame) {
+                frame = (JFrame)c;
+            }
+
+            final FgskReport report = new FgskReport(frame, cidsBeans);
             report.print();
         }
     }

@@ -12,7 +12,14 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import de.cismet.cids.custom.util.ScrollableComboBox;
+import org.jdesktop.jxlayer.JXLayer;
+import org.jdesktop.jxlayer.plaf.ext.LockableUI;
+
+import org.openide.util.Exceptions;
+
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -30,7 +37,9 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+//    private final LockableUI lockableUI;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel jpBemerkungen;
     private javax.swing.JPanel jpUferverbau;
@@ -76,6 +85,12 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         setOpaque(false);
         rdUferverbauL.setEnableLabels(false);
         rdZustandL.setEnableLabels(false);
+//        lockableUI = new LockableUI();
+//        lockableUI.setLockedCursor(Cursor.getDefaultCursor());
+//        final JXLayer layer = new JXLayer(panInfo, lockableUI);
+//        layer.setUI(lockableUI);
+//        remove(panInfo);
+//        add(layer);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -90,6 +105,7 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittUebersicht1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht();
         jpUferverbau = new javax.swing.JPanel();
@@ -127,7 +143,17 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -357,8 +383,8 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         panInfo.add(jpZustand, gridBagConstraints);
 
-        kartierabschnittBesUmfeld1.setMinimumSize(new java.awt.Dimension(540, 140));
-        kartierabschnittBesUmfeld1.setPreferredSize(new java.awt.Dimension(540, 140));
+        kartierabschnittBesUmfeld1.setMinimumSize(new java.awt.Dimension(540, 130));
+        kartierabschnittBesUmfeld1.setPreferredSize(new java.awt.Dimension(540, 130));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -367,8 +393,8 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(kartierabschnittBesUmfeld1, gridBagConstraints);
 
-        kartierabschnittSchaeUmfeldstrukturen1.setMinimumSize(new java.awt.Dimension(540, 140));
-        kartierabschnittSchaeUmfeldstrukturen1.setPreferredSize(new java.awt.Dimension(540, 140));
+        kartierabschnittSchaeUmfeldstrukturen1.setMinimumSize(new java.awt.Dimension(540, 130));
+        kartierabschnittSchaeUmfeldstrukturen1.setPreferredSize(new java.awt.Dimension(540, 130));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -437,7 +463,11 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(jpBemerkungen, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -465,6 +495,24 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
             kartierabschnittBesUmfeld1.setCidsBean(cidsBean);
             kartierabschnittSchaeUmfeldstrukturen1.setCidsBean(cidsBean);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
+        }
+
+//        lockableUI.setLocked(readOnly);
     }
 
     @Override

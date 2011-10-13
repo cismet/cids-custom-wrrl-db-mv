@@ -79,10 +79,7 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
 
-        final FgskKartierabschnittToStringConverter conv = new FgskKartierabschnittToStringConverter();
-        final String title = conv.convert(cidsBean.getMetaObject());
-
-        setTitle(title);
+        setTitle("Kartierabschnitt " + String.valueOf(cidsBean));
     }
 
     /**

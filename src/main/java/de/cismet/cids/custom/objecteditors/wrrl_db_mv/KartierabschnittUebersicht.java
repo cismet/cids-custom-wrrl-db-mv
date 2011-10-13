@@ -13,6 +13,8 @@ import Sirius.server.search.CidsServerSearch;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.awt.EventQueue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,6 +23,8 @@ import de.cismet.cids.custom.util.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
+
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 /**
  * DOCUMENT ME!
@@ -189,9 +193,6 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(lblValGewaessername, gridBagConstraints);
 
-        lblValGewaesserabschnitt.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittUebersicht.class,
-                "KartierabschnittUebersicht.lblValGewaesserabschnitt.text")); // NOI18N
         lblValGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(150, 17));
         lblValGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(150, 17));
 
@@ -249,8 +250,14 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        bindingGroup.unbind();
+
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                this.cidsBean);
+            bindingGroup.bind();
             new Thread(new Runnable() {
 
                     @Override
@@ -259,7 +266,6 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
                     }
                 }).start();
         } else {
-            lblValGewaesserabschnitt.setText("");
             lblValGewaessername.setText("");
             lblValStation.setText("");
             lblValWkName.setText("");
@@ -318,12 +324,23 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
             LOG.error("Error while determining the water body", e);
         }
 
-        lblValGewaessername.setText(gew);
-        lblValStation.setText(statString);
-        lblValWkName.setText(wkk);
+        final String gewaessername = gew;
+        final String stationierung = statString;
+        final String wk_name = wkk;
+
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lblValGewaessername.setText(gewaessername);
+                    lblValStation.setText(stationierung);
+                    lblValWkName.setText(wk_name);
+                }
+            });
     }
 
     @Override
     public void dispose() {
+        bindingGroup.unbind();
     }
 }

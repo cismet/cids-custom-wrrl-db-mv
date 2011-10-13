@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.WkkSearch;
@@ -58,6 +59,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFliessgewaesser;
     private javax.swing.JLabel lblBearbeiter;
     private javax.swing.JLabel lblDatum;
+    private javax.swing.JLabel lblFotoNr;
     private javax.swing.JLabel lblGewaesserabschnitt;
     private javax.swing.JLabel lblGewaesserkennzahl;
     private javax.swing.JLabel lblGewaessername;
@@ -74,6 +76,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JSeparator sepMiddle;
     private de.cismet.cids.editors.DefaultBindableTimestampChooser timErfassungsdatum;
     private javax.swing.JTextField txtBearbeiter;
+    private javax.swing.JTextField txtFotoNr;
     private javax.swing.JTextField txtGewaesserabschnitt;
     private javax.swing.JTextField txtGewaesserkennzahl;
     private javax.swing.JTextField txtGewaessername;
@@ -89,9 +92,19 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
      * Creates new form WkFgPanOne.
      */
     public KartierabschnittStammEditor() {
-        initComponents();
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public KartierabschnittStammEditor(final boolean readOnly) {
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setOtherLinesEnabled(false);
         linearReferencedLineEditor.setLineField("linie");
+        initComponents();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -128,9 +141,11 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblfliessrichtung = new javax.swing.JLabel();
         cbFliessgewaesser = new ScrollableComboBox();
         timErfassungsdatum = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
-        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        linearReferencedLineEditor = linearReferencedLineEditor;
         lblWkType = new javax.swing.JLabel();
         txtWkType = new javax.swing.JTextField();
+        lblFotoNr = new javax.swing.JLabel();
+        txtFotoNr = new javax.swing.JTextField();
 
         setMinimumSize(new java.awt.Dimension(1100, 275));
         setOpaque(false);
@@ -253,7 +268,6 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 25);
         panInfoContent.add(sepMiddle, gridBagConstraints);
 
-        txtGewaesserabschnitt.setEditable(false);
         txtGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(170, 20));
 
@@ -307,7 +321,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblDatum.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblDatum, gridBagConstraints);
@@ -319,7 +333,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblBearbeiter.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblBearbeiter, gridBagConstraints);
@@ -337,7 +351,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -351,9 +365,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblfliessrichtung.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblfliessrichtung, gridBagConstraints);
 
         cbFliessgewaesser.setMinimumSize(new java.awt.Dimension(170, 20));
@@ -369,10 +383,10 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(cbFliessgewaesser, gridBagConstraints);
 
         timErfassungsdatum.setMinimumSize(new java.awt.Dimension(170, 20));
@@ -389,7 +403,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -397,11 +411,11 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         panInfoContent.add(timErfassungsdatum, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panInfoContent.add(linearReferencedLineEditor, gridBagConstraints);
 
         lblWkType.setText(org.openide.util.NbBundle.getMessage(
@@ -427,6 +441,38 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtWkType, gridBagConstraints);
+
+        lblFotoNr.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.lblFotoNr.text")); // NOI18N
+        lblFotoNr.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblFotoNr.setPreferredSize(new java.awt.Dimension(130, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panInfoContent.add(lblFotoNr, gridBagConstraints);
+
+        txtFotoNr.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtFotoNr.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_nr}"),
+                txtFotoNr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        panInfoContent.add(txtFotoNr, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 

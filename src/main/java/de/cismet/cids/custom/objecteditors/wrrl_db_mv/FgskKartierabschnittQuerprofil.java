@@ -12,6 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import java.util.HashMap;
 
 import javax.swing.Icon;
@@ -41,6 +44,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jpProfil;
     private javax.swing.JPanel jpQuer;
@@ -117,6 +121,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittUebersicht1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht();
         jpProfil = new javax.swing.JPanel();
@@ -156,7 +161,17 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -556,7 +571,11 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(jPanel1, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -581,6 +600,22 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 this.cidsBean);
             bindingGroup.bind();
             kartierabschnittUebersicht1.setCidsBean(cidsBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

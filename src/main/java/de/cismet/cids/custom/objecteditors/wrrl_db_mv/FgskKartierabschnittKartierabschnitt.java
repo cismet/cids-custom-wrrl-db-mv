@@ -14,7 +14,13 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import de.cismet.cids.custom.util.CidsBeanSupport;
 
@@ -39,9 +45,11 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
 
     private CidsBean cidsBean;
     private SubTypeDecider decider = new SubTypeDecider();
+    private boolean readOnly = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbSeeausfluss;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccGewaesserSubtyp;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private de.cismet.tools.gui.RoundedPanel jpGewTyp;
@@ -87,8 +95,21 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      * Creates new form WkFgPanOne.
      */
     public FgskKartierabschnittKartierabschnitt() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public FgskKartierabschnittKartierabschnitt(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
         setOpaque(false);
+        if (readOnly) {
+            setReadOnly(readOnly);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -103,8 +124,9 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
-        kartierabschnittStammEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittStammEditor();
+        kartierabschnittStammEditor1 = new KartierabschnittStammEditor(readOnly);
         jpUnterh = new javax.swing.JPanel();
         panInfo1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -146,7 +168,17 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -559,13 +591,17 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         panInfo.add(jpGroesse, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     /**
-     * DOCUMENT ME!
+     * Colo DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
@@ -577,6 +613,11 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         }
     }                                                                                                  //GEN-LAST:event_referencedRadioButtonField1PropertyChange
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -595,6 +636,24 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
             decider.setType((CidsBean)cidsBean.getProperty("gewaessertyp_id"));
             ccGewaesserSubtyp.refreshCheckboxState(decider, false);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
+        }
+
+        this.readOnly = readOnly;
     }
 
     @Override

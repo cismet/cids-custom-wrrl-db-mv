@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.WkkSearch;
 
@@ -72,8 +74,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
      * @param  beans  DOCUMENT ME!
      */
     public FgskReport(final Collection<CidsBean> beans) {
-        super(REPORT_URL, beans);
-        setBeansCollection(false);
+        this(null, beans);
     }
 
     /**
@@ -83,6 +84,17 @@ public final class FgskReport extends AbstractJasperReportPrint {
      */
     public FgskReport(final CidsBean bean) {
         super(REPORT_URL, bean);
+        setBeansCollection(false);
+    }
+
+    /**
+     * Creates a new StadtbildJasperReportPrint object.
+     *
+     * @param  parent  DOCUMENT ME!
+     * @param  beans   DOCUMENT ME!
+     */
+    public FgskReport(final JFrame parent, final Collection<CidsBean> beans) {
+        super(parent, REPORT_URL, beans);
         setBeansCollection(false);
     }
 

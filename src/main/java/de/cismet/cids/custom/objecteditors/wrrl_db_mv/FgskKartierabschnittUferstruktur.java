@@ -18,6 +18,9 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import de.cismet.cids.custom.util.CidsBeanSupport;
 import de.cismet.cids.custom.util.ScrollableComboBox;
 import de.cismet.cids.custom.util.YesNoDecider;
@@ -57,6 +60,7 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
     private javax.swing.JCheckBox cbTypischR;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbUferbewuchsL;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbUferbewuchsR;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jpUferbewuchs;
     private javax.swing.JPanel jpUferverbau;
     private javax.swing.JPanel jpZustand;
@@ -120,6 +124,7 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittUebersicht1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht();
         jpUferbewuchs = new javax.swing.JPanel();
@@ -165,7 +170,17 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
         setMinimumSize(new java.awt.Dimension(1100, 650));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1100, 650));
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setLayout(new java.awt.GridBagLayout());
 
@@ -601,7 +616,11 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         panInfo.add(jpZustand, gridBagConstraints);
 
-        add(panInfo, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -640,35 +659,41 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
     private void refreshState(final CidsBean selectedElement,
             final DefaultBindableRadioButtonField rbField,
             final String fieldname) {
-        try {
-            final boolean enabled = isStateEnabled(selectedElement);
+        new Thread(new Runnable() {
 
-            if (decider == null) {
-                decider = new YesNoDecider(enabled);
-                decider.addPositiveException(getZUferverbauByValue(NONE_VAL_STATE).getMetaObject());
-            } else {
-                decider.setEnable(enabled);
-            }
+                @Override
+                public void run() {
+                    try {
+                        final boolean enabled = isStateEnabled(selectedElement);
 
-            if (!enabled) {
-                final CidsBean none = getZUferverbauByValue(NONE_VAL_STATE);
-                cidsBean.setProperty(fieldname, none);
-                rbField.setSelectedElements(none);
-            } else {
-                final CidsBean selected = (CidsBean)rbField.getSelectedElements();
-                if (selected != null) {
-                    final Integer val = (Integer)selected.getProperty("value");
-                    if (val == NONE_VAL_STATE) {
-                        cidsBean.setProperty(fieldname, getZUferverbauByValue(1));
-                        rbField.setSelectedElements(getZUferverbauByValue(1));
+                        if (decider == null) {
+                            decider = new YesNoDecider(enabled);
+                            decider.addPositiveException(getZUferverbauByValue(NONE_VAL_STATE).getMetaObject());
+                        } else {
+                            decider.setEnable(enabled);
+                        }
+
+                        if (!enabled) {
+                            final CidsBean none = getZUferverbauByValue(NONE_VAL_STATE);
+                            cidsBean.setProperty(fieldname, none);
+                            rbField.setSelectedElements(none);
+                        } else {
+                            final CidsBean selected = (CidsBean)rbField.getSelectedElements();
+                            if (selected != null) {
+                                final Integer val = (Integer)selected.getProperty("value");
+                                if (val == NONE_VAL_STATE) {
+                                    cidsBean.setProperty(fieldname, getZUferverbauByValue(1));
+                                    rbField.setSelectedElements(getZUferverbauByValue(1));
+                                }
+                            }
+                        }
+
+                        rbField.refreshCheckboxState(decider, false);
+                    } catch (final Exception e) {
+                        LOG.error("Error while refreshing the state.", e);
                     }
                 }
-            }
-
-            rbField.refreshCheckboxState(decider, false);
-        } catch (final Exception e) {
-            LOG.error("Error while refreshing the state.", e);
-        }
+            }).start();
     }
 
     /**
@@ -735,6 +760,22 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
             kartierabschnittBesUferstrukturen1.setCidsBean(cidsBean);
             refreshState((CidsBean)cidsBean.getProperty("uferverbau_links_id"), rdZustandL, "z_uferverbau_links_id");
             refreshState((CidsBean)cidsBean.getProperty("uferverbau_rechts_id"), rdZustandR, "z_uferverbau_rechts_id");
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

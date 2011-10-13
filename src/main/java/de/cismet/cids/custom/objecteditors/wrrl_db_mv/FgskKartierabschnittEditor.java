@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -39,6 +42,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             FgskKartierabschnittEditor.class);
 
     //~ Instance fields --------------------------------------------------------
+
+    private boolean readOnly = false;
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -77,8 +82,30 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * Creates new form WkFgEditor.
      */
     public FgskKartierabschnittEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgEditor.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public FgskKartierabschnittEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
+
+        if (readOnly) {
+            fgskKartierabschnittKartierabschnitt1.setReadOnly(readOnly);
+            fgskKartierabschnittLaufentwicklung1.setReadOnly(readOnly);
+            fgskKartierabschnittLaengsprofil1.setReadOnly(readOnly);
+            fgskKartierabschnittQuerprofil1.setReadOnly(readOnly);
+            fgskKartierabschnittSohlenverbau1.setReadOnly(readOnly);
+            fgskKartierabschnittUferstruktur1.setReadOnly(readOnly);
+            fgskKartierabschnittGewaesserumfeld1.setReadOnly(readOnly);
+        } else {
+            fgskKartierabschnittGewaesserumfeld1.setReadOnly(readOnly);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -116,8 +143,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         lblFoot = new javax.swing.JLabel();
         tpMain = new javax.swing.JTabbedPane();
         panKartierabschnitt = new javax.swing.JPanel();
-        fgskKartierabschnittKartierabschnitt1 =
-            new de.cismet.cids.custom.objecteditors.wrrl_db_mv.FgskKartierabschnittKartierabschnitt();
+        fgskKartierabschnittKartierabschnitt1 = new FgskKartierabschnittKartierabschnitt(readOnly);
         panLaufentwicklung = new javax.swing.JPanel();
         fgskKartierabschnittLaufentwicklung1 =
             new de.cismet.cids.custom.objecteditors.wrrl_db_mv.FgskKartierabschnittLaufentwicklung();

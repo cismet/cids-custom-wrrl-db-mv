@@ -28,7 +28,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JFrame;
+import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
+
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.FgskKartierabschnittAggregationTitleComponent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -54,23 +57,18 @@ public abstract class AbstractJasperReportPrint {
     private final String reportURL;
     private JasperPrintWorker jpw;
     private boolean beansCollection = true;
+    private JFrame parentFrame;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new AbstractJasperReportPrint object.
      *
-     * @param   reportURL  DOCUMENT ME!
-     * @param   beans      DOCUMENT ME!
-     *
-     * @throws  NullPointerException  DOCUMENT ME!
+     * @param  reportURL  DOCUMENT ME!
+     * @param  beans      DOCUMENT ME!
      */
     public AbstractJasperReportPrint(final String reportURL, final Collection<CidsBean> beans) {
-        if ((reportURL == null) || (beans == null)) {
-            throw new NullPointerException();
-        }
-        this.reportURL = reportURL;
-        this.beans = beans;
+        this(null, reportURL, beans);
     }
 
     /**
@@ -89,6 +87,24 @@ public abstract class AbstractJasperReportPrint {
         this.beans = new ArrayList<CidsBean>();
         beans.add(bean);
         this.jpw = null;
+    }
+
+    /**
+     * Creates a new AbstractJasperReportPrint object.
+     *
+     * @param   parent     Wenn parent != null, dann wird der aktuelle Fortschritt angezeigt
+     * @param   reportURL  DOCUMENT ME!
+     * @param   beans      DOCUMENT ME!
+     *
+     * @throws  NullPointerException  DOCUMENT ME!
+     */
+    public AbstractJasperReportPrint(final JFrame parent, final String reportURL, final Collection<CidsBean> beans) {
+        if ((reportURL == null) || (beans == null)) {
+            throw new NullPointerException();
+        }
+        this.reportURL = reportURL;
+        this.beans = beans;
+        this.parentFrame = parent;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -181,14 +197,29 @@ public abstract class AbstractJasperReportPrint {
 
         @Override
         protected JasperPrint doInBackground() throws Exception {
+            ProgressMonitor monitor = null;
             final JasperReport jasperReport;
+
+            if (parentFrame != null) {
+                monitor = new ProgressMonitor(
+                        parentFrame,
+                        "erstelle Report",
+                        "",
+                        0,
+                        beans.size()
+                                + 1);
+                monitor.setMillisToDecideToPopup(100);
+                monitor.setMillisToPopup(200);
+            }
             try {
                 jasperReport = (JasperReport)JRLoader.loadObject(getClass().getResourceAsStream(reportURL));
             } catch (Throwable e) {
                 log.error(e);
                 throw new RuntimeException(e);
             }
-
+            if (monitor != null) {
+                monitor.setProgress(1);
+            }
             JasperPrint jasperPrint = null;
             if (isBeansCollection()) {
                 final Map params = generateReportParam(beans);
@@ -196,9 +227,14 @@ public abstract class AbstractJasperReportPrint {
 //                final JRBeanArrayDataSource beanArray = new JRBeanArrayDataSource(beans.toArray());
                 jasperPrint = JasperFillManager.fillReport(jasperReport, params, beanArray);
             } else {
+                int count = 1;
                 for (final CidsBean current : beans) {
                     if (isCancelled()) {
                         return null;
+                    }
+                    if (monitor != null) {
+                        monitor.setProgress(++count);
+                        monitor.setNote(current.toString());
                     }
                     final Map params = generateReportParam(current);
                     final JRBeanArrayDataSource beanArray = new JRBeanArrayDataSource(new CidsBean[] { current });
@@ -209,6 +245,10 @@ public abstract class AbstractJasperReportPrint {
                                     .getPages().get(0));
                     }
                 }
+            }
+
+            if (monitor != null) {
+                monitor.close();
             }
             return jasperPrint;
         }
@@ -240,7 +280,9 @@ public abstract class AbstractJasperReportPrint {
             final JFrame aFrame = new JFrame("Druckvorschau");
             aFrame.getContentPane().add(aViewer);
             final java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-            aFrame.setSize(screenSize.width / 2, screenSize.height / 2);
+            final int width = (((screenSize.width / 2) < 1000) ? (screenSize.width / 2) : 1000);
+            final int height = (((screenSize.height / 2) < 1000) ? (screenSize.height / 2) : 1000);
+            aFrame.setSize(width, height);
             final java.awt.Insets insets = aFrame.getInsets();
             aFrame.setSize(aFrame.getWidth() + insets.left + insets.right,
                 aFrame.getHeight()
