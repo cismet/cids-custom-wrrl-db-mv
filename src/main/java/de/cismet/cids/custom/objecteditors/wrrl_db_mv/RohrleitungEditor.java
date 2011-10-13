@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.MapUtil;
-import de.cismet.cids.custom.util.WrrlEditorTester;
-import de.cismet.cids.custom.util.YesNoConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -653,9 +653,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

@@ -25,7 +25,7 @@ package de.cismet.cids.custom.actions.wrrl_db_mv;
 
 import org.openide.util.lookup.ServiceProvider;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.navigator.utils.AbstractNewObjectToolbarAction;
 import de.cismet.cids.navigator.utils.CidsClientToolbarItem;

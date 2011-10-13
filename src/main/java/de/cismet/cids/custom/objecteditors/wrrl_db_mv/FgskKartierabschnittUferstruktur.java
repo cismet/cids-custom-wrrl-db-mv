@@ -21,9 +21,9 @@ import Sirius.server.middleware.types.MetaObject;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.ScrollableComboBox;
-import de.cismet.cids.custom.util.YesNoDecider;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoDecider;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -630,24 +630,24 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rdUferverbauLPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdUferverbauLPropertyChange
+    private void rdUferverbauLPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rdUferverbauLPropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             refreshState(newValue, rdZustandL, "z_uferverbau_links_id");
         }
-    }                                                                                    //GEN-LAST:event_rdUferverbauLPropertyChange
+    }//GEN-LAST:event_rdUferverbauLPropertyChange
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rdUferverbauRPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdUferverbauRPropertyChange
+    private void rdUferverbauRPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rdUferverbauRPropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             refreshState(newValue, rdZustandR, "z_uferverbau_rechts_id");
         }
-    }                                                                                    //GEN-LAST:event_rdUferverbauRPropertyChange
+    }//GEN-LAST:event_rdUferverbauRPropertyChange
 
     /**
      * DOCUMENT ME!

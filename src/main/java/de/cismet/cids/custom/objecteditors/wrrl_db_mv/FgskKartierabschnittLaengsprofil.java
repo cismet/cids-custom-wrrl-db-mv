@@ -15,7 +15,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
-import de.cismet.cids.custom.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;

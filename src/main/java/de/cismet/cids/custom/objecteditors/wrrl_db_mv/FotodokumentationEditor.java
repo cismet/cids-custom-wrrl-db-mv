@@ -92,10 +92,10 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.JTextComponent;
 
 import de.cismet.cids.custom.reports.FotodokumentationReport;
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.ImageUtil;
-import de.cismet.cids.custom.util.TimestampConverter;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.ImageUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -1552,25 +1552,25 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPictureMouseEntered(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPictureMouseEntered
+    private void lblPictureMouseEntered(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMouseEntered
         lblPicture.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    }                                                                          //GEN-LAST:event_lblPictureMouseEntered
+    }//GEN-LAST:event_lblPictureMouseEntered
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPictureMouseExited(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPictureMouseExited
+    private void lblPictureMouseExited(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMouseExited
         lblPicture.setCursor(Cursor.getDefaultCursor());
-    }                                                                         //GEN-LAST:event_lblPictureMouseExited
+    }//GEN-LAST:event_lblPictureMouseExited
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPictureMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPictureMouseClicked
+    private void lblPictureMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMouseClicked
         final Object selectionObj = lstFotos.getSelectedValue();
         if (selectionObj instanceof CidsBean) {
             final CidsBean selection = (CidsBean)selectionObj;
@@ -1586,28 +1586,28 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         } else {
             btnAddFotoActionPerformed(null);
         }
-    }                                                                          //GEN-LAST:event_lblPictureMouseClicked
+    }//GEN-LAST:event_lblPictureMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddFotoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddFotoActionPerformed
+    private void btnAddFotoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFotoActionPerformed
         if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(this)) {
             final File[] selFiles = fileChooser.getSelectedFiles();
             if ((selFiles != null) && (selFiles.length > 0)) {
                 CismetThreadPool.execute(new ImageUploadWorker(Arrays.asList(selFiles)));
             }
         }
-    }                                                                              //GEN-LAST:event_btnAddFotoActionPerformed
+    }//GEN-LAST:event_btnAddFotoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemFotoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemFotoActionPerformed
+    private void btnRemFotoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemFotoActionPerformed
         final Object[] selection = lstFotos.getSelectedValues();
         if ((selection != null) && (selection.length > 0)) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1646,7 +1646,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 }
             }
         }
-    }                                                                              //GEN-LAST:event_btnRemFotoActionPerformed
+    }//GEN-LAST:event_btnRemFotoActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1688,13 +1688,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstFotosValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstFotosValueChanged
+    private void lstFotosValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstFotosValueChanged
 //        if (isShowing()) {
         if (!evt.getValueIsAdjusting() && listListenerEnabled) {
             loadFoto();
         }
 //        }
-    } //GEN-LAST:event_lstFotosValueChanged
+    }//GEN-LAST:event_lstFotosValueChanged
 
     /**
      * DOCUMENT ME!
@@ -1710,27 +1710,27 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBackActionPerformed
+    private void btnBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         lstFotos.setSelectedIndex(lstFotos.getSelectedIndex() - 1);
-    }                                                                           //GEN-LAST:event_btnBackActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
+    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
         lstFotos.setSelectedIndex(lstFotos.getSelectedIndex() + 1);
-    }                                                                              //GEN-LAST:event_btnForwardActionPerformed
+    }//GEN-LAST:event_btnForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnReportActionPerformed
+    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
         FotodokumentationReport.showReport(cidsBean);
-    }                                                                             //GEN-LAST:event_btnReportActionPerformed
+    }//GEN-LAST:event_btnReportActionPerformed
 
     /**
      * DOCUMENT ME!

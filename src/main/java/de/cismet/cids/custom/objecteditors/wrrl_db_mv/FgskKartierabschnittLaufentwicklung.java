@@ -23,7 +23,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -818,7 +818,7 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbNeStateChanged
         if (cbNe.isSelected()) {
             boolean nothing = true;
             nothing &= (CidsBeanSupport.textToDouble(tfUfkg, 0.0) == 0.0);
@@ -838,14 +838,14 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 cbNe.setSelected(false);
             }
         }
-    } //GEN-LAST:event_cbNeStateChanged
+    }//GEN-LAST:event_cbNeStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbNe1StateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNe1StateChanged
+    private void cbNe1StateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbNe1StateChanged
         if (cbNe1.isSelected()) {
             boolean nothing = true;
             nothing &= (CidsBeanSupport.textToDouble(tfTv, 0.0) == 0.0);
@@ -871,7 +871,7 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
                 cbNe1.setSelected(false);
             }
         }
-    } //GEN-LAST:event_cbNe1StateChanged
+    }//GEN-LAST:event_cbNe1StateChanged
 
     /**
      * DOCUMENT ME!

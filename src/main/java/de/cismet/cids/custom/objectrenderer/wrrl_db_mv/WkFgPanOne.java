@@ -21,8 +21,8 @@ import java.util.Collection;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.*;
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -931,16 +931,16 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImpactAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImpactAbortActionPerformed
+    private void btnImpactAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactAbortActionPerformed
         dlgImpactCataloge.setVisible(false);
-    }                                                                                  //GEN-LAST:event_btnImpactAbortActionPerformed
+    }//GEN-LAST:event_btnImpactAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImpactOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImpactOkActionPerformed
+    private void btnImpactOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactOkActionPerformed
         final Object selection = cbImpactCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -952,23 +952,23 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             }
         }
         dlgImpactCataloge.setVisible(false);
-    }                                                                               //GEN-LAST:event_btnImpactOkActionPerformed
+    }//GEN-LAST:event_btnImpactOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcAbortActionPerformed
+    private void btnMenImpactSrcAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcAbortActionPerformed
         dlgImpactSrcCataloge.setVisible(false);
-    }                                                                                        //GEN-LAST:event_btnMenImpactSrcAbortActionPerformed
+    }//GEN-LAST:event_btnMenImpactSrcAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
+    private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
         final Object selection = cbImpactSrcCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -980,7 +980,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             }
         }
         dlgImpactSrcCataloge.setVisible(false);
-    }                                                                                     //GEN-LAST:event_btnMenImpactSrcOkActionPerformed
+    }//GEN-LAST:event_btnMenImpactSrcOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

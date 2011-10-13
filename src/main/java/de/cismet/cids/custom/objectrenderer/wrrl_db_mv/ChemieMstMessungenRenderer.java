@@ -18,7 +18,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor;
-import de.cismet.cids.custom.util.YesNoConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 

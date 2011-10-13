@@ -21,8 +21,8 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -189,7 +189,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemWirkungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWirkungActionPerformed
+    private void btnRemWirkungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemWirkungActionPerformed
         final Object selection = lstWirkung.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -209,7 +209,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 }
             }
         }
-    }                                                                                 //GEN-LAST:event_btnRemWirkungActionPerformed
+    }//GEN-LAST:event_btnRemWirkungActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

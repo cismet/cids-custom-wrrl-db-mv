@@ -13,8 +13,8 @@ import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.FgskHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.FgskHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -512,18 +512,18 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbKeineLStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineLStateChanged
+    private void cbKeineLStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbKeineLStateChanged
         FgskHelper.nvCheckBoxStateChange(this, cbKeineL, left);
-    }                                                                            //GEN-LAST:event_cbKeineLStateChanged
+    }//GEN-LAST:event_cbKeineLStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbKeineRStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbKeineRStateChanged
+    private void cbKeineRStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbKeineRStateChanged
         FgskHelper.nvCheckBoxStateChange(this, cbKeineR, right);
-    }                                                                            //GEN-LAST:event_cbKeineRStateChanged
+    }//GEN-LAST:event_cbKeineRStateChanged
 
     @Override
     public CidsBean getCidsBean() {

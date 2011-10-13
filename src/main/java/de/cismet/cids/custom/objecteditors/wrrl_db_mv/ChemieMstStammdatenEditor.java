@@ -27,8 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.CoordinateConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.CoordinateConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -551,7 +551,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBack1ActionPerformed
+    private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
         int year = getCurrentlyEnteredYear();
 
         if (--measureNumber < 0) {
@@ -574,13 +574,13 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
                     }
                 }
             }).start();
-    } //GEN-LAST:event_btnBack1ActionPerformed
+    }//GEN-LAST:event_btnBack1ActionPerformed
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
+    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
         int year = getCurrentlyEnteredYear();
 
         noDocumentUpdate = true;
@@ -609,7 +609,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         }
 
         noDocumentUpdate = false;
-    } //GEN-LAST:event_btnForwardActionPerformed
+    }//GEN-LAST:event_btnForwardActionPerformed
 
     /**
      * adds the last processed bean to the beansToSave list, if it is not in, yet.

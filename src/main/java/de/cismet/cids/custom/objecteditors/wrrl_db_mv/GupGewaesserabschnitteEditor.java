@@ -15,8 +15,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.util.gup.UnterhaltungsabschnitteModel;
-import de.cismet.cids.custom.util.gup.UnterhaltungsabschnitteView;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsabschnitteModel;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsabschnitteView;
 
 import de.cismet.cids.dynamics.CidsBean;
 

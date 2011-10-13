@@ -20,12 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.TabbedPaneUITransparent;
-import de.cismet.cids.custom.util.WrrlEditorTester;
-import de.cismet.cids.custom.util.fgsk.eval.Calc;
-import de.cismet.cids.custom.util.fgsk.eval.CalcCache;
-import de.cismet.cids.custom.util.fgsk.eval.ValidationException;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
 
 import de.cismet.cids.dynamics.CidsBean;
 

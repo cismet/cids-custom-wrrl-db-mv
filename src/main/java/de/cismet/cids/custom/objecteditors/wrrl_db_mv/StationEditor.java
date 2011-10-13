@@ -33,11 +33,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import de.cismet.cids.custom.util.MapUtil;
-import de.cismet.cids.custom.util.linearreferencing.FeatureRegistryListener;
-import de.cismet.cids.custom.util.linearreferencing.LineEditorDropBehavior;
-import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
-import de.cismet.cids.custom.util.linearreferencing.LinearReferencingHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistryListener;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LineEditorDropBehavior;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -1195,27 +1195,27 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_splitButtonActionPerformed
+    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splitButtonActionPerformed
         splitPoint();
-    }                                                                               //GEN-LAST:event_splitButtonActionPerformed
+    }//GEN-LAST:event_splitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomButtonActionPerformed
+    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomButtonActionPerformed
         switchBadGeomVisibility();
-    }                                                                                 //GEN-LAST:event_badGeomButtonActionPerformed
+    }//GEN-LAST:event_badGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomCorrectButtonActionPerformed
+    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomCorrectButtonActionPerformed
         correctBadGeomCorrect();
-    }                                                                                        //GEN-LAST:event_badGeomCorrectButtonActionPerformed
+    }//GEN-LAST:event_badGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!

@@ -8,8 +8,8 @@
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.*;
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.MassnahmenUmsetzungCache;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.MassnahmenUmsetzungCache;
 
 import de.cismet.cids.dynamics.CidsBean;
 

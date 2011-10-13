@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-import de.cismet.cids.custom.util.YesNoConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;

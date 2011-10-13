@@ -33,11 +33,11 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.featurerenderer.wrrl_db_mv.LawaFeatureRenderer;
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.LawaTypeNeighbourSearch;
-import de.cismet.cids.custom.util.MapUtil;
-import de.cismet.cids.custom.util.WkkSearch;
-import de.cismet.cids.custom.util.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.LawaTypeNeighbourSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 

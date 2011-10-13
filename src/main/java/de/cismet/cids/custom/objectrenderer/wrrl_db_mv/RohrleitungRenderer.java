@@ -12,7 +12,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.util.YesNoConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 

@@ -12,8 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import de.cismet.cids.custom.util.QualityStatusCodeComparator;
-import de.cismet.cids.custom.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -462,18 +462,18 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtHydroRegjahrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtHydroRegjahrActionPerformed
+    private void txtHydroRegjahrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHydroRegjahrActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_txtHydroRegjahrActionPerformed
+    }//GEN-LAST:event_txtHydroRegjahrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbHymoGk1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbHymoGk1ActionPerformed
+    private void cbHymoGk1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHymoGk1ActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbHymoGk1ActionPerformed
+    }//GEN-LAST:event_cbHymoGk1ActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

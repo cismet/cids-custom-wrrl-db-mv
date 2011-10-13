@@ -16,7 +16,7 @@ import Sirius.server.middleware.types.MetaObject;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 

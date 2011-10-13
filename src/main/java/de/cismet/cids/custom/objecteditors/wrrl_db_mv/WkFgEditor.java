@@ -23,12 +23,12 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.MapUtil;
-import de.cismet.cids.custom.util.TabbedPaneUITransparent;
-import de.cismet.cids.custom.util.TimestampConverter;
-import de.cismet.cids.custom.util.UIUtil;
-import de.cismet.cids.custom.util.WrrlEditorTester;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -566,7 +566,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddAusnahmeActionPerformed
+    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAusnahmeActionPerformed
         try {
             final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("EXCEMPTION");
             final Collection<CidsBean> excemptionCollection = CidsBeanSupport.getBeanCollectionFromProperty(
@@ -576,28 +576,28 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
-    }                                                                                  //GEN-LAST:event_btnAddAusnahmeActionPerformed
+    }//GEN-LAST:event_btnAddAusnahmeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstAusnahmenValueChanged
+    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = lstAusnahmen.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 excemptionEditor.setCidsBean((CidsBean)selObj);
             }
         }
-    }                                                                                       //GEN-LAST:event_lstAusnahmenValueChanged
+    }//GEN-LAST:event_lstAusnahmenValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemAusnahmeActionPerformed
+    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemAusnahmeActionPerformed
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -618,7 +618,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                 }
             }
         }
-    }                                                                                  //GEN-LAST:event_btnRemAusnahmeActionPerformed
+    }//GEN-LAST:event_btnRemAusnahmeActionPerformed
 
     @Override
     public void dispose() {

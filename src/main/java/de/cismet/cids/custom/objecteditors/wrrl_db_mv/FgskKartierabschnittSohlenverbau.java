@@ -21,8 +21,8 @@ import Sirius.server.middleware.types.MetaObject;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.YesNoDecider;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoDecider;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -307,12 +307,12 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rdSohlenverbauPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdSohlenverbauPropertyChange
+    private void rdSohlenverbauPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rdSohlenverbauPropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             refreshState(newValue);
         }
-    }                                                                                     //GEN-LAST:event_rdSohlenverbauPropertyChange
+    }//GEN-LAST:event_rdSohlenverbauPropertyChange
 
     /**
      * DOCUMENT ME!

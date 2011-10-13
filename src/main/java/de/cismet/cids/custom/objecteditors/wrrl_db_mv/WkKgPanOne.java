@@ -18,8 +18,8 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -541,18 +541,18 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddWhyHmwbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddWhyHmwbActionPerformed
+    private void btnAddWhyHmwbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddWhyHmwbActionPerformed
         dlgWhyHmwbsCataloge.setLocationRelativeTo(this);
         dlgWhyHmwbsCataloge.pack();
         dlgWhyHmwbsCataloge.setVisible(true);
-    }                                                                                 //GEN-LAST:event_btnAddWhyHmwbActionPerformed
+    }//GEN-LAST:event_btnAddWhyHmwbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemWhyHmwbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWhyHmwbActionPerformed
+    private void btnRemWhyHmwbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemWhyHmwbActionPerformed
         final Object selection = lstWhyHmwbs.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -572,23 +572,23 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 }
             }
         }
-    }                                                                                 //GEN-LAST:event_btnRemWhyHmwbActionPerformed
+    }//GEN-LAST:event_btnRemWhyHmwbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenWhyHmwbAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenWhyHmwbAbortActionPerformed
+    private void btnMenWhyHmwbAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenWhyHmwbAbortActionPerformed
         dlgWhyHmwbsCataloge.setVisible(false);
-    }                                                                                      //GEN-LAST:event_btnMenWhyHmwbAbortActionPerformed
+    }//GEN-LAST:event_btnMenWhyHmwbAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenWhyHmwbOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenWhyHmwbOkActionPerformed
+    private void btnMenWhyHmwbOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenWhyHmwbOkActionPerformed
         final Object selection = cbWhyHmwbSrcCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -600,7 +600,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             }
         }
         dlgWhyHmwbsCataloge.setVisible(false);
-    }                                                                                   //GEN-LAST:event_btnMenWhyHmwbOkActionPerformed
+    }//GEN-LAST:event_btnMenWhyHmwbOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

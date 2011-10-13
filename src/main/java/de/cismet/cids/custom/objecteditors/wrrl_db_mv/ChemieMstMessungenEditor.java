@@ -22,9 +22,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.util.QualityStatusCodeComparator;
-import de.cismet.cids.custom.util.ScrollableComboBox;
-import de.cismet.cids.custom.util.YesNoConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 

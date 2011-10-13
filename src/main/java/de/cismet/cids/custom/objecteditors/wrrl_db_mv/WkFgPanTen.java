@@ -24,9 +24,9 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.QualityStatusCodeComparator;
-import de.cismet.cids.custom.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -826,25 +826,25 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbBioGkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbBioGkActionPerformed
+    private void cbBioGkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBioGkActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbBioGkActionPerformed
+    }//GEN-LAST:event_cbBioGkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtBenInvGkJahrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtBenInvGkJahrActionPerformed
+    private void txtBenInvGkJahrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBenInvGkJahrActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_txtBenInvGkJahrActionPerformed
+    }//GEN-LAST:event_txtBenInvGkJahrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMstActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMstActionPerformed
+    private void jbMzbMstActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMstActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -852,14 +852,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_mzb_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                                 //GEN-LAST:event_jbMzbMstActionPerformed
+    }//GEN-LAST:event_jbMzbMstActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMst1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMst1ActionPerformed
+    private void jbMzbMst1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMst1ActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -867,14 +867,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_mp_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                                //GEN-LAST:event_jbMzbMst1ActionPerformed
+    }//GEN-LAST:event_jbMzbMst1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMst2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMst2ActionPerformed
+    private void jbMzbMst2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMst2ActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -882,14 +882,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_phytoplankton_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                                           //GEN-LAST:event_jbMzbMst2ActionPerformed
+    }//GEN-LAST:event_jbMzbMst2ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMst3ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMst3ActionPerformed
+    private void jbMzbMst3ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMst3ActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -897,14 +897,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_fische_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }                                                                    //GEN-LAST:event_jbMzbMst3ActionPerformed
+    }//GEN-LAST:event_jbMzbMst3ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbVorbActionPerformed
+    private void jbMzbVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbVorbActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -918,14 +918,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     }
                 }
             }).start();
-    } //GEN-LAST:event_jbMzbVorbActionPerformed
+    }//GEN-LAST:event_jbMzbVorbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMacPhytoVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMacPhytoVorbActionPerformed
+    private void jbMacPhytoVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMacPhytoVorbActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -940,14 +940,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     }
                 }
             }).start();
-    } //GEN-LAST:event_jbMacPhytoVorbActionPerformed
+    }//GEN-LAST:event_jbMacPhytoVorbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPhytoVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPhytoVorbActionPerformed
+    private void jbPhytoVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPhytoVorbActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -962,14 +962,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     }
                 }
             }).start();
-    } //GEN-LAST:event_jbPhytoVorbActionPerformed
+    }//GEN-LAST:event_jbPhytoVorbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbFishVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbFishVorbActionPerformed
+    private void jbFishVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFishVorbActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -984,7 +984,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     }
                 }
             }).start();
-    } //GEN-LAST:event_jbFishVorbActionPerformed
+    }//GEN-LAST:event_jbFishVorbActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

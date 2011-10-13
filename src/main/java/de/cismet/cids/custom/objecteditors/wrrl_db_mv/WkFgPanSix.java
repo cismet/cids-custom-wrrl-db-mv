@@ -28,8 +28,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -972,16 +972,16 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGkPcQkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGkPcQkActionPerformed
+    private void cbGkPcQkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGkPcQkActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbGkPcQkActionPerformed
+    }//GEN-LAST:event_cbGkPcQkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorbActionPerformed
+    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorbActionPerformed
         final CidsBean measure = getTheCurrentlyWorstMeasure();
 
         if (measure != null) {
@@ -1015,7 +1015,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 txtMst.setText("");
             }
         }
-    } //GEN-LAST:event_jbVorbActionPerformed
+    }//GEN-LAST:event_jbVorbActionPerformed
 
     /**
      * DOCUMENT ME!

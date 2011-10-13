@@ -18,8 +18,8 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -757,16 +757,16 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPoorChemAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPoorChemAbortActionPerformed
+    private void btnPoorChemAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPoorChemAbortActionPerformed
         dlgPoorChemCataloge.setVisible(false);
-    }                                                                                    //GEN-LAST:event_btnPoorChemAbortActionPerformed
+    }//GEN-LAST:event_btnPoorChemAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPoorChemOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPoorChemOkActionPerformed
+    private void btnPoorChemOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPoorChemOkActionPerformed
         final Object selection = cbPoorChemCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -778,23 +778,23 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
             }
         }
         dlgPoorChemCataloge.setVisible(false);
-    }                                                                                 //GEN-LAST:event_btnPoorChemOkActionPerformed
+    }//GEN-LAST:event_btnPoorChemOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenTrendTypeAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenTrendTypeAbortActionPerformed
+    private void btnMenTrendTypeAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenTrendTypeAbortActionPerformed
         dlgTrendTypeCataloge.setVisible(false);
-    }                                                                                        //GEN-LAST:event_btnMenTrendTypeAbortActionPerformed
+    }//GEN-LAST:event_btnMenTrendTypeAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenTrendTypeOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenTrendTypeOkActionPerformed
+    private void btnMenTrendTypeOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenTrendTypeOkActionPerformed
         final Object selection = cbTrendTypeCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -808,25 +808,25 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
             }
         }
         dlgTrendTypeCataloge.setVisible(false);
-    }                                                                                     //GEN-LAST:event_btnMenTrendTypeOkActionPerformed
+    }//GEN-LAST:event_btnMenTrendTypeOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddTrendTypeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddTrendTypeActionPerformed
+    private void btnAddTrendTypeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTrendTypeActionPerformed
         dlgTrendTypeCataloge.setLocationRelativeTo(this);
         dlgTrendTypeCataloge.pack();
         dlgTrendTypeCataloge.setVisible(true);
-    }                                                                                   //GEN-LAST:event_btnAddTrendTypeActionPerformed
+    }//GEN-LAST:event_btnAddTrendTypeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemTrendTypeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemTrendTypeActionPerformed
+    private void btnRemTrendTypeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemTrendTypeActionPerformed
         final Object selection = lstTrendTypes.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -846,25 +846,25 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
                 }
             }
         }
-    }                                                                                   //GEN-LAST:event_btnRemTrendTypeActionPerformed
+    }//GEN-LAST:event_btnRemTrendTypeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddPoorChemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPoorChemActionPerformed
+    private void btnAddPoorChemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPoorChemActionPerformed
         dlgPoorChemCataloge.setLocationRelativeTo(this);
         dlgPoorChemCataloge.pack();
         dlgPoorChemCataloge.setVisible(true);
-    }                                                                                  //GEN-LAST:event_btnAddPoorChemActionPerformed
+    }//GEN-LAST:event_btnAddPoorChemActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemPoorChemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemPoorChemActionPerformed
+    private void btnRemPoorChemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemPoorChemActionPerformed
         final Object selection = lstPoorChems.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -884,7 +884,7 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
                 }
             }
         }
-    }                                                                                  //GEN-LAST:event_btnRemPoorChemActionPerformed
+    }//GEN-LAST:event_btnRemPoorChemActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

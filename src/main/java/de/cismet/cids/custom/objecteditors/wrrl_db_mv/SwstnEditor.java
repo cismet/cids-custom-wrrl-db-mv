@@ -15,7 +15,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 

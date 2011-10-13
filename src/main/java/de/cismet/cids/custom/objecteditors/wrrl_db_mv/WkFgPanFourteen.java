@@ -33,9 +33,9 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.ScrollableComboBox;
-import de.cismet.cids.custom.util.WkFgLawaTypeSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.WkFgLawaTypeSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -365,16 +365,16 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAktTypActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAktTypActionPerformed
+    private void cbAktTypActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAktTypActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbAktTypActionPerformed
+    }//GEN-LAST:event_cbAktTypActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbBerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbBerActionPerformed
+    private void jbBerActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBerActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -427,25 +427,25 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                     }
                 }
             }).start();
-    } //GEN-LAST:event_jbBerActionPerformed
+    }//GEN-LAST:event_jbBerActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbReadOnlyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbReadOnlyActionPerformed
+    private void jbReadOnlyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbReadOnlyActionPerformed
         txtIndpolBemerk.setEditable(true);
         cbAktTyp.setEditable(true);
         cbAktTyp.setEnabled(true);
-    }                                                                              //GEN-LAST:event_jbReadOnlyActionPerformed
+    }//GEN-LAST:event_jbReadOnlyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbUeberActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbUeberActionPerformed
+    private void jbUeberActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUeberActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -484,7 +484,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                     }
                 }
             }).start();
-    } //GEN-LAST:event_jbUeberActionPerformed
+    }//GEN-LAST:event_jbUeberActionPerformed
 
     /**
      * DOCUMENT ME!

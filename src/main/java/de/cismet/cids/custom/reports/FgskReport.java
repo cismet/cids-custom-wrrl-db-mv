@@ -45,8 +45,8 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 

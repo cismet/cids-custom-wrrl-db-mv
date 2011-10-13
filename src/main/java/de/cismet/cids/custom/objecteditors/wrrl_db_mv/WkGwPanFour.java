@@ -18,8 +18,8 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.util.CidsBeanSupport;
-import de.cismet.cids.custom.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -523,16 +523,16 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPoorQuantAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPoorQuantAbortActionPerformed
+    private void btnPoorQuantAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPoorQuantAbortActionPerformed
         dlgPoorQuantCataloge.setVisible(false);
-    }                                                                                     //GEN-LAST:event_btnPoorQuantAbortActionPerformed
+    }//GEN-LAST:event_btnPoorQuantAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPoorQuantOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPoorQuantOkActionPerformed
+    private void btnPoorQuantOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPoorQuantOkActionPerformed
         final Object selection = cbPoorQuantCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -546,25 +546,25 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
             }
         }
         dlgPoorQuantCataloge.setVisible(false);
-    }                                                                                  //GEN-LAST:event_btnPoorQuantOkActionPerformed
+    }//GEN-LAST:event_btnPoorQuantOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddPoorQuantActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPoorQuantActionPerformed
+    private void btnAddPoorQuantActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPoorQuantActionPerformed
         dlgPoorQuantCataloge.setLocationRelativeTo(this);
         dlgPoorQuantCataloge.pack();
         dlgPoorQuantCataloge.setVisible(true);
-    }                                                                                   //GEN-LAST:event_btnAddPoorQuantActionPerformed
+    }//GEN-LAST:event_btnAddPoorQuantActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemPoorQuantActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemPoorQuantActionPerformed
+    private void btnRemPoorQuantActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemPoorQuantActionPerformed
         final Object selection = lstPoorQuants.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -584,25 +584,25 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
                 }
             }
         }
-    }                                                                                   //GEN-LAST:event_btnRemPoorQuantActionPerformed
+    }//GEN-LAST:event_btnRemPoorQuantActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactActionPerformed
+    private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactActionPerformed
         dlgImpactCataloge.setLocationRelativeTo(this);
         dlgImpactCataloge.pack();
         dlgImpactCataloge.setVisible(true);
-    }                                                                                //GEN-LAST:event_btnAddImpactActionPerformed
+    }//GEN-LAST:event_btnAddImpactActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemImpactActionPerformed
+    private void btnRemImpactActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactActionPerformed
         final Object selection = lstImpacts.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -622,23 +622,23 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
                 }
             }
         }
-    }                                                                                //GEN-LAST:event_btnRemImpactActionPerformed
+    }//GEN-LAST:event_btnRemImpactActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImpactAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImpactAbortActionPerformed
+    private void btnImpactAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactAbortActionPerformed
         dlgImpactCataloge.setVisible(false);
-    }                                                                                  //GEN-LAST:event_btnImpactAbortActionPerformed
+    }//GEN-LAST:event_btnImpactAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImpactOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImpactOkActionPerformed
+    private void btnImpactOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactOkActionPerformed
         final Object selection = cbImpactCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -650,7 +650,7 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
             }
         }
         cbImpactCataloge.setVisible(false);
-    }                                                                               //GEN-LAST:event_btnImpactOkActionPerformed
+    }//GEN-LAST:event_btnImpactOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

@@ -28,7 +28,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import de.cismet.cids.custom.util.CoordinateConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.CoordinateConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;

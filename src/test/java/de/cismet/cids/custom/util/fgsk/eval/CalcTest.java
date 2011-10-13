@@ -61,7 +61,7 @@ import java.util.Arrays;
 import org.junit.Ignore;
 import static org.junit.Assert.*;
 
-import static de.cismet.cids.custom.util.fgsk.eval.Calc.*;
+import static de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc.*;
 
 /**
  * DOCUMENT ME!

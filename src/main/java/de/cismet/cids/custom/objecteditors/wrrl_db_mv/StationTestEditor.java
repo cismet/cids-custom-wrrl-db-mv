@@ -10,7 +10,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.cismet.cids.custom.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 

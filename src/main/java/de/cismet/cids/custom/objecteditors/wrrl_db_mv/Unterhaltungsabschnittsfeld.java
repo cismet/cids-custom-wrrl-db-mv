@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 
-import de.cismet.cids.custom.util.gup.GUPTableModel;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.GUPTableModel;
 
 import de.cismet.cids.dynamics.CidsBean;
 

@@ -12,7 +12,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JLabel;
 
-import de.cismet.cids.custom.util.BewirtschaftungsendeHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.BewirtschaftungsendeHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
