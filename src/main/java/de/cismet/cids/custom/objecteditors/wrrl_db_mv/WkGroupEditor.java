@@ -326,7 +326,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemWkFgActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemWkFgActionPerformed
+    private void btnRemWkFgActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWkFgActionPerformed
         final Object selection = lstWkFgs.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -338,7 +338,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
                 getWkFgModel().removeElement(selection);
             }
         }
-    }//GEN-LAST:event_btnRemWkFgActionPerformed
+    }                                                                              //GEN-LAST:event_btnRemWkFgActionPerformed
 
     @Override
     public void dispose() {

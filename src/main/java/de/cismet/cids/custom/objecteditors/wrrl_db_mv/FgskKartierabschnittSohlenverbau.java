@@ -307,12 +307,12 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rdSohlenverbauPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rdSohlenverbauPropertyChange
+    private void rdSohlenverbauPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdSohlenverbauPropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             refreshState(newValue);
         }
-    }//GEN-LAST:event_rdSohlenverbauPropertyChange
+    }                                                                                     //GEN-LAST:event_rdSohlenverbauPropertyChange
 
     /**
      * DOCUMENT ME!

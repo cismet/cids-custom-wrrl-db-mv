@@ -438,18 +438,18 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtValWert_numActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValWert_numActionPerformed
+    private void txtValWert_numActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtValWert_numActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtValWert_numActionPerformed
+    } //GEN-LAST:event_txtValWert_numActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtValWert_charActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValWert_charActionPerformed
+    private void txtValWert_charActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtValWert_charActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtValWert_charActionPerformed
+    } //GEN-LAST:event_txtValWert_charActionPerformed
 
     @Override
     public void dispose() {

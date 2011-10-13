@@ -294,7 +294,7 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbNeStateChanged
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
         if (cbNe.isSelected()) {
             boolean nothing = true;
             nothing &= (CidsBeanSupport.textToDouble(tfKolke, 0.0) == 0.0);
@@ -316,7 +316,7 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
                 cbNe.setSelected(false);
             }
         }
-    }//GEN-LAST:event_cbNeStateChanged
+    } //GEN-LAST:event_cbNeStateChanged
 
     /**
      * DOCUMENT ME!

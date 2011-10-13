@@ -972,16 +972,16 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGkPcQkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGkPcQkActionPerformed
+    private void cbGkPcQkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGkPcQkActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbGkPcQkActionPerformed
+    } //GEN-LAST:event_cbGkPcQkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorbActionPerformed
+    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorbActionPerformed
         final CidsBean measure = getTheCurrentlyWorstMeasure();
 
         if (measure != null) {
@@ -1015,7 +1015,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 txtMst.setText("");
             }
         }
-    }//GEN-LAST:event_jbVorbActionPerformed
+    } //GEN-LAST:event_jbVorbActionPerformed
 
     /**
      * DOCUMENT ME!

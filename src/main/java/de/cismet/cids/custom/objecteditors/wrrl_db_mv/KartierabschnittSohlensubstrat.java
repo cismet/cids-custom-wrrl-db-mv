@@ -548,7 +548,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbNeStateChanged
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
         if (cbNe.isSelected()) {
             boolean nothing = true;
             nothing &= CidsBeanSupport.textToDouble(tfBloecke, 0.0) == 0.0;
@@ -582,7 +582,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 cbNe.setSelected(false);
             }
         }
-    }//GEN-LAST:event_cbNeStateChanged
+    } //GEN-LAST:event_cbNeStateChanged
 
     /**
      * DOCUMENT ME!

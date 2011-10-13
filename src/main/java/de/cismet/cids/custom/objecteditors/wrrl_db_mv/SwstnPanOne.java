@@ -670,15 +670,15 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbSw_catPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbSw_catPropertyChange
-    }//GEN-LAST:event_cbSw_catPropertyChange
+    private void cbSw_catPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_cbSw_catPropertyChange
+    }                                                                               //GEN-LAST:event_cbSw_catPropertyChange
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbSw_catItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSw_catItemStateChanged
+    private void cbSw_catItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbSw_catItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             final Object o = evt.getItem();
             if (o instanceof CidsBean) {
@@ -692,7 +692,7 @@ public class SwstnPanOne extends javax.swing.JPanel implements DisposableCidsBea
                 }
             }
         }
-    }//GEN-LAST:event_cbSw_catItemStateChanged
+    }                                                                           //GEN-LAST:event_cbSw_catItemStateChanged
 
     @Override
     public CidsBean getCidsBean() {

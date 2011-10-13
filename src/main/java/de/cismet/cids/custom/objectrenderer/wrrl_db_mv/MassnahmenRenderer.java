@@ -1112,9 +1112,9 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    } //GEN-LAST:event_jCheckBox1ActionPerformed
 
     @Override
     public void dispose() {

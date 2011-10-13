@@ -857,27 +857,27 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbEco_statActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEco_statActionPerformed
+    private void cbEco_statActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbEco_statActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbEco_statActionPerformed
+    } //GEN-LAST:event_cbEco_statActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbEco_stat1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEco_stat1ActionPerformed
+    private void cbEco_stat1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbEco_stat1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbEco_stat1ActionPerformed
+    } //GEN-LAST:event_cbEco_stat1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbChemicalstatusnitratActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbChemicalstatusnitratActionPerformed
+    private void cbChemicalstatusnitratActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbChemicalstatusnitratActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbChemicalstatusnitratActionPerformed
+    } //GEN-LAST:event_cbChemicalstatusnitratActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

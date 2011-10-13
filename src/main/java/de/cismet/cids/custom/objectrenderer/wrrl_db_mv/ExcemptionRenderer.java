@@ -321,16 +321,16 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJustfificationAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustfificationAbortActionPerformed
+    private void btnJustfificationAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJustfificationAbortActionPerformed
         dlgJustificationCataloge.setVisible(false);
-    }//GEN-LAST:event_btnJustfificationAbortActionPerformed
+    }                                                                                          //GEN-LAST:event_btnJustfificationAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJustfificationOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustfificationOkActionPerformed
+    private void btnJustfificationOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJustfificationOkActionPerformed
         final Object selection = cbJustfificationCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -342,7 +342,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
             }
         }
         dlgJustificationCataloge.setVisible(false);
-    }//GEN-LAST:event_btnJustfificationOkActionPerformed
+    }                                                                                       //GEN-LAST:event_btnJustfificationOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

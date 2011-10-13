@@ -814,7 +814,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMstActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMstActionPerformed
+    private void jbMzbMstActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMstActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -822,14 +822,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_mzb_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }//GEN-LAST:event_jbMzbMstActionPerformed
+    }                                                                 //GEN-LAST:event_jbMzbMstActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMst1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMst1ActionPerformed
+    private void jbMzbMst1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMst1ActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -837,14 +837,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_mp_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }//GEN-LAST:event_jbMzbMst1ActionPerformed
+    }                                                                //GEN-LAST:event_jbMzbMst1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMst2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMst2ActionPerformed
+    private void jbMzbMst2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMst2ActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -852,14 +852,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_phytoplankton_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }//GEN-LAST:event_jbMzbMst2ActionPerformed
+    }                                                                           //GEN-LAST:event_jbMzbMst2ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbMzbMst3ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMzbMst3ActionPerformed
+    private void jbMzbMst3ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbMzbMst3ActionPerformed
         new Thread(new Runnable() {
 
                 @Override
@@ -867,7 +867,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                     model.refreshData("gk_fische_gesamt", cidsBean);     // NOI18N
                 }
             }).start();
-    }//GEN-LAST:event_jbMzbMst3ActionPerformed
+    }                                                                    //GEN-LAST:event_jbMzbMst3ActionPerformed
 
     /**
      * DOCUMENT ME!

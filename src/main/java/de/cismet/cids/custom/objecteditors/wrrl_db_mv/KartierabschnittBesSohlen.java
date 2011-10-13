@@ -369,7 +369,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbNeStateChanged
+    private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
         if (cbNe.isSelected()) {
             boolean nothing = true;
             nothing &= (CidsBeanSupport.textToDouble(tfAbwasser, 0.0) == 0.0);
@@ -395,7 +395,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 cbNe.setSelected(false);
             }
         }
-    }//GEN-LAST:event_cbNeStateChanged
+    } //GEN-LAST:event_cbNeStateChanged
 
     /**
      * DOCUMENT ME!

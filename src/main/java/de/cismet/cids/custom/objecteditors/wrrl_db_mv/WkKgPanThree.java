@@ -599,19 +599,19 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactActionPerformed
+    private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
         dlgImpactCataloge.setLocationRelativeTo(this);
         dlgImpactCataloge.pack();
         dlgImpactCataloge.setVisible(true);
-    }//GEN-LAST:event_btnAddImpactActionPerformed
+    }                                                                                //GEN-LAST:event_btnAddImpactActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemImpactActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactActionPerformed
+    private void btnRemImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemImpactActionPerformed
         final Object selection = lstImpact.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -633,23 +633,23 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
                 }
             }
         }
-    }//GEN-LAST:event_btnRemImpactActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemImpactActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImpactAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactAbortActionPerformed
+    private void btnImpactAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImpactAbortActionPerformed
         dlgImpactCataloge.setVisible(false);
-    }//GEN-LAST:event_btnImpactAbortActionPerformed
+    }                                                                                  //GEN-LAST:event_btnImpactAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnImpactOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpactOkActionPerformed
+    private void btnImpactOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnImpactOkActionPerformed
         final Object selection = cbImpactCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -661,23 +661,23 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
             }
         }
         dlgImpactCataloge.setVisible(false);
-    }//GEN-LAST:event_btnImpactOkActionPerformed
+    }                                                                               //GEN-LAST:event_btnImpactOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcAbortActionPerformed
+    private void btnMenImpactSrcAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcAbortActionPerformed
         dlgImpactSrcCataloge.setVisible(false);
-    }//GEN-LAST:event_btnMenImpactSrcAbortActionPerformed
+    }                                                                                        //GEN-LAST:event_btnMenImpactSrcAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
+    private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
         final Object selection = cbImpactSrcCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -691,14 +691,14 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
             }
         }
         dlgImpactSrcCataloge.setVisible(false);
-    }//GEN-LAST:event_btnMenImpactSrcOkActionPerformed
+    }                                                                                     //GEN-LAST:event_btnMenImpactSrcOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactSrc1ActionPerformed
+    private void btnRemImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemImpactSrc1ActionPerformed
         final Object selection = lstImpactSrc.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -720,18 +720,18 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
                 }
             }
         }
-    }//GEN-LAST:event_btnRemImpactSrc1ActionPerformed
+    }                                                                                    //GEN-LAST:event_btnRemImpactSrc1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
+    private void btnAddImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
         dlgImpactSrcCataloge.setLocationRelativeTo(this);
         dlgImpactSrcCataloge.pack();
         dlgImpactSrcCataloge.setVisible(true);
-    }//GEN-LAST:event_btnAddImpactSrc1ActionPerformed
+    }                                                                                    //GEN-LAST:event_btnAddImpactSrc1ActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

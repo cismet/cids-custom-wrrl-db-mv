@@ -605,13 +605,13 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void referencedRadioButtonField1PropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_referencedRadioButtonField1PropertyChange
+    private void referencedRadioButtonField1PropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_referencedRadioButtonField1PropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             decider.setType(newValue);
             ccGewaesserSubtyp.refreshCheckboxState(decider, true);
         }
-    }//GEN-LAST:event_referencedRadioButtonField1PropertyChange
+    }                                                                                                  //GEN-LAST:event_referencedRadioButtonField1PropertyChange
 
     /**
      * DOCUMENT ME!

@@ -818,18 +818,18 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbEcoStatActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEcoStatActionPerformed
+    private void cbEcoStatActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbEcoStatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbEcoStatActionPerformed
+    } //GEN-LAST:event_cbEcoStatActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorbActionPerformed
+    private void jbVorbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorbActionPerformed
         setValues();
-    }//GEN-LAST:event_jbVorbActionPerformed
+    }                                                                          //GEN-LAST:event_jbVorbActionPerformed
 
     /**
      * DOCUMENT ME!

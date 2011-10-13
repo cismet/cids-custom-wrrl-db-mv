@@ -438,18 +438,18 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddMonitorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMonitorActionPerformed
+    private void btnAddMonitorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMonitorActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMonitorCataloge);
         dlgMonitorCataloge.setSize(750, 150);
         dlgMonitorCataloge.setVisible(true);
-    }//GEN-LAST:event_btnAddMonitorActionPerformed
+    }                                                                                 //GEN-LAST:event_btnAddMonitorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemMonitorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMonitorActionPerformed
+    private void btnRemMonitorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMonitorActionPerformed
         final Object selection = lstMonitor.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -469,23 +469,23 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
                 }
             }
         }
-    }//GEN-LAST:event_btnRemMonitorActionPerformed
+    }                                                                                 //GEN-LAST:event_btnRemMonitorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenMonitorAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenMonitorAbortActionPerformed
+    private void btnMenMonitorAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenMonitorAbortActionPerformed
         dlgMonitorCataloge.setVisible(false);
-    }//GEN-LAST:event_btnMenMonitorAbortActionPerformed
+    }                                                                                      //GEN-LAST:event_btnMenMonitorAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenMonitorOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenMonitorOkActionPerformed
+    private void btnMenMonitorOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenMonitorOkActionPerformed
         final Object selection = cbMonitorCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -501,25 +501,25 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
             }
         }
         dlgMonitorCataloge.setVisible(false);
-    }//GEN-LAST:event_btnMenMonitorOkActionPerformed
+    }                                                                                   //GEN-LAST:event_btnMenMonitorOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddQeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddQeActionPerformed
+    private void btnAddQeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddQeActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgQeCataloge);
         dlgQeCataloge.setSize(750, 150);
         dlgQeCataloge.setVisible(true);
-    }//GEN-LAST:event_btnAddQeActionPerformed
+    }                                                                            //GEN-LAST:event_btnAddQeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemQeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemQeActionPerformed
+    private void btnRemQeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemQeActionPerformed
         final Object selection = lstQe.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -539,23 +539,23 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
                 }
             }
         }
-    }//GEN-LAST:event_btnRemQeActionPerformed
+    }                                                                            //GEN-LAST:event_btnRemQeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenQeAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenQeAbortActionPerformed
+    private void btnMenQeAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenQeAbortActionPerformed
         dlgQeCataloge.setVisible(false);
-    }//GEN-LAST:event_btnMenQeAbortActionPerformed
+    }                                                                                 //GEN-LAST:event_btnMenQeAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenQeOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenQeOkActionPerformed
+    private void btnMenQeOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenQeOkActionPerformed
         final Object selection = cbQeCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -571,7 +571,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
             }
         }
         dlgQeCataloge.setVisible(false);
-    }//GEN-LAST:event_btnMenQeOkActionPerformed
+    }                                                                              //GEN-LAST:event_btnMenQeOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
