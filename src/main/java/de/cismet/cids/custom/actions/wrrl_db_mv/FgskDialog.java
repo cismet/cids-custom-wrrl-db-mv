@@ -310,7 +310,7 @@ public class FgskDialog extends javax.swing.JDialog {
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
                     org.jdesktop.layout.LayoutStyle.RELATED,
-                    60,
+                    64,
                     Short.MAX_VALUE).add(jLabel5).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(
                     jSeparator3,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
@@ -371,22 +371,22 @@ public class FgskDialog extends javax.swing.JDialog {
         panSettingsLayout.setHorizontalGroup(
             panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
                 panSettingsLayout.createSequentialGroup().addContainerGap().add(lblRightCaption).addContainerGap(
-                    197,
+                    214,
                     Short.MAX_VALUE)).add(
                 jSeparator4,
                 org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                271,
+                288,
                 Short.MAX_VALUE).add(
                 org.jdesktop.layout.GroupLayout.TRAILING,
                 panSettingsLayout.createSequentialGroup().addContainerGap().add(
                     jSeparator1,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    259,
+                    276,
                     Short.MAX_VALUE)).add(
                 panSettingsLayout.createSequentialGroup().addContainerGap().add(
                     jScrollPane1,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    259,
+                    276,
                     Short.MAX_VALUE)));
         panSettingsLayout.setVerticalGroup(
             panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
@@ -399,7 +399,7 @@ public class FgskDialog extends javax.swing.JDialog {
                     org.jdesktop.layout.LayoutStyle.RELATED).add(
                     jScrollPane1,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    218,
+                    222,
                     Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED).add(
                     jSeparator4,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
@@ -421,7 +421,7 @@ public class FgskDialog extends javax.swing.JDialog {
                         layout.createSequentialGroup().addContainerGap().add(
                             jProgressBar1,
                             org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            277,
+                            294,
                             Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED).add(
                             cmdCancel,
                             org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,

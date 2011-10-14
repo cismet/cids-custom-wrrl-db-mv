@@ -37,8 +37,8 @@ public class FgskKartierabschnittToStringConverter extends CustomToStringConvert
         final Double bis = (Double)statBisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
 
         final String gwkString = (gwk == null) ? "unbekannt" : String.valueOf(gwk);
-        final String vonString = (von == null) ? "unbekannt" : String.valueOf(von.intValue());
-        final String bisString = (bis == null) ? "unbekannt" : String.valueOf(bis.intValue());
+        final String vonString = (von == null) ? "unbekannt" : String.format("%06d", von.intValue());
+        final String bisString = (bis == null) ? "unbekannt" : String.format("%06d", bis.intValue());
 
         return gwkString + " [" + vonString + " - " + bisString + "]";
     }
