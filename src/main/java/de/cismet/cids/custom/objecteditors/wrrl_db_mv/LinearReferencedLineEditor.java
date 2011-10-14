@@ -56,7 +56,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistryListener;
@@ -111,10 +111,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         };
 
     private static final MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             CN_STATION);
     private static final MetaClass MC_STATIONLINIE = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             CN_STATIONLINE);
 
     private static Icon ICON_MERGED_WITH_FROM_POINT = new javax.swing.ImageIcon(LinearReferencedLineEditor.class
@@ -447,7 +447,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("station_linie", LinearReferencedLineEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("station_linie", LinearReferencedLineEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 
     /**
@@ -2577,7 +2577,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  targetIsFrom  DOCUMENT ME!
      */
     private void updateSnappedRealGeoms(final boolean isFrom, final boolean targetIsFrom) {
-        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATIONLINE);
+        final MetaClass mcLine = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, CN_STATIONLINE);
 
         final int ownLineId = getLineBean().getMetaObject().getId();
         final int pointId = getPointBean(isFrom).getMetaObject().getId();

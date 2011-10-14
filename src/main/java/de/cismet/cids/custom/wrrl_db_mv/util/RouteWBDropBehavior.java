@@ -35,6 +35,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LineEditorDropBehavior;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
@@ -54,7 +55,7 @@ public class RouteWBDropBehavior implements LineEditorDropBehavior {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             RouteWBDropBehavior.class);
-    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
 
     //~ Instance fields --------------------------------------------------------
 

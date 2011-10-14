@@ -31,7 +31,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -381,6 +381,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("wk_gw", WkGwEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("wk_gw", WkGwEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
@@ -715,7 +715,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("Rohrleitung", RohrleitungEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("Rohrleitung", RohrleitungEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 
     //~ Inner Classes ----------------------------------------------------------

@@ -32,7 +32,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -59,10 +59,10 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     //~ Instance fields --------------------------------------------------------
 
     private final MetaClass MC_MST_MESS = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "chemie_mst_messungen");
     private final MetaClass MC_MST_STAMM = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "chemie_mst_stammdaten");
 
     //~ Methods ----------------------------------------------------------------
@@ -89,7 +89,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Collection<CidsBean> getSelf() {
         try {
-            final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+            final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
             final String query = "SELECT "
                         + "   " + mcWkFg.getID() + ", "
                         + "   " + mcWkFg.getPrimaryKey() + " "
@@ -114,7 +114,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Collection<CidsBean> getMassnahmen() {
         try {
-            final MetaClass mcMassnahmen = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen");
+            final MetaClass mcMassnahmen = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "massnahmen");
 
             final String query = "SELECT "
                         + "   " + mcMassnahmen.getID() + ", "
@@ -141,7 +141,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Collection<CidsBean> getLawa() {
         try {
-            final MetaClass mcLawa = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "lawa");
+            final MetaClass mcLawa = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "lawa");
 
             final String query = "SELECT "
                         + "   " + mcLawa.getID() + ", "

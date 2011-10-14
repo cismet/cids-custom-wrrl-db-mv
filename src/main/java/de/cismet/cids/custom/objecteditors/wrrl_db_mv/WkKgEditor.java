@@ -33,7 +33,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -495,7 +495,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("wk_kg", WkKgEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("wk_kg", WkKgEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 
     @Override

@@ -23,7 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
@@ -344,7 +344,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      * @return  DOCUMENT ME!
      */
     protected CidsBean createBeanFromRoute(final CidsBean routeBean) {
-        final MetaClass parentMC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, getMetaClassName());
+        final MetaClass parentMC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, getMetaClassName());
         final CidsBean newBean = parentMC.getEmptyInstance().getBean();
 
         LinearReferencedLineEditor.fillFromRoute(routeBean, newBean, getLineField());

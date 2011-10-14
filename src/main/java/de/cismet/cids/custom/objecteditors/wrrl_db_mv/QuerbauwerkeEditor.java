@@ -42,7 +42,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
@@ -359,22 +359,22 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
      * DOCUMENT ME!
      */
     private void updateWaKoerper() {
-        final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
-        final MetaClass mcWkFgTeile = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg_teile");
-        final MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_teil");
+        final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+        final MetaClass mcWkFgTeile = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg_teile");
+        final MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_teil");
         final MetaClass mcLine = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
+                WRRLUtil.DOMAIN_NAME,
                 LinearReferencingConstants.CN_STATIONLINE);
         final MetaClass mcStation = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
+                WRRLUtil.DOMAIN_NAME,
                 LinearReferencingConstants.CN_STATION);
         final MetaClass mcRoute = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
+                WRRLUtil.DOMAIN_NAME,
                 LinearReferencingConstants.CN_ROUTE);
 
-        final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
-        final MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "querbauwerke");
-        final MetaClass mcGeom = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "geom");
+        final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_sg");
+        final MetaClass mcQuerbauwerke = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "querbauwerke");
+        final MetaClass mcGeom = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "geom");
 
         String queryWkFg = "";
         String queryWkSg = "";
@@ -575,6 +575,6 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("Querbauwerke", QuerbauwerkeEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("Querbauwerke", QuerbauwerkeEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 }

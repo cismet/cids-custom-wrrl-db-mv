@@ -14,7 +14,7 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -37,7 +37,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
     //~ Instance fields --------------------------------------------------------
 
-    private MetaClass mc = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "bio_mst_messungen");
+    private MetaClass mc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "bio_mst_messungen");
     private String[][] header = {
             { "MST", "messstelle.messstelle" },       // NOI18N
             { "WK", "messstelle.wk_fg.wk_k" },        // NOI18N

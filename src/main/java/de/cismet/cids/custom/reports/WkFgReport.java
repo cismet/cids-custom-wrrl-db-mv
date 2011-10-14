@@ -16,7 +16,7 @@ import Sirius.server.middleware.types.MetaObject;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -77,7 +77,7 @@ public class WkFgReport {
      */
     public static Collection<CidsBean> getMassnahmen(final int id) {
         try {
-            final MetaClass mcMassnahmen = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen");
+            final MetaClass mcMassnahmen = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "massnahmen");
 
             final String query = "SELECT "
                         + "   " + mcMassnahmen.getID() + ", "

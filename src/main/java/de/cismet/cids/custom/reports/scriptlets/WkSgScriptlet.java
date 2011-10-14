@@ -31,7 +31,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -79,7 +79,7 @@ public class WkSgScriptlet extends JRDefaultScriptlet {
      */
     public Collection<CidsBean> getSelf() {
         try {
-            final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
+            final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_sg");
             final String query = "SELECT "
                         + "   " + mcWkSg.getID() + ", "
                         + "   " + mcWkSg.getPrimaryKey() + " "
@@ -104,9 +104,9 @@ public class WkSgScriptlet extends JRDefaultScriptlet {
      */
     public Collection<CidsBean> getSwstn() {
         try {
-            final MetaClass mcSwstn = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "swstn");
-            final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
-            final MetaClass mcGeom = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "geom");
+            final MetaClass mcSwstn = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "swstn");
+            final MetaClass mcWkSg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_sg");
+            final MetaClass mcGeom = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "geom");
 
             final String query = "SELECT "
                         + "   " + mcSwstn.getID() + ", "

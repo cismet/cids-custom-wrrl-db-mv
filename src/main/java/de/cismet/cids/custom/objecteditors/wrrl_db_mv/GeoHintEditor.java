@@ -32,7 +32,7 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.middleware.types.MetaClass;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -63,7 +63,7 @@ public class GeoHintEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     static {
         PRIORITY_MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
+                WRRLUtil.DOMAIN_NAME,
                 "priority"); // NOI18N
     }
 

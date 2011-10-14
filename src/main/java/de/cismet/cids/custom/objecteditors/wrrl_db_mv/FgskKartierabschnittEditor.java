@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -396,7 +396,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("fgsk_kartierabschnitt", FgskKartierabschnittEditor.class, CidsBeanSupport.DOMAIN_NAME) // NOI18N
+        new WrrlEditorTester("fgsk_kartierabschnitt", FgskKartierabschnittEditor.class, WRRLUtil.DOMAIN_NAME) // NOI18N
         .run();
     }
 

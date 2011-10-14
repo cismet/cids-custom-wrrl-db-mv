@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
@@ -43,8 +44,8 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
     private static final MetaClass IMPACT_MC;
 
     static {
-        POOR_QUANT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.exemption_source_code");
-        IMPACT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.wg_impact_type_code");
+        POOR_QUANT_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.exemption_source_code");
+        IMPACT_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.wg_impact_type_code");
     }
 
     //~ Instance fields --------------------------------------------------------

@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MassnahmenUmsetzungCache;
@@ -65,7 +66,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
             MassnahmenUmsetzungEditor.class);
     public static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
     private static final MetaClass MTC_MC = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "wfd.de_measure_type_code");
 
     //~ Instance fields --------------------------------------------------------

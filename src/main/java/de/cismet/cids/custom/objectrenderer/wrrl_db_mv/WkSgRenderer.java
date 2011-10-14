@@ -17,7 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.reports.WkSgReport;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
@@ -46,7 +46,7 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
     private static final MetaClass AUSNAHME_MC;
 
     static {
-        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EXCEMPTION");
+        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EXCEMPTION");
     }
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 

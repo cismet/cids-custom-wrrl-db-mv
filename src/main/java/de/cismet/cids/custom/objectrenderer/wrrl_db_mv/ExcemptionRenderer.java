@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.DateConverter;
 
@@ -45,7 +46,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
     private static final MetaClass EX_JUST_MC;
 
     static {
-        EX_JUST_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_JUSTIFICATION");
+        EX_JUST_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EX_JUSTIFICATION");
     }
 
     //~ Instance fields --------------------------------------------------------

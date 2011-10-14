@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 
 import javax.swing.JTextField;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -44,7 +45,6 @@ public final class CidsBeanSupport {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBeanSupport.class);
     public static final String FIELD_NOT_SET = "<nicht gesetzt>";
-    public static final String DOMAIN_NAME = "WRRL_DB_MV";
 
     //~ Constructors -----------------------------------------------------------
 
@@ -89,7 +89,7 @@ public final class CidsBeanSupport {
      */
     public static CidsBean createNewCidsBeanFromTableName(final String tableName) throws Exception {
         if (tableName != null) {
-            final MetaClass metaClass = ClassCacheMultiple.getMetaClass(DOMAIN_NAME, tableName);
+            final MetaClass metaClass = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, tableName);
             if (metaClass != null) {
                 return metaClass.getEmptyInstance().getBean();
             }

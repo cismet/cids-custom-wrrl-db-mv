@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CoordinateConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -58,7 +58,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ChemieMstStammdatenEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "chemie_mst_messungen");
 
     //~ Instance fields --------------------------------------------------------

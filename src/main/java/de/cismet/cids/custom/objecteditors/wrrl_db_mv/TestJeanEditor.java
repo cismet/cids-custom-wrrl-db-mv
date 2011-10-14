@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -70,7 +70,7 @@ public class TestJeanEditor extends DefaultCustomObjectEditor implements EditorS
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("TEST_JEAN", TestJeanEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("TEST_JEAN", TestJeanEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 
     @Override

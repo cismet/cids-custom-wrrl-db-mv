@@ -19,6 +19,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
@@ -51,7 +52,7 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     private static final MetaClass AUSNAHME_MC;
 
     static {
-        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EXCEMPTION");
+        AUSNAHME_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EXCEMPTION");
     }
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 
@@ -565,6 +566,6 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("WK_SG", WkSgEditor.class, CidsBeanSupport.DOMAIN_NAME).run();
+        new WrrlEditorTester("WK_SG", WkSgEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 }

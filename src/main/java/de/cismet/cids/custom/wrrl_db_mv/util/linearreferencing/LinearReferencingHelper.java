@@ -27,7 +27,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -43,11 +43,11 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static MetaClass MC_GEOM = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_GEOM);
+    private static MetaClass MC_GEOM = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, CN_GEOM);
     private static MetaClass MC_STATIONLINIE = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             CN_STATIONLINE);
-    private static MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, CN_STATION);
+    private static MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, CN_STATION);
     private static int NEW_STATION_ID = -1;
     private static int NEW_LINE_ID = -1;
 

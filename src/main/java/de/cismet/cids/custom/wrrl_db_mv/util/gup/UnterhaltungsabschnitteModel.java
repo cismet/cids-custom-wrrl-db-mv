@@ -31,6 +31,7 @@ import javax.swing.JLabel;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.WasserkoerperLabel;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -457,7 +458,7 @@ public class UnterhaltungsabschnitteModel implements GUPTableModel {
      * @return  DOCUMENT ME!
      */
     private CidsBean[] readWbsFromServer(final long gwk, final int start, final int end) {
-        final MetaClass mc = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+        final MetaClass mc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
         final String query = "select distinct " + mc.getID() + ", " + mc.getPrimaryKey() + " from "
                     + mc.getTableName() + " fg, wk_fg_teile teile, wk_teil teil, station_linie linie, station von,"
                     + " station bis, route WHERE teile.wk_fg_reference = fg.id AND teile.teil = teil.id AND "

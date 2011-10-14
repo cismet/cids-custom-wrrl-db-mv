@@ -27,6 +27,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MassnahmenUmsetzungCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -64,7 +65,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
     static {
         INDIKATOR_MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
+                WRRLUtil.DOMAIN_NAME,
                 "indikator"); // NOI18N
     }
 
@@ -1513,10 +1514,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private void addImplementationFromAction(final CidsBean act) {
         try {
             final CidsBean newBean = ClassCacheMultiple.getMetaClass(
-                        CidsBeanSupport.DOMAIN_NAME,
-                        "massnahmen_umsetzung")
-                        .getEmptyInstance()
-                        .getBean(); // NOI18N
+                        WRRLUtil.DOMAIN_NAME,
+                        "massnahmen_umsetzung").getEmptyInstance().getBean(); // NOI18N
 
             final List<CidsBean> impls = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung"); // NOI18N
             if (impls != null) {

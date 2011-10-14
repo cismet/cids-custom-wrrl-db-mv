@@ -15,8 +15,8 @@ import java.util.Collection;
 
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.BewirtschaftungsendeHelper;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -276,7 +276,6 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("bewirtschaftungsende", BewirtschaftungsendeEditor.class, CidsBeanSupport.DOMAIN_NAME)
-                .run();
+        new WrrlEditorTester("bewirtschaftungsende", BewirtschaftungsendeEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 }

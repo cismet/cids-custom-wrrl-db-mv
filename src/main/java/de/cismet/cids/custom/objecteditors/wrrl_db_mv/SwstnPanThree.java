@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -25,7 +26,6 @@ import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
@@ -45,8 +45,8 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
     private static final MetaClass QE_TYPES_MC;
 
     static {
-        MONITORINT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.int_monitor_net_code");
-        QE_TYPES_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.quality_element_type_code");
+        MONITORINT_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.int_monitor_net_code");
+        QE_TYPES_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.quality_element_type_code");
     }
 
     //~ Instance fields --------------------------------------------------------

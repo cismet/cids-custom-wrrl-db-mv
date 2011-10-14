@@ -18,6 +18,7 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
@@ -43,8 +44,8 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
     private static final MetaClass TREND_TYPE_MC;
 
     static {
-        POOR_CHEM_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.exemption_source_code");
-        TREND_TYPE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.Pollutant_trend_type_code");
+        POOR_CHEM_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.exemption_source_code");
+        TREND_TYPE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.Pollutant_trend_type_code");
     }
 
     //~ Instance fields --------------------------------------------------------

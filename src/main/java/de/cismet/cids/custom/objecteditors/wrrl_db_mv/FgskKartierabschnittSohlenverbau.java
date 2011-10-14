@@ -21,7 +21,7 @@ import Sirius.server.middleware.types.MetaObject;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoDecider;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -44,7 +44,7 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             FgskKartierabschnittSohlenverbau.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "fgsk_z_sohlenverbau");
     private static final int NONE_VAL = 4;
     private static final int NONE_VAL_STATE = 4;

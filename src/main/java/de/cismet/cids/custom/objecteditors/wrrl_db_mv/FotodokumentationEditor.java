@@ -64,7 +64,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -92,6 +91,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.JTextComponent;
 
 import de.cismet.cids.custom.reports.FotodokumentationReport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ImageUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
@@ -132,7 +132,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final MetaClass WK_FG_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass WK_FG_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(FotodokumentationEditor.class);
     private static final ImageIcon ERROR_ICON = new ImageIcon(FotodokumentationEditor.class.getResource(
                 "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/file-broken.png"));

@@ -21,7 +21,7 @@ import java.util.Collection;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -50,16 +50,16 @@ public class FgskDialog extends javax.swing.JDialog {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FgskDialog.class);
     private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "fgsk_kartierabschnitt");
     private static final MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             LinearReferencingConstants.CN_STATION);
     private static final MetaClass MC_STATIONLINIE = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             LinearReferencingConstants.CN_STATIONLINE);
     private static final MetaClass MC_GEOM = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             LinearReferencingConstants.CN_GEOM);
 
     //~ Instance fields --------------------------------------------------------

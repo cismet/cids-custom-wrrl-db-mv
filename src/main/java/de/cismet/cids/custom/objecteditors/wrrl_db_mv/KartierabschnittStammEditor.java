@@ -21,9 +21,10 @@ import java.util.Collection;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -48,7 +49,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             KartierabschnittStammEditor.class);
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
 
     //~ Instance fields --------------------------------------------------------
 

@@ -25,7 +25,7 @@ package de.cismet.cids.custom.actions.wrrl_db_mv;
 
 import org.openide.util.lookup.ServiceProvider;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.navigator.utils.AbstractNewObjectToolbarAction;
 import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
@@ -49,7 +49,7 @@ public class RohrleitungToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getDomain() {
-        return CidsBeanSupport.DOMAIN_NAME;
+        return WRRLUtil.DOMAIN_NAME;
     }
 
     @Override

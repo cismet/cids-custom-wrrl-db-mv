@@ -49,8 +49,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import de.cismet.cids.custom.actions.wrrl_db_mv.SetHintDialog.Priority;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -136,10 +136,10 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
 
         try {
             final MetaClass priorityMetaClass = ClassCacheMultiple.getMetaClass(
-                    CidsBeanSupport.DOMAIN_NAME,
+                    WRRLUtil.DOMAIN_NAME,
                     "priority");
             final MetaObject priorityMetaObject = SessionManager.getProxy()
-                        .getMetaObject(priorityId, priorityMetaClass.getID(), CidsBeanSupport.DOMAIN_NAME);
+                        .getMetaObject(priorityId, priorityMetaClass.getID(), WRRLUtil.DOMAIN_NAME);
             final CidsBean hint = CidsBeanSupport.createNewCidsBeanFromTableName("geo_hint");
             final CidsBean geometry = CidsBeanSupport.createNewCidsBeanFromTableName("geom");
 

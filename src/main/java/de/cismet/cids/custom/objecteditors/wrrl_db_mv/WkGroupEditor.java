@@ -42,7 +42,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -70,10 +70,10 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkGroupEditor.class);
     private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "wk_fg");
     private static final MetaClass MC_WK_GROUP_AGGR = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "wk_group_aggr");
 
     //~ Instance fields --------------------------------------------------------

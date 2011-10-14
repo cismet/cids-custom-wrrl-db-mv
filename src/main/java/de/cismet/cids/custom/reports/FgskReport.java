@@ -45,8 +45,9 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
-import de.cismet.cids.custom.wrrl_db_mv.util.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -62,7 +63,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final String REPORT_URL = "/de/cismet/cids/custom/reports/fgsk.jasper";
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
     private static final Logger LOG = Logger.getLogger(FgskReport.class);
     private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 

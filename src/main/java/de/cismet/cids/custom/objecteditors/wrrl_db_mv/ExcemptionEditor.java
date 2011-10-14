@@ -19,6 +19,7 @@ import java.util.Collection;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
@@ -27,7 +28,6 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.editors.converters.SqlDateToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -47,10 +47,10 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
     private static final MetaClass EX_DATE_MC;
 
     static {
-        EX_JUST_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_JUSTIFICATION");
-        EX_CAT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_CAT");
-        EX_TYPE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_TYP");
-        EX_DATE_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "EX_DATE");
+        EX_JUST_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EX_JUSTIFICATION");
+        EX_CAT_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EX_CAT");
+        EX_TYPE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EX_TYP");
+        EX_DATE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "EX_DATE");
     }
 
     //~ Instance fields --------------------------------------------------------

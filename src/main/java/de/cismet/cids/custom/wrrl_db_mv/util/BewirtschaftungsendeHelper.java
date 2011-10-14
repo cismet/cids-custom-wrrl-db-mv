@@ -34,6 +34,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -52,15 +54,15 @@ public class BewirtschaftungsendeHelper implements DisposableCidsBeanStore {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BewirtschaftungsendeHelper.class);
 
-    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
     private static final MetaClass MC_WK_FG_TEILE = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "wk_fg_teile");
-    private static final MetaClass MC_WK_TEIL = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_teil");
+    private static final MetaClass MC_WK_TEIL = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_teil");
     private static final MetaClass MC_STATION_LINIE = ClassCacheMultiple.getMetaClass(
-            CidsBeanSupport.DOMAIN_NAME,
+            WRRLUtil.DOMAIN_NAME,
             "station_linie");
-    private static final MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "station");
+    private static final MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station");
 
     public static final String PROP_WK = "wk";
 

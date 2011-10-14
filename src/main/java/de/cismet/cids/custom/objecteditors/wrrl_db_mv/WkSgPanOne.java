@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
@@ -42,8 +43,8 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private static final MetaClass IMPACT_SRC_MC;
 
     static {
-        IMPACT_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.sw_impact_type_code");
-        IMPACT_SRC_MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wfd.pressure_type_code");
+        IMPACT_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.sw_impact_type_code");
+        IMPACT_SRC_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.pressure_type_code");
     }
 
     //~ Instance fields --------------------------------------------------------

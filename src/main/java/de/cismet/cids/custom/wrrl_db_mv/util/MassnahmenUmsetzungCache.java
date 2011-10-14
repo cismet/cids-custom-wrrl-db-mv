@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenUmsetzungEditor;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -39,11 +40,11 @@ public class MassnahmenUmsetzungCache extends Hashtable<String, CidsBean> implem
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             MassnahmenUmsetzungCache.class);
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "massnahmen");
-    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_fg");
-    private static final MetaClass MC_WK_SG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_sg");
-    private static final MetaClass MC_WK_KG = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_kg");
-    private static final MetaClass MC_WK_GW = ClassCacheMultiple.getMetaClass(CidsBeanSupport.DOMAIN_NAME, "wk_gw");
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "massnahmen");
+    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC_WK_SG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_sg");
+    private static final MetaClass MC_WK_KG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_kg");
+    private static final MetaClass MC_WK_GW = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_gw");
     public static final String ACTION_PREFIX = "action";
     public static final String WKK_PREFIX = "wkk";
 

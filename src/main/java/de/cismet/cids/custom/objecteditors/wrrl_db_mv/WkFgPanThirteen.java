@@ -26,6 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -967,7 +968,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
         //~ Static fields/initializers -----------------------------------------
 
         private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                CidsBeanSupport.DOMAIN_NAME,
+                WRRLUtil.DOMAIN_NAME,
                 "chemie_mst_messungen");
 
         //~ Instance fields ----------------------------------------------------
