@@ -111,7 +111,6 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         tpMain.setUI(new TabbedPaneUITransparent());
 
         if (readOnly) {
-            this.calcL = null;
             fgskKartierabschnittKartierabschnitt1.setReadOnly(readOnly);
             fgskKartierabschnittLaufentwicklung1.setReadOnly(readOnly);
             fgskKartierabschnittLaengsprofil1.setReadOnly(readOnly);
@@ -120,15 +119,14 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             fgskKartierabschnittUferstruktur1.setReadOnly(readOnly);
             fgskKartierabschnittGewaesserumfeld1.setReadOnly(readOnly);
         } else {
-            this.calcL = new CalcListener();
-            tpMain.addChangeListener(WeakListeners.change(calcL, tpMain));
-
-            // will only be changed in EDT
-            selectedTabIndex = tpMain.getSelectedIndex();
-
             // fully initialise the cache
             CalcCache.getInstance().init();
         }
+        this.calcL = new CalcListener();
+        tpMain.addChangeListener(WeakListeners.change(calcL, tpMain));
+
+        // will only be changed in EDT
+        selectedTabIndex = tpMain.getSelectedIndex();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -200,9 +198,12 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1105, 700));
-        setPreferredSize(new java.awt.Dimension(1100, 700));
+        setMinimumSize(new java.awt.Dimension(1105, 720));
+        setPreferredSize(new java.awt.Dimension(1100, 720));
         setLayout(new java.awt.BorderLayout());
+
+        tpMain.setMinimumSize(new java.awt.Dimension(1104, 710));
+        tpMain.setPreferredSize(new java.awt.Dimension(1104, 710));
 
         panKartierabschnitt.setOpaque(false);
         panKartierabschnitt.setLayout(new java.awt.GridBagLayout());
@@ -416,6 +417,10 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             final Component leftC = tpMain.getComponentAt(selectedTabIndex);
             final Component enteredC = tpMain.getSelectedComponent();
 
+            if (!handleSonderfall() || readOnly) {
+                return;
+            }
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug("editor tab selection changed from old comp: " + leftC + "to new comp: " + enteredC); // NOI18N
             }
@@ -614,6 +619,75 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             } finally {
                 selectedTabIndex = tpMain.getSelectedIndex();
             }
+
+            if (selectedTabIndex == 7) {
+                fgskKartierabschnittErgebnisse1.refreshGueteklasse();
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  true, iff the calculations should be done
+         */
+        private boolean handleSonderfall() {
+            final CidsBean sonderfall = (CidsBean)cidsBean.getProperty("sonderfall_id");
+
+            if ((sonderfall != null) && (((Integer)sonderfall.getProperty("id")).intValue() == 1)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("property sonderfall is set to verrohrt"); // NOI18N
+                }
+
+                if (!readOnly) {
+                    try {
+                        cidsBean.setProperty("punktzahl_gesamt", 0.0);
+                        cidsBean.setProperty("punktzahl_sohle", null);
+                        cidsBean.setProperty("punktzahl_ufer", null);
+                        cidsBean.setProperty("punktzahl_land", null);
+                        cidsBean.setProperty("laufentwicklung_summe_punktzahl", null);
+                        cidsBean.setProperty("laufentwicklung_anzahl_kriterien", null);
+                        cidsBean.setProperty("laengsprofil_summe_punktzahl", null);
+                        cidsBean.setProperty("laengsprofil_anzahl_kriterien", null);
+                        cidsBean.setProperty("querprofil_summe_punktzahl", null);
+                        cidsBean.setProperty("querprofil_anzahl_kriterien", null);
+                        cidsBean.setProperty("sohlenstruktur_summe_punktzahl", null);
+                        cidsBean.setProperty("sohlenstruktur_anzahl_kriterien", null);
+                        cidsBean.setProperty("uferstruktur_summe_punktzahl", null);
+                        cidsBean.setProperty("uferstruktur_anzahl_kriterien", null);
+                        cidsBean.setProperty("uferstruktur_summe_punktzahl_links", null);
+                        cidsBean.setProperty("uferstruktur_anzahl_kriterien_links", null);
+                        cidsBean.setProperty("uferstruktur_summe_punktzahl_rechts", null);
+                        cidsBean.setProperty("uferstruktur_anzahl_kriterien_rechts", null);
+                        cidsBean.setProperty("gewaesserumfeld_summe_punktzahl", null);
+                        cidsBean.setProperty("gewaesserumfeld_anzahl_kriterien", null);
+                        cidsBean.setProperty("gewaesserumfeld_summe_punktzahl_links", null);
+                        cidsBean.setProperty("gewaesserumfeld_anzahl_kriterien_links", null);
+                        cidsBean.setProperty("gewaesserumfeld_summe_punktzahl_rechts", null);
+                        cidsBean.setProperty("gewaesserumfeld_anzahl_kriterien_rechts", null);
+                        fgskKartierabschnittErgebnisse1.refreshGueteklasse();
+                    } catch (final Exception ex) {
+                        LOG.error("Error while setting a property", ex);
+                    }
+                }
+
+                if ((tpMain.getSelectedIndex() != 7) && (tpMain.getSelectedIndex() != 0)) {
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.noChangePossible.message"),
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.noChangePossible.title"),
+                        JOptionPane.INFORMATION_MESSAGE);
+                    tpMain.setSelectedIndex(selectedTabIndex);
+                } else {
+                    selectedTabIndex = tpMain.getSelectedIndex();
+                }
+                return false;
+            }
+
+            return true;
         }
     }
 }

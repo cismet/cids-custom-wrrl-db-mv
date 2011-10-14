@@ -82,7 +82,9 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
         lblNoSelection = new javax.swing.JLabel();
         lblLab = new javax.swing.JLabel();
 
+        setMinimumSize(new java.awt.Dimension(1100, 870));
         setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(1100, 870));
         setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(250, 100));

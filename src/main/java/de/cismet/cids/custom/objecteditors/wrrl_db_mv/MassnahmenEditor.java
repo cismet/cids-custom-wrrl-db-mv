@@ -38,7 +38,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.MaxWBNumberSearch;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.MaxWBNumberSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MeasureTypeCodeRenderer;
@@ -1567,27 +1567,27 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    } //GEN-LAST:event_jCheckBox1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDe_measActionPerformed
+    private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddDe_measActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas);
         dlgMeas.setSize(750, 150);
         dlgMeas.setVisible(true);
-    }//GEN-LAST:event_btnAddDe_measActionPerformed
+    }                                                                                 //GEN-LAST:event_btnAddDe_measActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemDeMeasActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemDeMeasActionPerformed
+    private void btnRemDeMeasActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemDeMeasActionPerformed
         final Object selection = lstdeMeas.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1609,25 +1609,25 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemDeMeasActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemDeMeasActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddMeas15ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMeas15ActionPerformed
+    private void btnAddMeas15ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMeas15ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas15);
         dlgMeas15.setSize(750, 150);
         dlgMeas15.setVisible(true);
-    }//GEN-LAST:event_btnAddMeas15ActionPerformed
+    }                                                                                //GEN-LAST:event_btnAddMeas15ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemMeas15ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMeas15ActionPerformed
+    private void btnRemMeas15ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMeas15ActionPerformed
         final Object selection = lstMeas15.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1649,25 +1649,25 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemMeas15ActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemMeas15ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddMeas21ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMeas21ActionPerformed
+    private void btnAddMeas21ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMeas21ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas21);
         dlgMeas21.setSize(750, 150);
         dlgMeas21.setVisible(true);
-    }//GEN-LAST:event_btnAddMeas21ActionPerformed
+    }                                                                                //GEN-LAST:event_btnAddMeas21ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemMeas21ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMeas21ActionPerformed
+    private void btnRemMeas21ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMeas21ActionPerformed
         final Object selection = lstMeas21.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1689,23 +1689,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemMeas21ActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemMeas21ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeasAbortActionPerformed
+    private void btnMeasAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasAbortActionPerformed
         dlgMeas.setVisible(false);
-    }//GEN-LAST:event_btnMeasAbortActionPerformed
+    }                                                                                //GEN-LAST:event_btnMeasAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeasOkActionPerformed
+    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasOkActionPerformed
         final Object selection = cbMeasCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final Thread t = new Thread(new Runnable() {
@@ -1734,7 +1734,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         }
 
         dlgMeas.setVisible(false);
-    }//GEN-LAST:event_btnMeasOkActionPerformed
+    } //GEN-LAST:event_btnMeasOkActionPerformed
 
     /**
      * set the field supple_cd with the label 'EU-Massnahmentyp' on the recommended value, which is derived from the
@@ -1798,16 +1798,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas15AbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas15AbortActionPerformed
+    private void btnMeas15AbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeas15AbortActionPerformed
         dlgMeas15.setVisible(false);
-    }//GEN-LAST:event_btnMeas15AbortActionPerformed
+    }                                                                                  //GEN-LAST:event_btnMeas15AbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas15OkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas15OkActionPerformed
+    private void btnMeas15OkActionPerformed(final java.awt.event.ActionEvent evt) {                                     //GEN-FIRST:event_btnMeas15OkActionPerformed
         final Object selection = cbMeas15Cataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -1819,23 +1819,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             }
         }
         dlgMeas15.setVisible(false);
-    }//GEN-LAST:event_btnMeas15OkActionPerformed
+    }                                                                                                                   //GEN-LAST:event_btnMeas15OkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas21AbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas21AbortActionPerformed
+    private void btnMeas21AbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeas21AbortActionPerformed
         dlgMeas21.setVisible(false);
-    }//GEN-LAST:event_btnMeas21AbortActionPerformed
+    }                                                                                  //GEN-LAST:event_btnMeas21AbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas21OkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas21OkActionPerformed
+    private void btnMeas21OkActionPerformed(final java.awt.event.ActionEvent evt) {                                     //GEN-FIRST:event_btnMeas21OkActionPerformed
         final Object selection = cbMeas21Cataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -1847,7 +1847,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             }
         }
         dlgMeas21.setVisible(false);
-    }//GEN-LAST:event_btnMeas21OkActionPerformed
+    }                                                                                                                   //GEN-LAST:event_btnMeas21OkActionPerformed
 
     /**
      * DOCUMENT ME!

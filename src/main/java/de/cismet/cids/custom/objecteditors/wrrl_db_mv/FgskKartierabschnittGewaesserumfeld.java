@@ -383,8 +383,8 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         panInfo.add(jpZustand, gridBagConstraints);
 
-        kartierabschnittBesUmfeld1.setMinimumSize(new java.awt.Dimension(540, 130));
-        kartierabschnittBesUmfeld1.setPreferredSize(new java.awt.Dimension(540, 130));
+        kartierabschnittBesUmfeld1.setMinimumSize(new java.awt.Dimension(540, 115));
+        kartierabschnittBesUmfeld1.setPreferredSize(new java.awt.Dimension(540, 110));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -393,7 +393,7 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(kartierabschnittBesUmfeld1, gridBagConstraints);
 
-        kartierabschnittSchaeUmfeldstrukturen1.setMinimumSize(new java.awt.Dimension(540, 130));
+        kartierabschnittSchaeUmfeldstrukturen1.setMinimumSize(new java.awt.Dimension(540, 115));
         kartierabschnittSchaeUmfeldstrukturen1.setPreferredSize(new java.awt.Dimension(540, 130));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -403,9 +403,9 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         panInfo.add(kartierabschnittSchaeUmfeldstrukturen1, gridBagConstraints);
 
-        jpBemerkungen.setMinimumSize(new java.awt.Dimension(1100, 250));
+        jpBemerkungen.setMinimumSize(new java.awt.Dimension(1100, 75));
         jpBemerkungen.setOpaque(false);
-        jpBemerkungen.setPreferredSize(new java.awt.Dimension(1100, 250));
+        jpBemerkungen.setPreferredSize(new java.awt.Dimension(1100, 75));
         jpBemerkungen.setLayout(new java.awt.BorderLayout());
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
@@ -459,7 +459,6 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(jpBemerkungen, gridBagConstraints);
 

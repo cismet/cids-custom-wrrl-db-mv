@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RoundedNumberConverter;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -100,7 +102,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JTextField txtCourseEvoRating;
     private javax.swing.JTextField txtCrossProfileCritCount;
     private javax.swing.JTextField txtCrossProfileRating;
-    private javax.swing.JTextField txtGewaessername;
+    private javax.swing.JTextField txtGueteklasse;
     private javax.swing.JTextField txtLongProfileCritCount;
     private javax.swing.JTextField txtLongProfileRating;
     private javax.swing.JTextField txtWBEnvCritCountLeft;
@@ -145,7 +147,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         panInfoContent1 = new javax.swing.JPanel();
         lblSpacing1 = new javax.swing.JLabel();
         lblGewaessername = new javax.swing.JLabel();
-        txtGewaessername = new javax.swing.JTextField();
+        txtGueteklasse = new javax.swing.JTextField();
         lblWBRating = new javax.swing.JLabel();
         txtWBRating = new javax.swing.JTextField();
         lblBedRating = new javax.swing.JLabel();
@@ -236,9 +238,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         panInfo.add(kartierabschnittUebersicht1, gridBagConstraints);
 
-        jpGesamt.setMinimumSize(new java.awt.Dimension(727, 260));
+        jpGesamt.setMinimumSize(new java.awt.Dimension(727, 230));
         jpGesamt.setOpaque(false);
-        jpGesamt.setPreferredSize(new java.awt.Dimension(727, 260));
+        jpGesamt.setPreferredSize(new java.awt.Dimension(727, 230));
         jpGesamt.setLayout(new java.awt.BorderLayout());
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
@@ -275,17 +277,17 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent1.add(lblGewaessername, gridBagConstraints);
 
-        txtGewaessername.setBorder(null);
-        txtGewaessername.setEnabled(false);
-        txtGewaessername.setMinimumSize(new java.awt.Dimension(170, 20));
-        txtGewaessername.setPreferredSize(new java.awt.Dimension(170, 20));
+        txtGueteklasse.setBorder(null);
+        txtGueteklasse.setEnabled(false);
+        txtGueteklasse.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtGueteklasse.setPreferredSize(new java.awt.Dimension(170, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(txtGewaessername, gridBagConstraints);
+        panInfoContent1.add(txtGueteklasse, gridBagConstraints);
 
         lblWBRating.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
@@ -312,6 +314,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_gesamt}"),
                 txtWBRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(RoundedNumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -347,6 +350,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_sohle}"),
                 txtBedRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(RoundedNumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -382,6 +386,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_ufer}"),
                 txtBankRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(RoundedNumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -418,6 +423,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_land}"),
                 txtWBEnvRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(RoundedNumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -440,9 +446,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panInfo.add(jpGesamt, gridBagConstraints);
 
-        jpLegende.setMinimumSize(new java.awt.Dimension(353, 260));
+        jpLegende.setMinimumSize(new java.awt.Dimension(353, 230));
         jpLegende.setOpaque(false);
-        jpLegende.setPreferredSize(new java.awt.Dimension(353, 260));
+        jpLegende.setPreferredSize(new java.awt.Dimension(353, 230));
         jpLegende.setLayout(new java.awt.BorderLayout());
 
         panHeadInfo2.setBackground(new java.awt.Color(51, 51, 51));
@@ -1351,6 +1357,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 this.cidsBean);
             bindingGroup.bind();
             kartierabschnittUebersicht1.setCidsBean(cidsBean);
+            refreshGueteklasse();
         }
     }
 
@@ -1358,5 +1365,29 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void refreshGueteklasse() {
+        String gueteklasse = "keine";
+
+        final Double p = (Double)cidsBean.getProperty("punktzahl_gesamt");
+
+        if (p != null) {
+            if (p <= 1.5) {
+                gueteklasse = "5";
+            } else if (p <= 2.5) {
+                gueteklasse = "4";
+            } else if (p <= 3.5) {
+                gueteklasse = "3";
+            } else if (p <= 4.5) {
+                gueteklasse = "2";
+            } else if (p > 4.5) {
+                gueteklasse = "1";
+            }
+        }
+        txtGueteklasse.setText(gueteklasse);
     }
 }
