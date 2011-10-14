@@ -449,5 +449,7 @@ public class FgskKartierabschnittSohlenverbau extends javax.swing.JPanel impleme
         kartierabschnittSohlenstrukturen1.dispose();
         kartierabschnittSohlensubstrat1.dispose();
         kartierabschnittBesSohlen1.dispose();
+        rdSohlenverbau.dispose();
+        rdZustand.dispose();
     }
 }

@@ -918,6 +918,8 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
+        rdErosion.dispose();
+        rdLaufkruemmung.dispose();
     }
 
     /**

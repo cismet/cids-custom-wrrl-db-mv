@@ -44,14 +44,14 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
     private final transient FgskKartierabschnittAggregationTitleComponent titleComponent;
 
     private transient Collection<CidsBean> cidsBeans;
-    private FgskKartierabschnittRenderer kartierabschnittRenderer;
+//    private FgskKartierabschnittRenderer kartierabschnittRenderer;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.FgskKartierabschnittRenderer fgskKartierabschnittRenderer1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JList jlKartierListe;
     private javax.swing.JLabel lblLab;
-    private javax.swing.JLabel lblNoSelection;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -61,7 +61,6 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
      */
     public FgskKartierabschnittAggregationRenderer() {
         initComponents();
-
         titleComponent = new FgskKartierabschnittAggregationTitleComponent();
     }
 
@@ -79,8 +78,9 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
         jScrollPane1 = new javax.swing.JScrollPane();
         jlKartierListe = new javax.swing.JList();
         jSeparator1 = new javax.swing.JSeparator();
-        lblNoSelection = new javax.swing.JLabel();
         lblLab = new javax.swing.JLabel();
+        fgskKartierabschnittRenderer1 =
+            new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.FgskKartierabschnittRenderer();
 
         setMinimumSize(new java.awt.Dimension(1100, 870));
         setOpaque(false);
@@ -112,17 +112,6 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
         gridBagConstraints.weightx = 1.0;
         add(jSeparator1, gridBagConstraints);
 
-        lblNoSelection.setText(org.openide.util.NbBundle.getMessage(
-                FgskKartierabschnittAggregationRenderer.class,
-                "FgskKartierabschnittAggregationRenderer.lblNoSelection.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        add(lblNoSelection, gridBagConstraints);
-
         lblLab.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         lblLab.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittAggregationRenderer.class,
@@ -131,7 +120,15 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         add(lblLab, gridBagConstraints);
-    }                                                                    // </editor-fold>//GEN-END:initComponents
+
+        fgskKartierabschnittRenderer1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        add(fgskKartierabschnittRenderer1, gridBagConstraints);
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -141,28 +138,30 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
     private void jlKartierListeValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlKartierListeValueChanged
         if (!evt.getValueIsAdjusting()) {
             if (jlKartierListe.getSelectedValue() instanceof CidsBean) {
-                if (kartierabschnittRenderer == null) {
-                    remove(lblNoSelection);
-                } else {
-                    kartierabschnittRenderer.dispose();
-                    remove(kartierabschnittRenderer);
-                }
-                kartierabschnittRenderer = new FgskKartierabschnittRenderer();
-                final GridBagConstraints constraint = new GridBagConstraints(
-                        0,
-                        3,
-                        1,
-                        1,
-                        1.0,
-                        1.0,
-                        GridBagConstraints.NORTHWEST,
-                        GridBagConstraints.NONE,
-                        new Insets(10, 10, 10, 10),
-                        0,
-                        0);
-                add(kartierabschnittRenderer, constraint);
-                kartierabschnittRenderer.setOpaque(false);
-                kartierabschnittRenderer.setCidsBean((CidsBean)jlKartierListe.getSelectedValue());
+                fgskKartierabschnittRenderer1.dispose();
+                fgskKartierabschnittRenderer1.setCidsBean((CidsBean)jlKartierListe.getSelectedValue());
+//                if (kartierabschnittRenderer == null) {
+//                    remove(lblNoSelection);
+//                } else {
+//                    kartierabschnittRenderer.dispose();
+//                    remove(kartierabschnittRenderer);
+//                }
+//                kartierabschnittRenderer = new FgskKartierabschnittRenderer();
+//                final GridBagConstraints constraint = new GridBagConstraints(
+//                        0,
+//                        3,
+//                        1,
+//                        1,
+//                        1.0,
+//                        1.0,
+//                        GridBagConstraints.NORTHWEST,
+//                        GridBagConstraints.NONE,
+//                        new Insets(10, 10, 10, 10),
+//                        0,
+//                        0);
+//                add(kartierabschnittRenderer, constraint);
+//                kartierabschnittRenderer.setOpaque(false);
+//                kartierabschnittRenderer.setCidsBean((CidsBean)jlKartierListe.getSelectedValue());
             }
         }
     }                                                                                         //GEN-LAST:event_jlKartierListeValueChanged

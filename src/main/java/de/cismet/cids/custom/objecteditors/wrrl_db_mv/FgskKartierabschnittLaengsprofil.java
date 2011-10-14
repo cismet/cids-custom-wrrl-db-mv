@@ -484,5 +484,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
+        ccGewaesserSubtyp.dispose();
+        rdFliessgeschwindigkeit.dispose();
     }
 }

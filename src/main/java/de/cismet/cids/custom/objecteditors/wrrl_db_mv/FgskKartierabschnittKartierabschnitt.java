@@ -660,6 +660,11 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittStammEditor1.dispose();
+        rdSonderfall.dispose();
+        rdWasserfuehrung.dispose();
+        ccGewaesserSubtyp.dispose();
+        referencedRadioButtonField1.dispose();
+        referencedRadioButtonField2.dispose();
     }
 
     @Override

@@ -631,6 +631,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
          * @return  true, iff the calculations should be done
          */
         private boolean handleSonderfall() {
+            if (cidsBean == null) {
+                return false;
+            }
             final CidsBean sonderfall = (CidsBean)cidsBean.getProperty("sonderfall_id");
 
             if ((sonderfall != null) && (((Integer)sonderfall.getProperty("id")).intValue() == 1)) {

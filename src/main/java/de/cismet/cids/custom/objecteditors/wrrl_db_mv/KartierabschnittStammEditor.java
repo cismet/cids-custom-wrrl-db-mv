@@ -497,6 +497,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                 this.cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
+            txtWk.setText("");
+            txtWkName.setText("");
+            txtWkType.setText("");
             new Thread(new Runnable() {
 
                     @Override

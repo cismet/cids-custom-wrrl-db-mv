@@ -785,5 +785,9 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
         kartierabschnittUebersicht1.dispose();
         kartierabschnittBesUferbelastungen1.dispose();
         kartierabschnittBesUferstrukturen1.dispose();
+        rdUferverbauL.dispose();
+        rdUferverbauR.dispose();
+        rdZustandL.dispose();
+        rdZustandR.dispose();
     }
 }

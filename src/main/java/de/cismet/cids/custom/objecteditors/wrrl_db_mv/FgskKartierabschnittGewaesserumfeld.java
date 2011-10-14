@@ -12,12 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import org.jdesktop.jxlayer.JXLayer;
-import org.jdesktop.jxlayer.plaf.ext.LockableUI;
-
-import org.openide.util.Exceptions;
-
-import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
@@ -520,5 +514,9 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         kartierabschnittUebersicht1.dispose();
         kartierabschnittBesUmfeld1.dispose();
         kartierabschnittSchaeUmfeldstrukturen1.dispose();
+        rdUferverbauL.dispose();
+        rdUferverbauR.dispose();
+        rdZustandL.dispose();
+        rdZustandR.dispose();
     }
 }

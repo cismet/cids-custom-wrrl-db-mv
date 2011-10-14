@@ -623,6 +623,9 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
+        rdErosion.dispose();
+        rdProfil.dispose();
+        rdVarianz.dispose();
     }
 
     @Override
