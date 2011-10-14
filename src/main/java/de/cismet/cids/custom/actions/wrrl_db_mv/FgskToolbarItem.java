@@ -74,7 +74,7 @@ public class FgskToolbarItem extends AbstractAction implements CidsClientToolbar
 
     @Override
     public boolean isVisible() {
-        return false;
+        return true;
     }
 
     /**

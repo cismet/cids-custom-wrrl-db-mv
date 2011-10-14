@@ -151,7 +151,7 @@ public class FgskDialog extends javax.swing.JDialog {
                                 final LinearReferencedPointFeature pointFeature = new LinearReferencedPointFeature(
                                         position,
                                         pointGeom);
-                                // FeatureRegistry.addFeatureToMap(pointFeature);
+
                                 if (fromPointBean != null) {
                                     final LinearReferencedLineFeature lineFeature = new LinearReferencedLineFeature(
                                             pointBeforeFeature,
@@ -162,8 +162,6 @@ public class FgskDialog extends javax.swing.JDialog {
                                     lineGeomBean.setProperty(
                                         LinearReferencingConstants.PROP_GEOM_GEOFIELD,
                                         lineFeature.getGeometry());
-//                                    LOG.fatal(LinearReferencingConstants.PROP_GEOM_GEOFIELD + " "
-//                                                + lineFeature.getGeometry().toText());
 
                                     // linie bean erzeugen
                                     final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
@@ -493,11 +491,10 @@ public class FgskDialog extends javax.swing.JDialog {
                         jProgressBar1.setValue(numOfPersisted++);
 
                         try {
-                            // FeatureRegistry.addFeatureToMap(lineFeature);
-                            fgskBean.persist();
+                            final CidsBean persistedBean = fgskBean.persist();
 
                             // node erzeugen
-                            r.add(new MetaObjectNode(fgskBean));
+                            r.add(new MetaObjectNode(persistedBean));
                         } catch (Exception ex) {
                             LOG.error("error persisting fgsk", ex);
                         }
