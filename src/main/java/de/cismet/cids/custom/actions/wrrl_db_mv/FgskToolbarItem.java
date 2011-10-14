@@ -54,8 +54,8 @@ public class FgskToolbarItem extends AbstractAction implements CidsClientToolbar
      */
     public FgskToolbarItem() {
         setIcon(new ImageIcon(this.getClass().getResource(
-                    "/Sirius/navigator/resource/img/bullet_add.png")));
-        setTooltip("neuen FGSK anlegen");
+                    "/de/cismet/cids/custom/icons/wrrl-db-mv/fgsk.png")));
+        setTooltip("neuen FGSK Kartierabschnitt anlegen");
     }
 
     //~ Methods ----------------------------------------------------------------
