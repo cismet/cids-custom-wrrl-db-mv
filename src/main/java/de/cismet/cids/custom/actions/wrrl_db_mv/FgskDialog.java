@@ -126,7 +126,7 @@ public class FgskDialog extends javax.swing.JDialog {
 
                     fgskBeans.clear();
                     if (routeBean != null) {
-                        final Geometry pointGeom = (Geometry)
+                        final Geometry routeGeom = (Geometry)
                             ((CidsBean)routeBean.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
                                 LinearReferencingConstants.PROP_GEOM_GEOFIELD);
                         final Double[] positions = marksListener.getMarkPositionsOfSelectedFeature();
@@ -137,9 +137,15 @@ public class FgskDialog extends javax.swing.JDialog {
 
                         for (final Double position : positions) {
                             try {
+                                final LinearReferencedPointFeature pointFeature = new LinearReferencedPointFeature(
+                                        position,
+                                        routeGeom);
+
                                 // punkt geom bean erzeugen
                                 final CidsBean pointGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                                pointGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, pointGeom);
+                                pointGeomBean.setProperty(
+                                    LinearReferencingConstants.PROP_GEOM_GEOFIELD,
+                                    pointFeature.getGeometry());
 
                                 // punkt erzeugen
                                 final CidsBean toPointBean = MC_STATION.getEmptyInstance().getBean();
@@ -150,10 +156,6 @@ public class FgskDialog extends javax.swing.JDialog {
                                     LinearReferencingConstants.PROP_STATION_VALUE,
                                     ((Integer)position.intValue()).doubleValue());
                                 toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, routeBean);
-
-                                final LinearReferencedPointFeature pointFeature = new LinearReferencedPointFeature(
-                                        position,
-                                        pointGeom);
 
                                 if (fromPointBean != null) {
                                     final LinearReferencedLineFeature lineFeature = new LinearReferencedLineFeature(
