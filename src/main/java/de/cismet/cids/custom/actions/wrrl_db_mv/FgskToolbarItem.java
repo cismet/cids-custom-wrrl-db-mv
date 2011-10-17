@@ -23,6 +23,10 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
+import Sirius.server.middleware.types.MetaClass;
+
 import org.openide.util.lookup.ServiceProvider;
 
 import java.awt.event.ActionEvent;
@@ -32,7 +36,10 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+
 import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -46,6 +53,12 @@ import de.cismet.tools.gui.StaticSwingTools;
  */
 @ServiceProvider(service = CidsClientToolbarItem.class)
 public class FgskToolbarItem extends AbstractAction implements CidsClientToolbarItem {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "fgsk_kartierabschnitt");
 
     //~ Constructors -----------------------------------------------------------
 
@@ -74,7 +87,7 @@ public class FgskToolbarItem extends AbstractAction implements CidsClientToolbar
 
     @Override
     public boolean isVisible() {
-        return true;
+        return MC_FGSK.getPermissions().hasWritePermission(SessionManager.getSession().getUser().getUserGroup());
     }
 
     /**
