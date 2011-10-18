@@ -170,9 +170,13 @@ public class FgskDialog extends javax.swing.JDialog {
 
                                     // linie bean erzeugen
                                     final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
-                                    lineBean.setProperty(
-                                        LinearReferencingConstants.PROP_STATIONLINIE_FROM,
-                                        fromPointBean);
+                                    // nur bei der ersten linie das from speichern, nach dem persist muss sowieso
+                                    // wieder gemerged und dann müsste diese Bean wieder gelöscht werden
+                                    if (rowIndex == 0) {
+                                        lineBean.setProperty(
+                                            LinearReferencingConstants.PROP_STATIONLINIE_FROM,
+                                            fromPointBean);
+                                    }
                                     lineBean.setProperty(
                                         LinearReferencingConstants.PROP_STATIONLINIE_TO,
                                         toPointBean);
@@ -494,11 +498,23 @@ public class FgskDialog extends javax.swing.JDialog {
                 protected Void doInBackground() throws Exception {
                     jProgressBar1.setMaximum(marksListener.getMarkPositionsOfSelectedFeature().length);
                     int numOfPersisted = 0;
+
+                    CidsBean previousPersistedBean = null;
+
                     for (final CidsBean fgskBean : fgskBeans) {
                         jProgressBar1.setValue(numOfPersisted++);
 
                         try {
                             final CidsBean persistedBean = fgskBean.persist();
+                            if (previousPersistedBean != null) {
+                                // from-station von der vorherigen linie als to-station übernehmen, damit beide
+                                // stationen identisch sind
+                                persistedBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM,
+                                    previousPersistedBean.getProperty(
+                                        "linie."
+                                                + LinearReferencingConstants.PROP_STATIONLINIE_TO));
+                            }
+                            previousPersistedBean = persistedBean;
 
                             // node erzeugen
                             r.add(new MetaObjectNode(persistedBean));
