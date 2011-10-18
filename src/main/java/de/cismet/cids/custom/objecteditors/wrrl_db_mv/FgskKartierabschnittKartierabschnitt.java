@@ -19,9 +19,6 @@ import java.awt.event.MouseListener;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;

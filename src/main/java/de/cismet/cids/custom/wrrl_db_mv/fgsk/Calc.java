@@ -160,9 +160,14 @@ public final class Calc {
     public static final String PROP_WB_BED_RATING = "punktzahl_sohle";                                    // NOI18N
     public static final String PROP_WB_BANK_RATING = "punktzahl_ufer";                                    // NOI18N
     public static final String PROP_WB_ENV_RATING = "punktzahl_land";                                     // NOI18N
+    public static final String PROP_EXCEPTION = "sonderfall_id";
 
     private static final CalcCache cache = CalcCache.getInstance();
     private static final transient Logger LOG = Logger.getLogger(Calc.class);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private final transient int scale;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -170,6 +175,7 @@ public final class Calc {
      * Creates a new Calc object.
      */
     private Calc() {
+        scale = 12;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -193,6 +199,10 @@ public final class Calc {
      * @throws  IllegalStateException  DOCUMENT ME!
      */
     public void calcWBEnvRating(final CidsBean kaBean) throws ValidationException {
+        if (isException(kaBean)) {
+            return;
+        }
+
         calcWBEnvRating(kaBean, true);
         calcWBEnvRating(kaBean, false);
 
@@ -211,9 +221,33 @@ public final class Calc {
 
             throw new IllegalStateException(message, e);
         }
+    }
 
-        // FIXME: shall this be done?
-// updateOverallRating(kaBean);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ValidationException       DOCUMENT ME!
+     * @throws  IllegalArgumentException  DOCUMENT ME!
+     */
+    private boolean isException(final CidsBean kaBean) throws ValidationException {
+        if (kaBean == null) {
+            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        }
+
+        final CidsBean exception = (CidsBean)kaBean.getProperty(PROP_EXCEPTION);
+        if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(PROP_VALUE))) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("aborting calculation, because the kartierabschnitt is an exception: " + kaBean); // NOI18N
+            }
+
+            throw new ValidationException("calculation for exceptional kartierabschnitte is illegal", true);
+        }
+
+        return false;
     }
 
     /**
@@ -222,13 +256,11 @@ public final class Calc {
      * @param   kaBean  DOCUMENT ME!
      * @param   left    DOCUMENT ME!
      *
-     * @throws  ValidationException       DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  DOCUMENT ME!
      */
     public void calcWBEnvRating(final CidsBean kaBean, final boolean left) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (
@@ -237,6 +269,15 @@ public final class Calc {
                         fieldFromCode("PROP_LAND_USE", "", left), // NOI18N
                         fieldFromCode("PROP_WB_TRIMMING", "", left))) { // NOI18N
             throw new ValidationException("the waterbody environment properties contain null values"); // NOI18N
+        }
+
+        final CidsBean exception = (CidsBean)kaBean.getProperty(PROP_EXCEPTION);
+        if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(PROP_VALUE))) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("aborting calculation, because the kartierabschnitt is an exception: " + kaBean); // NOI18N
+            }
+
+            return;
         }
 
         final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
@@ -293,13 +334,11 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
-     * @throws  ValidationException       DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  DOCUMENT ME!
      */
     public void calcWBLongProfileRating(final CidsBean kaBean) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (
@@ -331,7 +370,7 @@ public final class Calc {
         } else {
             // we cannot use Math.round here since it behaves slightly different. Math.round will round .5 up where as
             // the fgsk round will round this down.
-            absCrossBenchCount = (double)round(crossBenchCount / (stationLength / sectionLength));
+            absCrossBenchCount = (double)round(round(crossBenchCount / (stationLength / sectionLength), scale));
         }
 
         final CidsBean flowDiversityBean = (CidsBean)kaBean.getProperty(PROP_FLOW_DIVERSITY);
@@ -361,9 +400,6 @@ public final class Calc {
 
             throw new IllegalStateException(message, e);
         }
-
-        // FIXME: shall this be done?
-// updateOverallRating(kaBean);
     }
 
     /**
@@ -371,13 +407,11 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
-     * @throws  ValidationException       DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  DOCUMENT ME!
      */
     public void calcCourseEvoRating(final CidsBean kaBean) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (!propsNotNull(
@@ -410,7 +444,7 @@ public final class Calc {
         } else if (longBenchSectionLength == null) {
             absLongBenchSum = null;
         } else {
-            absLongBenchSum = (double)round(longBenchSum / (stationLength / longBenchSectionLength));
+            absLongBenchSum = (double)round(round(longBenchSum / (stationLength / longBenchSectionLength), scale));
         }
 
         double courseStructureSum = 0;
@@ -429,7 +463,10 @@ public final class Calc {
         } else if (courseStructureSectionLength == null) {
             absCourseStructureSum = null;
         } else {
-            absCourseStructureSum = (double)round(courseStructureSum / (stationLength / courseStructureSectionLength));
+            absCourseStructureSum = (double)round(round(
+                        courseStructureSum
+                                / (stationLength / courseStructureSectionLength),
+                        scale));
         }
 
         final CidsBean courseLoopBean = (CidsBean)kaBean.getProperty(PROP_COURSE_LOOP);
@@ -455,9 +492,6 @@ public final class Calc {
 
             throw new IllegalStateException(message, e);
         }
-
-        // FIXME: shall this be done?
-// updateOverallRating(kaBean);
     }
 
     /**
@@ -465,13 +499,11 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
-     * @throws  ValidationException       DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  DOCUMENT ME!
      */
     public void calcWBCrossProfileRating(final CidsBean kaBean) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (
@@ -498,7 +530,7 @@ public final class Calc {
         final double waterDepth = (Double)kaBean.getProperty(PROP_WATER_DEPTH);
         final double profileDepth = incisionDepth + waterDepth;
 
-        final double breadthDepthRelation = round(upperProfileBreadth / profileDepth);
+        final double breadthDepthRelation = round(round(upperProfileBreadth / profileDepth, scale));
 
         final CidsBean profileTypeBean = (CidsBean)kaBean.getProperty(PROP_PROFILE_TYPE);
         final CidsBean breadthVarianceBean = (CidsBean)kaBean.getProperty(PROP_BREADTH_VARIANCE);
@@ -535,9 +567,6 @@ public final class Calc {
 
             throw new IllegalStateException(message, e);
         }
-
-        // FIXME: shall this be done?
-// updateOverallRating(kaBean);
     }
 
     /**
@@ -545,13 +574,11 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
-     * @throws  ValidationException       DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  DOCUMENT ME!
      */
     public void calcBedStructureRating(final CidsBean kaBean) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (!propsNotNull(
@@ -613,7 +640,10 @@ public final class Calc {
                 }
             }
 
-            final double absBedStructureCount = round(bedStructureCount / (stationLength / bedStructureSectionLength));
+            final double absBedStructureCount = round(round(
+                        bedStructureCount
+                                / (stationLength / bedStructureSectionLength),
+                        scale));
 
             ratingBedStructure = cache.getBedStructureRating(absBedStructureCount, wbTypeId);
         } else {
@@ -653,8 +683,10 @@ public final class Calc {
 
         final Integer ratingSubstrates;
         if (Equals.nonNull(ratingNaturalSubstrates, ratingArtificialSubstrates, ratingHardSubstrates)) {
-            ratingSubstrates = round((ratingNaturalSubstrates + ratingArtificialSubstrates
-                                + ratingHardSubstrates) / 3.0);
+            ratingSubstrates = round(round(
+                        (ratingNaturalSubstrates + ratingArtificialSubstrates + ratingHardSubstrates)
+                                / 3.0,
+                        scale));
         } else {
             ratingSubstrates = null;
         }
@@ -699,9 +731,6 @@ public final class Calc {
 
             throw new IllegalStateException(message, e);
         }
-
-        // FIXME: shall this be done?
-// updateOverallRating(kaBean);
     }
 
     /**
@@ -714,6 +743,10 @@ public final class Calc {
      * @throws  IllegalStateException  DOCUMENT ME!
      */
     public void calcBankStructureRating(final CidsBean kaBean) throws ValidationException {
+        if (isException(kaBean)) {
+            return;
+        }
+
         calcBankStructureRating(kaBean, true);
         calcBankStructureRating(kaBean, false);
 
@@ -732,9 +765,6 @@ public final class Calc {
 
             throw new IllegalStateException(message, e);
         }
-
-        // FIXME: shall this be done?
-// updateOverallRating(kaBean);
     }
 
     /**
@@ -743,13 +773,11 @@ public final class Calc {
      * @param   kaBean  DOCUMENT ME!
      * @param   left    DOCUMENT ME!
      *
-     * @throws  ValidationException       DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  DOCUMENT ME!
      */
     public void calcBankStructureRating(final CidsBean kaBean, final boolean left) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (
@@ -800,7 +828,11 @@ public final class Calc {
             if (bankStructureCount == 0.5d) {
                 absBankStructureCount = bankStructureCount;
             } else {
-                absBankStructureCount = round(bankStructureCount / stationLength * bankStructureSectionLength);
+                absBankStructureCount = round(round(
+                            bankStructureCount
+                                    / stationLength
+                                    * bankStructureSectionLength,
+                            scale));
             }
 
             ratingBankStructure = cache.getBankStructureRating(absBankStructureCount, wbTypeId);
@@ -860,13 +892,11 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
-     * @throws  ValidationException       UnsupportedOperationException DOCUMENT ME!
-     * @throws  IllegalArgumentException  DOCUMENT ME!
-     * @throws  IllegalStateException     DOCUMENT ME!
+     * @throws  ValidationException  UnsupportedOperationException DOCUMENT ME!
      */
     public void calcOverallRating(final CidsBean kaBean) throws ValidationException {
-        if (kaBean == null) {
-            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        if (isException(kaBean)) {
+            return;
         }
 
         if (
@@ -874,14 +904,13 @@ public final class Calc {
                         kaBean,
                         PROP_COURSE_EVO_SUM_RATING,
                         PROP_COURSE_EVO_SUM_CRIT,
-                        PROP_LONG_PROFILE_SUM_RATING,
-                        PROP_LONG_PROFILE_SUM_CRIT,
                         PROP_BED_STRUCTURE_SUM_RATING,
                         PROP_BED_STRUCTURE_SUM_CRIT,
                         PROP_CROSS_PROFILE_SUM_RATING,
                         PROP_CROSS_PROFILE_SUM_CRIT,
                         PROP_BANK_STRUCTURE_SUM_RATING,
-                        PROP_BANK_STRUCTURE_SUM_CRIT)) {
+                        PROP_BANK_STRUCTURE_SUM_CRIT)
+                    || !propsNotNull(kaBean, PROP_LONG_PROFILE_SUM_RATING, PROP_LONG_PROFILE_SUM_CRIT)) {
             throw new ValidationException("the waterbody rating properties contain null or zero values"); // NOI18N
         }
 
@@ -891,6 +920,20 @@ public final class Calc {
         final int critCountLongProfile = (Integer)kaBean.getProperty(PROP_LONG_PROFILE_SUM_CRIT);
         final double ratingBedStructure = (Double)kaBean.getProperty(PROP_BED_STRUCTURE_SUM_RATING);
         final int critCountBedStructure = (Integer)kaBean.getProperty(PROP_BED_STRUCTURE_SUM_CRIT);
+
+        // they are allowed to be 0 if their wb type is 23
+        if ((ratingLongProfile == 0) || (critCountLongProfile == 0)) {
+            final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
+            if (wbTypeBean == null) {
+                throw new IllegalStateException("kartierabschnitt bean without wb type");
+            } else {
+                final Integer value = (Integer)wbTypeBean.getProperty(PROP_VALUE);
+                if ((value == null) || (value != 23)) {
+                    throw new ValidationException(
+                        "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
+                }
+            }
+        }
 
         final double ratingBed = (ratingCourseEvo + ratingLongProfile + ratingBedStructure)
                     / (critCountCourseEvo + critCountLongProfile + critCountBedStructure);
@@ -957,7 +1000,24 @@ public final class Calc {
      * @return  DOCUMENT ME!
      */
     private int round(final double d) {
+//        return (int)Math.floor(d + 0.5);
         return (int)Math.ceil(d - 0.5);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   d      DOCUMENT ME!
+     * @param   scale  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static double round(final double d, final int scale) {
+        final long factor = Math.round(Math.pow(10, scale));
+
+        final double rounded = Math.floor((d * factor) + 0.5d);
+
+        return rounded / factor;
     }
 
     /**

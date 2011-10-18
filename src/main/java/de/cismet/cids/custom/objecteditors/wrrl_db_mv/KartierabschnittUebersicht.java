@@ -18,7 +18,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
