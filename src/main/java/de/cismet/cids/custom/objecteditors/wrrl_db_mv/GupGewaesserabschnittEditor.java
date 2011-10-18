@@ -15,9 +15,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsabschnitteModel;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsabschnitteView;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -30,12 +27,12 @@ import de.cismet.tools.gui.FooterComponentProvider;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class GupGewaesserabschnitteEditor extends JPanel implements CidsBeanRenderer, FooterComponentProvider {
+public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRenderer, FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupGewaesserabschnitteEditor.class);
+            GupGewaesserabschnittEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -57,7 +54,7 @@ public class GupGewaesserabschnitteEditor extends JPanel implements CidsBeanRend
     /**
      * Creates new form WkFgEditor.
      */
-    public GupGewaesserabschnitteEditor() {
+    public GupGewaesserabschnittEditor() {
         initComponents();
     }
 
@@ -69,9 +66,6 @@ public class GupGewaesserabschnitteEditor extends JPanel implements CidsBeanRend
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
-            final UnterhaltungsabschnitteModel model = new UnterhaltungsabschnitteModel(cidsBean);
-            unterhaltungsabschnittsfeld1.setModel(model);
-            unterhaltungsabschnittsfeld1.addActionListener(new UnterhaltungsabschnitteView(model));
 //            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
 //                bindingGroup,
 //                cidsBean);
