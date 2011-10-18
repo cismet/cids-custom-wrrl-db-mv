@@ -353,17 +353,17 @@
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">id_8</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">wk_k_9</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">8</property>
                         <property name="name">flaeche</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -584,19 +584,19 @@
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">id_8</property>
                     <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">wk_k_9</property>
                     <property name="nativeName">wk_k</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">8</property>
                     <property name="name">flaeche</property>
                     <property name="nativeName">flaeche</property>
                     <property name="dataType">float</property>
@@ -2121,6 +2121,172 @@ WHERE
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="03_lung_fge_bg_total" id="1370">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">wk_k</property>
+                    <text-property name="displayName">wk_k2</text-property>
+                    <text-property name="heading">wk_k</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">gewaesserkategorie</property>
+                    <text-property name="displayName">gewaesserkategorie2</text-property>
+                    <text-property name="heading">gewaesserkategorie</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">tg_n</property>
+                    <text-property name="displayName">tg_n</text-property>
+                    <text-property name="heading">tg_n</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">fge</property>
+                    <property name="paramName">fge</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">bg</property>
+                    <property name="paramName">bg</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">wk_k</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">gewaesserkategorie</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">tg_n</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">wrrl-db</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">wk_k</property>
+                    <property name="nativeName">wk_k</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">gewaesserkategorie</property>
+                    <property name="nativeName">gewaesserkategorie</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">tg_n</property>
+                    <property name="nativeName">tg_n</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT
+    distinct(d.wk_k),
+    d.gewaesserkategorie,
+    g.tg_n
+FROM
+    statistics_dimensions d,
+    ogc.teilgebiete g
+WHERE
+    lower(d.fge) LIKE lower(?)
+    AND lower(d.bg) LIKE lower(?)
+    AND lower(d.gewaesserkategorie) IN ('fliessgewässer', 'standgewässer')
+    AND g.tg_k = d.tg]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:DataSetParameters>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>1</design:position>
+        <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+        <design:precision>0</design:precision>
+        <design:scale>0</design:scale>
+        <design:nullability>Unknown</design:nullability>
+      </design:attributes>
+    </design:parameterDefinitions>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>2</design:position>
+        <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+        <design:precision>0</design:precision>
+        <design:scale>0</design:scale>
+        <design:nullability>Unknown</design:nullability>
+      </design:attributes>
+    </design:parameterDefinitions>
+  </design:DataSetParameters>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>wk_k</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2147483647</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>wk_k</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>wk_k</design:label>
+            <design:formattingHints>
+              <design:displaySize>2147483647</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>gewaesserkategorie</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>128</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>gewaesserkategorie</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>gewaesserkategorie</design:label>
+            <design:formattingHints>
+              <design:displaySize>128</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
     </data-sets>
     <cubes>
         <tabular-cube name="03_lung_fge_bg" id="74">
@@ -2406,6 +2572,35 @@ WHERE
             </property>
             <property name="dataSet">03_lung_fge_bg</property>
         </tabular-cube>
+        <tabular-cube name="03_lung_fge_bg_total" id="1371">
+            <property name="dimensions">
+                <tabular-dimension name="Kategorie" id="1372">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="1373">
+                            <property name="levels">
+                                <tabular-level name="gewaesserkategorie2" id="1374">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">gewaesserkategorie</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Gesamtzahl" id="1375">
+                    <property name="measures">
+                        <tabular-measure name="wk_k2" id="1376">
+                            <property name="function">count-distinct</property>
+                            <expression name="measureExpression" type="javascript">dataSetRow["wk_k"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">03_lung_fge_bg_total</property>
+        </tabular-cube>
     </cubes>
     <page-setup>
         <simple-master-page name="WRRL MasterPage" id="2">
@@ -2578,6 +2773,82 @@ Messstellen
                 </cell>
             </row>
         </grid>
+        <label id="1377">
+            <property name="style">headerSubreport</property>
+            <text-property name="text" key="header_statistic_gesamtzahl"></text-property>
+        </label>
+        <extended-item extensionName="Crosstab" extensionVersion="2.5.0" id="1378">
+            <property name="cube">03_lung_fge_bg_total</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="1385">
+                    <property name="measure">wk_k2</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="1386">
+                            <property name="aggregationOnRow">Kategorie/gewaesserkategorie2</property>
+                            <property name="content">
+                                <data id="1387">
+                                    <property name="style">cellOdd</property>
+                                    <property name="resultSetColumn">wk_k2_Kategorie/gewaesserkategorie2</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="1388">
+                            <property name="content">
+                                <label id="1389">
+                                    <property name="style">cellHeader</property>
+                                    <text-property name="text" key="statistic_count">wk_k2</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="1380">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="1381">
+                            <property name="dimension">Kategorie</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View4" id="1382">
+                                    <property name="level">Kategorie/gewaesserkategorie2</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="1383">
+                                            <property name="content">
+                                                <data name="gewaesserkategorie21" id="1384">
+                                                    <property name="style">cellHeader</property>
+                                                    <property name="resultSetColumn">gewaesserkategorie2</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="header">
+                <extended-item extensionName="CrosstabCell" id="1379"/>
+            </property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">gewaesserkategorie2</property>
+                    <expression name="expression">dimension["Kategorie"]["gewaesserkategorie2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">wk_k2_Kategorie/gewaesserkategorie2</property>
+                    <expression name="expression">measure["wk_k2"]</expression>
+                    <property name="dataType">integer</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Kategorie/gewaesserkategorie2</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+            </list-property>
+        </extended-item>
         <label id="169">
             <property name="style">headerSubreport</property>
             <text-property name="text" key="header_statistic_flaecheUndLaenge">Flächen- und Längenstatistik</text-property>

@@ -17,6 +17,7 @@ CREATE TABLE statistics_dimensions (
     bg                                  varchar(128),
     tg                                  varchar(128),
     wk_k                                text,
+    flaeche                             float,
     CONSTRAINT statistics_dimensions_pkey PRIMARY KEY (id)
 );
 CREATE INDEX statistics_dimensions_gewaesserkategorie ON statistics_dimensions (gewaesserkategorie);
@@ -40,7 +41,6 @@ CACHE 1;
 CREATE TABLE statistics_measures (
     id                                  integer NOT NULL DEFAULT nextval('statistics_measures_seq'::regclass),
     wk_k                                text,
-    flaeche                             float,
     einfluss                            varchar(128),       -- (1=natürlich, 2=verändert, 3=künstlich)
     zustand_oeko                        integer,            -- (1=gut, 2=schlechter als gut, 3=unbekannt)
     zustand_chem                        integer,            -- (1=gut, 2=schlechter als gut, 3=unbekannt)
@@ -53,8 +53,6 @@ CREATE TABLE statistics_measures (
     zustand_ben_inv                     integer,            -- (1=1, 2=2, 3=3, 4=4, 5=5, 6=U) (Biologischer Zustand, Makrozoobenthos)
     zustand_hydromorph                  integer,            -- (1=1, 2=2, 3=3, 4=4, 5=5, 6=U) (Hydromorphologischer Zustand)
     zustand_mac_algae                   integer,            -- (1=1, 2=2, 3=3, 4=4, 5=5, 6=U) (Biologischer Zustand, Makroalgen)
---    zustand_bewirtschaftung             integer,            -- (1=guter zustand, 2=mäßiger zustand, 3=usw.)
---    fristverlaengerung                  varchar(128),
     schneidet_landesgrenze              boolean,
     typ_lawa                            varchar(256),
     typ_see                             text,
@@ -63,10 +61,6 @@ CREATE TABLE statistics_measures (
     anzahl_messstellen                  integer,
     anzahl_messstellen_bio              integer,
     anzahl_messstellen_chem             integer,
---    anzahl_messstellen_wrrl_chem_phys   integer,
---    anzahl_messstellen_wrrl_chem_stoffe integer,
---    anzahl_messstellen_wrrl_chem_bio    integer,
---    anzahl_messstellen_wrrl_chem_menge  integer,
     querbau_stau                        integer,
     querbau_durchlass                   integer,
     querbau_sohlgleite                  integer,
@@ -78,17 +72,6 @@ CREATE TABLE statistics_measures (
     querbau_fischaufstieg               integer,
     rohrleitung_anzahl                  integer,
     rohrleitung_laenge                  float,
-    --(rohrleitung_anteil_gewaesserlaenge,)
-    --anzahl_wasserkraftwerke             integer,
-    --einleitung_weniger_als_2000ew       integer,
-    --einleitung_2000ew_und_mehr          integer,
-    --anzahl_wasserwerke                  integer,
-    --massnahmen_flaeche                  float,
-    --massnahmen_anzahl                   integer,
-    --massnahmen_anzahl_1_bis_99          integer,
-    --massnahmen_anzahl_501_bis_508       integer,
-    --massnahmen_wk                       boolean,            -- (0=keine massnahme, 1=massnahme)
-    --massnahmen_wk_ohne_massnahme, (1=keine massnahme, 0=massnahme))
     massnahmen_geplant                  integer,
     massnahmen_umgesetzt                integer,
     CONSTRAINT statistics_measures_pkey PRIMARY KEY (id)
@@ -97,8 +80,8 @@ CREATE INDEX statistics_measures_wk_k ON statistics_measures (wk_k);
 
 --Füllen der Tabelle 'statistics_dimensions'
 INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu, fge, bg, tg)
-SELECT 'Fliessgewässer', max(wk_fg.wk_k), max(ogc.stalu_10_baum.id)::varchar(128), max(ogc.teilgebiete.fge_nr), max(ogc.teilgebiete.bg_k), max(ogc.teilgebiete.tg_k)
---SELECT 'Fliessgewässer', wk_fg.wk_k, ogc.stalu_10_baum.id::varchar(128), ogc.teilgebiete.fge_nr, ogc.teilgebiete.bg_k, ogc.teilgebiete.tg_k
+--SELECT 'Fliessgewässer', max(wk_fg.wk_k), max(ogc.stalu_10_baum.id)::varchar(128), max(ogc.teilgebiete.fge_nr), max(ogc.teilgebiete.bg_k), max(ogc.teilgebiete.tg_k)
+SELECT 'Fliessgewässer', wk_fg.wk_k, ogc.stalu_10_baum.id::varchar(128), ogc.teilgebiete.fge_nr, ogc.teilgebiete.bg_k, ogc.teilgebiete.tg_k
 FROM
     wk_fg,
     wk_fg_teile,
@@ -138,163 +121,125 @@ WHERE
             AND ogc.teilgebiete.gid = ogc.stalu_teilgebiete.tg_id
             AND ogc.stalu_teilgebiete.st_id = ogc.stalu_10_baum.id
             AND geo_field && (ogc.teilgebiete.the_geom)
+            AND geo_field && (ogc.stalu_10_baum.the_geom)
     )
     AND distance(geo_field, ogc.teilgebiete.the_geom) = 0
-GROUP BY wk_teil.id;
---GROUP BY wk_fg.wk_k, ogc.stalu_10_baum.id::varchar(128), ogc.teilgebiete.fge_nr, ogc.teilgebiete.bg_k, ogc.teilgebiete.tg_k;
+    AND distance(geo_field, ogc.stalu_10_baum.the_geom) = 0
+--GROUP BY wk_teil.id;
+GROUP BY wk_fg.wk_k, ogc.stalu_10_baum.id::varchar(128), ogc.teilgebiete.fge_nr, ogc.teilgebiete.bg_k, ogc.teilgebiete.tg_k;
 
-INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu, fge, bg, tg)
-SELECT 'Standgewässer', wk_sg.wk_k, ogc.stalu_10_baum.id::varchar(128), ogc.teilgebiete.fge_nr, ogc.teilgebiete.bg_k, ogc.teilgebiete.tg_k
+INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu, fge, bg, tg, flaeche)
+SELECT 'Standgewässer', wk_sg.wk_k, ogc.stalu_10_baum.id::varchar(128), ogc.teilgebiete.fge_nr, ogc.teilgebiete.bg_k, ogc.teilgebiete.tg_k, area(intersection(intersection(geom.geo_field, ogc.teilgebiete.the_geom), ogc.stalu_10_baum.the_geom))
 FROM wk_sg, geom, ogc.teilgebiete, ogc.stalu_teilgebiete, ogc.stalu_10_baum
 WHERE
     wk_sg.geom = geom.id
     AND ogc.teilgebiete.gid = ogc.stalu_teilgebiete.tg_id
     AND ogc.stalu_teilgebiete.st_id = ogc.stalu_10_baum.id
-    --AND geom.geo_field && envelope(ogc.teilgebiete.the_geom)
-    AND intersects(geom.geo_field, ogc.teilgebiete.the_geom);
+    AND st_intersects(intersection(geom.geo_field, ogc.teilgebiete.the_geom), ogc.stalu_10_baum.the_geom);
 
-INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu)
-SELECT 'Küstengewässer', wk_kg.eu_cd_cw, ogc.stalu_10_baum.id::varchar(128)
+INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu, flaeche)
+SELECT 'Küstengewässer', wk_kg.eu_cd_cw, ogc.stalu_10_baum.id::varchar(128), area(geom.geo_field)
 FROM wk_kg, geom, ogc.stalu_10_baum
 WHERE
     wk_kg.the_geom = geom.id
     AND fast_intersects(geom.geo_field, envelope(ogc.stalu_10_baum.the_geom), ogc.stalu_10_baum.the_geom);
 
-INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu)
-SELECT 'Grundwasser', wk_gw.eu_cd_gb, ogc.stalu_10_baum.id
+INSERT INTO statistics_dimensions (gewaesserkategorie, wk_k, stalu, flaeche)
+SELECT 'Grundwasser', wk_gw.eu_cd_gb, ogc.stalu_10_baum.id, area(geom.geo_field)
 FROM wk_gw, geom, ogc.stalu_10_baum
 WHERE
     wk_gw.the_geom = geom.id
     AND fast_intersects(geom.geo_field, envelope(ogc.stalu_10_baum.the_geom), ogc.stalu_10_baum.the_geom);
 
---Einfügen der Längen/Flächen
-INSERT INTO statistics_measures (wk_k, flaeche)
-SELECT
-    wk_fg.wk_k,
-    sum(length(geom.geo_field))
-FROM
-    statistics_dimensions,
-    wk_fg,
-    wk_fg_teile,
-    wk_teil,
-    station_linie,
-    geom
+--Einfügen der Längen
+UPDATE statistics_dimensions sd
+SET flaeche = (
+    SELECT DISTINCT
+        sum(length(intersection(intersection(geom.geo_field,ogc.teilgebiete.the_geom), ogc.stalu_10_baum.the_geom))) as wk_tg_stalu_length
+    FROM
+        --statistics_dimensions AS sd,
+        wk_fg,
+        wk_fg_teile,
+        wk_teil,
+        station_linie,
+        geom,
+        ogc.teilgebiete,
+        ogc.stalu_teilgebiete,
+        ogc.stalu_10_baum
+    WHERE
+        sd.wk_k = wk_fg.wk_k
+        AND wk_fg_teile.wk_fg_reference = wk_fg.teile
+        AND wk_teil.id = wk_fg_teile.teil
+        AND station_linie.id = wk_teil.linie
+        AND station_linie.geom = geom.id
+        AND ogc.stalu_10_baum.id = sd.stalu::int4
+        AND ogc.stalu_teilgebiete.st_id = ogc.stalu_10_baum.id
+        AND ogc.teilgebiete.gid = ogc.stalu_teilgebiete.tg_id
+        AND ogc.teilgebiete.fge_nr = sd.fge
+        AND ogc.teilgebiete.bg_k = sd.bg
+        AND ogc.teilgebiete.tg_k = sd.tg
+        AND st_intersects(geom.geo_field, ogc.teilgebiete.the_geom)
+        AND st_intersects(geom.geo_field, ogc.stalu_10_baum.the_geom)
+    GROUP BY sd.wk_k, sd.stalu, sd.fge, sd.tg, sd.bg
+)
 WHERE
-    statistics_dimensions.wk_k = wk_fg.wk_k
-    AND wk_fg_teile.wk_fg_reference = wk_fg.teile
-    AND wk_fg_teile.teil = wk_teil.id
-    AND station_linie.id = wk_teil.linie
-    AND station_linie.geom = geom.id
-GROUP BY wk_fg.wk_k;
-
-INSERT INTO statistics_measures (wk_k, flaeche)
-SELECT
-    distinct statistics_dimensions.wk_k,
-    area(geom.geo_field)
-FROM
-    statistics_dimensions,
-    wk_sg,
-    geom
-WHERE
-    statistics_dimensions.wk_k = wk_sg.wk_k
-    AND wk_sg.geom = geom.id;
-
-INSERT INTO statistics_measures (wk_k, flaeche)
-SELECT
-    distinct statistics_dimensions.wk_k,
-    area(geom.geo_field)
-FROM
-    statistics_dimensions,
-    wk_kg,
-    geom
-WHERE
-    statistics_dimensions.wk_k = wk_kg.eu_cd_cw
-    AND wk_kg.the_geom = geom.id;
-
-INSERT INTO statistics_measures (wk_k, flaeche)
-SELECT
-    distinct statistics_dimensions.wk_k,
-    area(geom.geo_field)
-FROM
-    statistics_dimensions,
-    wk_gw,
-    geom
-WHERE
-    statistics_dimensions.wk_k = wk_gw.eu_cd_gb
-    AND wk_gw.the_geom = geom.id;
+    sd.gewaesserkategorie='Fliessgewässer';
 
 --Einfügen der Spalte 'einfluss'
-UPDATE statistics_measures
-SET einfluss = (
-    SELECT wk_fg_artificial.value
+INSERT INTO statistics_measures (wk_k, einfluss)
+    SELECT DISTINCT
+        sd.wk_k,
+        wk_fg_artificial.value
     FROM
+        (SELECT DISTINCT wk_k FROM statistics_dimensions WHERE statistics_dimensions.gewaesserkategorie = 'Fliessgewässer') AS sd,
         wk_fg,
         wk_fg_artificial
     WHERE
-        statistics_measures.wk_k = wk_fg.wk_k
-        AND wk_fg_artificial.id = wk_fg.evk
-)
-WHERE
-    statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
-        FROM statistics_dimensions
-        WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
-    );
+        sd.wk_k = wk_fg.wk_k
+        AND wk_fg_artificial.id = wk_fg.evk;
 
-UPDATE statistics_measures
-SET einfluss = (
-    SELECT CASE
-        WHEN modified.value = 'Y' THEN 2
-        WHEN artificial.value = 'Y' THEN 3
-        ELSE 1
+INSERT INTO statistics_measures (wk_k, einfluss)
+    SELECT
+        sd.wk_k,
+        CASE
+            WHEN modified.value = 'Y' THEN 2
+            WHEN artificial.value = 'Y' THEN 3
+            ELSE 1
         END
     FROM
+        (SELECT DISTINCT wk_k FROM statistics_dimensions WHERE statistics_dimensions.gewaesserkategorie = 'Standgewässer') AS sd,
         wk_sg,
         wfd.yn_code modified,
         wfd.yn_code artificial
     WHERE
-        statistics_measures.wk_k = wk_sg.wk_k
+        sd.wk_k = wk_sg.wk_k
         AND modified.id = wk_sg.modified
-        AND artificial.id = wk_sg.artificial
-)
-WHERE
-    statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
-        FROM statistics_dimensions
-        WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
-    );
+        AND artificial.id = wk_sg.artificial;
 
-UPDATE statistics_measures
-SET einfluss = (
-    SELECT CASE
-        WHEN modified.value = 'Y' THEN 2
-        WHEN artificial.value = 'Y' THEN 3
-        ELSE 1
+INSERT INTO statistics_measures (wk_k, einfluss)
+    SELECT
+        sd.wk_k,
+        CASE
+            WHEN modified.value = 'Y' THEN 2
+            WHEN artificial.value = 'Y' THEN 3
+            ELSE 1
         END
     FROM
+        (SELECT DISTINCT wk_k FROM statistics_dimensions WHERE statistics_dimensions.gewaesserkategorie = 'Küstengewässer') AS sd,
         wk_kg,
         wfd.yn_code modified,
         wfd.yn_code artificial
     WHERE
-        statistics_measures.wk_k = wk_kg.eu_cd_cw
+        sd.wk_k = wk_kg.eu_cd_cw
         AND modified.id = wk_kg.modified
-        AND artificial.id = wk_kg.artificial
-)
-WHERE
-    statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
-        FROM statistics_dimensions
-        WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
-    );
+        AND artificial.id = wk_kg.artificial;
 
-UPDATE statistics_measures
-SET einfluss = 1
-WHERE
-    statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
-        FROM statistics_dimensions
-        WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
-    );
+INSERT INTO statistics_measures (wk_k, einfluss)
+SELECT
+    sd.wk_k,
+    1
+FROM
+    (SELECT DISTINCT wk_k FROM statistics_dimensions WHERE statistics_dimensions.gewaesserkategorie = 'Grundwasser') AS sd;
 
 --Bewertung des ökologischen, chemischen und mengenmäßigen Zustands
 UPDATE statistics_measures
@@ -313,7 +258,7 @@ SET zustand_oeko = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -334,7 +279,7 @@ SET zustand_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -355,7 +300,7 @@ SET zustand_oeko = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -376,7 +321,7 @@ SET zustand_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -397,7 +342,7 @@ SET zustand_oeko = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -418,7 +363,7 @@ SET zustand_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -439,7 +384,7 @@ SET zustand_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -460,7 +405,7 @@ SET zustand_menge = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -483,7 +428,7 @@ SET klasse_oeko = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -505,7 +450,7 @@ SET klasse_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -527,7 +472,7 @@ SET klasse_strukturguete = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -549,7 +494,7 @@ SET klasse_oeko = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -571,7 +516,7 @@ SET klasse_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -593,7 +538,7 @@ SET klasse_strukturguete = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -615,7 +560,7 @@ SET klasse_oeko = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -637,7 +582,7 @@ SET klasse_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -659,7 +604,7 @@ SET klasse_strukturguete = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -681,7 +626,7 @@ SET klasse_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -704,7 +649,7 @@ SET zustand_gen_cond = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -726,7 +671,7 @@ SET zustand_gen_cond = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -748,7 +693,7 @@ SET zustand_gen_cond = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -771,7 +716,7 @@ SET zustand_phyto = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -793,7 +738,7 @@ SET zustand_phyto = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -815,7 +760,7 @@ SET zustand_phyto = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -837,7 +782,7 @@ SET zustand_ben_inv = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -859,7 +804,7 @@ SET zustand_ben_inv = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -881,7 +826,7 @@ SET zustand_ben_inv = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -903,7 +848,7 @@ SET zustand_mac_algae = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -926,7 +871,7 @@ SET zustand_hydromorph = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -948,7 +893,7 @@ SET zustand_hydromorph = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -970,7 +915,7 @@ SET zustand_hydromorph = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -997,7 +942,7 @@ SET schneidet_landesgrenze = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1015,7 +960,7 @@ SET schneidet_landesgrenze = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -1033,7 +978,7 @@ SET schneidet_landesgrenze = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -1051,7 +996,7 @@ SET schneidet_landesgrenze = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -1069,7 +1014,7 @@ SET typ_lawa = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );*/
@@ -1087,7 +1032,7 @@ SET typ_see = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -1105,7 +1050,7 @@ SET typ_kuestengewaesserwasserkoerper = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -1123,7 +1068,7 @@ SET typ_grundwasser_leiter = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -1139,7 +1084,7 @@ SET anzahl_messstellen = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1156,7 +1101,7 @@ SET anzahl_messstellen = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -1171,7 +1116,7 @@ SET anzahl_messstellen = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -1186,7 +1131,7 @@ SET anzahl_messstellen = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -1205,7 +1150,7 @@ SET anzahl_messstellen_bio = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1225,7 +1170,7 @@ SET anzahl_messstellen_bio = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -1243,7 +1188,7 @@ SET anzahl_messstellen_bio = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -1261,7 +1206,7 @@ SET anzahl_messstellen_bio = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -1280,7 +1225,7 @@ SET anzahl_messstellen_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1300,7 +1245,7 @@ SET anzahl_messstellen_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -1318,7 +1263,7 @@ SET anzahl_messstellen_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -1336,7 +1281,7 @@ SET anzahl_messstellen_chem = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -1395,7 +1340,7 @@ SET querbau_stau = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1453,7 +1398,7 @@ SET querbau_durchlass = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1511,7 +1456,7 @@ SET querbau_sohlgleite = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1569,7 +1514,7 @@ SET querbau_schleuse = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1627,7 +1572,7 @@ SET querbau_talsperre = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1685,7 +1630,7 @@ SET querbau_wasserkraft = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1743,7 +1688,7 @@ SET querbau_schoepfwerk = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1801,7 +1746,7 @@ SET querbau_andere = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1859,7 +1804,7 @@ SET querbau_fischaufstieg = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -1926,7 +1871,7 @@ SET querbau_stau = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -1993,7 +1938,7 @@ SET querbau_durchlass = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2060,7 +2005,7 @@ SET querbau_sohlgleite = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2127,7 +2072,7 @@ SET querbau_schleuse = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2194,7 +2139,7 @@ SET querbau_talsperre = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2261,7 +2206,7 @@ SET querbau_wasserkraft = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2328,7 +2273,7 @@ SET querbau_schoepfwerk = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2395,7 +2340,7 @@ SET querbau_andere = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2462,7 +2407,7 @@ SET querbau_fischaufstieg = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2531,7 +2476,7 @@ SET rohrleitung_anzahl = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -2600,7 +2545,7 @@ SET rohrleitung_laenge = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -2618,7 +2563,7 @@ SET massnahmen_anzahl = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -2635,7 +2580,7 @@ SET massnahmen_anzahl = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2652,7 +2597,7 @@ SET massnahmen_anzahl = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -2669,7 +2614,7 @@ SET massnahmen_anzahl = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -2689,7 +2634,7 @@ SET massnahmen_flaeche = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -2708,7 +2653,7 @@ SET massnahmen_flaeche = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2727,7 +2672,7 @@ SET massnahmen_flaeche = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -2746,7 +2691,7 @@ SET massnahmen_flaeche = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );*/
@@ -2764,7 +2709,7 @@ SET massnahmen_geplant = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -2781,7 +2726,7 @@ SET massnahmen_geplant = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2798,7 +2743,7 @@ SET massnahmen_geplant = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -2815,7 +2760,7 @@ SET massnahmen_geplant = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );
@@ -2834,7 +2779,7 @@ SET massnahmen_umgesetzt = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Fliessgewässer'
     );
@@ -2852,7 +2797,7 @@ SET massnahmen_umgesetzt = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Standgewässer'
     );
@@ -2870,7 +2815,7 @@ SET massnahmen_umgesetzt = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Küstengewässer'
     );
@@ -2888,7 +2833,7 @@ SET massnahmen_umgesetzt = (
 )
 WHERE
     statistics_measures.wk_k IN (
-        SELECT statistics_dimensions.wk_k
+        SELECT distinct statistics_dimensions.wk_k
         FROM statistics_dimensions
         WHERE statistics_dimensions.gewaesserkategorie='Grundwasser'
     );

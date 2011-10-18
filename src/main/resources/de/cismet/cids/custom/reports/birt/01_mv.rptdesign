@@ -331,17 +331,17 @@
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">id_8</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">wk_k_9</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">8</property>
                         <property name="name">flaeche</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -592,19 +592,19 @@
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">id_8</property>
                     <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">wk_k_9</property>
                     <property name="nativeName">wk_k</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">8</property>
                     <property name="name">flaeche</property>
                     <property name="nativeName">flaeche</property>
                     <property name="dataType">float</property>
@@ -1993,276 +1993,6 @@ WHERE
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
-    <cubes>
-        <tabular-cube name="01_mv" id="74">
-            <property name="dimensions">
-                <tabular-dimension name="Gewässerkategorie" id="75">
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="76">
-                            <property name="levels">
-                                <tabular-level name="gewaesserkategorie" id="77">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">gewaesserkategorie</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="StALU" id="78">
-                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="79">
-                            <property name="levels">
-                                <tabular-level name="staun_n" id="80">
-                                    <property name="dataType">string</property>
-                                    <property name="levelType">dynamic</property>
-                                    <property name="columnName">name</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Einfluss" id="173">
-                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy3" id="174">
-                            <property name="levels">
-                                <tabular-level name="einfluss" id="175">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">einfluss</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Ökologischer Zustand" id="223">
-                    <property name="defaultHierarchy">NewTabularHierarchy4</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy4" id="224">
-                            <property name="levels">
-                                <tabular-level name="zustand_oeko" id="225">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_oeko</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Chemischer Zustand" id="329">
-                    <property name="defaultHierarchy">NewTabularHierarchy5</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy5" id="330">
-                            <property name="levels">
-                                <tabular-level name="zustand_chem" id="331">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_chem</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Mengenmäßiger Zustand" id="376">
-                    <property name="defaultHierarchy">NewTabularHierarchy6</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy6" id="377">
-                            <property name="levels">
-                                <tabular-level name="zustand_menge" id="378">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_menge</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Ökologische Klasse" id="379">
-                    <property name="defaultHierarchy">NewTabularHierarchy7</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy7" id="380">
-                            <property name="levels">
-                                <tabular-level name="klasse_oeko" id="381">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">klasse_oeko</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Chemische Klasse" id="382">
-                    <property name="defaultHierarchy">NewTabularHierarchy8</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy8" id="383">
-                            <property name="levels">
-                                <tabular-level name="klasse_chem" id="384">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">klasse_chem</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Physikalisch-chemischer Zustand" id="532">
-                    <property name="defaultHierarchy">NewTabularHierarchy9</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy9" id="533">
-                            <property name="levels">
-                                <tabular-level name="zustand_gen_cond" id="534">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_gen_cond</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Hydromorphologischer Zustand" id="535">
-                    <property name="defaultHierarchy">NewTabularHierarchy10</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy10" id="536">
-                            <property name="levels">
-                                <tabular-level name="zustand_hydromorph" id="537">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_hydromorph</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Biologischer Zustand (Makroalgen)" id="538">
-                    <property name="defaultHierarchy">NewTabularHierarchy11</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy11" id="539">
-                            <property name="levels">
-                                <tabular-level name="zustand_mac_algae" id="540">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_mac_algae</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Biologischer Zustand (Phytoplankton)" id="541">
-                    <property name="defaultHierarchy">NewTabularHierarchy12</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy12" id="542">
-                            <property name="levels">
-                                <tabular-level name="zustand_phyto" id="543">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_phyto</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Biologischer Zustand (Makrozoobenthos)" id="544">
-                    <property name="defaultHierarchy">NewTabularHierarchy13</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy13" id="545">
-                            <property name="levels">
-                                <tabular-level name="zustand_ben_inv" id="546">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">zustand_ben_inv</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Schneidet Landesgrenze" id="841">
-                    <property name="defaultHierarchy">NewTabularHierarchy14</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy14" id="842">
-                            <property name="levels">
-                                <tabular-level name="schneidet_landesgrenze" id="843">
-                                    <property name="dataType">integer</property>
-                                    <property name="columnName">schneidet_landesgrenze</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="LAWA-Typen" id="951">
-                    <property name="defaultHierarchy">NewTabularHierarchy15</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy15" id="952">
-                            <property name="levels">
-                                <tabular-level name="typ_lawa" id="953">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">typ_lawa</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Seetypen" id="955">
-                    <property name="defaultHierarchy">NewTabularHierarchy16</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy16" id="956">
-                            <property name="levels">
-                                <tabular-level name="typ_see" id="957">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">typ_see</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Grundwasserleitertypen" id="958">
-                    <property name="defaultHierarchy">NewTabularHierarchy17</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy17" id="959">
-                            <property name="levels">
-                                <tabular-level name="typ_grundwasser_leiter" id="960">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">typ_grundwasser_leiter</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-                <tabular-dimension name="Küstengewässertypen" id="961">
-                    <property name="defaultHierarchy">NewTabularHierarchy18</property>
-                    <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy18" id="962">
-                            <property name="levels">
-                                <tabular-level name="typ_kuestengewaesserwasserkoerper" id="963">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">typ_kuestengewaesserwasserkoerper</property>
-                                </tabular-level>
-                            </property>
-                        </tabular-hierarchy>
-                    </property>
-                </tabular-dimension>
-            </property>
-            <property name="measureGroups">
-                <tabular-measure-group name="Anzahl" id="81">
-                    <property name="measures">
-                        <tabular-measure name="wk_k" id="82">
-                            <property name="function">count</property>
-                            <expression name="measureExpression" type="javascript">dataSetRow["wk_k"]</expression>
-                            <property name="dataType">integer</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-                <tabular-measure-group name="Fläche" id="83">
-                    <property name="measures">
-                        <tabular-measure name="flaeche" id="84">
-                            <expression name="measureExpression" type="javascript">dataSetRow["flaeche"]</expression>
-                            <property name="dataType">float</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-                <tabular-measure-group name="Schneidet Landesgrenze" id="822">
-                    <property name="measures">
-                        <tabular-measure name="schneidet_landesgrenze" id="823">
-                            <property name="function">count</property>
-                            <expression name="measureExpression" type="javascript">dataSetRow["schneidet_landesgrenze"]</expression>
-                            <property name="dataType">integer</property>
-                        </tabular-measure>
-                    </property>
-                </tabular-measure-group>
-            </property>
-            <property name="dataSet">01_mv</property>
-        </tabular-cube>
-    </cubes>
     <page-setup>
         <simple-master-page name="WRRL MasterPage" id="2">
             <property name="type">custom</property>
