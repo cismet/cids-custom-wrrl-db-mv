@@ -11,9 +11,12 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 
+import javax.swing.ImageIcon;
+
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
 import de.cismet.cismap.commons.gui.piccolo.CustomFixedWidthStroke;
+import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
@@ -28,6 +31,11 @@ public class FgskKartierabschnittFeatureRenderer extends CustomCidsFeatureRender
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Stroke STROKE_SMALL = new CustomFixedWidthStroke(3f);
+
+    //~ Instance fields --------------------------------------------------------
+
+    private ImageIcon pointIcon = new javax.swing.ImageIcon(getClass().getResource(
+                "/de/cismet/cismap/commons/gui/res/linRefPoint.png")); // NOI18N
 
     //~ Methods ----------------------------------------------------------------
 
@@ -53,5 +61,13 @@ public class FgskKartierabschnittFeatureRenderer extends CustomCidsFeatureRender
 
     @Override
     public void assign() {
+    }
+
+    @Override
+    public FeatureAnnotationSymbol getPointSymbol() {
+        final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(pointIcon.getImage());
+        symb.setSweetSpotX(0.5);
+        symb.setSweetSpotY(0.5);
+        return symb;
     }
 }
