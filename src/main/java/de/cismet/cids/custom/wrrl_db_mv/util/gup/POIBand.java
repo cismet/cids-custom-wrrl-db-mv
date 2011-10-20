@@ -27,7 +27,7 @@ public class POIBand extends SimpleBand implements Band, BandPrefixProvider {
 
     //~ Instance fields --------------------------------------------------------
 
-    JLabel label = new JLabel("besondere Punkte");
+    JLabel label = new JLabel("Querbauwerke");
 
     //~ Constructors -----------------------------------------------------------
 
