@@ -414,11 +414,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -580,11 +575,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         setBackupPointValue(getPointValue(isFrom), isFrom);
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cidsBean  DOCUMENT ME!
-     */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         // aufräumen falls vorher cidsbean schon gesetzt war
@@ -1243,9 +1233,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     */
     @Override
     public void dispose() {
         cleanupLine();
@@ -1943,11 +1930,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  bln  DOCUMENT ME!
-     */
     @Override
     public void setEnabled(final boolean bln) {
         super.setEnabled(bln);
@@ -2492,11 +2474,15 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      */
     private void setLineBean(final CidsBean lineBean) {
         try {
-            if ((getCidsBean() != null) && (getLineField() != null)) {
+            cleanupLine();
+            if (getCidsBean() != null) {
                 getCidsBean().setProperty(getLineField(), lineBean);
             }
+            initLine();
         } catch (Exception ex) {
-            LOG.error("error while setting line bean to cidsbean", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("error while setting line bean to cidsbean", ex);
+            }
         }
     }
 
@@ -2507,9 +2493,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      */
     private void setLineBeanFromRouteBean(final CidsBean routeBean) {
         final CidsBean lineBean = LinearReferencingHelper.createLineBeanFromRouteBean(routeBean);
-        cleanupLine();
         setLineBean(lineBean);
-        initLine();
 
         // Geometrie für BoundingBox erzeufen
         final XBoundingBox boundingBox = (XBoundingBox)MAPPING_COMPONENT.getCurrentBoundingBox();
@@ -2567,11 +2551,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         setPointValueToBean(maxPosition, TO);
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cidsBeans  DOCUMENT ME!
-     */
     @Override
     public void beansDropped(final ArrayList<CidsBean> cidsBeans) {
         if (isEnabled() && isEditable()) {
@@ -2666,11 +2645,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         updateSnappedRealGeoms(isFrom, TO);
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  event  DOCUMENT ME!
-     */
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         if (event.getStatus() != EditorSaveStatus.SAVE_SUCCESS) {
@@ -2704,11 +2678,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         CIDSBEAN_CACHE.clear();
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
     @Override
     public boolean prepareForSave() {
         return true;
@@ -2758,25 +2727,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         //~ Methods ------------------------------------------------------------
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   c  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
         @Override
         protected Transferable createTransferable(final JComponent c) {
             return new PointBeanTransferable(isFrom);
         }
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   c  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
         @Override
         public int getSourceActions(final JComponent c) {
             return COPY;
@@ -2808,15 +2763,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
             //~ Methods --------------------------------------------------------
 
-            /**
-             * DOCUMENT ME!
-             *
-             * @param   flavor  DOCUMENT ME!
-             *
-             * @return  DOCUMENT ME!
-             *
-             * @throws  UnsupportedFlavorException  DOCUMENT ME!
-             */
             @Override
             public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
                 if (!isDataFlavorSupported(flavor)) {
@@ -2825,23 +2771,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 return isFrom;
             }
 
-            /**
-             * DOCUMENT ME!
-             *
-             * @return  DOCUMENT ME!
-             */
             @Override
             public DataFlavor[] getTransferDataFlavors() {
                 return new DataFlavor[] { CIDSBEAN_DATAFLAVOR };
             }
 
-            /**
-             * DOCUMENT ME!
-             *
-             * @param   flavor  DOCUMENT ME!
-             *
-             * @return  DOCUMENT ME!
-             */
             @Override
             public boolean isDataFlavorSupported(final DataFlavor flavor) {
                 return flavor.equals(CIDSBEAN_DATAFLAVOR);
@@ -2873,11 +2807,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         //~ Methods ------------------------------------------------------------
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  e  DOCUMENT ME!
-         */
         @Override
         public void drop(final DropTargetDropEvent e) {
             try {
@@ -2907,41 +2836,21 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             e.rejectDrop();
         }
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  dtde  DOCUMENT ME!
-         */
         @Override
         public void dragEnter(final DropTargetDragEvent dtde) {
             LOG.info("dragEnter");
         }
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  dtde  DOCUMENT ME!
-         */
         @Override
         public void dragOver(final DropTargetDragEvent dtde) {
             LOG.info("dragOver");
         }
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  dtde  DOCUMENT ME!
-         */
         @Override
         public void dropActionChanged(final DropTargetDragEvent dtde) {
             LOG.info("dropActionChanged");
         }
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  dte  DOCUMENT ME!
-         */
         @Override
         public void dragExit(final DropTargetEvent dte) {
             LOG.info("dragExit");
