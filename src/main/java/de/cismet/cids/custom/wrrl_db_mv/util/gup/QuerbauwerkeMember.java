@@ -59,7 +59,8 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
         };
 
     private double station;
-
+    private int art=8;
+    protected String name="";
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -75,12 +76,11 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
      * @param  result  DOCUMENT ME!
      */
     public QuerbauwerkeMember(final ArrayList result) {
-        final String name = result.get(2).toString();
-
+        name = result.get(2).toString();
         station = (Double)(result.get(3));
-        final int art = (Integer)(result.get(1)) - 1;
+        art = (Integer)(result.get(1)) - 1;
         System.out.println("QB:" + station + " " + name);
-        setIcon(getIcon(colors[art], 10));
+        setIcon(getIcon(getColor(), 10));
         setToolTipText(name);
     }
 
@@ -120,5 +120,9 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
         graphics.setColor(c);
         graphics.fillOval(0, 0, size, size);
         return new ImageIcon(bi);
+    }
+    
+    protected Color getColor(){
+        return colors[art];
     }
 }

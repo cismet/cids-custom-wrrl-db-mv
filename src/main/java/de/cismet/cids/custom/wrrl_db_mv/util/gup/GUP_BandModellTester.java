@@ -100,6 +100,11 @@ public class GUP_BandModellTester implements Band {
         return 0;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -185,8 +190,7 @@ public class GUP_BandModellTester implements Band {
         sbm.addBand(sohle);
         sbm.addBand(rechts);
         sbm.addBand(sonstige);
-//        final SimpleBand empty = new SimpleBand();
-//        empty.setBandWeight(0.1f);
+
 
         final CidsBean route = rechts.getRoute();
         final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),

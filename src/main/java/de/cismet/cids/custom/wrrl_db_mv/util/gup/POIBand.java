@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import de.cismet.tools.gui.jbands.DefaultBand;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -23,22 +24,24 @@ import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class POIBand extends SimpleBand implements Band, BandPrefixProvider {
+public class POIBand extends DefaultBand {
 
-    //~ Instance fields --------------------------------------------------------
-
-    JLabel label = new JLabel("Querbauwerke");
-
-    //~ Constructors -----------------------------------------------------------
-
-    /**
-     * Creates a new WKBand object.
-     */
-    public POIBand() {
-        label.setHorizontalAlignment(JLabel.RIGHT);
+    public POIBand(String title) {
+        this(1f,title);
     }
 
-    //~ Methods ----------------------------------------------------------------
+    public POIBand(float heightWeight, String title) {
+        super(heightWeight, title);
+    }
+
+    public POIBand(float heightWeight) {
+        this(heightWeight,"");
+    }
+
+    public POIBand() {
+        this("Querbauwerke");
+    }
+
 
     /**
      * DOCUMENT ME!
@@ -47,13 +50,10 @@ public class POIBand extends SimpleBand implements Band, BandPrefixProvider {
      */
     public void addQuerbauwerkeFromQueryResult(final ArrayList<ArrayList> inputResulSet) {
         for (final ArrayList zeile : inputResulSet) {
-            final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
-            members.add(qbm);
+//            final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
+            final QuerbauwerkeMember qbm = new QuerbauwerkeSmallMember(zeile);
+            addMember(qbm);
         }
     }
 
-    @Override
-    public JComponent getPrefixComponent() {
-        return label;
-    }
 }
