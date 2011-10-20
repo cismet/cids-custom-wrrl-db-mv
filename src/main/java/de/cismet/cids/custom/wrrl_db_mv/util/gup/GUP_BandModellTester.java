@@ -22,8 +22,6 @@ import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.awt.BorderLayout;
 
 import java.rmi.Naming;
@@ -40,13 +38,13 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.QuerbautenSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkSearchByStations;
-import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.tools.gui.jbands.JBand;
+import de.cismet.tools.gui.jbands.SimpleBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
 import de.cismet.tools.gui.jbands.interfaces.Band;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
@@ -187,6 +185,8 @@ public class GUP_BandModellTester implements Band {
         sbm.addBand(sohle);
         sbm.addBand(rechts);
         sbm.addBand(sonstige);
+//        final SimpleBand empty = new SimpleBand();
+//        empty.setBandWeight(0.1f);
 
         final CidsBean route = rechts.getRoute();
         final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),
@@ -211,7 +211,8 @@ public class GUP_BandModellTester implements Band {
         poiband.addQuerbauwerkeFromQueryResult(resArrayQB);
 
         sbm.insertBand(wkband, 0);
-        sbm.insertBand(poiband, 1);
+
+        sbm.addBand(poiband);
 
         jbdTest.setModel(sbm);
 
@@ -221,7 +222,7 @@ public class GUP_BandModellTester implements Band {
             1);
         jf.getContentPane().add(jbdTest, BorderLayout.CENTER);
 
-        final JSlider jsl = new JSlider(0, 100);
+        final JSlider jsl = new JSlider(0, 200);
 
         jsl.addChangeListener(
             new ChangeListener() {

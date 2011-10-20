@@ -106,8 +106,6 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
-            final SimpleBand empty=new SimpleBand();
-            
             final MassnahmenBand rechts = new MassnahmenBand("rechts");
             rechts.setCidsBeans(cidsBean.getBeanCollectionProperty("gup_massnahmen_ufer_rechts"));
             final MassnahmenBand sohle = new MassnahmenBand("Sohle");
@@ -121,6 +119,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
             sbm.addBand(sohle);
             sbm.addBand(rechts);
             sbm.addBand(sonstige);
+
             try {
                 final CidsBean route = rechts.getRoute();
                 final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),
@@ -145,6 +144,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                 poiband.addQuerbauwerkeFromQueryResult(resArrayQB);
 
                 sbm.insertBand(wkband, 0);
+
                 sbm.addBand(poiband);
             } catch (Exception e) {
                 log.error("Problem beim Suchen der Wasserkoerper", e);
@@ -382,10 +382,10 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     @Override
     public void dispose() {
