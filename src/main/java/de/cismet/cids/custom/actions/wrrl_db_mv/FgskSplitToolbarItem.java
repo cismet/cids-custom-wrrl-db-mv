@@ -29,19 +29,29 @@ import Sirius.server.middleware.types.MetaClass;
 
 import org.openide.util.lookup.ServiceProvider;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
+
+import java.util.Collection;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -52,7 +62,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @version  $Revision$, $Date$
  */
 @ServiceProvider(service = CidsClientToolbarItem.class)
-public class FgskToolbarItem extends AbstractAction implements CidsClientToolbarItem {
+public class FgskSplitToolbarItem extends AbstractAction implements CidsClientToolbarItem {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -65,24 +75,58 @@ public class FgskToolbarItem extends AbstractAction implements CidsClientToolbar
     /**
      * Creates a new FgskToolbarItem object.
      */
-    public FgskToolbarItem() {
+    public FgskSplitToolbarItem() {
         setIcon(new ImageIcon(this.getClass().getResource(
                     "/de/cismet/cids/custom/icons/wrrl-db-mv/fgsk.png")));
-        setTooltip("neuen FGSK Kartierabschnitt anlegen");
+        setTooltip("Kartierabschnitt teilen");
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final FgskDialog dialog = new FgskDialog(true, CismapBroker.getInstance().getMappingComponent());
-        dialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()));
-        dialog.setVisible(true);
+        final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+        final Frame parentFrame = StaticSwingTools.getParentFrame(mappingComponent);
+        final Collection<Feature> features = mappingComponent.getFeatureCollection().getSelectedFeatures();
+        if (features.size() != 1) {
+            JOptionPane.showMessageDialog(
+                parentFrame,
+                "Es muss genau ein Objekt selektiert sein.",
+                "Fehler",
+                JOptionPane.ERROR_MESSAGE);
+        } else {
+            final Feature feature = features.toArray(new Feature[0])[0];
+            if (!(feature instanceof CidsFeature)) {
+                JOptionPane.showMessageDialog(
+                    parentFrame,
+                    "Es muss genau ein Objekt selektiert sein.",
+                    "Fehler",
+                    JOptionPane.ERROR_MESSAGE);
+            } else {
+                final CidsFeature cidsFeature = (CidsFeature)feature;
+                final boolean isKartierabschnitt = cidsFeature.getMetaClass()
+                            .getTableName()
+                            .equalsIgnoreCase("fgsk_kartierabschnitt");
+                if (!isKartierabschnitt) {
+                    JOptionPane.showMessageDialog(
+                        parentFrame,
+                        "Bei dem selektierten Objekt handelt es sich nicht um ein Kartierabschnitt.",
+                        "Fehler",
+                        JOptionPane.ERROR_MESSAGE);
+                } else {
+                    final CidsBean cidsBean = cidsFeature.getMetaObject().getBean();
+                    final FgskSplitDialog dialog = new FgskSplitDialog(cidsBean, mappingComponent);
+                    dialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(
+                            CismapBroker.getInstance().getMappingComponent()));
+                    dialog.setVisible(true);
+                }
+            }
+        }
     }
 
     @Override
     public String getSorterString() {
-        return "Y";
+        return "Z";
     }
 
     @Override
