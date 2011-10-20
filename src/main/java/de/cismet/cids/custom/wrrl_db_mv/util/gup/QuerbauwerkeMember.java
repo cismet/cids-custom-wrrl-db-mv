@@ -32,6 +32,8 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
 
     //~ Instance fields --------------------------------------------------------
 
+    protected String name = "";
+
 // 1     Stau, Wehr      1
 // 2     Durchlass       2
 // 3     Sohlgleite, Sohlschwelle, Rampe 3
@@ -59,8 +61,8 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
         };
 
     private double station;
-    private int art=8;
-    protected String name="";
+    private int art = 8;
+
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -121,8 +123,13 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
         graphics.fillOval(0, 0, size, size);
         return new ImageIcon(bi);
     }
-    
-    protected Color getColor(){
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected Color getColor() {
         return colors[art];
     }
 }

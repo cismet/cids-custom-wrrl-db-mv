@@ -191,7 +191,6 @@ public class GUP_BandModellTester implements Band {
         sbm.addBand(rechts);
         sbm.addBand(sonstige);
 
-
         final CidsBean route = rechts.getRoute();
         final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),
                 sbm.getMax(),

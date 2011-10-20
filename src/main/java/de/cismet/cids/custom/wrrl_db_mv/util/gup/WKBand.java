@@ -50,7 +50,7 @@ public class WKBand extends MinimumHeightBand {
      * @param  min            DOCUMENT ME!
      * @param  max            DOCUMENT ME!
      * @param  inputResulSet  DOCUMENT ME!
-     * @param  heightWeight   DOCUMENT ME!
+     * @param  title          heightWeight DOCUMENT ME!
      */
     public WKBand(final double min,
             final double max,

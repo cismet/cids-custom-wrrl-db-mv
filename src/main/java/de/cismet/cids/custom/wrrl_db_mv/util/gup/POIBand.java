@@ -7,12 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
-import de.cismet.tools.gui.jbands.DefaultBand;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import de.cismet.tools.gui.jbands.DefaultBand;
 import de.cismet.tools.gui.jbands.SimpleBand;
 import de.cismet.tools.gui.jbands.interfaces.Band;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
@@ -26,22 +26,44 @@ import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
  */
 public class POIBand extends DefaultBand {
 
-    public POIBand(String title) {
-        this(1f,title);
-    }
+    //~ Constructors -----------------------------------------------------------
 
-    public POIBand(float heightWeight, String title) {
-        super(heightWeight, title);
-    }
-
-    public POIBand(float heightWeight) {
-        this(heightWeight,"");
-    }
-
+    /**
+     * Creates a new POIBand object.
+     */
     public POIBand() {
         this("Querbauwerke");
     }
 
+    /**
+     * Creates a new POIBand object.
+     *
+     * @param  title  DOCUMENT ME!
+     */
+    public POIBand(final String title) {
+        this(1f, title);
+    }
+
+    /**
+     * Creates a new POIBand object.
+     *
+     * @param  heightWeight  DOCUMENT ME!
+     */
+    public POIBand(final float heightWeight) {
+        this(heightWeight, "");
+    }
+
+    /**
+     * Creates a new POIBand object.
+     *
+     * @param  heightWeight  DOCUMENT ME!
+     * @param  title         DOCUMENT ME!
+     */
+    public POIBand(final float heightWeight, final String title) {
+        super(heightWeight, title);
+    }
+
+    //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
@@ -55,5 +77,4 @@ public class POIBand extends DefaultBand {
             addMember(qbm);
         }
     }
-
 }
