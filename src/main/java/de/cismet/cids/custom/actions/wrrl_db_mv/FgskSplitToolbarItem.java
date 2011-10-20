@@ -77,7 +77,7 @@ public class FgskSplitToolbarItem extends AbstractAction implements CidsClientTo
      */
     public FgskSplitToolbarItem() {
         setIcon(new ImageIcon(this.getClass().getResource(
-                    "/de/cismet/cids/custom/icons/wrrl-db-mv/fgsk.png")));
+                    "/de/cismet/cids/custom/icons/wrrl-db-mv/fgskSplit.png")));
         setTooltip("Kartierabschnitt teilen");
     }
 
