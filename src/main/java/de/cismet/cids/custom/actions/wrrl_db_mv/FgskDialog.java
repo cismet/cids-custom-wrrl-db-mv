@@ -7,7 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -66,8 +65,9 @@ public class FgskDialog extends javax.swing.JDialog {
     //~ Instance fields --------------------------------------------------------
 
     private MappingComponent mappingComponent = null;
-    private final Collection<CidsBean> fgskBeans = new ArrayList<CidsBean>();
     private String interactionModeWhenFinished = ""; // NOI18N
+    private final Double[] positions;
+    private CidsBean routeBean = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdCancel;
@@ -105,120 +105,42 @@ public class FgskDialog extends javax.swing.JDialog {
         this.mappingComponent = mappingComponent;
         cmdOk.setEnabled(false);
 
-        final SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
+        // positionen speichern
+        final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
+            mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
+        final PFeature selectedPFeature = marksListener.getSelectedLinePFeature();
+        positions = marksListener.getMarkPositionsOfSelectedFeature();
 
-                @Override
-                protected Void doInBackground() throws Exception {
-                    final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
-                        mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
-                    final PFeature selectedPFeature = marksListener.getSelectedLinePFeature();
-
-                    CidsBean routeBean = null;
-                    if (selectedPFeature != null) {
-                        final Feature feature = selectedPFeature.getFeature();
-                        if ((feature != null) && (feature instanceof CidsFeature)) {
-                            final CidsFeature cidsFeature = (CidsFeature)feature;
-                            if (cidsFeature.getMetaClass().getName().equals(LinearReferencingConstants.CN_ROUTE)) {
-                                routeBean = cidsFeature.getMetaObject().getBean();
-                            }
-                        }
-                    }
-
-                    fgskBeans.clear();
-                    if (routeBean != null) {
-                        final Geometry routeGeom = (Geometry)
-                            ((CidsBean)routeBean.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
-                                LinearReferencingConstants.PROP_GEOM_GEOFIELD);
-                        final Double[] positions = marksListener.getMarkPositionsOfSelectedFeature();
-
-                        LinearReferencedPointFeature pointBeforeFeature = null;
-                        CidsBean fromPointBean = null;
-                        int rowIndex = 0;
-
-                        for (final Double position : positions) {
-                            try {
-                                final LinearReferencedPointFeature pointFeature = new LinearReferencedPointFeature(
-                                        position,
-                                        routeGeom);
-
-                                // punkt geom bean erzeugen
-                                final CidsBean pointGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                                pointGeomBean.setProperty(
-                                    LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                                    pointFeature.getGeometry());
-
-                                // punkt erzeugen
-                                final CidsBean toPointBean = MC_STATION.getEmptyInstance().getBean();
-                                toPointBean.setProperty(
-                                    LinearReferencingConstants.PROP_STATION_GEOM,
-                                    pointGeomBean);
-                                toPointBean.setProperty(
-                                    LinearReferencingConstants.PROP_STATION_VALUE,
-                                    ((Integer)position.intValue()).doubleValue());
-                                toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, routeBean);
-
-                                if (fromPointBean != null) {
-                                    final LinearReferencedLineFeature lineFeature = new LinearReferencedLineFeature(
-                                            pointBeforeFeature,
-                                            pointFeature);
-
-                                    // linien geom bean erzeugen
-                                    final CidsBean lineGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                                    lineGeomBean.setProperty(
-                                        LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                                        lineFeature.getGeometry());
-
-                                    // linie bean erzeugen
-                                    final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
-                                    // nur bei der ersten linie das from speichern, nach dem persist muss sowieso
-                                    // wieder gemerged und dann müsste diese Bean wieder gelöscht werden
-                                    if (rowIndex == 0) {
-                                        lineBean.setProperty(
-                                            LinearReferencingConstants.PROP_STATIONLINIE_FROM,
-                                            fromPointBean);
-                                    }
-                                    lineBean.setProperty(
-                                        LinearReferencingConstants.PROP_STATIONLINIE_TO,
-                                        toPointBean);
-                                    lineBean.setProperty(
-                                        LinearReferencingConstants.PROP_STATIONLINIE_GEOM,
-                                        lineGeomBean);
-
-                                    // fgsk bean erzeugen
-                                    final CidsBean fgskBean = MC_FGSK.getEmptyInstance().getBean();
-                                    fgskBean.setProperty("linie", lineBean);
-                                    fgskBean.setProperty(
-                                        "erfassungsdatum",
-                                        new java.sql.Timestamp(System.currentTimeMillis()));
-
-                                    ((DefaultTableModel)jTable1.getModel()).addRow(
-                                        new Object[] {
-                                            ++rowIndex,
-                                            ((Double)fromPointBean.getProperty(
-                                                    LinearReferencingConstants.PROP_STATION_VALUE)).intValue(),
-                                            ((Double)toPointBean.getProperty(
-                                                    LinearReferencingConstants.PROP_STATION_VALUE)).intValue()
-                                        });
-
-                                    fgskBeans.add(fgskBean);
-                                }
-
-                                fromPointBean = toPointBean;
-                                pointBeforeFeature = pointFeature;
-                            } catch (Exception ex) {
-                                LOG.error("error creating fgsk", ex);
-                            }
-                        }
-                    }
-                    return null;
+        // route bestimmen
+        if (selectedPFeature != null) {
+            final Feature feature = selectedPFeature.getFeature();
+            if ((feature != null) && (feature instanceof CidsFeature)) {
+                final CidsFeature cidsFeature = (CidsFeature)feature;
+                if (cidsFeature.getMetaClass().getName().equals(LinearReferencingConstants.CN_ROUTE)) {
+                    routeBean = cidsFeature.getMetaObject().getBean();
                 }
+            }
+        }
 
-                @Override
-                protected void done() {
-                    cmdOk.setEnabled(!fgskBeans.isEmpty());
+        // tabelle füllen
+        if (routeBean != null) {
+            int rowIndex = 0;
+            Double fromPosition = null;
+            for (final double position : positions) {
+                final Double toPosition = position;
+                if (fromPosition != null) {
+                    ((DefaultTableModel)jTable1.getModel()).addRow(
+                        new Object[] {
+                            ++rowIndex,
+                            fromPosition.intValue(),
+                            toPosition.intValue()
+                        });
                 }
-            };
-        sw.execute();
+                fromPosition = toPosition;
+            }
+        }
+
+        cmdOk.setEnabled(positions.length > 1);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -490,48 +412,94 @@ public class FgskDialog extends javax.swing.JDialog {
         cmdCancel.setEnabled(false);
         jProgressBar1.setVisible(true);
 
-        final SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
-
-                private final Collection<Node> r = new ArrayList<Node>();
+        final SwingWorker<Collection<Node>, Void> sw = new SwingWorker<Collection<Node>, Void>() {
 
                 @Override
-                protected Void doInBackground() throws Exception {
-                    jProgressBar1.setMaximum(marksListener.getMarkPositionsOfSelectedFeature().length);
+                protected Collection<Node> doInBackground() throws Exception {
+                    final Collection<Node> r = new ArrayList<Node>();
+
+                    jProgressBar1.setMaximum((positions.length * 2) - 1);
                     int numOfPersisted = 0;
 
-                    CidsBean previousPersistedBean = null;
+                    final Geometry routeGeom = (Geometry)
+                        ((CidsBean)routeBean.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
+                            LinearReferencingConstants.PROP_GEOM_GEOFIELD);
 
-                    for (final CidsBean fgskBean : fgskBeans) {
-                        jProgressBar1.setValue(numOfPersisted++);
-
+                    // stationen erzeugen
+                    final Collection<CidsBean> stationenBeans = new ArrayList<CidsBean>();
+                    for (final Double position : positions) {
                         try {
-                            final CidsBean persistedBean = fgskBean.persist();
-                            if (previousPersistedBean != null) {
-                                // from-station von der vorherigen linie als to-station übernehmen, damit beide
-                                // stationen identisch sind
-                                persistedBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM,
-                                    previousPersistedBean.getProperty(
-                                        "linie."
-                                                + LinearReferencingConstants.PROP_STATIONLINIE_TO));
-                            }
-                            previousPersistedBean = persistedBean;
-
-                            // node erzeugen
-                            r.add(new MetaObjectNode(persistedBean));
+                            final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(position, routeGeom);
+                            // punkt geom bean erzeugen
+                            final CidsBean pointGeomBean = MC_GEOM.getEmptyInstance().getBean();
+                            pointGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, pointGeom);
+                            // punkt erzeugen
+                            final CidsBean toPointBean = MC_STATION.getEmptyInstance().getBean();
+                            toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, pointGeomBean);
+                            toPointBean.setProperty(
+                                LinearReferencingConstants.PROP_STATION_VALUE,
+                                ((Integer)position.intValue()).doubleValue());
+                            toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, routeBean);
+                            stationenBeans.add(toPointBean.persist());
+                            jProgressBar1.setValue(numOfPersisted++);
                         } catch (Exception ex) {
-                            LOG.error("error persisting fgsk", ex);
+                            LOG.error("error while creating point bean", ex);
                         }
                     }
-                    return null;
+
+                    // station_linien erzeugen
+
+                    CidsBean fromPointBean = null;
+                    for (final CidsBean stationenBean : stationenBeans) {
+                        final CidsBean toPointBean = stationenBean;
+
+                        if (fromPointBean != null) {
+                            final int fromValue =
+                                ((Double)fromPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
+                                        .intValue();
+                            final int toValue =
+                                ((Double)toPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
+                                        .intValue();
+                            final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
+                                    fromValue,
+                                    toValue,
+                                    routeGeom);
+
+                            // linien geom bean erzeugen
+                            final CidsBean lineGeomBean = MC_GEOM.getEmptyInstance().getBean();
+                            lineGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, lineGeom);
+
+                            // linie bean erzeugen
+                            final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
+                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, fromPointBean);
+                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, toPointBean);
+                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, lineGeomBean);
+
+                            // fgsk bean erzeugen
+                            final CidsBean fgskBean = MC_FGSK.getEmptyInstance().getBean();
+                            fgskBean.setProperty("linie", lineBean);
+                            fgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
+
+                            r.add(new MetaObjectNode(fgskBean.persist()));
+                            jProgressBar1.setValue(numOfPersisted++);
+                        }
+                        fromPointBean = toPointBean;
+                    }
+                    return r;
                 }
 
                 @Override
                 protected void done() {
+                    try {
+                        final Collection<Node> r = get();
+                        MethodManager.getManager().showSearchResults(r.toArray(new Node[r.size()]), false);
+                    } catch (Exception ex) {
+                        LOG.error("error while creating beans", ex);
+                    }
                     cmdOk.setEnabled(true);
                     cmdCancel.setEnabled(true);
                     jProgressBar1.setVisible(false);
                     dispose();
-                    MethodManager.getManager().showSearchResults(r.toArray(new Node[r.size()]), false);
                 }
             };
         sw.execute();
