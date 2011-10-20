@@ -25,8 +25,8 @@ public class GupGewaesserabschnittToStringConverter extends CustomToStringConver
 
     @Override
     public String createString() {
-        String name = (cidsBean == null ? "unbenannt" : String.valueOf( cidsBean.getProperty("name")) );
-        
+        final String name = ((cidsBean == null) ? "unbenannt" : String.valueOf(cidsBean.getProperty("name")));
+
         return name;
     }
 }

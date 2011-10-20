@@ -12,7 +12,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnitteEditor_;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnittEditor;
 
 /**
  * DOCUMENT ME!
@@ -20,7 +20,7 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnitteEdit
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class GupGewaesserabschnitteRenderer extends GupGewaesserabschnitteEditor_ {
+public class GupGewaesserabschnitteRenderer extends GupGewaesserabschnittEditor {
 
     //~ Constructors -----------------------------------------------------------
 

@@ -25,8 +25,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.QuerbautenSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenBand;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.POIBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.WKBand;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -116,17 +118,31 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
             sbm.addBand(sohle);
             sbm.addBand(rechts);
             sbm.addBand(sonstige);
-            final CidsBean route = rechts.getRoute();
-            final CidsServerSearch search = new WkSearchByStations(sbm.getMin(),
-                    sbm.getMax(),
-                    String.valueOf(route.getProperty("gwk")));
             try {
-                final Collection res = SessionManager.getProxy()
-                            .customServerSearch(SessionManager.getSession().getUser(), search);
-                final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+                final CidsBean route = rechts.getRoute();
+                final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),
+                        sbm.getMax(),
+                        String.valueOf(route.getProperty("gwk")));
 
-                final WKBand wkband = new WKBand(sbm.getMin(), sbm.getMax(), resArray);
+                final Collection resWK = SessionManager.getProxy()
+                            .customServerSearch(SessionManager.getSession().getUser(), searchWK);
+                final ArrayList<ArrayList> resArrayWK = (ArrayList<ArrayList>)resWK;
+
+                final WKBand wkband = new WKBand(sbm.getMin(), sbm.getMax(), resArrayWK);
+
+                final CidsServerSearch searchQB = new QuerbautenSearchByStations(sbm.getMin(),
+                        sbm.getMax(),
+                        String.valueOf(route.getProperty("gwk")));
+
+                final Collection resQB = SessionManager.getProxy()
+                            .customServerSearch(SessionManager.getSession().getUser(), searchQB);
+                final ArrayList<ArrayList> resArrayQB = (ArrayList<ArrayList>)resQB;
+
+                final POIBand poiband = new POIBand();
+                poiband.addQuerbauwerkeFromQueryResult(resArrayQB);
+
                 sbm.insertBand(wkband, 0);
+                sbm.insertBand(poiband, 1);
             } catch (Exception e) {
                 log.error("Problem beim Suchen der Wasserkoerper", e);
             }
