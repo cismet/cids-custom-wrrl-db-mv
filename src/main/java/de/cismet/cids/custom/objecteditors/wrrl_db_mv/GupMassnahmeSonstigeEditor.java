@@ -14,6 +14,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -29,7 +30,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -59,7 +60,7 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupMassnahmeSohleEditor() {
+    public GupMassnahmeSonstigeEditor() {
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(false);
@@ -94,12 +95,12 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         linearReferencedLineEditor = linearReferencedLineEditor;
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 500));
+        setPreferredSize(new java.awt.Dimension(994, 800));
         setLayout(new java.awt.GridBagLayout());
 
         lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmeSohleEditor.class,
-                "GupMassnahmeSohleEditor.lblBearbeiter.text")); // NOI18N
+                GupMassnahmeSonstigeEditor.class,
+                "GupMassnahmeSonstigeEditor.lblBearbeiter.text")); // NOI18N
         lblBearbeiter.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBearbeiter.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBearbeiter.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -111,8 +112,8 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         add(lblBearbeiter, gridBagConstraints);
 
         lblMassnahme.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmeSohleEditor.class,
-                "GupMassnahmeSohleEditor.lblMassnahme.text")); // NOI18N
+                GupMassnahmeSonstigeEditor.class,
+                "GupMassnahmeSonstigeEditor.lblMassnahme.text")); // NOI18N
         lblMassnahme.setMaximumSize(new java.awt.Dimension(170, 17));
         lblMassnahme.setMinimumSize(new java.awt.Dimension(170, 17));
         lblMassnahme.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -124,8 +125,8 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         add(lblMassnahme, gridBagConstraints);
 
         lblJahr.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmeSohleEditor.class,
-                "GupMassnahmeSohleEditor.lblJahr.text")); // NOI18N
+                GupMassnahmeSonstigeEditor.class,
+                "GupMassnahmeSonstigeEditor.lblJahr.text")); // NOI18N
         lblJahr.setMaximumSize(new java.awt.Dimension(170, 17));
         lblJahr.setMinimumSize(new java.awt.Dimension(170, 17));
         lblJahr.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -137,8 +138,8 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         add(lblJahr, gridBagConstraints);
 
         lblIntervall.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmeSohleEditor.class,
-                "GupMassnahmeSohleEditor.lblIntervall.text")); // NOI18N
+                GupMassnahmeSonstigeEditor.class,
+                "GupMassnahmeSonstigeEditor.lblIntervall.text")); // NOI18N
         lblIntervall.setMaximumSize(new java.awt.Dimension(120, 17));
         lblIntervall.setMinimumSize(new java.awt.Dimension(120, 17));
         lblIntervall.setPreferredSize(new java.awt.Dimension(120, 17));
@@ -150,8 +151,8 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         add(lblIntervall, gridBagConstraints);
 
         lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmeSohleEditor.class,
-                "GupMassnahmeSohleEditor.lblBemerkung.text")); // NOI18N
+                GupMassnahmeSonstigeEditor.class,
+                "GupMassnahmeSonstigeEditor.lblBemerkung.text")); // NOI18N
         lblBemerkung.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -163,8 +164,8 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         add(lblBemerkung, gridBagConstraints);
 
         lblVerbleib.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmeSohleEditor.class,
-                "GupMassnahmeSohleEditor.lblVerbleib.text")); // NOI18N
+                GupMassnahmeSonstigeEditor.class,
+                "GupMassnahmeSonstigeEditor.lblVerbleib.text")); // NOI18N
         lblVerbleib.setMaximumSize(new java.awt.Dimension(170, 34));
         lblVerbleib.setMinimumSize(new java.awt.Dimension(170, 34));
         lblVerbleib.setPreferredSize(new java.awt.Dimension(170, 34));
@@ -299,7 +300,7 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 10.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(spBemerkung, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -341,7 +342,7 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
 
     @Override
     public String getTitle() {
-        return "Sohle-Maßnahme";
+        return "Sonstige Maßnahme";
     }
 
     @Override

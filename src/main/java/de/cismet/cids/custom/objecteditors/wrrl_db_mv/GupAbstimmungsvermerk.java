@@ -432,7 +432,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         add(jpDritte, gridBagConstraints);
 
         bindingGroup.bind();
