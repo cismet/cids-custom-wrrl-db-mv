@@ -686,41 +686,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
 
                 @Override
                 protected Collection<Node> doInBackground() throws Exception {
-                    final Collection<Node> r = new ArrayList<Node>();
-                    jProgressBar1.setMaximum(2);
-
-                    CidsBean newFgsk = null;
-                    try {
-                        newFgsk = splitFgskBean(
-                                fgskBean,
-                                jRadioButton2.isSelected(),
-                                (Integer)jSpinner1.getValue());
-
-                        jProgressBar1.setValue(1);
-                        final CidsBean newAfterPersist = newFgsk.persist();
-                        final CidsBean newAfterRetrieve = SessionManager.getProxy()
-                                    .getMetaObject(
-                                            newAfterPersist.getMetaObject().getId(),
-                                            MC_FGSK.getId(),
-                                            WRRLUtil.DOMAIN_NAME)
-                                    .getBean();
-                        r.add(new MetaObjectNode(newAfterRetrieve));
-                        jProgressBar1.setValue(2);
-                        final CidsBean oldAfterPersist = fgskBean.persist();
-                        final CidsBean oldAfterRetrieve = SessionManager.getProxy()
-                                    .getMetaObject(
-                                            oldAfterPersist.getMetaObject().getId(),
-                                            MC_FGSK.getId(),
-                                            WRRLUtil.DOMAIN_NAME)
-                                    .getBean();
-                        r.add(new MetaObjectNode(oldAfterRetrieve));
-                    } catch (Exception ex) {
-                        if (newFgsk != null) {
-                            newFgsk.delete();
-                        }
-                        throw ex;
-                    }
-                    return r;
+                    return splitFgskBean(fgskBean, jRadioButton2.isSelected(), (Integer)jSpinner1.getValue());
                 }
 
                 @Override
@@ -746,110 +712,121 @@ public class FgskSplitDialog extends javax.swing.JDialog {
      * DOCUMENT ME!
      *
      * @param   oldBean      DOCUMENT ME!
-     * @param   fromToValue  DOCUMENT ME!
-     * @param   value        DOCUMENT ME!
+     * @param   fromToSplit  DOCUMENT ME!
+     * @param   splitValue   DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private CidsBean splitFgskBean(final CidsBean oldBean, final boolean fromToValue, final double value)
+    private Collection<Node> splitFgskBean(final CidsBean oldBean, final boolean fromToSplit, final double splitValue)
             throws Exception {
+        final Collection<Node> nodes = new ArrayList<Node>();
+        jProgressBar1.setMaximum(2);
+
         final Geometry routeGeom = (Geometry)oldBean.getProperty("linie."
                         + LinearReferencingConstants.PROP_STATIONLINIE_FROM + "."
                         + LinearReferencingConstants.PROP_STATION_ROUTE + "."
                         + LinearReferencingConstants.PROP_ROUTE_GEOM + "."
                         + LinearReferencingConstants.PROP_GEOM_GEOFIELD);
 
-        final LinearReferencedPointFeature fromPointFeature = new LinearReferencedPointFeature(
-                getStationMinimum(),
+        final double fromPointValue = getStationMinimum();
+        final double toPointValue = getStationMaximum();
+
+        final Geometry fromPointGeom = LinearReferencedPointFeature.getPointOnLine(
+                fromPointValue,
                 routeGeom);
-        final LinearReferencedPointFeature splitPointFeature = new LinearReferencedPointFeature(value, routeGeom);
-        final LinearReferencedPointFeature toPointFeature = new LinearReferencedPointFeature(
-                getStationMaximum(),
+        final Geometry splitPointGeom = LinearReferencedPointFeature.getPointOnLine(splitValue, routeGeom);
+        final Geometry toPointGeom = LinearReferencedPointFeature.getPointOnLine(toPointValue, routeGeom);
+
+        final Geometry fromLineGeom = LinearReferencedLineFeature.createSubline(
+                fromPointValue,
+                splitValue,
+                routeGeom);
+        final Geometry toLineGeom = LinearReferencedLineFeature.createSubline(
+                splitValue,
+                toPointValue,
                 routeGeom);
 
-        final LinearReferencedLineFeature fromLineFeature = new LinearReferencedLineFeature(
-                fromPointFeature,
-                splitPointFeature);
-        final LinearReferencedLineFeature toLineFeature = new LinearReferencedLineFeature(
-                splitPointFeature,
-                toPointFeature);
+        // ---
 
-        final CidsBean newPointGeomBean = MC_GEOM.getEmptyInstance().getBean();
-        final CidsBean newPointBean = MC_STATION.getEmptyInstance().getBean();
-        final CidsBean newStationLinieBean = MC_STATIONLINIE.getEmptyInstance().getBean();
-        final CidsBean newlineGeomBean = MC_GEOM.getEmptyInstance().getBean();
-        final CidsBean newfgskBean = MC_FGSK.getEmptyInstance().getBean();
+        // linie der alten bean updaten
+        final Geometry updatedLineGeom = (fromToSplit) ? toLineGeom : fromLineGeom;
+        final CidsBean updatedLineBean = (CidsBean)oldBean.getProperty("linie");
+        updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
+                    + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
+            updatedLineGeom);
 
-        newStationLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, newlineGeomBean);
-        newfgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
-        newfgskBean.setProperty("linie", newStationLinieBean);
-        newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, newPointGeomBean);
-        newPointBean.setProperty(
-            LinearReferencingConstants.PROP_STATION_ROUTE,
-            (CidsBean)oldBean.getProperty(
-                "linie."
-                        + LinearReferencingConstants.PROP_STATIONLINIE_FROM
-                        + "."
-                        + LinearReferencingConstants.PROP_STATION_ROUTE));
+        // punkt der alten bean updaten
+        final Geometry updatedPointGeom = splitPointGeom;
+        final CidsBean updatedPointBean = (fromToSplit)
+            ? (CidsBean)oldBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_FROM)
+            : (CidsBean)oldBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        updatedPointBean.setProperty(LinearReferencingConstants.PROP_STATION_VALUE, splitValue);
+        updatedPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM + "."
+                    + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
+            updatedPointGeom);
 
-        if (fromToValue) {
-            final CidsBean splitPointBean = (CidsBean)oldBean.getProperty("linie."
-                            + LinearReferencingConstants.PROP_STATIONLINIE_FROM);
-
-            splitPointBean.setProperty(
-                LinearReferencingConstants.PROP_STATION_VALUE,
-                splitPointFeature.getCurrentPosition());
-            splitPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                splitPointFeature.getGeometry());
-
-            newPointBean.setProperty(
-                LinearReferencingConstants.PROP_STATION_VALUE,
-                fromPointFeature.getCurrentPosition());
-            newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                fromPointFeature.getGeometry());
-
-            oldBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                toLineFeature.getGeometry());
-
-            newfgskBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM, newPointBean);
-            newfgskBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_TO, splitPointBean);
-            newfgskBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                fromLineFeature.getGeometry());
+        // veränderte linie samt punkt wieder in die bean reinstecken und persisten
+        if (fromToSplit) {
+            updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, updatedPointBean);
         } else {
-            final CidsBean splitPointBean = (CidsBean)oldBean.getProperty("linie."
-                            + LinearReferencingConstants.PROP_STATIONLINIE_TO);
-
-            splitPointBean.setProperty(
-                LinearReferencingConstants.PROP_STATION_VALUE,
-                splitPointFeature.getCurrentPosition());
-            splitPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                splitPointFeature.getGeometry());
-
-            newPointBean.setProperty(
-                LinearReferencingConstants.PROP_STATION_VALUE,
-                toPointFeature.getCurrentPosition());
-            newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                toPointFeature.getGeometry());
-
-            oldBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                fromLineFeature.getGeometry());
-
-            newfgskBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM, splitPointBean);
-            newfgskBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_TO, newPointBean);
-            newfgskBean.setProperty("linie." + LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
-                        + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-                toLineFeature.getGeometry());
+            updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, updatedPointBean);
         }
-        return newfgskBean;
+        final CidsBean persistedUpdatedLineBean = updatedLineBean.persist();
+        oldBean.setProperty("linie", persistedUpdatedLineBean);
+        final CidsBean persistedOldBean = oldBean;
+
+        // TODO oldBean adden
+        jProgressBar1.setValue(1);
+        nodes.add(new MetaObjectNode(persistedOldBean));
+
+        // neuen Punkt erzeugen
+        final CidsBean persistedSplitPointBean = (fromToSplit)
+            ? (CidsBean)oldBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_FROM)
+            : (CidsBean)oldBean.getProperty("linie."
+                        + LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        final CidsBean oldRouteBean = (CidsBean)persistedSplitPointBean.getProperty(
+                LinearReferencingConstants.PROP_STATION_ROUTE);
+        final CidsBean newPointBean = MC_STATION.getEmptyInstance().getBean();
+        newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, MC_GEOM.getEmptyInstance().getBean());
+        newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, oldRouteBean);
+        final Geometry newPointGeom = (fromToSplit) ? fromPointGeom : toPointGeom;
+        final double newPointValue = (fromToSplit) ? fromPointValue : toPointValue;
+        newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_VALUE, newPointValue);
+        newPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM + "."
+                    + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
+            newPointGeom);
+
+        // neue linie erzeugen
+        final CidsBean newLinieBean = MC_STATIONLINIE.getEmptyInstance().getBean();
+        final CidsBean newlineGeomBean = MC_GEOM.getEmptyInstance().getBean();
+        newLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, newlineGeomBean);
+        final Geometry newLineGeom = (fromToSplit) ? fromLineGeom : toLineGeom;
+        newLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
+                    + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
+            newLineGeom);
+        if (fromToSplit) {
+            newLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, newPointBean);
+            newLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, persistedSplitPointBean);
+        } else {
+            newLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, persistedSplitPointBean);
+            newLinieBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, newPointBean);
+        }
+
+        // neuen fgsk erzeugen
+        final CidsBean newfgskBean = MC_FGSK.getEmptyInstance().getBean();
+        newfgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
+        newfgskBean.setProperty("linie", newLinieBean);
+        final CidsBean persistedNewFgskBean = newfgskBean.persist();
+        // TODO persistedNewFgskBean adden
+        jProgressBar1.setValue(2);
+        nodes.add(new MetaObjectNode(persistedNewFgskBean));
+
+        return nodes;
     }
     /**
      * DOCUMENT ME!
