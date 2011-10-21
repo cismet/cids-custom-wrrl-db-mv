@@ -28,7 +28,6 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -722,7 +721,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
     private Collection<Node> splitFgskBean(final CidsBean oldBean, final boolean fromToSplit, final double splitValue)
             throws Exception {
         final Collection<Node> nodes = new ArrayList<Node>();
-        jProgressBar1.setMaximum(2);
+        jProgressBar1.setMaximum(4);
 
         final Geometry routeGeom = (Geometry)oldBean.getProperty("linie."
                         + LinearReferencingConstants.PROP_STATIONLINIE_FROM + "."
@@ -750,13 +749,6 @@ public class FgskSplitDialog extends javax.swing.JDialog {
 
         // ---
 
-        // linie der alten bean updaten
-        final Geometry updatedLineGeom = (fromToSplit) ? toLineGeom : fromLineGeom;
-        final CidsBean updatedLineBean = (CidsBean)oldBean.getProperty("linie");
-        updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
-                    + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
-            updatedLineGeom);
-
         // punkt der alten bean updaten
         final Geometry updatedPointGeom = splitPointGeom;
         final CidsBean updatedPointBean = (fromToSplit)
@@ -769,18 +761,29 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                     + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
             updatedPointGeom);
 
-        // veränderte linie samt punkt wieder in die bean reinstecken und persisten
-        if (fromToSplit) {
-            updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, updatedPointBean);
-        } else {
-            updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, updatedPointBean);
-        }
-        final CidsBean persistedUpdatedLineBean = updatedLineBean.persist();
-        oldBean.setProperty("linie", persistedUpdatedLineBean);
-        final CidsBean persistedOldBean = oldBean;
-
-        // TODO oldBean adden
+        final CidsBean persistedUpdatedPointBean = updatedPointBean.persist();
         jProgressBar1.setValue(1);
+
+        // linie der alten bean updaten
+        final Geometry updatedLineGeom = (fromToSplit) ? toLineGeom : fromLineGeom;
+        final CidsBean updatedLineBean = (CidsBean)oldBean.getProperty("linie");
+        updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM + "."
+                    + LinearReferencingConstants.PROP_GEOM_GEOFIELD,
+            updatedLineGeom);
+        if (fromToSplit) {
+            updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, persistedUpdatedPointBean);
+        } else {
+            updatedLineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, persistedUpdatedPointBean);
+        }
+
+        final CidsBean persistedUpdatedLineBean = updatedLineBean.persist();
+        jProgressBar1.setValue(2);
+
+        oldBean.setProperty("linie", persistedUpdatedLineBean);
+
+        final CidsBean persistedOldBean = oldBean.persist();
+        jProgressBar1.setValue(3);
+
         nodes.add(new MetaObjectNode(persistedOldBean));
 
         // neuen Punkt erzeugen
@@ -821,9 +824,10 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         final CidsBean newfgskBean = MC_FGSK.getEmptyInstance().getBean();
         newfgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
         newfgskBean.setProperty("linie", newLinieBean);
+
         final CidsBean persistedNewFgskBean = newfgskBean.persist();
-        // TODO persistedNewFgskBean adden
-        jProgressBar1.setValue(2);
+        jProgressBar1.setValue(4);
+
         nodes.add(new MetaObjectNode(persistedNewFgskBean));
 
         return nodes;
