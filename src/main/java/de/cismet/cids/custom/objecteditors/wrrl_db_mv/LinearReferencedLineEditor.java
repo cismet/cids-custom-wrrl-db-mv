@@ -2606,7 +2606,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 final CidsBean targetToBean = (CidsBean)targetBean.getProperty(getPointField(TO));
 
                 final Geometry routeGeometry = LinearReferencingHelper.getRouteGeometryFromStationBean(targetFromBean);
-                final double currentValue = getPointFeature(isFrom).getCurrentPosition();
+                final double currentValue = getPointValue(isFrom);
 
                 // muss from oder to angepasst werden ?
                 final double targetFromValue = (targetIsFrom)
@@ -2627,9 +2627,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 targetBean.persist();
             }
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("", ex);
-            }
+            LOG.error("error while updating snapped real geoms", ex);
         }
     }
 
