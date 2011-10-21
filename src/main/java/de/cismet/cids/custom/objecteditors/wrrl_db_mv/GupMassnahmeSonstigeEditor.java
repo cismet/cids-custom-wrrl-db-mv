@@ -64,6 +64,7 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(false);
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
         initComponents();
     }
 
@@ -330,7 +331,6 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            final CidsBean bean = (CidsBean)cidsBean.getProperty("abstimmungsvermerk");
         }
     }
 
@@ -351,10 +351,11 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        return linearReferencedLineEditor.prepareForSave();
     }
 }

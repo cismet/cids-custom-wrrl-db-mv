@@ -67,6 +67,7 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(false);
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
         initComponents();
     }
 
@@ -342,6 +343,15 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         txtBoeschungslaenge.setMaximumSize(new java.awt.Dimension(60, 20));
         txtBoeschungslaenge.setMinimumSize(new java.awt.Dimension(60, 20));
         txtBoeschungslaenge.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungslaenge}"),
+                txtBoeschungslaenge,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
@@ -376,7 +386,6 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            final CidsBean bean = (CidsBean)cidsBean.getProperty("abstimmungsvermerk");
         }
     }
 
@@ -397,10 +406,11 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        return linearReferencedLineEditor.prepareForSave();
     }
 }

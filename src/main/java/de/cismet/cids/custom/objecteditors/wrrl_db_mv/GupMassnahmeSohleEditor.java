@@ -63,6 +63,7 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(false);
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
         initComponents();
     }
 
@@ -329,7 +330,6 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            final CidsBean bean = (CidsBean)cidsBean.getProperty("abstimmungsvermerk");
         }
     }
 
@@ -350,10 +350,11 @@ public class GupMassnahmeSohleEditor extends javax.swing.JPanel implements CidsB
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        return linearReferencedLineEditor.prepareForSave();
     }
 }
