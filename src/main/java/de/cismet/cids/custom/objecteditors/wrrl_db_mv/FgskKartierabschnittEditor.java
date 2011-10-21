@@ -373,7 +373,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        fgskKartierabschnittKartierabschnitt1.editorClosed(event);
     }
 
     @Override

@@ -666,6 +666,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        kartierabschnittStammEditor1.editorClosed(event);
     }
 
     @Override

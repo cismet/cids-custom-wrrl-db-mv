@@ -103,10 +103,10 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
      */
     public KartierabschnittStammEditor(final boolean readOnly) {
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
-        linearReferencedLineEditor.setOtherLinesEnabled(true);
-        linearReferencedLineEditor.setOtherLinesQueryAddition(
-            "fgsk_kartierabschnitt",
-            "fgsk_kartierabschnitt.linie = ");
+        linearReferencedLineEditor.setOtherLinesEnabled(false);
+//        linearReferencedLineEditor.setOtherLinesQueryAddition(
+//            "fgsk_kartierabschnitt",
+//            "fgsk_kartierabschnitt.linie = ");
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
     }
