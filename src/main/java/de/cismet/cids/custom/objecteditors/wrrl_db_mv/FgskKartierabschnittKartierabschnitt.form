@@ -52,10 +52,10 @@
         <Component class="de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittStammEditor" name="kartierabschnittStammEditor1">
           <Properties>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[1100, 230]"/>
+              <Dimension value="[1100, 250]"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[1100, 230]"/>
+              <Dimension value="[1100, 250]"/>
             </Property>
           </Properties>
           <AuxValues>

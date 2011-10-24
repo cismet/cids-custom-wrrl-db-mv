@@ -416,8 +416,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         public void stateChanged(final ChangeEvent e) {
             final Component leftC = tpMain.getComponentAt(selectedTabIndex);
             final Component enteredC = tpMain.getSelectedComponent();
+            final Boolean vorkatierung = (Boolean)cidsBean.getProperty("vorkatierung");
 
-            if (!handleSonderfall() || readOnly) {
+            if (!handleSonderfall() || readOnly || ((vorkatierung != null) && vorkatierung.booleanValue())) {
                 return;
             }
 

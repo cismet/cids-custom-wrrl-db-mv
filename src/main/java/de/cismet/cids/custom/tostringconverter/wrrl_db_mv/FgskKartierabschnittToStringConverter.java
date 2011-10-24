@@ -33,13 +33,15 @@ public class FgskKartierabschnittToStringConverter extends CustomToStringConvert
                         + LinearReferencingConstants.PROP_STATIONLINIE_FROM + "."
                         + LinearReferencingConstants.PROP_STATION_ROUTE + "."
                         + LinearReferencingConstants.PROP_ROUTE_GWK);
+        final String abschnitt = (String)cidsBean.getProperty("gewaesser_abschnitt");
         final Double von = (Double)statVonBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
         final Double bis = (Double)statBisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
 
         final String gwkString = (gwk == null) ? "unbekannt" : String.valueOf(gwk);
+        final String abschnittString = (abschnitt == null) ? "" : abschnitt;
         final String vonString = (von == null) ? "unbekannt" : String.format("%06d", von.intValue());
         final String bisString = (bis == null) ? "unbekannt" : String.format("%06d", bis.intValue());
 
-        return gwkString + " [" + vonString + " - " + bisString + "]";
+        return gwkString + " " + abschnittString + " [" + vonString + " - " + bisString + "]";
     }
 }

@@ -58,6 +58,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFliessgewaesser;
+    private javax.swing.JCheckBox cbVorkatierung;
     private javax.swing.JLabel lblBearbeiter;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblFotoNr;
@@ -66,6 +67,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JLabel lblGewaessername;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblSpacing;
+    private javax.swing.JLabel lblVorkatierung;
     private javax.swing.JLabel lblWk;
     private javax.swing.JLabel lblWkName;
     private javax.swing.JLabel lblWkType;
@@ -150,6 +152,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtWkType = new javax.swing.JTextField();
         lblFotoNr = new javax.swing.JLabel();
         txtFotoNr = new javax.swing.JTextField();
+        cbVorkatierung = new javax.swing.JCheckBox();
+        lblVorkatierung = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(1100, 275));
         setOpaque(false);
@@ -267,7 +271,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 25);
         panInfoContent.add(sepMiddle, gridBagConstraints);
@@ -478,6 +482,39 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(txtFotoNr, gridBagConstraints);
 
+        cbVorkatierung.setContentAreaFilled(false);
+        cbVorkatierung.setMinimumSize(new java.awt.Dimension(100, 20));
+        cbVorkatierung.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorkatierung}"),
+                cbVorkatierung,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(cbVorkatierung, gridBagConstraints);
+
+        lblVorkatierung.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.lblVorkatierung.text")); // NOI18N
+        lblVorkatierung.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblVorkatierung.setPreferredSize(new java.awt.Dimension(130, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent.add(lblVorkatierung, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -598,16 +635,21 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
     @Override
     public boolean prepareForSave() {
-        if ((txtBearbeiter.getText() == null)
-                    || (timErfassungsdatum.getTimestamp().getTime() == 0)
-                    || (cidsBean.getProperty("linie") == null)) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Mindestens die Stationierung des Abschnitts, "
-                        + "Datum und Bearbeiter müssen angegeben werden.",
-                "Unvollständig",
-                JOptionPane.INFORMATION_MESSAGE);
-            return false;
+        final Boolean vorkatierung = (Boolean)cidsBean.getProperty("vorkatierung");
+        LOG.error("test cond: " + ((vorkatierung == null) || !vorkatierung.booleanValue()));
+        LOG.error("test val: " + (String.valueOf(vorkatierung)));
+        if ((vorkatierung == null) || !vorkatierung.booleanValue()) {
+            if ((txtBearbeiter.getText() == null)
+                        || (timErfassungsdatum.getTimestamp().getTime() == 0)
+                        || (cidsBean.getProperty("linie") == null)) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Mindestens die Stationierung des Abschnitts, "
+                            + "Datum und Bearbeiter müssen angegeben werden.",
+                    "Unvollständig",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
         }
         return linearReferencedLineEditor.prepareForSave();
     }
