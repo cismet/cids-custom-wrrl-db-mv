@@ -173,10 +173,14 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         if (!spinnerUpdateBlocked) {
             spinnerUpdateBlocked = true;
             try {
-                LOG.debug("set spinner value " + jSlider1.getValue());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("set spinner value " + jSlider1.getValue());
+                }
                 jSpinner1.setValue(jSlider1.getValue());
             } catch (final Exception ex) {
-                LOG.debug("error while changing spinner", ex);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while changing spinner", ex);
+                }
             }
             spinnerUpdateBlocked = false;
         }
@@ -686,10 +690,14 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                 if (!sliderUpdateBlocked) {
                     sliderUpdateBlocked = true;
                     try {
-                        LOG.debug("set slider value " + value);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("set slider value " + value);
+                        }
                         jSlider1.setValue(value);
                     } catch (final Exception ex) {
-                        LOG.debug("error while changing slider", ex);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("error while changing slider", ex);
+                        }
                     }
                     sliderUpdateBlocked = false;
                 }
@@ -700,7 +708,9 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                 if (!sliderUpdateBlocked) {
                     sliderUpdateBlocked = true;
                     try {
-                        LOG.debug("set slider value " + (Integer)jSpinner1.getValue());
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("set slider value " + (Integer)jSpinner1.getValue());
+                        }
                         jSlider1.setValue((Integer)jSpinner1.getValue());
                     } catch (final Exception ex2) {
                         LOG.fatal("error while changing slider", ex2);
@@ -793,6 +803,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         // ---
 
         // punkt der alten bean updaten
+        final String abschnitt = (String)oldBean.getProperty("gewaesser_abschnitt");
         final Geometry updatedPointGeom = splitPointGeom;
         final CidsBean updatedPointBean = (fromToSplit)
             ? (CidsBean)oldBean.getProperty("linie."
@@ -823,6 +834,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         jProgressBar1.setValue(2);
 
         oldBean.setProperty("linie", persistedUpdatedLineBean);
+        oldBean.setProperty("gewaesser_abschnitt", abschnitt + ".1");
 
         final CidsBean persistedOldBean = oldBean.persist();
         jProgressBar1.setValue(3);
@@ -866,6 +878,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         // neuen fgsk erzeugen
         final CidsBean newfgskBean = MC_FGSK.getEmptyInstance().getBean();
         newfgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
+        newfgskBean.setProperty("gewaesser_abschnitt", abschnitt + ".2");
         newfgskBean.setProperty("linie", newLinieBean);
 
         final CidsBean persistedNewFgskBean = newfgskBean.persist();
