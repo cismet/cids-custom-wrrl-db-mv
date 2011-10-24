@@ -513,6 +513,10 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
                     editor.updateRealGeoms();
                     addEditor(editor);
                     getCidsBeans().add(editor.getCidsBean());
+                    // meta class of wk_fg_teile is not set otherwise
+                    if (getCidsBeans().size() == 1) {
+                        getCidsBean().getMetaObject().setAllClasses();
+                    }
                     MapUtil.zoomToFeatureCollection(editor.getZoomFeatures());
                 } else {
                     return;
