@@ -92,6 +92,9 @@ public class FgskSplitDialog extends javax.swing.JDialog {
     private MappingComponent mappingComponent = null;
     private final CidsBean fgskBean;
 
+    private boolean sliderUpdateBlocked = false;
+    private boolean spinnerUpdateBlocked = false;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cmdCancel;
@@ -163,6 +166,21 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                             + LinearReferencingConstants.PROP_STATION_VALUE)).intValue();
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void sliderValueChanged() {
+        if (!spinnerUpdateBlocked) {
+            spinnerUpdateBlocked = true;
+            try {
+                LOG.debug("set spinner value " + jSlider1.getValue());
+                jSpinner1.setValue(jSlider1.getValue());
+            } catch (final Exception ex) {
+                LOG.debug("error while changing spinner", ex);
+            }
+            spinnerUpdateBlocked = false;
+        }
+    }
     /**
      * DOCUMENT ME!
      *
@@ -421,6 +439,13 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         jSlider1.setMaximum(getStationMaximum());
         jSlider1.setMinimum(getStationMinimum());
         jSlider1.setPaintTrack(false);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    jSlider1StateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -658,12 +683,30 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                 // LOG.fatal("text = " + text);
                 final int value = (Integer)formatter.stringToValue(text);
                 // LOG.fatal("value = " + value);
-                jSlider1.setValue(value);
+                if (!sliderUpdateBlocked) {
+                    sliderUpdateBlocked = true;
+                    try {
+                        LOG.debug("set slider value " + value);
+                        jSlider1.setValue(value);
+                    } catch (final Exception ex) {
+                        LOG.debug("error while changing slider", ex);
+                    }
+                    sliderUpdateBlocked = false;
+                }
             } catch (ParseException ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error parsing spinner", ex);
                 }
-                jSlider1.setValue((Integer)jSpinner1.getValue());
+                if (!sliderUpdateBlocked) {
+                    sliderUpdateBlocked = true;
+                    try {
+                        LOG.debug("set slider value " + (Integer)jSpinner1.getValue());
+                        jSlider1.setValue((Integer)jSpinner1.getValue());
+                    } catch (final Exception ex2) {
+                        LOG.fatal("error while changing slider", ex2);
+                    }
+                    sliderUpdateBlocked = false;
+                }
             }
         }
     }
@@ -673,7 +716,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
 //        final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
 //                mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
 //
@@ -705,7 +748,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                 }
             };
         sw.execute();
-    } //GEN-LAST:event_cmdOkActionPerformed
+    }//GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -837,7 +880,16 @@ public class FgskSplitDialog extends javax.swing.JDialog {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdCancelActionPerformed
+    private void cmdCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCancelActionPerformed
         dispose();
-    }                                                                             //GEN-LAST:event_cmdCancelActionPerformed
+    }//GEN-LAST:event_cmdCancelActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jSlider1StateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        sliderValueChanged();
+    }//GEN-LAST:event_jSlider1StateChanged
 }
