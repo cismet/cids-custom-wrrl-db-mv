@@ -361,7 +361,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbWasserfuehrung1">
+                    <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbStroemungsdiversitaet">
                       <Properties>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[200, 20]"/>
@@ -371,10 +371,10 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.stroemungsdiversitaet_id}" target="cbWasserfuehrung1" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.stroemungsdiversitaet_id}" target="cbStroemungsdiversitaet" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox()"/>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(comparator)"/>
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -403,7 +403,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbWasserfuehrung2">
+                    <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbTiefenerosion">
                       <Properties>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[200, 20]"/>
@@ -413,10 +413,10 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenerosion_id}" target="cbWasserfuehrung2" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenerosion_id}" target="cbTiefenerosion" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox()"/>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(comparator)"/>
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -445,7 +445,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbWasserfuehrung3">
+                    <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbTiefenvarianz">
                       <Properties>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[200, 20]"/>
@@ -455,10 +455,10 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenvarianz_id}" target="cbWasserfuehrung3" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenvarianz_id}" target="cbTiefenvarianz" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox()"/>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(comparator)"/>
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

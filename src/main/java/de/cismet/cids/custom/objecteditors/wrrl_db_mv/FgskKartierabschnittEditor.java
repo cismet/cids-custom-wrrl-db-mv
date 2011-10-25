@@ -32,6 +32,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.tools.DevelopmentTools;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -397,8 +398,17 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("fgsk_kartierabschnitt", FgskKartierabschnittEditor.class, WRRLUtil.DOMAIN_NAME) // NOI18N
-        .run();
+//        new WrrlEditorTester("fgsk_kartierabschnitt", FgskKartierabschnittEditor.class, WRRLUtil.DOMAIN_NAME) // NOI18N
+//        .run();
+        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+            "WRRL_DB_MV",
+            "Administratoren",
+            "admin",
+            "sb",
+            "fgsk_kartierabschnitt",
+            2821,
+            1280,
+            1024);
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -637,7 +647,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             }
             final CidsBean sonderfall = (CidsBean)cidsBean.getProperty("sonderfall_id");
 
-            if ((sonderfall != null) && (((Integer)sonderfall.getProperty("id")).intValue() == 1)) {
+            if ((sonderfall != null)
+                        && ((((Integer)sonderfall.getProperty("value")).intValue() == 1)
+                            || (((Integer)sonderfall.getProperty("value")).intValue() == 2))) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("property sonderfall is set to verrohrt"); // NOI18N
                 }

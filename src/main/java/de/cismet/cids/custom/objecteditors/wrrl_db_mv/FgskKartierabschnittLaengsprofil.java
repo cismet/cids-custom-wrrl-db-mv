@@ -15,6 +15,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerValueComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -30,13 +31,17 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static IntegerValueComparator comparator = new IntegerValueComparator();
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWasserfuehrung1;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWasserfuehrung2;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWasserfuehrung3;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStroemungsdiversitaet;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTiefenerosion;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTiefenvarianz;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccGewaesserSubtyp;
     private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jpLaengsprofil;
@@ -107,11 +112,11 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         lblQuerbaenke = new javax.swing.JLabel();
         sepMiddle1 = new javax.swing.JSeparator();
         lblStroemungsdiversitaet = new javax.swing.JLabel();
-        cbWasserfuehrung1 = new ScrollableComboBox();
+        cbStroemungsdiversitaet = new ScrollableComboBox(comparator);
         lblTiefenerosion = new javax.swing.JLabel();
-        cbWasserfuehrung2 = new ScrollableComboBox();
+        cbTiefenerosion = new ScrollableComboBox(comparator);
         lblTiefenvarianz = new javax.swing.JLabel();
-        cbWasserfuehrung3 = new ScrollableComboBox();
+        cbTiefenvarianz = new ScrollableComboBox(comparator);
         tfTv = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(1100, 650));
@@ -312,14 +317,14 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent1.add(lblStroemungsdiversitaet, gridBagConstraints);
 
-        cbWasserfuehrung1.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbWasserfuehrung1.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbStroemungsdiversitaet.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbStroemungsdiversitaet.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stroemungsdiversitaet_id}"),
-                cbWasserfuehrung1,
+                cbStroemungsdiversitaet,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -330,7 +335,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(cbWasserfuehrung1, gridBagConstraints);
+        panInfoContent1.add(cbStroemungsdiversitaet, gridBagConstraints);
 
         lblTiefenerosion.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittLaengsprofil.class,
@@ -345,14 +350,14 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent1.add(lblTiefenerosion, gridBagConstraints);
 
-        cbWasserfuehrung2.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbWasserfuehrung2.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbTiefenerosion.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbTiefenerosion.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.tiefenerosion_id}"),
-                cbWasserfuehrung2,
+                cbTiefenerosion,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -363,7 +368,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(cbWasserfuehrung2, gridBagConstraints);
+        panInfoContent1.add(cbTiefenerosion, gridBagConstraints);
 
         lblTiefenvarianz.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittLaengsprofil.class,
@@ -378,14 +383,14 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent1.add(lblTiefenvarianz, gridBagConstraints);
 
-        cbWasserfuehrung3.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbWasserfuehrung3.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbTiefenvarianz.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbTiefenvarianz.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.tiefenvarianz_id}"),
-                cbWasserfuehrung3,
+                cbTiefenvarianz,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -396,7 +401,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(cbWasserfuehrung3, gridBagConstraints);
+        panInfoContent1.add(cbTiefenvarianz, gridBagConstraints);
 
         tfTv.setMinimumSize(new java.awt.Dimension(200, 20));
         tfTv.setPreferredSize(new java.awt.Dimension(200, 20));

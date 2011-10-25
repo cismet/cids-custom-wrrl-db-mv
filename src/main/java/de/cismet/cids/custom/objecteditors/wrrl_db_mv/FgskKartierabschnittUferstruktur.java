@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerValueComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoDecider;
 
@@ -50,6 +51,7 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
             "fgsk_z_uferverbau");
     private static final int NONE_VAL = 8;
     private static final int NONE_VAL_STATE = 4;
+    private static IntegerValueComparator comparator = new IntegerValueComparator();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -134,9 +136,9 @@ public class FgskKartierabschnittUferstruktur extends javax.swing.JPanel impleme
         panInfoContent = new javax.swing.JPanel();
         lblUferbewuchsL = new javax.swing.JLabel();
         lblSpacing = new javax.swing.JLabel();
-        cbUferbewuchsL = new ScrollableComboBox();
+        cbUferbewuchsL = new ScrollableComboBox(comparator);
         lblUferbewuchsR = new javax.swing.JLabel();
-        cbUferbewuchsR = new ScrollableComboBox();
+        cbUferbewuchsR = new ScrollableComboBox(comparator);
         lblTypR = new javax.swing.JLabel();
         lblTypL = new javax.swing.JLabel();
         cbTypischL = new javax.swing.JCheckBox();
