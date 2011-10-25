@@ -19,9 +19,10 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -56,6 +57,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JLabel lblBis;
     private javax.swing.JLabel lblErsteller;
     private javax.swing.JLabel lblErstellt;
@@ -88,8 +90,20 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * Creates new form GupMassnahmeSohle.
      */
     public GupGupEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form GupMassnahmeSohle.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupGupEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
         scrollGewaesser.getViewport().setOpaque(false);
+
+        setReadOnly(readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -104,6 +118,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -131,6 +146,15 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
         setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(glassPanel, gridBagConstraints);
 
         panInfo.setMinimumSize(new java.awt.Dimension(557, 175));
         panInfo.setPreferredSize(new java.awt.Dimension(1130, 164));
@@ -438,6 +462,22 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 cidsBean);
             bindingGroup.bind();
             refreshGewaesser();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

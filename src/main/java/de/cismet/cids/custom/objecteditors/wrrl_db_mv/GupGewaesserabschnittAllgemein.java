@@ -19,6 +19,8 @@ import Sirius.server.search.CidsServerSearch;
 import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,6 +66,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
     private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JLabel lblGewaessername;
     private javax.swing.JLabel lblGwk;
     private javax.swing.JLabel lblPlanungseinheit;
@@ -84,7 +87,19 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
      * Creates new form GupMassnahmeSohle.
      */
     public GupGewaesserabschnittAllgemein() {
+        this(false);
+    }
+
+    /**
+     * Creates new form GupMassnahmeSohle.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupGewaesserabschnittAllgemein(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+
+        setReadOnly(readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -99,6 +114,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         lblGewaessername = new javax.swing.JLabel();
         lblGwk = new javax.swing.JLabel();
         lblWbvCode = new javax.swing.JLabel();
@@ -114,6 +130,16 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(glassPanel, gridBagConstraints);
 
         lblGewaessername.setText(org.openide.util.NbBundle.getMessage(
                 GupGewaesserabschnittAllgemein.class,
@@ -288,6 +314,22 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                         refreshLabels();
                     }
                 }).start();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

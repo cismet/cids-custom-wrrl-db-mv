@@ -83,7 +83,9 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
 
-        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblBemerkung.text")); // NOI18N
+        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblBemerkung.text")); // NOI18N
         lblBemerkung.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -98,7 +100,12 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         cbStatus.setMinimumSize(new java.awt.Dimension(380, 20));
         cbStatus.setPreferredSize(new java.awt.Dimension(380, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"), cbStatus, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"),
+                cbStatus,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -109,7 +116,9 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(cbStatus, gridBagConstraints);
 
-        lblStatus.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblStatus.text")); // NOI18N
+        lblStatus.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblStatus.text")); // NOI18N
         lblStatus.setMaximumSize(new java.awt.Dimension(170, 17));
         lblStatus.setMinimumSize(new java.awt.Dimension(170, 17));
         lblStatus.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -127,7 +136,12 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         spBemerkung.setViewportView(jTextArea1);
@@ -141,7 +155,9 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         add(spBemerkung, gridBagConstraints);
 
-        lblWer.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblWer.text")); // NOI18N
+        lblWer.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblWer.text")); // NOI18N
         lblWer.setMaximumSize(new java.awt.Dimension(170, 17));
         lblWer.setMinimumSize(new java.awt.Dimension(170, 17));
         lblWer.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -152,7 +168,9 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 5);
         add(lblWer, gridBagConstraints);
 
-        lblWas.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblWas.text")); // NOI18N
+        lblWas.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblWas.text")); // NOI18N
         lblWas.setMaximumSize(new java.awt.Dimension(170, 17));
         lblWas.setMinimumSize(new java.awt.Dimension(170, 17));
         lblWas.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -167,7 +185,12 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         txtWer.setMinimumSize(new java.awt.Dimension(290, 20));
         txtWer.setPreferredSize(new java.awt.Dimension(290, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wer}"), txtWer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wer}"),
+                txtWer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -186,7 +209,12 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.was}"), jTextArea2, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.was}"),
+                jTextArea2,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         spBemerkung1.setViewportView(jTextArea2);
@@ -201,7 +229,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         add(spBemerkung1, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

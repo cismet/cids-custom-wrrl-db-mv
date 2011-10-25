@@ -12,9 +12,11 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -39,6 +41,7 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbUmlandnutzung;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblUmlandnutzung;
@@ -53,11 +56,23 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
      * Creates new form GupMassnahmeSohle.
      */
     public GupUmlandinfoEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form GupMassnahmeSohle.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupUmlandinfoEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(false);
         linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
         initComponents();
+
+        setReadOnly(readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -72,6 +87,7 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         lblUmlandnutzung = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
         spBemerkung = new javax.swing.JScrollPane();
@@ -83,7 +99,19 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
         setPreferredSize(new java.awt.Dimension(994, 800));
         setLayout(new java.awt.GridBagLayout());
 
-        lblUmlandnutzung.setText(org.openide.util.NbBundle.getMessage(GupUmlandinfoEditor.class, "GupUmlandinfoEditor.lblUmlandnutzung.text")); // NOI18N
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(glassPanel, gridBagConstraints);
+
+        lblUmlandnutzung.setText(org.openide.util.NbBundle.getMessage(
+                GupUmlandinfoEditor.class,
+                "GupUmlandinfoEditor.lblUmlandnutzung.text")); // NOI18N
         lblUmlandnutzung.setMaximumSize(new java.awt.Dimension(170, 17));
         lblUmlandnutzung.setMinimumSize(new java.awt.Dimension(170, 17));
         lblUmlandnutzung.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -94,7 +122,9 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 5);
         add(lblUmlandnutzung, gridBagConstraints);
 
-        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(GupUmlandinfoEditor.class, "GupUmlandinfoEditor.lblBemerkung.text")); // NOI18N
+        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                GupUmlandinfoEditor.class,
+                "GupUmlandinfoEditor.lblBemerkung.text")); // NOI18N
         lblBemerkung.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -112,7 +142,12 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beschreibung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beschreibung}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         spBemerkung.setViewportView(jTextArea1);
@@ -138,7 +173,12 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
         cbUmlandnutzung.setMinimumSize(new java.awt.Dimension(380, 20));
         cbUmlandnutzung.setPreferredSize(new java.awt.Dimension(380, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umlandnutzung}"), cbUmlandnutzung, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umlandnutzung}"),
+                cbUmlandnutzung,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -150,7 +190,7 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
         add(cbUmlandnutzung, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -168,6 +208,22 @@ public class GupUmlandinfoEditor extends javax.swing.JPanel implements CidsBeanR
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 

@@ -12,9 +12,11 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -41,6 +43,7 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahme;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblBearbeiter;
@@ -64,11 +67,22 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
      * Creates new form GupMassnahmeSohle.
      */
     public GupMassnahmeUferEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form GupMassnahmeSohle.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupMassnahmeUferEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(false);
         linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
         initComponents();
+        setReadOnly(readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -83,6 +97,7 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         lblBearbeiter = new javax.swing.JLabel();
         lblMassnahme = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
@@ -105,7 +120,19 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         setPreferredSize(new java.awt.Dimension(994, 800));
         setLayout(new java.awt.GridBagLayout());
 
-        lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblBearbeiter.text")); // NOI18N
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(glassPanel, gridBagConstraints);
+
+        lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblBearbeiter.text")); // NOI18N
         lblBearbeiter.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBearbeiter.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBearbeiter.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -117,7 +144,9 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 5);
         add(lblBearbeiter, gridBagConstraints);
 
-        lblMassnahme.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblMassnahme.text")); // NOI18N
+        lblMassnahme.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblMassnahme.text")); // NOI18N
         lblMassnahme.setMaximumSize(new java.awt.Dimension(170, 17));
         lblMassnahme.setMinimumSize(new java.awt.Dimension(170, 17));
         lblMassnahme.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -129,7 +158,9 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblMassnahme, gridBagConstraints);
 
-        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblBemerkung.text")); // NOI18N
+        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblBemerkung.text")); // NOI18N
         lblBemerkung.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -141,7 +172,9 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblBemerkung, gridBagConstraints);
 
-        lblVerbleib.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblVerbleib.text")); // NOI18N
+        lblVerbleib.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblVerbleib.text")); // NOI18N
         lblVerbleib.setMaximumSize(new java.awt.Dimension(170, 34));
         lblVerbleib.setMinimumSize(new java.awt.Dimension(170, 34));
         lblVerbleib.setPreferredSize(new java.awt.Dimension(170, 34));
@@ -157,7 +190,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         cbMassnahme.setMinimumSize(new java.awt.Dimension(290, 20));
         cbMassnahme.setPreferredSize(new java.awt.Dimension(290, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"), cbMassnahme, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"),
+                cbMassnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -173,7 +211,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         cbVerbleib.setMinimumSize(new java.awt.Dimension(290, 20));
         cbVerbleib.setPreferredSize(new java.awt.Dimension(290, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.materialverbleib}"), cbVerbleib, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.materialverbleib}"),
+                cbVerbleib,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -189,7 +232,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         txtBearbeiter.setMinimumSize(new java.awt.Dimension(290, 20));
         txtBearbeiter.setPreferredSize(new java.awt.Dimension(290, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bearbeiter}"), txtBearbeiter, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bearbeiter}"),
+                txtBearbeiter,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -208,7 +256,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         spBemerkung.setViewportView(jTextArea1);
@@ -234,7 +287,9 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        lblJahr.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblJahr.text")); // NOI18N
+        lblJahr.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblJahr.text")); // NOI18N
         lblJahr.setMaximumSize(new java.awt.Dimension(30, 17));
         lblJahr.setMinimumSize(new java.awt.Dimension(30, 17));
         lblJahr.setPreferredSize(new java.awt.Dimension(30, 17));
@@ -249,7 +304,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         txtJahr.setMinimumSize(new java.awt.Dimension(60, 20));
         txtJahr.setPreferredSize(new java.awt.Dimension(60, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr}"), txtJahr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr}"),
+                txtJahr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -259,7 +319,9 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel3.add(txtJahr, gridBagConstraints);
 
-        lblIntervall.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblIntervall.text")); // NOI18N
+        lblIntervall.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblIntervall.text")); // NOI18N
         lblIntervall.setMaximumSize(new java.awt.Dimension(60, 17));
         lblIntervall.setMinimumSize(new java.awt.Dimension(60, 17));
         lblIntervall.setPreferredSize(new java.awt.Dimension(60, 17));
@@ -274,7 +336,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         cbIntervall.setMinimumSize(new java.awt.Dimension(170, 20));
         cbIntervall.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.intervall}"), cbIntervall, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.intervall}"),
+                cbIntervall,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,7 +352,9 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel3.add(cbIntervall, gridBagConstraints);
 
-        lblBoeschungslaenge.setText(org.openide.util.NbBundle.getMessage(GupMassnahmeUferEditor.class, "GupMassnahmeUferEditor.lblBoeschungslaenge.text")); // NOI18N
+        lblBoeschungslaenge.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmeUferEditor.class,
+                "GupMassnahmeUferEditor.lblBoeschungslaenge.text")); // NOI18N
         lblBoeschungslaenge.setMaximumSize(new java.awt.Dimension(135, 17));
         lblBoeschungslaenge.setMinimumSize(new java.awt.Dimension(135, 17));
         lblBoeschungslaenge.setPreferredSize(new java.awt.Dimension(135, 17));
@@ -300,7 +369,12 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         txtBoeschungslaenge.setMinimumSize(new java.awt.Dimension(60, 20));
         txtBoeschungslaenge.setPreferredSize(new java.awt.Dimension(60, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungslaenge}"), txtBoeschungslaenge, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungslaenge}"),
+                txtBoeschungslaenge,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -319,7 +393,7 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         add(jPanel3, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -337,6 +411,22 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
         }
     }
 
