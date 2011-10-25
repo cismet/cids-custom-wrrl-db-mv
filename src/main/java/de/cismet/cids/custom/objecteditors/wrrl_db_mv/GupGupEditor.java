@@ -61,6 +61,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblErstellt;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblVon;
     private javax.swing.JLabel lblZeitraum;
     private javax.swing.JLabel lblZustaendigkeit;
@@ -75,6 +76,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JTextField txtBis;
     private javax.swing.JTextField txtErsteller;
     private javax.swing.JTextField txtErstellt;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtVon;
     private javax.swing.JTextField txtZustaendigkeit;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -117,6 +119,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblVon = new javax.swing.JLabel();
         lblBis = new javax.swing.JLabel();
         txtBis = new javax.swing.JTextField();
+        lblName = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
         panInfo1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
@@ -128,7 +132,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         setPreferredSize(new java.awt.Dimension(994, 400));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(557, 150));
+        panInfo.setMinimumSize(new java.awt.Dimension(557, 175));
+        panInfo.setPreferredSize(new java.awt.Dimension(1130, 164));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -151,7 +156,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblErstellt.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblErstellt, gridBagConstraints);
@@ -164,7 +169,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblErsteller.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblErsteller, gridBagConstraints);
@@ -175,7 +180,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblZeitraum.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblZeitraum, gridBagConstraints);
@@ -188,7 +193,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblZustaendigkeit.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblZustaendigkeit, gridBagConstraints);
@@ -208,7 +213,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -230,7 +235,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -252,7 +257,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -273,7 +278,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -287,7 +292,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblVon.setPreferredSize(new java.awt.Dimension(50, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblVon, gridBagConstraints);
@@ -298,7 +303,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblBis.setPreferredSize(new java.awt.Dimension(50, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblBis, gridBagConstraints);
@@ -317,12 +322,45 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         panInfoContent.add(txtBis, gridBagConstraints);
+
+        lblName.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblName.text")); // NOI18N
+        lblName.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblName.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblName.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        panInfoContent.add(lblName, gridBagConstraints);
+
+        txtName.setMaximumSize(new java.awt.Dimension(280, 20));
+        txtName.setMinimumSize(new java.awt.Dimension(280, 20));
+        txtName.setPreferredSize(new java.awt.Dimension(380, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtName,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
+        panInfoContent.add(txtName, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 

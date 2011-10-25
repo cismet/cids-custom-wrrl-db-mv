@@ -40,17 +40,26 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JPanel jpDritte;
-    private javax.swing.JPanel jpNatur;
-    private javax.swing.JPanel jpWasser;
     private javax.swing.JLabel lblBemerkungDritte;
     private javax.swing.JLabel lblBemerkungNa;
     private javax.swing.JLabel lblBemerkungWa;
+    private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblStatusNa;
     private javax.swing.JLabel lblStatusWa;
     private javax.swing.JLabel lblZustDritte;
     private javax.swing.JLabel lblZustNatBehoerde;
     private javax.swing.JLabel lblZustWaBehoerde;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
+    private de.cismet.tools.gui.RoundedPanel panInfo;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo2;
+    private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JPanel panInfoContent2;
     private javax.swing.JScrollPane spBemerkungDritte;
     private javax.swing.JScrollPane spBemerkungNa;
     private javax.swing.JScrollPane spBemerkungWa;
@@ -81,7 +90,10 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jpWasser = new javax.swing.JPanel();
+        panInfo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading = new javax.swing.JLabel();
+        panInfoContent = new javax.swing.JPanel();
         lblZustWaBehoerde = new javax.swing.JLabel();
         txtZustWaBehoerde = new javax.swing.JTextField();
         lblStatusWa = new javax.swing.JLabel();
@@ -89,7 +101,10 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         lblBemerkungWa = new javax.swing.JLabel();
         spBemerkungWa = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jpNatur = new javax.swing.JPanel();
+        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
         lblZustNatBehoerde = new javax.swing.JLabel();
         cbStatusNa = new ScrollableComboBox();
         lblStatusNa = new javax.swing.JLabel();
@@ -97,7 +112,10 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         txtZustNaBehoerde = new javax.swing.JTextField();
         spBemerkungNa = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        jpDritte = new javax.swing.JPanel();
+        panInfo2 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading2 = new javax.swing.JLabel();
+        panInfoContent2 = new javax.swing.JPanel();
         lblZustDritte = new javax.swing.JLabel();
         lblBemerkungDritte = new javax.swing.JLabel();
         txtZustDritteBehoerde = new javax.swing.JTextField();
@@ -107,12 +125,25 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
 
-        jpWasser.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    GupAbstimmungsvermerk.class,
-                    "GupAbstimmungsvermerk.jpWasser.title"))); // NOI18N
-        jpWasser.setOpaque(false);
-        jpWasser.setLayout(new java.awt.GridBagLayout());
+        panInfo.setMinimumSize(new java.awt.Dimension(557, 200));
+        panInfo.setPreferredSize(new java.awt.Dimension(1130, 200));
+
+        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setLayout(new java.awt.FlowLayout());
+
+        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblHeading.text")); // NOI18N
+        panHeadInfo.add(lblHeading);
+
+        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
+
+        panInfoContent.setMinimumSize(new java.awt.Dimension(1057, 250));
+        panInfoContent.setOpaque(false);
+        panInfoContent.setLayout(new java.awt.GridBagLayout());
 
         lblZustWaBehoerde.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -125,7 +156,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpWasser.add(lblZustWaBehoerde, gridBagConstraints);
+        panInfoContent.add(lblZustWaBehoerde, gridBagConstraints);
 
         txtZustWaBehoerde.setMaximumSize(new java.awt.Dimension(280, 20));
         txtZustWaBehoerde.setMinimumSize(new java.awt.Dimension(280, 20));
@@ -146,7 +177,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpWasser.add(txtZustWaBehoerde, gridBagConstraints);
+        panInfoContent.add(txtZustWaBehoerde, gridBagConstraints);
 
         lblStatusWa.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -159,7 +190,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpWasser.add(lblStatusWa, gridBagConstraints);
+        panInfoContent.add(lblStatusWa, gridBagConstraints);
 
         cbStatusWa.setMaximumSize(new java.awt.Dimension(280, 20));
         cbStatusWa.setMinimumSize(new java.awt.Dimension(280, 20));
@@ -180,7 +211,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpWasser.add(cbStatusWa, gridBagConstraints);
+        panInfoContent.add(cbStatusWa, gridBagConstraints);
 
         lblBemerkungWa.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -193,7 +224,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpWasser.add(lblBemerkungWa, gridBagConstraints);
+        panInfoContent.add(lblBemerkungWa, gridBagConstraints);
 
         spBemerkungWa.setMaximumSize(new java.awt.Dimension(280, 90));
         spBemerkungWa.setMinimumSize(new java.awt.Dimension(280, 90));
@@ -218,21 +249,37 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpWasser.add(spBemerkungWa, gridBagConstraints);
+        panInfoContent.add(spBemerkungWa, gridBagConstraints);
+
+        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        add(jpWasser, gridBagConstraints);
+        add(panInfo, gridBagConstraints);
 
-        jpNatur.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    GupAbstimmungsvermerk.class,
-                    "GupAbstimmungsvermerk.jpNatur.border.title"))); // NOI18N
-        jpNatur.setOpaque(false);
-        jpNatur.setLayout(new java.awt.GridBagLayout());
+        panInfo1.setMinimumSize(new java.awt.Dimension(557, 200));
+        panInfo1.setPreferredSize(new java.awt.Dimension(1130, 200));
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setMinimumSize(new java.awt.Dimension(1057, 250));
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
 
         lblZustNatBehoerde.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -245,7 +292,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpNatur.add(lblZustNatBehoerde, gridBagConstraints);
+        panInfoContent1.add(lblZustNatBehoerde, gridBagConstraints);
 
         cbStatusNa.setMaximumSize(new java.awt.Dimension(280, 20));
         cbStatusNa.setMinimumSize(new java.awt.Dimension(280, 20));
@@ -266,7 +313,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpNatur.add(cbStatusNa, gridBagConstraints);
+        panInfoContent1.add(cbStatusNa, gridBagConstraints);
 
         lblStatusNa.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -279,7 +326,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpNatur.add(lblStatusNa, gridBagConstraints);
+        panInfoContent1.add(lblStatusNa, gridBagConstraints);
 
         lblBemerkungNa.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -292,7 +339,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpNatur.add(lblBemerkungNa, gridBagConstraints);
+        panInfoContent1.add(lblBemerkungNa, gridBagConstraints);
 
         txtZustNaBehoerde.setMaximumSize(new java.awt.Dimension(280, 20));
         txtZustNaBehoerde.setMinimumSize(new java.awt.Dimension(280, 20));
@@ -313,7 +360,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpNatur.add(txtZustNaBehoerde, gridBagConstraints);
+        panInfoContent1.add(txtZustNaBehoerde, gridBagConstraints);
 
         spBemerkungNa.setMaximumSize(new java.awt.Dimension(280, 90));
         spBemerkungNa.setMinimumSize(new java.awt.Dimension(280, 90));
@@ -338,21 +385,37 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpNatur.add(spBemerkungNa, gridBagConstraints);
+        panInfoContent1.add(spBemerkungNa, gridBagConstraints);
+
+        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        add(jpNatur, gridBagConstraints);
+        add(panInfo1, gridBagConstraints);
 
-        jpDritte.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    GupAbstimmungsvermerk.class,
-                    "GupAbstimmungsvermerk.jpDritte.border.title"))); // NOI18N
-        jpDritte.setOpaque(false);
-        jpDritte.setLayout(new java.awt.GridBagLayout());
+        panInfo2.setMinimumSize(new java.awt.Dimension(557, 200));
+        panInfo2.setPreferredSize(new java.awt.Dimension(1130, 200));
+
+        panHeadInfo2.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo2.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo2.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo2.setLayout(new java.awt.FlowLayout());
+
+        lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading2.setText(org.openide.util.NbBundle.getMessage(
+                GupAbstimmungsvermerk.class,
+                "GupAbstimmungsvermerk.lblHeading2.text")); // NOI18N
+        panHeadInfo2.add(lblHeading2);
+
+        panInfo2.add(panHeadInfo2, java.awt.BorderLayout.NORTH);
+
+        panInfoContent2.setMinimumSize(new java.awt.Dimension(1057, 250));
+        panInfoContent2.setOpaque(false);
+        panInfoContent2.setLayout(new java.awt.GridBagLayout());
 
         lblZustDritte.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -365,7 +428,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpDritte.add(lblZustDritte, gridBagConstraints);
+        panInfoContent2.add(lblZustDritte, gridBagConstraints);
 
         lblBemerkungDritte.setText(org.openide.util.NbBundle.getMessage(
                 GupAbstimmungsvermerk.class,
@@ -378,7 +441,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jpDritte.add(lblBemerkungDritte, gridBagConstraints);
+        panInfoContent2.add(lblBemerkungDritte, gridBagConstraints);
 
         txtZustDritteBehoerde.setMaximumSize(new java.awt.Dimension(280, 20));
         txtZustDritteBehoerde.setMinimumSize(new java.awt.Dimension(280, 20));
@@ -399,7 +462,7 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpDritte.add(txtZustDritteBehoerde, gridBagConstraints);
+        panInfoContent2.add(txtZustDritteBehoerde, gridBagConstraints);
 
         spBemerkungDritte.setMaximumSize(new java.awt.Dimension(280, 90));
         spBemerkungDritte.setMinimumSize(new java.awt.Dimension(280, 90));
@@ -424,16 +487,18 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jpDritte.add(spBemerkungDritte, gridBagConstraints);
+        panInfoContent2.add(spBemerkungDritte, gridBagConstraints);
+
+        panInfo2.add(panInfoContent2, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        add(jpDritte, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        add(panInfo2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
