@@ -51,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 import javax.swing.TransferHandler;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -688,7 +689,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @return  DOCUMENT ME!
      */
-    private String getPointField(final boolean isFrom) {
+    private static String getPointField(final boolean isFrom) {
         return (isFrom) ? PROP_STATIONLINIE_FROM : PROP_STATIONLINIE_TO;
     }
 
@@ -2318,63 +2319,63 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromPointSplitActionPerformed
+    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromPointSplitActionPerformed
         splitPoint(FROM);
-    }//GEN-LAST:event_btnFromPointSplitActionPerformed
+    }                                                                                     //GEN-LAST:event_btnFromPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToPointSplitActionPerformed
+    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToPointSplitActionPerformed
         splitPoint(TO);
-    }//GEN-LAST:event_btnToPointSplitActionPerformed
+    }                                                                                   //GEN-LAST:event_btnToPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
+    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
         correctBadGeom(TO);
-    }//GEN-LAST:event_btnToBadGeomCorrectActionPerformed
+    }                                                                                       //GEN-LAST:event_btnToBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomActionPerformed
+    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomActionPerformed
         switchBadGeomVisibility(TO);
-    }//GEN-LAST:event_btnToBadGeomActionPerformed
+    }                                                                                //GEN-LAST:event_btnToBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
+    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
         correctBadGeom(FROM);
-    }//GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
+    }                                                                                         //GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomActionPerformed
+    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomActionPerformed
         switchBadGeomVisibility(FROM);
-    }//GEN-LAST:event_btnFromBadGeomActionPerformed
+    }                                                                                  //GEN-LAST:event_btnFromBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRouteActionPerformed
+    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRouteActionPerformed
         updateOtherLinesPanelVisibility();
-    }//GEN-LAST:event_btnRouteActionPerformed
+    }                                                                            //GEN-LAST:event_btnRouteActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2577,12 +2578,18 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  isFrom        DOCUMENT ME!
      * @param  targetIsFrom  DOCUMENT ME!
+     * @param  lineBean      DOCUMENT ME!
      */
-    private void updateSnappedRealGeoms(final boolean isFrom, final boolean targetIsFrom) {
+    private static void updateSnappedRealGeoms(final boolean isFrom,
+            final boolean targetIsFrom,
+            final CidsBean lineBean) {
         final MetaClass mcLine = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, CN_STATIONLINE);
 
-        final int ownLineId = getLineBean().getMetaObject().getId();
-        final int pointId = getPointBean(isFrom).getMetaObject().getId();
+        final int ownLineId = lineBean.getMetaObject().getId();
+        final CidsBean pointBean = (isFrom)
+            ? (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM)
+            : (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+        final int pointId = pointBean.getMetaObject().getId();
         final String query = "SELECT "
                     + mcLine.getId() + ", "
                     + mcLine.getPrimaryKey() + " "
@@ -2597,6 +2604,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             // wk_teile mit gleicher station an einem Ende holen
             final MetaObject[] mos = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
+//            if (mos.length == 0) {
+//                LOG.fatal(query);
+//            }
+
             for (final MetaObject mo : mos) {
                 // bean des wk_teils
                 final CidsBean targetBean = mo.getBean();
@@ -2606,7 +2617,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 final CidsBean targetToBean = (CidsBean)targetBean.getProperty(getPointField(TO));
 
                 final Geometry routeGeometry = LinearReferencingHelper.getRouteGeometryFromStationBean(targetFromBean);
-                final double currentValue = getPointValue(isFrom);
+                final double currentValue = (Double)pointBean.getProperty(
+                        LinearReferencingConstants.PROP_STATION_VALUE);
 
                 // muss from oder to angepasst werden ?
                 final double targetFromValue = (targetIsFrom)
@@ -2634,52 +2646,36 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
-     * @param  isFrom  DOCUMENT ME!
+     * @param  isFrom    DOCUMENT ME!
+     * @param  lineBean  DOCUMENT ME!
      */
-    private void updateSnappedRealGeoms(final boolean isFrom) {
-        updateSnappedRealGeoms(isFrom, FROM);
-        updateSnappedRealGeoms(isFrom, TO);
+    private static void updateSnappedRealGeoms(final boolean isFrom, final CidsBean lineBean) {
+        updateSnappedRealGeoms(isFrom, FROM, lineBean);
+        updateSnappedRealGeoms(isFrom, TO, lineBean);
     }
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        if (event.getStatus() != EditorSaveStatus.SAVE_SUCCESS) {
-            final CidsBean savedBean = event.getSavedBean();
-            if (savedBean != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("editor closed: " + event.getSavedBean().getMOString(), new CurrentStackTrace());
-                }
-                final CidsBean oldCidsBean = getCidsBean();
-                setCidsBean(event.getSavedBean());
-
-                if (isEditable()) {
-                    updateSnappedRealGeoms(FROM);
-                    updateSnappedRealGeoms(TO);
-                }
-
-                setCidsBean(oldCidsBean);
-            }
-        } else if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
-            // otherlinebeans kram noch notwending ??? updatesnappedrealgeoms macht doch schon persist auf gesnappte
-            // stationien
-            for (final CidsBean otherLineBean : otherLineBeans) {
-                if (otherLineBean.hasArtificialChangeFlag()) {
-                    try {
-                        otherLineBean.persist();
-                    } catch (Exception ex) {
-                        LOG.error("error during persist", ex);
-                    }
-                }
-            }
-            otherLineBeans.clear();
-
-            // TEMPORÄR AUSKOMMENTIERT WEGEN BUG IN WRRL
-//            if (isEditable()) {
-//                updateSnappedRealGeoms(FROM);
-//                updateSnappedRealGeoms(TO);
-//            }
-        }
         CIDSBEAN_CACHE.clear();
+        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            if (isEditable()) {
+                new SwingWorker<Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            // otherlinebeans kram noch notwending ??? updatesnappedrealgeoms macht doch schon persist
+                            // auf gesnappte stationien for (final CidsBean otherLineBean : otherLineBeans) { if
+                            // (otherLineBean.hasArtificialChangeFlag()) { try { otherLineBean.persist(); } catch
+                            // (Exception ex) { LOG.error("error during persist", ex); } } } otherLineBeans.clear();
+
+                            final CidsBean savedBean = event.getSavedBean();
+                            updateSnappedRealGeoms(FROM, getLineBean(savedBean, lineField));
+                            updateSnappedRealGeoms(TO, getLineBean(savedBean, lineField));
+                            return null;
+                        }
+                    }.execute();
+            }
+        }
     }
 
     @Override
