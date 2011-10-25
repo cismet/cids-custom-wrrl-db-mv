@@ -9,7 +9,6 @@ package de.cismet.cids.custom.wrrl_db_mv.util;
 
 import org.jdesktop.beansbinding.Converter;
 
-import java.math.BigDecimal;
 
 /**
  * DOCUMENT ME!
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class RoundedNumberConverter extends Converter<Number, String> {
+public class RoundedNumberConverter extends Converter<Double, String> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -36,7 +35,7 @@ public class RoundedNumberConverter extends Converter<Number, String> {
     }
 
     @Override
-    public String convertForward(final Number value) {
+    public String convertForward(final Double value) {
         if (value == null) {
             return "";
         }
@@ -46,13 +45,13 @@ public class RoundedNumberConverter extends Converter<Number, String> {
     }
 
     @Override
-    public Number convertReverse(final String value) {
+    public Double convertReverse(final String value) {
         try {
             if (value == null) {
                 return null;
             }
 
-            return new BigDecimal(value.replace(',', '.'));
+            return new Double(value.replace(',', '.'));
         } catch (final NumberFormatException e) {
             LOG.warn("No valid number: " + value, e);
 
