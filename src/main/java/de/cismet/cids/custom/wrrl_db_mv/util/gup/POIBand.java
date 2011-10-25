@@ -72,8 +72,8 @@ public class POIBand extends DefaultBand {
      */
     public void addQuerbauwerkeFromQueryResult(final ArrayList<ArrayList> inputResulSet) {
         for (final ArrayList zeile : inputResulSet) {
-//            final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
-            final QuerbauwerkeMember qbm = new QuerbauwerkeSmallMember(zeile);
+            final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
+//            final QuerbauwerkeMember qbm = new QuerbauwerkeSmallMember(zeile);
             addMember(qbm);
         }
     }
