@@ -35,37 +35,16 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStatusNa;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStatusWa;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStatus;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JLabel lblBemerkungDritte;
-    private javax.swing.JLabel lblBemerkungNa;
-    private javax.swing.JLabel lblBemerkungWa;
-    private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblHeading1;
-    private javax.swing.JLabel lblHeading2;
-    private javax.swing.JLabel lblStatusNa;
-    private javax.swing.JLabel lblStatusWa;
-    private javax.swing.JLabel lblZustDritte;
-    private javax.swing.JLabel lblZustNatBehoerde;
-    private javax.swing.JLabel lblZustWaBehoerde;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
-    private de.cismet.tools.gui.RoundedPanel panInfo;
-    private de.cismet.tools.gui.RoundedPanel panInfo1;
-    private de.cismet.tools.gui.RoundedPanel panInfo2;
-    private javax.swing.JPanel panInfoContent;
-    private javax.swing.JPanel panInfoContent1;
-    private javax.swing.JPanel panInfoContent2;
-    private javax.swing.JScrollPane spBemerkungDritte;
-    private javax.swing.JScrollPane spBemerkungNa;
-    private javax.swing.JScrollPane spBemerkungWa;
-    private javax.swing.JTextField txtZustDritteBehoerde;
-    private javax.swing.JTextField txtZustNaBehoerde;
-    private javax.swing.JTextField txtZustWaBehoerde;
+    private javax.swing.JLabel lblBemerkung;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblWas;
+    private javax.swing.JLabel lblWer;
+    private javax.swing.JScrollPane spBemerkung;
+    private javax.swing.JScrollPane spBemerkung1;
+    private javax.swing.JTextField txtWer;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -90,418 +69,139 @@ public class GupAbstimmungsvermerk extends javax.swing.JPanel implements CidsBea
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        panInfo = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading = new javax.swing.JLabel();
-        panInfoContent = new javax.swing.JPanel();
-        lblZustWaBehoerde = new javax.swing.JLabel();
-        txtZustWaBehoerde = new javax.swing.JTextField();
-        lblStatusWa = new javax.swing.JLabel();
-        cbStatusWa = new ScrollableComboBox();
-        lblBemerkungWa = new javax.swing.JLabel();
-        spBemerkungWa = new javax.swing.JScrollPane();
+        lblBemerkung = new javax.swing.JLabel();
+        cbStatus = new ScrollableComboBox();
+        lblStatus = new javax.swing.JLabel();
+        spBemerkung = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading1 = new javax.swing.JLabel();
-        panInfoContent1 = new javax.swing.JPanel();
-        lblZustNatBehoerde = new javax.swing.JLabel();
-        cbStatusNa = new ScrollableComboBox();
-        lblStatusNa = new javax.swing.JLabel();
-        lblBemerkungNa = new javax.swing.JLabel();
-        txtZustNaBehoerde = new javax.swing.JTextField();
-        spBemerkungNa = new javax.swing.JScrollPane();
+        lblWer = new javax.swing.JLabel();
+        lblWas = new javax.swing.JLabel();
+        txtWer = new javax.swing.JTextField();
+        spBemerkung1 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        panInfo2 = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading2 = new javax.swing.JLabel();
-        panInfoContent2 = new javax.swing.JPanel();
-        lblZustDritte = new javax.swing.JLabel();
-        lblBemerkungDritte = new javax.swing.JLabel();
-        txtZustDritteBehoerde = new javax.swing.JTextField();
-        spBemerkungDritte = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
 
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(557, 200));
-        panInfo.setPreferredSize(new java.awt.Dimension(1130, 200));
-
-        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setLayout(new java.awt.FlowLayout());
-
-        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblHeading.text")); // NOI18N
-        panHeadInfo.add(lblHeading);
-
-        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
-
-        panInfoContent.setMinimumSize(new java.awt.Dimension(1057, 250));
-        panInfoContent.setOpaque(false);
-        panInfoContent.setLayout(new java.awt.GridBagLayout());
-
-        lblZustWaBehoerde.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblZustWaBehoerde.text")); // NOI18N
-        lblZustWaBehoerde.setMaximumSize(new java.awt.Dimension(170, 34));
-        lblZustWaBehoerde.setMinimumSize(new java.awt.Dimension(170, 34));
-        lblZustWaBehoerde.setPreferredSize(new java.awt.Dimension(170, 34));
+        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblBemerkung.text")); // NOI18N
+        lblBemerkung.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblZustWaBehoerde, gridBagConstraints);
+        add(lblBemerkung, gridBagConstraints);
 
-        txtZustWaBehoerde.setMaximumSize(new java.awt.Dimension(280, 20));
-        txtZustWaBehoerde.setMinimumSize(new java.awt.Dimension(280, 20));
-        txtZustWaBehoerde.setPreferredSize(new java.awt.Dimension(280, 20));
+        cbStatus.setMaximumSize(new java.awt.Dimension(380, 20));
+        cbStatus.setMinimumSize(new java.awt.Dimension(380, 20));
+        cbStatus.setPreferredSize(new java.awt.Dimension(380, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wasserbehoerde}"),
-                txtZustWaBehoerde,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"), cbStatus, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtZustWaBehoerde, gridBagConstraints);
-
-        lblStatusWa.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblStatusWa.text")); // NOI18N
-        lblStatusWa.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblStatusWa.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblStatusWa.setPreferredSize(new java.awt.Dimension(170, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblStatusWa, gridBagConstraints);
-
-        cbStatusWa.setMaximumSize(new java.awt.Dimension(280, 20));
-        cbStatusWa.setMinimumSize(new java.awt.Dimension(280, 20));
-        cbStatusWa.setPreferredSize(new java.awt.Dimension(280, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status_wasser}"),
-                cbStatusWa,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbStatusWa, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        add(cbStatus, gridBagConstraints);
 
-        lblBemerkungWa.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblBemerkungWa.text")); // NOI18N
-        lblBemerkungWa.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblBemerkungWa.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblBemerkungWa.setPreferredSize(new java.awt.Dimension(170, 17));
+        lblStatus.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblStatus.text")); // NOI18N
+        lblStatus.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblStatus.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblStatus.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblBemerkungWa, gridBagConstraints);
+        add(lblStatus, gridBagConstraints);
 
-        spBemerkungWa.setMaximumSize(new java.awt.Dimension(280, 90));
-        spBemerkungWa.setMinimumSize(new java.awt.Dimension(280, 90));
-        spBemerkungWa.setPreferredSize(new java.awt.Dimension(280, 90));
+        spBemerkung.setMaximumSize(new java.awt.Dimension(280, 90));
+        spBemerkung.setMinimumSize(new java.awt.Dimension(280, 90));
+        spBemerkung.setPreferredSize(new java.awt.Dimension(280, 90));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kommentar_wasser}"),
-                jTextArea1,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        spBemerkungWa.setViewportView(jTextArea1);
+        spBemerkung.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(spBemerkungWa, gridBagConstraints);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        add(spBemerkung, gridBagConstraints);
 
-        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
-
+        lblWer.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblWer.text")); // NOI18N
+        lblWer.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblWer.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblWer.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        add(panInfo, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 5);
+        add(lblWer, gridBagConstraints);
 
-        panInfo1.setMinimumSize(new java.awt.Dimension(557, 200));
-        panInfo1.setPreferredSize(new java.awt.Dimension(1130, 200));
-
-        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo1.setLayout(new java.awt.FlowLayout());
-
-        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblHeading1.text")); // NOI18N
-        panHeadInfo1.add(lblHeading1);
-
-        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
-
-        panInfoContent1.setMinimumSize(new java.awt.Dimension(1057, 250));
-        panInfoContent1.setOpaque(false);
-        panInfoContent1.setLayout(new java.awt.GridBagLayout());
-
-        lblZustNatBehoerde.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblZustNatBehoerde.text")); // NOI18N
-        lblZustNatBehoerde.setMaximumSize(new java.awt.Dimension(170, 34));
-        lblZustNatBehoerde.setMinimumSize(new java.awt.Dimension(170, 34));
-        lblZustNatBehoerde.setPreferredSize(new java.awt.Dimension(170, 34));
+        lblWas.setText(org.openide.util.NbBundle.getMessage(GupAbstimmungsvermerk.class, "GupAbstimmungsvermerk.lblWas.text")); // NOI18N
+        lblWas.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblWas.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblWas.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblZustNatBehoerde, gridBagConstraints);
+        add(lblWas, gridBagConstraints);
 
-        cbStatusNa.setMaximumSize(new java.awt.Dimension(280, 20));
-        cbStatusNa.setMinimumSize(new java.awt.Dimension(280, 20));
-        cbStatusNa.setPreferredSize(new java.awt.Dimension(280, 20));
+        txtWer.setMaximumSize(new java.awt.Dimension(290, 20));
+        txtWer.setMinimumSize(new java.awt.Dimension(290, 20));
+        txtWer.setPreferredSize(new java.awt.Dimension(290, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status_naturschutz}"),
-                cbStatusNa,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wer}"), txtWer, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent1.add(cbStatusNa, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
+        add(txtWer, gridBagConstraints);
 
-        lblStatusNa.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblStatusNa.text")); // NOI18N
-        lblStatusNa.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblStatusNa.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblStatusNa.setPreferredSize(new java.awt.Dimension(170, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblStatusNa, gridBagConstraints);
-
-        lblBemerkungNa.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblBemerkungNa.text")); // NOI18N
-        lblBemerkungNa.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblBemerkungNa.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblBemerkungNa.setPreferredSize(new java.awt.Dimension(170, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent1.add(lblBemerkungNa, gridBagConstraints);
-
-        txtZustNaBehoerde.setMaximumSize(new java.awt.Dimension(280, 20));
-        txtZustNaBehoerde.setMinimumSize(new java.awt.Dimension(280, 20));
-        txtZustNaBehoerde.setPreferredSize(new java.awt.Dimension(280, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.naturschutzbehoerde}"),
-                txtZustNaBehoerde,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent1.add(txtZustNaBehoerde, gridBagConstraints);
-
-        spBemerkungNa.setMaximumSize(new java.awt.Dimension(280, 90));
-        spBemerkungNa.setMinimumSize(new java.awt.Dimension(280, 90));
-        spBemerkungNa.setPreferredSize(new java.awt.Dimension(280, 90));
+        spBemerkung1.setMaximumSize(new java.awt.Dimension(280, 90));
+        spBemerkung1.setMinimumSize(new java.awt.Dimension(280, 90));
+        spBemerkung1.setPreferredSize(new java.awt.Dimension(280, 90));
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kommentar_naturschutz}"),
-                jTextArea2,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.was}"), jTextArea2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        spBemerkungNa.setViewportView(jTextArea2);
+        spBemerkung1.setViewportView(jTextArea2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent1.add(spBemerkungNa, gridBagConstraints);
-
-        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        add(panInfo1, gridBagConstraints);
-
-        panInfo2.setMinimumSize(new java.awt.Dimension(557, 200));
-        panInfo2.setPreferredSize(new java.awt.Dimension(1130, 200));
-
-        panHeadInfo2.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo2.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo2.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo2.setLayout(new java.awt.FlowLayout());
-
-        lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading2.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblHeading2.text")); // NOI18N
-        panHeadInfo2.add(lblHeading2);
-
-        panInfo2.add(panHeadInfo2, java.awt.BorderLayout.NORTH);
-
-        panInfoContent2.setMinimumSize(new java.awt.Dimension(1057, 250));
-        panInfoContent2.setOpaque(false);
-        panInfoContent2.setLayout(new java.awt.GridBagLayout());
-
-        lblZustDritte.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblZustDritte.text")); // NOI18N
-        lblZustDritte.setMaximumSize(new java.awt.Dimension(170, 34));
-        lblZustDritte.setMinimumSize(new java.awt.Dimension(170, 34));
-        lblZustDritte.setPreferredSize(new java.awt.Dimension(170, 34));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent2.add(lblZustDritte, gridBagConstraints);
-
-        lblBemerkungDritte.setText(org.openide.util.NbBundle.getMessage(
-                GupAbstimmungsvermerk.class,
-                "GupAbstimmungsvermerk.lblBemerkungDritte.text")); // NOI18N
-        lblBemerkungDritte.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblBemerkungDritte.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblBemerkungDritte.setPreferredSize(new java.awt.Dimension(170, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent2.add(lblBemerkungDritte, gridBagConstraints);
-
-        txtZustDritteBehoerde.setMaximumSize(new java.awt.Dimension(280, 20));
-        txtZustDritteBehoerde.setMinimumSize(new java.awt.Dimension(280, 20));
-        txtZustDritteBehoerde.setPreferredSize(new java.awt.Dimension(280, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dritter_beteiligter}"),
-                txtZustDritteBehoerde,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent2.add(txtZustDritteBehoerde, gridBagConstraints);
-
-        spBemerkungDritte.setMaximumSize(new java.awt.Dimension(280, 90));
-        spBemerkungDritte.setMinimumSize(new java.awt.Dimension(280, 90));
-        spBemerkungDritte.setPreferredSize(new java.awt.Dimension(280, 90));
-
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kommentar_dritte}"),
-                jTextArea3,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        spBemerkungDritte.setViewportView(jTextArea3);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent2.add(spBemerkungDritte, gridBagConstraints);
-
-        panInfo2.add(panInfoContent2, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        add(panInfo2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        add(spBemerkung1, gridBagConstraints);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

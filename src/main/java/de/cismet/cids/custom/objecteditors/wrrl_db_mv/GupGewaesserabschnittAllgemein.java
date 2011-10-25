@@ -176,7 +176,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 15);
         add(txtGewaessername, gridBagConstraints);
 
@@ -215,7 +214,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(txtGwk, gridBagConstraints);
 
@@ -228,7 +226,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(txtWbv, gridBagConstraints);
 
@@ -262,7 +259,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(txtPlanungseinheit, gridBagConstraints);
 
