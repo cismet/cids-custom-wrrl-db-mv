@@ -159,10 +159,11 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtGueteklasse">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -200,10 +201,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -249,10 +250,10 @@
                     <Component class="javax.swing.JTextField" name="txtBedRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -298,10 +299,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -347,10 +348,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -581,10 +582,10 @@
                     <Component class="javax.swing.JTextField" name="txtCourseEvoRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -628,10 +629,10 @@
                     <Component class="javax.swing.JTextField" name="txtCourseEvoCritCount">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -675,10 +676,10 @@
                     <Component class="javax.swing.JTextField" name="txtLongProfileRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -722,10 +723,10 @@
                     <Component class="javax.swing.JTextField" name="txtLongProfileCritCount">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -832,10 +833,10 @@
                     <Component class="javax.swing.JTextField" name="txtCrossProfileRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -858,10 +859,10 @@
                     <Component class="javax.swing.JTextField" name="txtCrossProfileCritCount">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -884,10 +885,10 @@
                     <Component class="javax.swing.JTextField" name="txtBedStructureRating">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -910,10 +911,10 @@
                     <Component class="javax.swing.JTextField" name="txtBedStructureCritCount">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1068,10 +1069,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankStructRatingOverall">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1094,10 +1095,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankStructCritCountOverall">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1204,10 +1205,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankStructCritCountLeft">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1230,10 +1231,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankStructRatingRight">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1256,10 +1257,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankStructCritCountRight">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1282,10 +1283,10 @@
                     <Component class="javax.swing.JTextField" name="txtBankStructRatingLeft">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1419,10 +1420,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvRatingOverall">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1466,10 +1467,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvCritCountOverall">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1513,10 +1514,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvCritCountLeft">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1560,10 +1561,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvRatingLeft">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1628,10 +1629,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvRatingRight">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
@@ -1654,10 +1655,10 @@
                     <Component class="javax.swing.JTextField" name="txtWBEnvCritCountRight">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
+                        <Property name="horizontalAlignment" type="int" value="11"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
                         </Property>
-                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[170, 20]"/>
                         </Property>
