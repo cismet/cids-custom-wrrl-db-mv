@@ -14,18 +14,19 @@ import org.openide.util.WeakListeners;
 
 import java.awt.Component;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
-import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -58,6 +59,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
     private CidsBean cidsBean;
 
     private final transient ChangeListener calcL;
+    private final transient PropertyChangeListener excL;
+
     // will only be changed in EDT
     private transient int selectedTabIndex;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -128,6 +131,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
         // will only be changed in EDT
         selectedTabIndex = tpMain.getSelectedIndex();
+
+        this.excL = new ExceptionPropertyChangeListener();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -144,7 +149,94 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             fgskKartierabschnittUferstruktur1.setCidsBean(cidsBean);
             fgskKartierabschnittGewaesserumfeld1.setCidsBean(cidsBean);
             fgskKartierabschnittErgebnisse1.setCidsBean(cidsBean);
+
+            if (isException(cidsBean)) {
+                handleException();
+            }
+
+            this.cidsBean.addPropertyChangeListener(WeakListeners.propertyChange(excL, cidsBean));
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void handleException() {
+        if (cidsBean == null) {
+            return;
+        }
+
+        final boolean exc = isException(cidsBean);
+
+        // first tab is general tab and last tab is result tab, both shall always enabled
+        for (int i = 1; i < (tpMain.getTabCount() - 1); ++i) {
+            tpMain.setEnabledAt(i, !exc);
+        }
+
+        if (exc || !readOnly) {
+            try {
+                cidsBean.setProperty(Calc.PROP_WB_OVERALL_RATING, 0.0);
+                cidsBean.setProperty(Calc.PROP_WB_BED_RATING, null);
+                cidsBean.setProperty(Calc.PROP_WB_BANK_RATING, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_RATING, null);
+                cidsBean.setProperty(Calc.PROP_COURSE_EVO_SUM_RATING, null);
+                cidsBean.setProperty(Calc.PROP_COURSE_EVO_SUM_CRIT, null);
+                cidsBean.setProperty(Calc.PROP_LONG_PROFILE_SUM_RATING, null);
+                cidsBean.setProperty(Calc.PROP_LONG_PROFILE_SUM_CRIT, null);
+                cidsBean.setProperty(Calc.PROP_CROSS_PROFILE_SUM_RATING, null);
+                cidsBean.setProperty(Calc.PROP_CROSS_PROFILE_SUM_CRIT, null);
+                cidsBean.setProperty(Calc.PROP_BED_STRUCTURE_SUM_RATING, null);
+                cidsBean.setProperty(Calc.PROP_BED_STRUCTURE_SUM_CRIT, null);
+                cidsBean.setProperty(Calc.PROP_BANK_STRUCTURE_SUM_RATING, null);
+                cidsBean.setProperty(Calc.PROP_BANK_STRUCTURE_SUM_CRIT, null);
+                cidsBean.setProperty(Calc.PROP_BANK_STRUCTURE_SUM_RATING_LE, null);
+                cidsBean.setProperty(Calc.PROP_BANK_STRUCTURE_SUM_CRIT_LE, null);
+                cidsBean.setProperty(Calc.PROP_BANK_STRUCTURE_SUM_RATING_RI, null);
+                cidsBean.setProperty(Calc.PROP_BANK_STRUCTURE_SUM_CRIT_RI, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_SUM_RATING, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_SUM_RATING_LE, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT_LE, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_SUM_RATING_RI, null);
+                cidsBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT_RI, null);
+
+                fgskKartierabschnittErgebnisse1.refreshGueteklasse();
+            } catch (final Exception ex) {
+                LOG.error("Error while setting a calculation property", ex); // NOI18N
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  IllegalArgumentException  DOCUMENT ME!
+     */
+    private boolean isException(final CidsBean kaBean) {
+        if (kaBean == null) {
+            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        }
+
+        final CidsBean exception = (CidsBean)kaBean.getProperty(Calc.PROP_EXCEPTION);
+
+        return ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(Calc.PROP_VALUE)));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isPreFieldMapping(final CidsBean kaBean) {
+        final Boolean vorkartierung = (Boolean)cidsBean.getProperty("vorkatierung"); // NOI18N
+
+        return (vorkartierung != null) && vorkartierung;
     }
 
     @Override
@@ -398,8 +490,6 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-//        new WrrlEditorTester("fgsk_kartierabschnitt", FgskKartierabschnittEditor.class, WRRLUtil.DOMAIN_NAME) // NOI18N
-//        .run();
         DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
             "WRRL_DB_MV",
             "Administratoren",
@@ -418,6 +508,23 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @version  $Revision$, $Date$
      */
+    private final class ExceptionPropertyChangeListener implements PropertyChangeListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+            if ((evt != null) && Calc.PROP_EXCEPTION.equals(evt.getPropertyName())) {
+                handleException();
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
     private final class CalcListener implements ChangeListener {
 
         //~ Methods ------------------------------------------------------------
@@ -426,9 +533,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         public void stateChanged(final ChangeEvent e) {
             final Component leftC = tpMain.getComponentAt(selectedTabIndex);
             final Component enteredC = tpMain.getSelectedComponent();
-            final Boolean vorkatierung = (Boolean)cidsBean.getProperty("vorkatierung");
 
-            if (!handleSonderfall() || readOnly || ((vorkatierung != null) && vorkatierung.booleanValue())) {
+            if (readOnly || isException(cidsBean) || isPreFieldMapping(cidsBean)) {
                 return;
             }
 
@@ -634,76 +740,6 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             if (selectedTabIndex == 7) {
                 fgskKartierabschnittErgebnisse1.refreshGueteklasse();
             }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  true, iff the calculations should be done
-         */
-        private boolean handleSonderfall() {
-            if (cidsBean == null) {
-                return false;
-            }
-            final CidsBean sonderfall = (CidsBean)cidsBean.getProperty("sonderfall_id");
-
-            if ((sonderfall != null)
-                        && ((((Integer)sonderfall.getProperty("value")).intValue() == 1)
-                            || (((Integer)sonderfall.getProperty("value")).intValue() == 2))) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("property sonderfall is set to verrohrt"); // NOI18N
-                }
-
-                if (!readOnly) {
-                    try {
-                        cidsBean.setProperty("punktzahl_gesamt", 0.0);
-                        cidsBean.setProperty("punktzahl_sohle", null);
-                        cidsBean.setProperty("punktzahl_ufer", null);
-                        cidsBean.setProperty("punktzahl_land", null);
-                        cidsBean.setProperty("laufentwicklung_summe_punktzahl", null);
-                        cidsBean.setProperty("laufentwicklung_anzahl_kriterien", null);
-                        cidsBean.setProperty("laengsprofil_summe_punktzahl", null);
-                        cidsBean.setProperty("laengsprofil_anzahl_kriterien", null);
-                        cidsBean.setProperty("querprofil_summe_punktzahl", null);
-                        cidsBean.setProperty("querprofil_anzahl_kriterien", null);
-                        cidsBean.setProperty("sohlenstruktur_summe_punktzahl", null);
-                        cidsBean.setProperty("sohlenstruktur_anzahl_kriterien", null);
-                        cidsBean.setProperty("uferstruktur_summe_punktzahl", null);
-                        cidsBean.setProperty("uferstruktur_anzahl_kriterien", null);
-                        cidsBean.setProperty("uferstruktur_summe_punktzahl_links", null);
-                        cidsBean.setProperty("uferstruktur_anzahl_kriterien_links", null);
-                        cidsBean.setProperty("uferstruktur_summe_punktzahl_rechts", null);
-                        cidsBean.setProperty("uferstruktur_anzahl_kriterien_rechts", null);
-                        cidsBean.setProperty("gewaesserumfeld_summe_punktzahl", null);
-                        cidsBean.setProperty("gewaesserumfeld_anzahl_kriterien", null);
-                        cidsBean.setProperty("gewaesserumfeld_summe_punktzahl_links", null);
-                        cidsBean.setProperty("gewaesserumfeld_anzahl_kriterien_links", null);
-                        cidsBean.setProperty("gewaesserumfeld_summe_punktzahl_rechts", null);
-                        cidsBean.setProperty("gewaesserumfeld_anzahl_kriterien_rechts", null);
-                        fgskKartierabschnittErgebnisse1.refreshGueteklasse();
-                    } catch (final Exception ex) {
-                        LOG.error("Error while setting a property", ex);
-                    }
-                }
-
-                if ((tpMain.getSelectedIndex() != 7) && (tpMain.getSelectedIndex() != 0)) {
-                    JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
-                        NbBundle.getMessage(
-                            FgskKartierabschnittEditor.class,
-                            "FgskKartierabschnittEditor.CalcListener.stateChanged.noChangePossible.message"),
-                        NbBundle.getMessage(
-                            FgskKartierabschnittEditor.class,
-                            "FgskKartierabschnittEditor.CalcListener.stateChanged.noChangePossible.title"),
-                        JOptionPane.INFORMATION_MESSAGE);
-                    tpMain.setSelectedIndex(selectedTabIndex);
-                } else {
-                    selectedTabIndex = tpMain.getSelectedIndex();
-                }
-                return false;
-            }
-
-            return true;
         }
     }
 }

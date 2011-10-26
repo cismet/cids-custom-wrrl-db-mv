@@ -244,7 +244,7 @@ public final class Calc {
                 LOG.debug("aborting calculation, because the kartierabschnitt is an exception: " + kaBean); // NOI18N
             }
 
-            throw new ValidationException("calculation for exceptional kartierabschnitte is illegal", true);
+            throw new ValidationException("calculation for exceptional kartierabschnitte is illegal", true); // NOI18N
         }
 
         return false;
@@ -1000,8 +1000,10 @@ public final class Calc {
      * @return  DOCUMENT ME!
      */
     private int round(final double d) {
-//        return (int)Math.floor(d + 0.5);
-        return (int)Math.ceil(d - 0.5);
+        // mathematical rounding
+        return (int)Math.floor(d + 0.5);
+            // fgsk original rounding
+// return (int)Math.ceil(d - 0.5);
     }
 
     /**

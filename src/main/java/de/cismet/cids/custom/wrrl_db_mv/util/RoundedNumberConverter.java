@@ -9,7 +9,6 @@ package de.cismet.cids.custom.wrrl_db_mv.util;
 
 import org.jdesktop.beansbinding.Converter;
 
-
 /**
  * DOCUMENT ME!
  *
