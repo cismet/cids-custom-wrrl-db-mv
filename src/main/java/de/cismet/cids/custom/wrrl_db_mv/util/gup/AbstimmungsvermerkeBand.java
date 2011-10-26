@@ -21,25 +21,20 @@ import de.cismet.tools.gui.jbands.MinimumHeightBand;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class UmlandnutzungsBand extends MinimumHeightBand implements CidsBeanCollectionStore {
+public class AbstimmungsvermerkeBand extends MinimumHeightBand implements CidsBeanCollectionStore {
 
     //~ Instance fields --------------------------------------------------------
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-
     Collection<CidsBean> beans = new ArrayList<CidsBean>();
+    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new UmlandnutzungsBand object.
+     * Creates a new AbstimmungsvermerkeBand object.
      */
-    public UmlandnutzungsBand() {
-        super();
+    public AbstimmungsvermerkeBand() {
+        super("Abstimmungsvermerke");
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -54,12 +49,13 @@ public class UmlandnutzungsBand extends MinimumHeightBand implements CidsBeanCol
         this.beans = beans;
         if (beans != null) {
             for (final CidsBean b : beans) {
-                final UmlandnutzungsMember unrm = new UmlandnutzungsMember();
+                final AbstimmungsvermerkMember avm = new AbstimmungsvermerkMember();
                 try {
-                    unrm.setCidsBean(b);
-                    addMember(unrm);
+                    avm.setCidsBean(b);
+                    addMember(avm);
                 } catch (Exception e) {
-                    // dann halt nicht
+                    // dann halt nich
+                    log.error("Fehler beim Erzeugen von AbstimmungsvermerkMember", e);
                 }
             }
         }

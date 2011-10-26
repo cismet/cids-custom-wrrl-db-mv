@@ -9,14 +9,7 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-
 import de.cismet.tools.gui.jbands.DefaultBand;
-import de.cismet.tools.gui.jbands.SimpleBand;
-import de.cismet.tools.gui.jbands.interfaces.Band;
-import de.cismet.tools.gui.jbands.interfaces.BandMember;
-import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
 
 /**
  * DOCUMENT ME!
@@ -24,42 +17,42 @@ import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class POIBand extends DefaultBand {
+public class NaturschutzBand extends DefaultBand {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new POIBand object.
+     * Creates a new NaturschutzBand object.
      */
-    public POIBand() {
-        this("Querbauwerke");
+    public NaturschutzBand() {
+        this(1f);
     }
 
     /**
-     * Creates a new POIBand object.
+     * Creates a new NaturschutzBand object.
      *
      * @param  title  DOCUMENT ME!
      */
-    public POIBand(final String title) {
+    public NaturschutzBand(final String title) {
         this(1f, title);
     }
 
     /**
-     * Creates a new POIBand object.
+     * Creates a new NaturschutzBand object.
      *
      * @param  heightWeight  DOCUMENT ME!
      */
-    public POIBand(final float heightWeight) {
-        this(heightWeight, "");
+    public NaturschutzBand(final float heightWeight) {
+        super(heightWeight, "Naturschutz");
     }
 
     /**
-     * Creates a new POIBand object.
+     * Creates a new NaturschutzBand object.
      *
      * @param  heightWeight  DOCUMENT ME!
      * @param  title         DOCUMENT ME!
      */
-    public POIBand(final float heightWeight, final String title) {
+    public NaturschutzBand(final float heightWeight, final String title) {
         super(heightWeight, title);
     }
 
@@ -70,10 +63,9 @@ public class POIBand extends DefaultBand {
      *
      * @param  inputResulSet  DOCUMENT ME!
      */
-    public void addQuerbauwerkeFromQueryResult(final ArrayList<ArrayList> inputResulSet) {
+    public void addMembersFromQueryResult(final ArrayList<ArrayList> inputResulSet) {
         for (final ArrayList zeile : inputResulSet) {
-            final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
-//            final QuerbauwerkeMember qbm = new QuerbauwerkeSmallMember(zeile);
+            final NaturschutzBandMember qbm = new NaturschutzBandMember(zeile);
             addMember(qbm);
         }
     }

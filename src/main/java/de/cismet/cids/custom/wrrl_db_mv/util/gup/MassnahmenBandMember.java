@@ -188,8 +188,6 @@ public class MassnahmenBandMember extends JXPanel implements BandMember,
                     new Color(50, 50, 50, 100)));
 
         setToolTipText(bean.getProperty("massnahme.name") + "");
-        System.out.println(von
-                    + "-->" + bis + ":");
     }
 
     /**

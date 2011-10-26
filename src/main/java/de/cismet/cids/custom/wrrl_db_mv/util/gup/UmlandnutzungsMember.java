@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
-import net.infonode.gui.Colors;
-
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
@@ -16,8 +14,6 @@ import org.jdesktop.swingx.painter.PinstripePainter;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.UmlandnutzungsBand.Seite;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -33,7 +29,6 @@ public class UmlandnutzungsMember extends AbschnittsinfoMember {
 
     String nutzung;
     int nutzungsart;
-    UmlandnutzungsBand.Seite s;
     Painter[] painters = {
             new MattePainter(new Color(83, 133, 0)),
             new MattePainter(new Color(68, 169, 78)),
@@ -57,11 +52,8 @@ public class UmlandnutzungsMember extends AbschnittsinfoMember {
 
     /**
      * Creates a new UmlandnutzungsMember object.
-     *
-     * @param  s  DOCUMENT ME!
      */
-    public UmlandnutzungsMember(final Seite s) {
-        this.s = s;
+    public UmlandnutzungsMember() {
         setMinimumSize(new Dimension(1, 7));
         setPreferredSize(getMinimumSize());
     }

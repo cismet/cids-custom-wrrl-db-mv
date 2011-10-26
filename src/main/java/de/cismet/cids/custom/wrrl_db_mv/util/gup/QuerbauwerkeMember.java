@@ -81,7 +81,6 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
         name = result.get(2).toString();
         station = (Double)(result.get(3));
         art = (Integer)(result.get(1)) - 1;
-        System.out.println("QB:" + station + " " + name);
         setIcon(getIcon(getColor(), 10));
         setToolTipText(name);
     }
