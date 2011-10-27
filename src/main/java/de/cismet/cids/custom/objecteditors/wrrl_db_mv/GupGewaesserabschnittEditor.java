@@ -17,7 +17,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.search.CidsServerSearch;
 
-import org.openide.util.Exceptions;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -51,7 +50,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.tools.DevelopmentTools;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.tools.BrowserLauncher;
+import de.cismet.tools.CurrentStackTrace;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.RoundedPanel;
@@ -94,7 +93,6 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
     QuerbauwerksBand querbauwerksband = new QuerbauwerksBand();
     AbstimmungsvermerkeBand abstimmungsvermerkeBand = new AbstimmungsvermerkeBand();
     PoiBand poiBand = new PoiBand();
-
     final JBand jband = new JBand();
     final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
@@ -190,6 +188,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
 //        panBand.add(new JButton("kjdhfkjsdfhkjdsfhkjfsd"), BorderLayout.CENTER);
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("allgemein");
+        lblHeading.setText("Allgemeine Informationen");
         panAbschnittsinfo.add(abschnittsinfoEditor, BorderLayout.CENTER);
         panMassnahmeSohle.add(massnahmeSohleEditor, BorderLayout.CENTER);
         panMassnahmeUfer.add(massnahmeUferEditor, BorderLayout.CENTER);
@@ -213,25 +212,33 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                     if (bm != null) {
                         bgrpDetails.clearSelection();
                         switchToForm("empty");
+                        lblHeading.setText("");
+
                         if (bm instanceof MassnahmenBandMember) {
                             final CidsBean bean = ((MassnahmenBandMember)bm).getCidsBean();
 
                             if (bean.getMetaObject().getMetaClass().getTableName().equalsIgnoreCase(
                                             "gup_massnahme_sohle")) {
                                 switchToForm("massnahmesohle");
+                                lblHeading.setText("Maßnahmen Sohle");
                                 massnahmeSohleEditor.setCidsBean(bean);
                             } else if (bean.getMetaObject().getMetaClass().getTableName().equalsIgnoreCase(
                                             "gup_massnahme_sonstige")) {
                                 switchToForm("massnahmesonstige");
+                                lblHeading.setText("sonstige Maßnahmen");
+
                                 massnahmeSonstigeEditor.setCidsBean(bean);
                             } else if (bean.getMetaObject().getMetaClass().getTableName().equalsIgnoreCase(
                                             "gup_massnahme_ufer")) {
                                 switchToForm("massnahmeufer");
+                                lblHeading.setText("Maßnahmen Ufer");
+
                                 massnahmeUferEditor.setCidsBean(bean);
                             }
                         }
                     } else {
                         switchToForm("empty");
+                        lblHeading.setText("");
                     }
                 }
 
@@ -280,6 +287,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
 //        bindingGroup.unbind();
         this.cidsBean = cidsBean;
         switchToForm("empty");
+        lblHeading.setText("");
 
         if (cidsBean != null) {
             abstimmungsvermerkeBand.setCidsBeans(cidsBean.getBeanCollectionProperty("gup_abstimmungsvermerke"));
@@ -497,7 +505,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         panTitle.setOpaque(false);
         panTitle.setLayout(new java.awt.GridBagLayout());
 
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 14));
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setText("GUP Gewässerabschnitt");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -718,7 +726,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         jPanel4.add(togWRRLInfo);
 
         bgrpDetails.add(togHydroInfo);
-        togHydroInfo.setText("Hydrologie");
+        togHydroInfo.setText("hydrologische Kenngrößen");
         togHydroInfo.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -860,7 +868,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                     javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(
                     panBandControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
                         chkAbstimmungsvermerke).addComponent(chkEigentuemer).addComponent(chkBesonderePunkte))
-                            .addContainerGap(2747, Short.MAX_VALUE)));
+                            .addContainerGap(2648, Short.MAX_VALUE)));
         panBandControlLayout.setVerticalGroup(
             panBandControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
                 panBandControlLayout.createSequentialGroup().addContainerGap(17, Short.MAX_VALUE).addGroup(
@@ -907,6 +915,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
      */
     private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togAllgemeinInfoActionPerformed
         switchToForm("allgemein");
+        lblHeading.setText("Allgemeine Informationen");
     }//GEN-LAST:event_togAllgemeinInfoActionPerformed
 
     /**
@@ -916,6 +925,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
      */
     private void togWRRLInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togWRRLInfoActionPerformed
         switchToForm("wrrl");
+        lblHeading.setText("WRRL relevante Informationen");
     }//GEN-LAST:event_togWRRLInfoActionPerformed
 
     /**
@@ -925,6 +935,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
      */
     private void togHydroInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togHydroInfoActionPerformed
         switchToForm("hydro");
+        lblHeading.setText("hydrologische Kenngrößen");
+
         jband.bandModelChanged(null);
     }//GEN-LAST:event_togHydroInfoActionPerformed
 
@@ -1029,7 +1041,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
      */
     private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
+            java.awt.Desktop.getDesktop()
+                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
         } catch (Exception ex) {
             log.error("Problem beim Oeffnen des LV", ex);
         }
