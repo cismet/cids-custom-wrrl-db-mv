@@ -806,10 +806,11 @@ public final class Calc {
                     "PROP_BANK_VEGETATION",                                                                             // NOI18N
                     "",                                                                                                 // NOI18N
                     left));
-        final boolean bankVegetationTypical = (Boolean)kaBean.getProperty(fieldFromCode(
+        final Boolean typical = (Boolean)kaBean.getProperty(fieldFromCode(
                     "PROP_BANK_VEGETATION_TYPICAL",                                                                     // NOI18N
                     "",                                                                                                 // NOI18N
                     left));
+        final boolean bankVegetationTypical = (typical == null) ? false : typical;
 
         final Integer ratingBankStructure;
         if ((stationLength > 0) && (bankStructureSectionLength != null)) {
