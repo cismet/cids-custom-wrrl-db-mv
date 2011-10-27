@@ -791,122 +791,122 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togAllgemeinInfoActionPerformed
+    private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togAllgemeinInfoActionPerformed
         switchToForm("allgemein");
-    }//GEN-LAST:event_togAllgemeinInfoActionPerformed
+    }                                                                                    //GEN-LAST:event_togAllgemeinInfoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togWRRLInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togWRRLInfoActionPerformed
+    private void togWRRLInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togWRRLInfoActionPerformed
         switchToForm("wrrl");
-    }//GEN-LAST:event_togWRRLInfoActionPerformed
+    }                                                                               //GEN-LAST:event_togWRRLInfoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togHydroInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togHydroInfoActionPerformed
+    private void togHydroInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togHydroInfoActionPerformed
         switchToForm("hydro");
         jband.bandModelChanged(null);
-    }//GEN-LAST:event_togHydroInfoActionPerformed
+    }                                                                                //GEN-LAST:event_togHydroInfoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkQuerbauwerkeActionPerformed
+    private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkQuerbauwerkeActionPerformed
         querbauwerksband.setEnabled(chkQuerbauwerke.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkQuerbauwerkeActionPerformed
+    }                                                                                   //GEN-LAST:event_chkQuerbauwerkeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMassnahmenActionPerformed
+    private void chkMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkMassnahmenActionPerformed
         linkesUferBand.setEnabled(chkMassnahmen.isSelected());
         rechtesUferBand.setEnabled(chkMassnahmen.isSelected());
         sohleBand.setEnabled(chkMassnahmen.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkMassnahmenActionPerformed
+    }                                                                                 //GEN-LAST:event_chkMassnahmenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
+    private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
         sonstigeMassnahmenBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
+    }                                                                                         //GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkWasserkoerperActionPerformed
+    private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkWasserkoerperActionPerformed
         wkband.setEnabled(chkWasserkoerper.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkWasserkoerperActionPerformed
+    }                                                                                    //GEN-LAST:event_chkWasserkoerperActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUmlandnutzungActionPerformed
+    private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzungActionPerformed
         nutzungLinksBand.setEnabled(chkUmlandnutzung.isSelected());
         nutzungRechtsBand.setEnabled(chkUmlandnutzung.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkUmlandnutzungActionPerformed
+    }                                                                                    //GEN-LAST:event_chkUmlandnutzungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNaturschutzActionPerformed
+    private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkNaturschutzActionPerformed
         naturchutzBand.setEnabled(chkNaturschutz.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkNaturschutzActionPerformed
+    }                                                                                  //GEN-LAST:event_chkNaturschutzActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkAbstimmungsvermerkeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAbstimmungsvermerkeActionPerformed
+    private void chkAbstimmungsvermerkeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkAbstimmungsvermerkeActionPerformed
         abstimmungsvermerkeBand.setEnabled((chkAbstimmungsvermerke.isSelected()));
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkAbstimmungsvermerkeActionPerformed
+    }                                                                                          //GEN-LAST:event_chkAbstimmungsvermerkeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkEigentuemerActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEigentuemerActionPerformed
+    private void chkEigentuemerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkEigentuemerActionPerformed
         anwohnerLinksBand.setEnabled(chkEigentuemer.isSelected());
         anwohnerRechtsBand.setEnabled(chkEigentuemer.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkEigentuemerActionPerformed
+    }                                                                                  //GEN-LAST:event_chkEigentuemerActionPerformed
 
     @Override
     public void dispose() {
