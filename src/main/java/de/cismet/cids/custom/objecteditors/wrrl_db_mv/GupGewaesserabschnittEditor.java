@@ -101,6 +101,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
     private GupMassnahmeUferEditor massnahmeUferEditor = new GupMassnahmeUferEditor();
     private GupMassnahmeSonstigeEditor massnahmeSonstigeEditor = new GupMassnahmeSonstigeEditor();
     private GupGewaesserabschnittAllgemein allgemeinEditor = new GupGewaesserabschnittAllgemein();
+    private GupGewaesserWrrl wrrlEditor = new GupGewaesserWrrl();
+    private GupHydrologieEditor hydroEditor = new GupHydrologieEditor();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
     private javax.swing.JCheckBox chkAbstimmungsvermerke;
@@ -196,6 +198,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         panMassnahmeUfer.add(massnahmeUferEditor, BorderLayout.CENTER);
         panMassnahmeSonstige.add(massnahmeSonstigeEditor, BorderLayout.CENTER);
         panAllgemein.add(allgemeinEditor, BorderLayout.CENTER);
+        panWRRL.add(wrrlEditor, BorderLayout.CENTER);
+        panHydro.add(hydroEditor, BorderLayout.CENTER);
 
         normalizeDimensions(abschnittsinfoEditor);
         normalizeDimensions(massnahmeSohleEditor);
@@ -302,6 +306,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
             sonstigeMassnahmenBand.setCidsBeans(cidsBean.getBeanCollectionProperty("gup_massnahmen_sonstige"));
             nutzungLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("gup_umlandinfo_links"));
             nutzungRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("gup_umlandinfo_rechts"));
+            allgemeinEditor.setCidsBean(cidsBean);
+            wrrlEditor.setCidsBean(cidsBean);
 
             final CidsBean route = rechtesUferBand.getRoute();
 
