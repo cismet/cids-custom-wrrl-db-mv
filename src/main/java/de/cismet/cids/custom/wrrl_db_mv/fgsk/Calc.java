@@ -211,9 +211,15 @@ public final class Calc {
         final Double ratingRight = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_RI);
         final Integer criteriaCountRight = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_RI);
 
+        double rating = ratingLeft + ratingRight;
+        // rating correction according to Kuechler, not present in original implementation
+        if (rating < 1) {
+            rating = 1;
+        }
+
         // set the final values
         try {
-            kaBean.setProperty(PROP_WB_ENV_SUM_RATING, ratingLeft + ratingRight);
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING, rating);
             kaBean.setProperty(PROP_WB_ENV_SUM_CRIT, criteriaCountLeft + criteriaCountRight);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
@@ -721,9 +727,15 @@ public final class Calc {
         overallRating(rating, true, ratingSubstrates, ratingBedStructure, ratingBedFitment);
         overallRating(rating, false, ratingBedContamination);
 
+        double finalRating = rating.rating;
+        // rating correction according to Kuechler, not present in original implementation
+        if (finalRating < 1) {
+            finalRating = 1;
+        }
+
         // set the final values
         try {
-            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, rating.rating);
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, finalRating);
             kaBean.setProperty(PROP_BED_STRUCTURE_SUM_CRIT, rating.criteriaCount);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
@@ -755,9 +767,15 @@ public final class Calc {
         final Double ratingRight = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
         final Integer criteriaCountRight = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
+        double rating = ratingLeft + ratingRight;
+        // rating correction according to Kuechler, not present in original implementation
+        if (rating < 1) {
+            rating = 1;
+        }
+
         // set the final values
         try {
-            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING, ratingLeft + ratingRight);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING, rating);
             kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT, criteriaCountLeft + criteriaCountRight);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N

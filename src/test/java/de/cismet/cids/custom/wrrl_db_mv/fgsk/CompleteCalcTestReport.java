@@ -275,8 +275,10 @@ public final class CompleteCalcTestReport {
                         System.out.println("Punktzahl          Gesamt:\t\tSONDERFALL");
                     } else {
                         System.out.println("Punktzahl          Gesamt:\t\tNICHT BERECHENBAR");
-                        noCalcIds.add(mo.getId());
-                        noCalcCounter++;
+                        if(!badCalcIds.contains(mo.getId()) && !noCalcIds.contains(mo.getId())){
+                            noCalcIds.add(mo.getId());
+                            noCalcCounter++;
+                        }
                     }
                 }
 
@@ -402,7 +404,7 @@ public final class CompleteCalcTestReport {
                 return false;
             }
             case EXCEPTION: {
-                if (exceptionIds.contains(bean.getMetaObject().getId())) {
+                if (!exceptionIds.contains(bean.getMetaObject().getId())) {
                     exceptionCounter++;
                     exceptionIds.add(bean.getMetaObject().getId());
                 }
@@ -417,8 +419,11 @@ public final class CompleteCalcTestReport {
             }
             case NO_CRITERIA_MATCH:
             case NO_RATING_MATCH: {
-                badCalcCounter++;
-                badCalcIds.add(bean.getMetaObject().getId());
+                if(!badCalcIds.contains(bean.getMetaObject().getId())){
+                    badCalcCounter++;
+                    badCalcIds.add(bean.getMetaObject().getId());
+                }
+                
                 return false;
             }
             case OK:
@@ -1059,7 +1064,7 @@ public final class CompleteCalcTestReport {
     public static void main(final String[] args) throws Throwable {
         if (false) {
             final CompleteCalcTestReport r = new CompleteCalcTestReport();
-            r.singleDebug(16);
+            r.singleDebug(27);
         } else {
             // only works if wrrl db on kif contains the old and the new schema
             CompleteCalcTestReport r = null;
@@ -1067,7 +1072,7 @@ public final class CompleteCalcTestReport {
             final PrintStream out = System.out;
             final PrintStream err = System.err;
             try {
-                ps = new PrintStream(new FileOutputStream(new File("FGSK_report.txt")), false, "UTF-8");
+                ps = new PrintStream(new FileOutputStream(new File("FGSK_report_both_math_round.txt")), false, "UTF-8");
                 r = new CompleteCalcTestReport();
 
                 System.setOut(ps);
