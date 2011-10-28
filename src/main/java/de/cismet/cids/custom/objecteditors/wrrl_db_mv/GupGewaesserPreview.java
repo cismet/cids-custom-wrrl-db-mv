@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.ui.ComponentRegistry;
+
 import Sirius.server.middleware.types.MetaClass;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -46,11 +48,11 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private String beanName = "";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblGewBild;
     private javax.swing.JLabel lblGewName;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -72,54 +74,55 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblGewName = new javax.swing.JLabel();
         lblGewBild = new javax.swing.JLabel();
 
+        setMinimumSize(new java.awt.Dimension(775, 142));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(900, 75));
+        setPreferredSize(new java.awt.Dimension(900, 142));
         setLayout(new java.awt.GridBagLayout());
 
         lblGewName.setMaximumSize(new java.awt.Dimension(200, 50));
         lblGewName.setMinimumSize(new java.awt.Dimension(200, 50));
         lblGewName.setPreferredSize(new java.awt.Dimension(200, 50));
-
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
-                lblGewName,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 50);
         add(lblGewName, gridBagConstraints);
 
-        lblGewBild.setText(org.openide.util.NbBundle.getMessage(
-                GupGewaesserPreview.class,
-                "GupGewaesserPreview.lblGewBild.text")); // NOI18N
-        lblGewBild.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblGewBild.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblGewBild.setPreferredSize(new java.awt.Dimension(500, 50));
+        lblGewBild.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblGewBild.setMaximumSize(new java.awt.Dimension(610, 142));
+        lblGewBild.setMinimumSize(new java.awt.Dimension(610, 142));
+        lblGewBild.setPreferredSize(new java.awt.Dimension(610, 142));
+        lblGewBild.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblGewBildMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 0);
         add(lblGewBild, gridBagConstraints);
-
-        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblGewBildMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblGewBildMouseClicked
+        if (cidsBean != null) {
+            ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObject(cidsBean.getMetaObject(), "");
+        }
+    }                                                                          //GEN-LAST:event_lblGewBildMouseClicked
 
     @Override
     public CidsBean getCidsBean() {
@@ -128,25 +131,45 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        bindingGroup.unbind();
+//        bindingGroup.unbind();
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-                bindingGroup,
-                cidsBean);
-            bindingGroup.bind();
+//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+//                bindingGroup,
+//                cidsBean);
+//            bindingGroup.bind();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  beanName  DOCUMENT ME!
+     */
+    public void setBeanName(final String beanName) {
+        this.beanName = beanName;
+        if (beanName.equals("Tollense")) {
+            lblGewBild.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource(
+                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Tollense_screenshot.jpg")));
+        } else {
+            lblGewBild.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource(
+                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Lindebach_screenshot.jpg")));
+        }
+
+        lblGewName.setText(beanName);
     }
 
     @Override
     public void dispose() {
-        bindingGroup.unbind();
+//        bindingGroup.unbind();
     }
 
     @Override
     public String getTitle() {
-        return "Sohle-Maßnahme";
+        return "Gewässer";
     }
 
     @Override

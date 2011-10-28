@@ -6,7 +6,7 @@
 *
 ****************************************************/
 /*
- * GupMassnahmeSohle.java
+ * GupUmlandinfoEditor.java
  *
  * Created on 19.10.2011, 11:49:19
  */

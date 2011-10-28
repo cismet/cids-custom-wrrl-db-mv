@@ -28,6 +28,7 @@ import java.util.List;
 
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WbvSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -49,16 +50,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupGewaesserabschnittAllgemein.class);
-
-    private static final List<String> PROPERTY_LIST = new ArrayList<String>();
-
-    static {
-        PROPERTY_LIST.add("gup_massnahmen_sohle");
-        PROPERTY_LIST.add("gup_massnahmen_sonstige");
-        PROPERTY_LIST.add("gup_massnahmen_ufer_links");
-        PROPERTY_LIST.add("gup_massnahmen_ufer_rechts");
-        PROPERTY_LIST.add("abschnittsinfo");
-    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -342,7 +333,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         String gewName = "";
 
         try {
-            final CidsBean statLine = getStationLinie();
+            final CidsBean statLine = GupHelper.getStationLinie(cidsBean);
             if (statLine != null) {
                 final CidsBean statVon = (CidsBean)statLine.getProperty("von");
                 if (statVon != null) {
@@ -353,8 +344,8 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                                                                    : null);
                         gwk = route.getProperty("gwk").toString();
                         gewName = route.getProperty("routenname").toString();
-                        final double start = getMinStart();
-                        final double end = getMaxEnd();
+                        final double start = GupHelper.getMinStart(cidsBean);
+                        final double end = GupHelper.getMaxEnd(cidsBean);
 
                         if (!gwk.equals("") && (start != -1) && (end != -1)) {
                             final CidsServerSearch search = new WbvSearch(String.valueOf(start),
@@ -395,85 +386,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                     txtWbv.setText(wbvV);
                 }
             });
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  die erste station_linie, die im gewaesser gefunden wird
-     */
-    public CidsBean getStationLinie() {
-        for (int i = 0; i < PROPERTY_LIST.size(); ++i) {
-            final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, PROPERTY_LIST.get(i));
-
-            if ((beans != null) && (beans.size() > 0)) {
-                return (CidsBean)beans.get(0).getProperty("linie");
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public double getMinStart() {
-        double minStart = -1;
-
-        for (int i = 0; i < PROPERTY_LIST.size(); ++i) {
-            final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, PROPERTY_LIST.get(i));
-
-            if ((beans != null) && (beans.size() > 0)) {
-                final CidsBean line = (CidsBean)beans.get(0).getProperty("linie");
-                if (line != null) {
-                    final CidsBean start = (CidsBean)line.getProperty("von");
-                    if (start != null) {
-                        final Double value = (Double)start.getProperty("wert");
-
-                        if (value != null) {
-                            if ((minStart == -1) || (minStart > value.doubleValue())) {
-                                minStart = value.doubleValue();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return minStart;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public double getMaxEnd() {
-        double maxEnd = -1;
-
-        for (int i = 0; i < PROPERTY_LIST.size(); ++i) {
-            final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, PROPERTY_LIST.get(i));
-
-            if ((beans != null) && (beans.size() > 0)) {
-                final CidsBean line = (CidsBean)beans.get(0).getProperty("linie");
-                if (line != null) {
-                    final CidsBean end = (CidsBean)line.getProperty("bis");
-                    if (end != null) {
-                        final Double value = (Double)end.getProperty("wert");
-
-                        if (value != null) {
-                            if ((maxEnd == -1) || (maxEnd < value.doubleValue())) {
-                                maxEnd = value.doubleValue();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return maxEnd;
     }
 
     @Override

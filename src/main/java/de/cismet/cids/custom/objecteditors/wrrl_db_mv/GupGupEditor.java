@@ -33,6 +33,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cids.tools.DevelopmentTools;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 /**
@@ -58,6 +59,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel glassPanel;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview gupGewaesserPreviewLindebach;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview gupGewaesserPreviewTollense;
     private javax.swing.JLabel lblBis;
     private javax.swing.JLabel lblErsteller;
     private javax.swing.JLabel lblErstellt;
@@ -142,9 +145,11 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent1 = new javax.swing.JPanel();
         scrollGewaesser = new javax.swing.JScrollPane();
         panGewaesserInner = new javax.swing.JPanel();
+        gupGewaesserPreviewTollense = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview();
+        gupGewaesserPreviewLindebach = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 400));
+        setPreferredSize(new java.awt.Dimension(994, 700));
         setLayout(new java.awt.GridBagLayout());
 
         glassPanel.setAlpha(0);
@@ -156,8 +161,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         add(glassPanel, gridBagConstraints);
 
-        panInfo.setMinimumSize(new java.awt.Dimension(557, 175));
-        panInfo.setPreferredSize(new java.awt.Dimension(1130, 164));
+        panInfo.setMinimumSize(new java.awt.Dimension(557, 185));
+        panInfo.setPreferredSize(new java.awt.Dimension(1130, 184));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -418,7 +423,26 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panGewaesserInner.setBorder(null);
         panGewaesserInner.setMinimumSize(new java.awt.Dimension(100, 100));
         panGewaesserInner.setOpaque(false);
-        panGewaesserInner.setLayout(new java.awt.GridLayout(1, 0));
+        panGewaesserInner.setLayout(new java.awt.GridBagLayout());
+
+        gupGewaesserPreviewTollense.setMinimumSize(new java.awt.Dimension(1000, 165));
+        gupGewaesserPreviewTollense.setPreferredSize(new java.awt.Dimension(1000, 165));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 10);
+        panGewaesserInner.add(gupGewaesserPreviewTollense, gridBagConstraints);
+
+        gupGewaesserPreviewLindebach.setMinimumSize(new java.awt.Dimension(1000, 165));
+        gupGewaesserPreviewLindebach.setPreferredSize(new java.awt.Dimension(1000, 165));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 20);
+        panGewaesserInner.add(gupGewaesserPreviewLindebach, gridBagConstraints);
+
         scrollGewaesser.setViewportView(panGewaesserInner);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -461,7 +485,18 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
-            refreshGewaesser();
+            gupGewaesserPreviewTollense.setBeanName("Tollense");
+            gupGewaesserPreviewLindebach.setBeanName("Lindebach");
+//            gupGewaesserPreviewTollense.setCidsBean(cidsBean);
+//            gupGewaesserPreviewLindebach.setCidsBean(cidsBean);
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        setCidsBeans();
+                    }
+                }).start();
+//            refreshGewaesser();
         }
     }
 
@@ -484,8 +519,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     /**
      * DOCUMENT ME!
      */
-    public void refreshGewaesser() {
-        panGewaesserInner.removeAll();
+    private void setCidsBeans() {
         try {
             String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
             query += " WHERE gup = " + cidsBean.getProperty("id");                                            // NOI18N
@@ -493,16 +527,60 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
             if ((metaObjects != null) && (metaObjects.length > 0)) {
-                panGewaesserInner.setLayout(new GridLayout(metaObjects.length, 1));
                 for (final MetaObject mo : metaObjects) {
-                    final GupGewaesserPreview tmp = new GupGewaesserPreview();
-                    tmp.setCidsBean(mo.getBean());
-                    panGewaesserInner.add(tmp);
+                    if (mo.getBean().getProperty("id").equals(1)) {
+                        gupGewaesserPreviewTollense.setCidsBean(mo.getBean());
+                    } else {
+                        gupGewaesserPreviewLindebach.setCidsBean(mo.getBean());
+                    }
                 }
             }
         } catch (final ConnectionException e) {
             LOG.error("Error while trying to receive measurements.", e); // NOI18N
         }
+    }
+//
+//    /**
+//     * DOCUMENT ME!
+//     */
+//    private void refreshGewaesser() {
+//        panGewaesserInner.removeAll();
+//        try {
+//            String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+//            query += " WHERE gup = " + cidsBean.getProperty("id");                                            // NOI18N
+//
+//            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+//
+//            if ((metaObjects != null) && (metaObjects.length > 0)) {
+//                panGewaesserInner.setLayout(new GridLayout(metaObjects.length, 1));
+//                for (final MetaObject mo : metaObjects) {
+//                    final GupGewaesserPreview tmp = new GupGewaesserPreview();
+//                    tmp.setCidsBean(mo.getBean());
+//                    panGewaesserInner.add(tmp);
+//                }
+//            }
+//        } catch (final ConnectionException e) {
+//            LOG.error("Error while trying to receive measurements.", e); // NOI18N
+//        }
+//    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+            "WRRL_DB_MV",
+            "Administratoren",
+            "admin",
+            "sb",
+            "gup_gup",
+            1,
+            1280,
+            1024);
     }
 
     @Override
