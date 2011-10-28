@@ -2654,7 +2654,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void editorClosed(final EditorClosedEvent event) {
         // es wurde hoechstwahrscheinlich ein hauptobjekt geschlossen (die Methode editorClosed wird normalerweise
         // nur dann aufgerufen), wir wissen also dass der cache nicht mehr benötigt wird
-        CIDSBEAN_CACHE.clear();
+        // CIDSBEAN_CACHE.clear();
         if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
             if (isEditable()) {
                 new SwingWorker<Void, Void>() {
