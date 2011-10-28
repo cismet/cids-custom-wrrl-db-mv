@@ -802,7 +802,6 @@ public final class Calc {
             !propsNotNull(
                         kaBean,
                         fieldFromCode("PROP_BANK_VEGETATION", "", left), // NOI18N
-                        fieldFromCode("PROP_BANK_VEGETATION_TYPICAL", "", left), // NOI18N
                         fieldFromCode("PROP_BANK_FITMENT", "", left), // NOI18N
                         fieldFromCode("PROP_Z_BANK_FITMENT", "", left))) { // NOI18N
             throw new ValidationException("the waterbody bank structure properties contain null values"); // NOI18N
