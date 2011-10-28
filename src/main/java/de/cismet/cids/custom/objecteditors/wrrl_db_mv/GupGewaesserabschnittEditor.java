@@ -166,6 +166,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         anwohnerRechtsBand.setEnabled(false);
         poiBand.setEnabled(false);
 
+        sbm.addBand(naturchutzBand);
         sbm.addBand(new EmptyAbsoluteHeightedBand(5));
         sbm.addBand(abstimmungsvermerkeBand);
         sbm.addBand(new EmptyAbsoluteHeightedBand(5));
@@ -180,6 +181,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         sbm.addBand(sonstigeMassnahmenBand);
         sbm.addBand(new EmptyAbsoluteHeightedBand(5));
         sbm.addBand(poiBand);
+        sbm.addBand(querbauwerksband);
+        sbm.addBand(new EmptyAbsoluteHeightedBand(12));
 
         jband.setModel(sbm);
 
@@ -285,6 +288,9 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
     public void setCidsBean(final CidsBean cidsBean) {
 //        bindingGroup.unbind();
         this.cidsBean = cidsBean;
+
+//        System.out.println(cidsBean.toJSONString());
+
         switchToForm("empty");
         lblHeading.setText("");
 
@@ -333,16 +339,12 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                         try {
                             chkQuerbauwerke.setEnabled(true);
                             querbauwerksband.addQuerbauwerkeFromQueryResult(get());
-                            sbm.addBand(querbauwerksband);
+                            ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         } catch (Exception e) {
-                            log.error("Exception in Background Thread", e);
+                            log.error("Problem beim Suchen der Querbauwerke", e);
                         }
                     }
                 });
-            try {
-            } catch (Exception e) {
-                log.error("Problem beim Suchen der Querbauwerke", e);
-            }
 
             de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 
@@ -362,8 +364,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                         try {
                             chkNaturschutz.setEnabled(true);
                             naturchutzBand.addMembersFromQueryResult(get());
-                            sbm.insertBand(naturchutzBand, 2);
-                            sbm.insertBand(new EmptyAbsoluteHeightedBand(5), 3);
+                            ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         } catch (Exception e) {
                             log.error("Problem beim Suchen der Naturschutzgebiete", e);
                         }
@@ -390,6 +391,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                             anwohnerLinksBand.addAnwohnerFromQueryResult(result, AnwohnerBand.Seite.LINKS);
                             anwohnerRechtsBand.addAnwohnerFromQueryResult(result, AnwohnerBand.Seite.RECHTS);
                             chkEigentuemer.setEnabled(true);
+                            ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         } catch (Exception e) {
                             log.error("Problem beim Suchen der Ansprechpartner", e);
                         }
@@ -415,6 +417,7 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
                             final ArrayList<ArrayList> result = get();
                             poiBand.addPoisFromQueryResult(result);
                             chkBesonderePunkte.setEnabled(true);
+                            ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         } catch (Exception e) {
                             log.error("Problem beim Suchen der POI's", e);
                         }
