@@ -1,10 +1,10 @@
 /***************************************************
-*
-* cismet GmbH, Saarbruecken, Germany
-*
-*              ... and it just works.
-*
-****************************************************/
+ *
+ * cismet GmbH, Saarbruecken, Germany
+ *
+ *              ... and it just works.
+ *
+ ****************************************************/
 /*
  * GupPegelEditor.java
  *
@@ -46,21 +46,17 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @version  $Revision$, $Date$
  */
 public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanRenderer,
-    EditorSaveListener,
-    MouseListener,
-    MouseMotionListener {
+        EditorSaveListener,
+        MouseListener,
+        MouseMotionListener {
 
     //~ Static fields/initializers ---------------------------------------------
-
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupHydrologieEditor.class);
-
     //~ Instance fields --------------------------------------------------------
-
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private HydroTableModel hydroModel = new HydroTableModel();
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JScrollPane jScrollPane2;
@@ -68,7 +64,6 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
-
     /**
      * Creates new form GupMassnahmeSohle.
      */
@@ -88,50 +83,29 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
         setReadOnly(readOnly);
 
         jxPegel.setModel(hydroModel);
-        jxPegel.getColumn(11).setCellRenderer(new DefaultTableCellRenderer() {
-
-                @Override
-                public Component getTableCellRendererComponent(final JTable table,
-                        final Object value,
-                        final boolean isSelected,
-                        final boolean hasFocus,
-                        final int row,
-                        final int column) {
-                    final ImageIcon icon = new ImageIcon(
-                            getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ganglinie.png"));
-                    final JLabel lab = (JLabel)super.getTableCellRendererComponent(
-                            table,
-                            value,
-                            isSelected,
-                            hasFocus,
-                            row,
-                            column);
-                    lab.setIcon(icon);
-                    return lab;
-                }
-            });
+        jxPegel.getColumn(11).setCellRenderer(new GanglinieRenderer());
         jxPegel.getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
 
-                @Override
-                public Component getTableCellRendererComponent(final JTable table,
-                        final Object value,
-                        final boolean isSelected,
-                        final boolean hasFocus,
-                        final int row,
-                        final int column) {
-                    final ImageIcon icon = new ImageIcon(
-                            getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/pegel.png"));
-                    final JLabel lab = (JLabel)super.getTableCellRendererComponent(
-                            table,
-                            value,
-                            isSelected,
-                            hasFocus,
-                            row,
-                            column);
-                    lab.setIcon(icon);
-                    return lab;
-                }
-            });
+            @Override
+            public Component getTableCellRendererComponent(final JTable table,
+                    final Object value,
+                    final boolean isSelected,
+                    final boolean hasFocus,
+                    final int row,
+                    final int column) {
+                final ImageIcon icon = new ImageIcon(
+                        getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/pegel.png"));
+                final JLabel lab = (JLabel) super.getTableCellRendererComponent(
+                        table,
+                        value,
+                        isSelected,
+                        hasFocus,
+                        row,
+                        column);
+                lab.setIcon(icon);
+                return lab;
+            }
+        });
         jxPegel.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         jxPegel.getColumnModel().getColumn(0).setPreferredWidth(140);
         jxPegel.getColumnModel().getColumn(1).setPreferredWidth(140);
@@ -152,10 +126,10 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
         jxPegel.setHighlighters(alternateRowHighlighter, new LinkHighlighter());
         jxPegel.addMouseListener(this);
         jxPegel.addMouseMotionListener(this);
+        jxPegel.setOpaque(false);
     }
 
     //~ Methods ----------------------------------------------------------------
-
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
      * content of this method is always regenerated by the Form Editor.
@@ -222,7 +196,7 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
     public void setReadOnly(final boolean readOnly) {
         if (readOnly) {
             glassPanel.addMouseListener(new MouseAdapter() {
-                });
+            });
         } else {
             for (final MouseListener ml : glassPanel.getMouseListeners()) {
                 glassPanel.removeMouseListener(ml);
@@ -258,8 +232,7 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
         final int col = jxPegel.columnAtPoint(e.getPoint());
         if (col == 11) {
             try {
-                java.awt.Desktop.getDesktop()
-                        .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
+                java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
             } catch (final Exception ex) {
                 LOG.error("Error while starting download.", ex);
             }
@@ -290,7 +263,9 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
     @Override
     public void mouseMoved(final MouseEvent e) {
         final int col = jxPegel.columnAtPoint(e.getPoint());
-        if (col == 11) {
+        final int row = jxPegel.rowAtPoint(e.getPoint());
+
+        if ((col == 11) && (row != -1)) {
             setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         } else {
             setCursor(Cursor.getDefaultCursor());
@@ -298,7 +273,6 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
     }
 
     //~ Inner Classes ----------------------------------------------------------
-
     /**
      * DOCUMENT ME!
      *
@@ -307,82 +281,80 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
     private class HydroTableModel extends AbstractTableModel {
 
         //~ Instance fields ----------------------------------------------------
-
         private String[] header = {
-                "Bezeichnung Pegel",
-                "Station",
-                "Einz-Geb.",
-                "NW",
-                "MW",
-                "HWx",
-                "HHW",
-                "NQ",
-                "MQ",
-                "HQx",
-                "HHQ",
-                "Ganglinie"
-            }; // NOI18N
+            "Bezeichnung Pegel",
+            "Station",
+            "Einz-Geb.",
+            "NW",
+            "MW",
+            "HWx",
+            "HHW",
+            "NQ",
+            "MQ",
+            "HQx",
+            "HHQ",
+            "Ganglinie"
+        }; // NOI18N
         private String[][] data = {
-                {
-                    "Pegel A",
-                    "15700 m",
-                    "180 km²",
-                    "0.45",
-                    "0.51",
-                    "1.20",
-                    "1.82",
-                    "0.12",
-                    "2.25",
-                    "9.20",
-                    "14.40",
-                    "Ganglinie Pegel A"
-                },
-                {
-                    "Pegel B",
-                    "38500 m",
-                    "180 km²",
-                    "0.20",
-                    "0.45",
-                    "0.83",
-                    "1.14",
-                    "0.00",
-                    "0.58",
-                    "3.94",
-                    "11.10",
-                    "Ganglinie Pegel B"
-                },
-                {
-                    "Pegel C",
-                    "48500 m",
-                    "120 km²",
-                    "0.30",
-                    "0.55",
-                    "0.95",
-                    "1.24",
-                    "0.10",
-                    "0.55",
-                    "2.94",
-                    "9.10",
-                    "Ganglinie Pegel C"
-                },
-                {
-                    "Pegel D",
-                    "53800 m",
-                    "150 km²",
-                    "0.28",
-                    "0.37",
-                    "0.77",
-                    "1.04",
-                    "0.00",
-                    "0.57",
-                    "3.83",
-                    "10.07",
-                    "Ganglinie Pegel D"
-                }
-            };
+            {
+                "Pegel A",
+                "15700 m",
+                "180 km²",
+                "0.45",
+                "0.51",
+                "1.20",
+                "1.82",
+                "0.12",
+                "2.25",
+                "9.20",
+                "14.40",
+                "Ganglinie Pegel A"
+            },
+            {
+                "Pegel B",
+                "38500 m",
+                "180 km²",
+                "0.20",
+                "0.45",
+                "0.83",
+                "1.14",
+                "0.00",
+                "0.58",
+                "3.94",
+                "11.10",
+                "Ganglinie Pegel B"
+            },
+            {
+                "Pegel C",
+                "48500 m",
+                "120 km²",
+                "0.30",
+                "0.55",
+                "0.95",
+                "1.24",
+                "0.10",
+                "0.55",
+                "2.94",
+                "9.10",
+                "Ganglinie Pegel C"
+            },
+            {
+                "Pegel D",
+                "53800 m",
+                "150 km²",
+                "0.28",
+                "0.37",
+                "0.77",
+                "1.04",
+                "0.00",
+                "0.57",
+                "3.83",
+                "10.07",
+                "Ganglinie Pegel D"
+            }
+        };
 
         //~ Methods ------------------------------------------------------------
-
         @Override
         public int getRowCount() {
             return data.length;
@@ -435,15 +407,11 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
     private class LinkHighlighter implements Highlighter {
 
         //~ Methods ------------------------------------------------------------
-
         @Override
         public Component highlight(final Component renderer, final ComponentAdapter adapter) {
-            if (renderer instanceof org.jdesktop.swingx.renderer.JRendererLabel) {
-                final org.jdesktop.swingx.renderer.JRendererLabel tmp = (org.jdesktop.swingx.renderer.JRendererLabel)
-                    renderer;
-                if (adapter.column == 11) {
-                    tmp.setForeground(Color.BLUE);
-                }
+            if (renderer instanceof GanglinieRenderer) {
+                final GanglinieRenderer tmp = (GanglinieRenderer) renderer;
+                tmp.setForeground(Color.BLUE);
             }
             return renderer;
         }
@@ -459,6 +427,29 @@ public class GupHydrologieEditor extends javax.swing.JPanel implements CidsBeanR
         @Override
         public ChangeListener[] getChangeListeners() {
             return new ChangeListener[0];
+        }
+    }
+
+    private class GanglinieRenderer extends DefaultTableCellRenderer{
+
+                @Override
+        public Component getTableCellRendererComponent(final JTable table,
+                final Object value,
+                final boolean isSelected,
+                final boolean hasFocus,
+                final int row,
+                final int column) {
+            final ImageIcon icon = new ImageIcon(
+                    getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ganglinie.png"));
+            final JLabel lab = (JLabel) super.getTableCellRendererComponent(
+                    table,
+                    value,
+                    isSelected,
+                    hasFocus,
+                    row,
+                    column);
+            lab.setIcon(icon);
+            return lab;
         }
     }
 }

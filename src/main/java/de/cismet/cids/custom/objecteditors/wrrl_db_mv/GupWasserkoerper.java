@@ -18,6 +18,7 @@ import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
@@ -122,7 +123,7 @@ public class GupWasserkoerper extends javax.swing.JPanel implements CidsBeanRend
 
         lblScreenshot.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/wk_fg_screenshot.jpg"))); // NOI18N
-        lblScreenshot.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblScreenshot.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lblScreenshot.setMaximumSize(new java.awt.Dimension(360, 218));
         lblScreenshot.setMinimumSize(new java.awt.Dimension(360, 218));
         lblScreenshot.setPreferredSize(new java.awt.Dimension(360, 218));
@@ -208,6 +209,8 @@ public class GupWasserkoerper extends javax.swing.JPanel implements CidsBeanRend
                             if ((metaObjects != null) && (metaObjects.length > 0)) {
                                 cidsBean = metaObjects[0].getBean();
                             }
+
+                            lblScreenshot.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                         }
                     } catch (Exception e) {
                     }

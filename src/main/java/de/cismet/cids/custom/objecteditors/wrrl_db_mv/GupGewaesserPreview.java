@@ -16,6 +16,8 @@ import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 
+import java.awt.Cursor;
+
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -83,6 +85,7 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
         setPreferredSize(new java.awt.Dimension(900, 142));
         setLayout(new java.awt.GridBagLayout());
 
+        lblGewName.setFont(new java.awt.Font("DejaVu Sans", 1, 18));
         lblGewName.setMaximumSize(new java.awt.Dimension(200, 50));
         lblGewName.setMinimumSize(new java.awt.Dimension(200, 50));
         lblGewName.setPreferredSize(new java.awt.Dimension(200, 50));
@@ -93,7 +96,7 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 50);
         add(lblGewName, gridBagConstraints);
 
-        lblGewBild.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblGewBild.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lblGewBild.setMaximumSize(new java.awt.Dimension(610, 142));
         lblGewBild.setMinimumSize(new java.awt.Dimension(610, 142));
         lblGewBild.setPreferredSize(new java.awt.Dimension(610, 142));
@@ -135,6 +138,7 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            lblGewBild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 //            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
 //                bindingGroup,
 //                cidsBean);
