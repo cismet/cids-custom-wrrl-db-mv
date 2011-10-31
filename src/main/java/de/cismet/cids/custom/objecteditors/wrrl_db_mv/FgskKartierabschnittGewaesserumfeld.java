@@ -508,15 +508,20 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
 //        lockableUI.setLocked(readOnly);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
+     */
+    public void setWkk(final String wkk) {
+        kartierabschnittUebersicht1.setWkk(wkk);
+    }
+
     @Override
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
         kartierabschnittBesUmfeld1.dispose();
         kartierabschnittSchaeUmfeldstrukturen1.dispose();
-        rdUferverbauL.dispose();
-        rdUferverbauR.dispose();
-        rdZustandL.dispose();
-        rdZustandR.dispose();
     }
 }

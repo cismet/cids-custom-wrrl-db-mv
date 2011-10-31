@@ -653,6 +653,15 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         this.readOnly = readOnly;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
+     */
+    public void setWkk(final String wkk) {
+        kartierabschnittStammEditor1.setWkk(wkk);
+    }
+
     @Override
     public void dispose() {
         bindingGroup.unbind();

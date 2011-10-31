@@ -7,6 +7,13 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.search.CidsServerSearch;
+
+import com.vividsolutions.jts.geom.Geometry;
+
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -17,6 +24,9 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,6 +36,8 @@ import javax.swing.event.ChangeListener;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -154,8 +166,51 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                 handleException();
             }
 
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refreshLabels();
+                    }
+                }).start();
             this.cidsBean.addPropertyChangeListener(WeakListeners.propertyChange(excL, cidsBean));
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void refreshLabels() {
+        final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
+        final CidsBean route = (CidsBean)cidsBean.getProperty("linie.von.route");
+
+        String wkk = CidsBeanSupport.FIELD_NOT_SET;
+        try {
+            if ((statLine != null) && (route != null)) {
+                final CidsBean geomEntry = (CidsBean)statLine.getProperty("geom");
+                final Geometry geom = ((geomEntry != null) ? (Geometry)geomEntry.getProperty("geo_field") : null);
+                final String geomString = geom.toText();
+                final CidsServerSearch search = new WkkSearch(geomString, String.valueOf(route.getProperty("id")));
+                final Collection res = SessionManager.getProxy()
+                            .customServerSearch(SessionManager.getSession().getUser(), search);
+                final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+                if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                    final Object o = resArray.get(0).get(0);
+
+                    if (o instanceof String) {
+                        wkk = o.toString();
+                    }
+                } else {
+                    LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                                + "See the server logs for further information");     // NOI18N
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Error while determining the water body", e);
+        }
+
+        setWkk(wkk);
     }
 
     /**
@@ -480,6 +535,21 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
+     */
+    public void setWkk(final String wkk) {
+        fgskKartierabschnittKartierabschnitt1.setWkk(wkk);
+        fgskKartierabschnittGewaesserumfeld1.setWkk(wkk);
+        fgskKartierabschnittLaengsprofil1.setWkk(wkk);
+        fgskKartierabschnittLaufentwicklung1.setWkk(wkk);
+        fgskKartierabschnittQuerprofil1.setWkk(wkk);
+        fgskKartierabschnittSohlenverbau1.setWkk(wkk);
+        fgskKartierabschnittUferstruktur1.setWkk(wkk);
     }
 
     /**

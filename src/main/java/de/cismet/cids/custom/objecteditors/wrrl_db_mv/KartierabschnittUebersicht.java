@@ -184,6 +184,17 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
 
         lblValGewaessername.setMinimumSize(new java.awt.Dimension(150, 17));
         lblValGewaessername.setPreferredSize(new java.awt.Dimension(150, 17));
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.routenname}"),
+                lblValGewaessername,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -196,7 +207,7 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
         lblValGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(150, 17));
         lblValGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(150, 17));
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser_abschnitt}"),
@@ -216,6 +227,17 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
 
         lblValStation.setMinimumSize(new java.awt.Dimension(150, 17));
         lblValStation.setPreferredSize(new java.awt.Dimension(150, 17));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.wert} - ${cidsBean.linie.bis.wert}"),
+                lblValStation,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
@@ -258,13 +280,6 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        refreshLabels();
-                    }
-                }).start();
         } else {
             lblValGewaessername.setText("");
             lblValStation.setText("");
@@ -274,69 +289,21 @@ public class KartierabschnittUebersicht extends javax.swing.JPanel implements Di
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
      */
-    public void refreshLabels() {
-        String gew = CidsBeanSupport.FIELD_NOT_SET;
-        String statString = CidsBeanSupport.FIELD_NOT_SET;
-        final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
-        CidsBean statVon = null;
-        CidsBean statBis = null;
-        CidsBean route = null;
-        if (statLine != null) {
-            statVon = (CidsBean)statLine.getProperty("von");
-            statBis = (CidsBean)statLine.getProperty("bis");
-            if (statVon != null) {
-                route = (CidsBean)statVon.getProperty("route");
-                if (route != null) {
-                    gew = String.valueOf(route.getProperty("routenname"));
-                }
+    public void setWkk(final String wkk) {
+        if (EventQueue.isDispatchThread()) {
+            lblValWkName.setText(wkk);
+        } else {
+            EventQueue.invokeLater(new Runnable() {
 
-                if (statBis != null) {
-                    statString = String.valueOf(statVon.getProperty("wert")) + " - "
-                                + String.valueOf(statBis.getProperty("wert"));
-                }
-            }
-        }
-
-        String wkk = CidsBeanSupport.FIELD_NOT_SET;
-        try {
-            if (statLine != null) {
-                final CidsBean geomEntry = (CidsBean)statLine.getProperty("geom");
-                final Geometry geom = ((geomEntry != null) ? (Geometry)geomEntry.getProperty("geo_field") : null);
-                final String geomString = geom.toText();
-                final CidsServerSearch search = new WkkSearch(geomString, String.valueOf(route.getProperty("id")));
-                final Collection res = SessionManager.getProxy()
-                            .customServerSearch(SessionManager.getSession().getUser(), search);
-                final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
-
-                if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
-                    final Object o = resArray.get(0).get(0);
-
-                    if (o instanceof String) {
-                        wkk = o.toString();
+                    @Override
+                    public void run() {
+                        lblValWkName.setText(wkk);
                     }
-                } else {
-                    LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
-                                + "See the server logs for further information");     // NOI18N
-                }
-            }
-        } catch (final Exception e) {
-            LOG.error("Error while determining the water body", e);
+                });
         }
-
-        final String gewaessername = gew;
-        final String stationierung = statString;
-        final String wk_name = wkk;
-
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    lblValGewaessername.setText(gewaessername);
-                    lblValStation.setText(stationierung);
-                    lblValWkName.setText(wk_name);
-                }
-            });
     }
 
     @Override

@@ -15,6 +15,8 @@ import Sirius.server.search.CidsServerSearch;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.awt.EventQueue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -240,6 +242,17 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaessername.setEditable(false);
         txtGewaessername.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaessername.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.routenname}"),
+                txtGewaessername,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -252,6 +265,17 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaesserkennzahl.setEditable(false);
         txtGewaesserkennzahl.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaesserkennzahl.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.gwk}"),
+                txtGewaesserkennzahl,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -279,7 +303,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser_abschnitt}"),
@@ -540,13 +564,6 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
             txtWk.setText("");
             txtWkName.setText("");
             txtWkType.setText("");
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        refreshLabels();
-                    }
-                }).start();
         } else {
             txtGewaessername.setText("");
             txtGewaesserkennzahl.setText("");
@@ -558,68 +575,57 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
      */
-    public void refreshLabels() {
-        String gew = CidsBeanSupport.FIELD_NOT_SET;
-        String gwk = CidsBeanSupport.FIELD_NOT_SET;
+    public void refreshLabels(final String wkk) {
         String wkName = CidsBeanSupport.FIELD_NOT_SET;
         String wkType = CidsBeanSupport.FIELD_NOT_SET;
-        final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
-        CidsBean statVon = null;
-        CidsBean route = null;
-
-        if (statLine != null) {
-            statVon = (CidsBean)statLine.getProperty("von");
-            if (statVon != null) {
-                route = (CidsBean)statVon.getProperty("route");
-                if (route != null) {
-                    gew = String.valueOf(route.getProperty("routenname"));
-                    gwk = String.valueOf(route.getProperty("gwk"));
-                }
-            }
-        }
-
-        String wkk = CidsBeanSupport.FIELD_NOT_SET;
+        LOG.error("refresh");
         try {
-            if (statLine != null) {
-                final CidsBean geomEntry = (CidsBean)statLine.getProperty("geom");
-                final Geometry geom = ((geomEntry != null) ? (Geometry)geomEntry.getProperty("geo_field") : null);
-                final String geomString = geom.toText();
-                final CidsServerSearch search = new WkkSearch(geomString, String.valueOf(route.getProperty("id")));
-                final Collection res = SessionManager.getProxy()
-                            .customServerSearch(SessionManager.getSession().getUser(), search);
-                final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
-
-                if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
-                    final Object o = resArray.get(0).get(0);
-
-                    if (o instanceof String) {
-                        wkk = o.toString();
-                        final String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "
-                                    + MC.getTableName() + " where wk_k = '" + wkk + "'";
-                        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-                        if (metaObjects.length == 1) {
-                            wkName = (String)metaObjects[0].getBean().getProperty("wk_n");
-                            wkType = String.valueOf(metaObjects[0].getBean().getProperty("typ_k"));
-                        } else {
-                            wkName = "nicht ermittelbar";
-                            wkType = "nicht ermittelbar";
-                        }
-                    }
+            if (wkk != null) {
+                final String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "
+                            + MC.getTableName() + " where wk_k = '" + wkk + "'";
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                if (metaObjects.length == 1) {
+                    wkName = (String)metaObjects[0].getBean().getProperty("wk_n");
+                    wkType = String.valueOf(metaObjects[0].getBean().getProperty("typ_k"));
                 } else {
-                    LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
-                                + "See the server logs for further information");     // NOI18N
+                    wkName = "nicht ermittelbar";
+                    wkType = "nicht ermittelbar";
                 }
             }
         } catch (final Exception e) {
             LOG.error("Error while determining the water body", e);
         }
 
-        txtGewaessername.setText(gew);
-        txtGewaesserkennzahl.setText(gwk);
-        txtWk.setText(wkk);
-        txtWkName.setText(wkName);
-        txtWkType.setText(wkType);
+        final String wkNameF = wkName;
+        final String wkTypeF = wkType;
+
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    txtWk.setText(wkk);
+                    txtWkName.setText(wkNameF);
+                    txtWkType.setText(wkTypeF);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
+     */
+    public void setWkk(final String wkk) {
+        new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    refreshLabels(wkk);
+                }
+            }).start();
     }
 
     @Override

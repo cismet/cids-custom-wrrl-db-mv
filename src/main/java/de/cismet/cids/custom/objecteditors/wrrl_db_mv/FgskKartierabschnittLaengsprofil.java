@@ -485,11 +485,18 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
+     */
+    public void setWkk(final String wkk) {
+        kartierabschnittUebersicht1.setWkk(wkk);
+    }
+
     @Override
     public void dispose() {
         bindingGroup.unbind();
         kartierabschnittUebersicht1.dispose();
-        ccGewaesserSubtyp.dispose();
-        rdFliessgeschwindigkeit.dispose();
     }
 }
