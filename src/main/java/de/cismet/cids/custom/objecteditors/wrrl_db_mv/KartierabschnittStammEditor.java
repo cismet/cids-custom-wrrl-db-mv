@@ -11,20 +11,15 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
@@ -581,7 +576,6 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     public void refreshLabels(final String wkk) {
         String wkName = CidsBeanSupport.FIELD_NOT_SET;
         String wkType = CidsBeanSupport.FIELD_NOT_SET;
-        LOG.error("refresh");
         try {
             if (wkk != null) {
                 final String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "

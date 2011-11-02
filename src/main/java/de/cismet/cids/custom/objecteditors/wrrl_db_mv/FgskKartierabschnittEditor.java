@@ -162,9 +162,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             fgskKartierabschnittGewaesserumfeld1.setCidsBean(cidsBean);
             fgskKartierabschnittErgebnisse1.setCidsBean(cidsBean);
 
-            if (isException(cidsBean)) {
-                handleException();
-            }
+//            if (isException(cidsBean)) {
+            handleException();
+//            }
 
             new Thread(new Runnable() {
 
