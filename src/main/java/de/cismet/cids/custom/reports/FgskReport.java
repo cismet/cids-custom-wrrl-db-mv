@@ -298,7 +298,10 @@ public final class FgskReport extends AbstractJasperReportPrint {
             (laengsbaenkeSum == 0.0) ? "" : this.convertNumberToString(laengsbaenkeUFGK));
         params.put("laengsbaenke_ib", (laengsbaenkeSum == 0.0) ? "" : this.convertNumberToString(laengsbaenkeIB));
         params.put("laengsbaenke_mb", (laengsbaenkeSum == 0.0) ? "" : this.convertNumberToString(laengsbaenkeMB));
-        params.put("laengsbaenke_keine", (laengsbaenkeSum == 0.0) ? "X" : "");
+
+        boolean isNotNull = (laengsbaenkeIB != null) && (laengsbaenkeMB != null) && (laengsbaenkeUFGK != null);
+
+        params.put("laengsbaenke_keine", (isNotNull && (laengsbaenkeSum == 0.0)) ? "X" : "");
 
         // -- Handling Laufstrukturen
 
@@ -334,7 +337,15 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "laufstrukturen_lg",
             (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenLG));
-        params.put("laufstrukturen_keine", (laufstrukturenSum == 0.0) ? "X" : "");
+
+        isNotNull = (laufstrukturenIBI != null)
+                    && (laufstrukturenLG != null)
+                    && (laufstrukturenLV != null)
+                    && (laufstrukturenLW != null)
+                    && (laufstrukturenSB != null)
+                    && (laufstrukturenTV != null);
+
+        params.put("laufstrukturen_keine", (isNotNull && (laufstrukturenSum == 0.0)) ? "X" : "");
     }
 
     /**
@@ -442,7 +453,19 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "sohlensubstrat_kue",
             (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratKUE));
-        params.put("sohlensubstrat_ne", (sohlensubstratSUM == 0.0) ? "X" : "");
+
+        boolean isNotNull = sohlensubstratTON != null &&
+                            sohlensubstratSAN != null &&
+                            sohlensubstratKIE != null &&
+                            sohlensubstratSTE != null &&
+                            sohlensubstratBLO != null &&
+                            sohlensubstratSCH != null &&
+                            sohlensubstratTOR != null &&
+                            sohlensubstratTOT != null &&
+                            sohlensubstratWUR != null && 
+                            sohlensubstratKUE != null;
+        
+        params.put("sohlensubstrat_ne", (isNotNull && sohlensubstratSUM == 0.0) ? "X" : "");
 
         // ---
 
@@ -468,7 +491,13 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "sohlenstrukturen_ko",
             (sohlenstrukturenSum == 0.0) ? "" : this.convertNumberToString(sohlenstrukturenKO));
-        params.put("sohlenstrukturen_kein", (sohlenstrukturenSum == 0.0) ? "X" : "");
+
+        isNotNull = (sohlenstrukturenRIP != null)
+                    && (sohlenstrukturenTH != null)
+                    && (sohlenstrukturenWU != null)
+                    && (sohlenstrukturenKO != null);
+
+        params.put("sohlenstrukturen_kein", (isNotNull && (sohlenstrukturenSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -504,7 +533,15 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "belastung_sohle_so",
             (belastungSohleSUM == 0.0) ? "" : this.convertNumberToString(belastungSohleSO));
-        params.put("belastung_sohle_keine", (belastungSohleSUM == 0.0) ? "X" : "");
+
+        isNotNull = (belastungSohleMUE != null)
+                    && (belastungSohleST != null)
+                    && (belastungSohleABW != null)
+                    && (belastungSohleVO != null)
+                    && (belastungSohleSA != null)
+                    && (belastungSohleSO != null);
+
+        params.put("belastung_sohle_keine", (isNotNull && (belastungSohleSUM == 0.0)) ? "X" : "");
     }
 
     /**
@@ -576,7 +613,16 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "uferstruktur_so_links",
             (uferstrukturLinksSum == 0.0) ? "" : this.convertNumberToString(uferstrukturLinksSO));
-        params.put("uferstruktur_keine_links", (uferstrukturLinksSum == 0.0) ? "X" : "");
+
+        boolean isNotNull = (uferstrukturLinksBU != null)
+                    && (uferstrukturLinksPB != null)
+                    && (uferstrukturLinksUS != null)
+                    && (uferstrukturLinksSB != null)
+                    && (uferstrukturLinksHA != null)
+                    && (uferstrukturLinksNBOE != null)
+                    && (uferstrukturLinksSO != null);
+
+        params.put("uferstruktur_keine_links", (isNotNull && (uferstrukturLinksSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -617,7 +663,16 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "uferstruktur_so_rechts",
             (uferstrukturRechtsSum == 0.0) ? "" : this.convertNumberToString(uferstrukturRechtsSO));
-        params.put("uferstruktur_keine_rechts", (uferstrukturRechtsSum == 0.0) ? "X" : "");
+
+        isNotNull = (uferstrukturRechtsBU != null)
+                    && (uferstrukturRechtsPB != null)
+                    && (uferstrukturRechtsUS != null)
+                    && (uferstrukturRechtsSB != null)
+                    && (uferstrukturRechtsHA != null)
+                    && (uferstrukturRechtsNBOE != null)
+                    && (uferstrukturRechtsSO != null);
+
+        params.put("uferstruktur_keine_rechts", (isNotNull && (uferstrukturRechtsSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -648,7 +703,14 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "uferbelastungen_so_links",
             (uferbelastungenLinksSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenLinksSO));
-        params.put("uferbelastungen_keine_links", (uferbelastungenLinksSum == 0.0) ? "X" : "");
+
+        isNotNull = (uferbelastungenLinksMUE != null)
+                    && (uferbelastungenLinksST != null)
+                    && (uferbelastungenLinksTS != null)
+                    && (uferbelastungenLinksEL != null)
+                    && (uferbelastungenLinksSO != null);
+
+        params.put("uferbelastungen_keine_links", (isNotNull && (uferbelastungenLinksSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -679,7 +741,14 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "uferbelastungen_so_rechts",
             (uferbelastungenRechtsSum == 0.0) ? "" : this.convertNumberToString(uferbelastungenRechtsSO));
-        params.put("uferbelastungen_keine_rechts", (uferbelastungenRechtsSum == 0.0) ? "X" : "");
+
+        isNotNull = (uferbelastungenRechtsMUE != null)
+                    && (uferbelastungenRechtsST != null)
+                    && (uferbelastungenRechtsTS != null)
+                    && (uferbelastungenRechtsEL != null)
+                    && (uferbelastungenRechtsSO != null);
+
+        params.put("uferbelastungen_keine_rechts", (isNotNull && (uferbelastungenRechtsSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -729,7 +798,15 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "umfeldstrukturen_so_links",
             (umfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenLinksSO));
-        params.put("umfeldstrukturen_keine_links", (umfeldStrukturenLinksSum == 0.0) ? "X" : "");
+
+        isNotNull = (umfeldStrukturenLinksFM != null)
+                    && (umfeldStrukturenLinksQ != null)
+                    && (umfeldStrukturenLinksAA != null)
+                    && (umfeldStrukturenLinksAW != null)
+                    && (umfeldStrukturenLinksW != null)
+                    && (umfeldStrukturenLinksSO != null);
+
+        params.put("umfeldstrukturen_keine_links", (isNotNull && (umfeldStrukturenLinksSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -765,7 +842,15 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "umfeldstrukturen_so_rechts",
             (umfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(umfeldStrukturenRechtsSO));
-        params.put("umfeldstrukturen_keine_rechts", (umfeldStrukturenRechtsSum == 0.0) ? "X" : "");
+
+        isNotNull = (umfeldStrukturenRechtsFM != null)
+                    && (umfeldStrukturenRechtsQ != null)
+                    && (umfeldStrukturenRechtsAA != null)
+                    && (umfeldStrukturenRechtsAW != null)
+                    && (umfeldStrukturenRechtsW != null)
+                    && (umfeldStrukturenRechtsSO != null);
+
+        params.put("umfeldstrukturen_keine_rechts", (isNotNull && (umfeldStrukturenRechtsSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -806,7 +891,16 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "s_umfeldstrukturen_so_links",
             (sUmfeldStrukturenLinksSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenLinksSO));
-        params.put("s_umfeldstrukturen_keine_links", (sUmfeldStrukturenLinksSum == 0.0) ? "X" : "");
+
+        isNotNull = (sUmfeldStrukturenLinksAG != null)
+                    && (sUmfeldStrukturenLinksFT != null)
+                    && (sUmfeldStrukturenLinksGUA != null)
+                    && (sUmfeldStrukturenLinksBV != null)
+                    && (sUmfeldStrukturenLinksMA != null)
+                    && (sUmfeldStrukturenLinksHW != null)
+                    && (sUmfeldStrukturenLinksSO != null);
+
+        params.put("s_umfeldstrukturen_keine_links", (isNotNull && (sUmfeldStrukturenLinksSum == 0.0)) ? "X" : "");
 
         // ---
 
@@ -847,7 +941,16 @@ public final class FgskReport extends AbstractJasperReportPrint {
         params.put(
             "s_umfeldstrukturen_so_rechts",
             (sUmfeldStrukturenRechtsSum == 0.0) ? "" : this.convertNumberToString(sUmfeldStrukturenRechtsSO));
-        params.put("s_umfeldstrukturen_keine_rechts", (sUmfeldStrukturenRechtsSum == 0.0) ? "X" : "");
+
+        isNotNull = (sUmfeldStrukturenRechtsAG != null)
+                    && (sUmfeldStrukturenRechtsFT != null)
+                    && (sUmfeldStrukturenRechtsGUA != null)
+                    && (sUmfeldStrukturenRechtsBV != null)
+                    && (sUmfeldStrukturenRechtsMA != null)
+                    && (sUmfeldStrukturenRechtsHW != null)
+                    && (sUmfeldStrukturenRechtsSO != null);
+
+        params.put("s_umfeldstrukturen_keine_rechts", (isNotNull && (sUmfeldStrukturenRechtsSum == 0.0)) ? "X" : "");
 
         // ---
 
