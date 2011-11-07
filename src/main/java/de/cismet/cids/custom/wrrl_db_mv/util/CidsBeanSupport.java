@@ -330,13 +330,14 @@ public final class CidsBeanSupport {
     public static double textToDouble(final JTextField text, final double nullValue) {
         double d = 0.0;
 
-        if (text.getText().equals("")) {
+        if (text.getText().isEmpty()) {
             return nullValue;
         }
 
         try {
-            d = Double.valueOf(text.getText());
+            d = Double.valueOf(text.getText().replace(',', '.'));
         } catch (final NumberFormatException e) {
+            LOG.warn("cannot convert text to double", e); // NOI18N
             // nothing to do
         }
 

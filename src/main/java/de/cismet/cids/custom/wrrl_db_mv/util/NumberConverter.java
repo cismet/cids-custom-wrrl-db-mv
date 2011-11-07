@@ -7,9 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util;
 
-import org.jdesktop.beansbinding.Converter;
+import org.apache.log4j.Logger;
 
-import java.math.BigDecimal;
+import org.jdesktop.beansbinding.Converter;
 
 /**
  * DOCUMENT ME!
@@ -21,7 +21,7 @@ public class NumberConverter extends Converter<Double, String> {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NumberConverter.class);
+    private static final transient Logger LOG = Logger.getLogger(NumberConverter.class);
     private static final NumberConverter INSTANCE = new NumberConverter();
 
     //~ Methods ----------------------------------------------------------------
@@ -49,7 +49,12 @@ public class NumberConverter extends Converter<Double, String> {
 
             return new Double(value.replace(',', '.'));
         } catch (final NumberFormatException e) {
-            LOG.warn("No valid number: " + value, e);
+            LOG.warn("No valid number: " + value, e); // NOI18N
+
+            // this is for convenience
+            if (value.trim().startsWith("kein")) {
+                return 0d;
+            }
 
             return null;
         }

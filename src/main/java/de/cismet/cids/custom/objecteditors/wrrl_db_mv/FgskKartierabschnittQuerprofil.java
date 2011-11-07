@@ -681,13 +681,6 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
-        } else if (einschnitttiefe < wassertiefe) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Die Einschnitttiefe ist kleiner als die Wassertiefe.",
-                "Ungültige Eingabe",
-                JOptionPane.ERROR_MESSAGE);
-            return false;
         } else if (wasserspiegelbreite < sohlbreite) {
             JOptionPane.showMessageDialog(
                 this,

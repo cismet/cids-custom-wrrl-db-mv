@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.IntegerValueComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.NumberConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -65,7 +66,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdFliessgeschwindigkeit;
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JSeparator sepMiddle1;
-    private javax.swing.JTextField tfTv;
+    private javax.swing.JTextField txtCrossbenchCount;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -117,7 +118,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         cbTiefenerosion = new ScrollableComboBox(comparator);
         lblTiefenvarianz = new javax.swing.JLabel();
         cbTiefenvarianz = new ScrollableComboBox(comparator);
-        tfTv = new javax.swing.JTextField();
+        txtCrossbenchCount = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(1100, 650));
         setMinimumSize(new java.awt.Dimension(1100, 650));
@@ -403,15 +404,16 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent1.add(cbTiefenvarianz, gridBagConstraints);
 
-        tfTv.setMinimumSize(new java.awt.Dimension(200, 20));
-        tfTv.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtCrossbenchCount.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtCrossbenchCount.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.querbaenke_anzahl}"),
-                tfTv,
+                txtCrossbenchCount,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -421,7 +423,7 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(tfTv, gridBagConstraints);
+        panInfoContent1.add(txtCrossbenchCount, gridBagConstraints);
 
         panInfo2.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 

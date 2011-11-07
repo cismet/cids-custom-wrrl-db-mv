@@ -12,9 +12,7 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
-
 import java.awt.EventQueue;
-
 
 import javax.swing.JOptionPane;
 

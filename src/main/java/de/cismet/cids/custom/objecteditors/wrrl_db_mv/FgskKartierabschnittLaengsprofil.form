@@ -466,7 +466,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="tfTv">
+                    <Component class="javax.swing.JTextField" name="txtCrossbenchCount">
                       <Properties>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[200, 20]"/>
@@ -476,8 +476,11 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.querbaenke_anzahl}" target="tfTv" targetPath="text" updateStrategy="0" immediately="false">
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.querbaenke_anzahl}" target="txtCrossbenchCount" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="NumberConverter.getInstance()" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>

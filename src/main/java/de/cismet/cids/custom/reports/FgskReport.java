@@ -454,18 +454,18 @@ public final class FgskReport extends AbstractJasperReportPrint {
             "sohlensubstrat_kue",
             (sohlensubstratSUM == 0.0) ? "" : this.convertNumberToString(sohlensubstratKUE));
 
-        boolean isNotNull = sohlensubstratTON != null &&
-                            sohlensubstratSAN != null &&
-                            sohlensubstratKIE != null &&
-                            sohlensubstratSTE != null &&
-                            sohlensubstratBLO != null &&
-                            sohlensubstratSCH != null &&
-                            sohlensubstratTOR != null &&
-                            sohlensubstratTOT != null &&
-                            sohlensubstratWUR != null && 
-                            sohlensubstratKUE != null;
-        
-        params.put("sohlensubstrat_ne", (isNotNull && sohlensubstratSUM == 0.0) ? "X" : "");
+        boolean isNotNull = (sohlensubstratTON != null)
+                    && (sohlensubstratSAN != null)
+                    && (sohlensubstratKIE != null)
+                    && (sohlensubstratSTE != null)
+                    && (sohlensubstratBLO != null)
+                    && (sohlensubstratSCH != null)
+                    && (sohlensubstratTOR != null)
+                    && (sohlensubstratTOT != null)
+                    && (sohlensubstratWUR != null)
+                    && (sohlensubstratKUE != null);
+
+        params.put("sohlensubstrat_ne", (isNotNull && (sohlensubstratSUM == 0.0)) ? "X" : "");
 
         // ---
 
