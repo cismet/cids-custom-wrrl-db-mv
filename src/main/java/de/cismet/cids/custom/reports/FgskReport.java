@@ -66,6 +66,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
     private static final Logger LOG = Logger.getLogger(FgskReport.class);
     private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final String INDETERMINATE = "nicht ermittelbar";
 
     //~ Constructors -----------------------------------------------------------
 
@@ -177,7 +178,8 @@ public final class FgskReport extends AbstractJasperReportPrint {
         String gew = CidsBeanSupport.FIELD_NOT_SET;
         String gwk = CidsBeanSupport.FIELD_NOT_SET;
         String wkName = CidsBeanSupport.FIELD_NOT_SET;
-        String wkType = CidsBeanSupport.FIELD_NOT_SET;
+//        String wkType = CidsBeanSupport.FIELD_NOT_SET;
+        String wkTypeId = CidsBeanSupport.FIELD_NOT_SET;
         String statString = CidsBeanSupport.FIELD_NOT_SET;
 
         final CidsBean statLine = (CidsBean)bean.getProperty("linie");
@@ -220,10 +222,12 @@ public final class FgskReport extends AbstractJasperReportPrint {
                         final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
                         if (metaObjects.length == 1) {
                             wkName = (String)metaObjects[0].getBean().getProperty("wk_n");
-                            wkType = toString(metaObjects[0].getBean().getProperty("typ_k"));
+//                            wkType = toString(metaObjects[0].getBean().getProperty("typ_k.name"));
+                            wkTypeId = toString(metaObjects[0].getBean().getProperty("typ_k.value"));
                         } else {
-                            wkName = "nicht ermittelbar";
-                            wkType = "nicht ermittelbar";
+                            wkName = INDETERMINATE;
+//                            wkType = INDETERMINATE;
+                            wkTypeId = INDETERMINATE;
                         }
                     }
                 } else {
@@ -238,7 +242,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
             params.put("gwk", toString(gwk));       // Gewässerkennzahl
             params.put("wkk", toString(wkk));       // Wasserkörper
             params.put("wkName", toString(wkName)); // Wasserkörpername TODO: benötigt?
-            params.put("wkType", toString(wkType)); // Wk-Type
+            params.put("wkType", wkTypeId);         // Wk-Type
             params.put("stationierung", toString(statString));
 
             params.put("gewaesser_abschnitt", toString(bean.getProperty("gewaesser_abschnitt")));
