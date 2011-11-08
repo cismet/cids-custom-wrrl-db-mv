@@ -9,7 +9,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 
-import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.search.CidsServerSearch;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -23,6 +22,8 @@ import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +40,7 @@ import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -174,6 +176,30 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
                 }).start();
             this.cidsBean.addPropertyChangeListener(WeakListeners.propertyChange(excL, cidsBean));
+        }
+
+        fillFooter();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void fillFooter() {
+        if (cidsBean != null) {
+            Object avUser = cidsBean.getProperty("av_user");
+            Object avTime = cidsBean.getProperty("av_time");
+
+            if (avUser == null) {
+                avUser = "(unbekannt)";
+            }
+            if (avTime instanceof Timestamp) {
+                avTime = TimestampConverter.getInstance().convertForward((Timestamp)avTime);
+            } else {
+                avTime = "(unbekannt)";
+            }
+            lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+        } else {
+            lblFoot.setText("");
         }
     }
 
@@ -529,6 +555,18 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         boolean res = fgskKartierabschnittKartierabschnitt1.prepareForSave();
         res &= fgskKartierabschnittQuerprofil1.prepareForSave();
 
+        if (res && (cidsBean != null)) {
+            try {
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current user.", ex);
+            }
+            try {
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current time.", ex);
+            }
+        }
         return res;
     }
 

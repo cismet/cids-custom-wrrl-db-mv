@@ -634,8 +634,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     @Override
     public boolean prepareForSave() {
         final Boolean vorkatierung = (Boolean)cidsBean.getProperty("vorkatierung");
-        LOG.error("test cond: " + ((vorkatierung == null) || !vorkatierung.booleanValue()));
-        LOG.error("test val: " + (String.valueOf(vorkatierung)));
+
         if ((vorkatierung == null) || !vorkatierung.booleanValue()) {
             if ((txtBearbeiter.getText() == null)
                         || (timErfassungsdatum.getTimestamp().getTime() == 0)
