@@ -12,6 +12,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.RoundedNumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -1372,11 +1373,14 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
      * DOCUMENT ME!
      */
     public void refreshGueteklasse() {
-        String gueteklasse = "keine";
+        String gueteklasse = "nicht bewertet";
 
         final Double p = (Double)cidsBean.getProperty("punktzahl_gesamt");
+        final CidsBean exception = (CidsBean)cidsBean.getProperty(Calc.PROP_EXCEPTION);
 
-        if (p != null) {
+        if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(Calc.PROP_VALUE))) {
+            gueteklasse = "5";
+        } else if ((p != null) && (p > 0.0)) {
             if (p <= 1.5) {
                 gueteklasse = "5";
             } else if (p <= 2.5) {
@@ -1389,6 +1393,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 gueteklasse = "1";
             }
         }
+
         txtGueteklasse.setText(gueteklasse);
     }
 }
