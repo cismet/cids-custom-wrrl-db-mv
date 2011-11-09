@@ -68,6 +68,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
     private String otherLinesFromQueryPart;
     private String otherLinesWhereQueryPart;
     private boolean isOtherLinesEnabled = true;
+    private boolean drawingFeaturesEnabled = true;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
@@ -84,14 +86,28 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      * Creates new form LinearReferencedLineArrayEditor.
      */
     public LinearReferencedLineArrayEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form LinearReferencedLineArrayEditor.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public LinearReferencedLineArrayEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
 
-        try {
-            new CidsBeanDropTarget(panDrop);
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("error while creating CidsBeanDropTarget");
+        if (!readOnly) {
+            try {
+                new CidsBeanDropTarget(panDrop);
+            } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("error while creating CidsBeanDropTarget");
+                }
             }
+        } else {
+            jLabel3.setText("");
         }
     }
 
@@ -201,8 +217,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
      *
      * @return  DOCUMENT ME!
      */
-    protected static LinearReferencedLineEditor createEditor() {
-        return new LinearReferencedLineEditor();
+    protected LinearReferencedLineEditor createEditor() {
+        return new LinearReferencedLineEditor(!readOnly);
     }
 
     /**
@@ -280,6 +296,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
         for (final CidsBean childBean : getCidsBeans()) {
             final LinearReferencedLineEditor editor = createEditor();
+            editor.setDrawingFeaturesEnabled(drawingFeaturesEnabled);
             editor.setOtherLinesEnabled(isOtherLinesEnabled());
             editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
             editor.setLineField(getLineField());
@@ -298,23 +315,28 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
 
         final JPanel panItem = new JPanel(new BorderLayout(5, 5));
         panItem.setOpaque(false);
-        final JButton btnRemove = new JButton();
 
-        btnRemove.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+        if (!readOnly) {
+            final JButton btnRemove = new JButton();
 
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    final JButton button = (JButton)evt.getSource();
-                    final LinearReferencedLineEditor editor = editorButtonMap.get(button);
-                    removeEditor(editor);
-                }
-            });
+            btnRemove.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+            btnRemove.addActionListener(new java.awt.event.ActionListener() {
 
-        final JPanel panEast = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        panEast.add(btnRemove);
-        panEast.setOpaque(false);
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        final JButton button = (JButton)evt.getSource();
+                        final LinearReferencedLineEditor editor = editorButtonMap.get(button);
+                        removeEditor(editor);
+                    }
+                });
+
+            final JPanel panEast = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+            panEast.add(btnRemove);
+            panEast.setOpaque(false);
+            panItem.add(panEast, BorderLayout.EAST);
+            editorButtonMap.put(btnRemove, editor);
+        }
 
         final JPanel panEditor = new JPanel(new GridBagLayout());
         final GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -326,10 +348,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         panEditor.add(editor, gridBagConstraints);
 
         panItem.add(panEditor, BorderLayout.CENTER);
-        panItem.add(panEast, BorderLayout.EAST);
         panItem.add(new JSeparator(), BorderLayout.SOUTH);
 
-        editorButtonMap.put(btnRemove, editor);
         panLines.add(panItem);
 
         revalidate();
@@ -412,6 +432,8 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         panSemiRounded.add(lblTitle, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panRounded.add(panSemiRounded, gridBagConstraints);
 
@@ -490,6 +512,24 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the drawingFeatures
+     */
+    public boolean isDrawingFeaturesEnabled() {
+        return drawingFeaturesEnabled;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  drawingFeaturesEnabled  the drawingFeatures to set
+     */
+    public void setDrawingFeaturesEnabled(final boolean drawingFeaturesEnabled) {
+        this.drawingFeaturesEnabled = drawingFeaturesEnabled;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -509,6 +549,7 @@ public class LinearReferencedLineArrayEditor extends JPanel implements Disposabl
                     editor.setLineField(getLineField());
                     final CidsBean lineBean = createBeanFromRoute(bean);
                     editor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
+                    editor.setDrawingFeaturesEnabled(drawingFeaturesEnabled);
                     editor.setCidsBean(lineBean);
                     editor.updateRealGeoms();
                     addEditor(editor);

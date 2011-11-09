@@ -60,7 +60,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgEditor.class);
-    private static final String PROP_WKFG_WKTEILE = "teile";
+    public static final String PROP_WKFG_WKTEILE = "teile";
     public static final String MC_WKTEIL = "wk_teil";             // NOI18N
     public static final String PROP_WKTEIL_STATIONLINE = "linie"; // NOI18N
     private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
