@@ -841,6 +841,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                         "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.title", // NOI18N
                         name),
                     JOptionPane.INFORMATION_MESSAGE);
+            } catch (final Exception ex) {
+                LOG.error("unexpected exception during calculation", ex);
             } finally {
                 selectedTabIndex = tpMain.getSelectedIndex();
             }
