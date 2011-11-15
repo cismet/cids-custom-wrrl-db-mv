@@ -159,8 +159,10 @@ public final class Calc {
     public static final String PROP_WB_OVERALL_RATING = "punktzahl_gesamt";                               // NOI18N
     public static final String PROP_WB_BED_RATING = "punktzahl_sohle";                                    // NOI18N
     public static final String PROP_WB_BANK_RATING = "punktzahl_ufer";                                    // NOI18N
+    public static final String PROP_WB_BANK_RATING_LE = "punktzahl_ufer_links";                           // NOI18N
+    public static final String PROP_WB_BANK_RATING_RI = "punktzahl_ufer_rechts";                          // NOI18N
     public static final String PROP_WB_ENV_RATING = "punktzahl_land";                                     // NOI18N
-    public static final String PROP_EXCEPTION = "sonderfall_id";
+    public static final String PROP_EXCEPTION = "sonderfall_id";                                          // NOI18N
 
     private static final CalcCache cache = CalcCache.getInstance();
     private static final transient Logger LOG = Logger.getLogger(Calc.class);
@@ -960,9 +962,17 @@ public final class Calc {
         final int critCountCrossProfile = (Integer)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_CRIT);
         final double ratingBankStructure = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING);
         final int critCountBankStructure = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT);
+        final double ratingBankStructureLe = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_LE);
+        final int critCountBankStructureLe = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_LE);
+        final double ratingBankStructureRi = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
+        final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
         final double ratingBank = (ratingCrossProfile + ratingBankStructure)
                     / (critCountCrossProfile + critCountBankStructure);
+        final double ratingBankLe = (ratingCrossProfile + ratingBankStructureLe)
+                    / (critCountCrossProfile + critCountBankStructureLe);
+        final double ratingBankRi = (ratingCrossProfile + ratingBankStructureRi)
+                    / (critCountCrossProfile + critCountBankStructureRi);
 
         final double ratingWBEnv = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING);
         final int critCountWBEnv = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT);
@@ -975,6 +985,8 @@ public final class Calc {
         try {
             kaBean.setProperty(PROP_WB_BED_RATING, ratingBed);
             kaBean.setProperty(PROP_WB_BANK_RATING, ratingBank);
+            kaBean.setProperty(PROP_WB_BANK_RATING_LE, ratingBankLe);
+            kaBean.setProperty(PROP_WB_BANK_RATING_RI, ratingBankRi);
             kaBean.setProperty(PROP_WB_ENV_RATING, ratingEnv);
             kaBean.setProperty(PROP_WB_OVERALL_RATING, ratingOverall);
         } catch (final Exception e) {
@@ -1103,8 +1115,9 @@ public final class Calc {
     private String fieldFromCode(final String prefix, final String code, final Boolean left) {
         final Field f;
         try {
-            f = getClass().getField(prefix + code.toUpperCase() + ((left == null) ? ""
-                                                                                  : ("_" + (left ? "LE" : "RI")))); // NOI18N
+            f = getClass().getField(prefix + code.toUpperCase()
+                            + ((left == null) ? "" // NOI18N
+                                              : ("_" + (left ? "LE" : "RI")))); // NOI18N
 
             return (String)f.get(null);
         } catch (final NoSuchFieldException ex) {
