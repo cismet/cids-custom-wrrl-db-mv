@@ -15,11 +15,18 @@ import Sirius.server.middleware.types.Node;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.awt.Color;
+import java.awt.Component;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
@@ -68,6 +75,8 @@ public class FgskDialog extends javax.swing.JDialog {
     private String interactionModeWhenFinished = ""; // NOI18N
     private final Double[] positions;
     private CidsBean routeBean = null;
+    private final ArrayList<KartierAbschnitt> kartierAbschnitte = new ArrayList<KartierAbschnitt>();
+    private boolean allValid;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdCancel;
@@ -124,19 +133,27 @@ public class FgskDialog extends javax.swing.JDialog {
 
         // tabelle füllen
         if (routeBean != null) {
-            int rowIndex = 0;
             Double fromPosition = null;
             for (final double position : positions) {
                 final Double toPosition = position;
                 if (fromPosition != null) {
-                    ((DefaultTableModel)jTable1.getModel()).addRow(
-                        new Object[] {
-                            ++rowIndex,
-                            fromPosition.intValue(),
-                            toPosition.intValue()
-                        });
+                    kartierAbschnitte.add(new KartierAbschnitt(fromPosition.intValue(), toPosition.intValue()));
                 }
                 fromPosition = toPosition;
+            }
+        }
+
+        allValid = true;
+        for (int index = 0; index < kartierAbschnitte.size(); index++) {
+            final KartierAbschnitt kartierAbschnitt = kartierAbschnitte.get(index);
+            ((DefaultTableModel)jTable1.getModel()).addRow(
+                new Object[] {
+                    index,
+                    kartierAbschnitt.getVon(),
+                    kartierAbschnitt.getBis()
+                });
+            if (!kartierAbschnitt.isValid()) {
+                allValid = false;
             }
         }
 
@@ -296,6 +313,7 @@ public class FgskDialog extends javax.swing.JDialog {
                     return canEdit[columnIndex];
                 }
             });
+        jTable1.setDefaultRenderer(Integer.class, new MyTableCellRenderer());
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
         jScrollPane1.setViewportView(jTable1);
 
@@ -405,8 +423,21 @@ public class FgskDialog extends javax.swing.JDialog {
      * @param  evt  DOCUMENT ME!
      */
     private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
-        final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
-            mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
+        if (!allValid) {
+            final int returnOption = JOptionPane.showOptionDialog(
+                    this,
+                    "<html>Die Regeln zur Mindest- oder Höchstlänge<br/>von Kartierabschnitten werden verletzt.",
+                    "Vorsicht",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    new String[] { "Abbrechen", "Trotzdem Fortfahren" },
+                    "Abbrechen");
+            if (returnOption == 0) {
+                cmdCancelActionPerformed(null);
+                return;
+            }
+        }
 
         cmdOk.setEnabled(false);
         cmdCancel.setEnabled(false);
@@ -540,5 +571,129 @@ public class FgskDialog extends javax.swing.JDialog {
      */
     public void setInteractionModeWhenFinished(final String interactionModeWhenFinished) {
         this.interactionModeWhenFinished = interactionModeWhenFinished;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class KartierAbschnitt {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final int von;
+        private final int bis;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new KartierAbschnitt object.
+         *
+         * @param  von  DOCUMENT ME!
+         * @param  bis  DOCUMENT ME!
+         */
+        public KartierAbschnitt(final int von, final int bis) {
+            this.von = von;
+            this.bis = bis;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public int getBis() {
+            return bis;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public int getVon() {
+            return von;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public boolean isValid() {
+            return !isTooShort() && !isTooLong();
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public boolean isTooShort() {
+            return getDistance() < 50;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public boolean isTooLong() {
+            return getDistance() > 400;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public int getDistance() {
+            return (int)Math.abs(von - bis);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class MyTableCellRenderer extends JLabel implements TableCellRenderer {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public Component getTableCellRendererComponent(final JTable table,
+                final Object value,
+                final boolean isSelected,
+                final boolean hasFocus,
+                final int row,
+                final int column) {
+            final KartierAbschnitt kartierAbschnitt = kartierAbschnitte.get(row);
+            String tooltip = null;
+            final int distance = kartierAbschnitt.getDistance();
+            if (kartierAbschnitt.isTooShort()) {
+                tooltip = "<html>Mit " + distance
+                            + " Metern ist dieser Kartierabschnitt zu kurz,<br/>er sollte mindestens 50 Meter lang sein.";
+            } else if (kartierAbschnitt.isTooLong()) {
+                tooltip = "<html>Mit " + distance
+                            + " Metern ist dieser Kartierabschnitt zu lang,<br/>er sollte höchstens 400 Meter lang sein.";
+            }
+            setToolTipText(tooltip);
+            if (!kartierAbschnitt.isValid()) {
+                setOpaque(true);
+                setBackground(Color.RED);
+                setForeground(Color.WHITE);
+            } else {
+                setBackground(null);
+                setForeground(null);
+            }
+            setText(value.toString());
+            return this;
+        }
     }
 }
