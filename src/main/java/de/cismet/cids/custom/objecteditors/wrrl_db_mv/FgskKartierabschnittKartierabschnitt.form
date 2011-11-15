@@ -499,7 +499,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                 </Container>
-                <Container class="de.cismet.cids.editors.DefaultBindableRadioButtonField" name="referencedRadioButtonField1">
+                <Container class="de.cismet.cids.editors.DefaultBindableRadioButtonField" name="rdbWBType">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[400, 120]"/>
@@ -510,10 +510,10 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedElements" source="Form" sourcePath="${cidsBean.gewaessertyp_id}" target="referencedRadioButtonField1" targetPath="selectedElements" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedElements" source="Form" sourcePath="${cidsBean.gewaessertyp_id}" target="rdbWBType" targetPath="selectedElements" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Events>
-                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="referencedRadioButtonField1PropertyChange"/>
+                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="rdbWBTypePropertyChange"/>
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

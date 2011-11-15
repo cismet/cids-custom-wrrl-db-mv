@@ -14,11 +14,18 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import org.apache.log4j.Logger;
+
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.List;
 
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -38,11 +45,17 @@ import de.cismet.cids.editors.FieldStateDecider;
 public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel implements DisposableCidsBeanStore,
     EditorSaveListener {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final transient Logger LOG = Logger.getLogger(FgskKartierabschnittKartierabschnitt.class);
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private SubTypeDecider decider = new SubTypeDecider();
     private boolean readOnly = false;
+
+    private final transient PropertyChangeListener subTypeL;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbSeeausfluss;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccGewaesserSubtyp;
@@ -78,7 +91,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     private javax.swing.JPanel panInfoContent2;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdSonderfall;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdWasserfuehrung;
-    private de.cismet.cids.editors.DefaultBindableRadioButtonField referencedRadioButtonField1;
+    private de.cismet.cids.editors.DefaultBindableRadioButtonField rdbWBType;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField referencedRadioButtonField2;
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JSeparator sepMiddle1;
@@ -102,6 +115,8 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      */
     public FgskKartierabschnittKartierabschnitt(final boolean readOnly) {
         this.readOnly = readOnly;
+        this.subTypeL = new SubtypeCheckBoxRadioButtonBehaviourListener();
+
         initComponents();
         setOpaque(false);
         if (readOnly) {
@@ -151,7 +166,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         lblfliessrichtung1 = new javax.swing.JLabel();
         cbSeeausfluss = new javax.swing.JCheckBox();
         ccGewaesserSubtyp = new de.cismet.cids.editors.DefaultBindableCheckboxField();
-        referencedRadioButtonField1 = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
+        rdbWBType = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
         jpGroesse = new javax.swing.JPanel();
         panInfo2 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -477,23 +492,23 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent1.add(ccGewaesserSubtyp, gridBagConstraints);
 
-        referencedRadioButtonField1.setMinimumSize(new java.awt.Dimension(400, 120));
-        referencedRadioButtonField1.setOpaque(false);
-        referencedRadioButtonField1.setPreferredSize(new java.awt.Dimension(400, 120));
+        rdbWBType.setMinimumSize(new java.awt.Dimension(400, 120));
+        rdbWBType.setOpaque(false);
+        rdbWBType.setPreferredSize(new java.awt.Dimension(400, 120));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaessertyp_id}"),
-                referencedRadioButtonField1,
+                rdbWBType,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
         bindingGroup.addBinding(binding);
 
-        referencedRadioButtonField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        rdbWBType.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
 
                 @Override
                 public void propertyChange(final java.beans.PropertyChangeEvent evt) {
-                    referencedRadioButtonField1PropertyChange(evt);
+                    rdbWBTypePropertyChange(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -502,7 +517,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(referencedRadioButtonField1, gridBagConstraints);
+        panInfoContent1.add(rdbWBType, gridBagConstraints);
 
         jpGewTyp.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
@@ -602,13 +617,13 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void referencedRadioButtonField1PropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_referencedRadioButtonField1PropertyChange
+    private void rdbWBTypePropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdbWBTypePropertyChange
         if ((evt.getPropertyName().equals("selectedElements"))) {
             final CidsBean newValue = (CidsBean)evt.getNewValue();
             decider.setType(newValue);
             ccGewaesserSubtyp.refreshCheckboxState(decider, true);
         }
-    }                                                                                                  //GEN-LAST:event_referencedRadioButtonField1PropertyChange
+    }                                                                                //GEN-LAST:event_rdbWBTypePropertyChange
 
     /**
      * DOCUMENT ME!
@@ -632,6 +647,9 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
             kartierabschnittStammEditor1.setCidsBean(cidsBean);
             decider.setType((CidsBean)cidsBean.getProperty("gewaessertyp_id"));
             ccGewaesserSubtyp.refreshCheckboxState(decider, false);
+            if (!readOnly) {
+                this.cidsBean.addPropertyChangeListener(subTypeL);
+            }
         }
     }
 
@@ -669,8 +687,11 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         rdSonderfall.dispose();
         rdWasserfuehrung.dispose();
         ccGewaesserSubtyp.dispose();
-        referencedRadioButtonField1.dispose();
+        rdbWBType.dispose();
         referencedRadioButtonField2.dispose();
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(subTypeL);
+        }
     }
 
     @Override
@@ -684,6 +705,104 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     }
 
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private final class SubtypeCheckBoxRadioButtonBehaviourListener implements PropertyChangeListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+            if (Calc.PROP_WB_SUB_TYPE.equals(evt.getPropertyName())) {
+                final CidsBean wbType = (CidsBean)rdbWBType.getSelectedElements();
+
+                if (wbType == null) {
+                    LOG.warn("no selected wb type"); // NOI18N
+
+                    return;
+                }
+
+                final Integer typeId = (Integer)wbType.getProperty(Calc.PROP_VALUE);
+
+                if ((typeId != null) && ((typeId >= 14) && (typeId <= 17))) {
+                    final List<CidsBean> newBeans = (List)evt.getNewValue();
+                    final List<CidsBean> oldBeans = (List)evt.getOldValue();
+
+                    // we just need to check, if a new entry is added
+                    if (newBeans.size() > oldBeans.size()) {
+                        if ((newBeans.size() - oldBeans.size()) != 1) {
+                            // should never occur
+                            LOG.warn("cannot determine which property shall be deactivated");
+
+                            return;
+                        }
+
+                        CidsBean newBean = null;
+                        for (final CidsBean bean : newBeans) {
+                            if (!oldBeans.contains(bean)) {
+                                newBean = bean;
+                                break;
+                            }
+                        }
+
+                        final CidsBean opposite = getOpposite(newBeans, newBean);
+                        if (opposite != null) {
+                            // we're aware of the fact that we're in the edt already, but we want this action to take
+                            // place after the listener invokations
+                            EventQueue.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        cidsBean.removePropertyChangeListener(subTypeL);
+                                        ((List)cidsBean.getProperty(Calc.PROP_WB_SUB_TYPE)).remove(opposite);
+                                        cidsBean.addPropertyChangeListener(subTypeL);
+                                        ccGewaesserSubtyp.refreshCheckboxState(decider, false);
+                                    }
+                                });
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   beans  DOCUMENT ME!
+         * @param   bean   DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private CidsBean getOpposite(final List<CidsBean> beans, final CidsBean bean) {
+            final String value = (String)bean.getProperty(Calc.PROP_VALUE);
+            final String oppositeValue;
+            if ("M".equals(value)) {
+                oppositeValue = "S";
+            } else if ("S".equals(value)) {
+                oppositeValue = "M";
+            } else if ("g".equals(value)) {
+                oppositeValue = "f";
+            } else if ("f".equals(value)) {
+                oppositeValue = "g";
+            } else {
+                oppositeValue = null;
+            }
+
+            if (oppositeValue != null) {
+                for (final CidsBean candidate : beans) {
+                    if (oppositeValue.equals(candidate.getProperty(Calc.PROP_VALUE))) {
+                        return candidate;
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
 
     /**
      * DOCUMENT ME!
