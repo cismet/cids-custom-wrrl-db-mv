@@ -45,10 +45,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import java.lang.ref.SoftReference;
@@ -107,6 +109,7 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cids.tools.DevelopmentTools;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
@@ -132,6 +135,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final String FILE_PROTOCOL_PREFIX = "file://";
     private static final MetaClass WK_FG_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(FotodokumentationEditor.class);
     private static final ImageIcon ERROR_ICON = new ImageIcon(FotodokumentationEditor.class.getResource(
@@ -377,6 +381,30 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                                 }
                                 e.dropComplete(true);
                                 return;
+                            } else if (flavors[i].isRepresentationClassInputStream()) {
+                                // this is used under linux
+                                e.acceptDrop(e.getDropAction());
+                                final BufferedReader br = new BufferedReader(new InputStreamReader(
+                                            (InputStream)tr.getTransferData(flavors[i])));
+                                String tmp = null;
+                                final List<File> fileList = new ArrayList<File>();
+                                while ((tmp = br.readLine()) != null) {
+                                    if (tmp.trim().startsWith(FILE_PROTOCOL_PREFIX)) {
+                                        final File f = new File(tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()));
+                                        if (f.exists()) {
+                                            fileList.add(f);
+                                        } else {
+                                            log.warn("File " + f.toString() + " does not exist.");
+                                        }
+                                    }
+                                }
+                                br.close();
+
+                                if ((fileList != null) && (fileList.size() > 0)) {
+                                    CismetThreadPool.execute(new ImageUploadWorker(fileList));
+                                }
+                                e.dropComplete(true);
+                                return;
                             }
                         }
                     } catch (Exception ex) {
@@ -409,6 +437,27 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+                "WRRL_DB_MV",
+                "Administratoren",
+                "admin",
+                "sb",
+                "fotodokumentation",
+                1,
+                1280,
+                1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -482,6 +531,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 });
             if (lstFotos.getModel().getSize() > 0) {
                 lstFotos.setSelectedIndex(0);
+            } else {
+                cardLayout.show(panCard, "preview");
             }
         } else {
             lstFotos.setModel(new DefaultListModel());
