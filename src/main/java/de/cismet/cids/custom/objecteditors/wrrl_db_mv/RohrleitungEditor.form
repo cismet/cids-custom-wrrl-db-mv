@@ -204,6 +204,7 @@
         </Container>
         <Component class="javax.swing.JSpinner" name="spHoeheAuslauf">
           <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[75, 20]"/>
             </Property>
@@ -214,13 +215,6 @@
               <Dimension value="[75, 20]"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="value" source="Form" sourcePath="${cidsBean.laenge_m}" target="spHoeheAuslauf" targetPath="value" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                <Connection code="0" type="code"/>
-              </Property>
-            </BindingProperty>
-          </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="1" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
@@ -254,6 +248,9 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="spDurchmesser">
           <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[75, 20]"/>
             </Property>

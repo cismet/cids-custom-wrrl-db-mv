@@ -12,6 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -313,19 +316,10 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(scpBemerkung, gridBagConstraints);
 
+        spHoeheAuslauf.setEnabled(false);
         spHoeheAuslauf.setMaximumSize(new java.awt.Dimension(75, 20));
         spHoeheAuslauf.setMinimumSize(new java.awt.Dimension(75, 20));
         spHoeheAuslauf.setPreferredSize(new java.awt.Dimension(75, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge_m}"),
-                spHoeheAuslauf,
-                org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -355,6 +349,11 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(spLaenge, gridBagConstraints);
 
+        spDurchmesser.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
         spDurchmesser.setMaximumSize(new java.awt.Dimension(75, 20));
         spDurchmesser.setMinimumSize(new java.awt.Dimension(75, 20));
         spDurchmesser.setPreferredSize(new java.awt.Dimension(75, 20));
@@ -673,6 +672,25 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
                 this.cidsBean);
             bindingGroup.bind();
             zoomToFeatures();
+        }
+
+        setLaenge();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setLaenge() {
+        Double from = (Double)cidsBean.getProperty("linie.von.wert");
+        Double to = (Double)cidsBean.getProperty("linie.bis.wert");
+
+        if ((from != null) && (to != null)) {
+            if (from > to) {
+                final Double tmp = from;
+                from = to;
+                to = tmp;
+            }
+            spHoeheAuslauf.setValue((to - from));
         }
     }
 
