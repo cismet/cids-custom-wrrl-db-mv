@@ -12,15 +12,16 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import Sirius.navigator.connection.SessionManager;
 
 import java.util.ArrayList;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
@@ -35,13 +36,17 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.gui.FooterComponentProvider;
+
 /**
  * DOCUMENT ME!
  *
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -62,11 +67,13 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblMassnahmen;
     private javax.swing.JLabel lblMassnahmenId;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JPanel panContent;
+    private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.RoundedPanel panInfo1;
     private javax.swing.JPanel panInfoContent1;
@@ -126,6 +133,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        panFooter = new javax.swing.JPanel();
+        lblFoot = new javax.swing.JLabel();
         panContent = new javax.swing.JPanel();
         txtDescGwName = new javax.swing.JLabel();
         txtDescSQAId = new javax.swing.JLabel();
@@ -160,6 +169,17 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         jLabel5 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
+
+        panFooter.setOpaque(false);
+        panFooter.setLayout(new java.awt.GridBagLayout());
+
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
+        panFooter.add(lblFoot, gridBagConstraints);
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -671,6 +691,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
         }
 
@@ -721,6 +742,16 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     @Override
     public boolean prepareForSave() {
         boolean save = true;
+
+        if (cidsBean != null) {
+            try {
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
+
         save &= linearReferencedLineEditor.prepareForSave();
         return save;
     }
@@ -734,6 +765,11 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      */
     public static void main(final String[] args) throws Exception {
         new WrrlEditorTester("Rohrleitung", RohrleitungEditor.class, WRRLUtil.DOMAIN_NAME).run();
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
     }
 
     //~ Inner Classes ----------------------------------------------------------
