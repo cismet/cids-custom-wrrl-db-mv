@@ -7,8 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
@@ -18,8 +21,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import de.cismet.tools.gui.jbands.SimpleSpotPanel;
+import de.cismet.cismap.commons.XBoundingBox;
+import de.cismet.cismap.commons.features.DefaultStyledFeature;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.piccolo.PFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
+import de.cismet.tools.gui.jbands.interfaces.BandMemberMouseListeningComponent;
 import de.cismet.tools.gui.jbands.interfaces.Spot;
 
 /**
@@ -28,7 +37,7 @@ import de.cismet.tools.gui.jbands.interfaces.Spot;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
+public class QuerbauwerkeMember extends JLabel implements BandMember, Spot, BandMemberMouseListeningComponent {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -59,6 +68,7 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
             new Color(84, 36, 55),
             new Color(217, 91, 67)
         };
+    Geometry geom = null;
 
     private double station;
     private int art = 8;
@@ -83,6 +93,7 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
         art = (Integer)(result.get(1)) - 1;
         setIcon(getIcon(getColor(), 10));
         setToolTipText(name);
+        geom = (Geometry)(result.get(4));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -130,5 +141,63 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot {
      */
     protected Color getColor() {
         return colors[art];
+    }
+
+    @Override
+    public void mouseClicked(final MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
+            final XBoundingBox xbb = new XBoundingBox(geom.buffer(75));
+
+            mc.gotoBoundingBoxWithHistory(xbb);
+            final DefaultStyledFeature dsf = new DefaultStyledFeature();
+            dsf.setGeometry(geom.buffer(10));
+            dsf.setCanBeSelected(false);
+            dsf.setLinePaint(Color.YELLOW);
+            dsf.setLineWidth(6);
+            final PFeature highlighter = new PFeature(dsf, mc);
+            mc.getHighlightingLayer().addChild(highlighter);
+            highlighter.animateToTransparency(0.1f, 2000);
+            de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Thread.currentThread().sleep(2500);
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            mc.getHighlightingLayer().removeChild(highlighter);
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+        }
+    }
+
+    @Override
+    public void mouseEntered(final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(final MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(final MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(final MouseEvent e) {
     }
 }

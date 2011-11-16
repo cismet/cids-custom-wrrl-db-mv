@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -26,6 +28,13 @@ import javax.swing.JComponent;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
+
+import de.cismet.cismap.commons.XBoundingBox;
+import de.cismet.cismap.commons.features.DefaultStyledFeature;
+import de.cismet.cismap.commons.features.XStyledFeature;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.piccolo.PFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandMemberMouseListeningComponent;
@@ -209,6 +218,38 @@ public class MassnahmenBandMember extends JXPanel implements BandMember,
 
     @Override
     public void mouseClicked(final MouseEvent e) {
+        if ((e.getClickCount() == 2) && (bean != null)) {
+            final Geometry g = (Geometry)(bean.getProperty("linie.geom.geo_field"));
+            final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
+            final XBoundingBox xbb = new XBoundingBox(g);
+
+            mc.gotoBoundingBoxWithHistory(new XBoundingBox(
+                    g.getEnvelope().buffer((xbb.getWidth() + xbb.getHeight()) / 2 * 0.1)));
+            final DefaultStyledFeature dsf = new DefaultStyledFeature();
+            dsf.setGeometry(g);
+            dsf.setCanBeSelected(false);
+            dsf.setLinePaint(Color.YELLOW);
+            dsf.setLineWidth(6);
+            final PFeature highlighter = new PFeature(dsf, mc);
+            mc.getHighlightingLayer().addChild(highlighter);
+            highlighter.animateToTransparency(0.1f, 2000);
+            de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Thread.currentThread().sleep(2500);
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            mc.getHighlightingLayer().removeChild(highlighter);
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+        }
     }
 
     @Override

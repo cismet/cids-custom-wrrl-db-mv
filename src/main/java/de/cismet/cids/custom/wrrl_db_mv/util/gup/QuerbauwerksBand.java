@@ -26,6 +26,10 @@ import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
  */
 public class QuerbauwerksBand extends DefaultBand {
 
+    //~ Instance fields --------------------------------------------------------
+
+    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -72,9 +76,13 @@ public class QuerbauwerksBand extends DefaultBand {
      */
     public void addQuerbauwerkeFromQueryResult(final ArrayList<ArrayList> inputResulSet) {
         for (final ArrayList zeile : inputResulSet) {
-            final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
+            try {
+                final QuerbauwerkeMember qbm = new QuerbauwerkeMember(zeile);
 //            final QuerbauwerkeMember qbm = new QuerbauwerkeSmallMember(zeile);
-            addMember(qbm);
+                addMember(qbm);
+            } catch (Exception e) {
+                log.warn("Fehler beim Erzeugen eines Querbaus", e);
+            }
         }
     }
 }
