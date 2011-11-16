@@ -13,6 +13,9 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
+
+import Sirius.server.search.CidsServerSearch;
 
 import java.sql.Timestamp;
 
@@ -23,13 +26,12 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkUniqueSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -37,6 +39,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.tools.DevelopmentTools;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.features.Feature;
@@ -146,7 +149,16 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("wk_fg", WkFgEditor.class, WRRLUtil.DOMAIN_NAME).run();
+        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+            "WRRL_DB_MV",
+            "Administratoren",
+            "admin",
+            "sb",
+            "wk_fg",
+            476,
+            1280,
+            1024);
+        // new WrrlEditorTester("wk_fg", WkFgEditor.class, WRRLUtil.DOMAIN_NAME).run();
     }
 
     @Override
@@ -663,8 +675,43 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         }
 
         boolean save = true;
+
+        if (!isWkkUnique()) {
+            JOptionPane.showMessageDialog(
+                this,
+                org.openide.util.NbBundle.getMessage(
+                    WkFgEditor.class,
+                    "WkFgEditor.prepareForSave().wkkNotUnique.message"),
+                org.openide.util.NbBundle.getMessage(
+                    WkFgEditor.class,
+                    "WkFgEditor.prepareForSave().wkkNotUnique.title"),
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         save &= teileEditor.prepareForSave();
         return save;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isWkkUnique() {
+        try {
+            final CidsServerSearch search = new WkkUniqueSearch(String.valueOf(cidsBean.getProperty("wk_k")),
+                    String.valueOf(cidsBean.getProperty("id")));
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            return ((resArray == null) || resArray.isEmpty());
+        } catch (ConnectionException e) {
+            LOG.error("Error during Server Search", e);
+        }
+
+        return true;
     }
 
     @Override
