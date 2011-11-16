@@ -26,11 +26,15 @@ package de.cismet.cids.custom.wrrl_db_mv.util;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import java.sql.Timestamp;
+
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -88,5 +92,27 @@ public class UIUtil {
         component.setLocation((screenSize.width - component.getWidth()) / 2,
             (screenSize.height - component.getHeight())
                     / 2);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     * @param  lab       DOCUMENT ME!
+     */
+    public static void setLastModifier(final CidsBean cidsBean, final JLabel lab) {
+        Object avUser = cidsBean.getProperty("av_user");
+        Object avTime = cidsBean.getProperty("av_time");
+
+        if (avUser == null) {
+            avUser = "(unbekannt)";
+        }
+        if (avTime instanceof Timestamp) {
+            avTime = TimestampConverter.getInstance().convertForward((Timestamp)avTime);
+        } else {
+            avTime = "(unbekannt)";
+        }
+
+        lab.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
     }
 }

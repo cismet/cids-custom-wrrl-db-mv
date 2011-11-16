@@ -373,13 +373,14 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
                         @Override
                         public void propertyChange(final PropertyChangeEvent pce) {
                             if (pce.getPropertyName().equals("bauwerk")) {
-                                final String value = (String)((CidsBean)cidsBean.getProperty("bauwerk")).getProperty(
-                                        "value");
-                                jLabel12.setVisible(value.equals("1") || value.equals("3"));
-                                jLabel13.setVisible(value.equals("2"));
-                                jLabel3.setVisible(
-                                    jLabel12.isVisible()
-                                            || jLabel13.isVisible());
+                                final String value = (String)cidsBean.getProperty("bauwerk.value");
+                                if (value != null) {
+                                    jLabel12.setVisible(value.equals("1") || value.equals("3"));
+                                    jLabel13.setVisible(value.equals("2"));
+                                    jLabel3.setVisible(
+                                        jLabel12.isVisible()
+                                                || jLabel13.isVisible());
+                                }
                             }
                         }
                     });

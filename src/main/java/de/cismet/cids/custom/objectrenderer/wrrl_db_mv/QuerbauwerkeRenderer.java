@@ -39,8 +39,11 @@ import java.beans.PropertyChangeListener;
 
 import java.text.DecimalFormat;
 
+import javax.swing.JComponent;
+
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -49,13 +52,15 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.gui.FooterComponentProvider;
+
 /**
  * DOCUMENT ME!
  *
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBeanRenderer, FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -71,8 +76,10 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panBeschreibung;
+    private javax.swing.JPanel panFooter;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
@@ -103,6 +110,8 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        panFooter = new javax.swing.JPanel();
+        lblFoot = new javax.swing.JLabel();
         tpMain = new javax.swing.JTabbedPane();
         panBeschreibung = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -115,6 +124,17 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         querbauwerkePanFour = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFour();
+
+        panFooter.setOpaque(false);
+        panFooter.setLayout(new java.awt.GridBagLayout());
+
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
+        panFooter.add(lblFoot, gridBagConstraints);
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1034, 831));
@@ -138,7 +158,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                188,
+                134,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -192,7 +212,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                483,
+                446,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -230,7 +250,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                449,
+                448,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -314,6 +334,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
             querbauwerkePanFive.setCidsBean(cidsBean);
 
             bindingGroup.bind();
+            UIUtil.setLastModifier(cidsBean, lblFoot);
         }
     }
 
@@ -509,5 +530,10 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     @Override
     public void setTitle(final String title) {
         // NOP
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
     }
 }

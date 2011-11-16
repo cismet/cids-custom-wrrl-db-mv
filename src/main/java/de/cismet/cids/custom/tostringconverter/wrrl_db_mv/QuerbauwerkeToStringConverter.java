@@ -28,10 +28,15 @@ public class QuerbauwerkeToStringConverter extends CustomToStringConverter {
     @Override
     public String createString() {
         final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-        final String wert =
-            new DecimalFormat("#.#").format((Double)stat09.getProperty(LinearReferencingConstants.PROP_STATION_VALUE));
-        final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
-        final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
-        return "Querbauwerk " + gwk + "@" + wert;
+
+        if (stat09 != null) {
+            final Double statVal = (Double)stat09.getProperty(LinearReferencingConstants.PROP_STATION_VALUE);
+            final String wert = new DecimalFormat("#.#").format(statVal);
+            final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+            final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
+            return "Querbauwerk " + gwk + "@" + wert;
+        } else {
+            return "Querbauwerk " + 0 + "@" + 0;
+        }
     }
 }

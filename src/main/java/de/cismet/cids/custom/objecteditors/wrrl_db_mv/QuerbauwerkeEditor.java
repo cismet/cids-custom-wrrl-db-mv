@@ -42,9 +42,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.JComponent;
+
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
@@ -61,13 +64,17 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.tools.gui.FooterComponentProvider;
+
 /**
  * DOCUMENT ME!
  *
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -84,8 +91,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panBeschreibung;
+    private javax.swing.JPanel panFooter;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
@@ -156,6 +165,8 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        panFooter = new javax.swing.JPanel();
+        lblFoot = new javax.swing.JLabel();
         tpMain = new javax.swing.JTabbedPane();
         panBeschreibung = new javax.swing.JPanel();
         querbauwerkePanTwo = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanTwo();
@@ -169,6 +180,17 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         querbauwerkePanFour = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour();
+
+        panFooter.setOpaque(false);
+        panFooter.setLayout(new java.awt.GridBagLayout());
+
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
+        panFooter.add(lblFoot, gridBagConstraints);
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
@@ -237,12 +259,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1025,
+                1033,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                471,
+                448,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -274,12 +296,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1025,
+                1033,
                 Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                800,
+                812,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -351,6 +373,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             querbauwerkePanSix.setCidsBean(cidsBean);
 
             bindingGroup.bind();
+            UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
         }
     }
@@ -516,12 +539,17 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     private void updateQbwId() {
         try {
             final CidsBean stat09 = (CidsBean)cidsBean.getProperty("stat09");
-            final String wert =
-                new DecimalFormat("#.#").format((Double)stat09.getProperty(
-                        LinearReferencingConstants.PROP_STATION_VALUE));
-            final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
-            final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
-            querbauwerkePanOne.setQbwLage(gwk + "@" + wert);
+
+            if (stat09 != null) {
+                final String wert =
+                    new DecimalFormat("#.#").format((Double)stat09.getProperty(
+                            LinearReferencingConstants.PROP_STATION_VALUE));
+                final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+                final String gwk = String.valueOf(route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK));
+                querbauwerkePanOne.setQbwLage(gwk + "@" + wert);
+            } else {
+                querbauwerkePanOne.setQbwLage("");
+            }
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.error("error while auto-setting qbw_id", ex);
@@ -576,5 +604,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
      */
     public static void main(final String[] args) throws Exception {
         new WrrlEditorTester("Querbauwerke", QuerbauwerkeEditor.class, WRRLUtil.DOMAIN_NAME).run();
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
     }
 }

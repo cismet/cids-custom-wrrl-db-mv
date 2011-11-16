@@ -1042,8 +1042,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
                         @Override
                         public void propertyChange(final PropertyChangeEvent pce) {
                             if (pce.getPropertyName().equals("bauwerk")) {
-                                jTextField14.setEnabled(
-                                    ((CidsBean)cidsBean.getProperty("bauwerk")).getProperty("value").equals("8"));
+                                final String o = (String)cidsBean.getProperty("bauwerk.value");
+                                jTextField14.setEnabled((o != null) && o.equals("8"));
                             }
                         }
                     });
