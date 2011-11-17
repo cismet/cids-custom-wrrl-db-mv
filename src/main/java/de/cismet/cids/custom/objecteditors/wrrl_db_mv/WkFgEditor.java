@@ -17,8 +17,6 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.search.CidsServerSearch;
 
-import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -26,11 +24,12 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import de.cismet.cids.client.tools.DevelopmentTools;
+
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkUniqueSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
-import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -39,7 +38,6 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cids.tools.DevelopmentTools;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.features.Feature;
@@ -186,18 +184,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
             bindingGroup.bind();
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
-            Object avUser = cidsBean.getProperty("av_user");
-            Object avTime = cidsBean.getProperty("av_time");
-            if (avUser == null) {
-                avUser = "(unbekannt)";
-            }
-            if (avTime instanceof Timestamp) {
-                avTime = TimestampConverter.getInstance().convertForward((Timestamp)avTime);
-            } else {
-                avTime = "(unbekannt)";
-            }
-
-            lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+            UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
         } else {
             lblFoot.setText("");

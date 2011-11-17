@@ -7,20 +7,27 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.client.tools.DevelopmentTools;
+
 import de.cismet.cids.custom.wrrl_db_mv.util.BewirtschaftungsendeHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -32,13 +39,17 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import de.cismet.tools.gui.FooterComponentProvider;
+
 /**
  * DOCUMENT ME!
  *
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer {
+public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRenderer,
+    FooterComponentProvider,
+    EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -70,9 +81,11 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkungKey;
+    private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel lblSpacingBottom;
     private javax.swing.JLabel lblStatKey;
     private javax.swing.JLabel lblWk;
+    private javax.swing.JPanel panFooter;
     private javax.swing.JScrollPane scpBemerkung;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor1;
     private javax.swing.JTextArea txtBemerkungValue;
@@ -125,6 +138,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
             features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
             MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
 
+            UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
         }
     }
@@ -144,6 +158,8 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        panFooter = new javax.swing.JPanel();
+        lblFoot = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblBemerkungKey = new javax.swing.JLabel();
         stationEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
@@ -153,6 +169,17 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         jLabel1 = new javax.swing.JLabel();
         lblWk = new javax.swing.JLabel();
         lblSpacingBottom = new javax.swing.JPanel();
+
+        panFooter.setOpaque(false);
+        panFooter.setLayout(new java.awt.GridBagLayout());
+
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
+        panFooter.add(lblFoot, gridBagConstraints);
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -188,7 +215,6 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
         txtBemerkungValue.setColumns(30);
         txtBemerkungValue.setLineWrap(true);
         txtBemerkungValue.setRows(10);
-        txtBemerkungValue.setWrapStyleWord(true);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -276,6 +302,38 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
      * @throws  Exception  DOCUMENT ME!
      */
     public static void main(final String[] args) throws Exception {
-        new WrrlEditorTester("bewirtschaftungsende", BewirtschaftungsendeEditor.class, WRRLUtil.DOMAIN_NAME).run();
+        // new WrrlEditorTester("bewirtschaftungsende", BewirtschaftungsendeEditor.class, WRRLUtil.DOMAIN_NAME).run();
+        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+            "WRRL_DB_MV",
+            "Administratoren",
+            "admin",
+            "sb",
+            "bewirtschaftungsende",
+            1,
+            1280,
+            1024);
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        if (cidsBean != null) {
+            try {
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
+
+        return true;
     }
 }
