@@ -20,10 +20,15 @@ import Sirius.server.search.CidsServerSearch;
 
 import java.awt.EventQueue;
 
+import java.math.BigInteger;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
@@ -31,6 +36,7 @@ import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgLawaTypeSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -56,6 +62,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
 
     private final MstTableModel model = new MstTableModel();
     private CidsBean cidsBean;
+    private List<CidsBean> teile;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAktTyp;
@@ -506,6 +513,10 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            teile = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "teile");
+            if (teile != null) {
+                Collections.sort(teile, new TeileComparator());
+            }
 //            model.refreshData();
         }
     }
@@ -592,7 +603,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
 
                 if (resArray != null) {
                     for (final ArrayList attributes : resArray) {
-                        if (attributes.size() == 4) {
+                        if (attributes.size() == 6) {
                             final Object codeObject = attributes.get(0);
                             final Object descriptionObject = attributes.get(1);
                             final Object totalLengthObject = attributes.get(2);
@@ -625,12 +636,95 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                         }
                     }
 
+                    final LawaType noType = lawaTypes.get(-1);
+                    if (noType != null) {
+                        final int count = calcNoTypeCount(resArray);
+                        noType.setCount(count);
+                    }
                     fillData(lawaTypes, totalLength);
                 }
                 fireTableDataChanged();
             } catch (final ConnectionException e) {
                 LOG.error("Error while trying to receive measurements.", e); // NOI18N
             }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   resArray  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private int calcNoTypeCount(final ArrayList<ArrayList> resArray) {
+            int count = 0;
+            int i = 0;
+            double lastEnd = -1;
+            double partEnd = 0;
+            CidsBean currentPart;
+
+            int index = 0;
+            if ((teile == null) || (teile.size() < 1)) {
+                // not part found
+                return 0;
+            }
+
+            currentPart = teile.get(index++);
+            lastEnd = (Double)currentPart.getProperty("linie.von.wert");
+            partEnd = (Double)currentPart.getProperty("linie.bis.wert");
+
+            for (; i < resArray.size(); ++i) {
+                final ArrayList attributes = resArray.get(i);
+                if (attributes.size() == 6) {
+                    final Integer code = (Integer)attributes.get(0);
+                    final Double intersectionLength = (Double)attributes.get(3);
+                    final Long gwk = (Long)attributes.get(4);
+                    final Double from = (Double)attributes.get(5);
+
+                    if (code != -1) {
+                        if (!gwk.equals((Long)currentPart.getProperty("linie.von.route.gwk"))) {
+                            // andere Route
+// LOG.error("++ andere Route gwk " + gwk + " other "
+// + (Long)currentPart.getProperty("linie.von.route.gwk"));
+                            ++count;
+                            if (index < teile.size()) {
+                                currentPart = teile.get(index++);
+                                lastEnd = (Double)currentPart.getProperty("linie.von.wert");
+                                partEnd = (Double)currentPart.getProperty("linie.bis.wert");
+                            } else {
+                                return count;
+                            }
+                            --i;
+                        } else {
+                            if ((from > lastEnd) && (from < partEnd)) {
+//                                LOG.error("++ Lücke " + from + " lastEnd " + lastEnd + " partEnd" + partEnd);
+                                ++count;
+                            }
+
+                            if ((from + intersectionLength) > lastEnd) {
+                                lastEnd = from + intersectionLength;
+                                if (lastEnd >= partEnd) {
+                                    if (index < teile.size()) {
+                                        currentPart = teile.get(index++);
+                                        lastEnd = (Double)currentPart.getProperty("linie.von.wert");
+                                        partEnd = (Double)currentPart.getProperty("linie.bis.wert");
+                                    } else {
+                                        return count;
+                                    }
+                                    --i;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (lastEnd < partEnd) {
+//                LOG.error("++ am Ende fehlt etwas lastEnd " + lastEnd + " partEnd " + partEnd);
+                ++count;
+            }
+
+            return count;
         }
 
         /**
@@ -793,6 +887,40 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
             public void setCount(final int count) {
                 this.count = count;
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class TeileComparator implements Comparator<CidsBean> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            final CidsBean von1 = (CidsBean)o1.getProperty("linie.von");
+            final CidsBean von2 = (CidsBean)o2.getProperty("linie.von");
+
+            if ((von1 != null) && (von2 != null)) {
+                final Long gwk1 = (Long)von1.getProperty("route.gwk");
+                final Long gwk2 = (Long)von2.getProperty("route.gwk");
+
+                if ((gwk1 != null) && (gwk2 != null)) {
+                    if (!gwk1.equals(gwk2)) {
+                        return gwk1.compareTo(gwk2);
+                    } else {
+                        final Double vonWert1 = (Double)von1.getProperty("wert");
+                        final Double vonWert2 = (Double)von2.getProperty("wert");
+                        if ((vonWert1 != null) && (vonWert2 != null)) {
+                            return vonWert1.compareTo(vonWert2);
+                        }
+                    }
+                }
+            }
+            return 0;
         }
     }
 }
