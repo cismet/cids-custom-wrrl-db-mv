@@ -69,7 +69,7 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
     // TODO: Aus ResourceBundle lesen? s. auch de.cismet.cids.custom.objecteditors.wrrl_db_mv.FotodokumentationEditor
     private static final String WEB_DAV_USER = "cismet";
     private static final String WEB_DAV_PASSWORD = "karusu20";
-    private static final String WEB_DAV_DIRECTORY = "http://webdav.cismet.de/images/";
+    private static final String WEB_DAV_DIRECTORY = "http://fry.fis-wasser-mv.de/fotodokumentation/";
 
     private static final WebDavClient webDavClient = new WebDavClient(
             Proxy.fromPreferences(),
