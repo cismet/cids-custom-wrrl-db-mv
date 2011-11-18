@@ -86,7 +86,9 @@ public class BewirtschaftungsendeHelper implements DisposableCidsBeanStore {
 
             @Override
             public void propertyChange(final PropertyChangeEvent evt) {
-                setCidsBean(cidsBean);
+                if (!evt.getPropertyName().equals("bemerkung")) {
+                    setCidsBean(cidsBean);
+                }
             }
         };
 
