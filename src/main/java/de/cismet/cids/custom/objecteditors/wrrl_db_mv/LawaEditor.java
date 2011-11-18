@@ -37,6 +37,7 @@ import de.cismet.cids.custom.wrrl_db_mv.server.search.LawaTypeNeighbourSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -193,7 +194,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                 realGeom.addPropertyChangeListener(this);
             }
 
-            lblFoot.setText("");
+            UIUtil.setLastModifier(cidsBean, lblFoot);
             if (!readOnly) {
                 zoomToFeatures();
             }
@@ -624,6 +625,14 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public boolean prepareForSave() {
         boolean save = true;
+        if (cidsBean != null) {
+            try {
+                cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
         save &= linearReferencedLineEditor.prepareForSave();
         return save;
     }

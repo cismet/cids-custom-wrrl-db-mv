@@ -23,6 +23,7 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgEditor;
 import de.cismet.cids.custom.reports.WkFgReport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -30,6 +31,7 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.TitleComponentProvider;
 
 /**
@@ -38,7 +40,7 @@ import de.cismet.tools.gui.TitleComponentProvider;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleComponentProvider {
+public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleComponentProvider, FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -128,19 +130,7 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
             wkFgPanSix1.setCidsBean(cidsBean);
             bindingGroup.bind();
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
-            Object avUser = cidsBean.getProperty("av_user");
-            Object avTime = cidsBean.getProperty("av_time");
-
-            if (avUser == null) {
-                avUser = "(unbekannt)";
-            }
-            if (avTime instanceof Timestamp) {
-                avTime = TimestampConverter.getInstance().convertForward((Timestamp)avTime);
-            } else {
-                avTime = "(unbekannt)";
-            }
-
-            lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+            UIUtil.setLastModifier(cidsBean, lblFoot);
 
             teileRenderer.setCidsBean(cidsBean);
         } else {
@@ -533,6 +523,11 @@ public class WkFgRenderer extends JPanel implements CidsBeanRenderer, TitleCompo
     @Override
     public void setTitle(final String title) {
         // NOP
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
     }
 
     //~ Inner Classes ----------------------------------------------------------

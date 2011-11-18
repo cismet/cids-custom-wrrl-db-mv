@@ -31,11 +31,17 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+
+import javax.swing.JComponent;
+
 import de.cismet.cids.custom.wrrl_db_mv.util.BewirtschaftungsendeHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.FooterComponentProvider;
 
 /**
  * DOCUMENT ME!
@@ -43,7 +49,8 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements CidsBeanRenderer {
+public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements CidsBeanRenderer,
+    FooterComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -73,9 +80,11 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblBemerkungKey;
+    private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel lblSpacingBottom;
     private javax.swing.JLabel lblStatKey;
     private javax.swing.JLabel lblWk;
+    private javax.swing.JPanel panFooter;
     private javax.swing.JScrollPane scpBemerkung;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.StationRenderer stationRenderer1;
     private javax.swing.JTextArea txtBemerkungValue;
@@ -104,6 +113,8 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        panFooter = new javax.swing.JPanel();
+        lblFoot = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblBemerkungKey = new javax.swing.JLabel();
         scpBemerkung = new javax.swing.JScrollPane();
@@ -113,6 +124,17 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         lblWk = new javax.swing.JLabel();
         stationRenderer1 = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.StationRenderer();
         lblSpacingBottom = new javax.swing.JPanel();
+
+        panFooter.setOpaque(false);
+        panFooter.setLayout(new java.awt.GridBagLayout());
+
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
+        panFooter.add(lblFoot, gridBagConstraints);
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -226,6 +248,7 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
             bindingGroup.bind();
+            UIUtil.setLastModifier(cidsBean, lblFoot);
         }
     }
 
@@ -248,5 +271,10 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
     @Override
     public void setTitle(final String title) {
         // NOP
+    }
+
+    @Override
+    public JComponent getFooterComponent() {
+        return panFooter;
     }
 }
