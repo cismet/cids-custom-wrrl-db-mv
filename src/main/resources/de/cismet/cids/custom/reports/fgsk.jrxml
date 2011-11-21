@@ -1944,7 +1944,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Profiltyp]]></text>
+				<text><![CDATA[Sohlenverbau]]></text>
 			</staticText>
 			<textField>
 				<reportElement style="table" x="101" y="25" width="80" height="12"/>
@@ -3092,7 +3092,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Anzahl besonderer Umfeldstrukturen (bis 100 m v. Gew.)]]></text>
+				<text><![CDATA[Anzahl besonderer Umfeldstrukturen (bis 50 m v. Gew.)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table" x="380" y="98" width="26" height="10"/>
@@ -3281,7 +3281,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Anzahl schädlicher Umfeldstrukturen (bis 100 m v. Gew.)]]></text>
+				<text><![CDATA[Anzahl schädlicher Umfeldstrukturen (bis 50 m v. Gew.)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table" x="380" y="150" width="26" height="10"/>
