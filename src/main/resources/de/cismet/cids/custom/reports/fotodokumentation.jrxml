@@ -35,7 +35,7 @@
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
 			<band height="258">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement stretchType="RelativeToTallestObject" x="20" y="0" width="555" height="40" isRemoveLineWhenBlank="true"/>
 					<textElement textAlignment="Justified" verticalAlignment="Bottom">
 						<font size="12"/>
@@ -82,7 +82,7 @@
 					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA["STAEUN: " + $F{staeun}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["StALU: " + $F{staeun}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="20" y="129" width="275" height="62"/>
@@ -112,7 +112,7 @@
 		</groupFooter>
 	</group>
 	<background>
-		<band height="842" isSplitAllowed="false"/>
+		<band height="842" splitType="Prevent"/>
 	</background>
 	<title>
 		<band height="68">
