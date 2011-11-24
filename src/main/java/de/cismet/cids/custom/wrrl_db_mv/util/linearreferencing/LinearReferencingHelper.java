@@ -199,12 +199,24 @@ public class LinearReferencingHelper implements LinearReferencingConstants {
      * @return  DOCUMENT ME!
      */
     public static CidsBean createStationBeanFromRouteBean(final CidsBean routeBean) {
+        return createStationBeanFromRouteBean(routeBean, 0d);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   routeBean  DOCUMENT ME!
+     * @param   value      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean createStationBeanFromRouteBean(final CidsBean routeBean, final double value) {
         final CidsBean stationBean = MC_STATION.getEmptyInstance().getBean();
         final CidsBean geomBean = MC_GEOM.getEmptyInstance().getBean();
 
         try {
             stationBean.setProperty(PROP_STATION_ROUTE, routeBean);
-            stationBean.setProperty(PROP_STATION_VALUE, 0d);
+            stationBean.setProperty(PROP_STATION_VALUE, value);
             stationBean.setProperty(PROP_STATION_GEOM, geomBean);
 
             stationBean.setProperty("id", NEW_STATION_ID);

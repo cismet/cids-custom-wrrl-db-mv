@@ -99,6 +99,7 @@ public class BewirtschaftungsendeEditor extends JPanel implements CidsBeanRender
      */
     public BewirtschaftungsendeEditor() {
         initComponents();
+        stationEditor1.setFirstStationInCurrentBB(true);
         stationEditor1.addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
