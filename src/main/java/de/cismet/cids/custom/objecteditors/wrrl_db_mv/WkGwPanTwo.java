@@ -1081,6 +1081,15 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
 
         defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(250, 20));
         defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("{cidsBean.depthrange}"),
+                defaultBindableReferenceCombo3,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -1091,6 +1100,15 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
 
         defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 20));
         defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vert_orien}"),
+                defaultBindableReferenceCombo4,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
