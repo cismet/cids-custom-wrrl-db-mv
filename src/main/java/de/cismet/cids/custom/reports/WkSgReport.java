@@ -52,12 +52,15 @@ public class WkSgReport {
         coll.add(cidsBean);
 
         final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
-        beans.add(coll);
-        beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
-
+        final Collection<CidsBean> massColl = getMassnahmen((Integer)cidsBean.getProperty("id"));
         final ArrayList<String> reports = new ArrayList<String>();
+        beans.add(coll);
         reports.add("/de/cismet/cids/custom/reports/wk_sg.jasper");
-        reports.add("/de/cismet/cids/custom/reports/wk_sg_massnahmen.jasper");
+
+        if ((massColl != null) && (massColl.size() > 0)) {
+            beans.add(massColl);
+            reports.add("/de/cismet/cids/custom/reports/wk_sg_massnahmen.jasper");
+        }
 
         final ReportSwingWorker worker = new ReportSwingWorker(
                 beans,
