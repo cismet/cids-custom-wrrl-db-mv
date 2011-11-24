@@ -13,9 +13,12 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.search.CidsServerSearch;
+
+import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.Component;
 
@@ -39,6 +42,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MaxWBNumberSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.StaluSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MeasureTypeCodeRenderer;
@@ -1917,11 +1921,67 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             } catch (final Exception ex) {
                 LOG.error("Error in prepareForSave.", ex); // NOI18N
             }
+
+            try {
+                final CidsBean stalu = (CidsBean)cidsBean.getProperty("stalu");
+                Geometry geom = (Geometry)cidsBean.getProperty("linie.geom.geo_field");
+
+                if (geom == null) {
+                    geom = (Geometry)cidsBean.getProperty("additional_geom");
+                }
+
+                if ((stalu == null) && (geom != null)) {
+                    final String staluName = determineStalu(geom);
+
+                    if (staluName != null) {
+                        for (int i = 0; i < cbStalu.getModel().getSize(); ++i) {
+                            final CidsBean bean = (CidsBean)cbStalu.getModel().getElementAt(i);
+                            if (bean.getProperty("value").equals(staluName)) {
+                                cidsBean.setProperty("stalu", bean);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (final Exception ex) {
+                LOG.error("Error in prepareForSave.", ex); // NOI18N
+            }
         }
 
         boolean save = true;
         save &= linearReferencedLineEditor.prepareForSave();
         return save;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   geom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String determineStalu(final Geometry geom) {
+        try {
+            final CidsServerSearch search = new StaluSearch(geom.toText());
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                final Object o = resArray.get(0).get(0);
+
+                if (o instanceof String) {
+                    return o.toString();
+                }
+            } else {
+                LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                            + "See the server logs for further information");     // NOI18N
+            }
+        } catch (ConnectionException e) {
+            LOG.error("Exception during a cids server search.", e);               // NOI18N
+        }
+
+        return null;
     }
 
     @Override
