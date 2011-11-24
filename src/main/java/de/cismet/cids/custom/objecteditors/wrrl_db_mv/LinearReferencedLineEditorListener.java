@@ -23,4 +23,11 @@ public interface LinearReferencedLineEditorListener extends EventListener {
      * DOCUMENT ME!
      */
     void linearReferencedLineCreated();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  visible  DOCUMENT ME!
+     */
+    void otherLinesPanelVisibilityChange(boolean visible);
 }

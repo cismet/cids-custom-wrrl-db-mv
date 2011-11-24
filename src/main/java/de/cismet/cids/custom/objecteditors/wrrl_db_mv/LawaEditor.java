@@ -94,6 +94,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbLawa_nr;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
@@ -142,6 +143,9 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
             lblValLawa_nr.setVisible(false);
             panLineOberhalb.setVisible(false);
             panLineUnterhalb.setVisible(false);
+            linearReferencedLineEditor.setOtherLinesQueryAddition(
+                "lawa",
+                "lawa.linie = ");
         } else {
             cbLawa_nr.setVisible(false);
         }
@@ -373,6 +377,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         lblValTypOberhalb = new javax.swing.JLabel();
         panLineUnterhalb = new javax.swing.JPanel();
         panLineOberhalb = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -388,7 +393,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(640, 100));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 100));
+        panInfo.setPreferredSize(new java.awt.Dimension(680, 100));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -485,21 +490,20 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         add(panInfo, gridBagConstraints);
 
         jPanel2.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
         add(jPanel2, gridBagConstraints);
 
         panInfo1.setMinimumSize(new java.awt.Dimension(640, 140));
-        panInfo1.setPreferredSize(new java.awt.Dimension(640, 140));
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -542,6 +546,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         panInfoContent1.add(lblValTypUnterhalb, gridBagConstraints);
 
@@ -549,6 +554,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         panInfoContent1.add(lblValTypOberhalb, gridBagConstraints);
 
@@ -579,11 +585,19 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
         panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         add(panInfo1, gridBagConstraints);
+
+        jPanel3.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel3, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

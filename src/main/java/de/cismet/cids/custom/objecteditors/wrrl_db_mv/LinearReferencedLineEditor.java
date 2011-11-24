@@ -365,6 +365,17 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
+     * @param  visible  DOCUMENT ME!
+     */
+    private void fireOtherLinesPanelVisibilityChange(final boolean visible) {
+        for (final LinearReferencedLineEditorListener listener : listeners) {
+            listener.otherLinesPanelVisibilityChange(visible);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   listener  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -2379,11 +2390,24 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     /**
      * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean changeOtherLinesPanelVisibility() {
+        btnRoute.setSelected(!btnRoute.isSelected());
+        updateOtherLinesPanelVisibility();
+
+        return btnRoute.isSelected();
+    }
+
+    /**
+     * DOCUMENT ME!
      */
     private void updateOtherLinesPanelVisibility() {
         if (isEditable() && isOtherLinesEnabled()) {
             // panel anzeigen / verbergen
             panOtherLines.setVisible(btnRoute.isSelected());
+            fireOtherLinesPanelVisibilityChange(btnRoute.isSelected());
 
             // gegebenenfalls die features der subrenderer anzeigen / verbergen
             if (isDrawingFeaturesEnabled()) {

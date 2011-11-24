@@ -119,6 +119,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
 
         initComponents();
         setOpaque(false);
+
         if (readOnly) {
             setReadOnly(readOnly);
         }

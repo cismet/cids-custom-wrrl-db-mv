@@ -114,6 +114,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      */
     private void initLinearReferencedLineEditor() {
         linearReferencedLineEditor.setLineField("linie");
+        linearReferencedLineEditor.setOtherLinesQueryAddition(
+            "rohrleitung",
+            "rohrleitung.linie = ");
     }
 
     /**
