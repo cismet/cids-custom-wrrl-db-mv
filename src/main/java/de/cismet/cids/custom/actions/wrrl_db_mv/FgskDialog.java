@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -510,6 +511,8 @@ public class FgskDialog extends javax.swing.JDialog {
                             final CidsBean fgskBean = MC_FGSK.getEmptyInstance().getBean();
                             fgskBean.setProperty("linie", lineBean);
                             fgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
+                            fgskBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+                            fgskBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
 
                             r.add(new MetaObjectNode(fgskBean.persist()));
                             jProgressBar1.setValue(numOfPersisted++);
