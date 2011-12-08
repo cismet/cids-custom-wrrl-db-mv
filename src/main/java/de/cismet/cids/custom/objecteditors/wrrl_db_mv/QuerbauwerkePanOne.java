@@ -261,6 +261,15 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
 
         jTextField3.setMinimumSize(new java.awt.Dimension(250, 25));
         jTextField3.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landkreis}"),
+                jTextField3,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -281,6 +290,15 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
 
         jTextField25.setMinimumSize(new java.awt.Dimension(250, 25));
         jTextField25.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
+                jTextField25,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -524,6 +542,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kartierdatum}"),
                 defaultBindableTimestampChooser1,
                 org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(defaultBindableTimestampChooser1.getConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

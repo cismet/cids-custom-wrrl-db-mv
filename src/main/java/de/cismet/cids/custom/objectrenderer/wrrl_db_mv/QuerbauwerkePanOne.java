@@ -344,7 +344,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bauwerksnummer}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landkreis}"),
                 jLabel7,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -360,6 +360,15 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
 
         jLabel8.setMinimumSize(new java.awt.Dimension(250, 25));
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
+                jLabel8,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;

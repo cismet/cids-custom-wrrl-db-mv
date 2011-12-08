@@ -315,7 +315,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bauwerksnummer}" target="jLabel7" targetPath="text" updateStrategy="1" immediately="false">
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landkreis}" target="jLabel7" targetPath="text" updateStrategy="1" immediately="false">
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                         </BindingProperty>
                       </BindingProperties>
@@ -334,6 +334,9 @@
                           <Dimension value="[250, 25]"/>
                         </Property>
                       </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.stalu}" target="jLabel8" targetPath="text" updateStrategy="0" immediately="false"/>
+                      </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                           <GridBagConstraints gridX="1" gridY="5" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="10" weightX="1.0" weightY="0.0"/>
