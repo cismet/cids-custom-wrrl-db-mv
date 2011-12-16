@@ -1937,6 +1937,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public boolean prepareForSave() {
         if (cidsBean != null) {
+            cidsBean.getMetaObject().setAllClasses();
             if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
                 final int ans = JOptionPane.showConfirmDialog(
                         this,
@@ -1968,7 +1969,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 Geometry geom = (Geometry)cidsBean.getProperty("linie.geom.geo_field");
 
                 if (geom == null) {
-                    geom = (Geometry)cidsBean.getProperty("additional_geom");
+                    geom = (Geometry)cidsBean.getProperty("additional_geom.geo_field");
                 }
 
                 if ((stalu == null) && (geom != null)) {

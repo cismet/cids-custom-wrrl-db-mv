@@ -654,6 +654,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
     @Override
     public boolean prepareForSave() {
         if (cidsBean != null) {
+            cidsBean.getMetaObject().setAllClasses();
             try {
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
