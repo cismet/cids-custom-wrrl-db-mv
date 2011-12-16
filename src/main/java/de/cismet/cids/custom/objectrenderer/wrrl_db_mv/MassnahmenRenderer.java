@@ -48,7 +48,8 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blbSpace;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox cbFin;
+    private javax.swing.JCheckBox cbStarted;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -287,7 +288,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblPrioritaet = new javax.swing.JLabel();
         lblKosten = new javax.swing.JLabel();
         lblSubs_typ = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbFin = new javax.swing.JCheckBox();
         lbllfdnr = new javax.swing.JLabel();
         lblValLfdnr = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -309,6 +310,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValPrioritaet = new javax.swing.JLabel();
         lblValGwk = new javax.swing.JTextField();
         lblValMassn_id = new javax.swing.JTextField();
+        cbStarted = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -432,41 +434,41 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblSubs_typ.setPreferredSize(new java.awt.Dimension(165, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblSubs_typ, gridBagConstraints);
 
-        jCheckBox1.setText("Maßnahme bereits umgesetzt");
-        jCheckBox1.setContentAreaFilled(false);
-        jCheckBox1.setEnabled(false);
+        cbFin.setText(org.openide.util.NbBundle.getMessage(MassnahmenRenderer.class, "MassnahmenRenderer.cbfin.text")); // NOI18N
+        cbFin.setContentAreaFilled(false);
+        cbFin.setEnabled(false);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"),
-                jCheckBox1,
+                cbFin,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbFin.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jCheckBox1ActionPerformed(evt);
+                    cbFinActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(jCheckBox1, gridBagConstraints);
+        jPanel2.add(cbFin, gridBagConstraints);
 
         lbllfdnr.setText("laufende Nummer im WK");
         lbllfdnr.setToolTipText("laufende Nummer im Wasserkörper");
@@ -600,7 +602,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblStalu.setText("Zuständiges StALU");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel2.add(lblStalu, gridBagConstraints);
 
@@ -660,7 +662,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -682,7 +684,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -780,6 +782,37 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblValMassn_id, gridBagConstraints);
+
+        cbStarted.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenRenderer.class,
+                "MassnahmenRenderer.cbStarted.text")); // NOI18N
+        cbStarted.setContentAreaFilled(false);
+        cbStarted.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"),
+                cbStarted,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        cbStarted.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbStartedActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(cbStarted, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1112,9 +1145,18 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFinActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_jCheckBox1ActionPerformed
+    } //GEN-LAST:event_cbFinActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStartedActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbStartedActionPerformed
 
     @Override
     public void dispose() {

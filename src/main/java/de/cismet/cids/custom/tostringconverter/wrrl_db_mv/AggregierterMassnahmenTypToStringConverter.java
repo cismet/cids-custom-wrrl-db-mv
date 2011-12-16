@@ -7,8 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.tostringconverter.wrrl_db_mv;
 
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -17,19 +15,23 @@ import de.cismet.cids.tools.CustomToStringConverter;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class MassnahmenUmsetzungToStringConverter extends CustomToStringConverter {
+public class AggregierterMassnahmenTypToStringConverter extends CustomToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String createString() {
-        final Object besch = cidsBean.getProperty("mass_beschreibung");
-        final String beschreibung = ((besch == null) ? "" : String.valueOf(besch));
+        final String pick = (String)cidsBean.getProperty("massnahme.value");
+        final String bez = (String)cidsBean.getProperty("bezeichnung");
 
-        if (cidsBean.getProperty("id").toString().equals("-1") && beschreibung.equals("")) {
-            return "unbenannt";
+        if (pick == null) {
+            return "unb";
+        } else {
+            if (bez != null) {
+                return pick + " - " + bez;
+            } else {
+                return pick + " - " + bez;
+            }
         }
-
-        return cidsBean.getProperty("id").toString() + " " + beschreibung;
     }
 }

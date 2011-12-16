@@ -58,7 +58,6 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblEinheit;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblIndikator;
     private javax.swing.JLabel lblIndikator_nr;
     private javax.swing.JLabel lblValEinheit;
@@ -69,9 +68,6 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
     private javax.swing.JLabel lblWert_char;
     private javax.swing.JLabel lblWert_num;
     private javax.swing.JPanel panFooter;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private de.cismet.tools.gui.RoundedPanel panInfo;
-    private javax.swing.JPanel panInfoContent;
     private javax.swing.JTextField txtValWert_char;
     private javax.swing.JTextField txtValWert_num;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -176,10 +172,6 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
-        panInfo = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading = new javax.swing.JLabel();
-        panInfoContent = new javax.swing.JPanel();
         lblIndikator = new javax.swing.JLabel();
         lblEinheit = new javax.swing.JLabel();
         lblWert_num = new javax.swing.JLabel();
@@ -208,49 +200,32 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 370));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 370));
-
-        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setLayout(new java.awt.FlowLayout());
-
-        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Indikator");
-        panHeadInfo.add(lblHeading);
-
-        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
-
-        panInfoContent.setOpaque(false);
-        panInfoContent.setLayout(new java.awt.GridBagLayout());
-
         lblIndikator.setText("Indikator");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        panInfoContent.add(lblIndikator, gridBagConstraints);
+        add(lblIndikator, gridBagConstraints);
 
         lblEinheit.setText("Einheit");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        panInfoContent.add(lblEinheit, gridBagConstraints);
+        add(lblEinheit, gridBagConstraints);
 
         lblWert_num.setText("Numerischer Wert");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        panInfoContent.add(lblWert_num, gridBagConstraints);
+        add(lblWert_num, gridBagConstraints);
 
         lblWert_char.setText("Textueller Wert");
         lblWert_char.setPreferredSize(new java.awt.Dimension(165, 20));
@@ -260,16 +235,16 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
-        panInfoContent.add(lblWert_char, gridBagConstraints);
+        add(lblWert_char, gridBagConstraints);
 
         lblIndikator_nr.setText("Nummer");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 0);
-        panInfoContent.add(lblIndikator_nr, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
+        add(lblIndikator_nr, gridBagConstraints);
 
         lblValIndikator_nr.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValIndikator_nr.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -288,11 +263,11 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 10);
-        panInfoContent.add(lblValIndikator_nr, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        add(lblValIndikator_nr, gridBagConstraints);
 
         lblValIndikator.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValIndikator.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -306,16 +281,25 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.indikator_schluessel.indikator}"),
+                lblValIndikator,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        panInfoContent.add(lblValIndikator, gridBagConstraints);
+        add(lblValIndikator, gridBagConstraints);
 
         lblValEinheit.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValEinheit.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -334,11 +318,11 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        panInfoContent.add(lblValEinheit, gridBagConstraints);
+        add(lblValEinheit, gridBagConstraints);
 
         txtValWert_num.setMinimumSize(new java.awt.Dimension(200, 20));
         txtValWert_num.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -362,11 +346,11 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        panInfoContent.add(txtValWert_num, gridBagConstraints);
+        add(txtValWert_num, gridBagConstraints);
 
         txtValWert_char.setMinimumSize(new java.awt.Dimension(200, 20));
         txtValWert_char.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -390,11 +374,11 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        panInfoContent.add(txtValWert_char, gridBagConstraints);
+        add(txtValWert_char, gridBagConstraints);
 
         lblValWert_num.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValWert_num.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -406,7 +390,7 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        panInfoContent.add(lblValWert_num, gridBagConstraints);
+        add(lblValWert_num, gridBagConstraints);
 
         lblValWert_char.setMinimumSize(new java.awt.Dimension(200, 20));
         lblValWert_char.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -418,17 +402,7 @@ public class ProjekteIndikatorenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
-        panInfoContent.add(lblValWert_char, gridBagConstraints);
-
-        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(panInfo, gridBagConstraints);
+        add(lblValWert_char, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

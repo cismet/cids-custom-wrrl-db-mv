@@ -267,11 +267,24 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
      * @param  wkBean  propertyName DOCUMENT ME!
      */
     private void addWB(final CidsBean wkBean) {
-        final Collection<CidsBean> collection = (Collection<CidsBean>)cidsBean.getProperty("wirkung_wk");
+        final CidsBean wirkung = addWB(cidsBean, wkBean);
+        wbListModel.addElement(wirkung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   measureType  DOCUMENT ME!
+     * @param   wkBean       DOCUMENT ME!
+     *
+     * @return  the newly created Wirkung object
+     */
+    public static CidsBean addWB(final CidsBean measureType, final CidsBean wkBean) {
+        final Collection<CidsBean> collection = (Collection<CidsBean>)measureType.getProperty("wirkung_wk");
 
         if (collection == null) {
             LOG.error("Collectiom of property wirkung_wk is null");
-            return;
+            return null;
         }
 
         try {
@@ -292,12 +305,14 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 w.setProperty("name", wkBean.getProperty("name"));
             } else {
                 LOG.error("Invalid bean type found.");
-                return;
+                return null;
             }
             collection.add(w);
-            wbListModel.addElement(w);
+
+            return w;
         } catch (Exception e) {
             LOG.error("Cannot add object.", e);
+            return null;
         }
     }
 

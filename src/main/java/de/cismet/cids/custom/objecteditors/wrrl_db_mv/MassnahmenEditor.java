@@ -119,6 +119,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JButton btnRemDeMeas;
     private javax.swing.JButton btnRemMeas15;
     private javax.swing.JButton btnRemMeas21;
+    private javax.swing.JCheckBox cbFin;
     private javax.swing.JComboBox cbGeom;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassn_typ;
     private javax.swing.JComboBox cbMeas15Cataloge;
@@ -128,11 +129,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPrioritaet;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRevital;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStalu;
+    private javax.swing.JCheckBox cbStarted;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSuppl_cd;
     private javax.swing.JDialog dlgMeas;
     private javax.swing.JDialog dlgMeas15;
     private javax.swing.JDialog dlgMeas21;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -410,7 +411,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbMassn_typ = new ScrollableComboBox();
         cbRevital = new ScrollableComboBox();
         cbPrioritaet = new ScrollableComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbFin = new javax.swing.JCheckBox();
         txtZiele = new javax.swing.JTextField();
         lbllfdnr = new javax.swing.JLabel();
         lblValLfdnr = new javax.swing.JLabel();
@@ -428,6 +429,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblStalu = new javax.swing.JLabel();
         txtMassn_id = new javax.swing.JTextField();
         cbStalu = new ScrollableComboBox();
+        cbStarted = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -751,7 +753,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblSubs_typ.setPreferredSize(new java.awt.Dimension(165, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblSubs_typ, gridBagConstraints);
@@ -836,35 +838,35 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(cbPrioritaet, gridBagConstraints);
 
-        jCheckBox1.setText("Maßnahme bereits umgesetzt");
-        jCheckBox1.setContentAreaFilled(false);
+        cbFin.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.cbFin.text")); // NOI18N
+        cbFin.setContentAreaFilled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"),
-                jCheckBox1,
+                cbFin,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbFin.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jCheckBox1ActionPerformed(evt);
+                    cbFinActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(jCheckBox1, gridBagConstraints);
+        jPanel2.add(cbFin, gridBagConstraints);
 
         txtZiele.setMinimumSize(new java.awt.Dimension(200, 25));
         txtZiele.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -929,7 +931,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1047,7 +1049,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblStalu.setText("Zuständiges StALU");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel2.add(lblStalu, gridBagConstraints);
 
@@ -1084,12 +1086,42 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(cbStalu, gridBagConstraints);
+
+        cbStarted.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.cbStarted.text")); // NOI18N
+        cbStarted.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"),
+                cbStarted,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
+        cbStarted.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbStartedActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(cbStarted, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1571,9 +1603,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFinActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_jCheckBox1ActionPerformed
+    } //GEN-LAST:event_cbFinActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1856,6 +1888,15 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStartedActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbStartedActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  enable  DOCUMENT ME!
      */
     private void deActivateGUI(final boolean enable) {
@@ -1868,7 +1909,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbRevital.setEnabled(enable);
         cbSuppl_cd.setEnabled(enable);
         cbMassn_typ.setEnabled(enable);
-        jCheckBox1.setEnabled(enable);
+        cbFin.setEnabled(enable);
     }
 
     @Override
