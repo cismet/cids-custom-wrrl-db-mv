@@ -82,6 +82,8 @@ public class QuerbauwerkePanSix extends javax.swing.JPanel implements Disposable
      */
     public QuerbauwerkePanSix() {
         initComponents();
+        stationEditor1.setFirstStationInCurrentBB(true);
+        stationEditor2.setFirstStationInCurrentBB(true);
     }
 
     //~ Methods ----------------------------------------------------------------
