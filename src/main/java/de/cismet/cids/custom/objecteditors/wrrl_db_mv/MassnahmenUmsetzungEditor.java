@@ -214,7 +214,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         jScrollPane1.setPreferredSize(new java.awt.Dimension(422, 75));
 
         jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        jTextArea1.setRows(4);
         jTextArea1.setDisabledTextColor(new java.awt.Color(26, 26, 26));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
