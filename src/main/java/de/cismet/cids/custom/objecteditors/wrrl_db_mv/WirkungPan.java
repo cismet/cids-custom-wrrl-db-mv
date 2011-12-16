@@ -268,7 +268,10 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
      */
     private void addWB(final CidsBean wkBean) {
         final CidsBean wirkung = addWB(cidsBean, wkBean);
-        wbListModel.addElement(wirkung);
+
+        if (wirkung != null) {
+            wbListModel.addElement(wirkung);
+        }
     }
 
     /**
@@ -283,7 +286,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
         final Collection<CidsBean> collection = (Collection<CidsBean>)measureType.getProperty("wirkung_wk");
 
         if (collection == null) {
-            LOG.error("Collectiom of property wirkung_wk is null");
+            LOG.error("Collection of property wirkung_wk is null");
             return null;
         }
 
@@ -307,13 +310,46 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 LOG.error("Invalid bean type found.");
                 return null;
             }
-            collection.add(w);
+            if (!containsWirkung(collection, w)) {
+                collection.add(w);
 
-            return w;
+                return w;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             LOG.error("Cannot add object.", e);
             return null;
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   collection  DOCUMENT ME!
+     * @param   wirkung     DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static boolean containsWirkung(final Collection<CidsBean> collection, final CidsBean wirkung) {
+        final Object id = wirkung.getProperty("id");
+
+        for (final CidsBean tmp : collection) {
+            if (tmp.getProperty("id").equals(id)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  w  DOCUMENT ME!
+     */
+    public void addWirkungToListModel(final CidsBean w) {
+        wbListModel.addElement(w);
     }
 
     @Override

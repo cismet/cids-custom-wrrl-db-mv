@@ -1619,7 +1619,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemUmsetzungActionPerformed(final java.awt.event.ActionEvent evt) {                         //GEN-FIRST:event_btnRemUmsetzungActionPerformed
+    private void btnRemUmsetzungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemUmsetzungActionPerformed
         final Object selection = jlUmsetzung.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1643,28 +1643,28 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }                                                                                                           //GEN-LAST:event_btnRemUmsetzungActionPerformed
+    }//GEN-LAST:event_btnRemUmsetzungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlUmsetzungValueChanged
+    private void jlUmsetzungValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlUmsetzungValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlUmsetzung.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 massnahmenUmsetzungEditor.setCidsBean((CidsBean)selObj);
             }
         }
-    }                                                                                      //GEN-LAST:event_jlUmsetzungValueChanged
+    }//GEN-LAST:event_jlUmsetzungValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlIndikatorValueChanged
+    private void jlIndikatorValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlIndikatorValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlIndikator.getSelectedValue();
             if (selObj instanceof CidsBean) {
@@ -1674,14 +1674,14 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 projekteIndikatorenEditor1.setCidsBean(null);
             }
         }
-    }                                                                                      //GEN-LAST:event_jlIndikatorValueChanged
+    }//GEN-LAST:event_jlIndikatorValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddUmsetzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddUmsetzungActionPerformed
+    private void btnAddUmsetzungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUmsetzungActionPerformed
         final Thread t = new Thread(new Runnable() {
 
                     @Override
@@ -1709,14 +1709,14 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 });
 
         t.start();
-    } //GEN-LAST:event_btnAddUmsetzungActionPerformed
+    }//GEN-LAST:event_btnAddUmsetzungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemIndikatorActionPerformed
+    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemIndikatorActionPerformed
         final Object selection = jlIndikator.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1737,34 +1737,34 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }                                                                                   //GEN-LAST:event_btnRemIndikatorActionPerformed
+    }//GEN-LAST:event_btnRemIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
+    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIndikatorActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgIndikator);
         dlgIndikator.setSize(550, 150);
         dlgIndikator.setVisible(true);
-    }                                                                                   //GEN-LAST:event_btnAddIndikatorActionPerformed
+    }//GEN-LAST:event_btnAddIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnIndikatorAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnIndikatorAbortActionPerformed
+    private void btnIndikatorAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndikatorAbortActionPerformed
         dlgIndikator.setVisible(false);
-    }                                                                                     //GEN-LAST:event_btnIndikatorAbortActionPerformed
+    }//GEN-LAST:event_btnIndikatorAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnIndikatorOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnIndikatorOkActionPerformed
+    private void btnIndikatorOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndikatorOkActionPerformed
         final Object selection = cbIndikatorCataloge.getSelectedItem();
 
         if (selection instanceof CidsBean) {
@@ -1794,37 +1794,37 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         }
 
         dlgIndikator.setVisible(false);
-    } //GEN-LAST:event_btnIndikatorOkActionPerformed
+    }//GEN-LAST:event_btnIndikatorOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jcLandActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jcLandActionPerformed
+    private void jcLandActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcLandActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_jcLandActionPerformed
+    }//GEN-LAST:event_jcLandActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlMassnahmeValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlMassnahmeValueChanged
+    private void jlMassnahmeValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlMassnahmeValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = jlMassnahme.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 aggregierterMassnahmenTypEditor1.setCidsBean((CidsBean)selObj);
             }
         }
-    }                                                                                      //GEN-LAST:event_jlMassnahmeValueChanged
+    }//GEN-LAST:event_jlMassnahmeValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemUmsetzung1ActionPerformed(final java.awt.event.ActionEvent evt) {          //GEN-FIRST:event_btnRemUmsetzung1ActionPerformed
+    private void btnRemUmsetzung1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemUmsetzung1ActionPerformed
         final Object selection = jlMassnahme.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1846,34 +1846,34 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 }
             }
         }
-    }                                                                                             //GEN-LAST:event_btnRemUmsetzung1ActionPerformed
+    }//GEN-LAST:event_btnRemUmsetzung1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddUmsetzung1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddUmsetzung1ActionPerformed
+    private void btnAddUmsetzung1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUmsetzung1ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMassnahmenTypAll);
         dlgMassnahmenTypAll.setSize(790, 350);
         dlgMassnahmenTypAll.setVisible(true);
-    }                                                                                    //GEN-LAST:event_btnAddUmsetzung1ActionPerformed
+    }//GEN-LAST:event_btnAddUmsetzung1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAbortActionPerformed
+    private void btnMassnahmenTypAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAbortActionPerformed
         dlgMassnahmenTyp.setVisible(false);
-    }                                                                                         //GEN-LAST:event_btnMassnahmenTypAbortActionPerformed
+    }//GEN-LAST:event_btnMassnahmenTypAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypOkActionPerformed
+    private void btnMassnahmenTypOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypOkActionPerformed
         final Object[] selectedObjects = jlMassnahmenCataloge.getSelectedValues();
 
         if (selectedObjects != null) {
@@ -1892,34 +1892,34 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         jlMassnahmenCataloge.setSelectedIndex(0);
         dlgMassnahmenTyp.setVisible(false);
-    } //GEN-LAST:event_btnMassnahmenTypOkActionPerformed
+    }//GEN-LAST:event_btnMassnahmenTypOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbMassnahmenTypCatalogeItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbMassnahmenTypCatalogeItemStateChanged
+    private void cbMassnahmenTypCatalogeItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMassnahmenTypCatalogeItemStateChanged
         if (evt.getItem() != null) {
             measureModel.setMeasureGroup((CidsBean)evt.getItem());
         }
-    }                                                                                          //GEN-LAST:event_cbMassnahmenTypCatalogeItemStateChanged
+    }//GEN-LAST:event_cbMassnahmenTypCatalogeItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAllAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAllAbortActionPerformed
+    private void btnMassnahmenTypAllAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAllAbortActionPerformed
         dlgMassnahmenTypAll.setVisible(false);
-    }                                                                                            //GEN-LAST:event_btnMassnahmenTypAllAbortActionPerformed
+    }//GEN-LAST:event_btnMassnahmenTypAllAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAllOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAllOkActionPerformed
+    private void btnMassnahmenTypAllOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAllOkActionPerformed
         final Object[] selectedObjects = jlMassnahmenAllCataloge.getSelectedValues();
 
         if (selectedObjects != null) {
@@ -1938,7 +1938,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         jlMassnahmenAllCataloge.setSelectedIndex(0);
         dlgMassnahmenTypAll.setVisible(false);
-    } //GEN-LAST:event_btnMassnahmenTypAllOkActionPerformed
+    }//GEN-LAST:event_btnMassnahmenTypAllOkActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2044,6 +2044,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     @Override
     public boolean prepareForSave() {
         if (cidsBean != null) {
+            cidsBean.getMetaObject().setAllClasses();
             try {
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());   // NOI18N
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis())); // NOI18N
@@ -2124,7 +2125,6 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 if (measureTypes != null) {
                     for (final CidsBean tmp : measureTypes) {
                         addMeasureTypeCode(tmp);
-                        LOG.error("addWkToMeasureTypeCode");
                         addWkToMeasureTypeCode(tmp, newBean);
                     }
                 }
@@ -2150,21 +2150,22 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 cidsBean,
                 "aggregierte_massnahmen_typen");
         final Object id = measureType.getProperty("id");
-        LOG.error("Object id " + id);
 
         for (final CidsBean tmp : measureList) {
-            if (tmp.getProperty("id").equals(id)) {
+            if (tmp.getProperty("massnahme.id").equals(id)) {
                 projMeasureType = tmp;
                 break;
             }
         }
-        LOG.error("projMeasureType " + projMeasureType);
 
         if (projMeasureType != null) {
-            LOG.error("drin");
             final CidsBean wb = cache.getWB(impl);
-            final CidsBean w = WirkungPan.addWB(measureType, wb);
-            LOG.error("w " + w);
+            final CidsBean w = WirkungPan.addWB(projMeasureType, wb);
+            final CidsBean selectedMeasureType = aggregierterMassnahmenTypEditor1.getCidsBean();
+
+            if (selectedMeasureType.getProperty("id").equals(projMeasureType.getProperty("id"))) {
+                aggregierterMassnahmenTypEditor1.getWirkungPan().addWirkungToListModel(w);
+            }
         }
     }
 

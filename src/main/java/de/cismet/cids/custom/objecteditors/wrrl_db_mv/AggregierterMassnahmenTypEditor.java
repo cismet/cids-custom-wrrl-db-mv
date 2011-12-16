@@ -161,9 +161,9 @@ public class AggregierterMassnahmenTypEditor extends javax.swing.JPanel implemen
         setPreferredSize(new java.awt.Dimension(770, 675));
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(450, 190));
+        jPanel2.setMinimumSize(new java.awt.Dimension(450, 160));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(450, 190));
+        jPanel2.setPreferredSize(new java.awt.Dimension(450, 160));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(220, 60));
@@ -191,6 +191,7 @@ public class AggregierterMassnahmenTypEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
@@ -456,6 +457,15 @@ public class AggregierterMassnahmenTypEditor extends javax.swing.JPanel implemen
         }
 
         wirkungPan1.setCidsBean(cidsBean);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public WirkungPan getWirkungPan() {
+        return wirkungPan1;
     }
 
     @Override
