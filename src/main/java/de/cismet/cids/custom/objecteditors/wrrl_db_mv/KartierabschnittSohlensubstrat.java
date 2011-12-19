@@ -9,10 +9,14 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import org.apache.log4j.Logger;
 
+import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import java.lang.reflect.Field;
+
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
@@ -75,6 +79,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
      */
     public KartierabschnittSohlensubstrat() {
         initComponents();
+
         final FocusListener lis = new FocusListener() {
 
                 @Override
@@ -84,6 +89,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 @Override
                 public void focusLost(final FocusEvent e) {
                     fillGesamt();
+                    round(e.getComponent());
                 }
             };
 
@@ -604,6 +610,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 this.cidsBean);
             bindingGroup.bind();
             fillGesamt();
+            roundAll();
         }
     }
 
@@ -627,7 +634,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
         ges += CidsBeanSupport.textToDouble(tfTorf, 0.0);
         ges += CidsBeanSupport.textToDouble(tfTotholz, 0.0);
         ges += CidsBeanSupport.textToDouble(tfWurzeln, 0.0);
-        lblGes.setText("gesamt: " + ges + " %");
+        lblGes.setText("gesamt: " + Double.valueOf(ges).intValue() + " %");
 
         boolean nothing = true;
         nothing &= CidsBeanSupport.textToDouble(tfBloecke, 1.0) == 0.0;
@@ -645,6 +652,41 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
             cbNe.setSelected(true);
         } else {
             cbNe.setSelected(false);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void roundAll() {
+        round(tfBloecke);
+        round(tfKies);
+        round(tfKuenSub);
+        round(tfSand);
+        round(tfSchlamm);
+        round(tfSteine);
+        round(tfTon);
+        round(tfTorf);
+        round(tfTotholz);
+        round(tfWurzeln);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  c  DOCUMENT ME!
+     */
+    private void round(final Component c) {
+        if (c == null) {
+            LOG.warn("substrate percentage round: component is null, illegal listener registration?");          // NOI18N
+        } else {
+            if (c instanceof JTextField) {
+                final JTextField jtf = (JTextField)c;
+                final Double value = CidsBeanSupport.textToDouble(jtf, 0.0);
+                jtf.setText(String.valueOf(Math.round(value)));
+            } else {
+                LOG.warn("substate percentage round: component no JTextField, illegal listener registration?"); // NOI18N
+            }
         }
     }
 }
