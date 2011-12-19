@@ -287,7 +287,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValKurzBez.setEnabled(enabled);
         txtValProjekt_bez.setEnabled(enabled);
         txtValProjekt_code.setEnabled(enabled);
-        txtValProjekt_nr.setEnabled(enabled);
+//        txtValProjekt_nr.setEnabled(enabled);
         txtValTraeger.setEnabled(enabled);
         txtValfoerdersumme.setEnabled(enabled);
 
@@ -707,6 +707,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         panAllgemein.add(lblProjekt_nr, gridBagConstraints);
 
+        txtValProjekt_nr.setEditable(false);
         txtValProjekt_nr.setDisabledTextColor(new java.awt.Color(26, 26, 26));
         txtValProjekt_nr.setEnabled(false);
         txtValProjekt_nr.setMinimumSize(new java.awt.Dimension(215, 20));
@@ -723,7 +724,6 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
