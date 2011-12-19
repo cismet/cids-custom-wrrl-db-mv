@@ -396,7 +396,9 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         jPanel2.add(lblZiele, gridBagConstraints);
 
         lblMassn_typ.setText("Umfang (BVP)");
-        lblMassn_typ.setToolTipText(org.openide.util.NbBundle.getMessage(MassnahmenRenderer.class, "MassnahmenEditor.lblMassn_typ.toolTipText")); // NOI18N
+        lblMassn_typ.setToolTipText(org.openide.util.NbBundle.getMessage(
+                MassnahmenRenderer.class,
+                "MassnahmenEditor.lblMassn_typ.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -441,16 +443,23 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         cbFin.setContentAreaFilled(false);
         cbFin.setEnabled(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"), cbFin, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"),
+                cbFin,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         cbFin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbFinActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbFinActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
@@ -473,7 +482,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValLfdnr.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValLfdnr.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_wk_lfdnr}"), lblValLfdnr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_wk_lfdnr}"),
+                lblValLfdnr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -491,7 +505,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTextArea1);
@@ -527,7 +546,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValWk_k.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValWk_k.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"), lblValWk_k, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"),
+                lblValWk_k,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -585,7 +609,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValZiele.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValZiele.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ziele}"), lblValZiele, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ziele}"),
+                lblValZiele,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -601,7 +630,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValKosten.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValKosten.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kosten}"), lblValKosten, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kosten}"),
+                lblValKosten,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -617,7 +651,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValReal.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValReal.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.real}"), lblValReal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.real}"),
+                lblValReal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -633,7 +672,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValStalu.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValStalu.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu.value}"), lblValStalu, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu.value}"),
+                lblValStalu,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -649,7 +693,13 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValMassn_typ.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValMassn_typ.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_typ.code}-${cidsBean.massn_typ.description}"), lblValMassn_typ, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create(
+                    "${cidsBean.massn_typ.code}-${cidsBean.massn_typ.description}"),
+                lblValMassn_typ,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -666,7 +716,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValRevital.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValRevital.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.revital.code}-${cidsBean.revital.description}"), lblValRevital, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.revital.code}-${cidsBean.revital.description}"),
+                lblValRevital,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -683,7 +738,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValPrioritaet.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValPrioritaet.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.prioritaet.description}"), lblValPrioritaet, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.prioritaet.description}"),
+                lblValPrioritaet,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -705,7 +765,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblValGwk, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_id}"), lblValMassn_id, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_id}"),
+                lblValMassn_id,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -718,20 +783,29 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblValMassn_id, gridBagConstraints);
 
-        cbStarted.setText(org.openide.util.NbBundle.getMessage(MassnahmenRenderer.class, "MassnahmenRenderer.cbStarted.text")); // NOI18N
+        cbStarted.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenRenderer.class,
+                "MassnahmenRenderer.cbStarted.text")); // NOI18N
         cbStarted.setContentAreaFilled(false);
         cbStarted.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"), cbStarted, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"),
+                cbStarted,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         cbStarted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbStartedActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbStartedActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 13;
@@ -780,8 +854,14 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
 
         lstdeMeas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.de_meas_cd}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstdeMeas);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.de_meas_cd}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstdeMeas);
         bindingGroup.addBinding(jListBinding);
 
         scpdeMeas.setViewportView(lstdeMeas);
@@ -832,7 +912,11 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lstMeas15.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.meas_2015}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstMeas15);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                lstMeas15);
         bindingGroup.addBinding(jListBinding);
 
         scpMeas15.setViewportView(lstMeas15);
@@ -883,7 +967,11 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lstMeas21.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.meas_2021}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstMeas21);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                lstMeas21);
         bindingGroup.addBinding(jListBinding);
 
         scpMeas21.setViewportView(lstMeas21);
@@ -947,7 +1035,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValPressure_cd.setMinimumSize(new java.awt.Dimension(300, 25));
         lblValPressure_cd.setPreferredSize(new java.awt.Dimension(300, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pressur_cd.name}"), lblValPressure_cd, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pressur_cd.name}"),
+                lblValPressure_cd,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -964,7 +1057,12 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValSuppl_cd.setMinimumSize(new java.awt.Dimension(300, 25));
         lblValSuppl_cd.setPreferredSize(new java.awt.Dimension(300, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.suppl_cd.name}"), lblValSuppl_cd, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.suppl_cd.name}"),
+                lblValSuppl_cd,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -1042,25 +1140,25 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFinActionPerformed
+    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFinActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbFinActionPerformed
+    } //GEN-LAST:event_cbFinActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStartedActionPerformed
+    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStartedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbStartedActionPerformed
+    } //GEN-LAST:event_cbStartedActionPerformed
 
     @Override
     public void dispose() {
