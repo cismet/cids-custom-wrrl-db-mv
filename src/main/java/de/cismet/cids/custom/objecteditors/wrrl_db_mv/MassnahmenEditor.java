@@ -1104,6 +1104,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"),
                 cbStarted,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         cbStarted.addActionListener(new java.awt.event.ActionListener() {
