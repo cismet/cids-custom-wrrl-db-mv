@@ -75,6 +75,8 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JLabel lblWBEnvCritCountLeft;
     private javax.swing.JLabel lblWBEnvCritCountOverall;
     private javax.swing.JLabel lblWBEnvCritCountRight;
+    private javax.swing.JLabel lblWBEnvOverallRatingLeft;
+    private javax.swing.JLabel lblWBEnvOverallRatingRight;
     private javax.swing.JLabel lblWBEnvRatingLeft;
     private javax.swing.JLabel lblWBEnvRatingOverall;
     private javax.swing.JLabel lblWBEnvRatingRight;
@@ -117,6 +119,8 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JTextField txtWBEnvCritCountLeft;
     private javax.swing.JTextField txtWBEnvCritCountOverall;
     private javax.swing.JTextField txtWBEnvCritCountRight;
+    private javax.swing.JTextField txtWBEnvOverallRatingLeft;
+    private javax.swing.JTextField txtWBEnvOverallRatingRight;
     private javax.swing.JTextField txtWBEnvRating;
     private javax.swing.JTextField txtWBEnvRatingLeft;
     private javax.swing.JTextField txtWBEnvRatingOverall;
@@ -169,6 +173,10 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblBankRatingRight = new javax.swing.JLabel();
         txtBankRatingRight = new javax.swing.JTextField();
         txtBankRatingLeft = new javax.swing.JTextField();
+        lblWBEnvOverallRatingLeft = new javax.swing.JLabel();
+        lblWBEnvOverallRatingRight = new javax.swing.JLabel();
+        txtWBEnvOverallRatingLeft = new javax.swing.JTextField();
+        txtWBEnvOverallRatingRight = new javax.swing.JTextField();
         jpLegende = new javax.swing.JPanel();
         panInfo3 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -419,7 +427,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblEnvRating.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
@@ -442,7 +450,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent1.add(txtWBEnvRating, gridBagConstraints);
@@ -486,7 +494,6 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent1.add(txtBankRatingRight, gridBagConstraints);
 
@@ -511,6 +518,69 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent1.add(txtBankRatingLeft, gridBagConstraints);
+
+        lblWBEnvOverallRatingLeft.setText(NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblWBEnvOverallRatingLeft.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent1.add(lblWBEnvOverallRatingLeft, gridBagConstraints);
+
+        lblWBEnvOverallRatingRight.setText(NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblWBEnvOverallRatingRight.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent1.add(lblWBEnvOverallRatingRight, gridBagConstraints);
+
+        txtWBEnvOverallRatingLeft.setEditable(false);
+        txtWBEnvOverallRatingLeft.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtWBEnvOverallRatingLeft.setBorder(null);
+        txtWBEnvOverallRatingLeft.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvOverallRatingLeft.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_land_links}"),
+                txtWBEnvOverallRatingLeft,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent1.add(txtWBEnvOverallRatingLeft, gridBagConstraints);
+
+        txtWBEnvOverallRatingRight.setEditable(false);
+        txtWBEnvOverallRatingRight.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtWBEnvOverallRatingRight.setBorder(null);
+        txtWBEnvOverallRatingRight.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWBEnvOverallRatingRight.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.punktzahl_land_rechts}"),
+                txtWBEnvOverallRatingRight,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent1.add(txtWBEnvOverallRatingRight, gridBagConstraints);
 
         panInfo2.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 

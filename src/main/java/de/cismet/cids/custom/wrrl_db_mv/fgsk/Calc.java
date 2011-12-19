@@ -162,6 +162,8 @@ public final class Calc {
     public static final String PROP_WB_BANK_RATING_LE = "punktzahl_ufer_links";                           // NOI18N
     public static final String PROP_WB_BANK_RATING_RI = "punktzahl_ufer_rechts";                          // NOI18N
     public static final String PROP_WB_ENV_RATING = "punktzahl_land";                                     // NOI18N
+    public static final String PROP_WB_ENV_RATING_LE = "punktzahl_land_links";                            // NOI18N
+    public static final String PROP_WB_ENV_RATING_RI = "punktzahl_land_rechts";                           // NOI18N
     public static final String PROP_EXCEPTION = "sonderfall_id";                                          // NOI18N
 
     private static final CalcCache cache = CalcCache.getInstance();
@@ -975,9 +977,15 @@ public final class Calc {
                     / (critCountCrossProfile + critCountBankStructureRi);
 
         final double ratingWBEnv = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING);
+        final double ratingWBEnvLe = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_LE);
+        final double ratingWBEnvRi = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_RI);
         final int critCountWBEnv = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT);
+        final int critCountWBEnvLe = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_LE);
+        final int critCountWBEnvRi = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_RI);
 
         final double ratingEnv = ratingWBEnv / critCountWBEnv;
+        final double ratingEnvLe = ratingWBEnvLe / critCountWBEnvLe;
+        final double ratingEnvRi = ratingWBEnvRi / critCountWBEnvRi;
 
         final double ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
 
@@ -988,6 +996,8 @@ public final class Calc {
             kaBean.setProperty(PROP_WB_BANK_RATING_LE, ratingBankLe);
             kaBean.setProperty(PROP_WB_BANK_RATING_RI, ratingBankRi);
             kaBean.setProperty(PROP_WB_ENV_RATING, ratingEnv);
+            kaBean.setProperty(PROP_WB_ENV_RATING_LE, ratingEnvLe);
+            kaBean.setProperty(PROP_WB_ENV_RATING_RI, ratingEnvRi);
             kaBean.setProperty(PROP_WB_OVERALL_RATING, ratingOverall);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
