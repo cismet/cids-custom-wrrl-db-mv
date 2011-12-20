@@ -357,18 +357,18 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
+    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIndikatorActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMassnahmenTypAll);
         dlgMassnahmenTypAll.setSize(790, 350);
         dlgMassnahmenTypAll.setVisible(true);
-    }                                                                                   //GEN-LAST:event_btnAddIndikatorActionPerformed
+    }//GEN-LAST:event_btnAddIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemIndikatorActionPerformed
+    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemIndikatorActionPerformed
         final Object selection = jlIndikator.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -390,14 +390,14 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
                 }
             }
         }
-    }                                                                                   //GEN-LAST:event_btnRemIndikatorActionPerformed
+    }//GEN-LAST:event_btnRemIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAllOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAllOkActionPerformed
+    private void btnMassnahmenTypAllOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAllOkActionPerformed
         final Object[] selectedObjects = jlMassnahmenAllCataloge.getSelectedValues();
 
         if (selectedObjects != null) {
@@ -415,16 +415,16 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
 
         jlMassnahmenAllCataloge.setSelectedIndex(0);
         dlgMassnahmenTypAll.setVisible(false);
-    } //GEN-LAST:event_btnMassnahmenTypAllOkActionPerformed
+    }//GEN-LAST:event_btnMassnahmenTypAllOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAllAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAllAbortActionPerformed
+    private void btnMassnahmenTypAllAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAllAbortActionPerformed
         dlgMassnahmenTypAll.setVisible(false);
-    }                                                                                            //GEN-LAST:event_btnMassnahmenTypAllAbortActionPerformed
+    }//GEN-LAST:event_btnMassnahmenTypAllAbortActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -478,10 +478,6 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
     @Override
     public boolean prepareForSave() {
         cidsBean.getMetaObject().setAllClasses();
-        final Attribute attr = toDelete.get(0).getMetaObject().getPrimaryKey();
-        final Attribute attr2 = toDelete.get(0).getMetaObject().getAttributeByFieldName("id");
-        LOG.error("prim " + attr);
-        LOG.error("is prim " + attr2.isPrimaryKey());
         return true;
     }
 
@@ -489,7 +485,6 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
     public void beansDropped(final ArrayList<CidsBean> beans) {
         if ((cidsBean != null) && !readOnly) {
             for (final CidsBean bean : beans) {
-                LOG.error("class " + bean.getClass().getName());
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wfd.de_measure_type_code")) {
                     addMeasureTypeCode(bean);
                 }
