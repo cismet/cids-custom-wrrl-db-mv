@@ -690,6 +690,12 @@
                                   <Color blue="1a" green="1a" red="1a" type="rgb"/>
                                 </Property>
                               </Properties>
+                              <BindingProperties>
+                                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.projekt_bez}" target="txtValProjekt_bez" targetPath="text" updateStrategy="0" immediately="false">
+                                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                                  <Property name="nullValue" type="java.lang.String" value=""/>
+                                </BindingProperty>
+                              </BindingProperties>
                             </Component>
                           </SubComponents>
                         </Container>

@@ -866,6 +866,16 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         txtValProjekt_bez.setColumns(20);
         txtValProjekt_bez.setRows(2);
         txtValProjekt_bez.setDisabledTextColor(new java.awt.Color(26, 26, 26));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.projekt_bez}"),
+                txtValProjekt_bez,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        bindingGroup.addBinding(binding);
+
         jScrollPane4.setViewportView(txtValProjekt_bez);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
