@@ -21,7 +21,6 @@ public class IndikatorToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return cidsBean.getProperty("indikator_nr").toString() + " - "
-                    + String.valueOf(cidsBean.getProperty("indikator"));
+        return String.valueOf(cidsBean.getProperty("indikator"));
     }
 }

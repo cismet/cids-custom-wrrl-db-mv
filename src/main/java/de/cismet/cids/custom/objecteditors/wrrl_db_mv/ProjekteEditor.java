@@ -18,7 +18,6 @@ import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 
 import java.math.BigDecimal;
@@ -28,12 +27,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -325,7 +323,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblFoot = new javax.swing.JLabel();
         dlgIndikator = new javax.swing.JDialog();
         lblIndikatorCataloge = new javax.swing.JLabel();
-        cbIndikatorCataloge = new ScrollableComboBox(INDIKATOR_MC, true, false);
+        cbIndikatorCataloge = new ScrollableComboBox(INDIKATOR_MC, false, false, new IndikatorComparator());
         panMenButtonsIndikator = new javax.swing.JPanel();
         btnIndikatorAbort = new javax.swing.JButton();
         btnIndikatorOk = new javax.swing.JButton();
@@ -2417,6 +2415,48 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         @Override
         public void removeListDataListener(final ListDataListener l) {
             listener.remove(l);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class IndikatorComparator implements Comparator<CidsBean> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            if ((o1 == null) && (o2 == null)) {
+                LOG.error("null1");
+                return 0;
+            } else if (o1 == null) {
+                LOG.error("null2");
+                return -1;
+            } else if (o2 == null) {
+                LOG.error("null3");
+                return 1;
+            }
+
+            final Integer indikator1 = (Integer)o1.getProperty("indikator_nr");
+            final Integer indikator2 = (Integer)o2.getProperty("indikator_nr");
+
+            if ((indikator1 == null) && (indikator2 == null)) {
+                LOG.error("null4");
+                return 0;
+            } else if (indikator1 == null) {
+                LOG.error("null5");
+                return -1;
+            } else if (indikator2 == null) {
+                LOG.error("null6");
+                return 1;
+            } else {
+                LOG.error("compare i1 " + indikator1 + " i2 " + indikator2 + " comp: "
+                            + indikator1.compareTo(indikator2));
+                return indikator1.compareTo(indikator2);
+            }
         }
     }
 }
