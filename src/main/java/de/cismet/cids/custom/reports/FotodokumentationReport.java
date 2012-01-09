@@ -28,9 +28,9 @@ import java.util.Collection;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cids.utils.jasperreports.ReportSwingWorker;
 
-import de.cismet.jasperreports.ReportSwingWorker;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
