@@ -71,7 +71,9 @@ import de.cismet.tools.CurrentStackTrace;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class StationEditor extends JPanel implements DisposableCidsBeanStore, LinearReferencingConstants {
+public class StationEditor extends JPanel implements DisposableCidsBeanStore,
+    LinearReferencingConstants,
+    CidsBeanDropListener {
 
     //~ Enums ------------------------------------------------------------------
 
@@ -150,6 +152,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         if (isEditable) {
             try {
                 new CidsBeanDropTarget(panAdd);
+                new CidsBeanDropTarget(this);
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error while creating CidsBeanDropTarget");
@@ -239,6 +242,35 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      */
     public LinearReferencedPointFeature getFeature() {
         return (LinearReferencedPointFeature)FEATURE_REGISTRY.getFeature(getCidsBean());
+    }
+
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if (isEditable()) {
+            CidsBean routeBean = null;
+            for (final CidsBean bean : beans) {
+                if (bean.getMetaObject().getMetaClass().getName().equals(CN_ROUTE)) {
+                    if ((getDropBehavior() == null) || getDropBehavior().checkForAdding(routeBean)) {
+                        routeBean = bean;
+                        setChangedSinceDrop(false);
+                    }
+                    double value = 0d;
+
+                    if (isFirstStationInCurrentBB()) {
+                        value = getPointInCurrentBB(routeBean);
+                    }
+
+                    setCidsBean(LinearReferencingHelper.createStationBeanFromRouteBean(routeBean, value));
+                    if (isAutoZoomActivated) {
+                        MapUtil.zoomToFeatureCollection(getZoomFeatures());
+                    }
+                    return;
+                }
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("no route found in dropped objects");
+            }
+        }
     }
 
     /**
@@ -1219,27 +1251,27 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_splitButtonActionPerformed
+    private void splitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splitButtonActionPerformed
         splitPoint();
-    }                                                                               //GEN-LAST:event_splitButtonActionPerformed
+    }//GEN-LAST:event_splitButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomButtonActionPerformed
+    private void badGeomButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomButtonActionPerformed
         switchBadGeomVisibility();
-    }                                                                                 //GEN-LAST:event_badGeomButtonActionPerformed
+    }//GEN-LAST:event_badGeomButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomCorrectButtonActionPerformed
+    private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_badGeomCorrectButtonActionPerformed
         correctBadGeomCorrect();
-    }                                                                                        //GEN-LAST:event_badGeomCorrectButtonActionPerformed
+    }//GEN-LAST:event_badGeomCorrectButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1315,6 +1347,53 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   routeBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private double getPointInCurrentBB(final CidsBean routeBean) {
+        // Geometrie für BoundingBox erzeugen
+        final XBoundingBox boundingBox = (XBoundingBox)MAPPING_COMPONENT.getCurrentBoundingBox();
+        final Collection<Coordinate> coordinates = new ArrayList<Coordinate>();
+        coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
+        coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY1()));
+        coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY2()));
+        coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY2()));
+        coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
+        final GeometryFactory gf = new GeometryFactory();
+        final LinearRing shell = gf.createLinearRing(coordinates.toArray(new Coordinate[coordinates.size()]));
+        final Polygon boundingBoxGeom = gf.createPolygon(shell, new LinearRing[0]);
+
+        // Testen, ob Punkt 0 in der BoundingBox liegt
+        final Geometry routeGeom = (Geometry)routeBean.getProperty(PROP_ROUTE_GEOM + "." + PROP_GEOM_GEOFIELD);
+        final Geometry pointZero = LinearReferencedPointFeature.getPointOnLine(0d, routeGeom);
+
+        if (pointZero.within(boundingBoxGeom)) {
+            return 0d;
+        } else {
+            // niedrigster Stationierungswert, der die Boundingbox schneidet, bestimmen
+            final LineString boundingBoxLineGeom = gf.createLineString(coordinates.toArray(
+                        new Coordinate[coordinates.size()]));
+            double bestPosition = 0;
+
+            // Coordinaten durchlaufen und anhand der Position auf der Linie sortieren
+            final Geometry intersectionGeom = routeGeom.intersection(boundingBoxLineGeom);
+            for (final Coordinate coord : intersectionGeom.getCoordinates()) {
+                final double position = LinearReferencedPointFeature.getPositionOnLine(coord, routeGeom);
+                if (bestPosition == 0) {
+                    bestPosition = position;
+                } else if (position < bestPosition) {
+                    bestPosition = position;
+                }
+            }
+
+            return bestPosition;
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -1351,53 +1430,6 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore, Li
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("no route found in dropped objects");
                 }
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   routeBean  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        private double getPointInCurrentBB(final CidsBean routeBean) {
-            // Geometrie für BoundingBox erzeugen
-            final XBoundingBox boundingBox = (XBoundingBox)MAPPING_COMPONENT.getCurrentBoundingBox();
-            final Collection<Coordinate> coordinates = new ArrayList<Coordinate>();
-            coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
-            coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY1()));
-            coordinates.add(new Coordinate(boundingBox.getX2(), boundingBox.getY2()));
-            coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY2()));
-            coordinates.add(new Coordinate(boundingBox.getX1(), boundingBox.getY1()));
-            final GeometryFactory gf = new GeometryFactory();
-            final LinearRing shell = gf.createLinearRing(coordinates.toArray(new Coordinate[coordinates.size()]));
-            final Polygon boundingBoxGeom = gf.createPolygon(shell, new LinearRing[0]);
-
-            // Testen, ob Punkt 0 in der BoundingBox liegt
-            final Geometry routeGeom = (Geometry)routeBean.getProperty(PROP_ROUTE_GEOM + "." + PROP_GEOM_GEOFIELD);
-            final Geometry pointZero = LinearReferencedPointFeature.getPointOnLine(0d, routeGeom);
-
-            if (pointZero.within(boundingBoxGeom)) {
-                return 0d;
-            } else {
-                // niedrigster Stationierungswert, der die Boundingbox schneidet, bestimmen
-                final LineString boundingBoxLineGeom = gf.createLineString(coordinates.toArray(
-                            new Coordinate[coordinates.size()]));
-                double bestPosition = 0;
-
-                // Coordinaten durchlaufen und anhand der Position auf der Linie sortieren
-                final Geometry intersectionGeom = routeGeom.intersection(boundingBoxLineGeom);
-                for (final Coordinate coord : intersectionGeom.getCoordinates()) {
-                    final double position = LinearReferencedPointFeature.getPositionOnLine(coord, routeGeom);
-                    if (bestPosition == 0) {
-                        bestPosition = position;
-                    } else if (position < bestPosition) {
-                        bestPosition = position;
-                    }
-                }
-
-                return bestPosition;
             }
         }
     }
