@@ -126,6 +126,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JComboBox cbGeom;
     private javax.swing.JComboBox cbIndikatorCataloge;
     private javax.swing.JComboBox cbMassnahmenTypCataloge;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStatus;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_beginn;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcValM_ende;
     private javax.swing.JDialog dlgIndikator;
@@ -166,6 +167,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private javax.swing.JLabel lblProjekt_bez;
     private javax.swing.JLabel lblProjekt_code;
     private javax.swing.JLabel lblProjekt_nr;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblfoerdersatz;
     private javax.swing.JLabel lblkost_gesamt;
     private javax.swing.JLabel lbltraeger;
@@ -302,6 +304,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         lblGeometrie.setVisible(enabled);
         dcValM_beginn.setEditable(enabled);
         dcValM_ende.setEditable(enabled);
+        cbStatus.setEnabled(enabled);
+//        cbStatus.setEditable(enabled);
     }
 
     @Override
@@ -398,6 +402,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         if (!readOnly) {
             cbGeom = new DefaultCismapGeometryComboBoxEditor();
         }
+        lblStatus = new javax.swing.JLabel();
+        cbStatus = new ScrollableComboBox();
         jPanel3 = new javax.swing.JPanel();
         panUmsetzungen = new javax.swing.JPanel();
         panDeMeas = new de.cismet.tools.gui.RoundedPanel();
@@ -426,7 +432,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1330,6 +1336,35 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
             panInfoContent6.add(cbGeom, gridBagConstraints);
         }
+
+        lblStatus.setText(org.openide.util.NbBundle.getMessage(ProjekteEditor.class, "ProjekteEditor.lblStatus.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        panInfoContent6.add(lblStatus, gridBagConstraints);
+
+        cbStatus.setMinimumSize(new java.awt.Dimension(150, 20));
+        cbStatus.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"),
+                cbStatus,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent6.add(cbStatus, gridBagConstraints);
 
         panZus.add(panInfoContent6, java.awt.BorderLayout.CENTER);
 
@@ -2444,17 +2479,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             final Integer indikator2 = (Integer)o2.getProperty("indikator_nr");
 
             if ((indikator1 == null) && (indikator2 == null)) {
-                LOG.error("null4");
                 return 0;
             } else if (indikator1 == null) {
-                LOG.error("null5");
                 return -1;
             } else if (indikator2 == null) {
-                LOG.error("null6");
                 return 1;
             } else {
-                LOG.error("compare i1 " + indikator1 + " i2 " + indikator2 + " comp: "
-                            + indikator1.compareTo(indikator2));
                 return indikator1.compareTo(indikator2);
             }
         }

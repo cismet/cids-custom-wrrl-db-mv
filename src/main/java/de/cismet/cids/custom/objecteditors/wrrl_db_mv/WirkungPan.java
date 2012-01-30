@@ -332,10 +332,11 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
      * @return  DOCUMENT ME!
      */
     private static boolean containsWirkung(final Collection<CidsBean> collection, final CidsBean wirkung) {
-        final Object id = wirkung.getProperty("id");
+        final Object art = wirkung.getProperty("art");
+        final Object id = wirkung.getProperty("wk_id");
 
         for (final CidsBean tmp : collection) {
-            if (tmp.getProperty("id").equals(id)) {
+            if (tmp.getProperty("wk_id").equals(id) && tmp.getProperty("art").equals(art)) {
                 return true;
             }
         }

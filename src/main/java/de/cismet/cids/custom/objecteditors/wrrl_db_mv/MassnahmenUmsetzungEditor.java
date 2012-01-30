@@ -614,6 +614,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
             cidsBean.setProperty("massnahme", act.getProperty("id"));                               // NOI18N
             cidsBean.setProperty("additional_geom", CidsBeanSupport.cloneCidsBean(additionalGeom)); // NOI18N
+            cidsBean.setProperty("mass_beschreibung", act.getProperty("massn_id"));                 // NOI18N
 
             if (act.getProperty("wk_fg") != null) {
                 cidsBean.setProperty("wk_fg", ((CidsBean)act.getProperty("wk_fg")).getProperty("id")); // NOI18N

@@ -654,7 +654,7 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.real}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.realisierung.name}"),
                 lblValReal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
