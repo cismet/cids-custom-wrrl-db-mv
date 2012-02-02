@@ -899,6 +899,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             panTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(lblTitle)
                         .addComponent(btnReport));
 
+        setMinimumSize(new java.awt.Dimension(807, 485));
+        setPreferredSize(new java.awt.Dimension(807, 683));
         setLayout(new java.awt.GridBagLayout());
 
         roundedPanel1.setLayout(new java.awt.GridBagLayout());
