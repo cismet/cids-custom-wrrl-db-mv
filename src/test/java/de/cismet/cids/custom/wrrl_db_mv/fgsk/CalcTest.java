@@ -2472,10 +2472,6 @@ public class CalcTest {
 
             //~ Methods --------------------------------------------------------
 
-            @Override
-            public Object accept(final TypeVisitor mov, final Object o) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
 
             @Override
             public HashMap getAllClasses() {
