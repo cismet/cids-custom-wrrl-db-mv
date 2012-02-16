@@ -567,6 +567,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             } catch (Exception ex) {
                 LOG.error("Cannot save the current time.", ex);
             }
+
+            performCalculations(tpMain.getComponentAt(selectedTabIndex), panErgebnisse);
         }
         return res;
     }
@@ -610,6 +612,223 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             1024);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leftC     DOCUMENT ME!
+     * @param  enteredC  DOCUMENT ME!
+     */
+    private void performCalculations(final Component leftC, final Component enteredC) {
+        if (readOnly || isException(cidsBean) || isPreFieldMapping(cidsBean)) {
+            return;
+        }
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("editor tab selection changed from old comp: " + leftC + "to new comp: " + enteredC); // NOI18N
+        }
+
+        // NOTE: if to slow, send to background
+        String name = null;
+        try {
+            if (panErgebnisse.equals(enteredC)) {
+                try {
+                    Calc.getInstance().calcWBEnvRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate wb env rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.envRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.envRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
+                try {
+                    Calc.getInstance().calcWBLongProfileRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate long profile rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.longProfileRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.longProfileRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
+                try {
+                    Calc.getInstance().calcCourseEvoRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate course evolution rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.courseEvoRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.courseEvoRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
+                try {
+                    Calc.getInstance().calcWBCrossProfileRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate cross profile rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.crossProfileRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.crossProfileRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
+                try {
+                    Calc.getInstance().calcBedStructureRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate bed structure rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.bedStructureRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.bedStructureRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
+                try {
+                    Calc.getInstance().calcBankStructureRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate bank structure rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.bankStructureRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.bankStructureRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
+                try {
+                    Calc.getInstance().calcOverallRating(cidsBean);
+                } catch (final ValidationException ex) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate overall rating", ex); // NOI18N
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        FgskKartierabschnittEditor.this,
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.overallRatingNotPossible.message"), // NOI18N
+                        NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.overallRatingNotPossible.title"), // NOI18N
+                        JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                if (panGewaesserumfeld.equals(leftC)) {
+                    name = NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.name.wbenv");                     // NOI18N
+                    Calc.getInstance().calcWBEnvRating(cidsBean);
+                    fgskKartierabschnittErgebnisse1.setCidsBean(cidsBean);
+                } else if (panLaengsprofil.equals(leftC)) {
+                    name = NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.name.longProfile");               // NOI18N
+                    Calc.getInstance().calcWBLongProfileRating(cidsBean);
+                } else if (panLaufentwicklung.equals(leftC)) {
+                    name = NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.name.courseEvo");                 // NOI18N
+                    Calc.getInstance().calcCourseEvoRating(cidsBean);
+                } else if (panQuerprofil.equals(leftC)) {
+                    name = NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.name.crossProfile");              // NOI18N
+                    Calc.getInstance().calcWBCrossProfileRating(cidsBean);
+                } else if (panSohlenstruktur.equals(leftC)) {
+                    name = NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.name.bedStructure");              // NOI18N
+                    Calc.getInstance().calcBedStructureRating(cidsBean);
+                } else if (panUferstruktur.equals(leftC)) {
+                    name = NbBundle.getMessage(
+                            FgskKartierabschnittEditor.class,
+                            "FgskKartierabschnittEditor.CalcListener.stateChanged.name.bankStructure");             // NOI18N
+                    Calc.getInstance().calcBankStructureRating(cidsBean);
+                }
+            }
+        } catch (final ValidationException ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("cannot calculate rating: " + name, ex);                                                  // NOI18N
+            }
+
+            JOptionPane.showMessageDialog(
+                FgskKartierabschnittEditor.this,
+                NbBundle.getMessage(
+                    FgskKartierabschnittEditor.class,
+                    "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.message", // NOI18N
+                    name),
+                NbBundle.getMessage(
+                    FgskKartierabschnittEditor.class,
+                    "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.title", // NOI18N
+                    name),
+                JOptionPane.INFORMATION_MESSAGE);
+        } catch (final Exception ex) {
+            LOG.error("unexpected exception during calculation", ex);
+        } finally {
+            selectedTabIndex = tpMain.getSelectedIndex();
+        }
+
+        if (selectedTabIndex == 7) {
+            fgskKartierabschnittErgebnisse1.refreshGueteklasse();
+        }
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -643,214 +862,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             final Component leftC = tpMain.getComponentAt(selectedTabIndex);
             final Component enteredC = tpMain.getSelectedComponent();
 
-            if (readOnly || isException(cidsBean) || isPreFieldMapping(cidsBean)) {
-                return;
-            }
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("editor tab selection changed from old comp: " + leftC + "to new comp: " + enteredC); // NOI18N
-            }
-
-            // NOTE: if to slow, send to background
-            String name = null;
-            try {
-                if (panErgebnisse.equals(enteredC)) {
-                    try {
-                        Calc.getInstance().calcWBEnvRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate wb env rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.envRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.envRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                        return;
-                    }
-
-                    try {
-                        Calc.getInstance().calcWBLongProfileRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate long profile rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.longProfileRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.longProfileRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                        return;
-                    }
-
-                    try {
-                        Calc.getInstance().calcCourseEvoRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate course evolution rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.courseEvoRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.courseEvoRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                        return;
-                    }
-
-                    try {
-                        Calc.getInstance().calcWBCrossProfileRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate cross profile rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.crossProfileRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.crossProfileRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                        return;
-                    }
-
-                    try {
-                        Calc.getInstance().calcBedStructureRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate bed structure rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.bedStructureRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.bedStructureRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                        return;
-                    }
-
-                    try {
-                        Calc.getInstance().calcBankStructureRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate bank structure rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.bankStructureRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.bankStructureRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                        return;
-                    }
-
-                    try {
-                        Calc.getInstance().calcOverallRating(cidsBean);
-                    } catch (final ValidationException ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("cannot calculate overall rating", ex); // NOI18N
-                        }
-
-                        JOptionPane.showMessageDialog(
-                            FgskKartierabschnittEditor.this,
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.overallRatingNotPossible.message"), // NOI18N
-                            NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.overallRatingNotPossible.title"), // NOI18N
-                            JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } else {
-                    if (panGewaesserumfeld.equals(leftC)) {
-                        name = NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.name.wbenv");                     // NOI18N
-                        Calc.getInstance().calcWBEnvRating(cidsBean);
-                        fgskKartierabschnittErgebnisse1.setCidsBean(cidsBean);
-                    } else if (panLaengsprofil.equals(leftC)) {
-                        name = NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.name.longProfile");               // NOI18N
-                        Calc.getInstance().calcWBLongProfileRating(cidsBean);
-                    } else if (panLaufentwicklung.equals(leftC)) {
-                        name = NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.name.courseEvo");                 // NOI18N
-                        Calc.getInstance().calcCourseEvoRating(cidsBean);
-                    } else if (panQuerprofil.equals(leftC)) {
-                        name = NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.name.crossProfile");              // NOI18N
-                        Calc.getInstance().calcWBCrossProfileRating(cidsBean);
-                    } else if (panSohlenstruktur.equals(leftC)) {
-                        name = NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.name.bedStructure");              // NOI18N
-                        Calc.getInstance().calcBedStructureRating(cidsBean);
-                    } else if (panUferstruktur.equals(leftC)) {
-                        name = NbBundle.getMessage(
-                                FgskKartierabschnittEditor.class,
-                                "FgskKartierabschnittEditor.CalcListener.stateChanged.name.bankStructure");             // NOI18N
-                        Calc.getInstance().calcBankStructureRating(cidsBean);
-                    }
-                }
-            } catch (final ValidationException ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("cannot calculate rating: " + name, ex);                                                  // NOI18N
-                }
-
-                JOptionPane.showMessageDialog(
-                    FgskKartierabschnittEditor.this,
-                    NbBundle.getMessage(
-                        FgskKartierabschnittEditor.class,
-                        "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.message", // NOI18N
-                        name),
-                    NbBundle.getMessage(
-                        FgskKartierabschnittEditor.class,
-                        "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.title", // NOI18N
-                        name),
-                    JOptionPane.INFORMATION_MESSAGE);
-            } catch (final Exception ex) {
-                LOG.error("unexpected exception during calculation", ex);
-            } finally {
-                selectedTabIndex = tpMain.getSelectedIndex();
-            }
-
-            if (selectedTabIndex == 7) {
-                fgskKartierabschnittErgebnisse1.refreshGueteklasse();
-            }
+            performCalculations(leftC, enteredC);
         }
     }
 }
