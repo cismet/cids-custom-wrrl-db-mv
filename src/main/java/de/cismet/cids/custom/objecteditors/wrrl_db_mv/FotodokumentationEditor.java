@@ -954,7 +954,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.weighty = 1.0;
         roundedPanel1.add(jLabel8, gridBagConstraints);
 
-        scpFotoList.setPreferredSize(new java.awt.Dimension(258, 150));
+        scpFotoList.setMinimumSize(new java.awt.Dimension(258, 110));
+        scpFotoList.setPreferredSize(new java.awt.Dimension(258, 110));
 
         final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
                 "${cidsBean.fotos}");
@@ -1080,8 +1081,11 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblDescriptionDoku, gridBagConstraints);
 
+        scpDescription1.setMinimumSize(new java.awt.Dimension(222, 75));
+        scpDescription1.setPreferredSize(new java.awt.Dimension(222, 75));
+
         taDescriptionDoku.setColumns(20);
-        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taDescriptionDoku.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taDescriptionDoku.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -1140,6 +1144,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(cbGeom, gridBagConstraints);
@@ -1437,6 +1442,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel2.add(lblDescription, gridBagConstraints);
+
+        scpDescription.setMinimumSize(new java.awt.Dimension(222, 72));
 
         taDescription.setColumns(20);
         taDescription.setFont(new java.awt.Font("Tahoma", 0, 11));

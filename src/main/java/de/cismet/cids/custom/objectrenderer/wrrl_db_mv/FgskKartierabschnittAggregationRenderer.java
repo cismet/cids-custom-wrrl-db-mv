@@ -87,9 +87,9 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
         setPreferredSize(new java.awt.Dimension(1100, 870));
         setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(250, 100));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(250, 100));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(250, 100));
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(280, 100));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(280, 100));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(280, 100));
 
         jlKartierListe.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
