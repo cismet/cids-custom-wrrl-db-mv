@@ -28,6 +28,7 @@ import Sirius.server.middleware.types.MetaClass;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -39,7 +40,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class LinearReferencingHelper implements LinearReferencingConstants {
+public class LinearReferencingHelper implements LinearReferencingConstants, LinearReferencingSingletonInstances {
 
     //~ Static fields/initializers ---------------------------------------------
 

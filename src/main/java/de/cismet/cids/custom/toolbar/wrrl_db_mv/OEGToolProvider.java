@@ -24,8 +24,6 @@
 package de.cismet.cids.custom.toolbar.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
-import Sirius.navigator.types.treenode.ObjectTreeNode;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -45,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
@@ -63,7 +60,6 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
-import de.cismet.tools.collections.TypeSafeCollections;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -175,11 +171,6 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
                 }
             });
 
-        log.error("CismapBroker.getInstance(): " + CismapBroker.getInstance());
-        log.error("CismapBroker.getInstance().getMappingComponent(): "
-                    + CismapBroker.getInstance().getMappingComponent());
-        log.error("CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup(): "
-                    + CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup());
         CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup().add(cmdOEGGesamt);
         CismapBroker.getInstance().getMappingComponent().getInteractionButtonGroup().add(cmdOEGEinzel);
 

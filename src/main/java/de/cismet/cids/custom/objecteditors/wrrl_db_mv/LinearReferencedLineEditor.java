@@ -58,12 +58,13 @@ import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistryListener;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LineEditorDropBehavior;
-import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingSingletonInstances;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.PointBeanMergeListener;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -88,6 +89,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.interaction.CrsChangeListener;
 import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 
+import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.CurrentStackTrace;
 
 /**
@@ -99,7 +101,8 @@ import de.cismet.tools.CurrentStackTrace;
 public class LinearReferencedLineEditor extends JPanel implements DisposableCidsBeanStore,
     LinearReferencingConstants,
     CidsBeanDropListener,
-    EditorSaveListener {
+    EditorSaveListener,
+    LinearReferencingSingletonInstances {
 
     //~ Static fields/initializers ---------------------------------------------
 

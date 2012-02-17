@@ -24,8 +24,9 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingSingletonInstances;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -49,7 +50,8 @@ import de.cismet.tools.CurrentStackTrace;
  */
 public class LinearReferencedLineArrayEditor extends JPanel implements DisposableCidsBeanStore,
     EditorSaveListener,
-    LinearReferencingConstants {
+    LinearReferencingConstants,
+    LinearReferencingSingletonInstances {
 
     //~ Instance fields --------------------------------------------------------
 

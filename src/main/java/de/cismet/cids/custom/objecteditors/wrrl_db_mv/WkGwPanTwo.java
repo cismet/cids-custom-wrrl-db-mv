@@ -1085,7 +1085,7 @@ public class WkGwPanTwo extends javax.swing.JPanel implements DisposableCidsBean
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("{cidsBean.depthrange}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.depthrange}"),
                 defaultBindableReferenceCombo3,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);

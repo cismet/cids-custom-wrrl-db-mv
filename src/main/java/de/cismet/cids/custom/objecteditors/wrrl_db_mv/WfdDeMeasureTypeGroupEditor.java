@@ -14,7 +14,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.tools.MetaObjectCache;
 
-import Sirius.server.localserver.attribute.Attribute;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 

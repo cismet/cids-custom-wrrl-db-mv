@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.features.Feature;
@@ -32,7 +34,7 @@ import de.cismet.tools.CurrentStackTrace;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class FeatureRegistry implements LinearReferencingConstants {
+public class FeatureRegistry implements LinearReferencingConstants, LinearReferencingSingletonInstances {
 
     //~ Static fields/initializers ---------------------------------------------
 
