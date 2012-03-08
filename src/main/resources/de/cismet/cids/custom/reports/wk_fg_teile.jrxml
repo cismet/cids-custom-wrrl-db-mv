@@ -15,7 +15,7 @@
 		<band height="16">
 			<staticText>
 				<reportElement mode="Opaque" x="355" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -25,7 +25,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="455" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -35,7 +35,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="205" y="0" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -45,7 +45,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="205" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -59,7 +59,7 @@
 		<band height="16">
 			<textField isBlankWhenNull="true">
 				<reportElement x="355" y="0" width="100" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -71,7 +71,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="455" y="0" width="100" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -83,7 +83,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="205" y="0" width="150" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -91,12 +91,11 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ((CidsBean) ($F{linie}.getProperty("von"))).getProperty("route")).getProperty("gwk").toString()
-]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ((CidsBean) ($F{linie}.getProperty("von"))).getProperty("route")).getProperty("gwk").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="205" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

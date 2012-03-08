@@ -31,49 +31,49 @@
 		<band height="64">
 			<staticText>
 				<reportElement x="0" y="0" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Ökologischer Zustand:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="16" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Chemischer Zustand:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="32" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Bewirtschaftungsziel]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="48" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Trinkwasserentnahme:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="0" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Ökologisches Potential:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="16" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[UQN eingehalten:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="32" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Datum der Zielerreichung:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="48" width="165" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<text><![CDATA[Zustand TW-Schutzgebiet:]]></text>
 			</staticText>

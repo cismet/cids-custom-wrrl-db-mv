@@ -113,7 +113,7 @@
 		<band height="16">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -123,7 +123,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="290" y="0" width="265" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -133,7 +133,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="120" y="0" width="90" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -143,7 +143,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="210" y="0" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -157,7 +157,7 @@
 		<band height="64">
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="48" width="120" height="16" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -167,7 +167,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement style="hydroCol" x="120" y="0" width="90" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -181,7 +181,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="morphCol" x="120" y="16" width="90" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -195,7 +195,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="noteCol" x="120" y="32" width="90" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -209,7 +209,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="hydromorphCol" x="120" y="48" width="90" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -223,7 +223,7 @@
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -233,7 +233,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="16" width="120" height="16" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -243,7 +243,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="32" width="120" height="16" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -253,7 +253,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="290" y="0" width="265" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -266,7 +266,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="290" y="16" width="265" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -279,7 +279,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="290" y="32" width="265" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -292,7 +292,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="290" y="48" width="265" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -305,7 +305,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="210" y="0" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -318,7 +318,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="210" y="16" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -331,7 +331,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="210" y="32" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -344,7 +344,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="210" y="48" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

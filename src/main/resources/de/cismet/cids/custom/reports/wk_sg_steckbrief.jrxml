@@ -25,7 +25,7 @@
 		<band height="482">
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="80" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -33,7 +33,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="0" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -41,7 +41,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="32" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -49,7 +49,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="64" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -57,7 +57,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="16" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -65,7 +65,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="105" y="48" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -73,7 +73,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="400" y="64" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -81,7 +81,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="400" y="0" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -89,7 +89,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="400" y="16" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -97,7 +97,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="400" y="80" width="155" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -105,7 +105,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="280" y="48" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -113,7 +113,7 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="475" y="48" width="80" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -121,7 +121,7 @@
 			</textField>
 			<staticText>
 				<reportElement x="285" y="80" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -129,7 +129,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="64" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -137,7 +137,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="80" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -145,7 +145,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="64" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -153,7 +153,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="32" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -161,7 +161,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="16" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -169,7 +169,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -177,7 +177,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="0" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -185,7 +185,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="16" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -193,7 +193,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="48" width="105" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -201,7 +201,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="190" y="48" width="90" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -209,7 +209,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="365" y="48" width="110" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>

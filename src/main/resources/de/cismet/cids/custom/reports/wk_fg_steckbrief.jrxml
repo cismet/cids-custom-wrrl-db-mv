@@ -61,31 +61,31 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="0" width="150" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{rbd_cd}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="405" y="0" width="150" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_k}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="16" width="150" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{planu_cd}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="405" y="16" width="150" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_n}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="115" y="32" width="150" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{wa_cd}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>

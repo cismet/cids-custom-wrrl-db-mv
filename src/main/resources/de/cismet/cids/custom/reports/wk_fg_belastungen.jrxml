@@ -14,7 +14,7 @@
 		<band height="16">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="275" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
@@ -28,7 +28,7 @@
 		<band height="16">
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="275" height="16"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
