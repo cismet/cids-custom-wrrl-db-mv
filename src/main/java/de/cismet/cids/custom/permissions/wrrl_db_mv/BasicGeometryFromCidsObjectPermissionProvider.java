@@ -66,6 +66,10 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
 
         boolean keyWordHitsAvailable = false;
 
+        if (restrictionKeys == null) {
+            return true;
+        }
+
         for (final String keyentry : restrictionKeys) {
             if (keyentry.toLowerCase().indexOf(getKey().toLowerCase()) > -1) {
                 keyWordHitsAvailable = true;
