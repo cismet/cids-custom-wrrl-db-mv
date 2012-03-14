@@ -31,7 +31,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class MassnahmenUmsetzungPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class MassnahmenUmsetzungPermissionProvider extends BasicGeometryFromCidsObjectPermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -51,5 +51,10 @@ public class MassnahmenUmsetzungPermissionProvider extends BasicGeometryFomFileP
         } else {
             return statLineGeom;
         }
+    }
+
+    @Override
+    public String getKey() {
+        return "wk_fg";
     }
 }
