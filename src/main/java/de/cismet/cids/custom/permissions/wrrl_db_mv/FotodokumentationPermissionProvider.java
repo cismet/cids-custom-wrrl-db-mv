@@ -31,12 +31,17 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class FotodokumentationPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class FotodokumentationPermissionProvider extends BasicGeometryFromCidsObjectPermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
         return (Geometry)cidsBean.getProperty("point.geo_field");
+    }
+    
+    @Override
+    public String getKey() {
+        return "fgsk";
     }
 }

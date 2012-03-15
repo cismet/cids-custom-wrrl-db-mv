@@ -31,7 +31,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class QuerbauwerkePermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class QuerbauwerkePermissionProvider extends BasicGeometryFromCidsObjectPermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -51,5 +51,10 @@ public class QuerbauwerkePermissionProvider extends BasicGeometryFomFilePermissi
         } else {
             return stat09BisGeom;
         }
+    }
+    
+    @Override
+    public String getKey() {
+        return "fgsk";
     }
 }
