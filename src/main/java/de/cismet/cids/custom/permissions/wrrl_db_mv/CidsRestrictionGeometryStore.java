@@ -85,7 +85,9 @@ public class CidsRestrictionGeometryStore implements StartupHook {
                 }
 
                 final CidsFeature feature = new CidsFeature(mo);
-                restrictionfeatures.insert(feature.getGeometry().getEnvelopeInternal(), feature);
+                if ((feature != null) && (feature.getGeometry() != null)) {
+                    restrictionfeatures.insert(feature.getGeometry().getEnvelopeInternal(), feature);
+                }
                 grouprestrictionKeys.add((String)cb.getProperty("restrictionkeys"));
             }
             if (log.isDebugEnabled()) {
