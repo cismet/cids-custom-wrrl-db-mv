@@ -379,13 +379,21 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         btnMeasOk = new javax.swing.JButton();
         dlgMeas15 = new javax.swing.JDialog();
         lblMeas15Cataloge = new javax.swing.JLabel();
-        cbMeas15Cataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_AFTER2015_MC,true,true, new CustomElementComparator(1));
+        cbMeas15Cataloge = new ScrollableComboBox(
+                DE_MEASURE_TYPE_CODE_AFTER2015_MC,
+                true,
+                true,
+                new CustomElementComparator(1));
         panMenButtonsMeas15 = new javax.swing.JPanel();
         btnMeas15Abort = new javax.swing.JButton();
         btnMeas15Ok = new javax.swing.JButton();
         dlgMeas21 = new javax.swing.JDialog();
         lblMeas21Cataloge = new javax.swing.JLabel();
-        cbMeas21Cataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_AFTER2015_MC,true,true, new CustomElementComparator(1));
+        cbMeas21Cataloge = new ScrollableComboBox(
+                DE_MEASURE_TYPE_CODE_AFTER2015_MC,
+                true,
+                true,
+                new CustomElementComparator(1));
         panMenButtonsMeas21 = new javax.swing.JPanel();
         btnMeas21Abort = new javax.swing.JButton();
         btnMeas21Ok = new javax.swing.JButton();
@@ -480,7 +488,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         dlgMeas.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblMeasCataloge.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.lblMeasCataloge.text")); // NOI18N
+        lblMeasCataloge.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.lblMeasCataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas.getContentPane().add(lblMeasCataloge, gridBagConstraints);
@@ -496,12 +506,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         panMenButtonsMeas.setLayout(new java.awt.GridBagLayout());
 
-        btnMeasAbort.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.btnMeasAbort.text")); // NOI18N
+        btnMeasAbort.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeasAbort.text")); // NOI18N
         btnMeasAbort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMeasAbortActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMeasAbortActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -509,15 +523,19 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMenButtonsMeas.add(btnMeasAbort, gridBagConstraints);
 
-        btnMeasOk.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.btnMeasOk.text")); // NOI18N
+        btnMeasOk.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeasOk.text")); // NOI18N
         btnMeasOk.setMaximumSize(new java.awt.Dimension(85, 23));
         btnMeasOk.setMinimumSize(new java.awt.Dimension(85, 23));
         btnMeasOk.setPreferredSize(new java.awt.Dimension(85, 23));
         btnMeasOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMeasOkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMeasOkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -533,7 +551,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         dlgMeas15.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblMeas15Cataloge.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.lblMeas15Cataloge.text")); // NOI18N
+        lblMeas15Cataloge.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.lblMeas15Cataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas15.getContentPane().add(lblMeas15Cataloge, gridBagConstraints);
@@ -549,12 +569,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         panMenButtonsMeas15.setLayout(new java.awt.GridBagLayout());
 
-        btnMeas15Abort.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.btnMeas15Abort.text")); // NOI18N
+        btnMeas15Abort.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeas15Abort.text")); // NOI18N
         btnMeas15Abort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMeas15AbortActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMeas15AbortActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -562,15 +586,19 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMenButtonsMeas15.add(btnMeas15Abort, gridBagConstraints);
 
-        btnMeas15Ok.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.btnMeas15Ok.text")); // NOI18N
+        btnMeas15Ok.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeas15Ok.text")); // NOI18N
         btnMeas15Ok.setMaximumSize(new java.awt.Dimension(85, 23));
         btnMeas15Ok.setMinimumSize(new java.awt.Dimension(85, 23));
         btnMeas15Ok.setPreferredSize(new java.awt.Dimension(85, 23));
         btnMeas15Ok.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMeas15OkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMeas15OkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -586,7 +614,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         dlgMeas21.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        lblMeas21Cataloge.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.lblMeas21Cataloge.text")); // NOI18N
+        lblMeas21Cataloge.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.lblMeas21Cataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgMeas21.getContentPane().add(lblMeas21Cataloge, gridBagConstraints);
@@ -602,12 +632,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         panMenButtonsMeas21.setLayout(new java.awt.GridBagLayout());
 
-        btnMeas21Abort.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.btnMeas21Abort.text")); // NOI18N
+        btnMeas21Abort.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeas21Abort.text")); // NOI18N
         btnMeas21Abort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMeas21AbortActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMeas21AbortActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -615,15 +649,19 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMenButtonsMeas21.add(btnMeas21Abort, gridBagConstraints);
 
-        btnMeas21Ok.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.btnMeas21Ok.text")); // NOI18N
+        btnMeas21Ok.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeas21Ok.text")); // NOI18N
         btnMeas21Ok.setMaximumSize(new java.awt.Dimension(85, 23));
         btnMeas21Ok.setMinimumSize(new java.awt.Dimension(85, 23));
         btnMeas21Ok.setPreferredSize(new java.awt.Dimension(85, 23));
         btnMeas21Ok.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMeas21OkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMeas21OkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -679,7 +717,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         jPanel2.add(lblZiele, gridBagConstraints);
 
         lblMassn_typ.setText("Umfang (BVP)");
-        lblMassn_typ.setToolTipText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.lblMassn_typ.toolTipText")); // NOI18N
+        lblMassn_typ.setToolTipText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.lblMassn_typ.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -723,7 +763,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         txtKosten.setMinimumSize(new java.awt.Dimension(200, 25));
         txtKosten.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kosten}"), txtKosten, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kosten}"),
+                txtKosten,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -738,7 +783,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbMassn_typ.setMinimumSize(new java.awt.Dimension(200, 25));
         cbMassn_typ.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_typ}"), cbMassn_typ, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_typ}"),
+                cbMassn_typ,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -753,7 +803,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbRevital.setMinimumSize(new java.awt.Dimension(200, 25));
         cbRevital.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.revital}"), cbRevital, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.revital}"),
+                cbRevital,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -768,7 +823,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbPrioritaet.setMinimumSize(new java.awt.Dimension(200, 25));
         cbPrioritaet.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.prioritaet}"), cbPrioritaet, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.prioritaet}"),
+                cbPrioritaet,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -783,16 +843,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbFin.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.cbFin.text")); // NOI18N
         cbFin.setContentAreaFilled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"), cbFin, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"),
+                cbFin,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         cbFin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbFinActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbFinActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
@@ -806,7 +873,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         txtZiele.setMinimumSize(new java.awt.Dimension(200, 25));
         txtZiele.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ziele}"), txtZiele, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ziele}"),
+                txtZiele,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -831,7 +903,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblValLfdnr.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValLfdnr.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_wk_lfdnr}"), lblValLfdnr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_wk_lfdnr}"),
+                lblValLfdnr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -846,7 +923,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         jScrollPane1.setMinimumSize(new java.awt.Dimension(380, 100));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(380, 100));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"), jTextArea1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTextArea1);
@@ -882,7 +964,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblValWk_k.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValWk_k.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"), lblValWk_k, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"),
+                lblValWk_k,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -951,7 +1038,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         txtMassn_id.setMinimumSize(new java.awt.Dimension(200, 25));
         txtMassn_id.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_id}"), txtMassn_id, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_id}"),
+                txtMassn_id,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -966,7 +1058,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbStalu.setMinimumSize(new java.awt.Dimension(200, 25));
         cbStalu.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"), cbStalu, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
+                cbStalu,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -978,19 +1075,28 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(cbStalu, gridBagConstraints);
 
-        cbStarted.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.cbStarted.text")); // NOI18N
+        cbStarted.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.cbStarted.text")); // NOI18N
         cbStarted.setContentAreaFilled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"), cbStarted, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_started}"),
+                cbStarted,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         cbStarted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbStartedActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbStartedActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 13;
@@ -1004,7 +1110,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbReal.setMinimumSize(new java.awt.Dimension(200, 25));
         cbReal.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.realisierung}"), cbReal, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.realisierung}"),
+                cbReal,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1052,24 +1163,30 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panDe_meas.setOpaque(false);
         panDe_meas.setLayout(new java.awt.GridBagLayout());
 
-        btnAddDe_meas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddDe_meas.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
         btnAddDe_meas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddDe_measActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddDe_measActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         panDe_meas.add(btnAddDe_meas, gridBagConstraints);
 
-        btnRemDeMeas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemDeMeas.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemDeMeas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemDeMeasActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemDeMeasActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1087,8 +1204,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         lstdeMeas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.de_meas_cd}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstdeMeas);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.de_meas_cd}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstdeMeas);
         bindingGroup.addBinding(jListBinding);
 
         scpdeMeas.setViewportView(lstdeMeas);
@@ -1136,24 +1259,30 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panmeas15.setOpaque(false);
         panmeas15.setLayout(new java.awt.GridBagLayout());
 
-        btnAddMeas15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddMeas15.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
         btnAddMeas15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMeas15ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddMeas15ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         panmeas15.add(btnAddMeas15, gridBagConstraints);
 
-        btnRemMeas15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemMeas15.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemMeas15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemMeas15ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemMeas15ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1172,7 +1301,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lstMeas15.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.meas_2015}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstMeas15);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                lstMeas15);
         bindingGroup.addBinding(jListBinding);
 
         scpMeas15.setViewportView(lstMeas15);
@@ -1220,24 +1353,30 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panmeas21.setOpaque(false);
         panmeas21.setLayout(new java.awt.GridBagLayout());
 
-        btnAddMeas21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddMeas21.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
         btnAddMeas21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMeas21ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddMeas21ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         panmeas21.add(btnAddMeas21, gridBagConstraints);
 
-        btnRemMeas21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemMeas21.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemMeas21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemMeas21ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemMeas21ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1256,7 +1395,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lstMeas21.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.meas_2021}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstMeas21);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                lstMeas21);
         bindingGroup.addBinding(jListBinding);
 
         scpMeas21.setViewportView(lstMeas21);
@@ -1293,7 +1436,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbSuppl_cd.setMinimumSize(new java.awt.Dimension(300, 25));
         cbSuppl_cd.setPreferredSize(new java.awt.Dimension(300, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.suppl_cd}"), cbSuppl_cd, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.suppl_cd}"),
+                cbSuppl_cd,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1317,7 +1465,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbPressur_cd.setPreferredSize(new java.awt.Dimension(300, 25));
         cbPressur_cd.setRenderer(new WfdTypeCodeRenderer());
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pressur_cd}"), cbPressur_cd, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pressur_cd}"),
+                cbPressur_cd,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1399,7 +1552,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
         cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.additional_geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.additional_geom}"),
+                cbGeom,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
         bindingGroup.addBinding(binding);
 
@@ -1442,34 +1600,34 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFinActionPerformed
+    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFinActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbFinActionPerformed
+    } //GEN-LAST:event_cbFinActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDe_measActionPerformed
+    private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddDe_measActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas);
         dlgMeas.setSize(750, 150);
         dlgMeas.setVisible(true);
-    }//GEN-LAST:event_btnAddDe_measActionPerformed
+    }                                                                                 //GEN-LAST:event_btnAddDe_measActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemDeMeasActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemDeMeasActionPerformed
+    private void btnRemDeMeasActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemDeMeasActionPerformed
         final Object selection = lstdeMeas.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1491,25 +1649,25 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemDeMeasActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemDeMeasActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddMeas15ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMeas15ActionPerformed
+    private void btnAddMeas15ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMeas15ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas15);
         dlgMeas15.setSize(750, 150);
         dlgMeas15.setVisible(true);
-    }//GEN-LAST:event_btnAddMeas15ActionPerformed
+    }                                                                                //GEN-LAST:event_btnAddMeas15ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemMeas15ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMeas15ActionPerformed
+    private void btnRemMeas15ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMeas15ActionPerformed
         final Object selection = lstMeas15.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1531,25 +1689,25 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemMeas15ActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemMeas15ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddMeas21ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMeas21ActionPerformed
+    private void btnAddMeas21ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMeas21ActionPerformed
         UIUtil.findOptimalPositionOnScreen(dlgMeas21);
         dlgMeas21.setSize(750, 150);
         dlgMeas21.setVisible(true);
-    }//GEN-LAST:event_btnAddMeas21ActionPerformed
+    }                                                                                //GEN-LAST:event_btnAddMeas21ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemMeas21ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemMeas21ActionPerformed
+    private void btnRemMeas21ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMeas21ActionPerformed
         final Object selection = lstMeas21.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1571,23 +1729,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemMeas21ActionPerformed
+    }                                                                                //GEN-LAST:event_btnRemMeas21ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeasAbortActionPerformed
+    private void btnMeasAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasAbortActionPerformed
         dlgMeas.setVisible(false);
-    }//GEN-LAST:event_btnMeasAbortActionPerformed
+    }                                                                                //GEN-LAST:event_btnMeasAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeasOkActionPerformed
+    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasOkActionPerformed
         final Object selection = cbMeasCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final Thread t = new Thread(new Runnable() {
@@ -1616,7 +1774,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         }
 
         dlgMeas.setVisible(false);
-    }//GEN-LAST:event_btnMeasOkActionPerformed
+    } //GEN-LAST:event_btnMeasOkActionPerformed
 
     /**
      * set the field supple_cd with the label 'EU-Massnahmentyp' on the recommended value, which is derived from the
@@ -1680,16 +1838,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas15AbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas15AbortActionPerformed
+    private void btnMeas15AbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeas15AbortActionPerformed
         dlgMeas15.setVisible(false);
-    }//GEN-LAST:event_btnMeas15AbortActionPerformed
+    }                                                                                  //GEN-LAST:event_btnMeas15AbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas15OkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas15OkActionPerformed
+    private void btnMeas15OkActionPerformed(final java.awt.event.ActionEvent evt) {                                     //GEN-FIRST:event_btnMeas15OkActionPerformed
         final Object selection = cbMeas15Cataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -1701,23 +1859,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             }
         }
         dlgMeas15.setVisible(false);
-    }//GEN-LAST:event_btnMeas15OkActionPerformed
+    }                                                                                                                   //GEN-LAST:event_btnMeas15OkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas21AbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas21AbortActionPerformed
+    private void btnMeas21AbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeas21AbortActionPerformed
         dlgMeas21.setVisible(false);
-    }//GEN-LAST:event_btnMeas21AbortActionPerformed
+    }                                                                                  //GEN-LAST:event_btnMeas21AbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeas21OkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeas21OkActionPerformed
+    private void btnMeas21OkActionPerformed(final java.awt.event.ActionEvent evt) {                                     //GEN-FIRST:event_btnMeas21OkActionPerformed
         final Object selection = cbMeas21Cataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -1729,16 +1887,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             }
         }
         dlgMeas21.setVisible(false);
-    }//GEN-LAST:event_btnMeas21OkActionPerformed
+    }                                                                                                                   //GEN-LAST:event_btnMeas21OkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStartedActionPerformed
+    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStartedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbStartedActionPerformed
+    } //GEN-LAST:event_cbStartedActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2011,10 +2169,24 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
 
-            cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr)); // NOI18N
-            cidsBean.setProperty("massn_id", getWk_k() + "_M_" + lfdnr);       // NOI18N
+            cidsBean.setProperty("massn_wk_lfdnr", BigDecimal.valueOf(lfdnr));                  // NOI18N
+            cidsBean.setProperty("massn_id", getWk_k() + "_M_" + convertNumberToString(lfdnr)); // NOI18N
         } catch (final Exception e) {
             LOG.error(e, e);
+        }
+    }
+    /**
+     * laut Herr Rahmlow in der EMail vom 28.3.2012 muss die Nummer zwei Stellen haben.
+     *
+     * @param   number  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String convertNumberToString(final int number) {
+        if (number > 9) {
+            return "" + number;
+        } else {
+            return "0" + number;
         }
     }
 
