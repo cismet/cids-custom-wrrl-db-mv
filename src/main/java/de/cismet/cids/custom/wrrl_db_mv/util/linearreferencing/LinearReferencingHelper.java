@@ -257,6 +257,9 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
 
             linieBean.setProperty(PROP_STATIONLINIE_FROM, fromBean);
             linieBean.setProperty(PROP_STATIONLINIE_TO, toBean);
+            geomBean.setProperty(
+                PROP_GEOM_GEOFIELD,
+                ((Geometry)((CidsBean)routeBean.getProperty(PROP_ROUTE_GEOM)).getProperty(PROP_GEOM_GEOFIELD)));
             linieBean.setProperty(PROP_STATIONLINIE_GEOM, geomBean);
 
             linieBean.setProperty("id", NEW_LINE_ID);
