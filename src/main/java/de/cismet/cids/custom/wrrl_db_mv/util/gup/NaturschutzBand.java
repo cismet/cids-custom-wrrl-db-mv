@@ -64,9 +64,11 @@ public class NaturschutzBand extends DefaultBand {
      * @param  inputResulSet  DOCUMENT ME!
      */
     public void addMembersFromQueryResult(final ArrayList<ArrayList> inputResulSet) {
-        for (final ArrayList zeile : inputResulSet) {
-            final NaturschutzBandMember qbm = new NaturschutzBandMember(zeile);
-            addMember(qbm);
+        if (inputResulSet != null) {
+            for (final ArrayList zeile : inputResulSet) {
+                final NaturschutzBandMember qbm = new NaturschutzBandMember(zeile);
+                addMember(qbm);
+            }
         }
     }
 }

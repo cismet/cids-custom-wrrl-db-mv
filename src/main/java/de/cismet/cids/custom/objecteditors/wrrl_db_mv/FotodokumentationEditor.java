@@ -100,6 +100,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ImageUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -148,6 +149,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private static final String WEB_DAV_USER = "cismet";
     private static final String WEB_DAV_PASSWORD = "karusu20";
     private static final String WEB_DAV_DIRECTORY = "http://fry.fis-wasser-mv.de/fotodokumentation/";
+    private static final String FILE_PREFIX = "FOTO-";
     private static final Pattern IMAGE_FILE_PATTERN = Pattern.compile(
             ".*\\.(bmp|png|jpg|jpeg|tif|tiff|wbmp)$",
             Pattern.CASE_INSENSITIVE);
@@ -599,45 +601,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     /**
      * DOCUMENT ME!
      *
-     * @param   fileName  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private boolean deleteFileFromWebDAV(final String fileName) {
-        if ((fileName != null) && (fileName.length() > 0)) {
-            try {
-                webDavClient.delete(WEB_DAV_DIRECTORY + encodeURL(fileName));
-                return true;
-            } catch (Exception ex) {
-                log.error(ex, ex);
-            }
-        }
-        return false;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   fileName  DOCUMENT ME!
-     * @param   toUpload  DOCUMENT ME!
-     *
-     * @throws  IOException  DOCUMENT ME!
-     */
-    private void uploadFileToWebDAV(final String fileName, final File toUpload) throws IOException {
-        final BufferedInputStream bfis = new BufferedInputStream(new ProgressMonitorInputStream(
-                    this,
-                    "Bild wird übertragen...",
-                    new FileInputStream(toUpload)));
-        try {
-            webDavClient.put(WEB_DAV_DIRECTORY + encodeURL(fileName), bfis);
-        } finally {
-            IOUtils.closeQuietly(bfis);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @return  DOCUMENT ME!
      */
     public JPanel getPanTitle() {
@@ -654,7 +617,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      * @throws  IOException  DOCUMENT ME!
      */
     private BufferedImage downloadImageFromWebDAV(final String fileName) throws IOException {
-        final String encodedFileName = encodeURL(fileName);
+        final String encodedFileName = WebDavHelper.encodeURL(fileName);
         final InputStream iStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY
                         + encodedFileName);
         if (log.isDebugEnabled()) {
@@ -732,42 +695,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         } finally {
             IOUtils.closeQuietly(iStream);
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   url  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private String encodeURL(final String url) {
-        try {
-            if (url == null) {
-                return null;
-            }
-            final String[] tokens = url.split("/", -1);
-            StringBuilder encodedURL = null;
-
-            for (final String tmp : tokens) {
-                if (encodedURL == null) {
-                    encodedURL = new StringBuilder(URLEncoder.encode(tmp, "UTF-8"));
-                } else {
-                    encodedURL.append("/").append(URLEncoder.encode(tmp, "UTF-8"));
-                }
-            }
-
-            if (encodedURL != null) {
-                // replace all + with %20 because the method URLEncoder.encode() replaces all spaces with '+', but
-                // the web dav client interprets %20 as a space.
-                return encodedURL.toString().replaceAll("\\+", "%20");
-            } else {
-                return "";
-            }
-        } catch (final UnsupportedEncodingException e) {
-            log.error("Unsupported encoding.", e);
-        }
-        return url;
     }
 
     /**
@@ -1622,25 +1549,25 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPictureMouseEntered(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMouseEntered
+    private void lblPictureMouseEntered(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPictureMouseEntered
         lblPicture.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_lblPictureMouseEntered
+    }                                                                          //GEN-LAST:event_lblPictureMouseEntered
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPictureMouseExited(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMouseExited
+    private void lblPictureMouseExited(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPictureMouseExited
         lblPicture.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_lblPictureMouseExited
+    }                                                                         //GEN-LAST:event_lblPictureMouseExited
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPictureMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMouseClicked
+    private void lblPictureMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPictureMouseClicked
         final Object selectionObj = lstFotos.getSelectedValue();
         if (selectionObj instanceof CidsBean) {
             final CidsBean selection = (CidsBean)selectionObj;
@@ -1648,7 +1575,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             if (fileProperty != null) {
                 try {
                     final String fileName = fileProperty.toString();
-                    BrowserLauncher.openURL(WEB_DAV_DIRECTORY + encodeURL(fileName));
+                    BrowserLauncher.openURL(WEB_DAV_DIRECTORY + WebDavHelper.encodeURL(fileName));
                 } catch (Exception ex) {
                     log.warn(ex, ex);
                 }
@@ -1656,28 +1583,28 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         } else {
             btnAddFotoActionPerformed(null);
         }
-    }//GEN-LAST:event_lblPictureMouseClicked
+    }                                                                          //GEN-LAST:event_lblPictureMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddFotoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFotoActionPerformed
+    private void btnAddFotoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddFotoActionPerformed
         if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(this)) {
             final File[] selFiles = fileChooser.getSelectedFiles();
             if ((selFiles != null) && (selFiles.length > 0)) {
                 CismetThreadPool.execute(new ImageUploadWorker(Arrays.asList(selFiles)));
             }
         }
-    }//GEN-LAST:event_btnAddFotoActionPerformed
+    }                                                                              //GEN-LAST:event_btnAddFotoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemFotoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemFotoActionPerformed
+    private void btnRemFotoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemFotoActionPerformed
         final Object[] selection = lstFotos.getSelectedValues();
         if ((selection != null) && (selection.length > 0)) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1716,7 +1643,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 }
             }
         }
-    }//GEN-LAST:event_btnRemFotoActionPerformed
+    }                                                                              //GEN-LAST:event_btnRemFotoActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1758,13 +1685,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstFotosValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstFotosValueChanged
+    private void lstFotosValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstFotosValueChanged
 //        if (isShowing()) {
         if (!evt.getValueIsAdjusting() && listListenerEnabled) {
             loadFoto();
         }
 //        }
-    }//GEN-LAST:event_lstFotosValueChanged
+    } //GEN-LAST:event_lstFotosValueChanged
 
     /**
      * DOCUMENT ME!
@@ -1780,44 +1707,27 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+    private void btnBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBackActionPerformed
         lstFotos.setSelectedIndex(lstFotos.getSelectedIndex() - 1);
-    }//GEN-LAST:event_btnBackActionPerformed
+    }                                                                           //GEN-LAST:event_btnBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardActionPerformed
+    private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
         lstFotos.setSelectedIndex(lstFotos.getSelectedIndex() + 1);
-    }//GEN-LAST:event_btnForwardActionPerformed
+    }                                                                              //GEN-LAST:event_btnForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnReportActionPerformed
         FotodokumentationReport.showReport(cidsBean);
-    }//GEN-LAST:event_btnReportActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   originalFile  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private String generateWebDAVFileName(final File originalFile) {
-        final String[] fileNameSplit = originalFile.getName().split("\\.");
-        String webFileName = "FOTO-" + System.currentTimeMillis() + "-" + Math.abs(originalFile.getName().hashCode());
-        if (fileNameSplit.length > 1) {
-            final String ext = fileNameSplit[fileNameSplit.length - 1];
-            webFileName += "." + ext;
-        }
-        return webFileName;
-    }
+    }                                                                             //GEN-LAST:event_btnReportActionPerformed
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
@@ -1825,7 +1735,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             for (final CidsBean deleteBean : removedFotoBeans) {
                 final String fileName = (String)deleteBean.getProperty("file");
                 try {
-                    deleteFileFromWebDAV(WEB_DAV_DIRECTORY + encodeURL(fileName));
+                    WebDavHelper.deleteFileFromWebDAV(fileName, webDavClient, WEB_DAV_DIRECTORY);
                     deleteBean.delete();
                 } catch (Exception ex) {
                     log.error(ex, ex);
@@ -1834,7 +1744,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         } else {
             for (final CidsBean deleteBean : removeNewAddedFotoBean) {
                 final String fileName = (String)deleteBean.getProperty("file");
-                deleteFileFromWebDAV(WEB_DAV_DIRECTORY + encodeURL(fileName));
+                WebDavHelper.deleteFileFromWebDAV(fileName, webDavClient, WEB_DAV_DIRECTORY);
             }
         }
     }
@@ -1960,8 +1870,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         protected Collection<CidsBean> doInBackground() throws Exception {
             final Collection<CidsBean> newBeans = new ArrayList<CidsBean>();
             for (final File imageFile : fotos) {
-                final String webFileName = generateWebDAVFileName(imageFile);
-                uploadFileToWebDAV(webFileName, imageFile);
+                final String webFileName = WebDavHelper.generateWebDAVFileName(FILE_PREFIX, imageFile);
+                WebDavHelper.uploadFileToWebDAV(
+                    webFileName,
+                    imageFile,
+                    WEB_DAV_DIRECTORY,
+                    webDavClient,
+                    FotodokumentationEditor.this);
                 final CidsBean newFotoBean = CidsBeanSupport.createNewCidsBeanFromTableName("FOTO");
                 newFotoBean.setProperty("name", imageFile.getName());
                 newFotoBean.setProperty("file", webFileName);

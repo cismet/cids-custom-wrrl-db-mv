@@ -332,4 +332,22 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
             geomBean.setProperty(PROP_GEOM_GEOFIELD, line);
         }
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static synchronized int getNewStationId() {
+        return --NEW_STATION_ID;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static synchronized int getNewLineId() {
+        return --NEW_LINE_ID;
+    }
 }

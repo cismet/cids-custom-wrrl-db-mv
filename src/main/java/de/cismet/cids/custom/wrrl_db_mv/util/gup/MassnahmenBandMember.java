@@ -5,180 +5,139 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * MassnahmenBandMember.java
- *
- * Created on 18.10.2011, 21:11:46
- */
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
-import com.vividsolutions.jts.geom.Geometry;
+import Sirius.navigator.tools.MetaObjectCache;
 
-import org.jdesktop.swingx.JXPanel;
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.painter.PinstripePainter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
 
-import javax.swing.JComponent;
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.JMenuItem;
+
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.dynamics.CidsBeanStore;
 
-import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.features.XStyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.PFeature;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
-import de.cismet.tools.gui.jbands.interfaces.BandMember;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberMouseListeningComponent;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
-import de.cismet.tools.gui.jbands.interfaces.Section;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
  *
- * @author   thorsten
+ * @author   therter
  * @version  $Revision$, $Date$
  */
-public class MassnahmenBandMember extends JXPanel implements BandMember,
-    Section,
-    CidsBeanStore,
-    BandMemberMouseListeningComponent,
-    BandMemberSelectable {
+public class MassnahmenBandMember extends LineBandMember {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final MetaClass MASSNAHMEN_ART = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "gup_massnahmenart");
 
     //~ Instance fields --------------------------------------------------------
 
-    double von = 0;
-    double bis = 0;
-    PinstripePainter stripes = new PinstripePainter();
-    Painter unselectedBackgroundPainter = null;
-    Painter selectedBackgroundPainter = null;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
-    private CidsBean bean;
-    private boolean isSelected = false;
+    private JMenuItem maehItem = new JMenuItem("Böschungsmahd");
+    private JMenuItem handItem = new JMenuItem("Sohlkrautung");
+//    private JMenuItem grundItem = new JMenuItem("Grundräumung");
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
+     *
+     * @param  parent  DOCUMENT ME!
      */
-    public MassnahmenBandMember() {
-        initComponents();
-        stripes.setPaint(new Color(200, 200, 200, 200));
-        stripes.setSpacing(5.0);
-        setAlpha(0.8f);
+    public MassnahmenBandMember(final MassnahmenBand parent) {
+        super(parent);
+    }
+
+    /**
+     * Creates new form MassnahmenBandMember.
+     *
+     * @param  parent    DOCUMENT ME!
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public MassnahmenBandMember(final MassnahmenBand parent, final boolean readOnly) {
+        super(parent, readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public JComponent getBandMemberComponent() {
-        return this;
-    }
-
-    @Override
-    public double getMax() {
-        return (von < bis) ? bis : von;
-    }
-
-    @Override
-    public double getMin() {
-        return (von < bis) ? von : bis;
-    }
-
-    @Override
-    public double getFrom() {
-        return von;
-    }
-
-    @Override
-    public double getTo() {
-        return bis;
-    }
-
-    @Override
-    public CidsBean getCidsBean() {
-        return bean;
-    }
-
-    @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        bean = cidsBean;
-        von = (Double)bean.getProperty("linie.von.wert");
-        bis = (Double)bean.getProperty("linie.bis.wert");
-        final int action = (Integer)bean.getProperty("massnahme.id");
-        if (bean.getMetaObject().getMetaClass().getTableName().equalsIgnoreCase("gup_massnahme_sonstige")) {
-            switch (action) {
-                case 1: {
-                    // Gehölzpflanzung
-                    setBackgroundPainter(new MattePainter(new Color(105, 103, 88)));
-                    break;
-                }
-                case 2: {
-                    // Gehölzpflege
-                    setBackgroundPainter(new MattePainter(new Color(197, 188, 142)));
-                    break;
-                }
-                case 3: {
-                    // Mähguträumung
-                    setBackgroundPainter(new MattePainter(new Color(238, 230, 171)));
-                }
-            }
-        } else {
-            switch (action) {
-                case 1: {
-                    // Mahd mit Mäh-, Harkkombination
-                    setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
-                    break;
-                }
-                case 2: {
-                    // Mahd mit Schlägelmähwerk
-                    setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
-                    break;
-                }
-                case 3: {
-                    // Mähkorb
-                    setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
-                    break;
-                }
-                case 4: {
-                    // Handmahd
-                    setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
+        super.setCidsBean(cidsBean);
+        setToolTipText(bean.getProperty("massnahme.name") + "");
+    }
 
-                    break;
-                }
-                case 5: {
-                    // Mähboot
-                    setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(157, 224, 173)), stripes));
-                    break;
-                }
-                case 6: {
-                    // Grundräumung
-                    setBackgroundPainter(new MattePainter(new Color(89, 79, 79)));
-                    break;
-                }
-                case 7: {
-                    // Mähboot/Mähbalken
-                    setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(69, 173, 168)), stripes));
-                    break;
-                }
-                case 8: {
-                    // Mähwerk
-                    setBackgroundPainter(new MattePainter(new Color(84, 121, 128)));
-                    break;
-                }
-                case 9: {
-                    // Handmahd/Mähboot
-                    setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
-                }
+    /**
+     * DOCUMENT ME!
+     */
+    @Override
+    protected void determineBackgroundColour() {
+        if (bean.getProperty("massnahme") == null) {
+            return;
+        }
+        final int action = (Integer)bean.getProperty("massnahme.id");
+
+        switch (action) {
+            case 1: {
+                // Mahd mit Mäh-, Harkkombination
+                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
+                break;
+            }
+            case 2: {
+                // Mahd mit Schlägelmähwerk
+                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
+                break;
+            }
+            case 3: {
+                // Mähkorb
+                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
+                break;
+            }
+            case 4: {
+                // Handmahd
+                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
+
+                break;
+            }
+            case 5: {
+                // Mähboot
+                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(157, 224, 173)), stripes));
+                break;
+            }
+            case 6: {
+                // Grundräumung
+                setBackgroundPainter(new MattePainter(new Color(89, 79, 79)));
+                break;
+            }
+            case 7: {
+                // Mähboot/Mähbalken
+                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(69, 173, 168)), stripes));
+                break;
+            }
+            case 8: {
+                // Mähwerk
+                setBackgroundPainter(new MattePainter(new Color(84, 121, 128)));
+                break;
+            }
+            case 9: {
+                // Handmahd/Mähboot
+                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
+                break;
+            }
+            default: {
+                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
             }
         }
         unselectedBackgroundPainter = getBackgroundPainter();
@@ -195,111 +154,95 @@ public class MassnahmenBandMember extends JXPanel implements BandMember,
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
-
-        setToolTipText(bean.getProperty("massnahme.name") + "");
     }
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
-     * content of this method is always regenerated by the Form Editor.
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
      */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+    private void setMassnahme(final int id) {
+        final String query = "select " + MASSNAHMEN_ART.getID() + "," + MASSNAHMEN_ART.getPrimaryKey() + " from "
+                    + MASSNAHMEN_ART.getTableName() + " where id = " + id; // NOI18N
+        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        CidsBean b = null;
 
-        final org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 201, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 87, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-
-    @Override
-    public void mouseClicked(final MouseEvent e) {
-        if ((e.getClickCount() == 2) && (bean != null)) {
-            final Geometry g = (Geometry)(bean.getProperty("linie.geom.geo_field"));
-            final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
-            final XBoundingBox xbb = new XBoundingBox(g);
-
-            mc.gotoBoundingBoxWithHistory(new XBoundingBox(
-                    g.getEnvelope().buffer((xbb.getWidth() + xbb.getHeight()) / 2 * 0.1)));
-            final DefaultStyledFeature dsf = new DefaultStyledFeature();
-            dsf.setGeometry(g);
-            dsf.setCanBeSelected(false);
-            dsf.setLinePaint(Color.YELLOW);
-            dsf.setLineWidth(6);
-            final PFeature highlighter = new PFeature(dsf, mc);
-            mc.getHighlightingLayer().addChild(highlighter);
-            highlighter.animateToTransparency(0.1f, 2000);
-            de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {
-
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        Thread.currentThread().sleep(2500);
-                        return null;
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            mc.getHighlightingLayer().removeChild(highlighter);
-                        } catch (Exception e) {
-                        }
-                    }
-                });
+        if (metaObjects != null) {
+            for (final MetaObject tmp : metaObjects) {
+                if (tmp.getBean().getProperty("id").equals(id)) {
+                    b = tmp.getBean();
+                    break;
+                }
+            }
+        }
+        try {
+            bean.setProperty("massnahme", b);
+        } catch (Exception e) {
+            LOG.error("Error while setting property massnahme.", e);
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
-    public void mouseEntered(final MouseEvent e) {
-        setAlpha(1f);
+    protected void configurePopupMenu() {
+        if (!bean.getMetaObject().getMetaClass().getTableName().equalsIgnoreCase("gup_massnahme_sonstige")) {
+            maehItem.addActionListener(this);
+            popup.add(maehItem);
+
+            handItem.addActionListener(this);
+            popup.add(handItem);
+
+//            grundItem.addActionListener(this);
+//            popup.add(grundItem);
+
+            popup.addSeparator();
+        }
+
+        super.configurePopupMenu();
     }
 
     @Override
-    public void mouseExited(final MouseEvent e) {
-        setAlpha(0.8f);
-    }
-
-    @Override
-    public void mousePressed(final MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-    }
-
-    @Override
-    public void mouseDragged(final MouseEvent e) {
-    }
-
-    @Override
-    public void mouseMoved(final MouseEvent e) {
-    }
-
-    @Override
-    public boolean isSelectable() {
-        return true;
-    }
-
-    @Override
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    @Override
-    public void setSelected(final boolean selection) {
-        isSelected = selection;
-        if (!isSelected) {
-            setBackgroundPainter(unselectedBackgroundPainter);
+    public void actionPerformed(final ActionEvent e) {
+        if (e.getSource() == maehItem) {
+            setMassnahme(5);
+            fireBandMemberChanged(false);
+        } else if (e.getSource() == handItem) {
+            setMassnahme(4);
+            fireBandMemberChanged(false);
+//        } else if (e.getSource() == grundItem) {
+//            setMassnahme(6);
+//            fireBandMemberChanged(false);
         } else {
-            setBackgroundPainter(selectedBackgroundPainter);
+            super.actionPerformed(e);
         }
+
+        newMode = false;
     }
 
     @Override
-    public BandMember getBandMember() {
-        return this;
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("massnahme")) {
+            determineBackgroundColour();
+            setSelected(isSelected);
+            setToolTipText(bean.getProperty("massnahme.name") + "");
+        } else {
+            super.propertyChange(evt);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    @Override
+    protected CidsBean cloneBean(final CidsBean bean) throws Exception {
+        return CidsBeanSupport.cloneCidsBean(bean, false);
     }
 }

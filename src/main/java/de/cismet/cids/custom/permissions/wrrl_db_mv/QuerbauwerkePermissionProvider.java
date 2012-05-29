@@ -52,7 +52,7 @@ public class QuerbauwerkePermissionProvider extends BasicGeometryFromCidsObjectP
             return stat09BisGeom;
         }
     }
-    
+
     @Override
     public String getKey() {
         return "fgsk";

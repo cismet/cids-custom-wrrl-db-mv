@@ -278,6 +278,20 @@ public final class CidsBeanSupport {
      * @throws  Exception  DOCUMENT ME!
      */
     public static CidsBean cloneCidsBean(final CidsBean bean) throws Exception {
+        return cloneCidsBean(bean, true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean        DOCUMENT ME!
+     * @param   cloneBeans  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static CidsBean cloneCidsBean(final CidsBean bean, final boolean cloneBeans) throws Exception {
         if (bean == null) {
             return null;
         }
@@ -288,13 +302,21 @@ public final class CidsBeanSupport {
                 final Object o = bean.getProperty(propName);
 
                 if (o instanceof CidsBean) {
-                    clone.setProperty(propName, cloneCidsBean((CidsBean)o));
+                    if (cloneBeans) {
+                        clone.setProperty(propName, cloneCidsBean((CidsBean)o));
+                    } else {
+                        clone.setProperty(propName, (CidsBean)o);
+                    }
                 } else if (o instanceof Collection) {
                     final List<CidsBean> list = (List<CidsBean>)o;
                     final List<CidsBean> newList = new ArrayList<CidsBean>();
 
                     for (final CidsBean tmpBean : list) {
-                        newList.add(cloneCidsBean(tmpBean));
+                        if (cloneBeans) {
+                            newList.add(cloneCidsBean(tmpBean));
+                        } else {
+                            newList.add(tmpBean);
+                        }
                     }
                     clone.setProperty(propName, newList);
                 } else if (o instanceof Geometry) {
@@ -305,6 +327,8 @@ public final class CidsBeanSupport {
                     clone.setProperty(propName, new Double(o.toString()));
                 } else if (o instanceof Integer) {
                     clone.setProperty(propName, new Integer(o.toString()));
+                } else if (o instanceof Boolean) {
+                    clone.setProperty(propName, new Boolean(o.toString()));
                 } else if (o instanceof String) {
                     clone.setProperty(propName, o);
                 } else {

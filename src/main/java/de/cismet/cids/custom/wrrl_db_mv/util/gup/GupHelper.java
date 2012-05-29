@@ -28,7 +28,7 @@ public class GupHelper {
 
     static {
         PROPERTY_LIST.add("gup_massnahmen_sohle");
-        PROPERTY_LIST.add("gup_massnahmen_sonstige");
+        PROPERTY_LIST.add("gup_massnahmen_umfeld_links");
         PROPERTY_LIST.add("gup_massnahmen_ufer_links");
         PROPERTY_LIST.add("gup_massnahmen_ufer_rechts");
 //        PROPERTY_LIST.add("abschnittsinfo");

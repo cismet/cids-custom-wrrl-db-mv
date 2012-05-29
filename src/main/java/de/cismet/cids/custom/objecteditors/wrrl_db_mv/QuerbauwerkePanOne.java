@@ -12,6 +12,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 /**
@@ -119,7 +120,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblStaluKey2 = new javax.swing.JLabel();
         jTextField27 = new javax.swing.JTextField();
         lblWaKoerperKey2 = new javax.swing.JLabel();
-        defaultBindableReferenceCombo2 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        defaultBindableReferenceCombo2 = new DefaultBindableReferenceCombo(true);
         lblWaKoerperKey3 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         lblQbwLageKey = new javax.swing.JLabel();

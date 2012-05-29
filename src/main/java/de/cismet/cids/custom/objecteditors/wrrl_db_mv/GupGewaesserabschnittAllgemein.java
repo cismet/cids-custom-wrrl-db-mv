@@ -12,22 +12,34 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
-import Sirius.server.search.CidsServerSearch;
-
-import com.vividsolutions.jts.geom.Geometry;
+import net.sf.jasperreports.engine.JasperReport;
 
 import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WbvSearch;
+import javax.swing.JList;
+import javax.swing.SwingWorker;
+
+import de.cismet.cids.client.tools.DevelopmentTools;
+
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -37,6 +49,20 @@ import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.cismap.commons.gui.printing.JasperDownload;
+
+import de.cismet.netutil.Proxy;
+
+import de.cismet.security.WebDavClient;
+
+import de.cismet.tools.CismetThreadPool;
+
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.downloadmanager.DownloadManager;
+import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
+import de.cismet.tools.gui.downloadmanager.HttpDownload;
+import de.cismet.tools.gui.downloadmanager.WebDavDownload;
 
 /**
  * DOCUMENT ME!
@@ -58,17 +84,16 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel glassPanel;
+    private javax.swing.JButton jbDownload;
+    private javax.swing.JList jlObjectList;
+    private javax.swing.JPanel jpControl;
+    private javax.swing.JButton jpDelete;
+    private javax.swing.JScrollPane jsObjectList;
     private javax.swing.JLabel lblGewaessername;
     private javax.swing.JLabel lblGwk;
-    private javax.swing.JLabel lblPlanungseinheit;
-    private javax.swing.JLabel lblUnterhaltung;
-    private javax.swing.JLabel lblWbvCode;
-    private javax.swing.JScrollPane spBemerkung;
-    private javax.swing.JTextArea taUnterhaltung;
+    private javax.swing.JLabel lblObjectList;
     private javax.swing.JTextField txtGewaessername;
     private javax.swing.JTextField txtGwk;
-    private javax.swing.JTextField txtPlanungseinheit;
-    private javax.swing.JTextField txtWbv;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -89,8 +114,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
     public GupGewaesserabschnittAllgemein(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
-
-        setReadOnly(readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -105,32 +128,21 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         lblGewaessername = new javax.swing.JLabel();
         lblGwk = new javax.swing.JLabel();
-        lblWbvCode = new javax.swing.JLabel();
-        lblUnterhaltung = new javax.swing.JLabel();
+        lblObjectList = new javax.swing.JLabel();
         txtGewaessername = new javax.swing.JTextField();
-        spBemerkung = new javax.swing.JScrollPane();
-        taUnterhaltung = new javax.swing.JTextArea();
         txtGwk = new javax.swing.JTextField();
-        txtWbv = new javax.swing.JTextField();
-        lblPlanungseinheit = new javax.swing.JLabel();
-        txtPlanungseinheit = new javax.swing.JTextField();
+        jsObjectList = new javax.swing.JScrollPane();
+        jlObjectList = new DocumentDropList(readOnly);
+        jpControl = new javax.swing.JPanel();
+        jbDownload = new javax.swing.JButton();
+        jpDelete = new javax.swing.JButton();
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
-
-        glassPanel.setAlpha(0);
-        glassPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.gridheight = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(glassPanel, gridBagConstraints);
 
         lblGewaessername.setText(org.openide.util.NbBundle.getMessage(
                 GupGewaesserabschnittAllgemein.class,
@@ -158,31 +170,18 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblGwk, gridBagConstraints);
 
-        lblWbvCode.setText(org.openide.util.NbBundle.getMessage(
+        lblObjectList.setText(org.openide.util.NbBundle.getMessage(
                 GupGewaesserabschnittAllgemein.class,
-                "GupGewaesserabschnittAllgemein.lblWbvCode.text")); // NOI18N
-        lblWbvCode.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblWbvCode.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblWbvCode.setPreferredSize(new java.awt.Dimension(170, 17));
+                "GupGewaesserabschnittAllgemein.lblObjectList.text")); // NOI18N
+        lblObjectList.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblObjectList.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblObjectList.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblWbvCode, gridBagConstraints);
-
-        lblUnterhaltung.setText(org.openide.util.NbBundle.getMessage(
-                GupGewaesserabschnittAllgemein.class,
-                "GupGewaesserabschnittAllgemein.lblUnterhaltung.text")); // NOI18N
-        lblUnterhaltung.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblUnterhaltung.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblUnterhaltung.setPreferredSize(new java.awt.Dimension(170, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblUnterhaltung, gridBagConstraints);
+        add(lblObjectList, gridBagConstraints);
 
         txtGewaessername.setEnabled(false);
         txtGewaessername.setMaximumSize(new java.awt.Dimension(280, 20));
@@ -196,32 +195,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 15);
         add(txtGewaessername, gridBagConstraints);
 
-        spBemerkung.setMaximumSize(new java.awt.Dimension(280, 90));
-        spBemerkung.setMinimumSize(new java.awt.Dimension(280, 90));
-        spBemerkung.setPreferredSize(new java.awt.Dimension(280, 90));
-
-        taUnterhaltung.setColumns(20);
-        taUnterhaltung.setRows(5);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.unterhaltung}"),
-                taUnterhaltung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        spBemerkung.setViewportView(taUnterhaltung);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
-        add(spBemerkung, gridBagConstraints);
-
         txtGwk.setEnabled(false);
         txtGwk.setMaximumSize(new java.awt.Dimension(280, 20));
         txtGwk.setMinimumSize(new java.awt.Dimension(280, 20));
@@ -234,53 +207,110 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(txtGwk, gridBagConstraints);
 
-        txtWbv.setEnabled(false);
-        txtWbv.setMaximumSize(new java.awt.Dimension(280, 20));
-        txtWbv.setMinimumSize(new java.awt.Dimension(280, 20));
-        txtWbv.setPreferredSize(new java.awt.Dimension(380, 20));
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.dokumente}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jlObjectList);
+        jListBinding.setSourceNullValue(null);
+        jListBinding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(jListBinding);
+
+        jsObjectList.setViewportView(jlObjectList);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
-        add(txtWbv, gridBagConstraints);
+        add(jsObjectList, gridBagConstraints);
 
-        lblPlanungseinheit.setText(org.openide.util.NbBundle.getMessage(
+        jpControl.setOpaque(false);
+        jpControl.setLayout(new java.awt.GridBagLayout());
+
+        jbDownload.setText(org.openide.util.NbBundle.getMessage(
                 GupGewaesserabschnittAllgemein.class,
-                "GupGewaesserabschnittAllgemein.lblPlanungseinheit.text")); // NOI18N
-        lblPlanungseinheit.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblPlanungseinheit.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblPlanungseinheit.setPreferredSize(new java.awt.Dimension(170, 17));
+                "GupGewaesserabschnittAllgemein.jbDownload.text")); // NOI18N
+        jbDownload.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbDownloadActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblPlanungseinheit, gridBagConstraints);
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 15);
+        jpControl.add(jbDownload, gridBagConstraints);
 
-        txtPlanungseinheit.setMaximumSize(new java.awt.Dimension(280, 20));
-        txtPlanungseinheit.setMinimumSize(new java.awt.Dimension(280, 20));
-        txtPlanungseinheit.setPreferredSize(new java.awt.Dimension(380, 20));
+        jpDelete.setText(org.openide.util.NbBundle.getMessage(
+                GupGewaesserabschnittAllgemein.class,
+                "GupGewaesserabschnittAllgemein.jpDelete.text")); // NOI18N
+        jpDelete.addActionListener(new java.awt.event.ActionListener() {
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.planungseinheit}"),
-                txtPlanungseinheit,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jpDeleteActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        jpControl.add(jpDelete, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
-        add(txtPlanungseinheit, gridBagConstraints);
+        add(jpControl, gridBagConstraints);
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(glassPanel, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
+        final int[] selection = jlObjectList.getSelectedIndices();
+        int count = 0;
+
+        for (final int index : selection) {
+            ((DocumentDropList)jlObjectList).removeObject(index - (count++));
+        }
+    } //GEN-LAST:event_jpDeleteActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
+        ((DocumentDropList)jlObjectList).downloadSelectedDocs();
+    }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -298,29 +328,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                 cidsBean);
             bindingGroup.bind();
 
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        refreshLabels();
-                    }
-                }).start();
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  readOnly  DOCUMENT ME!
-     */
-    public void setReadOnly(final boolean readOnly) {
-        if (readOnly) {
-            glassPanel.addMouseListener(new MouseAdapter() {
-                });
-        } else {
-            for (final MouseListener ml : glassPanel.getMouseListeners()) {
-                glassPanel.removeMouseListener(ml);
-            }
+            refreshLabels();
         }
     }
 
@@ -328,7 +336,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
      * DOCUMENT ME!
      */
     public void refreshLabels() {
-        String wbv = "";
         String gwk = "";
         String gewName = "";
 
@@ -339,33 +346,8 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                 if (statVon != null) {
                     final CidsBean route = (CidsBean)statVon.getProperty("route");
                     if (route != null) {
-                        final CidsBean geomEntry = (CidsBean)statLine.getProperty("geom");
-                        final Geometry geom = ((geomEntry != null) ? (Geometry)geomEntry.getProperty("geo_field")
-                                                                   : null);
                         gwk = route.getProperty("gwk").toString();
                         gewName = route.getProperty("routenname").toString();
-                        final double start = GupHelper.getMinStart(cidsBean);
-                        final double end = GupHelper.getMaxEnd(cidsBean);
-
-                        if (!gwk.equals("") && (start != -1) && (end != -1)) {
-                            final CidsServerSearch search = new WbvSearch(String.valueOf(start),
-                                    String.valueOf(end),
-                                    gwk);
-                            final Collection res = SessionManager.getProxy()
-                                        .customServerSearch(SessionManager.getSession().getUser(), search);
-                            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
-
-                            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
-                                final Object o = resArray.get(0).get(0);
-
-                                if (o instanceof String) {
-                                    wbv = o.toString();
-                                }
-                            } else {
-                                LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
-                                            + "See the server logs for further information");     // NOI18N
-                            }
-                        }
                     }
                 }
             }
@@ -375,7 +357,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
         final String gwkV = gwk;
         final String gewNameV = gewName;
-        final String wbvV = wbv;
 
         EventQueue.invokeLater(new Runnable() {
 
@@ -383,9 +364,17 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                 public void run() {
                     txtGwk.setText(gwkV);
                     txtGewaessername.setText(gewNameV);
-                    txtWbv.setText(wbvV);
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        this.readOnly = readOnly;
     }
 
     @Override
@@ -395,7 +384,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
     @Override
     public String getTitle() {
-        return "Gewässerabschnitt";
+        return "Allgemeine Informationen";
     }
 
     @Override
@@ -404,10 +393,285 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        ((DocumentDropList)jlObjectList).editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        return ((DocumentDropList)jlObjectList).prepareForSave();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+                "WRRL_DB_MV",
+                "Administratoren",
+                "admin",
+                "x",
+                "gup_gewaesserabschnitt",
+                1,
+                1280,
+                1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DocumentDropList extends JList implements DropTargetListener, EditorSaveListener {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String FILE_PROTOCOL_PREFIX = "file://";
+        private static final String WEB_DAV_USER = "cismet";
+        private static final String WEB_DAV_PASSWORD = "karusu20";
+        private static final String WEB_DAV_DIRECTORY = "http://fry.fis-wasser-mv.de/dokumente/";
+
+        //~ Instance fields ----------------------------------------------------
+
+        private boolean readOnly = false;
+        private WebDavClient webDavClient = null;
+        private final List<CidsBean> removedFotoBeans = new ArrayList<CidsBean>();
+        private final List<CidsBean> removeNewAddedFotoBean = new ArrayList<CidsBean>();
+        private DropTarget dropTarget = null;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DocumentDragList object.
+         *
+         * @param  readOnly  DOCUMENT ME!
+         */
+        public DocumentDropList(final boolean readOnly) {
+            if (!readOnly) {
+//                new CidsBeanDropTarget(this);
+                dropTarget = new DropTarget(this, this);
+                this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
+            }
+            this.readOnly = readOnly;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void dragEnter(final DropTargetDragEvent dtde) {
+        }
+
+        @Override
+        public void dragOver(final DropTargetDragEvent dtde) {
+        }
+
+        @Override
+        public void dropActionChanged(final DropTargetDragEvent dtde) {
+        }
+
+        @Override
+        public void dragExit(final DropTargetEvent dte) {
+        }
+
+        @Override
+        public void drop(final DropTargetDropEvent dtde) {
+            boolean a = false;
+            try {
+                final Transferable tr = dtde.getTransferable();
+                final DataFlavor[] flavors = tr.getTransferDataFlavors();
+
+                for (int i = 0; i < flavors.length; i++) {
+                    if (flavors[i].isFlavorJavaFileListType()) {
+                        // zunaechst annehmen
+                        dtde.acceptDrop(dtde.getDropAction());
+                        final List<File> files = (List<File>)tr.getTransferData(flavors[i]);
+                        if ((files != null) && (files.size() > 0)) {
+                            CismetThreadPool.execute(new DocumentUploadWorker(files));
+                        }
+                        dtde.dropComplete(true);
+                        return;
+                    } else if (flavors[i].isRepresentationClassInputStream()) {
+                        // this is used under linux
+                        if (!a) {
+                            dtde.acceptDrop(dtde.getDropAction());
+                            a = true;
+                        }
+                        final BufferedReader br = new BufferedReader(new InputStreamReader(
+                                    (InputStream)tr.getTransferData(flavors[i])));
+                        String tmp = null;
+                        final List<File> fileList = new ArrayList<File>();
+                        while ((tmp = br.readLine()) != null) {
+                            if (tmp.trim().startsWith(FILE_PROTOCOL_PREFIX)) {
+                                final File f = new File(tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()));
+                                if (f.exists()) {
+                                    fileList.add(f);
+                                } else {
+                                    LOG.warn("File " + f.toString() + " does not exist.");
+                                }
+                            }
+                        }
+                        br.close();
+
+                        if ((fileList != null) && (fileList.size() > 0)) {
+                            CismetThreadPool.execute(new DocumentUploadWorker(fileList));
+                            dtde.dropComplete(true);
+                            return;
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                LOG.warn(ex, ex);
+            }
+            // Problem ist aufgetreten
+            dtde.rejectDrop();
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  index  DOCUMENT ME!
+         */
+        public void removeObject(final int index) {
+            final CidsBean bean = (CidsBean)getModel().getElementAt(index);
+            final List<CidsBean> docs = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "dokumente");
+
+            docs.remove(bean);
+            removedFotoBeans.add(bean);
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void downloadSelectedDocs() {
+            final Object[] docs = jlObjectList.getSelectedValues();
+
+            for (final Object doc : docs) {
+                if (doc instanceof CidsBean) {
+                    final CidsBean bean = (CidsBean)doc;
+                    if (DownloadManagerDialog.showAskingForUserTitle(StaticSwingTools.getParentFrame(this))) {
+                        final String jobname = DownloadManagerDialog.getJobname();
+                        final String name = bean.getProperty("name").toString();
+                        final String file = bean.getProperty("file").toString();
+                        final String extension = name.substring(name.lastIndexOf(".") + 1);
+                        final String filename = name.substring(0, name.lastIndexOf("."));
+
+                        DownloadManager.instance()
+                                .add(new WebDavDownload(
+                                        webDavClient,
+                                        WEB_DAV_DIRECTORY
+                                        + WebDavHelper.encodeURL(file),
+                                        jobname,
+                                        "title",
+                                        filename,
+                                        extension));
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void editorClosed(final EditorClosedEvent event) {
+            if (EditorSaveStatus.SAVE_SUCCESS == event.getStatus()) {
+                for (final CidsBean deleteBean : removedFotoBeans) {
+                    final String fileName = (String)deleteBean.getProperty("file");
+                    try {
+                        WebDavHelper.deleteFileFromWebDAV(fileName, webDavClient, WEB_DAV_DIRECTORY);
+                        deleteBean.delete();
+                    } catch (Exception ex) {
+                        LOG.error(ex, ex);
+                    }
+                }
+            } else {
+                for (final CidsBean deleteBean : removeNewAddedFotoBean) {
+                    final String fileName = (String)deleteBean.getProperty("file");
+                    WebDavHelper.deleteFileFromWebDAV(fileName, webDavClient, WEB_DAV_DIRECTORY);
+                }
+            }
+        }
+
+        @Override
+        public boolean prepareForSave() {
+            return true;
+        }
+
+        //~ Inner Classes ------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @version  $Revision$, $Date$
+         */
+        final class DocumentUploadWorker extends SwingWorker<Collection<CidsBean>, Void> {
+
+            //~ Static fields/initializers -------------------------------------
+
+            private static final String FILE_PREFIX = "DOC-";
+
+            //~ Instance fields ------------------------------------------------
+
+            private final Collection<File> docs;
+
+            //~ Constructors ---------------------------------------------------
+
+            /**
+             * Creates a new ImageUploadWorker object.
+             *
+             * @param  docs  fotos DOCUMENT ME!
+             */
+            public DocumentUploadWorker(final Collection<File> docs) {
+                this.docs = docs;
+//                lblPicture.setText("");
+//                lblPicture.setToolTipText(null);
+//                showWait(true);
+            }
+
+            //~ Methods --------------------------------------------------------
+
+            @Override
+            protected Collection<CidsBean> doInBackground() throws Exception {
+                final Collection<CidsBean> newBeans = new ArrayList<CidsBean>();
+                for (final File imageFile : docs) {
+                    final String webFileName = WebDavHelper.generateWebDAVFileName(FILE_PREFIX, imageFile);
+                    WebDavHelper.uploadFileToWebDAV(
+                        webFileName,
+                        imageFile,
+                        WEB_DAV_DIRECTORY,
+                        webDavClient,
+                        DocumentDropList.this);
+                    final CidsBean newFotoBean = CidsBeanSupport.createNewCidsBeanFromTableName("GUP_DOKUMENT");
+                    newFotoBean.setProperty("name", imageFile.getName());
+                    newFotoBean.setProperty("file", webFileName);
+                    newBeans.add(newFotoBean);
+                }
+                return newBeans;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    final Collection<CidsBean> newBeans = get();
+                    if (!newBeans.isEmpty()) {
+                        final List<CidsBean> oldBeans = CidsBeanSupport.getBeanCollectionFromProperty(
+                                cidsBean,
+                                "dokumente");
+                        oldBeans.addAll(newBeans);
+                        removeNewAddedFotoBean.addAll(newBeans);
+                        setSelectedValue(newBeans.iterator().next(), true);
+                    }
+                } catch (InterruptedException ex) {
+                    LOG.warn(ex, ex);
+                } catch (ExecutionException ex) {
+                    LOG.error(ex, ex);
+                } finally {
+                }
+            }
+        }
     }
 }

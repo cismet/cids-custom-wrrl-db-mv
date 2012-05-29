@@ -45,6 +45,8 @@ public class PointBeanMergeRegistry {
 
     private HashMap<CidsBean, Collection<PointBeanMergeListener>> listenersMap =
         new HashMap<CidsBean, Collection<PointBeanMergeListener>>();
+    private HashMap<CidsBean, Collection<PointBeanMergeRequestListener>> requestListenersMap =
+        new HashMap<CidsBean, Collection<PointBeanMergeRequestListener>>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -99,6 +101,37 @@ public class PointBeanMergeRegistry {
     /**
      * DOCUMENT ME!
      *
+     * @param  objectBean  pointBean DOCUMENT ME!
+     * @param  listener    DOCUMENT ME!
+     */
+    public void addRequestListener(final CidsBean objectBean, final PointBeanMergeRequestListener listener) {
+        Collection<PointBeanMergeRequestListener> listeners = requestListenersMap.get(objectBean);
+        if (listeners == null) {
+            listeners = new CopyOnWriteArrayList<PointBeanMergeRequestListener>();
+            requestListenersMap.put(objectBean, listeners);
+        }
+        listeners.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  objectBean  pointBean DOCUMENT ME!
+     * @param  listener    DOCUMENT ME!
+     */
+    public void removeRequestListener(final CidsBean objectBean, final PointBeanMergeRequestListener listener) {
+        final Collection<PointBeanMergeRequestListener> listeners = requestListenersMap.get(objectBean);
+        if (listeners != null) {
+            listeners.remove(listener);
+            if (listeners.isEmpty()) {
+                requestListenersMap.remove(objectBean);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   pointBean  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -115,12 +148,53 @@ public class PointBeanMergeRegistry {
     /**
      * DOCUMENT ME!
      *
+     * @param   object  pointBean DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Collection<PointBeanMergeRequestListener> getListenersOfObjectBean(final CidsBean object) {
+        final Collection<PointBeanMergeRequestListener> listeners = requestListenersMap.get(object);
+        if (listeners == null) {
+            return new CopyOnWriteArrayList<PointBeanMergeRequestListener>();
+        } else {
+            return listeners;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  oldBean  DOCUMENT ME!
      * @param  newBean  DOCUMENT ME!
      */
     public void firePointBeanMerged(final CidsBean oldBean, final CidsBean newBean) {
         for (final PointBeanMergeListener listener : getListenersOfPointBean(oldBean)) {
             listener.pointBeanMerged(newBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  object     oldBean DOCUMENT ME!
+     * @param  fromPoint  DOCUMENT ME!
+     * @param  newBean    DOCUMENT ME!
+     */
+    public void firePointBeanMergeRequest(final CidsBean object, final boolean fromPoint, final CidsBean newBean) {
+        for (final PointBeanMergeRequestListener requestListener : getListenersOfObjectBean(object)) {
+            requestListener.pointBeanMergeRequest(fromPoint, newBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  object     oldBean DOCUMENT ME!
+     * @param  fromPoint  newBean DOCUMENT ME!
+     */
+    public void firePointBeanSplitRequest(final CidsBean object, final boolean fromPoint) {
+        for (final PointBeanMergeRequestListener requestListener : getListenersOfObjectBean(object)) {
+            requestListener.pointBeanSplitRequest(fromPoint);
         }
     }
 

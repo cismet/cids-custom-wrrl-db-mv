@@ -9,15 +9,9 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-
-import de.cismet.tools.gui.jbands.DefaultBand;
 import de.cismet.tools.gui.jbands.MinimumHeightBand;
 import de.cismet.tools.gui.jbands.SimpleTextSection;
-import de.cismet.tools.gui.jbands.interfaces.Band;
-import de.cismet.tools.gui.jbands.interfaces.BandMember;
-import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
+import de.cismet.tools.gui.jbands.interfaces.BandSnappingPointProvider;
 
 /**
  * DOCUMENT ME!
@@ -25,7 +19,7 @@ import de.cismet.tools.gui.jbands.interfaces.BandPrefixProvider;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class WKBand extends MinimumHeightBand {
+public class WKBand extends MinimumHeightBand implements BandSnappingPointProvider {
 
     //~ Instance fields --------------------------------------------------------
 

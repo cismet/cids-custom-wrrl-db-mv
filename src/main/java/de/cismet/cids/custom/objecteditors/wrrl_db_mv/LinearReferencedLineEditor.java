@@ -20,10 +20,12 @@ import com.vividsolutions.jts.geom.LineString;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
@@ -41,6 +43,9 @@ import java.text.ParseException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -60,12 +65,14 @@ import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRende
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistryListener;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LineEditorDropBehavior;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingSingletonInstances;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.PointBeanMergeListener;
+import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.PointBeanMergeRequestListener;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -89,7 +96,6 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.interaction.CrsChangeListener;
 import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 
-import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.CurrentStackTrace;
 
 /**
@@ -102,7 +108,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     LinearReferencingConstants,
     CidsBeanDropListener,
     EditorSaveListener,
-    LinearReferencingSingletonInstances {
+    LinearReferencingSingletonInstances,
+    PointBeanMergeRequestListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -178,11 +185,16 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private double backupToPointValue = 0d;
     private String otherLinesFromQueryPart;
     private String otherLinesWhereQueryPart;
-    private final ArrayList<CidsBean> otherLineBeans = new ArrayList<CidsBean>();
     private boolean isOtherLinesEnabled = true;
+    private List<CidsBean> otherLines;
 
     private Collection<LinearReferencedLineEditorListener> listeners =
         new ArrayList<LinearReferencedLineEditorListener>();
+
+    private boolean showOtherInDialog = false;
+    private LinearReferencedLineEditor externalOthersEditor;
+    private LinearReferencedLineEditor parent = null;
+    private LinePropertyChangeListener linePropertyChangeListener = new LinePropertyChangeListener();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnFromBadGeom;
@@ -192,6 +204,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private javax.swing.JToggleButton btnToBadGeom;
     private javax.swing.JButton btnToBadGeomCorrect;
     private javax.swing.JButton btnToPointSplit;
+    private javax.swing.JDialog externalGeomDialog;
+    private javax.swing.JPanel geomDialogInternalPanel;
+    private javax.swing.JScrollPane geomDialogScrollPane;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFromIcon;
@@ -275,9 +290,66 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
             CismapBroker.getInstance().addCrsChangeListener(getCrsChangeListener());
         }
+
+        // allows the scrolling of the external geometry box during a drag operation
+        new DropTarget(externalGeomDialog, new DropTargetAdapter() {
+
+                @Override
+                public void dragOver(final DropTargetDragEvent dtde) {
+                    if (dtde.getLocation().getY() < 30) {
+                        final Point p = geomDialogScrollPane.getViewport().getViewPosition();
+                        int y = (int)(p.getY() - 5.0);
+                        if (y < 0) {
+                            y = 0;
+                        }
+                        final Point newP = new Point((int)p.getX(), y);
+
+                        geomDialogScrollPane.getViewport().setViewPosition(newP);
+                    } else if (dtde.getLocation().getY() > (externalGeomDialog.getHeight() - 20)) {
+                        final Point p = geomDialogScrollPane.getViewport().getViewPosition();
+                        final Point newP = new Point((int)p.getX(), (int)(p.getY() + 5.0));
+
+                        if (newP.getY() < (geomDialogInternalPanel.getHeight() - geomDialogScrollPane.getHeight())) {
+                            geomDialogScrollPane.getViewport().setViewPosition(newP);
+                        }
+                    }
+                }
+
+                @Override
+                public void drop(final DropTargetDropEvent dtde) {
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void pointBeanMergeRequest(final boolean fromPoint, final CidsBean withPointBean) {
+        mergeRequest(fromPoint, withPointBean);
+    }
+
+    @Override
+    public void pointBeanSplitRequest(final boolean fromPoint) {
+        splitPoint(fromPoint);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the otherLines
+     */
+    public List<CidsBean> getOtherLines() {
+        return otherLines;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  otherLines  the otherLines to set
+     */
+    public void setOtherLines(final List<CidsBean> otherLines) {
+        this.otherLines = otherLines;
+    }
 
     /**
      * DOCUMENT ME!
@@ -450,7 +522,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         cleanOtherLinesPanel();
 
         showCard(Card.add);
-
         setInited(false);
     }
 
@@ -597,15 +668,26 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         this.cidsBean = cidsBean;
 
+        if (cidsBean != null) {
+            MERGE_REGISTRY.addRequestListener(cidsBean, this);
+        }
+
         // cache für beans setzen
         final CidsBean cachedLineBean = CIDSBEAN_CACHE.getCachedBeanFor(getLineBean());
-        final CidsBean cachedFromPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(FROM));
-        final CidsBean cachedToPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(TO));
+        CidsBean cachedFromPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(FROM));
+        CidsBean cachedToPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(TO));
+        final CidsBean lineBean = getLineBean();
+
+        if (lineBean != null) {
+            lineBean.addPropertyChangeListener(linePropertyChangeListener);
+        }
 
         // beans mit denen aus dem Cache erstzen
         // (nur wenn nicht editable, sonst werden die änderungen an der bean unter umständen nicht gespeichert)
         if (!isEditable()) {
             setLineBean(cachedLineBean);
+            cachedFromPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(FROM));
+            cachedToPointBean = CIDSBEAN_CACHE.getCachedBeanFor(getPointBean(TO));
             setPointBean(cachedFromPointBean, FROM);
             setPointBean(cachedToPointBean, TO);
         }
@@ -636,6 +718,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void refresh() {
         cleanupLine();
         initLine();
+        if (isOtherLinesEnabled && isInited() && isEditable) {
+            updateOtherLinesOnBaseline();
+        }
     }
 
     /**
@@ -776,45 +861,55 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      */
     private void updateOtherLinesOnBaseline() {
         if (getLineBean() != null) {
-            final int route_id = (Integer)getLineBean().getProperty("von.route.id");
-            final int id = (Integer)getLineBean().getProperty("id");
+            if (otherLines == null) {
+                final int route_id = (Integer)getLineBean().getProperty("von.route.id");
+                final int id = (Integer)getLineBean().getProperty("id");
 
-            final String queryOtherLines = "SELECT "
-                        + "   " + MC_STATIONLINIE.getID() + ", "
-                        + "   station_linie." + MC_STATIONLINIE.getPrimaryKey() + " "
-                        + "FROM "
-                        + "   " + MC_STATIONLINIE.getTableName() + " AS station_linie, "
-                        + "   " + MC_STATION.getTableName() + " AS station "
-                        + ((otherLinesFromQueryPart != null) ? (", " + otherLinesFromQueryPart + " ") : "")
-                        + "WHERE "
-                        + "   station.id = station_linie.von "
-                        + "   AND station.route = " + route_id + " "
-                        + "   AND station_linie.id != " + id + " "
-                        + ((otherLinesWhereQueryPart != null)
-                            ? (" AND " + otherLinesWhereQueryPart + " station_linie.id") : "")
-                        + ";";
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(queryOtherLines);
-            }
-            MetaObject[] mosOtherLines = null;
-            try {
-                mosOtherLines = SessionManager.getProxy().getMetaObjectByQuery(queryOtherLines, 0);
-            } catch (Exception ex) {
-                LOG.error("error while loading other lines on baseline", ex);
-            }
+                final String queryOtherLines = "SELECT "
+                            + "   " + MC_STATIONLINIE.getID() + ", "
+                            + "   station_linie." + MC_STATIONLINIE.getPrimaryKey() + " "
+                            + "FROM "
+                            + "   " + MC_STATIONLINIE.getTableName() + " AS station_linie, "
+                            + "   " + MC_STATION.getTableName() + " AS station "
+                            + ((otherLinesFromQueryPart != null) ? (", " + otherLinesFromQueryPart + " ") : "")
+                            + "WHERE "
+                            + "   station.id = station_linie.von "
+                            + "   AND station.route = " + route_id + " "
+                            + "   AND station_linie.id != " + id + " "
+                            + ((otherLinesWhereQueryPart != null)
+                                ? (" AND " + otherLinesWhereQueryPart + " station_linie.id") : "")
+                            + ";";
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(queryOtherLines);
+                }
+                MetaObject[] mosOtherLines = null;
+                try {
+                    mosOtherLines = SessionManager.getProxy().getMetaObjectByQuery(queryOtherLines, 0);
+                } catch (Exception ex) {
+                    LOG.error("error while loading other lines on baseline", ex);
+                }
 
-            cleanOtherLinesPanel();
-            otherLineBeans.clear();
-            for (final MetaObject moOtherLine : mosOtherLines) {
-                final CidsBean otherLineBean = moOtherLine.getBean();
-                final LinearReferencedLineRenderer renderer = new LinearReferencedLineRenderer();
-                renderer.setMergeParentLineEditor(this);
-                renderer.setCidsBean(otherLineBean);
-                renderer.updateSplitMergeControls(FROM);
-                renderer.updateSplitMergeControls(TO);
-                panOtherLines.add(renderer);
-
-                otherLineBeans.add(renderer.getLineBean());
+                cleanOtherLinesPanel();
+                for (final MetaObject moOtherLine : mosOtherLines) {
+                    final CidsBean otherLineBean = moOtherLine.getBean();
+                    final LinearReferencedLineRenderer renderer = new LinearReferencedLineRenderer();
+                    renderer.setMergeParentLineEditor(this);
+                    renderer.setCidsBean(otherLineBean);
+                    renderer.updateSplitMergeControls(FROM);
+                    renderer.updateSplitMergeControls(TO);
+                    panOtherLines.add(renderer);
+                }
+            } else {
+                cleanOtherLinesPanel();
+                Collections.sort(otherLines, new OtherLinesComparator());
+                for (final CidsBean otherLineBean : otherLines) {
+                    final LinearReferencedLineRenderer renderer = new LinearReferencedLineRenderer();
+                    renderer.setMergeParentLineEditor(this);
+                    renderer.setCidsBean(otherLineBean);
+                    renderer.updateSplitMergeControls(FROM);
+                    renderer.updateSplitMergeControls(TO);
+                    panOtherLines.add(renderer);
+                }
             }
         }
     }
@@ -1251,7 +1346,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     @Override
     public void dispose() {
         cleanupLine();
-
+        MERGE_REGISTRY.removeRequestListener(cidsBean, this);
+//        setOtherLines(null);
         CismapBroker.getInstance().removeCrsChangeListener(getCrsChangeListener());
     }
 
@@ -1962,6 +2058,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        externalGeomDialog = new javax.swing.JDialog();
+        geomDialogScrollPane = new javax.swing.JScrollPane();
+        geomDialogInternalPanel = new javax.swing.JPanel();
         panEdit = new javax.swing.JPanel();
         panLinePoints = new javax.swing.JPanel();
         lblFromIcon = new javax.swing.JLabel();
@@ -1989,6 +2088,31 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         jLabel3 = new javax.swing.JLabel();
         panError = new javax.swing.JPanel();
         lblError = new javax.swing.JLabel();
+
+        externalGeomDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        externalGeomDialog.setTitle(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.externalGeomDialog.title")); // NOI18N
+        externalGeomDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+
+                @Override
+                public void windowClosed(final java.awt.event.WindowEvent evt) {
+                    externalGeomDialogWindowClosed(evt);
+                }
+            });
+        externalGeomDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        geomDialogInternalPanel.setLayout(new java.awt.GridBagLayout());
+        geomDialogScrollPane.setViewportView(geomDialogInternalPanel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        externalGeomDialog.getContentPane().add(geomDialogScrollPane, gridBagConstraints);
 
         setOpaque(false);
         setLayout(new java.awt.CardLayout());
@@ -2394,6 +2518,21 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void externalGeomDialogWindowClosed(final java.awt.event.WindowEvent evt) { //GEN-FIRST:event_externalGeomDialogWindowClosed
+        geomDialogInternalPanel.remove(externalOthersEditor);
+        externalOthersEditor.dispose();
+        externalOthersEditor = null;
+        btnRoute.setSelected(false);
+//        updateSplitMergeControls(FROM);
+//        updateSplitMergeControls(TO);
+        updateOtherLinesPanelVisibility();
+    } //GEN-LAST:event_externalGeomDialogWindowClosed
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     public boolean changeOtherLinesPanelVisibility() {
@@ -2409,7 +2548,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private void updateOtherLinesPanelVisibility() {
         if (isEditable() && isOtherLinesEnabled()) {
             // panel anzeigen / verbergen
-            panOtherLines.setVisible(btnRoute.isSelected());
             fireOtherLinesPanelVisibilityChange(btnRoute.isSelected());
 
             // gegebenenfalls die features der subrenderer anzeigen / verbergen
@@ -2419,9 +2557,47 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                     renderer.setDrawingFeaturesEnabled(btnRoute.isSelected());
                 }
             }
+
+            if (btnRoute.isSelected() && showOtherInDialog) {
+                if (externalOthersEditor != null) {
+                    return;
+                }
+                externalOthersEditor = new LinearReferencedLineEditor();
+                externalOthersEditor.setOtherLines(otherLines);
+                externalOthersEditor.setOtherLinesEnabled(isOtherLinesEnabled);
+                externalOthersEditor.setOtherLinesQueryAddition(otherLinesFromQueryPart, otherLinesWhereQueryPart);
+                externalOthersEditor.setDrawingFeaturesEnabled(true);
+                externalOthersEditor.setLineField(lineField);
+                externalOthersEditor.parent = this;
+                externalOthersEditor.setCidsBean(cidsBean);
+                geomDialogInternalPanel.add(externalOthersEditor);
+
+                if (!externalOthersEditor.btnRoute.isSelected()) {
+                    externalOthersEditor.btnRoute.doClick();
+                }
+
+                UIUtil.findOptimalPositionOnScreen(externalGeomDialog);
+                externalGeomDialog.setSize(500, 400);
+                externalGeomDialog.setModal(true);
+                externalGeomDialog.setVisible(true);
+            } else {
+                panOtherLines.setVisible(btnRoute.isSelected());
+            }
+
+            updateSplitMergeControls(FROM);
+            updateSplitMergeControls(TO);
         } else {
             panOtherLines.setVisible(false);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  showOtherInDialog  DOCUMENT ME!
+     */
+    public void setShowOtherInDialog(final boolean showOtherInDialog) {
+        this.showOtherInDialog = showOtherInDialog;
     }
 
     /**
@@ -2448,7 +2624,13 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
             final CidsBean newPointBean = LinearReferencingHelper.createStationBeanFromRouteBean(LinearReferencingHelper
                             .getRouteBeanFromStationBean(getPointBean(isFrom)));
+            if (parent != null) {
+                parent.cleanupPoint(isFrom);
+            }
             setPoint(newPointBean, isFrom);
+            if (parent != null) {
+                parent.initPoint(isFrom);
+            }
             pointBeanValueChanged(isFrom);
 
             final LinearReferencedPointFeature pointFeature = getPointFeature(isFrom);
@@ -2504,7 +2686,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         try {
             cleanupLine();
             if ((getCidsBean() != null) && (getLineField() != null)) {
+                final CidsBean bean = (CidsBean)getCidsBean().getProperty(getLineField());
+                if (bean != null) {
+                    bean.removePropertyChangeListener(linePropertyChangeListener);
+                }
                 getCidsBean().setProperty(getLineField(), lineBean);
+                lineBean.addPropertyChangeListener(linePropertyChangeListener);
             }
             initLine();
         } catch (Exception ex) {
@@ -2726,7 +2913,105 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         return mergeParentLineEditor;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   fromPoint      DOCUMENT ME!
+     * @param   withPointBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean mergeRequest(final boolean fromPoint, final CidsBean withPointBean) {
+        final CidsBean parentPointBean = getPointBean(fromPoint);
+        // darf nicht mergen wenn dadurch der from und der to point gleich wären
+        if (!withPointBean.equals(getPointBean(!fromPoint))) {
+            if (parent != null) {
+                parent.cleanupPoint(fromPoint);
+            }
+            setPoint(withPointBean, fromPoint);
+            if (parent != null) {
+                parent.initPoint(fromPoint);
+            }
+            pointBeanValueChanged(fromPoint);
+            MERGE_REGISTRY.firePointBeanMerged(parentPointBean, withPointBean);
+
+            return true;
+        }
+
+        return false;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class OtherLinesComparator implements Comparator<CidsBean> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            final Double from = (Double)o1.getProperty("von.wert");
+            final Double from2 = (Double)o2.getProperty("von.wert");
+
+            if ((from == null) && (from2 == null)) {
+                return 0;
+            } else if (from == null) {
+                return -1;
+            } else if (from2 == null) {
+                return 1;
+            } else {
+                return from.compareTo(from2);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class LinePropertyChangeListener implements PropertyChangeListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+//            if (!inited || testBool) {
+//                LOG.error("not inited " + evt.getPropertyName());
+//                return;
+//            }
+//            LOG.error("property change " + evt.getPropertyName());
+//            if (evt.getPropertyName().equals(PROP_STATIONLINIE_FROM)) {
+//                testBool = true;
+////                if ((getPointFeature(FROM) != null)) { // && (evt.getOldValue() != null)) {
+////                cleanupPoint((CidsBean)evt.getOldValue(), FROM);
+//                setPointBean((CidsBean)evt.getOldValue(), FROM);
+//                cleanupPoint(FROM);
+//                setPointBean((CidsBean)evt.getNewValue(), FROM);
+//                initPoint(FROM);
+////                initPoint((CidsBean)evt.getNewValue(), FROM);
+//                updateOtherLinesPanelVisibility();
+//                testBool = false;
+////                }
+//            } else if (evt.getPropertyName().equals(PROP_STATIONLINIE_TO)) {
+//                testBool = true;
+////                if ((getPointFeature(TO) != null)) {   // && (evt.getOldValue() != null)) {
+////                cleanupPoint((CidsBean)evt.getOldValue(), TO);
+//                setPointBean((CidsBean)evt.getOldValue(), TO);
+//                cleanupPoint(TO);
+//                setPointBean((CidsBean)evt.getNewValue(), TO);
+//                initPoint(TO);
+////                initPoint((CidsBean)evt.getNewValue(), TO);
+//                updateOtherLinesPanelVisibility();
+//                testBool = false;
+////                }
+//            }
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -2843,15 +3128,16 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                         if (flavors[i].isFlavorSerializedObjectType()) {
                             e.acceptDrop(e.getDropAction());
                             final boolean isParentFrom = (Boolean)tr.getTransferData(CIDSBEAN_DATAFLAVOR);
-                            final CidsBean parentPointBean = mergeParentLineEditor.getPointBean(isParentFrom);
-                            // darf nicht mergen wenn dadurch der from und der to point gleich wären
-                            if (!getPointBean(isFrom).equals(mergeParentLineEditor.getPointBean(!isParentFrom))) {
-                                mergeParentLineEditor.setPoint(getPointBean(isFrom), isParentFrom);
-                                mergeParentLineEditor.pointBeanValueChanged(isParentFrom);
-                                e.dropComplete(true);
-                                MERGE_REGISTRY.firePointBeanMerged(parentPointBean, getPointBean(isFrom));
-                                return;
-                            }
+                            e.dropComplete(mergeParentLineEditor.mergeRequest(isParentFrom, getPointBean(isFrom)));
+//                            final CidsBean parentPointBean = mergeParentLineEditor.getPointBean(isParentFrom);
+//                            // darf nicht mergen wenn dadurch der from und der to point gleich wären
+//                            if (!getPointBean(isFrom).equals(mergeParentLineEditor.getPointBean(!isParentFrom))) {
+//                                mergeParentLineEditor.setPoint(getPointBean(isFrom), isParentFrom);
+//                                mergeParentLineEditor.pointBeanValueChanged(isParentFrom);
+//                                e.dropComplete(true);
+//                                MERGE_REGISTRY.firePointBeanMerged(parentPointBean, getPointBean(isFrom));
+//                                return;
+//                            }
                         }
                     }
                 }

@@ -39,7 +39,7 @@ public class FotodokumentationPermissionProvider extends BasicGeometryFromCidsOb
     public Geometry getGeometry() {
         return (Geometry)cidsBean.getProperty("point.geo_field");
     }
-    
+
     @Override
     public String getKey() {
         return "fgsk";
