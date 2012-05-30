@@ -14,6 +14,9 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.tools.MetaObjectCache;
+import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
+import Sirius.navigator.types.treenode.ObjectTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -28,6 +31,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
+import java.math.BigInteger;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,6 +40,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.tree.TreeNode;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
@@ -49,6 +55,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.gup.AbstimmungsvermerkeBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.AnwohnerBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.EntwicklungszielBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.EntwicklungszielBandMember;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenBandMember;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.NaturschutzBand;
@@ -335,6 +342,16 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         if (cidsBean != null) {
             if (cidsBean.getProperty("linie") == null) {
                 panBand.removeAll();
+                final DefaultMetaTreeNode dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getCatalogueTree()
+                            .getSelectedNode();
+                final ObjectTreeNode node = (ObjectTreeNode)dmtn.getParent();
+                final long gup_id = node.getMetaObject().getId();
+
+                try {
+                    cidsBean.setProperty("gup", node.getMetaObject().getBean());
+                } catch (Exception e) {
+                    LOG.error("Error while setting the gup id.", e);
+                }
                 panBand.add(panNew, BorderLayout.CENTER);
                 linearReferencedLineEditor.setLineField("linie");
                 linearReferencedLineEditor.setCidsBean(cidsBean);
@@ -1419,12 +1436,29 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
         allgemeinEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return allgemeinEditor.prepareForSave();
+        try {
+            final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
+            if (statLine != null) {
+                final CidsBean statVon = (CidsBean)statLine.getProperty("von");
+                if (statVon != null) {
+                    final CidsBean route = (CidsBean)statVon.getProperty("route");
+                    if (route != null) {
+                        final String gewName = route.getProperty("routenname").toString();
+                        cidsBean.setProperty("name", gewName);
+                    }
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Error while determining the water body", e);
+        }
+
+        return allgemeinEditor.prepareForSave() && linearReferencedLineEditor.prepareForSave();
     }
 
     //~ Inner Classes ----------------------------------------------------------
