@@ -1252,7 +1252,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            calcFields();
+//            calcFields();
         }
     }
 

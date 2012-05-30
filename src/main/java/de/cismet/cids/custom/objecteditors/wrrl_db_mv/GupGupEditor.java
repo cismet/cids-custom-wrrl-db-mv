@@ -26,6 +26,7 @@ import javax.swing.JComponent;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
@@ -67,7 +68,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGenehmigungsbehoerde;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahme;
-    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview gupGewaesserPreviewLindebach;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview gupGewaesserPreviewTollense;
     private javax.swing.JButton jbDownload;
@@ -119,7 +119,12 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         initComponents();
         scrollGewaesser.getViewport().setOpaque(false);
 
-        setReadOnly(readOnly);
+        RendererTools.makeReadOnly(cbGenehmigungsbehoerde);
+        RendererTools.makeReadOnly(cbMassnahme);
+        RendererTools.makeReadOnly(txtBis);
+        RendererTools.makeReadOnly(txtName);
+        RendererTools.makeReadOnly(txtVon);
+        RendererTools.makeReadOnly(txtZustaendigkeit);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -165,7 +170,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panGewaesserInner = new javax.swing.JPanel();
         gupGewaesserPreviewTollense = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview();
         gupGewaesserPreviewLindebach = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserPreview();
-        glassPanel = new de.cismet.tools.gui.RoundedPanel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -515,15 +519,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 15, 15);
         add(panInfo1, gridBagConstraints);
 
-        glassPanel.setAlpha(0);
-        glassPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(glassPanel, gridBagConstraints);
-
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
@@ -555,22 +550,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     }
                 }).start();
 //            refreshGewaesser();
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  readOnly  DOCUMENT ME!
-     */
-    public void setReadOnly(final boolean readOnly) {
-        if (readOnly) {
-            glassPanel.addMouseListener(new MouseAdapter() {
-                });
-        } else {
-            for (final MouseListener ml : glassPanel.getMouseListeners()) {
-                glassPanel.removeMouseListener(ml);
-            }
         }
     }
 
@@ -648,7 +627,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public String getTitle() {
-        return "GUP " + String.valueOf(cidsBean);
+//        return "GUP " + String.valueOf(cidsBean);
+        return "Renderer aus der Demo.";
     }
 
     @Override

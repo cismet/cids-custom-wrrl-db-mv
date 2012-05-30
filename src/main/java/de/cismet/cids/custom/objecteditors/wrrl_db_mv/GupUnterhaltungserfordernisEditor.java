@@ -125,7 +125,7 @@ public class GupUnterhaltungserfordernisEditor extends javax.swing.JPanel implem
 
         cbName.setMaximumSize(new java.awt.Dimension(420, 20));
         cbName.setMinimumSize(new java.awt.Dimension(420, 20));
-        cbName.setPreferredSize(new java.awt.Dimension(420, 20));
+        cbName.setPreferredSize(new java.awt.Dimension(520, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,

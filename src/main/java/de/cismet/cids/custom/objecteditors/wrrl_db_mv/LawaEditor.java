@@ -294,6 +294,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
             final String geom = realGeom.toText(); // linearReferencedLineEditor.getLineFeature().getGeometry().toText();
             final CidsBean route = (CidsBean)cidsBean.getProperty("linie."
                             + LinearReferencingConstants.PROP_STATIONLINIE_FROM
+                            + "."
                             + LinearReferencingConstants.PROP_STATION_ROUTE);
 
             if (route == null) {
