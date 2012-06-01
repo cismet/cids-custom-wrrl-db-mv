@@ -308,7 +308,7 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
      * @param  art  DOCUMENT ME!
      */
     private void setSuperGroup(final CidsBean art) {
-        CismetThreadPool.execute(new SwingWorker<String, String>() {
+        CismetThreadPool.executeSequentially(new SwingWorker<String, String>() {
 
                 @Override
                 protected String doInBackground() throws Exception {
