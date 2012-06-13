@@ -12,22 +12,33 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
+import Sirius.navigator.tools.MetaObjectCache;
+
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -40,15 +51,24 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implements CidsBeanRenderer,
     EditorSaveListener {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    public static final int KOMPARTIMENT_SOHLE = 1;
+    public static final int KOMPARTIMENT_UFER = 2;
+    public static final int KOMPARTIMENT_UMFELD = 3;
+    private static final Logger LOG = Logger.getLogger(GupUnterhaltungsmassnahmeEditor.class);
+
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private List<CidsBean> massnahmen = null;
+    private int kompartiment;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahme;
+    private javax.swing.JComboBox cbMassnahme;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
     private javax.swing.JPanel flowPanel;
     private javax.swing.JPanel jPanel1;
@@ -145,7 +165,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblIntervall = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
         lblVerbleib = new javax.swing.JLabel();
-        cbMassnahme = new ScrollableComboBox();
         cbIntervall = new ScrollableComboBox();
         cbVerbleib = new ScrollableComboBox();
         txtBearbeiter = new javax.swing.JTextField();
@@ -176,6 +195,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         txtVorlandbreite = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
+        cbMassnahme = new MassnahmenComboBox();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 800));
@@ -260,38 +280,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblVerbleib, gridBagConstraints);
 
-        cbMassnahme.setMaximumSize(new java.awt.Dimension(290, 20));
-        cbMassnahme.setMinimumSize(new java.awt.Dimension(290, 20));
-        cbMassnahme.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"),
-                cbMassnahme,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbMassnahme.addItemListener(new java.awt.event.ItemListener() {
-
-                @Override
-                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
-                    cbMassnahmeItemStateChanged(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbMassnahme, gridBagConstraints);
-
         cbIntervall.setMinimumSize(new java.awt.Dimension(170, 20));
         cbIntervall.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.intervall}"),
@@ -635,6 +627,34 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.weightx = 1.0;
         add(jPanel2, gridBagConstraints);
 
+        cbMassnahme.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbMassnahme.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbMassnahme.setPreferredSize(new java.awt.Dimension(290, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"),
+                cbMassnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbMassnahme.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbMassnahmeItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbMassnahme, gridBagConstraints);
+
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
@@ -643,11 +663,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbMassnahmeItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbMassnahmeItemStateChanged
+    private void cbMassnahmeItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMassnahmeItemStateChanged
         if (evt.getItem() != null) {
-            deActivateAdditionalAttributes();
+            deActivateAdditionalAttributes((CidsBean)evt.getItem());
         }
-    }                                                                              //GEN-LAST:event_cbMassnahmeItemStateChanged
+    }//GEN-LAST:event_cbMassnahmeItemStateChanged
 
     @Override
     public CidsBean getCidsBean() {
@@ -660,6 +680,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
@@ -677,16 +698,25 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             }
             linearReferencedLineEditor.setOtherLines(linieBeans);
             linearReferencedLineEditor.setCidsBean(cidsBean);
-            deActivateAdditionalAttributes();
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Object item = cidsBean.getProperty("massnahme");
+                        if (item != null) {
+                            cbMassnahme.setSelectedItem(item);
+                        }
+                    }
+                }).start();
         }
     }
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  massnahme  DOCUMENT ME!
      */
-    private void deActivateAdditionalAttributes() {
-        final CidsBean massnahme = (CidsBean)cidsBean.getProperty("massnahme");
-
+    private void deActivateAdditionalAttributes(final CidsBean massnahme) {
         if (massnahme != null) {
             final Object bl = massnahme.getProperty("boeschungslaenge");
             final Object bn = massnahme.getProperty("boeschungsneigung");
@@ -759,5 +789,24 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     public void setMassnahmen(final List<CidsBean> massnahmen) {
         this.massnahmen = massnahmen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the kompartiment
+     */
+    public int getKompartiment() {
+        return kompartiment;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  kompartiment  the kompartiment to set
+     */
+    public void setKompartiment(final int kompartiment) {
+        this.kompartiment = kompartiment;
+        ((MassnahmenComboBox)cbMassnahme).setKompartiment(kompartiment);
     }
 }

@@ -12,6 +12,9 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
@@ -44,6 +47,7 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private List<CidsBean> others;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbName;
@@ -80,6 +84,8 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
             linearReferencedLineEditor.setOtherLinesQueryAddition(
                 "gup_entwicklungsziel",
                 "gup_entwicklungsziel.linie = ");
+            linearReferencedLineEditor.setShowOtherInDialog(true);
+            linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
         } else {
             RendererTools.makeReadOnly(jtBemerkung);
             RendererTools.makeReadOnly(cbName);
@@ -205,8 +211,32 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+
+            if (this.others != null) {
+                final List<CidsBean> lineBeans = new ArrayList<CidsBean>();
+                final Object id = cidsBean.getProperty("linie.id");
+
+                for (final CidsBean b : this.others) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(id))) {
+                        lineBeans.add(tmp);
+                    }
+                }
+                linearReferencedLineEditor.setOtherLines(lineBeans);
+            }
+
             linearReferencedLineEditor.setCidsBean(cidsBean);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  others  DOCUMENT ME!
+     */
+    public void setOthers(final List<CidsBean> others) {
+        this.others = others;
     }
 
     @Override

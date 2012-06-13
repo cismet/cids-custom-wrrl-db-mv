@@ -162,7 +162,7 @@ public class GupUnterhaltungserfordernisEditor extends javax.swing.JPanel implem
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${bemerkung}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
                 jtBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);

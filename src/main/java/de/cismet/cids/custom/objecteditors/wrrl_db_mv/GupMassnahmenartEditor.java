@@ -15,6 +15,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -46,6 +47,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private javax.swing.JCheckBox cbBoeschungslaenge;
     private javax.swing.JCheckBox cbBoeschungsneigung;
     private javax.swing.JCheckBox cbDeichkronenbreite;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbKompartiment;
     private javax.swing.JCheckBox cbRandstreifenbreite;
     private javax.swing.JCheckBox cbSohlbreite;
     private javax.swing.JCheckBox cbVorlandbreite;
@@ -54,6 +56,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private javax.swing.JTextArea jtLeistungstext;
     private javax.swing.JLabel lblBeschreibung;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblKompartiment;
     private javax.swing.JLabel lblLeistungstext;
     private javax.swing.JLabel lblOptionaleFelder;
     private javax.swing.JTextField txtBeschreibung;
@@ -119,6 +122,8 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         cbDeichkronenbreite = new javax.swing.JCheckBox();
         cbVorlandbreite = new javax.swing.JCheckBox();
         lblOptionaleFelder = new javax.swing.JLabel();
+        lblKompartiment = new javax.swing.JLabel();
+        cbKompartiment = new ScrollableComboBox();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -196,7 +201,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         lblLeistungstext.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblLeistungstext, gridBagConstraints);
@@ -218,7 +223,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -355,7 +360,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 0);
         add(jPanel1, gridBagConstraints);
@@ -368,10 +373,44 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         lblOptionaleFelder.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblOptionaleFelder, gridBagConstraints);
+
+        lblKompartiment.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblKompartiment.text")); // NOI18N
+        lblKompartiment.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblKompartiment.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblKompartiment.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblKompartiment, gridBagConstraints);
+
+        cbKompartiment.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbKompartiment.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbKompartiment.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kompartiment}"),
+                cbKompartiment,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbKompartiment, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

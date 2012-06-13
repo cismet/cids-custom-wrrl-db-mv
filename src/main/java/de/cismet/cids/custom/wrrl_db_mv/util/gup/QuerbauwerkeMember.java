@@ -88,7 +88,11 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot, Band
      * @param  result  DOCUMENT ME!
      */
     public QuerbauwerkeMember(final ArrayList result) {
-        name = result.get(2).toString();
+        if (result.get(2) != null) {
+            name = result.get(2).toString();
+        } else {
+            name = "unbekannt";
+        }
         station = (Double)(result.get(3));
         art = (Integer)(result.get(1)) - 1;
         setIcon(getIcon(getColor(), 10));

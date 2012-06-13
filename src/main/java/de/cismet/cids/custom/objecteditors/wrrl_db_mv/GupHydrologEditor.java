@@ -17,10 +17,14 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.Box.Filler;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
@@ -39,7 +43,9 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -51,7 +57,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private Filler f;
-
+    private LinearReferencedLineEditor lrle;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -157,10 +163,11 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                     g.drawLine(0, 1, getWidth() - 1, getHeight() - 1);
                 }
             };
-
+        lrle = readOnly ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         this.readOnly = readOnly;
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
+        linearReferencedLineEditor.setLineField("linie");
 
         RendererTools.makeReadOnly(tfLaenge);
         RendererTools.makeReadOnly(tfGefaelle);
@@ -204,7 +211,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
 
         tpMain = new javax.swing.JTabbedPane();
         panProfil = new javax.swing.JPanel();
-        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        linearReferencedLineEditor = lrle;
         jPanel2 = new javax.swing.JPanel();
         lblNhnA = new javax.swing.JLabel();
         lblNhnE = new javax.swing.JLabel();
@@ -321,8 +328,8 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel2.add(lblNhnE, gridBagConstraints);
 
-        tfNhnA.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfNhnA.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfNhnA.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfNhnA.setPreferredSize(new java.awt.Dimension(70, 27));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -338,8 +345,8 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.gridheight = 2;
         jPanel2.add(tfNhnA, gridBagConstraints);
 
-        tfNhnE.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfNhnE.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfNhnE.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfNhnE.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -355,15 +362,24 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.gridheight = 2;
         jPanel2.add(tfNhnE, gridBagConstraints);
 
-        tfLaenge.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfLaenge.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfLaenge.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfLaenge.setPreferredSize(new java.awt.Dimension(70, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         jPanel2.add(tfLaenge, gridBagConstraints);
 
-        tfGefaelle.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfGefaelle.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfGefaelle.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfGefaelle.setPreferredSize(new java.awt.Dimension(70, 27));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gefaelle}"),
+                tfGefaelle,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -437,10 +453,10 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblObBreite.text")); // NOI18N
         jPanel4.add(lblObBreite);
-        lblObBreite.setBounds(150, 45, 81, 17);
+        lblObBreite.setBounds(150, 45, 91, 17);
 
-        tfObBreite.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfObBreite.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfObBreite.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfObBreite.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -451,22 +467,22 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         bindingGroup.addBinding(binding);
 
         jPanel4.add(tfObBreite);
-        tfObBreite.setBounds(260, 40, 60, 27);
+        tfObBreite.setBounds(260, 40, 70, 27);
 
         lblObBreiteM.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblObBreiteM.text")); // NOI18N
         jPanel4.add(lblObBreiteM);
-        lblObBreiteM.setBounds(320, 160, 13, 17);
+        lblObBreiteM.setBounds(325, 160, 13, 17);
 
         lblBenUmfangM.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblBenUmfangM.text")); // NOI18N
         jPanel4.add(lblBenUmfangM);
-        lblBenUmfangM.setBounds(330, 45, 13, 17);
+        lblBenUmfangM.setBounds(335, 45, 13, 17);
 
-        tfBoeNei.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfBoeNei.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfBoeNei.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfBoeNei.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -477,22 +493,22 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         bindingGroup.addBinding(binding);
 
         jPanel4.add(tfBoeNei);
-        tfBoeNei.setBounds(430, 110, 60, 27);
+        tfBoeNei.setBounds(430, 110, 70, 27);
 
         lblBoeNei.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblBoeNei.text")); // NOI18N
         jPanel4.add(lblBoeNei);
-        lblBoeNei.setBounds(420, 90, 79, 20);
+        lblBoeNei.setBounds(420, 90, 88, 20);
 
         lblSohlbreite.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblSohlbreite.text")); // NOI18N
         jPanel4.add(lblSohlbreite);
-        lblSohlbreite.setBounds(170, 160, 65, 17);
+        lblSohlbreite.setBounds(170, 160, 72, 17);
 
-        tfSohlbreite.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfSohlbreite.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfSohlbreite.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfSohlbreite.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -503,16 +519,16 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         bindingGroup.addBinding(binding);
 
         jPanel4.add(tfSohlbreite);
-        tfSohlbreite.setBounds(250, 155, 60, 27);
+        tfSohlbreite.setBounds(250, 155, 70, 27);
 
         lblBoeLaeM.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblBoeLaeM.text")); // NOI18N
         jPanel4.add(lblBoeLaeM);
-        lblBoeLaeM.setBounds(585, 113, 13, 17);
+        lblBoeLaeM.setBounds(587, 113, 13, 17);
 
-        tfBoeLae.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfBoeLae.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfBoeLae.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfBoeLae.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -523,16 +539,16 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         bindingGroup.addBinding(binding);
 
         jPanel4.add(tfBoeLae);
-        tfBoeLae.setBounds(520, 110, 60, 27);
+        tfBoeLae.setBounds(515, 110, 70, 27);
 
         lblBoeLae.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblBoeLae.text")); // NOI18N
         jPanel4.add(lblBoeLae);
-        lblBoeLae.setBounds(520, 90, 65, 17);
+        lblBoeLae.setBounds(520, 90, 72, 17);
 
-        tfTiefe.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfTiefe.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfTiefe.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfTiefe.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -543,22 +559,22 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         bindingGroup.addBinding(binding);
 
         jPanel4.add(tfTiefe);
-        tfTiefe.setBounds(260, 80, 60, 27);
+        tfTiefe.setBounds(260, 80, 70, 27);
 
         lblTiefe.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblTiefe.text")); // NOI18N
         jPanel4.add(lblTiefe);
-        lblTiefe.setBounds(150, 85, 30, 17);
+        lblTiefe.setBounds(150, 85, 36, 17);
 
         lblTiefeM.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblTiefeM.text")); // NOI18N
         jPanel4.add(lblTiefeM);
-        lblTiefeM.setBounds(330, 85, 13, 17);
+        lblTiefeM.setBounds(335, 85, 13, 17);
 
-        tfBoeLaeLinks.setMinimumSize(new java.awt.Dimension(60, 27));
-        tfBoeLaeLinks.setPreferredSize(new java.awt.Dimension(60, 27));
+        tfBoeLaeLinks.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfBoeLaeLinks.setPreferredSize(new java.awt.Dimension(70, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -569,13 +585,13 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         bindingGroup.addBinding(binding);
 
         jPanel4.add(tfBoeLaeLinks);
-        tfBoeLaeLinks.setBounds(22, 110, 60, 27);
+        tfBoeLaeLinks.setBounds(22, 110, 70, 27);
 
         lblBoeLae1.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblBoeLae1.text")); // NOI18N
         jPanel4.add(lblBoeLae1);
-        lblBoeLae1.setBounds(20, 90, 65, 17);
+        lblBoeLae1.setBounds(20, 90, 72, 17);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -636,7 +652,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel1.add(lblAbflussspende, gridBagConstraints);
 
-        tfEzg.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfEzg.setMinimumSize(new java.awt.Dimension(70, 27));
         tfEzg.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -654,7 +670,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jPanel1.add(tfEzg, gridBagConstraints);
 
-        tfAbflussspende.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfAbflussspende.setMinimumSize(new java.awt.Dimension(70, 27));
         tfAbflussspende.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -683,7 +699,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel1.add(lblMW, gridBagConstraints);
 
-        tfMW.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfMW.setMinimumSize(new java.awt.Dimension(70, 27));
         tfMW.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -712,7 +728,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel1.add(lblHW, gridBagConstraints);
 
-        tfHw.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfHw.setMinimumSize(new java.awt.Dimension(70, 27));
         tfHw.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -741,7 +757,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel1.add(lblHHW, gridBagConstraints);
 
-        tfHHW.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfHHW.setMinimumSize(new java.awt.Dimension(70, 27));
         tfHHW.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -770,7 +786,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         jPanel1.add(lblMQ, gridBagConstraints);
 
-        tfMQ.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfMQ.setMinimumSize(new java.awt.Dimension(70, 27));
         tfMQ.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -799,7 +815,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         jPanel1.add(lblhqt, gridBagConstraints);
 
-        tfHqt.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfHqt.setMinimumSize(new java.awt.Dimension(70, 27));
         tfHqt.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -830,7 +846,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         jPanel1.add(lblJaehrlichkeit, gridBagConstraints);
 
-        tfJaehrlichkeit.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfJaehrlichkeit.setMinimumSize(new java.awt.Dimension(70, 27));
         tfJaehrlichkeit.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -864,9 +880,6 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         lblAbflussM.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblAbflussM.text")); // NOI18N
-        lblAbflussM.setMaximumSize(new java.awt.Dimension(50, 17));
-        lblAbflussM.setMinimumSize(new java.awt.Dimension(50, 17));
-        lblAbflussM.setPreferredSize(new java.awt.Dimension(50, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -960,7 +973,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
         jPanel1.add(lblLinkPegel, gridBagConstraints);
 
-        lblLab.setFont(new java.awt.Font("DejaVu Sans", 1, 16));
+        lblLab.setFont(new java.awt.Font("DejaVu Sans", 1, 16));                                                        // NOI18N
         lblLab.setText(org.openide.util.NbBundle.getMessage(GupHydrologEditor.class, "GupHydrologEditor.lblLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -982,7 +995,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         jPanel1.add(lblAbflussbeiwert, gridBagConstraints);
 
-        tfAbflussbeiwert.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfAbflussbeiwert.setMinimumSize(new java.awt.Dimension(70, 27));
         tfAbflussbeiwert.setPreferredSize(new java.awt.Dimension(100, 27));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -1027,7 +1040,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel1.add(lblBenetzterUmfang, gridBagConstraints);
 
         tfBenetzterUmfang.setEditable(false);
-        tfBenetzterUmfang.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfBenetzterUmfang.setMinimumSize(new java.awt.Dimension(70, 27));
         tfBenetzterUmfang.setPreferredSize(new java.awt.Dimension(100, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1063,7 +1076,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel1.add(lblFliessquerschnitt, gridBagConstraints);
 
         tfFliessquerschnitt.setEditable(false);
-        tfFliessquerschnitt.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfFliessquerschnitt.setMinimumSize(new java.awt.Dimension(70, 27));
         tfFliessquerschnitt.setPreferredSize(new java.awt.Dimension(100, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1099,7 +1112,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel1.add(lblFliessgeschwindigkeit, gridBagConstraints);
 
         tfFliessgeschwindigkeit.setEditable(false);
-        tfFliessgeschwindigkeit.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfFliessgeschwindigkeit.setMinimumSize(new java.awt.Dimension(70, 27));
         tfFliessgeschwindigkeit.setPreferredSize(new java.awt.Dimension(100, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -1135,7 +1148,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel1.add(lblDurchflusskapazitaet, gridBagConstraints);
 
         tfDurchflusskapazitaet.setEditable(false);
-        tfDurchflusskapazitaet.setMinimumSize(new java.awt.Dimension(60, 27));
+        tfDurchflusskapazitaet.setMinimumSize(new java.awt.Dimension(70, 27));
         tfDurchflusskapazitaet.setPreferredSize(new java.awt.Dimension(100, 27));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -1243,6 +1256,9 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(this);
+        }
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
 
@@ -1252,12 +1268,16 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                 cidsBean);
             bindingGroup.bind();
             linearReferencedLineEditor.setCidsBean(cidsBean);
-//            calcFields();
+            cidsBean.addPropertyChangeListener(this);
+            calcFields();
         }
     }
 
     @Override
     public void dispose() {
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(this);
+        }
         linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }
@@ -1296,5 +1316,10 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
             1,
             1280,
             1024);
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        calcFields();
     }
 }
