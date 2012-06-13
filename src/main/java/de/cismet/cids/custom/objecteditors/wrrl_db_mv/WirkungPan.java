@@ -50,6 +50,8 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
     private static final int SG_ART = 2;
     private static final int KG_ART = 3;
     private static final int GW_ART = 4;
+    private static final int PLE_ART = 5;
+    private static final int FGE_ART = 6;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -192,9 +194,22 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
     private void btnRemWirkungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemWirkungActionPerformed
         final Object selection = lstWirkung.getSelectedValue();
         if (selection != null) {
+            String typeString = "den Wasserkörper";
+            final Object kind = ((CidsBean)selection).getProperty("art");
+
+            if (kind != null) {
+                if (kind.equals(PLE_ART)) {
+                    typeString = "die Planungseinheit";
+                } else if (kind.equals(FGE_ART)) {
+                    typeString = "die Flussgebietseinheit";
+                }
+            }
+
             final int answer = JOptionPane.showConfirmDialog(
                     this,
-                    "Soll die Wirkung auf den Wasserkörper '"
+                    "Soll die Wirkung auf "
+                            + typeString
+                            + " '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
                     "Wirkung entfernen",
@@ -209,7 +224,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 }
             }
         }
-    }                                                                                 //GEN-LAST:event_btnRemWirkungActionPerformed
+    } //GEN-LAST:event_btnRemWirkungActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -236,7 +251,9 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")
                             || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")
                             || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")
-                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
+                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")
+                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Planungseinheit")
+                            || bean.getClass().getName().equals("de.cismet.cids.dynamics.Flussgebietseinheit")) {
                     addWB(bean);
                 }
             }
@@ -305,6 +322,12 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 w.setProperty("name", wkBean.getProperty("name"));
             } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) {
                 w.setProperty("art", GW_ART);
+                w.setProperty("name", wkBean.getProperty("name"));
+            } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Planungseinheit")) {
+                w.setProperty("art", PLE_ART);
+                w.setProperty("name", wkBean.getProperty("name"));
+            } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Flussgebietseinheit")) {
+                w.setProperty("art", FGE_ART);
                 w.setProperty("name", wkBean.getProperty("name"));
             } else {
                 LOG.error("Invalid bean type found.");
