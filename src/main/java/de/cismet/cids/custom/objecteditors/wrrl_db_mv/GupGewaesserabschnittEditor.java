@@ -974,9 +974,8 @@ public class GupGewaesserabschnittEditor extends JPanel implements CidsBeanRende
         jLabel3.setBounds(12, 40, 92, 22);
 
         lblSubTitle.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        lblSubTitle.setText("Warnow KM 0 - 4711");
         panHeaderInfo.add(lblSubTitle);
-        lblSubTitle.setBounds(110, 40, 250, 22);
+        lblSubTitle.setBounds(110, 40, 250, 0);
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel5.setText("Zoom:");
