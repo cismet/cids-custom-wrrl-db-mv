@@ -44,13 +44,7 @@ import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MaxWBNumberSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.StaluSearch;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
-import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.MeasureTypeCodeRenderer;
-import de.cismet.cids.custom.wrrl_db_mv.util.RouteWBDropBehavior;
-import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.*;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -215,6 +209,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     public MassnahmenEditor() {
         initComponents();
+        RendererTools.makeReadOnly(cbFin);
+        RendererTools.makeReadOnly(cbStarted);
         deActivateGUI(false);
         dropBehaviorListener = new RouteWBDropBehavior(this);
         linearReferencedLineEditor.setLineField("linie");                 // NOI18N
@@ -478,7 +474,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -861,8 +857,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -1100,7 +1096,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 13;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
