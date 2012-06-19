@@ -20,6 +20,9 @@ import java.awt.Graphics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.Box.Filler;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -58,6 +61,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
     private boolean readOnly = false;
     private Filler f;
     private LinearReferencedLineEditor lrle;
+    private List<CidsBean> others;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -168,6 +172,8 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
         linearReferencedLineEditor.setLineField("linie");
+        linearReferencedLineEditor.setOtherLinesEnabled(false);
+//        linearReferencedLineEditor.setShowOtherInDialog(true);
 
         RendererTools.makeReadOnly(tfLaenge);
         RendererTools.makeReadOnly(tfGefaelle);
@@ -198,6 +204,15 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  others  DOCUMENT ME!
+     */
+    public void setOthers(final List<CidsBean> others) {
+        this.others = others;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -1239,14 +1254,25 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
 
                 @Override
                 public void run() {
-                    tfLaenge.setText(String.valueOf(laenge));
-                    tfGefaelle.setText(String.valueOf(finGefaelle));
-                    tfBenetzterUmfang.setText(String.valueOf(benetzterUmfang));
-                    tfFliessgeschwindigkeit.setText(String.valueOf(fliessgeschwindigkeit));
-                    tfFliessquerschnitt.setText(String.valueOf(fliessquerschitt));
-                    tfDurchflusskapazitaet.setText(String.valueOf(durchflusskapazitaet));
+                    tfLaenge.setText(String.valueOf(round(laenge)));
+                    tfGefaelle.setText(String.valueOf(round(finGefaelle)));
+                    tfBenetzterUmfang.setText(String.valueOf(round(benetzterUmfang)));
+                    tfFliessgeschwindigkeit.setText(String.valueOf(round(fliessgeschwindigkeit)));
+                    tfFliessquerschnitt.setText(String.valueOf(round(fliessquerschitt)));
+                    tfDurchflusskapazitaet.setText(String.valueOf(round(durchflusskapazitaet)));
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private double round(final double value) {
+        return Math.round(value * 1000.0) / 1000.0;
     }
 
     @Override
@@ -1267,6 +1293,21 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+
+            if (this.others != null) {
+                final List<CidsBean> lineBeans = new ArrayList<CidsBean>();
+                final Object id = cidsBean.getProperty("linie.id");
+
+                for (final CidsBean b : this.others) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(id))) {
+                        lineBeans.add(tmp);
+                    }
+                }
+                linearReferencedLineEditor.setOtherLines(lineBeans);
+            }
+
             linearReferencedLineEditor.setCidsBean(cidsBean);
             cidsBean.addPropertyChangeListener(this);
             calcFields();

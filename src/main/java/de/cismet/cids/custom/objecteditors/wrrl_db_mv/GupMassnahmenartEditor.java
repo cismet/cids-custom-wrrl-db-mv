@@ -92,6 +92,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(cbRandstreifenbreite);
             RendererTools.makeReadOnly(cbSohlbreite);
             RendererTools.makeReadOnly(cbVorlandbreite);
+            RendererTools.makeReadOnly(cbKompartiment);
         }
     }
 

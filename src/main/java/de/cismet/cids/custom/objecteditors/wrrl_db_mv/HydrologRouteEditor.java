@@ -65,20 +65,20 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRenderer,
+public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            EntwicklungszielRouteEditor.class);
-    private static final String GUP_ENTWICKLUNGSZIEL = "gup_entwicklungsziel";
+            HydrologRouteEditor.class);
+    private static final String GUP_ENTWICKLUNGSZIEL = "gup_hydrolog";
 
     //~ Instance fields --------------------------------------------------------
 
-    private EntwicklungszielRWBand entwicklungsband = new EntwicklungszielRWBand(
-            "Entwicklungsziel",
+    private HydrologRWBand hydrologieband = new HydrologRWBand(
+            "Hydrologie",
             GUP_ENTWICKLUNGSZIEL);
     private WKBand wkband;
     private final JBand jband;
@@ -86,7 +86,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
-    private GupEntwicklungszielEditor entwicklungszielEditor = new GupEntwicklungszielEditor();
+    private GupHydrologEditor hydrologieEditor = new GupHydrologEditor();
     private boolean readOnly = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -105,11 +105,11 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     private javax.swing.JPanel panBand;
     private javax.swing.JPanel panControls;
     private javax.swing.JPanel panEmpty;
-    private javax.swing.JPanel panEntwicklungsziel;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private javax.swing.JPanel panHeader;
     private javax.swing.JPanel panHeaderInfo;
+    private javax.swing.JPanel panHydrolog;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
@@ -121,7 +121,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     /**
      * Creates a new GupGewaesserabschnittEditor object.
      */
-    public EntwicklungszielRouteEditor() {
+    public HydrologRouteEditor() {
         this(false);
     }
 
@@ -130,14 +130,14 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public EntwicklungszielRouteEditor(final boolean readOnly) {
+    public HydrologRouteEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         jband = new JBand(readOnly);
         initComponents();
 
-        entwicklungsband.setReadOnly(readOnly);
+        hydrologieband.setReadOnly(readOnly);
 
-        sbm.addBand(entwicklungsband);
+        sbm.addBand(hydrologieband);
 
         jband.setModel(sbm);
 
@@ -145,7 +145,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
         lblHeading.setText("Allgemeine Informationen");
-        panEntwicklungsziel.add(entwicklungszielEditor, BorderLayout.CENTER);
+        panHydrolog.add(hydrologieEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -208,8 +208,8 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         sbm.setMax(till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
-        entwicklungsband.setRoute(route);
-        entwicklungsband.setCidsBeans(cidsBean.getBeanCollectionProperty("entwicklungsziele"));
+        hydrologieband.setRoute(route);
+        hydrologieband.setCidsBeans(cidsBean.getBeanCollectionProperty("hydrologien"));
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -255,7 +255,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        panEntwicklungsziel = new javax.swing.JPanel();
+        panHydrolog = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
@@ -294,9 +294,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
-        jbApply.setText(org.openide.util.NbBundle.getMessage(
-                EntwicklungszielRouteEditor.class,
-                "GupGewaesserabschnitt")); // NOI18N
+        jbApply.setText(org.openide.util.NbBundle.getMessage(HydrologRouteEditor.class, "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -316,8 +314,8 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         setPreferredSize(new java.awt.Dimension(1050, 800));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 310));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 310));
+        panInfo.setMinimumSize(new java.awt.Dimension(640, 500));
+        panInfo.setPreferredSize(new java.awt.Dimension(640, 500));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -333,9 +331,9 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.CardLayout());
 
-        panEntwicklungsziel.setOpaque(false);
-        panEntwicklungsziel.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panEntwicklungsziel, "entwicklungsziel");
+        panHydrolog.setOpaque(false);
+        panHydrolog.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panHydrolog, "entwicklungsziel");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
@@ -616,15 +614,15 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof EntwicklungszielRWBandMember) {
+                if (bm instanceof HydrologRWBandMember) {
                     switchToForm("entwicklungsziel");
-                    lblHeading.setText("Entwicklungsziel");
+                    lblHeading.setText("Hydrologie");
 
                     final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
                             cidsBean,
-                            "entwicklungsziele");
-                    entwicklungszielEditor.setOthers(otherBeans);
-                    entwicklungszielEditor.setCidsBean(((EntwicklungszielRWBandMember)bm).getCidsBean());
+                            "hydrologien");
+                    hydrologieEditor.setOthers(otherBeans);
+                    hydrologieEditor.setCidsBean(((HydrologRWBandMember)bm).getCidsBean());
                 }
             } else {
                 switchToForm("empty");
