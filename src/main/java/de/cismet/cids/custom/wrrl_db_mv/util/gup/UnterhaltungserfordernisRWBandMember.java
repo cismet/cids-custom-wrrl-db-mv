@@ -76,7 +76,7 @@ public class UnterhaltungserfordernisRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+        setToolTipText(bean.getProperty("name_beschreibung.name") + "");
     }
 
     /**
@@ -84,10 +84,10 @@ public class UnterhaltungserfordernisRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("name_bezeichnung") == null) {
+        if (bean.getProperty("name_beschreibung") == null) {
             return;
         }
-        final int art = (Integer)bean.getProperty("name_bezeichnung.id");
+        final int art = (Integer)bean.getProperty("name_beschreibung.id");
 
         switch (art) {
             case 1: {
@@ -145,6 +145,7 @@ public class UnterhaltungserfordernisRWBandMember extends LineBandMember {
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+        setBackgroundPainter(unselectedBackgroundPainter);
     }
 
     /**
@@ -168,7 +169,7 @@ public class UnterhaltungserfordernisRWBandMember extends LineBandMember {
             }
         }
         try {
-            bean.setProperty("name_bezeichnung", b);
+            bean.setProperty("name_beschreibung", b);
         } catch (Exception e) {
             LOG.error("Error while setting property massnahme.", e);
         }
@@ -220,10 +221,10 @@ public class UnterhaltungserfordernisRWBandMember extends LineBandMember {
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("name_bezeichnung")) {
+        if (evt.getPropertyName().equals("name_beschreibung")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+            setToolTipText(bean.getProperty("name_beschreibung.name") + "");
         } else {
             super.propertyChange(evt);
         }

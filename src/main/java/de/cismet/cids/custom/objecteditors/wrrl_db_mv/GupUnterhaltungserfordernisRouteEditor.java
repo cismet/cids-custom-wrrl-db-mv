@@ -8,7 +8,7 @@
 /*
  * WkFgEditor.java
  *
- * Created on 04.08.2010, 13:13:12
+ * Created on 20.06.2012, 13:13:12
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
@@ -65,28 +65,28 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRenderer,
+public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            EntwicklungszielRouteEditor.class);
-    private static final String GUP_ENTWICKLUNGSZIEL = "gup_entwicklungsziel";
+            GupUnterhaltungserfordernisRouteEditor.class);
+    private static final String GUP_UNTERHALTUNGSERFORDERNIS = "gup_unterhaltungserfordernis";
 
     //~ Instance fields --------------------------------------------------------
 
-    private EntwicklungszielRWBand entwicklungsband = new EntwicklungszielRWBand(
-            "Entwicklungsziel",
-            GUP_ENTWICKLUNGSZIEL);
+    private UnterhaltungserfordernisRWBand unterhaltungsband = new UnterhaltungserfordernisRWBand(
+            "Unterhaltungserfordernis",
+            GUP_UNTERHALTUNGSERFORDERNIS);
     private WKBand wkband;
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
-    private GupEntwicklungszielEditor entwicklungszielEditor = new GupEntwicklungszielEditor();
+    private GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor = new GupUnterhaltungserfordernisEditor();
     private boolean readOnly = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -105,7 +105,6 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     private javax.swing.JPanel panBand;
     private javax.swing.JPanel panControls;
     private javax.swing.JPanel panEmpty;
-    private javax.swing.JPanel panEntwicklungsziel;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private javax.swing.JPanel panHeader;
@@ -113,6 +112,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
+    private javax.swing.JPanel panUnterhaltungserfordernis;
     private javax.swing.JSlider sldZoom;
     // End of variables declaration//GEN-END:variables
 
@@ -121,7 +121,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     /**
      * Creates a new GupGewaesserabschnittEditor object.
      */
-    public EntwicklungszielRouteEditor() {
+    public GupUnterhaltungserfordernisRouteEditor() {
         this(false);
     }
 
@@ -130,14 +130,14 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public EntwicklungszielRouteEditor(final boolean readOnly) {
+    public GupUnterhaltungserfordernisRouteEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         jband = new JBand(readOnly);
         initComponents();
 
-        entwicklungsband.setReadOnly(readOnly);
+        unterhaltungsband.setReadOnly(readOnly);
 
-        sbm.addBand(entwicklungsband);
+        sbm.addBand(unterhaltungsband);
 
         jband.setModel(sbm);
 
@@ -145,7 +145,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
         lblHeading.setText("Allgemeine Informationen");
-        panEntwicklungsziel.add(entwicklungszielEditor, BorderLayout.CENTER);
+        panUnterhaltungserfordernis.add(unterhaltungserfordernisEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -208,8 +208,8 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         sbm.setMax(till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
-        entwicklungsband.setRoute(route);
-        entwicklungsband.setCidsBeans(cidsBean.getBeanCollectionProperty("entwicklungsziele"));
+        unterhaltungsband.setRoute(route);
+        unterhaltungsband.setCidsBeans(cidsBean.getBeanCollectionProperty("unterhaltungserfordernisse"));
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -255,7 +255,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        panEntwicklungsziel = new javax.swing.JPanel();
+        panUnterhaltungserfordernis = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
@@ -295,7 +295,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
         jbApply.setText(org.openide.util.NbBundle.getMessage(
-                EntwicklungszielRouteEditor.class,
+                GupUnterhaltungserfordernisRouteEditor.class,
                 "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
 
@@ -333,9 +333,9 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.CardLayout());
 
-        panEntwicklungsziel.setOpaque(false);
-        panEntwicklungsziel.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panEntwicklungsziel, "entwicklungsziel");
+        panUnterhaltungserfordernis.setOpaque(false);
+        panUnterhaltungserfordernis.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panUnterhaltungserfordernis, "unterhaltungserfordernis");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
@@ -616,15 +616,16 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof EntwicklungszielRWBandMember) {
-                    switchToForm("entwicklungsziel");
-                    lblHeading.setText("Entwicklungsziel");
+                if (bm instanceof UnterhaltungserfordernisRWBandMember) {
+                    switchToForm("unterhaltungserfordernis");
+                    lblHeading.setText("Unterhaltungserfordernis");
 
                     final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
                             cidsBean,
-                            "entwicklungsziele");
-                    entwicklungszielEditor.setOthers(otherBeans);
-                    entwicklungszielEditor.setCidsBean(((EntwicklungszielRWBandMember)bm).getCidsBean());
+                            "unterhaltungserfordernisse");
+                    unterhaltungserfordernisEditor.setOthers(otherBeans);
+                    unterhaltungserfordernisEditor.setCidsBean(((UnterhaltungserfordernisRWBandMember)bm)
+                                .getCidsBean());
                 }
             } else {
                 switchToForm("empty");
