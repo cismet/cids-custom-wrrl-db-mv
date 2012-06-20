@@ -1908,7 +1908,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbRevital.setEnabled(enable);
         cbSuppl_cd.setEnabled(enable);
         cbMassn_typ.setEnabled(enable);
-        cbFin.setEnabled(enable);
     }
 
     @Override
@@ -2192,8 +2191,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[1]) != null)
                     && (cidsBean.getProperty("linie") == null)) {
             panGeo.setVisible(false);
-            cbGeom.setVisible(false);
-            lblGeom.setVisible(false);
+            cbGeom.setVisible(true);
+            lblGeom.setVisible(true);
         } else {
             panGeo.setVisible(true);
             cbGeom.setVisible(true);
