@@ -86,7 +86,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
-    private GupHydrologEditor hydrologieEditor = new GupHydrologEditor();
+    private GupHydrologEditor hydrologieEditor;
     private boolean readOnly = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -136,7 +136,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         initComponents();
 
         hydrologieband.setReadOnly(readOnly);
-
+        hydrologieEditor = new GupHydrologEditor(readOnly);
         sbm.addBand(hydrologieband);
 
         jband.setModel(sbm);
@@ -352,9 +352,9 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         panHeader.setOpaque(false);
         panHeader.setLayout(new java.awt.GridBagLayout());
 
-        panHeaderInfo.setMinimumSize(new java.awt.Dimension(431, 102));
+        panHeaderInfo.setMinimumSize(new java.awt.Dimension(531, 102));
         panHeaderInfo.setOpaque(false);
-        panHeaderInfo.setPreferredSize(new java.awt.Dimension(431, 102));
+        panHeaderInfo.setPreferredSize(new java.awt.Dimension(531, 102));
         panHeaderInfo.setLayout(null);
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
@@ -366,7 +366,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         lblSubTitle.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         lblSubTitle.setText("Warnow KM 0 - 4711");
         panHeaderInfo.add(lblSubTitle);
-        lblSubTitle.setBounds(110, 40, 250, 22);
+        lblSubTitle.setBounds(110, 40, 350, 22);
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel5.setText("Zoom:");
@@ -386,7 +386,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
                 }
             });
         panHeaderInfo.add(sldZoom);
-        sldZoom.setBounds(110, 72, 250, 16);
+        sldZoom.setBounds(110, 72, 350, 16);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
@@ -489,44 +489,6 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
-
-    /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     */
-    private void zoomToAbschnitt() {
-        final Geometry g = (Geometry)(cidsBean.getProperty("linie.geom.geo_field"));
-        final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
-        final XBoundingBox xbb = new XBoundingBox(g);
-
-        mc.gotoBoundingBoxWithHistory(xbb);
-        final DefaultStyledFeature dsf = new DefaultStyledFeature();
-        dsf.setGeometry(g);
-        dsf.setCanBeSelected(false);
-        dsf.setLinePaint(Color.YELLOW);
-        dsf.setLineWidth(6);
-        final PFeature highlighter = new PFeature(dsf, mc);
-        mc.getHighlightingLayer().addChild(highlighter);
-        highlighter.animateToTransparency(0.1f, 2000);
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {
-
-                @Override
-                protected Void doInBackground() throws Exception {
-                    Thread.currentThread().sleep(2500);
-                    return null;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        mc.getHighlightingLayer().removeChild(highlighter);
-                    } catch (Exception e) {
-                    }
-                }
-            });
-    }
 
     /**
      * DOCUMENT ME!

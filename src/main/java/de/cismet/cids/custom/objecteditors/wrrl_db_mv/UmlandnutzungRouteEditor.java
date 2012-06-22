@@ -8,7 +8,7 @@
 /*
  * WkFgEditor.java
  *
- * Created on 20.06.2012, 13:13:12
+ * Created on 04.08.2010, 13:13:12
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
@@ -16,11 +16,8 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -45,14 +42,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.PFeature;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 import de.cismet.tools.gui.FooterComponentProvider;
-import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
@@ -65,28 +55,31 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements CidsBeanRenderer,
+public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupUnterhaltungserfordernisRouteEditor.class);
-    private static final String GUP_UNTERHALTUNGSERFORDERNIS = "gup_unterhaltungserfordernis";
+            UmlandnutzungRouteEditor.class);
+    private static final String GUP_UMLANDNUTZUNG = "gup_umlandnutzung";
 
     //~ Instance fields --------------------------------------------------------
 
-    private UnterhaltungserfordernisRWBand unterhaltungsband = new UnterhaltungserfordernisRWBand(
-            "Unterhaltungserfordernis",
-            GUP_UNTERHALTUNGSERFORDERNIS);
+    private UmlandnutzungRWBand umlandnutzung_links = new UmlandnutzungRWBand(
+            "Umlandnutzung links",
+            GUP_UMLANDNUTZUNG);
+    private UmlandnutzungRWBand umlandnutzung_rechts = new UmlandnutzungRWBand(
+            "Umlandnutzung rechts",
+            GUP_UMLANDNUTZUNG);
     private WKBand wkband;
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
-    private GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor;
+    private GupUmlandnutzungEditor umlandnutzungEditor;
     private boolean readOnly = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -112,7 +105,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
-    private javax.swing.JPanel panUnterhaltungserfordernis;
+    private javax.swing.JPanel panUmlandnutzung;
     private javax.swing.JSlider sldZoom;
     // End of variables declaration//GEN-END:variables
 
@@ -121,7 +114,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     /**
      * Creates a new GupGewaesserabschnittEditor object.
      */
-    public GupUnterhaltungserfordernisRouteEditor() {
+    public UmlandnutzungRouteEditor() {
         this(false);
     }
 
@@ -130,14 +123,18 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupUnterhaltungserfordernisRouteEditor(final boolean readOnly) {
+    public UmlandnutzungRouteEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         jband = new JBand(readOnly);
         initComponents();
 
-        unterhaltungsband.setReadOnly(readOnly);
-        unterhaltungserfordernisEditor = new GupUnterhaltungserfordernisEditor(true);
-        sbm.addBand(unterhaltungsband);
+        umlandnutzungEditor = new GupUmlandnutzungEditor(readOnly);
+        umlandnutzung_rechts.setReadOnly(readOnly);
+        umlandnutzung_rechts.setSide(UmlandnutzungRWBand.RIGHT);
+        sbm.addBand(umlandnutzung_rechts);
+        umlandnutzung_links.setReadOnly(readOnly);
+        umlandnutzung_links.setSide(UmlandnutzungRWBand.LEFT);
+        sbm.addBand(umlandnutzung_links);
 
         jband.setModel(sbm);
 
@@ -145,7 +142,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
         lblHeading.setText("Allgemeine Informationen");
-        panUnterhaltungserfordernis.add(unterhaltungserfordernisEditor, BorderLayout.CENTER);
+        panUmlandnutzung.add(umlandnutzungEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -208,8 +205,10 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         sbm.setMax(till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
-        unterhaltungsband.setRoute(route);
-        unterhaltungsband.setCidsBeans(cidsBean.getBeanCollectionProperty("unterhaltungserfordernisse"));
+        umlandnutzung_links.setRoute(route);
+        umlandnutzung_links.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzung_links"));
+        umlandnutzung_rechts.setRoute(route);
+        umlandnutzung_rechts.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzung_rechts"));
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -255,7 +254,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        panUnterhaltungserfordernis = new javax.swing.JPanel();
+        panUmlandnutzung = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
@@ -294,9 +293,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
-        jbApply.setText(org.openide.util.NbBundle.getMessage(
-                GupUnterhaltungserfordernisRouteEditor.class,
-                "GupGewaesserabschnitt")); // NOI18N
+        jbApply.setText(org.openide.util.NbBundle.getMessage(UmlandnutzungRouteEditor.class, "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -333,9 +330,9 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.CardLayout());
 
-        panUnterhaltungserfordernis.setOpaque(false);
-        panUnterhaltungserfordernis.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panUnterhaltungserfordernis, "unterhaltungserfordernis");
+        panUmlandnutzung.setOpaque(false);
+        panUmlandnutzung.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panUmlandnutzung, "umlandnutzung");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
@@ -578,16 +575,26 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof UnterhaltungserfordernisRWBandMember) {
-                    switchToForm("unterhaltungserfordernis");
-                    lblHeading.setText("Unterhaltungserfordernis");
+                if (bm instanceof UmlandnutzungRWBandMember) {
+                    switchToForm("umlandnutzung");
+                    lblHeading.setText("Umlandnutzung");
 
-                    final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
-                            cidsBean,
-                            "unterhaltungserfordernisse");
-                    unterhaltungserfordernisEditor.setOthers(otherBeans);
-                    unterhaltungserfordernisEditor.setCidsBean(((UnterhaltungserfordernisRWBandMember)bm)
-                                .getCidsBean());
+                    final UmlandnutzungRWBand band = (UmlandnutzungRWBand)((UmlandnutzungRWBandMember)bm)
+                                .getParentBand();
+                    final List<CidsBean> otherBeans;
+
+                    if (band.getSide() == UmlandnutzungRWBand.RIGHT) {
+                        otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
+                                cidsBean,
+                                "umlandnutzung_rechts");
+                    } else {
+                        otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
+                                cidsBean,
+                                "umlandnutzung_links");
+                    }
+
+                    umlandnutzungEditor.setOthers(otherBeans);
+                    umlandnutzungEditor.setCidsBean(((UmlandnutzungRWBandMember)bm).getCidsBean());
                 }
             } else {
                 switchToForm("empty");

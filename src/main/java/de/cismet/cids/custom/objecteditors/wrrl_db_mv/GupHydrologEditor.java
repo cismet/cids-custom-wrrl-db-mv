@@ -76,9 +76,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
     private javax.swing.JLabel lblBenUmfangM;
     private javax.swing.JLabel lblBenetzterUmfang;
     private javax.swing.JLabel lblBenetzterUmfangM;
-    private javax.swing.JLabel lblBoeLae;
     private javax.swing.JLabel lblBoeLae1;
-    private javax.swing.JLabel lblBoeLaeM;
     private javax.swing.JLabel lblBoeNei;
     private javax.swing.JLabel lblDurchflusskapazitaet;
     private javax.swing.JLabel lblDurchflusskapazitaetM;
@@ -120,7 +118,6 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
     private javax.swing.JTextField tfAbflussspende;
     private javax.swing.JTextField tfBenetzterUmfang;
     private javax.swing.JTextField tfBoeLae;
-    private javax.swing.JTextField tfBoeLaeLinks;
     private javax.swing.JTextField tfBoeNei;
     private javax.swing.JTextField tfDurchflusskapazitaet;
     private javax.swing.JTextField tfEzg;
@@ -181,15 +178,14 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         RendererTools.makeReadOnly(tfFliessgeschwindigkeit);
         RendererTools.makeReadOnly(tfFliessquerschnitt);
         RendererTools.makeReadOnly(tfDurchflusskapazitaet);
+        RendererTools.makeReadOnly(tfBoeLae);
+        RendererTools.makeReadOnly(tfBoeNei);
 
         if (readOnly) {
             RendererTools.makeReadOnly(tfNhnA);
             RendererTools.makeReadOnly(tfNhnE);
             RendererTools.makeReadOnly(tfObBreite);
             RendererTools.makeReadOnly(tfTiefe);
-            RendererTools.makeReadOnly(tfBoeLae);
-            RendererTools.makeReadOnly(tfBoeLaeLinks);
-            RendererTools.makeReadOnly(tfBoeNei);
             RendererTools.makeReadOnly(tfSohlbreite);
             RendererTools.makeReadOnly(tfEzg);
             RendererTools.makeReadOnly(tfAbflussspende);
@@ -251,13 +247,10 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         lblBoeNei = new javax.swing.JLabel();
         lblSohlbreite = new javax.swing.JLabel();
         tfSohlbreite = new javax.swing.JTextField();
-        lblBoeLaeM = new javax.swing.JLabel();
-        tfBoeLae = new javax.swing.JTextField();
-        lblBoeLae = new javax.swing.JLabel();
         tfTiefe = new javax.swing.JTextField();
         lblTiefe = new javax.swing.JLabel();
         lblTiefeM = new javax.swing.JLabel();
-        tfBoeLaeLinks = new javax.swing.JTextField();
+        tfBoeLae = new javax.swing.JTextField();
         lblBoeLae1 = new javax.swing.JLabel();
         lblImage = new javax.swing.JLabel();
         panHydraulischeDaten = new javax.swing.JPanel();
@@ -498,15 +491,6 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
 
         tfBoeNei.setMinimumSize(new java.awt.Dimension(70, 27));
         tfBoeNei.setPreferredSize(new java.awt.Dimension(70, 27));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungsneigung}"),
-                tfBoeNei,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         jPanel4.add(tfBoeNei);
         tfBoeNei.setBounds(430, 110, 70, 27);
 
@@ -536,32 +520,6 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel4.add(tfSohlbreite);
         tfSohlbreite.setBounds(250, 155, 70, 27);
 
-        lblBoeLaeM.setText(org.openide.util.NbBundle.getMessage(
-                GupHydrologEditor.class,
-                "GupHydrologEditor.lblBoeLaeM.text")); // NOI18N
-        jPanel4.add(lblBoeLaeM);
-        lblBoeLaeM.setBounds(587, 113, 13, 17);
-
-        tfBoeLae.setMinimumSize(new java.awt.Dimension(70, 27));
-        tfBoeLae.setPreferredSize(new java.awt.Dimension(70, 27));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungslaenge_rechts}"),
-                tfBoeLae,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jPanel4.add(tfBoeLae);
-        tfBoeLae.setBounds(515, 110, 70, 27);
-
-        lblBoeLae.setText(org.openide.util.NbBundle.getMessage(
-                GupHydrologEditor.class,
-                "GupHydrologEditor.lblBoeLae.text")); // NOI18N
-        jPanel4.add(lblBoeLae);
-        lblBoeLae.setBounds(520, 90, 72, 17);
-
         tfTiefe.setMinimumSize(new java.awt.Dimension(70, 27));
         tfTiefe.setPreferredSize(new java.awt.Dimension(70, 27));
 
@@ -580,7 +538,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                 GupHydrologEditor.class,
                 "GupHydrologEditor.lblTiefe.text")); // NOI18N
         jPanel4.add(lblTiefe);
-        lblTiefe.setBounds(150, 85, 36, 17);
+        lblTiefe.setBounds(150, 85, 90, 17);
 
         lblTiefeM.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
@@ -588,19 +546,10 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         jPanel4.add(lblTiefeM);
         lblTiefeM.setBounds(335, 85, 13, 17);
 
-        tfBoeLaeLinks.setMinimumSize(new java.awt.Dimension(70, 27));
-        tfBoeLaeLinks.setPreferredSize(new java.awt.Dimension(70, 27));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungslaenge_links}"),
-                tfBoeLaeLinks,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jPanel4.add(tfBoeLaeLinks);
-        tfBoeLaeLinks.setBounds(22, 110, 70, 27);
+        tfBoeLae.setMinimumSize(new java.awt.Dimension(70, 27));
+        tfBoeLae.setPreferredSize(new java.awt.Dimension(70, 27));
+        jPanel4.add(tfBoeLae);
+        tfBoeLae.setBounds(22, 110, 70, 27);
 
         lblBoeLae1.setText(org.openide.util.NbBundle.getMessage(
                 GupHydrologEditor.class,
@@ -1213,10 +1162,8 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
      * DOCUMENT ME!
      */
     private void calcFields() {
-        final double boeschungslaenge_rechts = CidsBeanSupport.textToDouble(tfBoeLae, 0.0);
-        final double boeschungslaenge_links = CidsBeanSupport.textToDouble(tfBoeLaeLinks, 0.0);
-        final double boeschungsneigung = CidsBeanSupport.textToDouble(tfBoeNei, 0.0);
         final double sohlbreite = CidsBeanSupport.textToDouble(tfSohlbreite, 0.0);
+        final double obereBreite = CidsBeanSupport.textToDouble(tfObBreite, 0.0);
         final double hoeheAnfang = CidsBeanSupport.textToDouble(tfNhnA, 0.0);
         final double hoeheEnde = CidsBeanSupport.textToDouble(tfNhnE, 0.0);
         double anfang = (Double)cidsBean.getProperty("linie.von.wert");
@@ -1237,7 +1184,9 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
             gefaelle = (hoeheAnfang - hoeheEnde) / laenge;
         }
 
-        final double benetzterUmfang = sohlbreite + boeschungslaenge_links + boeschungslaenge_rechts;
+        final double boeschungslaenge = Math.sqrt(Math.pow(tiefe, 2) + Math.pow((obereBreite - sohlbreite) / 2, 2));
+        final double boeschungsneigung = Math.sqrt(Math.pow(boeschungslaenge, 2) - Math.pow(tiefe, 2)) / tiefe;
+        final double benetzterUmfang = sohlbreite + (2 * boeschungslaenge);
         final double fliessquerschitt = (sohlbreite * tiefe) + (boeschungsneigung * tiefe * tiefe);
         double hydraulischerRadius = 0;
 
@@ -1254,6 +1203,8 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
 
                 @Override
                 public void run() {
+                    tfBoeLae.setText(String.valueOf(round(boeschungslaenge)));
+                    tfBoeNei.setText(String.valueOf(round(boeschungsneigung)));
                     tfLaenge.setText(String.valueOf(round(laenge)));
                     tfGefaelle.setText(String.valueOf(round(finGefaelle)));
                     tfBenetzterUmfang.setText(String.valueOf(round(benetzterUmfang)));
@@ -1272,7 +1223,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
      * @return  DOCUMENT ME!
      */
     private double round(final double value) {
-        return Math.round(value * 1000.0) / 1000.0;
+        return Math.round(value * 10000.0) / 10000.0;
     }
 
     @Override

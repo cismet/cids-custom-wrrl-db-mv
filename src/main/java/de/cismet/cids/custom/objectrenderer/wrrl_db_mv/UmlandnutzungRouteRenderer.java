@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.HydrologRouteEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.UmlandnutzungRouteEditor;
 
 /**
  * DOCUMENT ME!
@@ -15,14 +15,14 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.HydrologRouteEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class HydrologRouteRenderer extends HydrologRouteEditor {
+public class UmlandnutzungRouteRenderer extends UmlandnutzungRouteEditor {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new HydrologRouteRenderer object.
+     * Creates a new UmlandnutzungRouteRenderer object.
      */
-    public HydrologRouteRenderer() {
+    public UmlandnutzungRouteRenderer() {
         super(true);
     }
 }

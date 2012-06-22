@@ -17,6 +17,9 @@ import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.SwingWorker;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -59,6 +62,7 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private List<CidsBean> others;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSeite;
@@ -91,7 +95,10 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
         this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
+        linearReferencedLineEditor.setShowOtherInDialog(true);
         initComponents();
+        lblSeite.setVisible(false);
+        cbSeite.setVisible(false);
 
         if (!readOnly) {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
@@ -224,15 +231,6 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
         cbSeite.setMaximumSize(new java.awt.Dimension(290, 20));
         cbSeite.setMinimumSize(new java.awt.Dimension(290, 20));
         cbSeite.setPreferredSize(new java.awt.Dimension(290, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.seite}"),
-                cbSeite,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -297,9 +295,33 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+
+            if (this.others != null) {
+                final List<CidsBean> lineBeans = new ArrayList<CidsBean>();
+                final Object id = cidsBean.getProperty("linie.id");
+
+                for (final CidsBean b : this.others) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(id))) {
+                        lineBeans.add(tmp);
+                    }
+                }
+                linearReferencedLineEditor.setOtherLines(lineBeans);
+            }
+
             linearReferencedLineEditor.setCidsBean(cidsBean);
             setSuperGroup((CidsBean)cidsBean.getProperty("art"));
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  others  DOCUMENT ME!
+     */
+    public void setOthers(final List<CidsBean> others) {
+        this.others = others;
     }
 
     /**

@@ -14,26 +14,23 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+
+import java.beans.PropertyChangeEvent;
 
 import java.util.List;
 
+import javax.swing.JMenuItem;
+
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-
-import de.cismet.tools.gui.jbands.JBandCursorManager;
-import de.cismet.tools.gui.jbands.interfaces.BandMember;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberMouseListeningComponent;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
 
 /**
  * DOCUMENT ME!
@@ -41,30 +38,42 @@ import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class UmlandnutzungBandMember extends AbschnittsinfoMember implements BandMemberSelectable,
-    BandMemberMouseListeningComponent {
+public class UmlandnutzungRWBandMember extends LineBandMember {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final MetaClass OBERGRUPPE_ART = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "GUP_UMLANDNUTZUNGSOBERGRUPPE");
+    private static final MetaClass UMLANDNUTZUNG = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "GUP_UMLANDNUTZUNGSGRUPPE");
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
-    private boolean selected;
-    private Painter unselectedBackgroundPainter;
-    private Painter selectedBackgroundPainter;
+    private JMenuItem[] menuItems;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
+     *
+     * @param  parent  DOCUMENT ME!
      */
-    public UmlandnutzungBandMember() {
-        setMinimumSize(new Dimension(1, 7));
-        setPreferredSize(getMinimumSize());
+    public UmlandnutzungRWBandMember(final UmlandnutzungRWBand parent) {
+        super(parent);
+        lineFieldName = "linie";
+    }
+
+    /**
+     * Creates new form MassnahmenBandMember.
+     *
+     * @param  parent    DOCUMENT ME!
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public UmlandnutzungRWBandMember(final UmlandnutzungRWBand parent, final boolean readOnly) {
+        super(parent, readOnly);
+        lineFieldName = "linie";
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -72,20 +81,18 @@ public class UmlandnutzungBandMember extends AbschnittsinfoMember implements Ban
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        this.cidsBean = cidsBean;
-        setToolTipText(cidsBean.getProperty("art.name") + "");
-        determineBackgroundColour();
-        setBackgroundPainter(unselectedBackgroundPainter);
+        setToolTipText(bean.getProperty("art.name") + "");
     }
 
     /**
      * DOCUMENT ME!
      */
+    @Override
     protected void determineBackgroundColour() {
-        if (cidsBean.getProperty("art") == null) {
+        if (bean.getProperty("art") == null) {
             return;
         }
-        final CidsBean artBean = (CidsBean)cidsBean.getProperty("art");
+        final CidsBean artBean = (CidsBean)bean.getProperty("art");
         final String query = "select " + OBERGRUPPE_ART.getID() + "," + OBERGRUPPE_ART.getPrimaryKey() + " from "
                     + OBERGRUPPE_ART.getTableName(); // NOI18N
         final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
@@ -171,70 +178,100 @@ public class UmlandnutzungBandMember extends AbschnittsinfoMember implements Ban
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+        setBackgroundPainter(unselectedBackgroundPainter);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    private void setUmlandnutzung(final String id) {
+        final String query = "select " + UMLANDNUTZUNG.getID() + "," + UMLANDNUTZUNG.getPrimaryKey() + " from "
+                    + UMLANDNUTZUNG.getTableName() + " where id = " + id; // NOI18N
+        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        CidsBean b = null;
+
+        if (metaObjects != null) {
+            for (final MetaObject tmp : metaObjects) {
+                if (tmp.getBean().getProperty("id").toString().equals(id)) {
+                    b = tmp.getBean();
+                    break;
+                }
+            }
+        }
+        try {
+            bean.setProperty("name_bezeichnung", b);
+        } catch (Exception e) {
+            LOG.error("Error while setting property massnahme.", e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    @Override
+    protected void configurePopupMenu() {
+        final String query = "select " + UMLANDNUTZUNG.getID() + "," + UMLANDNUTZUNG.getPrimaryKey() + " from "
+                    + UMLANDNUTZUNG.getTableName(); // NOI18N
+        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+
+        menuItems = new JMenuItem[metaObjects.length];
+
+        for (int i = 0; i < metaObjects.length; ++i) {
+            menuItems[i] = new JMenuItem(metaObjects[i].getBean().toString());
+            menuItems[i].addActionListener(this);
+            menuItems[i].setActionCommand(String.valueOf(metaObjects[i].getID()));
+            popup.add(menuItems[i]);
+        }
+
+        popup.addSeparator();
+
+        super.configurePopupMenu();
     }
 
     @Override
-    public boolean isSelected() {
-        return selected;
+    public void actionPerformed(final ActionEvent e) {
+        boolean found = false;
+
+        for (final JMenuItem tmp : menuItems) {
+            if (e.getSource() == tmp) {
+                found = true;
+                setUmlandnutzung(tmp.getActionCommand());
+                fireBandMemberChanged(false);
+                break;
+            }
+        }
+
+        if (!found) {
+            super.actionPerformed(e);
+        }
+
+        newMode = false;
     }
 
     @Override
-    public void setSelected(final boolean selection) {
-        this.selected = selection;
-
-        if (selected) {
-            setBackgroundPainter(selectedBackgroundPainter);
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("art")) {
+            determineBackgroundColour();
+            setSelected(isSelected);
+            setToolTipText(bean.getProperty("art.name") + "");
         } else {
-            setBackgroundPainter(unselectedBackgroundPainter);
+            super.propertyChange(evt);
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
     @Override
-    public boolean isSelectable() {
-        return true;
-    }
-
-    @Override
-    public BandMember getBandMember() {
-        return this;
-    }
-
-    @Override
-    public void mouseClicked(final MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(final MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(final MouseEvent e) {
-        if (JBandCursorManager.getInstance().isLocked()) {
-            JBandCursorManager.getInstance().setCursor(this);
-        }
-        setAlpha(1f);
-    }
-
-    @Override
-    public void mouseExited(final MouseEvent e) {
-        setAlpha(0.8f);
-    }
-
-    @Override
-    public void mouseDragged(final MouseEvent e) {
-    }
-
-    @Override
-    public void mouseMoved(final MouseEvent e) {
-        if (!JBandCursorManager.getInstance().isLocked()) {
-            JBandCursorManager.getInstance().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            JBandCursorManager.getInstance().setCursor(this);
-        } else {
-            JBandCursorManager.getInstance().setCursor(this);
-        }
+    protected CidsBean cloneBean(final CidsBean bean) throws Exception {
+        return CidsBeanSupport.cloneCidsBean(bean, false);
     }
 }

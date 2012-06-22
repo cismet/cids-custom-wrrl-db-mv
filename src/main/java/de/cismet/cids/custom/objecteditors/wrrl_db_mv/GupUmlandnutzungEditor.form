@@ -163,9 +163,6 @@
           <Dimension value="[290, 20]"/>
         </Property>
       </Properties>
-      <BindingProperties>
-        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.seite}" target="cbSeite" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
-      </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox()"/>
       </AuxValues>
