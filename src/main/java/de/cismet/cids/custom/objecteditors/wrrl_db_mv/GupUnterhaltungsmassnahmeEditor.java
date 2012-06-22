@@ -18,6 +18,8 @@ import Sirius.server.newuser.User;
 
 import org.apache.log4j.Logger;
 
+import java.awt.Component;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -318,6 +320,13 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cbVerbleib.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbVerbleibItemStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -763,13 +772,16 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      * @param  evt  DOCUMENT ME!
      */
     private void cbMassnahmeItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbMassnahmeItemStateChanged
+        // Wenn die entsprechende Combobox gleichzeiig auch den Fokus hat, dann handelt es sich um eine
+        // Aenderung des Nutzers. Hat die Combobox nicht den Focus, dann aenderte sich das Item aus
+        // der Combobox bzw. dem Model heraus
         if (evt.getItem() != null) {
+            if (((Component)evt.getSource()).hasFocus()) {
+                changeBearbeiter();
+            }
             deActivateAdditionalAttributes((CidsBean)evt.getItem());
-//            LOG.error(
-//                Thread.currentThread().getStackTrace()[0].getMethodName());
-//            changeBearbeiter();
         }
-    }                                                                              //GEN-LAST:event_cbMassnahmeItemStateChanged
+    } //GEN-LAST:event_cbMassnahmeItemStateChanged
 
     /**
      * DOCUMENT ME!
@@ -778,7 +790,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     private void cbIntervallItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbIntervallItemStateChanged
         if (evt.getItem() != null) {
-//            changeBearbeiter();
+            if (((Component)evt.getSource()).hasFocus()) {
+                changeBearbeiter();
+            }
         }
     }                                                                              //GEN-LAST:event_cbIntervallItemStateChanged
 
@@ -789,9 +803,24 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     private void cbAusfuehrungItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbAusfuehrungItemStateChanged
         if (evt.getItem() != null) {
-            changeBearbeiter();
+            if (((Component)evt.getSource()).hasFocus()) {
+                changeBearbeiter();
+            }
         }
     }                                                                                //GEN-LAST:event_cbAusfuehrungItemStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbVerbleibItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbVerbleibItemStateChanged
+        if (evt.getItem() != null) {
+            if (((Component)evt.getSource()).hasFocus()) {
+                changeBearbeiter();
+            }
+        }
+    }                                                                             //GEN-LAST:event_cbVerbleibItemStateChanged
 
     @Override
     public CidsBean getCidsBean() {
@@ -837,16 +866,16 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 }
             }
             cidsBean.addPropertyChangeListener(this);
-//            new Thread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        final Object item = cidsBean.getProperty("massnahme");
-//                        if (item != null) {
-//                            cbMassnahme.setSelectedItem(item);
-//                        }
-//                    }
-//                }).start();
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Object item = cidsBean.getProperty("massnahme");
+                        if (item != null) {
+                            cbMassnahme.setSelectedItem(item);
+                        }
+                    }
+                }).start();
         }
     }
 
@@ -905,7 +934,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                     bis.removePropertyChangeListener(this);
                 }
             }
-//            cidsBean.getMetaObject().isChanged();
         }
         bindingGroup.unbind();
         linearReferencedLineEditor.dispose();
@@ -969,36 +997,33 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-//        if (!readOnly && !evt.getPropertyName().equals("bearbeiter")
-////                && !evt.getPropertyName().equals("intervall")
-////                    && !evt.getPropertyName().equals("ausfuehrungszeitpunkt")
-////                    && !evt.getPropertyName().equals("verbleib") && !evt.getPropertyName().equals("massnahme")
-//        ) {
-//            LOG.error("property change " + evt.getPropertyName() + " " + cidsBean.getMetaObject().isChanged());
-//            if (cidsBean.getMetaObject().isChanged()) {
-//                changeBearbeiter();
-//            }
-//
-//            if (evt.getPropertyName().equals("von") || evt.getPropertyName().equals("bis")) {
-//                ((CidsBean)evt.getOldValue()).removePropertyChangeListener(this);
-//                ((CidsBean)evt.getNewValue()).addPropertyChangeListener(this);
-//            }
-//        }
+        // Die Comboboxen loesen auch PropertyChangeEvents aus, ohne dass der Nutzer etwas tut.
+        // Diese muessen also gesondert behandelt werden
+        if (!readOnly && !evt.getPropertyName().equals("bearbeiter")
+                    && !evt.getPropertyName().equals("intervall")
+                    && !evt.getPropertyName().equals("ausfuehrungszeitpunkt")
+                    && !evt.getPropertyName().equals("verbleib") && !evt.getPropertyName().equals("massnahme")) {
+            changeBearbeiter();
+
+            if (evt.getPropertyName().equals("von") || evt.getPropertyName().equals("bis")) {
+                ((CidsBean)evt.getOldValue()).removePropertyChangeListener(this);
+                ((CidsBean)evt.getNewValue()).addPropertyChangeListener(this);
+            }
+        }
     }
 
     /**
      * DOCUMENT ME!
      */
     private void changeBearbeiter() {
-//        LOG.error("changeBearbeiter", new Exception());
-//        if (cidsBean != null) {
-//            cidsBean.getMetaObject().setAllClasses();
-//            try {
-//                final User user = SessionManager.getSession().getUser();
-//                cidsBean.setProperty("bearbeiter", user.getName() + "@" + user.getDomain());
-//            } catch (Exception ex) {
-//                LOG.error(ex, ex);
-//            }
-//        }
+        if (cidsBean != null) {
+            cidsBean.getMetaObject().setAllClasses();
+            try {
+                final User user = SessionManager.getSession().getUser();
+                cidsBean.setProperty("bearbeiter", user.getName() + "@" + user.getDomain());
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
     }
 }

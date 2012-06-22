@@ -188,6 +188,9 @@
       <BindingProperties>
         <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.verbleib}" target="cbVerbleib" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
       </BindingProperties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbVerbleibItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox()"/>
       </AuxValues>

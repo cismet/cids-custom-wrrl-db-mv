@@ -45,19 +45,6 @@ public class MassnahmenComboBox extends ScrollableComboBox {
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_massnahmenart");
-    private static final Comparator<CidsBean> beanToStringComparator;
-
-    static {
-        beanToStringComparator = new Comparator<CidsBean>() {
-
-                @Override
-                public final int compare(final CidsBean o1, final CidsBean o2) {
-                    final String s1 = (o1 == null) ? "" : o1.toString();
-                    final String s2 = (o2 == null) ? "" : o2.toString();
-                    return (s1).compareToIgnoreCase(s2); // NOI18N
-                }
-            };
-    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -92,7 +79,7 @@ public class MassnahmenComboBox extends ScrollableComboBox {
                     protected void done() {
                         try {
                             setModel(get());
-                            setSelectedItem(getSelectedItem());
+                            setSelectedItem(cidsBean);
                         } catch (InterruptedException interruptedException) {
                         } catch (ExecutionException executionException) {
                             log.error("Error while initializing the model of a referenceCombo", executionException); // NOI18N
@@ -148,7 +135,6 @@ public class MassnahmenComboBox extends ScrollableComboBox {
             this.kompartiment = kompartiment;
             init(MC);
         } else {
-            this.kompartiment = kompartiment;
             setSelectedItem(getSelectedItem());
         }
     }
