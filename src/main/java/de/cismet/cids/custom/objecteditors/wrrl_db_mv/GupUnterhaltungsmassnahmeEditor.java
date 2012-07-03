@@ -19,6 +19,7 @@ import Sirius.server.newuser.User;
 import org.apache.log4j.Logger;
 
 import java.awt.Component;
+import java.awt.event.ItemEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -779,7 +780,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             if (((Component)evt.getSource()).hasFocus()) {
                 changeBearbeiter();
             }
-            deActivateAdditionalAttributes((CidsBean)evt.getItem());
+
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+                deActivateAdditionalAttributes((CidsBean)evt.getItem());
+            }
         }
     } //GEN-LAST:event_cbMassnahmeItemStateChanged
 
@@ -833,7 +837,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
-            deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
@@ -876,6 +879,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                         }
                     }
                 }).start();
+
+            deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
         }
     }
 
@@ -900,12 +905,12 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             panSohlbreite.setVisible((sb != null) && ((Boolean)sb).booleanValue());
             panVorlandbreite.setVisible((vb != null) && ((Boolean)vb).booleanValue());
         } else {
-            panBoeschungslaenge.setVisible(true);
-            panBoeschungsneigung.setVisible(true);
-            panDeichkronenbreite.setVisible(true);
-            panRandstreifen.setVisible(true);
-            panSohlbreite.setVisible(true);
-            panVorlandbreite.setVisible(true);
+            panBoeschungslaenge.setVisible(false);
+            panBoeschungsneigung.setVisible(false);
+            panDeichkronenbreite.setVisible(false);
+            panRandstreifen.setVisible(false);
+            panSohlbreite.setVisible(false);
+            panVorlandbreite.setVisible(false);
         }
     }
 
@@ -993,6 +998,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     public void setKompartiment(final int kompartiment) {
         this.kompartiment = kompartiment;
         ((MassnahmenComboBox)cbMassnahme).setKompartiment(kompartiment);
+        cbMassnahme.setSelectedItem(null);
     }
 
     @Override

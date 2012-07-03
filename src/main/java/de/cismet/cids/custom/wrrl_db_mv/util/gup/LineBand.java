@@ -53,11 +53,12 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Collection<CidsBean> massnahmen;
+    protected Collection<CidsBean> objectBeans = new ArrayList<CidsBean>();
     protected String objectTableName = null;
     protected String lineFieldName = "linie";
     protected boolean readOnly = false;
     private List<BandListener> listenerList = new ArrayList<BandListener>();
+    private boolean onlyAcceptNewBeanWithValue = true;
 
     private HashMap<String, CidsBean> beanMap = new HashMap<String, CidsBean>();
     private boolean normalise = false;
@@ -111,17 +112,17 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
     @Override
     public Collection<CidsBean> getCidsBeans() {
-        return massnahmen;
+        return objectBeans;
     }
 
     @Override
     public void setCidsBeans(final Collection<CidsBean> beans) {
-        massnahmen = beans;
-        removeAllMember();
+        objectBeans = beans;
+        super.removeAllMember();
         normalizeStations();
 
-        if (massnahmen != null) {
-            for (final CidsBean massnahme : massnahmen) {
+        if (objectBeans != null) {
+            for (final CidsBean massnahme : objectBeans) {
                 final LineBandMember m = createBandMemberFromBean();
                 m.setReadOnly(readOnly);
                 m.addBandMemberListener(this);
@@ -129,7 +130,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
                 addMember(m);
             }
         } else {
-            massnahmen = new ArrayList<CidsBean>();
+            objectBeans = new ArrayList<CidsBean>();
         }
     }
 
@@ -187,7 +188,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             line.setProperty("id", LinearReferencingHelper.getNewLineId());
             objectBean.setProperty(lineFieldName, line);
             final LineBandMember m = refresh(objectBean, true);
-            massnahmen.add(objectBean);
+            objectBeans.add(objectBean);
             fireBandChanged(new BandEvent());
         } catch (Exception e) {
             LOG.error("error while creating new station.", e);
@@ -202,8 +203,8 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         setNormalise(true);
 
         // sorgt dafuer, dass bei geteilten Stationen auch die entsprechenden cidsBeans geteilt werden
-        if (massnahmen != null) {
-            for (final CidsBean massnahme : massnahmen) {
+        if (objectBeans != null) {
+            for (final CidsBean massnahme : objectBeans) {
                 final CidsBean line = LinearReferencingSingletonInstances.CIDSBEAN_CACHE.getCachedBeanFor((CidsBean)
                         massnahme.getProperty(lineFieldName));
 
@@ -247,7 +248,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         final CidsBean memberStat = (CidsBean)member.getProperty(propStat);
 
         // sorgt dafuer, dass bei geteilten Stationen auch die entsprechenden cidsBeans geteilt werden
-        for (final CidsBean otherBean : massnahmen) {
+        for (final CidsBean otherBean : objectBeans) {
             if (otherBean != member) {
                 CidsBean otherStat = (CidsBean)otherBean.getProperty(lineFieldName + ".von");
 
@@ -301,7 +302,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         final String prop = isFrom ? (lineFieldName + ".von") : (lineFieldName + ".bis");
         final CidsBean station = (CidsBean)bean.getProperty(prop);
 
-        for (final CidsBean otherBean : massnahmen) {
+        for (final CidsBean otherBean : objectBeans) {
             if (otherBean != bean) {
                 final CidsBean otherStat = (CidsBean)otherBean.getProperty(lineFieldName + "."
                                 + (isFrom ? "bis" : "von"));
@@ -395,7 +396,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         }
 
         if (memberList == null) {
-            for (final CidsBean tmp : massnahmen) {
+            for (final CidsBean tmp : objectBeans) {
                 final Double from = (Double)tmp.getProperty(lineFieldName + ".von.wert");
                 final Double till = (Double)tmp.getProperty(lineFieldName + ".bis.wert");
 
@@ -474,10 +475,12 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         newBean.setProperty(lineFieldName, line);
         final LineBandMember m = refresh(newBean, true);
 
-        massnahmen.add(newBean);
+        objectBeans.add(newBean);
 
         fireBandChanged(new BandEvent());
-        m.setNewMode();
+        if (onlyAcceptNewBeanWithValue) {
+            m.setNewMode();
+        }
     }
 
     /**
@@ -489,13 +492,13 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      * @return  DOCUMENT ME!
      */
     private LineBandMember refresh(final CidsBean special, final boolean add) {
-        removeAllMember();
+        super.removeAllMember();
 
-        for (final CidsBean massnahme : massnahmen) {
-            if (add || (massnahme != special)) {
+        for (final CidsBean objectBean : objectBeans) {
+            if (add || (objectBean != special)) {
                 final LineBandMember m = createBandMemberFromBean();
                 m.setReadOnly(readOnly);
-                m.setCidsBean(massnahme);
+                m.setCidsBean(objectBean);
                 m.addBandMemberListener(this);
                 addMember(m);
             }
@@ -561,7 +564,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     public void deleteMember(final LineBandMember member) {
         final CidsBean memberBean = member.getCidsBean();
         refresh(memberBean, false);
-        massnahmen.remove(memberBean);
+        objectBeans.remove(memberBean);
 
         final BandEvent e = new BandEvent();
         e.setSelectionLost(true);
@@ -594,5 +597,30 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      */
     public void setNormalise(final boolean normalise) {
         this.normalise = normalise;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the onlyAcceptNewBeanWithValue
+     */
+    public boolean isOnlyAcceptNewBeanWithValue() {
+        return onlyAcceptNewBeanWithValue;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  onlyAcceptNewBeanWithValue  the onlyAcceptNewBeanWithValue to set
+     */
+    public void setOnlyAcceptNewBeanWithValue(final boolean onlyAcceptNewBeanWithValue) {
+        this.onlyAcceptNewBeanWithValue = onlyAcceptNewBeanWithValue;
+    }
+
+    @Override
+    public void removeAllMember() {
+        objectBeans.clear();
+        super.removeAllMember();
+        refresh(null, false);
     }
 }

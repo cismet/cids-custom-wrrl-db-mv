@@ -17,6 +17,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import org.apache.log4j.Logger;
 
 import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.painter.*;
 import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.painter.PinstripePainter;
 
@@ -181,6 +182,27 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         }
         manageStationListener(cidsBean);
         determineBackgroundColour();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void setDefaultBackgound() {
+        setBackgroundPainter(new MattePainter(new Color(229, 0, 0)));
+        unselectedBackgroundPainter = getBackgroundPainter();
+        selectedBackgroundPainter = new CompoundPainter(
+                unselectedBackgroundPainter,
+                new RectanglePainter(
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    true,
+                    new Color(100, 100, 100, 100),
+                    2f,
+                    new Color(50, 50, 50, 100)));
     }
 
     /**

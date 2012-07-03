@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.JMenuItem;
+import javax.swing.event.PopupMenuEvent;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
@@ -43,12 +44,6 @@ public class MassnahmenBandMember extends LineBandMember {
     private static final MetaClass MASSNAHMEN_ART = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_massnahmenart");
-
-    //~ Instance fields --------------------------------------------------------
-
-    private JMenuItem maehItem = new JMenuItem("Böschungsmahd");
-    private JMenuItem handItem = new JMenuItem("Sohlkrautung");
-//    private JMenuItem grundItem = new JMenuItem("Grundräumung");
 
     //~ Constructors -----------------------------------------------------------
 
@@ -85,6 +80,7 @@ public class MassnahmenBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if (bean.getProperty("massnahme") == null) {
+            setDefaultBackgound();
             return;
         }
         final int action = (Integer)bean.getProperty("massnahme.id");
@@ -182,44 +178,15 @@ public class MassnahmenBandMember extends LineBandMember {
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     */
-    @Override
-    protected void configurePopupMenu() {
-        if (!bean.getMetaObject().getMetaClass().getTableName().equalsIgnoreCase("gup_massnahme_sonstige")) {
-            maehItem.addActionListener(this);
-            popup.add(maehItem);
-
-            handItem.addActionListener(this);
-            popup.add(handItem);
-
-//            grundItem.addActionListener(this);
-//            popup.add(grundItem);
-
-            popup.addSeparator();
-        }
-
-        super.configurePopupMenu();
-    }
-
     @Override
     public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == maehItem) {
-            setMassnahme(5);
-            fireBandMemberChanged(false);
-        } else if (e.getSource() == handItem) {
-            setMassnahme(4);
-            fireBandMemberChanged(false);
-//        } else if (e.getSource() == grundItem) {
-//            setMassnahme(6);
-//            fireBandMemberChanged(false);
-        } else {
-            super.actionPerformed(e);
-        }
-
-        newMode = false;
+        super.actionPerformed(e);
     }
+
+//    @Override
+//    public void popupMenuCanceled(final PopupMenuEvent e) {
+//        // do nothing
+//    }
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {

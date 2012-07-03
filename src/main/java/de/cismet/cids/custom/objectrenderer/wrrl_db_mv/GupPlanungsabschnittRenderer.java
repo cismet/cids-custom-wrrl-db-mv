@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnittEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
 
 /**
  * DOCUMENT ME!
@@ -15,14 +15,14 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnittEdito
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupGewaesserabschnittRenderer extends GupGewaesserabschnittEditor {
+public class GupPlanungsabschnittRenderer extends GupPlanungsabschnittEditor {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new GupGewaesserabschnittRenderer object.
      */
-    public GupGewaesserabschnittRenderer() {
+    public GupPlanungsabschnittRenderer() {
         super(true);
     }
 }

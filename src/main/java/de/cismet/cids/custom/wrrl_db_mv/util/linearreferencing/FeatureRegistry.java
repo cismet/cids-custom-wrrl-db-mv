@@ -164,7 +164,7 @@ public class FeatureRegistry implements LinearReferencingConstants, LinearRefere
      *
      * @return  DOCUMENT ME!
      */
-    private PureNewFeature addRouteFeature(final CidsBean cidsBean, final Geometry geometry) {
+    public PureNewFeature addRouteFeature(final CidsBean cidsBean, final Geometry geometry) {
         return (RouteFeature)addFeature(cidsBean, new RouteFeature(geometry));
     }
 
@@ -237,7 +237,7 @@ public class FeatureRegistry implements LinearReferencingConstants, LinearRefere
      *
      * @param  cidsBean  DOCUMENT ME!
      */
-    private void removeRouteFeature(final CidsBean cidsBean) {
+    public void removeRouteFeature(final CidsBean cidsBean) {
         removeFeature(cidsBean);
     }
 
@@ -307,9 +307,10 @@ public class FeatureRegistry implements LinearReferencingConstants, LinearRefere
         final FeatureCollection featureCollection = CismapBroker.getInstance()
                     .getMappingComponent()
                     .getFeatureCollection();
-        if (featureCollection.getAllFeatures().contains(feature)) {
-            featureCollection.removeFeature(feature);
-        }
+        // Mit diesem if kommt es zu Problemen, wenn man ein Feature ueber das Objekte-Fenster entfernt
+// if (featureCollection.getAllFeatures().contains(feature)) {
+        featureCollection.removeFeature(feature);
+//        }
     }
 
     /**

@@ -23,10 +23,21 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
 
     //~ Instance fields --------------------------------------------------------
 
-    private final double max;
-    private final double min;
+    private double max;
+    private double min;
+    private ArrayList<ArrayList> inputResulSet;
 
     //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new WKBand object.
+     *
+     * @param  min  DOCUMENT ME!
+     * @param  max  DOCUMENT ME!
+     */
+    public WKBand(final double min, final double max) {
+        this(min, max, (ArrayList<ArrayList>)null);
+    }
 
     /**
      * Creates a new WKBand object.
@@ -37,6 +48,18 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
      */
     public WKBand(final double min, final double max, final ArrayList<ArrayList> inputResulSet) {
         this(min, max, inputResulSet, "WK");
+    }
+    /**
+     * Creates a new WKBand object.
+     *
+     * @param  min    DOCUMENT ME!
+     * @param  max    DOCUMENT ME!
+     * @param  title  heightWeight DOCUMENT ME!
+     */
+    public WKBand(final double min,
+            final double max,
+            final String title) {
+        this(min, max, null, title);
     }
     /**
      * Creates a new WKBand object.
@@ -54,6 +77,21 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
         this.max = max;
         this.min = min;
 
+        if (inputResulSet != null) {
+            setWK(inputResulSet);
+        }
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  inputResulSet  DOCUMENT ME!
+     */
+    public void setWK(final ArrayList<ArrayList> inputResulSet) {
+        removeAllMember();
+        this.inputResulSet = inputResulSet;
         for (final ArrayList zeile : inputResulSet) {
             final String wk_k = String.valueOf(zeile.get(0));
             double von = (Double)zeile.get(1);
@@ -70,6 +108,21 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
                 openRight = true;
             }
             addMember(new SimpleTextSection(wk_k, von, bis, openLeft, openRight));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  min  DOCUMENT ME!
+     * @param  max  DOCUMENT ME!
+     */
+    public void setMinMax(final double min, final double max) {
+        this.min = min;
+        this.max = max;
+
+        if (inputResulSet != null) {
+            setWK(inputResulSet);
         }
     }
 }

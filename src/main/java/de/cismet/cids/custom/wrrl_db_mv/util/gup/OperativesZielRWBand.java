@@ -17,11 +17,11 @@ import de.cismet.tools.gui.jbands.interfaces.BandSnappingPointProvider;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class MassnahmenBand extends LineBand implements BandSnappingPointProvider {
+public class OperativesZielRWBand extends LineBand implements BandSnappingPointProvider {
 
     //~ Instance fields --------------------------------------------------------
 
-    private int measureType;
+    private int type;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -31,7 +31,7 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      * @param  title            DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
      */
-    public MassnahmenBand(final String title, final String objectTableName) {
+    public OperativesZielRWBand(final String title, final String objectTableName) {
         this(1f, title, objectTableName);
     }
 
@@ -41,9 +41,8 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      * @param  heightWeight     DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
      */
-    public MassnahmenBand(final float heightWeight, final String objectTableName) {
+    public OperativesZielRWBand(final float heightWeight, final String objectTableName) {
         super(heightWeight, objectTableName);
-        setOnlyAcceptNewBeanWithValue(false);
     }
 
     /**
@@ -53,16 +52,15 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      * @param  title            DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
      */
-    public MassnahmenBand(final float heightWeight, final String title, final String objectTableName) {
+    public OperativesZielRWBand(final float heightWeight, final String title, final String objectTableName) {
         super(heightWeight, title, objectTableName);
-        setOnlyAcceptNewBeanWithValue(false);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     protected LineBandMember createBandMemberFromBean() {
-        final MassnahmenBandMember m = new MassnahmenBandMember(this, readOnly);
+        final OperativesZielRWBandMember m = new OperativesZielRWBandMember(this, readOnly);
 
         return m;
     }
@@ -70,18 +68,18 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
     /**
      * DOCUMENT ME!
      *
-     * @param  measureType  DOCUMENT ME!
+     * @return  the type
      */
-    public void setMeasureType(final int measureType) {
-        this.measureType = measureType;
+    public int getType() {
+        return type;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @param  type  the type to set
      */
-    public int getMeasureType() {
-        return measureType;
+    public void setType(final int type) {
+        this.type = type;
     }
 }

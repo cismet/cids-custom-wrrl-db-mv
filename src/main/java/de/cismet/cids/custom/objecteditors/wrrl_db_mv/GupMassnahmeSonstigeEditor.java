@@ -15,7 +15,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -38,6 +42,7 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private List<CidsBean> massnahmen = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
@@ -76,8 +81,9 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
         this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
-        linearReferencedLineEditor.setOtherLinesEnabled(false);
-        linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
+        linearReferencedLineEditor.setOtherLinesEnabled(true);
+        linearReferencedLineEditor.setOtherLinesQueryAddition("gup_massnahme_sonstige gms", "gms.linie = ");
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
         initComponents();
 
         setReadOnly(readOnly);
@@ -309,7 +315,7 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
         spBemerkung.setPreferredSize(new java.awt.Dimension(280, 90));
 
         jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        jTextArea1.setRows(3);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -356,9 +362,28 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            final List<CidsBean> linieBeans = new ArrayList<CidsBean>();
+
+            if (getMassnahmen() != null) {
+                for (final CidsBean b : getMassnahmen()) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(cidsBean.getProperty("linie.id")))) {
+                        linieBeans.add(tmp);
+                    }
+                }
+            }
+            linearReferencedLineEditor.setOtherLines(linieBeans);
             linearReferencedLineEditor.setCidsBean(cidsBean);
         }
     }
+
+//    /**
+//     * DOCUMENT ME!
+//     */
+//    public void refresh() {
+//        linearReferencedLineEditor.refreshOtherLines();
+//    }
 
     /**
      * DOCUMENT ME!
@@ -399,5 +424,23 @@ public class GupMassnahmeSonstigeEditor extends javax.swing.JPanel implements Ci
     @Override
     public boolean prepareForSave() {
         return linearReferencedLineEditor.prepareForSave();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the massnahmen
+     */
+    public List<CidsBean> getMassnahmen() {
+        return massnahmen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  massnahmen  the massnahmen to set
+     */
+    public void setMassnahmen(final List<CidsBean> massnahmen) {
+        this.massnahmen = massnahmen;
     }
 }
