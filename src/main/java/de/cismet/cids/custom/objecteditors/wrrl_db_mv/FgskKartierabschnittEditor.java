@@ -40,6 +40,7 @@ import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
@@ -214,23 +215,27 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         String wkk = CidsBeanSupport.FIELD_NOT_SET;
         try {
             if ((statLine != null) && (route != null)) {
-                final CidsBean geomEntry = (CidsBean)statLine.getProperty("geom");
-                final Geometry geom = ((geomEntry != null) ? (Geometry)geomEntry.getProperty("geo_field") : null);
-                final String geomString = geom.toText();
-                final CidsServerSearch search = new WkkSearch(geomString, String.valueOf(route.getProperty("id")));
-                final Collection res = SessionManager.getProxy()
-                            .customServerSearch(SessionManager.getSession().getUser(), search);
-                final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+                final Double vonWert = (Double)statLine.getProperty("von.wert");
+                final Double bisWert = (Double)statLine.getProperty("bis.wert");
+                if ((vonWert != null) && (bisWert != null)) {
+                    final double wert = (bisWert + vonWert) / 2;
+                    final CidsServerSearch search = new WKKSearchBySingleStation(String.valueOf(
+                                route.getProperty("id")),
+                            String.valueOf(wert));
+                    final Collection res = SessionManager.getProxy()
+                                .customServerSearch(SessionManager.getSession().getUser(), search);
+                    final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
 
-                if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
-                    final Object o = resArray.get(0).get(0);
+                    if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                        final Object o = resArray.get(0).get(0);
 
-                    if (o instanceof String) {
-                        wkk = o.toString();
+                        if (o instanceof String) {
+                            wkk = o.toString();
+                        }
+                    } else {
+                        LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                                    + "See the server logs for further information");     // NOI18N
                     }
-                } else {
-                    LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
-                                + "See the server logs for further information");     // NOI18N
                 }
             }
         } catch (final Exception e) {
