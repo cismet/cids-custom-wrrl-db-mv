@@ -851,7 +851,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panTitle.add(lblTitle, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/export.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/export.png"))); // NOI18N
         jButton1.setText("Export");
         jButton1.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -860,19 +861,23 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
         panTitle.add(jButton1, gridBagConstraints);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/print.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/print.png"))); // NOI18N
         jButton2.setText("Massenermittlung");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         panTitle.add(jButton2, gridBagConstraints);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/gaeb.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/gaeb.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -883,10 +888,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         togAllgemeinInfo.setText("Allgemeine Infos");
         togAllgemeinInfo.setPreferredSize(new java.awt.Dimension(117, 44));
         togAllgemeinInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                togAllgemeinInfoActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    togAllgemeinInfoActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -897,10 +904,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         togApplyStats.setText("Vermessen");
         togApplyStats.setPreferredSize(new java.awt.Dimension(117, 44));
         togApplyStats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                togApplyStatsActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    togApplyStatsActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -918,12 +927,16 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
-        jbApply.setText(org.openide.util.NbBundle.getMessage(GupPlanungsabschnittEditor.class, "GupGewaesserabschnitt")); // NOI18N
+        jbApply.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbApplyActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbApplyActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -934,12 +947,16 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panApply.setOpaque(false);
         panApply.setLayout(new java.awt.GridBagLayout());
 
-        jbApply1.setText(org.openide.util.NbBundle.getMessage(GupPlanungsabschnittEditor.class, "GupGewaesserabschnitt")); // NOI18N
+        jbApply1.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupGewaesserabschnitt")); // NOI18N
         jbApply1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbApply1ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbApply1ActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -1078,10 +1095,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         sldZoom.setMaximum(200);
         sldZoom.setValue(0);
         sldZoom.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sldZoomStateChanged(evt);
-            }
-        });
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    sldZoomStateChanged(evt);
+                }
+            });
         panHeaderInfo.add(sldZoom);
         sldZoom.setBounds(110, 72, 250, 16);
 
@@ -1147,20 +1166,24 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkMassnahmen.setContentAreaFilled(false);
         chkMassnahmen.setPreferredSize(new java.awt.Dimension(240, 22));
         chkMassnahmen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkMassnahmenActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkMassnahmenActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkMassnahmen);
 
         chkSonstigeMassnahmen.setText("Umfeld Maßnahmen");
         chkSonstigeMassnahmen.setContentAreaFilled(false);
         chkSonstigeMassnahmen.setPreferredSize(new java.awt.Dimension(240, 22));
         chkSonstigeMassnahmen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkSonstigeMassnahmenActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkSonstigeMassnahmenActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkSonstigeMassnahmen);
 
         chkWasserkoerper.setSelected(true);
@@ -1168,10 +1191,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkWasserkoerper.setContentAreaFilled(false);
         chkWasserkoerper.setPreferredSize(new java.awt.Dimension(240, 22));
         chkWasserkoerper.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkWasserkoerperActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkWasserkoerperActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkWasserkoerper);
 
         chkUmlandnutzung.setText("Umlandnutzung");
@@ -1179,10 +1204,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkUmlandnutzung.setEnabled(false);
         chkUmlandnutzung.setPreferredSize(new java.awt.Dimension(240, 22));
         chkUmlandnutzung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkUmlandnutzungActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkUmlandnutzungActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkUmlandnutzung);
 
         chkQuerbauwerke.setText("Querbauwerke");
@@ -1190,10 +1217,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkQuerbauwerke.setEnabled(false);
         chkQuerbauwerke.setPreferredSize(new java.awt.Dimension(240, 22));
         chkQuerbauwerke.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkQuerbauwerkeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkQuerbauwerkeActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkQuerbauwerke);
 
         chkNaturschutz.setText("Schutzgebiete");
@@ -1201,10 +1230,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkNaturschutz.setEnabled(false);
         chkNaturschutz.setPreferredSize(new java.awt.Dimension(240, 22));
         chkNaturschutz.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkNaturschutzActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkNaturschutzActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkNaturschutz);
 
         chkUnterhaltungserfordernis.setText("Unterhaltungserfordernis");
@@ -1212,10 +1243,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkUnterhaltungserfordernis.setEnabled(false);
         chkUnterhaltungserfordernis.setPreferredSize(new java.awt.Dimension(240, 22));
         chkUnterhaltungserfordernis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkUnterhaltungserfordernisActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkUnterhaltungserfordernisActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkUnterhaltungserfordernis);
 
         chkEntwicklungsziel.setText("Entwicklungsziel");
@@ -1223,10 +1256,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkEntwicklungsziel.setEnabled(false);
         chkEntwicklungsziel.setPreferredSize(new java.awt.Dimension(240, 22));
         chkEntwicklungsziel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkEntwicklungszielActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkEntwicklungszielActionPerformed(evt);
+                }
+            });
         panBandControl.add(chkEntwicklungsziel);
 
         spBand.setViewportView(panBandControl);
@@ -1255,26 +1290,28 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         jLabel4.setMinimumSize(new java.awt.Dimension(1050, 1));
         jLabel4.setPreferredSize(new java.awt.Dimension(1050, 1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        final javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1050, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 5, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 5, Short.MAX_VALUE)))
-        );
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1050,
+                Short.MAX_VALUE).addGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                    jPanel3Layout.createSequentialGroup().addGap(0, 5, Short.MAX_VALUE).addComponent(
+                        jLabel4,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        1040,
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 5, Short.MAX_VALUE))));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1, Short.MAX_VALUE)
+                        .addGroup(
+                            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                                jPanel3Layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE).addComponent(
+                                    jLabel4,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, Short.MAX_VALUE))));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1286,29 +1323,29 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         add(panWithMinSize, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
         vBand.setZoomFactor(zoom);
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togAllgemeinInfoActionPerformed
+    private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togAllgemeinInfoActionPerformed
         switchToForm("allgemein");
         lblHeading.setText("Allgemeine Informationen");
         zoomToAbschnitt();
-    }//GEN-LAST:event_togAllgemeinInfoActionPerformed
+    }                                                                                    //GEN-LAST:event_togAllgemeinInfoActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1325,84 +1362,84 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkQuerbauwerkeActionPerformed
+    private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkQuerbauwerkeActionPerformed
         querbauwerksband.setEnabled(chkQuerbauwerke.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkQuerbauwerkeActionPerformed
+    }                                                                                   //GEN-LAST:event_chkQuerbauwerkeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMassnahmenActionPerformed
+    private void chkMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkMassnahmenActionPerformed
         linkesUferBand.setEnabled(chkMassnahmen.isSelected());
         rechtesUferBand.setEnabled(chkMassnahmen.isSelected());
         sohleBand.setEnabled(chkMassnahmen.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkMassnahmenActionPerformed
+    }                                                                                 //GEN-LAST:event_chkMassnahmenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
+    private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
         rechtesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         linkesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
+    }                                                                                         //GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkWasserkoerperActionPerformed
+    private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkWasserkoerperActionPerformed
         wkband.setEnabled(chkWasserkoerper.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkWasserkoerperActionPerformed
+    }                                                                                    //GEN-LAST:event_chkWasserkoerperActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUmlandnutzungActionPerformed
+    private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzungActionPerformed
         nutzungLinksBand.setEnabled(chkUmlandnutzung.isSelected());
         nutzungRechtsBand.setEnabled(chkUmlandnutzung.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkUmlandnutzungActionPerformed
+    }                                                                                    //GEN-LAST:event_chkUmlandnutzungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNaturschutzActionPerformed
+    private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkNaturschutzActionPerformed
         naturchutzBand.setEnabled(chkNaturschutz.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkNaturschutzActionPerformed
+    }                                                                                  //GEN-LAST:event_chkNaturschutzActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkUnterhaltungserfordernisActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUnterhaltungserfordernisActionPerformed
+    private void chkUnterhaltungserfordernisActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUnterhaltungserfordernisActionPerformed
         unterhaltungserfordernisBand.setEnabled((chkUnterhaltungserfordernis.isSelected()));
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkUnterhaltungserfordernisActionPerformed
+    }                                                                                               //GEN-LAST:event_chkUnterhaltungserfordernisActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkEntwicklungszielActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEntwicklungszielActionPerformed
+    private void chkEntwicklungszielActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkEntwicklungszielActionPerformed
         entwicklungszielBand.setEnabled(chkEntwicklungsziel.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkEntwicklungszielActionPerformed
+    }                                                                                       //GEN-LAST:event_chkEntwicklungszielActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1447,41 +1484,41 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
 //        try {
 //            java.awt.Desktop.getDesktop()
 //                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
 //        } catch (Exception ex) {
 //            log.error("Problem beim Oeffnen des LV", ex);
 //        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    } //GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApplyActionPerformed
+    private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApplyActionPerformed
         panBand.removeAll();
         panBand.add(jband, BorderLayout.CENTER);
         setNamesAndBands();
         linearReferencedLineEditor.dispose();
         showRoute();
         togApplyStats.setEnabled(true);
-    }//GEN-LAST:event_jbApplyActionPerformed
+    }                                                                           //GEN-LAST:event_jbApplyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togApplyStatsActionPerformed
+    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
             showVermessungsband();
         } else {
             hideVermessungsband();
         }
-    }//GEN-LAST:event_togApplyStatsActionPerformed
+    }                                                                                 //GEN-LAST:event_togApplyStatsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1573,7 +1610,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApply1ActionPerformed
+    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
         try {
             JOptionPane.showConfirmDialog(
                 this,
@@ -1603,7 +1640,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         } catch (Exception e) {
             LOG.error("Error while creating the initial bands.", e);
         }
-    }//GEN-LAST:event_jbApply1ActionPerformed
+    } //GEN-LAST:event_jbApply1ActionPerformed
 
     /**
      * DOCUMENT ME!

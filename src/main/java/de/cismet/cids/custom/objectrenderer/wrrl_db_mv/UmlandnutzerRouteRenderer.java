@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupOperativesZielRouteEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.UmlandnutzerRouteEditor;
 
 /**
  * DOCUMENT ME!
@@ -15,14 +15,14 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupOperativesZielRouteEdit
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupOperativesZielRouteRenderer extends GupOperativesZielRouteEditor {
+public class UmlandnutzerRouteRenderer extends UmlandnutzerRouteEditor {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new GupOperativesZielRouteRenderer object.
+     * Creates a new UmlandnutzerRouteRenderer object.
      */
-    public GupOperativesZielRouteRenderer() {
+    public UmlandnutzerRouteRenderer() {
         super(true);
     }
 }

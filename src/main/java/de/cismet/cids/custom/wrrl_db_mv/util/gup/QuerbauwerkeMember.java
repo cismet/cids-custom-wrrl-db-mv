@@ -93,11 +93,11 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot, Band
         } else {
             name = "unbekannt";
         }
-        
+
         if (result.get(1) != null) {
             art = (Integer)(result.get(1)) - 1;
         }
-        
+
         station = (Double)(result.get(3));
         setIcon(getIcon(getColor(), 10));
         setToolTipText(name);

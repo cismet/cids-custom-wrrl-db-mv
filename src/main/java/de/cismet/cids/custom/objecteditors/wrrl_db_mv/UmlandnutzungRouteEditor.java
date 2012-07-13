@@ -203,6 +203,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
                     "linie.bis"));
         sbm.setMin(from);
         sbm.setMax(till);
+        wkband = new WKBand(from, till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
         umlandnutzung_links.setRoute(route);
@@ -214,20 +215,33 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        try {
-            final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),
-                    sbm.getMax(),
-                    String.valueOf(route.getProperty("gwk")));
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 
-            final Collection resWK = SessionManager.getProxy()
-                        .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-            final ArrayList<ArrayList> resArrayWK = (ArrayList<ArrayList>)resWK;
+                @Override
+                protected ArrayList<ArrayList> doInBackground() throws Exception {
+                    final CidsServerSearch searchWK = new WkSearchByStations(
+                            sbm.getMin(),
+                            sbm.getMax(),
+                            String.valueOf(route.getProperty("gwk")));
 
-            wkband = new WKBand(sbm.getMin(), sbm.getMax(), resArrayWK);
-            sbm.insertBand(wkband, 0);
-        } catch (Exception e) {
-            log.error("Problem beim Suchen der Wasserkoerper", e);
-        }
+                    final Collection resWK = SessionManager.getProxy()
+                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
+                    return (ArrayList<ArrayList>)resWK;
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final ArrayList<ArrayList> res = get();
+                        wkband.setWK(res);
+                        sbm.insertBand(wkband, 0);
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                        updateUI();
+                    } catch (Exception e) {
+                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                    }
+                }
+            });
     }
 
     @Override

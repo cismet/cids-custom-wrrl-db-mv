@@ -798,7 +798,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
 
             if (toAdd != null) {
                 try {
-                    LOG.fatal("dropped: " + toAdd.getMOString());
+//                    LOG.fatal("dropped: " + toAdd.getMOString());
                     cidsBean.setProperty("massn_ref", toAdd);
                 } catch (Exception ex) {
                     LOG.fatal("error while setting massn_ref", ex);

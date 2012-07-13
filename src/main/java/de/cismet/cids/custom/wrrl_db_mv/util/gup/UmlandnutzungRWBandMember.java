@@ -90,6 +90,7 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if (bean.getProperty("art") == null) {
+            setDefaultBackgound();
             return;
         }
         final CidsBean artBean = (CidsBean)bean.getProperty("art");
@@ -201,7 +202,7 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
             }
         }
         try {
-            bean.setProperty("name_bezeichnung", b);
+            bean.setProperty("art", b);
         } catch (Exception e) {
             LOG.error("Error while setting property massnahme.", e);
         }

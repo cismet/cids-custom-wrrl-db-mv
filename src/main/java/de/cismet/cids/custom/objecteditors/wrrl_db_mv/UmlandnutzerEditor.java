@@ -12,16 +12,23 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.CustomListCellRenderer;
-import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -31,24 +38,25 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class UmlandnutzerEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupUmlandnutzerEditor.class);
+            UmlandnutzerEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private List<CidsBean> others;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSeite;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblNutzer;
     private javax.swing.JLabel lblNutzer1;
-    private javax.swing.JLabel lblSeite;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JScrollPane scBemerkung;
     private javax.swing.JTextArea taBemerkung;
@@ -60,7 +68,7 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupUmlandnutzerEditor() {
+    public UmlandnutzerEditor() {
         this(false);
     }
 
@@ -69,7 +77,7 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupUmlandnutzerEditor(final boolean readOnly) {
+    public UmlandnutzerEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
@@ -78,12 +86,19 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
         if (!readOnly) {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
             linearReferencedLineEditor.setOtherLinesQueryAddition(
-                "gup_unterhaltungserfordernis",
-                "gup_unterhaltungserfordernis.linie = ");
+                "umlandnutzer",
+                "umlandnutzer.linie = ");
+            linearReferencedLineEditor.setShowOtherInDialog(true);
+
+            try {
+                new CidsBeanDropTarget(this);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
+            }
         } else {
-            cbSeite.setEnabled(false);
-            cbSeite.setRenderer(new CustomListCellRenderer());
-            taBemerkung.setEditable(false);
+            RendererTools.makeReadOnly(taBemerkung);
         }
     }
 
@@ -101,8 +116,6 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
 
         lblNutzer = new javax.swing.JLabel();
         linearReferencedLineEditor = linearReferencedLineEditor;
-        lblSeite = new javax.swing.JLabel();
-        cbSeite = new ScrollableComboBox();
         lblNutzer1 = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
         scBemerkung = new javax.swing.JScrollPane();
@@ -113,8 +126,8 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
         setLayout(new java.awt.GridBagLayout());
 
         lblNutzer.setText(org.openide.util.NbBundle.getMessage(
-                GupUmlandnutzerEditor.class,
-                "GupUmlandnutzerEditor.lblNutzer.text")); // NOI18N
+                UmlandnutzerEditor.class,
+                "UmlandnutzerEditor.lblNutzer.text")); // NOI18N
         lblNutzer.setMaximumSize(new java.awt.Dimension(150, 17));
         lblNutzer.setMinimumSize(new java.awt.Dimension(100, 17));
         lblNutzer.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -132,46 +145,20 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 10, 5);
         add(linearReferencedLineEditor, gridBagConstraints);
 
-        lblSeite.setText(org.openide.util.NbBundle.getMessage(
-                GupUmlandnutzerEditor.class,
-                "GupUmlandnutzerEditor.lblSeite.text")); // NOI18N
-        lblSeite.setMaximumSize(new java.awt.Dimension(150, 17));
-        lblSeite.setMinimumSize(new java.awt.Dimension(100, 17));
-        lblSeite.setPreferredSize(new java.awt.Dimension(100, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblSeite, gridBagConstraints);
-
-        cbSeite.setMaximumSize(new java.awt.Dimension(290, 20));
-        cbSeite.setMinimumSize(new java.awt.Dimension(290, 20));
-        cbSeite.setPreferredSize(new java.awt.Dimension(290, 20));
+        lblNutzer1.setForeground(new java.awt.Color(0, 0, 255));
+        lblNutzer1.setMaximumSize(new java.awt.Dimension(150, 17));
+        lblNutzer1.setMinimumSize(new java.awt.Dimension(100, 17));
+        lblNutzer1.setPreferredSize(new java.awt.Dimension(100, 17));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.seite}"),
-                cbSeite,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nutzer.vorname} ${cidsBean.nutzer.name}"),
+                lblNutzer1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbSeite, gridBagConstraints);
-
-        lblNutzer1.setForeground(new java.awt.Color(0, 0, 255));
-        lblNutzer1.setText(org.openide.util.NbBundle.getMessage(
-                GupUmlandnutzerEditor.class,
-                "GupUmlandnutzerEditor.lblNutzer1.text")); // NOI18N
-        lblNutzer1.setMaximumSize(new java.awt.Dimension(150, 17));
-        lblNutzer1.setMinimumSize(new java.awt.Dimension(100, 17));
-        lblNutzer1.setPreferredSize(new java.awt.Dimension(100, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -181,11 +168,9 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
         add(lblNutzer1, gridBagConstraints);
 
         lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
-                GupUmlandnutzerEditor.class,
-                "GupUmlandnutzerEditor.lblBemerkung.text")); // NOI18N
+                UmlandnutzerEditor.class,
+                "UmlandnutzerEditor.lblBemerkung.text")); // NOI18N
         lblBemerkung.setMaximumSize(new java.awt.Dimension(150, 17));
-        lblBemerkung.setMinimumSize(new java.awt.Dimension(100, 17));
-        lblBemerkung.setPreferredSize(new java.awt.Dimension(100, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -223,21 +208,45 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//        bindingGroup.unbind();
-//        this.cidsBean = cidsBean;
-//
-//        if (cidsBean != null) {
-//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-//                bindingGroup,
-//                cidsBean);
-//            bindingGroup.bind();
-//
-//        }
+        bindingGroup.unbind();
+        this.cidsBean = cidsBean;
+
+        if (cidsBean != null) {
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                cidsBean);
+            bindingGroup.bind();
+
+            if (this.others != null) {
+                final List<CidsBean> lineBeans = new ArrayList<CidsBean>();
+                final Object id = cidsBean.getProperty("linie.id");
+
+                for (final CidsBean b : this.others) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(id))) {
+                        lineBeans.add(tmp);
+                    }
+                }
+                linearReferencedLineEditor.setOtherLines(lineBeans);
+            }
+            linearReferencedLineEditor.setCidsBean(cidsBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  others  DOCUMENT ME!
+     */
+    public void setOthers(final List<CidsBean> others) {
+        this.others = others;
     }
 
     @Override
     public void dispose() {
-//        bindingGroup.unbind();
+        linearReferencedLineEditor.dispose();
+        bindingGroup.unbind();
     }
 
     @Override
@@ -256,6 +265,21 @@ public class GupUmlandnutzerEditor extends javax.swing.JPanel implements CidsBea
     @Override
     public boolean prepareForSave() {
         return true;
+    }
+
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if ((cidsBean != null) && !readOnly) {
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Person")) { // NOI18N
+                    try {
+                        cidsBean.setProperty("nutzer", bean);
+                    } catch (final Exception e) {
+                        LOG.error("Error while setting a new wk_k", e);
+                    }
+                }
+            }
+        }
     }
 
     /**

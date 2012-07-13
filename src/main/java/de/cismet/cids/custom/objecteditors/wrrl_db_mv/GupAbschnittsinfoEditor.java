@@ -12,20 +12,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
-import Sirius.server.search.CidsServerSearch;
-
-import com.vividsolutions.jts.geom.Geometry;
-
-import java.awt.EventQueue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 

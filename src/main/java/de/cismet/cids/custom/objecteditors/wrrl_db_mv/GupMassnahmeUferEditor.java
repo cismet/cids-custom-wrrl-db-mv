@@ -12,10 +12,16 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.apache.log4j.Logger;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -38,6 +44,8 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private boolean leftSide = false;
+    private List<CidsBean> massnahmen = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
@@ -79,8 +87,10 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
-        linearReferencedLineEditor.setOtherLinesEnabled(false);
-        linearReferencedLineEditor.setDrawingFeaturesEnabled(false);
+        linearReferencedLineEditor.setOtherLinesEnabled(true);
+        linearReferencedLineEditor.setOtherLinesQueryAddition("gup_massnahme_ufer gmu", "gmu.linie = ");
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
+        linearReferencedLineEditor.setShowOtherInDialog(true);
         initComponents();
         setReadOnly(readOnly);
     }
@@ -97,7 +107,6 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         lblBearbeiter = new javax.swing.JLabel();
         lblMassnahme = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
@@ -115,20 +124,11 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         cbIntervall = new ScrollableComboBox();
         lblBoeschungslaenge = new javax.swing.JLabel();
         txtBoeschungslaenge = new javax.swing.JTextField();
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 800));
         setLayout(new java.awt.GridBagLayout());
-
-        glassPanel.setAlpha(0);
-        glassPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.gridheight = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(glassPanel, gridBagConstraints);
 
         lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmeUferEditor.class,
@@ -254,7 +254,7 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         spBemerkung.setPreferredSize(new java.awt.Dimension(290, 90));
 
         jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        jTextArea1.setRows(3);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -392,6 +392,16 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(jPanel3, gridBagConstraints);
 
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(glassPanel, gridBagConstraints);
+
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
@@ -410,8 +420,53 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            setOtherLinesQueryAddition();
+            final List<CidsBean> linieBeans = new ArrayList<CidsBean>();
+
+            if (getMassnahmen() != null) {
+                for (final CidsBean b : getMassnahmen()) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(cidsBean.getProperty("linie.id")))) {
+                        linieBeans.add(tmp);
+                    }
+                }
+            }
+            linearReferencedLineEditor.setOtherLines(linieBeans);
             linearReferencedLineEditor.setCidsBean(cidsBean);
         }
+    }
+
+//    /**
+//     * DOCUMENT ME!
+//     */
+//    public void refresh() {
+//        linearReferencedLineEditor.refreshOtherLines();
+//    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setOtherLinesQueryAddition() {
+        final String wherePart = "gmu.id = gmul.massnahme_ufer and gmu.linie = ";
+        String fromPart = null;
+
+        if (leftSide) {
+            fromPart = "gup_massnahme_ufer gmu, gup_gewaesserabschnitt_massnahme_ufer_links gmul";
+        } else {
+            fromPart = "gup_massnahme_ufer gmu, gup_gewaesserabschnitt_massnahme_ufer_rechts gmul";
+        }
+
+        linearReferencedLineEditor.setOtherLinesQueryAddition(fromPart, wherePart);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leftSide  DOCUMENT ME!
+     */
+    public void setBankSide(final boolean leftSide) {
+        this.leftSide = leftSide;
     }
 
     /**
@@ -434,6 +489,7 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
     public void dispose() {
         bindingGroup.unbind();
         linearReferencedLineEditor.dispose();
+        setMassnahmen(null);
     }
 
     @Override
@@ -453,5 +509,23 @@ public class GupMassnahmeUferEditor extends javax.swing.JPanel implements CidsBe
     @Override
     public boolean prepareForSave() {
         return linearReferencedLineEditor.prepareForSave();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the massnahmen
+     */
+    public List<CidsBean> getMassnahmen() {
+        return massnahmen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  massnahmen  the massnahmen to set
+     */
+    public void setMassnahmen(final List<CidsBean> massnahmen) {
+        this.massnahmen = massnahmen;
     }
 }

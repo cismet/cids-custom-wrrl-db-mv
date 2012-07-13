@@ -85,7 +85,6 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     protected PinstripePainter stripes = new PinstripePainter();
     protected Painter unselectedBackgroundPainter = null;
     protected Painter selectedBackgroundPainter = null;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     protected CidsBean bean;
     protected boolean isSelected = false;
@@ -106,6 +105,8 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     private LineBand parent;
     private List<BandMemberListener> listenerList = new ArrayList<BandMemberListener>();
     private boolean readOnly;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel labText;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -164,6 +165,15 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     @Override
     public CidsBean getCidsBean() {
         return bean;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  text  DOCUMENT ME!
+     */
+    public void setText(final String text) {
+        labText.setText(text);
     }
 
     @Override
@@ -267,14 +277,21 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        final java.awt.GridBagConstraints gridBagConstraints;
 
-        final org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 259, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 87, Short.MAX_VALUE));
+        labText = new javax.swing.JLabel();
+
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        setLayout(new java.awt.GridBagLayout());
+
+        labText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(labText, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     @Override

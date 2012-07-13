@@ -87,6 +87,7 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if (bean.getProperty("name_bezeichnung") == null) {
+            setDefaultBackgound();
             return;
         }
         final int art = (Integer)bean.getProperty("name_bezeichnung.id");

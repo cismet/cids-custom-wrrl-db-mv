@@ -16,11 +16,8 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -46,7 +43,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
-import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
@@ -59,36 +55,33 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRenderer,
+public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupOperativesZielRouteEditor.class);
-    private static final String GUP_OPERATIVES_ZIEL = "gup_operatives_ziel_abschnitt";
-    private static final int GUP_UFER_LINKS = 1;
-    private static final int GUP_UFER_RECHTS = 2;
-    private static final int GUP_UMFELD_RECHTS = 3;
-    private static final int GUP_UMFELD_LINKS = 3;
-    private static final int GUP_SOHLE = 4;
+            UmlandnutzerRouteEditor.class);
+    private static final String UMLANDNUTZER = "umlandnutzer";
 
     //~ Instance fields --------------------------------------------------------
 
-    private OperativesZielRWBand uferLinksBand = new OperativesZielRWBand("Ufer links", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand uferRechtsBand = new OperativesZielRWBand("Ufer rechts", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand umfeldLinksBand = new OperativesZielRWBand("Umfeld links", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand umfeldRechtsBand = new OperativesZielRWBand("Umfeld rechts", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand sohleBand = new OperativesZielRWBand("Sohle", GUP_OPERATIVES_ZIEL);
+    private UmlandnutzerRWBand umlandnutzer_links = new UmlandnutzerRWBand(
+            "Umlandnutzer links",
+            UMLANDNUTZER);
+    private UmlandnutzerRWBand umlandnutzer_rechts = new UmlandnutzerRWBand(
+            "Umlandnutzer rechts",
+            UMLANDNUTZER);
     private WKBand wkband;
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
-    private GupOperativesZielAbschnittEditor operativesZielEditor;
+    private UmlandnutzerEditor umlandnutzerEditor;
     private boolean readOnly = false;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
     private javax.swing.JLabel jLabel3;
@@ -113,7 +106,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
-    private javax.swing.JPanel panZiele;
+    private javax.swing.JPanel panUmlandnutzer;
     private javax.swing.JSlider sldZoom;
     // End of variables declaration//GEN-END:variables
 
@@ -122,7 +115,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     /**
      * Creates a new GupGewaesserabschnittEditor object.
      */
-    public GupOperativesZielRouteEditor() {
+    public UmlandnutzerRouteEditor() {
         this(false);
     }
 
@@ -131,35 +124,26 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupOperativesZielRouteEditor(final boolean readOnly) {
+    public UmlandnutzerRouteEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         jband = new JBand(readOnly);
         initComponents();
 
-        uferLinksBand.setReadOnly(readOnly);
-        uferRechtsBand.setReadOnly(readOnly);
-        umfeldLinksBand.setReadOnly(readOnly);
-        umfeldRechtsBand.setReadOnly(readOnly);
-        sohleBand.setReadOnly(readOnly);
-        uferLinksBand.setType(GUP_UFER_LINKS);
-        uferRechtsBand.setType(GUP_UFER_RECHTS);
-        umfeldLinksBand.setType(GUP_UMFELD_LINKS);
-        umfeldRechtsBand.setType(GUP_UMFELD_RECHTS);
-        sohleBand.setType(GUP_SOHLE);
-        operativesZielEditor = new GupOperativesZielAbschnittEditor(readOnly);
-        sbm.addBand(umfeldRechtsBand);
-        sbm.addBand(uferRechtsBand);
-        sbm.addBand(sohleBand);
-        sbm.addBand(uferLinksBand);
-        sbm.addBand(umfeldLinksBand);
+        umlandnutzerEditor = new UmlandnutzerEditor(readOnly);
+        umlandnutzer_rechts.setReadOnly(readOnly);
+        umlandnutzer_rechts.setSide(UmlandnutzungRWBand.RIGHT);
+        sbm.addBand(umlandnutzer_rechts);
+        umlandnutzer_links.setReadOnly(readOnly);
+        umlandnutzer_links.setSide(UmlandnutzungRWBand.LEFT);
+        sbm.addBand(umlandnutzer_links);
 
         jband.setModel(sbm);
 
         panBand.add(jband, BorderLayout.CENTER);
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
-        lblHeading.setText("Allgemeine Informationen");
-        panZiele.add(operativesZielEditor, BorderLayout.CENTER);
+        lblHeading.setText("Umlandnutzer");
+        panUmlandnutzer.add(umlandnutzerEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -220,19 +204,13 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
                     "linie.bis"));
         sbm.setMin(from);
         sbm.setMax(till);
-        wkband = new WKBand(sbm.getMin(), sbm.getMax());
+        wkband = new WKBand(from, till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
-        uferLinksBand.setRoute(route);
-        uferRechtsBand.setRoute(route);
-        sohleBand.setRoute(route);
-        umfeldRechtsBand.setRoute(route);
-        umfeldLinksBand.setRoute(route);
-        uferLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_links"));
-        uferRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_rechts"));
-        umfeldLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_links"));
-        umfeldRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_rechts"));
-        sohleBand.setCidsBeans(cidsBean.getBeanCollectionProperty("sohle"));
+        umlandnutzer_links.setRoute(route);
+        umlandnutzer_links.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzer_links"));
+        umlandnutzer_rechts.setRoute(route);
+        umlandnutzer_rechts.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzer_rechts"));
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -291,7 +269,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        panZiele = new javax.swing.JPanel();
+        panUmlandnutzer = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
@@ -330,9 +308,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
-        jbApply.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielRouteEditor.class,
-                "GupGewaesserabschnitt")); // NOI18N
+        jbApply.setText(org.openide.util.NbBundle.getMessage(UmlandnutzerRouteEditor.class, "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -369,9 +345,9 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.CardLayout());
 
-        panZiele.setOpaque(false);
-        panZiele.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panZiele, "ziele");
+        panUmlandnutzer.setOpaque(false);
+        panUmlandnutzer.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panUmlandnutzer, "umlandnutzer");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
@@ -614,30 +590,25 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof OperativesZielRWBandMember) {
-                    switchToForm("ziele");
-                    lblHeading.setText("Operatives Ziel");
-                    String memberProperty = null;
-                    final int type = ((OperativesZielRWBand)((OperativesZielRWBandMember)bm).getParentBand()).getType();
+                if (bm instanceof UmlandnutzerRWBandMember) {
+                    switchToForm("umlandnutzer");
+                    lblHeading.setText("Umlandnutzer");
 
-                    if (type == GUP_SOHLE) {
-                        memberProperty = "sohle";
-                    } else if (type == GUP_UFER_LINKS) {
-                        memberProperty = "ufer_links";
-                    } else if (type == GUP_UFER_RECHTS) {
-                        memberProperty = "ufer_rechts";
-                    } else if (type == GUP_UMFELD_LINKS) {
-                        memberProperty = "umfeld_links";
-                    } else if (type == GUP_UMFELD_RECHTS) {
-                        memberProperty = "umfeld_rechts";
+                    final UmlandnutzerRWBand band = (UmlandnutzerRWBand)((UmlandnutzerRWBandMember)bm).getParentBand();
+                    final List<CidsBean> otherBeans;
+
+                    if (band.getSide() == UmlandnutzungRWBand.RIGHT) {
+                        otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
+                                cidsBean,
+                                "umlandnutzer_rechts");
+                    } else {
+                        otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
+                                cidsBean,
+                                "umlandnutzer_links");
                     }
 
-                    final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
-                            cidsBean,
-                            memberProperty);
-
-                    operativesZielEditor.setOthers(otherBeans);
-                    operativesZielEditor.setCidsBean(((OperativesZielRWBandMember)bm).getCidsBean());
+                    umlandnutzerEditor.setOthers(otherBeans);
+                    umlandnutzerEditor.setCidsBean(((UmlandnutzerRWBandMember)bm).getCidsBean());
                 }
             } else {
                 switchToForm("empty");

@@ -14,10 +14,12 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -29,12 +31,12 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class PersonEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupPersonEditor.class);
+            PersonEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -70,7 +72,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupPersonEditor() {
+    public PersonEditor() {
         this(false);
     }
 
@@ -79,9 +81,21 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupPersonEditor(final boolean readOnly) {
+    public PersonEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(tfEmail);
+            RendererTools.makeReadOnly(tfFax);
+            RendererTools.makeReadOnly(tfHsnr);
+            RendererTools.makeReadOnly(tfName);
+            RendererTools.makeReadOnly(tfOrt);
+            RendererTools.makeReadOnly(tfPlz);
+            RendererTools.makeReadOnly(tfStrasse);
+            RendererTools.makeReadOnly(tfTel);
+            RendererTools.makeReadOnly(tfVorname);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -121,9 +135,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
 
-        lblVorname.setText(org.openide.util.NbBundle.getMessage(
-                GupPersonEditor.class,
-                "GupPersonEditor.lblVorname.text")); // NOI18N
+        lblVorname.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblVorname.text")); // NOI18N
         lblVorname.setMaximumSize(new java.awt.Dimension(150, 17));
         lblVorname.setMinimumSize(new java.awt.Dimension(100, 17));
         lblVorname.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -134,7 +146,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
         add(lblVorname, gridBagConstraints);
 
-        lblName.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblName.text")); // NOI18N
+        lblName.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblName.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(150, 17));
         lblName.setMinimumSize(new java.awt.Dimension(100, 17));
         lblName.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -186,9 +198,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        lblStrasse.setText(org.openide.util.NbBundle.getMessage(
-                GupPersonEditor.class,
-                "GupPersonEditor.lblStrasse.text")); // NOI18N
+        lblStrasse.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblStrasse.text")); // NOI18N
         lblStrasse.setMaximumSize(new java.awt.Dimension(150, 17));
         lblStrasse.setMinimumSize(new java.awt.Dimension(100, 17));
         lblStrasse.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -219,7 +229,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(tfStrasse, gridBagConstraints);
 
-        lblHsnr.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblHsnr.text")); // NOI18N
+        lblHsnr.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblHsnr.text")); // NOI18N
         lblHsnr.setMaximumSize(new java.awt.Dimension(150, 17));
         lblHsnr.setMinimumSize(new java.awt.Dimension(150, 17));
         lblHsnr.setPreferredSize(new java.awt.Dimension(75, 17));
@@ -259,7 +269,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        lblPlz.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblPlz.text")); // NOI18N
+        lblPlz.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblPlz.text")); // NOI18N
         lblPlz.setMaximumSize(new java.awt.Dimension(150, 17));
         lblPlz.setMinimumSize(new java.awt.Dimension(150, 17));
         lblPlz.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -289,7 +299,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(tfPlz, gridBagConstraints);
 
-        lblOrt.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblOrt.text")); // NOI18N
+        lblOrt.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblOrt.text")); // NOI18N
         lblOrt.setMaximumSize(new java.awt.Dimension(150, 17));
         lblOrt.setMinimumSize(new java.awt.Dimension(100, 17));
         lblOrt.setPreferredSize(new java.awt.Dimension(75, 17));
@@ -327,7 +337,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         add(jPanel2, gridBagConstraints);
 
-        lblTel.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblTel.text")); // NOI18N
+        lblTel.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblTel.text")); // NOI18N
         lblTel.setMaximumSize(new java.awt.Dimension(150, 17));
         lblTel.setMinimumSize(new java.awt.Dimension(100, 17));
         lblTel.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -357,7 +367,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tfTel, gridBagConstraints);
 
-        lblFax.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblFax.text")); // NOI18N
+        lblFax.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblFax.text")); // NOI18N
         lblFax.setMaximumSize(new java.awt.Dimension(150, 17));
         lblFax.setMinimumSize(new java.awt.Dimension(100, 17));
         lblFax.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -387,7 +397,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tfFax, gridBagConstraints);
 
-        lblEmail.setText(org.openide.util.NbBundle.getMessage(GupPersonEditor.class, "GupPersonEditor.lblEmail.text")); // NOI18N
+        lblEmail.setText(org.openide.util.NbBundle.getMessage(PersonEditor.class, "PersonEditor.lblEmail.text")); // NOI18N
         lblEmail.setMaximumSize(new java.awt.Dimension(150, 17));
         lblEmail.setMinimumSize(new java.awt.Dimension(100, 17));
         lblEmail.setPreferredSize(new java.awt.Dimension(100, 17));
@@ -428,26 +438,25 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//        bindingGroup.unbind();
-//        this.cidsBean = cidsBean;
-//
-//        if (cidsBean != null) {
-//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-//                bindingGroup,
-//                cidsBean);
-//            bindingGroup.bind();
-//
-//        }
+        bindingGroup.unbind();
+        this.cidsBean = cidsBean;
+
+        if (cidsBean != null) {
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                cidsBean);
+            bindingGroup.bind();
+        }
     }
 
     @Override
     public void dispose() {
-//        bindingGroup.unbind();
+        bindingGroup.unbind();
     }
 
     @Override
     public String getTitle() {
-        return "Kontaktdaten";
+        return "Person - Kontaktdaten";
     }
 
     @Override
@@ -476,7 +485,7 @@ public class GupPersonEditor extends javax.swing.JPanel implements CidsBeanRende
             "Administratoren",
             "admin",
             "x",
-            "gup_person",
+            "person",
             1,
             1280,
             1024);

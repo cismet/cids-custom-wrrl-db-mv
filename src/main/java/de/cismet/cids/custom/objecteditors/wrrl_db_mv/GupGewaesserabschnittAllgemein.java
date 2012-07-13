@@ -555,7 +555,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
             for (final Object doc : docs) {
                 if (doc instanceof CidsBean) {
                     final CidsBean bean = (CidsBean)doc;
-                    if (DownloadManagerDialog.showAskingForUserTitle(StaticSwingTools.getParentFrame(this))) {
+                    if (DownloadManagerDialog.showAskingForUserTitle(this)) {
                         final String jobname = DownloadManagerDialog.getJobname();
                         final String name = bean.getProperty("name").toString();
                         final String file = bean.getProperty("file").toString();
