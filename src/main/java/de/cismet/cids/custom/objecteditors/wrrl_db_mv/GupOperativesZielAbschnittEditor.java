@@ -18,9 +18,8 @@ import java.util.List;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
-import de.cismet.cids.custom.wrrl_db_mv.util.CustomListCellRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.OperativeZieleComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -41,6 +40,9 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
 
     //~ Static fields/initializers ---------------------------------------------
 
+    public static final int OPERATIVES_ZIEL_UFER = 1;
+    public static final int OPERATIVES_ZIEL_SOHLE = 2;
+    public static final int OPERATIVES_ZIEL_UMFELD = 3;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupOperativesZielAbschnittEditor.class);
 
@@ -101,7 +103,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblZiel = new javax.swing.JLabel();
-        cbName = new ScrollableComboBox();
+        cbName = new OperativeZieleComboBox();
         linearReferencedLineEditor = linearReferencedLineEditor;
 
         setOpaque(false);
@@ -182,7 +184,28 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
             }
 
             linearReferencedLineEditor.setCidsBean(cidsBean);
+
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final Object item = cidsBean.getProperty("operatives_ziel");
+                        if (item != null) {
+                            cbName.setSelectedItem(item);
+                        }
+                    }
+                }).start();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  kompartiment  the kompartiment to set
+     */
+    public void setKompartiment(final int kompartiment) {
+        ((OperativeZieleComboBox)cbName).setKompartiment(kompartiment);
+        cbName.setSelectedItem(null);
     }
 
     /**
@@ -196,8 +219,8 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
 
     @Override
     public void dispose() {
-        linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
+        linearReferencedLineEditor.dispose();
     }
 
     @Override

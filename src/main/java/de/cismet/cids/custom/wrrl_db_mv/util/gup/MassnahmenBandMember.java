@@ -79,63 +79,71 @@ public class MassnahmenBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("massnahme") == null) {
+        if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.color") == null)) {
             setDefaultBackgound();
             return;
         }
-        final int action = (Integer)bean.getProperty("massnahme.id");
+        final String color = (String)bean.getProperty("massnahme.color");
 
-        switch (action) {
-            case 1: {
-                // Mahd mit Mäh-, Harkkombination
-                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
-                break;
-            }
-            case 2: {
-                // Mahd mit Schlägelmähwerk
-                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
-                break;
-            }
-            case 3: {
-                // Mähkorb
-                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
-                break;
-            }
-            case 4: {
-                // Handmahd
-                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
-
-                break;
-            }
-            case 5: {
-                // Mähboot
-                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(157, 224, 173)), stripes));
-                break;
-            }
-            case 6: {
-                // Grundräumung
-                setBackgroundPainter(new MattePainter(new Color(89, 79, 79)));
-                break;
-            }
-            case 7: {
-                // Mähboot/Mähbalken
-                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(69, 173, 168)), stripes));
-                break;
-            }
-            case 8: {
-                // Mähwerk
-                setBackgroundPainter(new MattePainter(new Color(84, 121, 128)));
-                break;
-            }
-            case 9: {
-                // Handmahd/Mähboot
-                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
-                break;
-            }
-            default: {
-                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackgound();
             }
         }
+//        switch (action) {
+//            case 1: {
+//                // Mahd mit Mäh-, Harkkombination
+//                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
+//                break;
+//            }
+//            case 2: {
+//                // Mahd mit Schlägelmähwerk
+//                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
+//                break;
+//            }
+//            case 3: {
+//                // Mähkorb
+//                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
+//                break;
+//            }
+//            case 4: {
+//                // Handmahd
+//                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
+//
+//                break;
+//            }
+//            case 5: {
+//                // Mähboot
+//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(157, 224, 173)), stripes));
+//                break;
+//            }
+//            case 6: {
+//                // Grundräumung
+//                setBackgroundPainter(new MattePainter(new Color(89, 79, 79)));
+//                break;
+//            }
+//            case 7: {
+//                // Mähboot/Mähbalken
+//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(69, 173, 168)), stripes));
+//                break;
+//            }
+//            case 8: {
+//                // Mähwerk
+//                setBackgroundPainter(new MattePainter(new Color(84, 121, 128)));
+//                break;
+//            }
+//            case 9: {
+//                // Handmahd/Mähboot
+//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
+//                break;
+//            }
+//            default: {
+//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
+//            }
+//        }
         unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,

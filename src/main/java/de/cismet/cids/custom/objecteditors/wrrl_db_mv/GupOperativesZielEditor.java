@@ -18,6 +18,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultBindableColorChooser;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
@@ -45,8 +46,10 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbUfer;
     private javax.swing.JCheckBox cbUmfeld;
+    private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblBereiche;
+    private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblName;
     private javax.swing.JCheckBox sbSohle;
     private javax.swing.JTextField txtName;
@@ -76,6 +79,7 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
             RendererTools.makeReadOnly(cbUmfeld);
             RendererTools.makeReadOnly(sbSohle);
             RendererTools.makeReadOnly(cbUfer);
+            RendererTools.makeReadOnly(dccColor);
         }
     }
 
@@ -98,6 +102,8 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         cbUmfeld = new javax.swing.JCheckBox();
         sbSohle = new javax.swing.JCheckBox();
         lblBereiche = new javax.swing.JLabel();
+        lblColor = new javax.swing.JLabel();
+        dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -223,6 +229,38 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblBereiche, gridBagConstraints);
+
+        lblColor.setText(org.openide.util.NbBundle.getMessage(
+                GupOperativesZielEditor.class,
+                "GupOperativesZielEditor.lblColor.text")); // NOI18N
+        lblColor.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblColor.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblColor, gridBagConstraints);
+
+        dccColor.setMinimumSize(new java.awt.Dimension(250, 20));
+        dccColor.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.color}"),
+                dccColor,
+                org.jdesktop.beansbinding.BeanProperty.create("color"));
+        binding.setConverter(((DefaultBindableColorChooser)dccColor).getConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(dccColor, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

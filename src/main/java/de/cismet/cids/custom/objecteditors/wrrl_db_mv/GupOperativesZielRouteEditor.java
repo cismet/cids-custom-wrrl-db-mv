@@ -68,11 +68,11 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupOperativesZielRouteEditor.class);
     private static final String GUP_OPERATIVES_ZIEL = "gup_operatives_ziel_abschnitt";
-    private static final int GUP_UFER_LINKS = 1;
-    private static final int GUP_UFER_RECHTS = 2;
-    private static final int GUP_UMFELD_RECHTS = 3;
-    private static final int GUP_UMFELD_LINKS = 3;
-    private static final int GUP_SOHLE = 4;
+    public static final int GUP_UFER_LINKS = 1;
+    public static final int GUP_UFER_RECHTS = 2;
+    public static final int GUP_UMFELD_RECHTS = 3;
+    public static final int GUP_UMFELD_LINKS = 3;
+    public static final int GUP_SOHLE = 4;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -581,6 +581,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        operativesZielEditor.dispose();
         linearReferencedLineEditor.editorClosed(event);
     }
 
@@ -607,6 +608,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         @Override
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
+            operativesZielEditor.dispose();
             jband.setRefreshAvoided(true);
 
             if (bm != null) {
@@ -619,23 +621,30 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
                     lblHeading.setText("Operatives Ziel");
                     String memberProperty = null;
                     final int type = ((OperativesZielRWBand)((OperativesZielRWBandMember)bm).getParentBand()).getType();
+                    int kompartiment = 0;
 
                     if (type == GUP_SOHLE) {
                         memberProperty = "sohle";
+                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_SOHLE;
                     } else if (type == GUP_UFER_LINKS) {
                         memberProperty = "ufer_links";
+                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
                     } else if (type == GUP_UFER_RECHTS) {
                         memberProperty = "ufer_rechts";
+                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
                     } else if (type == GUP_UMFELD_LINKS) {
                         memberProperty = "umfeld_links";
+                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
                     } else if (type == GUP_UMFELD_RECHTS) {
                         memberProperty = "umfeld_rechts";
+                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
                     }
 
                     final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
                             cidsBean,
                             memberProperty);
 
+                    operativesZielEditor.setKompartiment(kompartiment);
                     operativesZielEditor.setOthers(otherBeans);
                     operativesZielEditor.setCidsBean(((OperativesZielRWBandMember)bm).getCidsBean());
                 }

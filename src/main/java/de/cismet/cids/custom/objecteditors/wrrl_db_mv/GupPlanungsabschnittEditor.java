@@ -17,6 +17,7 @@ import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -94,6 +95,7 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     TitleComponentProvider,
+    RequestsFullSizeComponent,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------

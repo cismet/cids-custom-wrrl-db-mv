@@ -62,7 +62,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private List<CidsBean> massnahmen = null;
-    private int kompartiment;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAusfuehrung;
@@ -773,7 +772,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      * @param  evt  DOCUMENT ME!
      */
     private void cbMassnahmeItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbMassnahmeItemStateChanged
-        // Wenn die entsprechende Combobox gleichzeiig auch den Fokus hat, dann handelt es sich um eine
+        // Wenn die entsprechende Combobox gleichzeitig auch den Fokus hat, dann handelt es sich um eine
         // Aenderung des Nutzers. Hat die Combobox nicht den Focus, dann aenderte sich das Item aus
         // der Combobox bzw. dem Model heraus
         if (evt.getItem() != null) {
@@ -984,19 +983,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     /**
      * DOCUMENT ME!
      *
-     * @return  the kompartiment
-     */
-    public int getKompartiment() {
-        return kompartiment;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param  kompartiment  the kompartiment to set
      */
     public void setKompartiment(final int kompartiment) {
-        this.kompartiment = kompartiment;
         ((MassnahmenComboBox)cbMassnahme).setKompartiment(kompartiment);
         cbMassnahme.setSelectedItem(null);
     }

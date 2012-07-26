@@ -25,6 +25,8 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupOperativesZielAbschnittEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupOperativesZielRouteEditor;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
@@ -86,90 +88,103 @@ public class OperativesZielRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("operatives_ziel") == null) {
+        if ((bean.getProperty("operatives_ziel") == null) || (bean.getProperty("operatives_ziel.color") == null)) {
             setDefaultBackgound();
             return;
         }
-        final int art = (Integer)bean.getProperty("operatives_ziel.id");
 
-        switch (art) {
-            case 1: {
-                // derzeitigen Zustand mindestens erhalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
-                break;
-            }
-            case 2: {
-                // Gewässer im Entwicklungsraum gestalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
-                break;
-            }
-            case 3: {
-                // Gewässer im vorhandenen Profil entwickeln
-                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
-                break;
-            }
-            case 4: {
-                // Zustand wegen Restriktion belassen
-                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
+        final String color = (String)bean.getProperty("operatives_ziel.color");
 
-                break;
-            }
-            case 5: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
-            }
-            case 6: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(229, 252, 194)));
-                break;
-            }
-            case 7: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(89, 79, 79)));
-                break;
-            }
-            case 8: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(157, 224, 173)));
-                break;
-            }
-            case 9: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(69, 173, 168)));
-                break;
-            }
-            case 10: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(84, 121, 128)));
-                break;
-            }
-            case 11: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(157, 203, 13)));
-                break;
-            }
-            case 12: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 203, 13)));
-                break;
-            }
-            case 13: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 213)));
-                break;
-            }
-            case 14: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(97, 203, 113)));
-                break;
-            }
-            case 15: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackgound();
             }
         }
+
+//        final int art = (Integer)bean.getProperty("operatives_ziel.id");
+//
+//        switch (art) {
+//            case 1: {
+//                // derzeitigen Zustand mindestens erhalten
+//                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
+//                break;
+//            }
+//            case 2: {
+//                // Gewässer im Entwicklungsraum gestalten
+//                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
+//                break;
+//            }
+//            case 3: {
+//                // Gewässer im vorhandenen Profil entwickeln
+//                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
+//                break;
+//            }
+//            case 4: {
+//                // Zustand wegen Restriktion belassen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
+//
+//                break;
+//            }
+//            case 5: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
+//                break;
+//            }
+//            case 6: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(229, 252, 194)));
+//                break;
+//            }
+//            case 7: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(89, 79, 79)));
+//                break;
+//            }
+//            case 8: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(157, 224, 173)));
+//                break;
+//            }
+//            case 9: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(69, 173, 168)));
+//                break;
+//            }
+//            case 10: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(84, 121, 128)));
+//                break;
+//            }
+//            case 11: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(157, 203, 13)));
+//                break;
+//            }
+//            case 12: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(197, 203, 13)));
+//                break;
+//            }
+//            case 13: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 213)));
+//                break;
+//            }
+//            case 14: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(97, 203, 113)));
+//                break;
+//            }
+//            case 15: {
+//                // Gewässerunterhaltung anpassen/modifizieren
+//                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
+//                break;
+//            }
+//        }
+        unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
@@ -221,13 +236,30 @@ public class OperativesZielRWBandMember extends LineBandMember {
                     + OPERATIVES_ZIEL.getTableName(); // NOI18N
         final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
 
+        final int type = ((OperativesZielRWBand)getParentBand()).getType();
+        int kompartiment = 0;
+
+        if (type == GupOperativesZielRouteEditor.GUP_SOHLE) {
+            kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_SOHLE;
+        } else if (type == GupOperativesZielRouteEditor.GUP_UFER_LINKS) {
+            kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
+        } else if (type == GupOperativesZielRouteEditor.GUP_UFER_RECHTS) {
+            kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
+        } else if (type == GupOperativesZielRouteEditor.GUP_UMFELD_LINKS) {
+            kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
+        } else if (type == GupOperativesZielRouteEditor.GUP_UMFELD_RECHTS) {
+            kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
+        }
+
         menuItems = new JMenuItem[metaObjects.length];
 
         for (int i = 0; i < metaObjects.length; ++i) {
-            menuItems[i] = new JMenuItem(metaObjects[i].getBean().toString());
-            menuItems[i].addActionListener(this);
-            menuItems[i].setActionCommand(String.valueOf(metaObjects[i].getID()));
-            popup.add(menuItems[i]);
+            if (OperativeZieleComboBox.isRelevantBean(kompartiment, metaObjects[i].getBean())) {
+                menuItems[i] = new JMenuItem(metaObjects[i].getBean().toString());
+                menuItems[i].addActionListener(this);
+                menuItems[i].setActionCommand(String.valueOf(metaObjects[i].getID()));
+                popup.add(menuItems[i]);
+            }
         }
 
         popup.addSeparator();

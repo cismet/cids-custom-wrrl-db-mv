@@ -55,7 +55,11 @@ public class UmlandnutzerRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        String name = bean.getProperty("nutzer.vorname") + " " + bean.getProperty("nutzer.name");
+        String name = getUserName();
+        if (name == null) {
+            name = "unbekannt";
+        }
+
         setToolTipText(name);
         setText(name);
     }
@@ -91,9 +95,13 @@ public class UmlandnutzerRWBandMember extends LineBandMember {
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("nutzer")) {
-            final String name = bean.getProperty("nutzer.vorname") + " " + bean.getProperty("nutzer.name");
+            String name = getUserName();
             determineBackgroundColour();
             setSelected(isSelected);
+
+            if (name == null) {
+                name = "unbekannt";
+            }
             setToolTipText(name);
             setText(name);
         } else {
@@ -113,5 +121,21 @@ public class UmlandnutzerRWBandMember extends LineBandMember {
     @Override
     protected CidsBean cloneBean(final CidsBean bean) throws Exception {
         return CidsBeanSupport.cloneCidsBean(bean, false);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getUserName() {
+        String name = null;
+        if ((bean.getProperty("nutzer.vorname") != null) && (bean.getProperty("nutzer.name") != null)) {
+            name = bean.getProperty("nutzer.vorname") + " " + bean.getProperty("nutzer.name");
+        } else if (bean.getProperty("nutzer.name") != null) {
+            name = (String)bean.getProperty("nutzer.name");
+        }
+
+        return name;
     }
 }

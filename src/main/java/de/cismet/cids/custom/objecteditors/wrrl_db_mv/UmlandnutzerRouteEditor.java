@@ -558,6 +558,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        umlandnutzerEditor.dispose();
     }
 
     @Override
@@ -584,6 +585,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
             jband.setRefreshAvoided(true);
+            umlandnutzerEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();

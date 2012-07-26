@@ -30,6 +30,7 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+import java.awt.event.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -109,7 +110,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     CidsBeanDropListener,
     EditorSaveListener,
     LinearReferencingSingletonInstances,
-    PointBeanMergeRequestListener {
+    PointBeanMergeRequestListener,
+    WindowListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -2093,13 +2095,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         externalGeomDialog.setTitle(org.openide.util.NbBundle.getMessage(
                 LinearReferencedLineEditor.class,
                 "LinearReferencedLineEditor.externalGeomDialog.title")); // NOI18N
-        externalGeomDialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                @Override
-                public void windowClosed(final java.awt.event.WindowEvent evt) {
-                    externalGeomDialogWindowClosed(evt);
-                }
-            });
         externalGeomDialog.getContentPane().setLayout(new java.awt.GridBagLayout());
 
         geomDialogInternalPanel.setLayout(new java.awt.GridBagLayout());
@@ -2457,78 +2452,63 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromPointSplitActionPerformed
+    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromPointSplitActionPerformed
         splitPoint(FROM);
-    }                                                                                     //GEN-LAST:event_btnFromPointSplitActionPerformed
+    }//GEN-LAST:event_btnFromPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToPointSplitActionPerformed
+    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToPointSplitActionPerformed
         splitPoint(TO);
-    }                                                                                   //GEN-LAST:event_btnToPointSplitActionPerformed
+    }//GEN-LAST:event_btnToPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
+    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
         correctBadGeom(TO);
-    }                                                                                       //GEN-LAST:event_btnToBadGeomCorrectActionPerformed
+    }//GEN-LAST:event_btnToBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomActionPerformed
+    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomActionPerformed
         switchBadGeomVisibility(TO);
-    }                                                                                //GEN-LAST:event_btnToBadGeomActionPerformed
+    }//GEN-LAST:event_btnToBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
+    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
         correctBadGeom(FROM);
-    }                                                                                         //GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
+    }//GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomActionPerformed
+    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomActionPerformed
         switchBadGeomVisibility(FROM);
-    }                                                                                  //GEN-LAST:event_btnFromBadGeomActionPerformed
+    }//GEN-LAST:event_btnFromBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRouteActionPerformed
+    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRouteActionPerformed
         updateOtherLinesPanelVisibility();
-    }                                                                            //GEN-LAST:event_btnRouteActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void externalGeomDialogWindowClosed(final java.awt.event.WindowEvent evt) { //GEN-FIRST:event_externalGeomDialogWindowClosed
-        geomDialogInternalPanel.remove(externalOthersEditor);
-        externalOthersEditor.dispose();
-        externalOthersEditor = null;
-        btnRoute.setSelected(false);
-//        updateSplitMergeControls(FROM);
-//        updateSplitMergeControls(TO);
-        updateOtherLinesPanelVisibility();
-    } //GEN-LAST:event_externalGeomDialogWindowClosed
+    }//GEN-LAST:event_btnRouteActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2540,6 +2520,44 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         updateOtherLinesPanelVisibility();
 
         return btnRoute.isSelected();
+    }
+
+    @Override
+    public void windowOpened(final WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(final WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosed(final WindowEvent evt) {
+        if (evt.getSource() == externalGeomDialog) {
+            externalGeomDialog.removeWindowListener(this);
+            geomDialogInternalPanel.remove(externalOthersEditor);
+            externalOthersEditor.dispose();
+            externalOthersEditor = null;
+            btnRoute.setSelected(false);
+            // updateSplitMergeControls(FROM);
+            // updateSplitMergeControls(TO);
+            updateOtherLinesPanelVisibility();
+        }
+    }
+
+    @Override
+    public void windowIconified(final WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(final WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(final WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(final WindowEvent e) {
     }
 
     /**
@@ -2577,6 +2595,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 }
 
                 UIUtil.findOptimalPositionOnScreen(externalGeomDialog);
+                externalGeomDialog.addWindowListener(this);
                 externalGeomDialog.setSize(500, 400);
                 externalGeomDialog.setModal(true);
                 externalGeomDialog.setVisible(true);
@@ -2868,7 +2887,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void editorClosed(final EditorClosedEvent event) {
         // es wurde hoechstwahrscheinlich ein hauptobjekt geschlossen (die Methode editorClosed wird normalerweise
         // nur dann aufgerufen), wir wissen also dass der cache nicht mehr benötigt wird
-        // CIDSBEAN_CACHE.clear();
+//        CIDSBEAN_CACHE.clear();
         if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
             if (isEditable()) {
                 new SwingWorker<Void, Void>() {

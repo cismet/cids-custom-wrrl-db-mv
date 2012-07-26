@@ -12,8 +12,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import de.cismet.cids.editors.DefaultBindableColorChooser;
+
 /**
- * DOCUMENT ME!
+ * Contains some methods to set gui components to read only.
  *
  * @author   therter
  * @version  $Revision$, $Date$
@@ -59,5 +61,14 @@ public class RendererTools {
      */
     public static void makeReadOnly(final JCheckBox cb) {
         cb.setEnabled(false);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cc  DOCUMENT ME!
+     */
+    public static void makeReadOnly(final DefaultBindableColorChooser cc) {
+        cc.setReadOnly(true);
     }
 }
