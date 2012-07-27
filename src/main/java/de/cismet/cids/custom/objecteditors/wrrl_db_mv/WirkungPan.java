@@ -51,8 +51,8 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
     private static final int KG_ART = 3;
     private static final int GW_ART = 4;
     private static final int PLE_ART = 5;
-    private static final int FGE_ART = 6;
-    private static final int BG_ART = 7;
+    private static final int FGE_ART = 7;
+    private static final int BG_ART = 6;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -334,7 +334,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
                 w.setProperty("art", FGE_ART);
                 w.setProperty("name", wkBean.getProperty("nr"));
             } else if (wkBean.getClass().getName().equals("de.cismet.cids.dynamics.Bearbeitungsgebiet")) {
-                w.setProperty("art", FGE_ART);
+                w.setProperty("art", BG_ART);
                 w.setProperty("name", wkBean.getProperty("kuerzel"));
             } else {
                 LOG.error("Invalid bean type found.");
