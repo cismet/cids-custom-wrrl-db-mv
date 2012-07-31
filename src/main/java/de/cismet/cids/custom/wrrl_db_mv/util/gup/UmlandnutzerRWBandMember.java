@@ -74,7 +74,7 @@ public class UmlandnutzerRWBandMember extends LineBandMember {
             return;
         }
 
-        unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
+        unselectedBackgroundPainter = (new MattePainter(new Color(153, 204, 255)));
 
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,

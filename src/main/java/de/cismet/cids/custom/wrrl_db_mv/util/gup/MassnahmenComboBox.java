@@ -46,6 +46,18 @@ public class MassnahmenComboBox extends ScrollableComboBox {
             WRRLUtil.DOMAIN_NAME,
             "gup_massnahmenart");
 
+    static {
+        new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    final String query = "select " + MC.getID() + "," + MC.getPrimaryKey() + " from "
+                                + MC.getTableName();     // NOI18N
+                    final MetaObject[] MetaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+                }
+            }).start();
+    }
+
     //~ Instance fields --------------------------------------------------------
 
     private int kompartiment;
@@ -100,15 +112,16 @@ public class MassnahmenComboBox extends ScrollableComboBox {
      * @throws  Exception  DOCUMENT ME!
      */
     private DefaultComboBoxModel getModelByMetaClass(final MetaClass mc) throws Exception {
-        final String orderBy = "";                                                                       // NOI18N
-        String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
-        query += " where kompartiment = " + kompartiment;                                                // NOI18N
-        query += orderBy;
+        final String orderBy = "";                                                                             // NOI18N
+        final String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
         final MetaObject[] MetaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
         final List<CidsBean> cbv = new ArrayList<CidsBean>(MetaObjects.length);
 
         for (final MetaObject mo : MetaObjects) {
-            cbv.add(mo.getBean());
+            final Object kompartimentObject = mo.getBean().getProperty("kompartiment.id");
+            if ((kompartimentObject != null) && kompartimentObject.equals(kompartiment)) {
+                cbv.add(mo.getBean());
+            }
         }
 
         // Sorts the model using String comparison on the bean's toString()

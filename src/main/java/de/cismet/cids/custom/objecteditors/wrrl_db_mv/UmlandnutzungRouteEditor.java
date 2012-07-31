@@ -13,6 +13,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.search.CidsServerSearch;
 

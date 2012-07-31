@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenComboBox;
@@ -55,6 +56,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     public static final int KOMPARTIMENT_SOHLE = 1;
     public static final int KOMPARTIMENT_UFER = 2;
     public static final int KOMPARTIMENT_UMFELD = 3;
+    private static final int INTERVAL_TWO_TIMES = 4;
     private static final Logger LOG = Logger.getLogger(GupUnterhaltungsmassnahmeEditor.class);
 
     //~ Instance fields --------------------------------------------------------
@@ -65,7 +67,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAusfuehrung;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAusfuehrungSec;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbJahr;
     private javax.swing.JComboBox cbMassnahme;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
     private javax.swing.JPanel flowPanel;
@@ -74,6 +78,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAusfuehrung;
+    private javax.swing.JLabel lblAusfuehrungSec;
     private javax.swing.JLabel lblBearbeiter;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblBoeschungslaenge;
@@ -99,7 +104,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JTextField txtBoeschungslaenge;
     private javax.swing.JTextField txtBoeschungsneigung;
     private javax.swing.JTextField txtDeichkronenbreite;
-    private javax.swing.JTextField txtJahr;
     private javax.swing.JTextField txtRandstreifenbreite;
     private javax.swing.JTextField txtSohlbreite;
     private javax.swing.JTextField txtVorlandbreite;
@@ -135,7 +139,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             RendererTools.makeReadOnly(cbMassnahme);
             RendererTools.makeReadOnly(cbIntervall);
             RendererTools.makeReadOnly(cbVerbleib);
-            RendererTools.makeReadOnly(txtJahr);
+            RendererTools.makeReadOnly(cbJahr);
             RendererTools.makeReadOnly(txtBoeschungslaenge);
             RendererTools.makeReadOnly(txtBoeschungsneigung);
             RendererTools.makeReadOnly(txtDeichkronenbreite);
@@ -144,6 +148,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             RendererTools.makeReadOnly(txtVorlandbreite);
             RendererTools.makeReadOnly(jTextArea1);
             RendererTools.makeReadOnly(cbAusfuehrung);
+            RendererTools.makeReadOnly(cbAusfuehrungSec);
         }
     }
 
@@ -168,7 +173,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         cbIntervall = new ScrollableComboBox();
         cbVerbleib = new ScrollableComboBox();
         txtBearbeiter = new javax.swing.JTextField();
-        txtJahr = new javax.swing.JTextField();
         spBemerkung = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         linearReferencedLineEditor = linearReferencedLineEditor;
@@ -198,6 +202,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         cbMassnahme = new MassnahmenComboBox();
         lblAusfuehrung = new javax.swing.JLabel();
         cbAusfuehrung = new ScrollableComboBox();
+        cbJahr = new ScrollableComboBox();
+        lblAusfuehrungSec = new javax.swing.JLabel();
+        cbAusfuehrungSec = new ScrollableComboBox();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 800));
@@ -210,10 +217,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblBearbeiter.setMinimumSize(new java.awt.Dimension(120, 17));
         lblBearbeiter.setPreferredSize(new java.awt.Dimension(120, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblBearbeiter, gridBagConstraints);
 
         lblMassnahme.setText(org.openide.util.NbBundle.getMessage(
@@ -224,9 +231,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblMassnahme.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 5);
         add(lblMassnahme, gridBagConstraints);
 
         lblJahr.setText(org.openide.util.NbBundle.getMessage(
@@ -237,7 +244,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblJahr.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblJahr, gridBagConstraints);
@@ -250,7 +257,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblIntervall.setPreferredSize(new java.awt.Dimension(80, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblIntervall, gridBagConstraints);
@@ -283,7 +290,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         add(lblVerbleib, gridBagConstraints);
 
         cbIntervall.setMinimumSize(new java.awt.Dimension(170, 20));
-        cbIntervall.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbIntervall.setPreferredSize(new java.awt.Dimension(175, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -302,7 +309,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -349,39 +356,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(txtBearbeiter, gridBagConstraints);
 
-        txtJahr.setMaximumSize(new java.awt.Dimension(100, 20));
-        txtJahr.setMinimumSize(new java.awt.Dimension(100, 20));
-        txtJahr.setPreferredSize(new java.awt.Dimension(100, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr}"),
-                txtJahr,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtJahr, gridBagConstraints);
-
         spBemerkung.setMaximumSize(new java.awt.Dimension(280, 90));
         spBemerkung.setMinimumSize(new java.awt.Dimension(280, 90));
         spBemerkung.setPreferredSize(new java.awt.Dimension(300, 90));
 
         jTextArea1.setColumns(20);
-        jTextArea1.setRows(3);
+        jTextArea1.setRows(2);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -422,9 +411,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblInfo.setPreferredSize(new java.awt.Dimension(260, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         jPanel1.add(lblInfo, gridBagConstraints);
 
         flowPanel.setMinimumSize(new java.awt.Dimension(300, 170));
@@ -667,7 +657,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         jPanel1.add(flowPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -683,10 +673,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 5);
         add(jSeparator1, gridBagConstraints);
 
         jPanel2.setOpaque(false);
@@ -717,11 +707,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         add(cbMassnahme, gridBagConstraints);
 
         lblAusfuehrung.setText(org.openide.util.NbBundle.getMessage(
@@ -732,7 +722,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblAusfuehrung.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblAusfuehrung, gridBagConstraints);
@@ -757,11 +747,76 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(cbAusfuehrung, gridBagConstraints);
+
+        cbJahr.setMinimumSize(new java.awt.Dimension(100, 20));
+        cbJahr.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr}"),
+                cbJahr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbJahr.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbJahrItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbJahr, gridBagConstraints);
+
+        lblAusfuehrungSec.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblAusfuehrungSec.text")); // NOI18N
+        lblAusfuehrungSec.setMaximumSize(new java.awt.Dimension(175, 17));
+        lblAusfuehrungSec.setMinimumSize(new java.awt.Dimension(175, 17));
+        lblAusfuehrungSec.setPreferredSize(new java.awt.Dimension(175, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(lblAusfuehrungSec, gridBagConstraints);
+
+        cbAusfuehrungSec.setMinimumSize(new java.awt.Dimension(85, 20));
+        cbAusfuehrungSec.setPreferredSize(new java.awt.Dimension(85, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.second_ausfuehrungszeitpunkt}"),
+                cbAusfuehrungSec,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbAusfuehrungSec.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbAusfuehrungSecItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbAusfuehrungSec, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -794,6 +849,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private void cbIntervallItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbIntervallItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
+                final CidsBean bean = (CidsBean)evt.getItem();
+                cbAusfuehrungSec.setEnabled((bean != null) && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
                 changeBearbeiter();
             }
         }
@@ -825,6 +882,32 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         }
     }                                                                             //GEN-LAST:event_cbVerbleibItemStateChanged
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbJahrItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbJahrItemStateChanged
+        if (evt.getItem() != null) {
+            if (((Component)evt.getSource()).hasFocus()) {
+                changeBearbeiter();
+            }
+        }
+    }                                                                         //GEN-LAST:event_cbJahrItemStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAusfuehrungSecItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbAusfuehrungSecItemStateChanged
+        if (evt.getItem() != null) {
+            if (((Component)evt.getSource()).hasFocus()) {
+                changeBearbeiter();
+            }
+        }
+    }                                                                                   //GEN-LAST:event_cbAusfuehrungSecItemStateChanged
+
     @Override
     public CidsBean getCidsBean() {
         return this.cidsBean;
@@ -853,12 +936,14 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             }
             linearReferencedLineEditor.setOtherLines(linieBeans);
             linearReferencedLineEditor.setCidsBean(cidsBean);
+            final CidsBean bean = (CidsBean)cidsBean.getProperty("intervall");
+            cbAusfuehrungSec.setEnabled((bean != null) && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
             final CidsBean line = (CidsBean)cidsBean.getProperty("linie");
 
             if (line != null) {
                 line.addPropertyChangeListener(this);
-                final CidsBean von = (CidsBean)line.getProperty("von");
-                final CidsBean bis = (CidsBean)line.getProperty("bis");
+                final CidsBean von = (CidsBean)line.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+                final CidsBean bis = (CidsBean)line.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
 
                 if (von != null) {
                     von.addPropertyChangeListener(this);

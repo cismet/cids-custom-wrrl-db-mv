@@ -13,14 +13,12 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -45,14 +43,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.PFeature;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 import de.cismet.tools.gui.FooterComponentProvider;
-import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
@@ -136,7 +127,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         initComponents();
 
         unterhaltungsband.setReadOnly(readOnly);
-        unterhaltungserfordernisEditor = new GupUnterhaltungserfordernisEditor(true);
+        unterhaltungserfordernisEditor = new GupUnterhaltungserfordernisEditor(readOnly);
         sbm.addBand(unterhaltungsband);
 
         jband.setModel(sbm);
@@ -311,9 +302,9 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNew.add(jbApply, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 800));
+        setMinimumSize(new java.awt.Dimension(1050, 700));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 800));
+        setPreferredSize(new java.awt.Dimension(1050, 700));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(640, 310));

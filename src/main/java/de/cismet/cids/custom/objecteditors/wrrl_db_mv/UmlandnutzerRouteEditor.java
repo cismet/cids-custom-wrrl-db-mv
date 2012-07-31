@@ -13,6 +13,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.search.CidsServerSearch;
 
@@ -58,8 +59,9 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
-
     //~ Static fields/initializers ---------------------------------------------
+
+// RequestsFullSizeComponent,
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             UmlandnutzerRouteEditor.class);

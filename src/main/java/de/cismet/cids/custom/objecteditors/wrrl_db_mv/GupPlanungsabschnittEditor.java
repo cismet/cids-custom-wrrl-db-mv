@@ -95,7 +95,6 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     TitleComponentProvider,
-    RequestsFullSizeComponent,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
@@ -146,7 +145,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             true);
     private GupUnterhaltungsmassnahmeEditor massnahmeEditor;
     private GupUmlandnutzungEditor umlandnutzungEditor = new GupUmlandnutzungEditor(true);
-    private GupGewaesserabschnittAllgemein allgemeinEditor = new GupGewaesserabschnittAllgemein();
+    private GupGewaesserabschnittAllgemein allgemeinEditor;
     private GupGewaesserWrrl wrrlEditor = new GupGewaesserWrrl();
     private GupHydrologieEditor hydroEditor = new GupHydrologieEditor();
     private boolean readOnly = false;
@@ -236,6 +235,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         spBand.getViewport().setOpaque(false);
         massnahmeEditor = new GupUnterhaltungsmassnahmeEditor(readOnly);
+        allgemeinEditor = new GupGewaesserabschnittAllgemein(readOnly);
         rechtesUferBand.setReadOnly(readOnly);
         linkesUferBand.setReadOnly(readOnly);
         rechtesUmfeldBand.setReadOnly(readOnly);
@@ -976,9 +976,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panApply.add(panApplyBand, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 750));
+        setMinimumSize(new java.awt.Dimension(1050, 700));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 800));
+        setPreferredSize(new java.awt.Dimension(1050, 700));
         setLayout(new java.awt.GridBagLayout());
 
         panWithMinSize.setMinimumSize(new java.awt.Dimension(1050, 750));
@@ -1740,7 +1740,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     public boolean prepareForSave() {
         try {
             final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
-            if (statLine != null) {
+            if ((cidsBean.getProperty("name") == null) && (statLine != null)) {
                 final CidsBean statVon = (CidsBean)statLine.getProperty("von");
                 if (statVon != null) {
                     final CidsBean route = (CidsBean)statVon.getProperty("route");

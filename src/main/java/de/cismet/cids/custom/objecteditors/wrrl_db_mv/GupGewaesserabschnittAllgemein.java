@@ -141,7 +141,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         glassPanel = new de.cismet.tools.gui.RoundedPanel();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 500));
+        setPreferredSize(new java.awt.Dimension(994, 300));
         setLayout(new java.awt.GridBagLayout());
 
         lblGewaessername.setText(org.openide.util.NbBundle.getMessage(
@@ -183,10 +183,18 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblObjectList, gridBagConstraints);
 
-        txtGewaessername.setEnabled(false);
         txtGewaessername.setMaximumSize(new java.awt.Dimension(280, 20));
         txtGewaessername.setMinimumSize(new java.awt.Dimension(280, 20));
         txtGewaessername.setPreferredSize(new java.awt.Dimension(380, 20));
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtGewaessername,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -248,7 +256,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 15);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 15, 15);
         jpControl.add(jbDownload, gridBagConstraints);
 
         jpDelete.setText(org.openide.util.NbBundle.getMessage(
@@ -266,7 +274,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 0);
         jpControl.add(jpDelete, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -295,6 +303,9 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
      * @param  evt  DOCUMENT ME!
      */
     private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
+        if (readOnly) {
+            return;
+        }
         final int[] selection = jlObjectList.getSelectedIndices();
         int count = 0;
 

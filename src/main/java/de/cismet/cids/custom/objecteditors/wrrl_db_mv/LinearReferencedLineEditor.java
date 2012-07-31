@@ -2452,63 +2452,63 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromPointSplitActionPerformed
+    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromPointSplitActionPerformed
         splitPoint(FROM);
-    }//GEN-LAST:event_btnFromPointSplitActionPerformed
+    }                                                                                     //GEN-LAST:event_btnFromPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToPointSplitActionPerformed
+    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToPointSplitActionPerformed
         splitPoint(TO);
-    }//GEN-LAST:event_btnToPointSplitActionPerformed
+    }                                                                                   //GEN-LAST:event_btnToPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
+    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
         correctBadGeom(TO);
-    }//GEN-LAST:event_btnToBadGeomCorrectActionPerformed
+    }                                                                                       //GEN-LAST:event_btnToBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomActionPerformed
+    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomActionPerformed
         switchBadGeomVisibility(TO);
-    }//GEN-LAST:event_btnToBadGeomActionPerformed
+    }                                                                                //GEN-LAST:event_btnToBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
+    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
         correctBadGeom(FROM);
-    }//GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
+    }                                                                                         //GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomActionPerformed
+    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomActionPerformed
         switchBadGeomVisibility(FROM);
-    }//GEN-LAST:event_btnFromBadGeomActionPerformed
+    }                                                                                  //GEN-LAST:event_btnFromBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRouteActionPerformed
+    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRouteActionPerformed
         updateOtherLinesPanelVisibility();
-    }//GEN-LAST:event_btnRouteActionPerformed
+    }                                                                            //GEN-LAST:event_btnRouteActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2887,7 +2887,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void editorClosed(final EditorClosedEvent event) {
         // es wurde hoechstwahrscheinlich ein hauptobjekt geschlossen (die Methode editorClosed wird normalerweise
         // nur dann aufgerufen), wir wissen also dass der cache nicht mehr benötigt wird
-//        CIDSBEAN_CACHE.clear();
+        CIDSBEAN_CACHE.clear();
         if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
             if (isEditable()) {
                 new SwingWorker<Void, Void>() {
