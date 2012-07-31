@@ -374,7 +374,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                 @Override
                 public void run() {
                     txtGwk.setText(gwkV);
-                    txtGewaessername.setText(gewNameV);
                 }
             });
     }
