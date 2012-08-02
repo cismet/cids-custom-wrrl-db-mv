@@ -58,7 +58,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             GupGupEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "gup_gewaesserabschnitt");
+            "gup_planungsabschnitt");
 
     //~ Instance fields --------------------------------------------------------
 

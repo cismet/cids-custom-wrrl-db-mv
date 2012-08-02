@@ -518,6 +518,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
 
     @Override
     public void dispose() {
+        umlandnutzungEditor.dispose();
         sbm.removeBandModelListener(modelListener);
     }
 
@@ -584,6 +585,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
             jband.setRefreshAvoided(true);
+            umlandnutzungEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();

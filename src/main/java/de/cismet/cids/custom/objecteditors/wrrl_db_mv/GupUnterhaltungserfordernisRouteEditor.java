@@ -497,6 +497,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
 
     @Override
     public void dispose() {
+        unterhaltungserfordernisEditor.dispose();
         sbm.removeBandModelListener(modelListener);
     }
 
@@ -563,6 +564,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
             jband.setRefreshAvoided(true);
+            unterhaltungserfordernisEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();

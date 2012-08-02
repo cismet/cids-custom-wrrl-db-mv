@@ -509,6 +509,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void dispose() {
+        hydrologieEditor.dispose();
         sbm.removeBandModelListener(modelListener);
     }
 
@@ -575,6 +576,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
             jband.setRefreshAvoided(true);
+            hydrologieEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();

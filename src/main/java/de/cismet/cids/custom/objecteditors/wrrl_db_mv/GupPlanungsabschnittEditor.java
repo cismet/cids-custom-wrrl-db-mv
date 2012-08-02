@@ -55,6 +55,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencing
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -108,8 +109,47 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private static final int GUP_MASSNAHME_UMFELD_RECHTS = 3;
     private static final int GUP_MASSNAHME_UMFELD_LINKS = 3;
     private static final int GUP_MASSNAHME_SOHLE = 4;
-    private static CalculationCache<List, ArrayList<ArrayList>> cache =
+    private static CalculationCache<List, ArrayList<ArrayList>> naturschutzCache =
         new CalculationCache<List, ArrayList<ArrayList>>(new NaturschutzCalculator());
+    private static CalculationCache<List, MetaObject[]> umlandCache = new CalculationCache<List, MetaObject[]>(
+            new UmlandnutzungCalculator());
+    private static CalculationCache<List, MetaObject[]> entwicklungszielCache =
+        new CalculationCache<List, MetaObject[]>(new EntwicklungszielCalculator());
+    private static CalculationCache<List, ArrayList<ArrayList>> querbauwerkCache =
+        new CalculationCache<List, ArrayList<ArrayList>>(new QuerbauwerkeCalculator());
+    private static CalculationCache<List, MetaObject[]> unterhaltungserfordernisCache =
+        new CalculationCache<List, MetaObject[]>(new UnterhaltungserfordernisCalculator());
+
+    static {
+        // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
+        // verhindern
+        new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    final MetaClass year = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "GUP_JAHR");
+                    final MetaClass interval = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_massnahmenintervall");
+                    final MetaClass time = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_unterhaltungsmassnahme_ausfuehrungszeitpunkt");
+                    final MetaClass material = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_material_verbleib");
+                    try {
+                        DefaultBindableReferenceCombo.getModelByMetaClass(year, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(interval, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(time, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(material, true);
+                    } catch (Exception e) {
+                        // nothing to do
+                    }
+                }
+            }).start();
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -136,7 +176,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private String gwk = null;
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
     private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private GupAbschnittsinfoEditor abschnittsinfoEditor = new GupAbschnittsinfoEditor();
@@ -453,41 +492,14 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     try {
                         final ArrayList<ArrayList> res = get();
                         wkband.setWK(res);
-//                        sbm.insertBand(wkband, 0);
                         if (!readOnly) {
-//                            vBandModel.insertBand(wkband, 0);
                             vwkband.setWK(res);
                             vBandModel.fireBandModelChanged();
                         }
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkörper", e);
-                    }
-                }
-            });
-
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchQB = new QuerbautenSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-                    final Collection resQB = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchQB);
-                    return (ArrayList<ArrayList>)resQB;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        chkQuerbauwerke.setEnabled(true);
-                        querbauwerksband.addQuerbauwerkeFromQueryResult(get());
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                    } catch (Exception e) {
-                        log.error("Problem beim Suchen der Querbauwerke", e);
+                        LOG.error("Problem beim Suchen der Wasserkörper", e);
                     }
                 }
             });
@@ -500,7 +512,30 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return cache.calcValue(in);
+                    return querbauwerkCache.calcValue(in);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        chkQuerbauwerke.setEnabled(true);
+                        querbauwerksband.addQuerbauwerkeFromQueryResult(get());
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der Querbauwerke", e);
+                    }
+                }
+            });
+
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
+
+                @Override
+                protected ArrayList<ArrayList> doInBackground() throws Exception {
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return naturschutzCache.calcValue(in);
                 }
 
                 @Override
@@ -510,91 +545,20 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         naturchutzBand.addMembersFromQueryResult(get());
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Naturschutzgebiete", e);
+                        LOG.error("Problem beim Suchen der Naturschutzgebiete", e);
                     }
                 }
             });
 
-//        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-//
-//                @Override
-//                protected ArrayList<ArrayList> doInBackground() throws Exception {
-//                    final CidsServerSearch search = new AnsprechpartnerSearch(
-//                            sbm.getMin(),
-//                            sbm.getMax(),
-//                            String.valueOf(route.getProperty("gwk")));
-//                    final Collection res = SessionManager.getProxy()
-//                                .customServerSearch(SessionManager.getSession().getUser(), search);
-//                    return (ArrayList<ArrayList>)res;
-//                }
-//
-//                @Override
-//                protected void done() {
-//                    try {
-//                        final ArrayList<ArrayList> result = get();
-//                        anwohnerLinksBand.addAnwohnerFromQueryResult(result, AnwohnerBand.Seite.LINKS);
-//                        anwohnerRechtsBand.addAnwohnerFromQueryResult(result, AnwohnerBand.Seite.RECHTS);
-//                        chkEntwicklungsziel.setEnabled(true);
-//                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-//                    } catch (Exception e) {
-//                        log.error("Problem beim Suchen der Ansprechpartner", e);
-//                    }
-//                }
-//            });
-
-//        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-//
-//                @Override
-//                protected ArrayList<ArrayList> doInBackground() throws Exception {
-//                    final CidsServerSearch search = new PoiSearch(
-//                            sbm.getMin(),
-//                            sbm.getMax(),
-//                            String.valueOf(route.getProperty("gwk")));
-//                    final Collection res = SessionManager.getProxy()
-//                                .customServerSearch(SessionManager.getSession().getUser(), search);
-//                    return (ArrayList<ArrayList>)res;
-//                }
-//
-//                @Override
-//                protected void done() {
-//                    try {
-//                        final ArrayList<ArrayList> result = get();
-//                        poiBand.addPoisFromQueryResult(result);
-//                        chkBesonderePunkte.setEnabled(true);
-//                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-//                    } catch (Exception e) {
-//                        log.error("Problem beim Suchen der POI's", e);
-//                    }
-//                }
-//            });
-
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
-
-                private final MetaClass UMLANDNUTZUNG = ClassCacheMultiple.getMetaClass(
-                        WRRLUtil.DOMAIN_NAME,
-                        "GUP_UMLANDNUTZUNG");
 
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
-                    final String query = "select " + UMLANDNUTZUNG.getID() + ", u." + UMLANDNUTZUNG.getPrimaryKey()
-                                + " from "
-                                + UMLANDNUTZUNG.getTableName()
-                                + " u, station_linie sl, station von, station bis, route r "
-                                + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                                + "      and r.gwk = " + String.valueOf(route.getProperty("gwk"))
-                                + " and ((" + sbm.getMin() + " >= von.wert and " + sbm.getMin()
-                                + " < bis.wert) OR "
-                                + "             (" + sbm.getMax() + " > von.wert AND " + sbm.getMax()
-                                + " <= bis.wert))"; // NOI18N
-                    if (log.isDebugEnabled()) {
-                        log.debug("Request for Umlandnutzung: " + query);
-                    }
-                    final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-                    // Passe die Groessen der Umfeldnutzung an die Groesse des GUP an. Da keine Verknuepfung zwischen
-                    // der Umfeldnutzung und dem Gewaesser besteht, werde diese Aenderungen auch nicht gespeichert
-                    adjustBorders(metaObjects);
-
-                    return metaObjects;
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return umlandCache.calcValue(in);
                 }
 
                 @Override
@@ -624,37 +588,20 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         chkUmlandnutzung.setEnabled(true);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Umlandnutzung", e);
+                        LOG.error("Problem beim Suchen der Umlandnutzung", e);
                     }
                 }
             });
 
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
-                private final MetaClass ENTWICKLUNGSZIEL = ClassCacheMultiple.getMetaClass(
-                        WRRLUtil.DOMAIN_NAME,
-                        "GUP_ENTWICKLUNGSZIEL");
-
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
-                    final String query = "select " + ENTWICKLUNGSZIEL.getID() + ", u."
-                                + ENTWICKLUNGSZIEL.getPrimaryKey()
-                                + " from "
-                                + ENTWICKLUNGSZIEL.getTableName()
-                                + " u, station_linie sl, station von, station bis, route r "
-                                + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                                + "      and r.gwk = " + String.valueOf(route.getProperty("gwk"))
-                                + " and ((" + sbm.getMin() + " >= von.wert and " + sbm.getMin()
-                                + " < bis.wert) OR "
-                                + "             (" + sbm.getMax() + " > von.wert AND " + sbm.getMax()
-                                + " <= bis.wert))"; // NOI18N
-                    if (log.isDebugEnabled()) {
-                        log.debug("Request for Entwicklungsziel: " + query);
-                    }
-                    final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-                    adjustBorders(metaObjects);
-
-                    return metaObjects;
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return entwicklungszielCache.calcValue(in);
                 }
 
                 @Override
@@ -671,37 +618,20 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         chkEntwicklungsziel.setEnabled(true);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Entwicklungsziele", e);
+                        LOG.error("Problem beim Suchen der Entwicklungsziele", e);
                     }
                 }
             });
 
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
-                private final MetaClass UNTERHALTUNGSERFORDERNIS = ClassCacheMultiple.getMetaClass(
-                        WRRLUtil.DOMAIN_NAME,
-                        "GUP_UNTERHALTUNGSERFORDERNIS");
-
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
-                    final String query = "select " + UNTERHALTUNGSERFORDERNIS.getID() + ", u."
-                                + UNTERHALTUNGSERFORDERNIS.getPrimaryKey()
-                                + " from "
-                                + UNTERHALTUNGSERFORDERNIS.getTableName()
-                                + " u, station_linie sl, station von, station bis, route r "
-                                + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                                + "      and r.gwk = " + String.valueOf(route.getProperty("gwk"))
-                                + " and ((" + sbm.getMin() + " >= von.wert and " + sbm.getMin()
-                                + " < bis.wert) OR "
-                                + "             (" + sbm.getMax() + " > von.wert AND " + sbm.getMax()
-                                + " <= bis.wert))"; // NOI18N
-                    if (log.isDebugEnabled()) {
-                        log.debug("Request for Unterhaltungserfordernisse: " + query);
-                    }
-                    final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-                    adjustBorders(metaObjects);
-
-                    return metaObjects;
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return unterhaltungserfordernisCache.calcValue(in);
                 }
 
                 @Override
@@ -718,7 +648,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         chkUnterhaltungserfordernis.setEnabled(true);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Unterhaltungserfordernisse", e);
+                        LOG.error("Problem beim Suchen der Unterhaltungserfordernisse", e);
                     }
                 }
             });
@@ -728,19 +658,21 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      * DOCUMENT ME!
      *
      * @param  metaObjects  DOCUMENT ME!
+     * @param  min          DOCUMENT ME!
+     * @param  max          DOCUMENT ME!
      */
-    private void adjustBorders(final MetaObject[] metaObjects) {
+    private static void adjustBorders(final MetaObject[] metaObjects, final double min, final double max) {
         if (metaObjects != null) {
             for (final MetaObject tmp : metaObjects) {
                 final double von = (Double)tmp.getBean().getProperty("linie.von.wert");
                 final double bis = (Double)tmp.getBean().getProperty("linie.bis.wert");
 
                 try {
-                    if (von < sbm.getMin()) {
-                        tmp.getBean().setProperty("linie.von.wert", sbm.getMin());
+                    if (von < min) {
+                        tmp.getBean().setProperty("linie.von.wert", min);
                     }
-                    if (bis > sbm.getMax()) {
-                        tmp.getBean().setProperty("linie.bis.wert", sbm.getMax());
+                    if (bis > max) {
+                        tmp.getBean().setProperty("linie.bis.wert", max);
                     }
                 } catch (Exception e) {
                     LOG.error("Cannot adjust the station value", e);
@@ -1915,6 +1847,182 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             final Collection resNSG = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), searchNSG);
             return (ArrayList<ArrayList>)resNSG;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class UmlandnutzungCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass UMLANDNUTZUNG = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_UMLANDNUTZUNG");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + UMLANDNUTZUNG.getID() + ", u." + UMLANDNUTZUNG.getPrimaryKey()
+                        + " from "
+                        + UMLANDNUTZUNG.getTableName()
+                        + " u, station_linie sl, station von, station bis, route r "
+                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and ((" + (Double)input.get(0) + " >= von.wert and " + (Double)input.get(0)
+                        + " < bis.wert) OR "
+                        + "             (" + (Double)input.get(1) + " > von.wert AND " + (Double)input.get(1)
+                        + " <= bis.wert))"; // NOI18N
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Umlandnutzung: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            // Passe die Groessen der Umfeldnutzung an die Groesse des GUP an. Da keine Verknuepfung zwischen
+            // der Umfeldnutzung und dem Gewaesser besteht, werde diese Aenderungen auch nicht gespeichert
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class EntwicklungszielCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass ENTWICKLUNGSZIEL = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_ENTWICKLUNGSZIEL");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + ENTWICKLUNGSZIEL.getID() + ", u."
+                        + ENTWICKLUNGSZIEL.getPrimaryKey()
+                        + " from "
+                        + ENTWICKLUNGSZIEL.getTableName()
+                        + " u, station_linie sl, station von, station bis, route r "
+                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and ((" + (Double)input.get(0) + " >= von.wert and " + (Double)input.get(0)
+                        + " < bis.wert) OR "
+                        + "             (" + (Double)input.get(1) + " > von.wert AND " + (Double)input.get(1)
+                        + " <= bis.wert))"; // NOI18N
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Entwicklungsziel: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class UnterhaltungserfordernisCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass UNTERHALTUNGSERFORDERNIS = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_UNTERHALTUNGSERFORDERNIS");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + UNTERHALTUNGSERFORDERNIS.getID() + ", u."
+                        + UNTERHALTUNGSERFORDERNIS.getPrimaryKey()
+                        + " from "
+                        + UNTERHALTUNGSERFORDERNIS.getTableName()
+                        + " u, station_linie sl, station von, station bis, route r "
+                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and ((" + (Double)input.get(0) + " >= von.wert and " + (Double)input.get(0)
+                        + " < bis.wert) OR "
+                        + "             (" + (Double)input.get(1) + " > von.wert AND " + (Double)input.get(1)
+                        + " <= bis.wert))"; // NOI18N
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Unterhaltungserfordernisse: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class QuerbauwerkeCalculator implements Calculator<List, ArrayList<ArrayList>> {
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public ArrayList<ArrayList> calculate(final List input) throws Exception {
+            final CidsServerSearch searchQB = new QuerbautenSearchByStations((Double)input.get(0),
+                    (Double)input.get(1),
+                    String.valueOf(input.get(2)));
+            final Collection resQB = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), searchQB);
+            return (ArrayList<ArrayList>)resQB;
         }
     }
 }
