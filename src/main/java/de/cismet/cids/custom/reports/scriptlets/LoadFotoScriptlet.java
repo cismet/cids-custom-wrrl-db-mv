@@ -55,6 +55,8 @@ import de.cismet.netutil.Proxy;
 
 import de.cismet.security.WebDavClient;
 
+import de.cismet.tools.PasswordEncrypter;
+
 /**
  * DOCUMENT ME!
  *
@@ -75,7 +77,13 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
 
     static {
         final ResourceBundle bundle = ResourceBundle.getBundle("WebDav");
-        WEB_DAV_PASSWORD = bundle.getString("password");
+        String pass = bundle.getString("password");
+
+        if ((pass != null) && pass.startsWith(PasswordEncrypter.CRYPT_PREFIX)) {
+            pass = PasswordEncrypter.decryptString(pass);
+        }
+
+        WEB_DAV_PASSWORD = pass;
         WEB_DAV_USER = bundle.getString("username");
         WEB_DAV_DIRECTORY = bundle.getString("url");
 
