@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JList;
@@ -444,17 +445,27 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         //~ Static fields/initializers -----------------------------------------
 
         private static final String FILE_PROTOCOL_PREFIX = "file://";
-        private static final String WEB_DAV_USER = "cismet";
-        private static final String WEB_DAV_PASSWORD = "karusu20";
-        private static final String WEB_DAV_DIRECTORY = "http://fry.fis-wasser-mv.de/dokumente/";
 
         //~ Instance fields ----------------------------------------------------
+
+        private final String WEB_DAV_USER;
+        private final String WEB_DAV_PASSWORD;
+        private final String WEB_DAV_DIRECTORY;
 
         private boolean readOnly = false;
         private WebDavClient webDavClient = null;
         private final List<CidsBean> removedFotoBeans = new ArrayList<CidsBean>();
         private final List<CidsBean> removeNewAddedFotoBean = new ArrayList<CidsBean>();
         private DropTarget dropTarget = null;
+
+        //~ Instance initializers ----------------------------------------------
+
+        {
+            final ResourceBundle bundle = ResourceBundle.getBundle("WebDav");
+            WEB_DAV_PASSWORD = bundle.getString("password");
+            WEB_DAV_USER = bundle.getString("username");
+            WEB_DAV_DIRECTORY = bundle.getString("url");
+        }
 
         //~ Constructors -------------------------------------------------------
 

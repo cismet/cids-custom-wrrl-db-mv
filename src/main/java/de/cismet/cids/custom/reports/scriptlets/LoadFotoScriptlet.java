@@ -36,6 +36,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -66,15 +67,23 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LoadFotoScriptlet.class);
 
-    // TODO: Aus ResourceBundle lesen? s. auch de.cismet.cids.custom.objecteditors.wrrl_db_mv.FotodokumentationEditor
-    private static final String WEB_DAV_USER = "cismet";
-    private static final String WEB_DAV_PASSWORD = "karusu20";
-    private static final String WEB_DAV_DIRECTORY = "http://fry.fis-wasser-mv.de/fotodokumentation/";
+    private static final String WEB_DAV_USER;
+    private static final String WEB_DAV_PASSWORD;
+    private static final String WEB_DAV_DIRECTORY;
 
-    private static final WebDavClient webDavClient = new WebDavClient(
-            Proxy.fromPreferences(),
-            WEB_DAV_USER,
-            WEB_DAV_PASSWORD);
+    private static final WebDavClient webDavClient;
+
+    static {
+        final ResourceBundle bundle = ResourceBundle.getBundle("WebDav");
+        WEB_DAV_PASSWORD = bundle.getString("password");
+        WEB_DAV_USER = bundle.getString("username");
+        WEB_DAV_DIRECTORY = bundle.getString("url");
+
+        webDavClient = new WebDavClient(
+                Proxy.fromPreferences(),
+                WEB_DAV_USER,
+                WEB_DAV_PASSWORD);
+    }
 
     //~ Methods ----------------------------------------------------------------
 

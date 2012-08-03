@@ -66,6 +66,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -146,9 +147,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/folder-image.png"));
     private static final ImageIcon FOLDER_ICON = new ImageIcon(FotodokumentationEditor.class.getResource(
                 "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/inode-directory.png"));
-    private static final String WEB_DAV_USER = "cismet";
-    private static final String WEB_DAV_PASSWORD = "karusu20";
-    private static final String WEB_DAV_DIRECTORY = "http://fry.fis-wasser-mv.de/fotodokumentation/";
+    private static final String WEB_DAV_USER;
+    private static final String WEB_DAV_PASSWORD;
+    private static final String WEB_DAV_DIRECTORY;
     private static final String FILE_PREFIX = "FOTO-";
     private static final Pattern IMAGE_FILE_PATTERN = Pattern.compile(
             ".*\\.(bmp|png|jpg|jpeg|tif|tiff|wbmp)$",
@@ -202,6 +203,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 return comp;
             }
         };
+
+    static {
+        final ResourceBundle bundle = ResourceBundle.getBundle("WebDav");
+        WEB_DAV_PASSWORD = bundle.getString("password");
+        WEB_DAV_USER = bundle.getString("username");
+        WEB_DAV_DIRECTORY = bundle.getString("url");
+    }
 
     //~ Instance fields --------------------------------------------------------
 
