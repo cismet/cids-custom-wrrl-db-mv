@@ -37,6 +37,7 @@ public class HydrologRWBand extends LineBand implements BandSnappingPointProvide
      */
     public HydrologRWBand(final float heightWeight, final String objectTableName) {
         super(heightWeight, objectTableName);
+        setOnlyAcceptNewBeanWithValue(false);
     }
 
     /**
@@ -48,6 +49,7 @@ public class HydrologRWBand extends LineBand implements BandSnappingPointProvide
      */
     public HydrologRWBand(final float heightWeight, final String title, final String objectTableName) {
         super(heightWeight, title, objectTableName);
+        setOnlyAcceptNewBeanWithValue(false);
     }
 
     //~ Methods ----------------------------------------------------------------

@@ -90,36 +90,18 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
             setDefaultBackgound();
             return;
         }
-        final int art = (Integer)bean.getProperty("name_bezeichnung.id");
+        final String color = (String)bean.getProperty("name_bezeichnung.color");
 
-        switch (art) {
-            case 9: {
-                // derzeitigen Zustand mindestens erhalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
-                break;
-            }
-            case 10: {
-                // Gewässer im Entwicklungsraum gestalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
-                break;
-            }
-            case 11: {
-                // Gewässer im vorhandenen Profil entwickeln
-                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
-                break;
-            }
-            case 12: {
-                // Zustand wegen Restriktion belassen
-                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
-
-                break;
-            }
-            case 13: {
-                // Gewässerunterhaltung anpassen/modifizieren
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackgound();
             }
         }
+
+        unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(

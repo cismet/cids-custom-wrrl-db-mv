@@ -57,6 +57,8 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     protected String objectTableName = null;
     protected String lineFieldName = "linie";
     protected boolean readOnly = false;
+    protected Double fixMin = null;
+    protected Double fixMax = null;
     private List<BandListener> listenerList = new ArrayList<BandListener>();
     private boolean onlyAcceptNewBeanWithValue = true;
 
@@ -622,5 +624,33 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         objectBeans.clear();
         super.removeAllMember();
         refresh(null, false);
+    }
+
+    @Override
+    public void setMin(final Double min) {
+        this.fixMin = min;
+    }
+
+    @Override
+    public void setMax(final Double max) {
+        this.fixMax = max;
+    }
+
+    @Override
+    public double getMin() {
+        if (fixMin != null) {
+            return fixMin;
+        } else {
+            return super.getMin();
+        }
+    }
+
+    @Override
+    public double getMax() {
+        if (fixMax != null) {
+            return fixMax;
+        } else {
+            return super.getMax();
+        }
     }
 }

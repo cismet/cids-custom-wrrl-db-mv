@@ -310,7 +310,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(25, 10, 25, 10);
+        gridBagConstraints.insets = new java.awt.Insets(25, 10, 15, 10);
         panProfil.add(linearReferencedLineEditor, gridBagConstraints);
 
         jPanel2.setOpaque(false);
@@ -440,7 +440,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panProfil.add(jPanel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

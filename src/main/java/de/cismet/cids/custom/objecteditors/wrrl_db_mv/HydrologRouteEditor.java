@@ -319,8 +319,8 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         setPreferredSize(new java.awt.Dimension(1050, 700));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 500));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 500));
+        panInfo.setMinimumSize(new java.awt.Dimension(640, 460));
+        panInfo.setPreferredSize(new java.awt.Dimension(640, 460));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
