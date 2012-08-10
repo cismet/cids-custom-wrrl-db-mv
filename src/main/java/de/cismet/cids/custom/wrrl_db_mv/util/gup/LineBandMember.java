@@ -79,36 +79,8 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOG = Logger.getLogger(LineBandMember.class);
-
-    //~ Instance fields --------------------------------------------------------
-
-    protected PinstripePainter stripes = new PinstripePainter();
-    protected Painter unselectedBackgroundPainter = null;
-    protected Painter selectedBackgroundPainter = null;
-    // End of variables declaration//GEN-END:variables
-    protected CidsBean bean;
-    protected boolean isSelected = false;
-    protected JPopupMenu popup = new JPopupMenu();
-    protected boolean newMode = false;
-    protected int mouseClickedXPosition = 0;
-    protected String lineFieldName = "linie";
-
-    double von = 0;
-    double bis = 0;
-    private CidsBean stationFrom;
-    private CidsBean stationTill;
-    private boolean dragStart = false;
-    private int dragSide = 0;
-    private double oldStationValue;
-    private JMenuItem deleteItem = new JMenuItem("löschen");
-    private JMenuItem splitItem = new JMenuItem("teilen");
-    private LineBand parent;
-    private List<BandMemberListener> listenerList = new ArrayList<BandMemberListener>();
-    private boolean readOnly;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel labText;
-
-    //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
@@ -134,8 +106,6 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         this.parent = parent;
         popup.addPopupMenuListener(this);
     }
-
-    //~ Methods ----------------------------------------------------------------
 
     @Override
     public JComponent getBandMemberComponent() {
@@ -293,6 +263,34 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         gridBagConstraints.weighty = 1.0;
         add(labText, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
+
+    //~ Instance fields --------------------------------------------------------
+
+    protected PinstripePainter stripes = new PinstripePainter();
+    protected Painter unselectedBackgroundPainter = null;
+    protected Painter selectedBackgroundPainter = null;
+    // End of variables declaration//GEN-END:variables
+    protected CidsBean bean;
+    protected boolean isSelected = false;
+    protected JPopupMenu popup = new JPopupMenu();
+    protected boolean newMode = false;
+    protected int mouseClickedXPosition = 0;
+    protected String lineFieldName = "linie";
+
+    double von = 0;
+    double bis = 0;
+    private CidsBean stationFrom;
+    private CidsBean stationTill;
+    private boolean dragStart = false;
+    private int dragSide = 0;
+    private double oldStationValue;
+    private JMenuItem deleteItem = new JMenuItem("löschen");
+    private JMenuItem splitItem = new JMenuItem("teilen");
+    private LineBand parent;
+    private List<BandMemberListener> listenerList = new ArrayList<BandMemberListener>();
+    private boolean readOnly;
+
+    //~ Methods ----------------------------------------------------------------
 
     @Override
     public void mouseClicked(final MouseEvent e) {

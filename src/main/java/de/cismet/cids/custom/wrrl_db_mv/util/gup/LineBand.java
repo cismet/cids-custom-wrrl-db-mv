@@ -626,10 +626,20 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         refresh(null, false);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  min  DOCUMENT ME!
+     */
     public void setMin(final Double min) {
         this.fixMin = min;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  max  DOCUMENT ME!
+     */
     public void setMax(final Double max) {
         this.fixMax = max;
     }

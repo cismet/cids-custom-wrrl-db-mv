@@ -59,6 +59,7 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
+
     //~ Static fields/initializers ---------------------------------------------
 
 // RequestsFullSizeComponent,
