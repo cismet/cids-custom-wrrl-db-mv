@@ -1,0 +1,64 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
+/*
+ *  Copyright (C) 2012 therter
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package de.cismet.cids.custom.actions.wrrl_db_mv;
+
+import org.openide.util.lookup.ServiceProvider;
+
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+
+import de.cismet.cids.navigator.utils.AbstractNewObjectToolbarAction;
+import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
+
+/**
+ * DOCUMENT ME!
+ *
+ * @author   therter
+ * @version  $Revision$, $Date$
+ */
+
+@ServiceProvider(service = CidsClientToolbarItem.class)
+public class WkGwToolbarAction extends AbstractNewObjectToolbarAction {
+
+    //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public String getSorterString() {
+        return "K";
+    }
+
+    @Override
+    public String getDomain() {
+        return WRRLUtil.DOMAIN_NAME;
+    }
+
+    @Override
+    public String getTableName() {
+        return "wk_gw";
+    }
+
+    @Override
+    public String getTooltipString() {
+        return "neuen GW-Wasserkörper anlegen";
+    }
+}
