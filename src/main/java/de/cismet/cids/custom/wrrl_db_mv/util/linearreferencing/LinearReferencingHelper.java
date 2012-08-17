@@ -29,6 +29,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -327,7 +328,13 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
      * @throws  Exception  DOCUMENT ME!
      */
     public static void setGeometryToLineBean(final Geometry line, final CidsBean lineBean) throws Exception {
-        final CidsBean geomBean = LinearReferencingHelper.getGeomBeanFromLineBean(lineBean);
+        CidsBean geomBean = LinearReferencingHelper.getGeomBeanFromLineBean(lineBean);
+
+        if (geomBean == null) {
+            geomBean = CidsBeanSupport.createNewCidsBeanFromTableName(LinearReferencingHelper.CN_GEOM);
+            lineBean.setProperty(PROP_STATIONLINIE_GEOM, geomBean);
+        }
+
         if (geomBean != null) {
             geomBean.setProperty(PROP_GEOM_GEOFIELD, line);
         }

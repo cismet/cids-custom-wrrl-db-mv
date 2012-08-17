@@ -70,6 +70,7 @@ import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateLinearReferencedMarksListener;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
@@ -1590,6 +1591,18 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         if (bean == null) {
             bean = LinearReferencingHelper.createStationBeanFromRouteBean((CidsBean)s.getProperty("route"),
                     (Double)s.getProperty("wert"));
+
+            // add the station geometry
+            final Geometry geom = LinearReferencedPointFeature.getPointOnLine(LinearReferencingHelper
+                            .getLinearValueFromStationBean(bean),
+                    LinearReferencingHelper.getRouteGeometryFromStationBean(bean));
+            geom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+            try {
+                LinearReferencingHelper.setPointGeometryToStationBean(geom, bean);
+            } catch (Exception ex) {
+                LOG.error("Cannot create geometry for station", ex);
+            }
+
             stations.put(s, bean);
         }
 
