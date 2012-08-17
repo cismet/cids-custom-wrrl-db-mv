@@ -27,6 +27,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="dlgMeas">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JDialog(StaticSwingTools.getParentFrame(this))"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
@@ -116,6 +119,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="dlgMeas15">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JDialog(StaticSwingTools.getParentFrame(this))"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
@@ -208,6 +214,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="dlgMeas21">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JDialog(StaticSwingTools.getParentFrame(this))"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>

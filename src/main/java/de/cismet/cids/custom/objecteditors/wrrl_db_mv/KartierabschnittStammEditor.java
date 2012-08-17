@@ -22,7 +22,6 @@ import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRende
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -33,6 +32,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import de.cismet.tools.gui.StaticSwingTools;
+import javax.swing.JDialog;
 
 /**
  * DOCUMENT ME!
@@ -128,7 +129,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        geomDialog = new javax.swing.JDialog();
+        geomDialog = new JDialog(StaticSwingTools.getParentFrame(this));
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
@@ -161,16 +162,12 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblVorkatierung = new javax.swing.JLabel();
         linearReferencedLineEditor = linearReferencedLineEditor;
 
-        geomDialog.setTitle(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.geomDialog.title")); // NOI18N
+        geomDialog.setTitle(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.geomDialog.title")); // NOI18N
         geomDialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                @Override
-                public void windowClosing(final java.awt.event.WindowEvent evt) {
-                    geomDialogWindowClosing(evt);
-                }
-            });
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                geomDialogWindowClosing(evt);
+            }
+        });
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
         jScrollPane1.setViewportView(jPanel1);
@@ -188,9 +185,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblHeading.text")); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -199,9 +194,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblGewaessername.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblgewaessername.text")); // NOI18N
+        lblGewaessername.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblgewaessername.text")); // NOI18N
         lblGewaessername.setMaximumSize(new java.awt.Dimension(120, 17));
         lblGewaessername.setMinimumSize(new java.awt.Dimension(130, 17));
         lblGewaessername.setPreferredSize(new java.awt.Dimension(130, 17));
@@ -210,9 +203,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblGewaessername, gridBagConstraints);
 
-        lblGewaesserkennzahl.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblgewaesserkennzahl.text")); // NOI18N
+        lblGewaesserkennzahl.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblgewaesserkennzahl.text")); // NOI18N
         lblGewaesserkennzahl.setMinimumSize(new java.awt.Dimension(130, 17));
         lblGewaesserkennzahl.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -222,9 +213,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblGewaesserkennzahl, gridBagConstraints);
 
-        lblGewaesserabschnitt.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblgewaesserabschnitt.text")); // NOI18N
+        lblGewaesserabschnitt.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblgewaesserabschnitt.text")); // NOI18N
         lblGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(130, 17));
         lblGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -234,9 +223,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblGewaesserabschnitt, gridBagConstraints);
 
-        lblWk.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblWk.text")); // NOI18N
+        lblWk.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblWk.text")); // NOI18N
         lblWk.setMaximumSize(new java.awt.Dimension(120, 17));
         lblWk.setMinimumSize(new java.awt.Dimension(130, 17));
         lblWk.setPreferredSize(new java.awt.Dimension(130, 17));
@@ -247,9 +234,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblWk, gridBagConstraints);
 
-        lblWkName.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblWkName.text")); // NOI18N
+        lblWkName.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblWkName.text")); // NOI18N
         lblWkName.setMinimumSize(new java.awt.Dimension(130, 17));
         lblWkName.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -263,12 +248,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaessername.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaessername.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.routenname}"),
-                txtGewaessername,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.routenname}"), txtGewaessername, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -286,12 +266,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaesserkennzahl.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaesserkennzahl.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.gwk}"),
-                txtGewaesserkennzahl,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.linie.von.route.gwk}"), txtGewaesserkennzahl, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -323,12 +298,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtGewaesserabschnitt.setMinimumSize(new java.awt.Dimension(170, 20));
         txtGewaesserabschnitt.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser_abschnitt}"),
-                txtGewaesserabschnitt,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewaesser_abschnitt}"), txtGewaesserabschnitt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -365,9 +335,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtWkName, gridBagConstraints);
 
-        lblDatum.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblDatum.text")); // NOI18N
+        lblDatum.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblDatum.text")); // NOI18N
         lblDatum.setMaximumSize(new java.awt.Dimension(120, 17));
         lblDatum.setMinimumSize(new java.awt.Dimension(130, 17));
         lblDatum.setPreferredSize(new java.awt.Dimension(130, 17));
@@ -378,9 +346,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblDatum, gridBagConstraints);
 
-        lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblBearbeiter.text")); // NOI18N
+        lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblBearbeiter.text")); // NOI18N
         lblBearbeiter.setMinimumSize(new java.awt.Dimension(130, 17));
         lblBearbeiter.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -393,12 +359,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtBearbeiter.setMinimumSize(new java.awt.Dimension(170, 20));
         txtBearbeiter.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bearbeiter}"),
-                txtBearbeiter,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bearbeiter}"), txtBearbeiter, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -410,9 +371,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtBearbeiter, gridBagConstraints);
 
-        lblfliessrichtung.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblfliessrichtung.text")); // NOI18N
+        lblfliessrichtung.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblfliessrichtung.text")); // NOI18N
         lblfliessrichtung.setMinimumSize(new java.awt.Dimension(130, 17));
         lblfliessrichtung.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -425,12 +384,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         cbFliessgewaesser.setMinimumSize(new java.awt.Dimension(170, 20));
         cbFliessgewaesser.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fliessrichtung_id}"),
-                cbFliessgewaesser,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fliessrichtung_id}"), cbFliessgewaesser, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -444,12 +398,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         timErfassungsdatum.setMinimumSize(new java.awt.Dimension(170, 20));
         timErfassungsdatum.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.erfassungsdatum}"),
-                timErfassungsdatum,
-                org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.erfassungsdatum}"), timErfassungsdatum, org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
         binding.setConverter(dateConverter);
         bindingGroup.addBinding(binding);
 
@@ -462,9 +411,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(timErfassungsdatum, gridBagConstraints);
 
-        lblWkType.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblWkType.text")); // NOI18N
+        lblWkType.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblWkType.text")); // NOI18N
         lblWkType.setMinimumSize(new java.awt.Dimension(130, 17));
         lblWkType.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -486,9 +433,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtWkType, gridBagConstraints);
 
-        lblFotoNr.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblFotoNr.text")); // NOI18N
+        lblFotoNr.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblFotoNr.text")); // NOI18N
         lblFotoNr.setMinimumSize(new java.awt.Dimension(130, 17));
         lblFotoNr.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -501,12 +446,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtFotoNr.setMinimumSize(new java.awt.Dimension(170, 20));
         txtFotoNr.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_nr}"),
-                txtFotoNr,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_nr}"), txtFotoNr, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -522,12 +462,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         cbVorkatierung.setMinimumSize(new java.awt.Dimension(100, 20));
         cbVorkatierung.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorkatierung}"),
-                cbVorkatierung,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorkatierung}"), cbVorkatierung, org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
@@ -539,9 +474,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbVorkatierung, gridBagConstraints);
 
-        lblVorkatierung.setText(org.openide.util.NbBundle.getMessage(
-                KartierabschnittStammEditor.class,
-                "KartierabschnittStammEditor.lblVorkatierung.text")); // NOI18N
+        lblVorkatierung.setText(org.openide.util.NbBundle.getMessage(KartierabschnittStammEditor.class, "KartierabschnittStammEditor.lblVorkatierung.text")); // NOI18N
         lblVorkatierung.setMinimumSize(new java.awt.Dimension(130, 17));
         lblVorkatierung.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -564,7 +497,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -576,10 +509,10 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void geomDialogWindowClosing(final java.awt.event.WindowEvent evt) { //GEN-FIRST:event_geomDialogWindowClosing
+    private void geomDialogWindowClosing(final java.awt.event.WindowEvent evt) {//GEN-FIRST:event_geomDialogWindowClosing
         final boolean visible = linearReferencedLineEditor.changeOtherLinesPanelVisibility();
         otherLinesPanelVisibilityChange(visible);
-    }                                                                            //GEN-LAST:event_geomDialogWindowClosing
+    }//GEN-LAST:event_geomDialogWindowClosing
 
     @Override
     public CidsBean getCidsBean() {
@@ -715,9 +648,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                     0,
                     0);
             jPanel1.add(linearReferencedLineEditor, constraints);
-            UIUtil.findOptimalPositionOnScreen(geomDialog);
             geomDialog.setModal(true);
-            geomDialog.setVisible(true);
+            StaticSwingTools.showDialog(geomDialog);
+            
         } else {
             geomDialog.setVisible(false);
             jPanel1.removeAll();

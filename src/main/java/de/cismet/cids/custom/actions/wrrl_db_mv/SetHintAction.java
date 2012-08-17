@@ -116,10 +116,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
     @Override
     public void actionPerformed(final ActionEvent e) {
         final SetHintDialog dlgSetHint = new SetHintDialog(CismapBroker.getInstance().getMappingComponent());
-        dlgSetHint.setLocationRelativeTo(StaticSwingTools.getParentFrame(
-                CismapBroker.getInstance().getMappingComponent()));
-        dlgSetHint.setVisible(true);
-
+        StaticSwingTools.showDialog(dlgSetHint);
+        
         if (dlgSetHint.wasCancelled()) {
             return;
         }

@@ -106,7 +106,7 @@ public class DuplicateGeometryFeatureAction extends AbstractAction implements Co
 
                 @Override
                 public void run() {
-                    wd.setVisible(true);
+                    StaticSwingTools.showDialog(wd);
                 }
             });
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {

@@ -320,8 +320,7 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
                 public void run() {
                     waiting.setWorker(search);
                     waiting.pack();
-                    waiting.setLocationRelativeTo(mc);
-                    waiting.setVisible(true);
+                    StaticSwingTools.showDialog(waiting);
                 }
             });
     }

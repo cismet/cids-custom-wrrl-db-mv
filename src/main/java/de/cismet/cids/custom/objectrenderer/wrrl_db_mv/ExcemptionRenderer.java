@@ -32,6 +32,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import de.cismet.tools.gui.StaticSwingTools;
+import javax.swing.JDialog;
 
 /**
  * DOCUMENT ME!
@@ -95,9 +97,9 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgJustificationCataloge = new javax.swing.JDialog();
+        dlgJustificationCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblJustfification = new javax.swing.JLabel();
-        final DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo(EX_JUST_MC, true, true);
+        DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo(EX_JUST_MC,true,true);
         cbJustfificationCataloge = cb;
         panMenButtonsJustfification = new javax.swing.JPanel();
         btnJustfificationAbort = new javax.swing.JButton();
@@ -134,12 +136,10 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
 
         btnJustfificationAbort.setText("Abbrechen");
         btnJustfificationAbort.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnJustfificationAbortActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJustfificationAbortActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -152,12 +152,10 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         btnJustfificationOk.setMinimumSize(new java.awt.Dimension(85, 23));
         btnJustfificationOk.setPreferredSize(new java.awt.Dimension(85, 23));
         btnJustfificationOk.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnJustfificationOkActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJustfificationOkActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -213,14 +211,8 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
 
         lstExJus.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.ex_jus}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
-                        this,
-                        eLProperty,
-                        lstExJus);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_jus}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, this, eLProperty, lstExJus);
         bindingGroup.addBinding(jListBinding);
 
         scpExJus.setViewportView(lstExJus);
@@ -254,12 +246,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         lblValCat.setMaximumSize(new java.awt.Dimension(300, 20));
         lblValCat.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_cat.code}"),
-                lblValCat,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_cat.code}"), lblValCat, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -274,12 +261,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         lblValTyp.setMaximumSize(new java.awt.Dimension(300, 20));
         lblValTyp.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_typ.description}"),
-                lblValTyp,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_typ.description}"), lblValTyp, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
@@ -294,12 +276,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         lblValDate.setMaximumSize(new java.awt.Dimension(300, 20));
         lblValDate.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_date.date}"),
-                lblValDate,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ex_date.date}"), lblValDate, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         binding.setConverter(DateConverter.getInstance());
@@ -315,23 +292,23 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         add(panContent, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJustfificationAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJustfificationAbortActionPerformed
+    private void btnJustfificationAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustfificationAbortActionPerformed
         dlgJustificationCataloge.setVisible(false);
-    }                                                                                          //GEN-LAST:event_btnJustfificationAbortActionPerformed
+    }//GEN-LAST:event_btnJustfificationAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnJustfificationOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJustfificationOkActionPerformed
+    private void btnJustfificationOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJustfificationOkActionPerformed
         final Object selection = cbJustfificationCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -343,7 +320,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
             }
         }
         dlgJustificationCataloge.setVisible(false);
-    }                                                                                       //GEN-LAST:event_btnJustfificationOkActionPerformed
+    }//GEN-LAST:event_btnJustfificationOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
