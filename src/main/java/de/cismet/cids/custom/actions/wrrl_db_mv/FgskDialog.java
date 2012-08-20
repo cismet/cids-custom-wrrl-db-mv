@@ -426,7 +426,7 @@ public class FgskDialog extends javax.swing.JDialog {
     private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
         if (!allValid) {
             final int returnOption = JOptionPane.showOptionDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "<html>Die Regeln zur Mindest- oder Höchstlänge<br/>von Kartierabschnitten werden verletzt.",
                     "Vorsicht",
                     JOptionPane.DEFAULT_OPTION,

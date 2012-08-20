@@ -60,6 +60,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -702,7 +703,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                                         synchronized (LOG) {
                                             if (!wkk.equals((String)o)) {
                                                 JOptionPane.showMessageDialog(
-                                                    LawaEditor.this,
+                                                    StaticSwingTools.getParentFrame(LawaEditor.this),
                                                     "Durch die Änderung der Stationierung hat "
                                                             + "sich der Wasserkörper geändert.",
                                                     "Änderung am Wasserkörper",

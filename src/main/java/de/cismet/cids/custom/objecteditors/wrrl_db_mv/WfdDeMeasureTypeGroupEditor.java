@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
@@ -43,8 +44,8 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
 import de.cismet.tools.gui.StaticSwingTools;
-import javax.swing.JDialog;
 
 /**
  * DOCUMENT ME!
@@ -156,19 +157,25 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         btnAddIndikator = new javax.swing.JButton();
         txtValProjekt_nr = new javax.swing.JTextField();
 
-        dlgMassnahmenTypAll.setTitle(org.openide.util.NbBundle.getMessage(WfdDeMeasureTypeGroupEditor.class, "WfdDeMeasureTypeGroupEditor.dlgMassnahmenTypAll.title")); // NOI18N
+        dlgMassnahmenTypAll.setTitle(org.openide.util.NbBundle.getMessage(
+                WfdDeMeasureTypeGroupEditor.class,
+                "WfdDeMeasureTypeGroupEditor.dlgMassnahmenTypAll.title")); // NOI18N
         dlgMassnahmenTypAll.getContentPane().setLayout(new java.awt.GridBagLayout());
 
         panMenButtonsMassnahmenTyp1.setLayout(new java.awt.GridBagLayout());
 
-        btnMassnahmenTypAllAbort.setText(org.openide.util.NbBundle.getMessage(WfdDeMeasureTypeGroupEditor.class, "WfdDeMeasureTypeGroupEditor.btnMassnahmenTypAllAbort.text")); // NOI18N
+        btnMassnahmenTypAllAbort.setText(org.openide.util.NbBundle.getMessage(
+                WfdDeMeasureTypeGroupEditor.class,
+                "WfdDeMeasureTypeGroupEditor.btnMassnahmenTypAllAbort.text")); // NOI18N
         btnMassnahmenTypAllAbort.setMinimumSize(new java.awt.Dimension(105, 23));
         btnMassnahmenTypAllAbort.setPreferredSize(new java.awt.Dimension(105, 23));
         btnMassnahmenTypAllAbort.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMassnahmenTypAllAbortActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMassnahmenTypAllAbortActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -177,15 +184,19 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         panMenButtonsMassnahmenTyp1.add(btnMassnahmenTypAllAbort, gridBagConstraints);
 
-        btnMassnahmenTypAllOk.setText(org.openide.util.NbBundle.getMessage(WfdDeMeasureTypeGroupEditor.class, "WfdDeMeasureTypeGroupEditor.btnMassnahmenTypAllOk.text")); // NOI18N
+        btnMassnahmenTypAllOk.setText(org.openide.util.NbBundle.getMessage(
+                WfdDeMeasureTypeGroupEditor.class,
+                "WfdDeMeasureTypeGroupEditor.btnMassnahmenTypAllOk.text")); // NOI18N
         btnMassnahmenTypAllOk.setMaximumSize(new java.awt.Dimension(85, 23));
         btnMassnahmenTypAllOk.setMinimumSize(new java.awt.Dimension(105, 23));
         btnMassnahmenTypAllOk.setPreferredSize(new java.awt.Dimension(105, 23));
         btnMassnahmenTypAllOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMassnahmenTypAllOkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnMassnahmenTypAllOkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -212,7 +223,9 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         gridBagConstraints.gridy = 3;
         dlgMassnahmenTypAll.getContentPane().add(jScrollPane6, gridBagConstraints);
 
-        lblMassnahmenTypAllCataloge.setText(org.openide.util.NbBundle.getMessage(WfdDeMeasureTypeGroupEditor.class, "WfdDeMeasureTypeGroupEditor.lblMassnahmenTypAllCataloge.text")); // NOI18N
+        lblMassnahmenTypAllCataloge.setText(org.openide.util.NbBundle.getMessage(
+                WfdDeMeasureTypeGroupEditor.class,
+                "WfdDeMeasureTypeGroupEditor.lblMassnahmenTypAllCataloge.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -221,7 +234,9 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
 
         setLayout(new java.awt.GridBagLayout());
 
-        lblName.setText(org.openide.util.NbBundle.getMessage(WfdDeMeasureTypeGroupEditor.class, "WfdDeMeasureTypeGroupEditor.lblName.text")); // NOI18N
+        lblName.setText(org.openide.util.NbBundle.getMessage(
+                WfdDeMeasureTypeGroupEditor.class,
+                "WfdDeMeasureTypeGroupEditor.lblName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -237,8 +252,14 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
 
         jlIndikator.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.types}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jlIndikator);
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.types}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jlIndikator);
         bindingGroup.addBinding(jListBinding);
 
         jScrollPane2.setViewportView(jlIndikator);
@@ -257,12 +278,15 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         panMassnahmen.setOpaque(false);
         panMassnahmen.setLayout(new java.awt.GridBagLayout());
 
-        btnRemIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_16.png"))); // NOI18N
+        btnRemIndikator.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_16.png"))); // NOI18N
         btnRemIndikator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemIndikatorActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemIndikatorActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -270,12 +294,15 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         gridBagConstraints.weightx = 1.0;
         panMassnahmen.add(btnRemIndikator, gridBagConstraints);
 
-        btnAddIndikator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_16.png"))); // NOI18N
+        btnAddIndikator.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_16.png"))); // NOI18N
         btnAddIndikator.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddIndikatorActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddIndikatorActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -307,7 +334,12 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         txtValProjekt_nr.setMinimumSize(new java.awt.Dimension(215, 20));
         txtValProjekt_nr.setPreferredSize(new java.awt.Dimension(215, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"), txtValProjekt_nr, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtValProjekt_nr,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -320,28 +352,28 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         add(txtValProjekt_nr, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIndikatorActionPerformed
+    private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
         dlgMassnahmenTypAll.setSize(790, 350);
-        StaticSwingTools.showDialog(dlgMassnahmenTypAll);
-    }//GEN-LAST:event_btnAddIndikatorActionPerformed
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMassnahmenTypAll, true);
+    }                                                                                   //GEN-LAST:event_btnAddIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemIndikatorActionPerformed
+    private void btnRemIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemIndikatorActionPerformed
         final Object selection = jlIndikator.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der ausgewählte Maßnahmentyp wirklich gelöscht werden?",
                     "Maßnahmentyp entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -359,14 +391,14 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
                 }
             }
         }
-    }//GEN-LAST:event_btnRemIndikatorActionPerformed
+    }                                                                                   //GEN-LAST:event_btnRemIndikatorActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAllOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAllOkActionPerformed
+    private void btnMassnahmenTypAllOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAllOkActionPerformed
         final Object[] selectedObjects = jlMassnahmenAllCataloge.getSelectedValues();
 
         if (selectedObjects != null) {
@@ -384,16 +416,16 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
 
         jlMassnahmenAllCataloge.setSelectedIndex(0);
         dlgMassnahmenTypAll.setVisible(false);
-    }//GEN-LAST:event_btnMassnahmenTypAllOkActionPerformed
+    } //GEN-LAST:event_btnMassnahmenTypAllOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMassnahmenTypAllAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMassnahmenTypAllAbortActionPerformed
+    private void btnMassnahmenTypAllAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMassnahmenTypAllAbortActionPerformed
         dlgMassnahmenTypAll.setVisible(false);
-    }//GEN-LAST:event_btnMassnahmenTypAllAbortActionPerformed
+    }                                                                                            //GEN-LAST:event_btnMassnahmenTypAllAbortActionPerformed
 
     /**
      * DOCUMENT ME!

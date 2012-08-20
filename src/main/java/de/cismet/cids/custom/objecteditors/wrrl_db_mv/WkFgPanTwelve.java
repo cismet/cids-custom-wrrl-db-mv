@@ -26,6 +26,8 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -891,7 +893,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 }
             } else {
                 JOptionPane.showMessageDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Es sind keine Bewertungen für eine Vorbelegung vorhanden.",
                     "Keine Bewertungen",
                     JOptionPane.WARNING_MESSAGE);

@@ -31,6 +31,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -648,49 +650,49 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
 
         if (einschnitttiefe == -1) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die Einschnitttiefe wurde nicht gesetzt.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (wassertiefe == -1) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die Wassertiefe wurde nicht gesetzt.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (wasserspiegelbreite == -1) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die Wasserspiegelbreite wurde nicht gesetzt.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (sohlbreite == -1) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die Sohlbreite wurde nicht gesetzt.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (obereProfilbreite == -1) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die obere Profiltiefe wurde nicht gesetzt.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (wasserspiegelbreite < sohlbreite) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die Wasserspiegelbreite ist kleiner als die Sohlbreite.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);
             return false;
         } else if (obereProfilbreite < wasserspiegelbreite) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Die obere Profilbreite ist kleiner als die Wasserspiegelbreite.",
                 "Ungültige Eingabe",
                 JOptionPane.ERROR_MESSAGE);

@@ -46,6 +46,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -423,7 +425,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                         }
                     } else {
                         JOptionPane.showMessageDialog(
-                            WkFgPanFourteen.this,
+                            StaticSwingTools.getParentFrame(WkFgPanFourteen.this),
                             "Es konnte kein LAWA-Typ aus den Anteilen der Detailtypen berechnet werden.",
                             "Berechnung nicht möglich",
                             JOptionPane.WARNING_MESSAGE);
@@ -480,7 +482,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                         }
                     } else {
                         JOptionPane.showMessageDialog(
-                            WkFgPanFourteen.this,
+                            StaticSwingTools.getParentFrame(WkFgPanFourteen.this),
                             "Es wurde noch kein LAWA-Typ berechnet.",
                             "Kein LAWA-Typ berechnet",
                             JOptionPane.INFORMATION_MESSAGE);

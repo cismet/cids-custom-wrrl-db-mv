@@ -42,6 +42,8 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -409,7 +411,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
 
         if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
             final int ans = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Sie haben die Stationen nicht geändert, nachdem Sie eine "
                             + "neue Route ausgewählt haben. Möchten Sie die Stationen ändern?",
                     "Keine Änderung der Stationen",
@@ -693,7 +695,7 @@ public class MassnahmenUmsetzungEditor extends javax.swing.JPanel implements Cid
         }
         if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
             final int ans = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Sie haben die Stationen nicht geändert, nachdem Sie eine "
                             + "neue Route ausgewählt haben. Möchten Sie die Stationen ändern?",
                     "Keine Änderung der Stationen",

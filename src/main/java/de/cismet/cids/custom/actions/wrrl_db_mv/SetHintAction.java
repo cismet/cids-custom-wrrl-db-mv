@@ -117,7 +117,7 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
     public void actionPerformed(final ActionEvent e) {
         final SetHintDialog dlgSetHint = new SetHintDialog(CismapBroker.getInstance().getMappingComponent());
         StaticSwingTools.showDialog(dlgSetHint);
-        
+
         if (dlgSetHint.wasCancelled()) {
             return;
         }
@@ -165,7 +165,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             persistedHint = hint.persist();
         } catch (Exception ex) {
             LOG.error("Could not persist new entity for table 'geo_hint'.", ex);
-            JOptionPane.showMessageDialog(CismapBroker.getInstance().getMappingComponent(),
+            JOptionPane.showMessageDialog(
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorMessage"),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorTitle"),
                 JOptionPane.ERROR_MESSAGE);
@@ -173,7 +174,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
 
         if (persistedHint == null) {
             LOG.error("Could not persist new entity for table 'geo_hint'.");
-            JOptionPane.showMessageDialog(CismapBroker.getInstance().getMappingComponent(),
+            JOptionPane.showMessageDialog(
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorMessage"),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorTitle"),
                 JOptionPane.ERROR_MESSAGE);
