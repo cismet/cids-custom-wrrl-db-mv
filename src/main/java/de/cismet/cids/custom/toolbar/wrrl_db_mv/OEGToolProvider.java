@@ -211,7 +211,7 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
      */
     private void OegSearch(final String type, final PInputEvent event) {
         final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
-        waiting = new OEGWaitDialog(StaticSwingTools.getFirstParentFrame(mc), true);
+        waiting = new OEGWaitDialog(StaticSwingTools.getParentFrame(mc), true);
         final javax.swing.SwingWorker<Collection<Feature>, Void> search =
             new javax.swing.SwingWorker<Collection<Feature>, Void>() {
 
