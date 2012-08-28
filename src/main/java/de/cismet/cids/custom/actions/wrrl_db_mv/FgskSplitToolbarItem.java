@@ -116,9 +116,7 @@ public class FgskSplitToolbarItem extends AbstractAction implements CidsClientTo
                 } else {
                     final CidsBean cidsBean = cidsFeature.getMetaObject().getBean();
                     final FgskSplitDialog dialog = new FgskSplitDialog(cidsBean, mappingComponent);
-                    dialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(
-                            CismapBroker.getInstance().getMappingComponent()));
-                    dialog.setVisible(true);
+                    StaticSwingTools.showDialog(dialog);
                 }
             }
         }

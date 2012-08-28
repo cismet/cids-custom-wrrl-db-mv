@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
@@ -43,6 +44,8 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -138,7 +141,7 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgMassnahmenTypAll = new javax.swing.JDialog();
+        dlgMassnahmenTypAll = new JDialog(StaticSwingTools.getParentFrame(this));
         panMenButtonsMassnahmenTyp1 = new javax.swing.JPanel();
         btnMassnahmenTypAllAbort = new javax.swing.JButton();
         btnMassnahmenTypAllOk = new javax.swing.JButton();
@@ -357,9 +360,8 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMassnahmenTypAll);
         dlgMassnahmenTypAll.setSize(790, 350);
-        dlgMassnahmenTypAll.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMassnahmenTypAll, true);
     }                                                                                   //GEN-LAST:event_btnAddIndikatorActionPerformed
 
     /**
@@ -371,7 +373,7 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
         final Object selection = jlIndikator.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der ausgewählte Maßnahmentyp wirklich gelöscht werden?",
                     "Maßnahmentyp entfernen",
                     JOptionPane.YES_NO_OPTION);

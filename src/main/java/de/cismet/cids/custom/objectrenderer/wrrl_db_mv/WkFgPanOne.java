@@ -16,6 +16,8 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
+
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
@@ -26,6 +28,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -135,14 +139,14 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgImpactCataloge = new javax.swing.JDialog();
+        dlgImpactCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo(IMPACT_MC, true, true);
         cbImpactCataloge = cb1;
         panMenButtonsImpact = new javax.swing.JPanel();
         btnImpactAbort = new javax.swing.JButton();
         btnImpactOk = new javax.swing.JButton();
-        dlgImpactSrcCataloge = new javax.swing.JDialog();
+        dlgImpactSrcCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactSrcCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(IMPACT_SRC_MC, true, true);
         cbImpactSrcCataloge = cb2;
@@ -469,7 +473,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         taBemerkung.setColumns(20);
         taBemerkung.setEditable(false);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taBemerkung.setRows(5);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(

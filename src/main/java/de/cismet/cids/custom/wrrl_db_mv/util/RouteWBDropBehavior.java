@@ -43,6 +43,8 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -151,7 +153,7 @@ public class RouteWBDropBehavior implements LineEditorDropBehavior {
             }
         } else {
             JOptionPane.showMessageDialog(
-                comp,
+                StaticSwingTools.getParentFrame(comp),
                 "Es wurde noch kein Fließgewässer zugeordnet.",
                 "Kein Fließgewässer",
                 JOptionPane.ERROR_MESSAGE);
@@ -159,7 +161,7 @@ public class RouteWBDropBehavior implements LineEditorDropBehavior {
         }
 
         JOptionPane.showMessageDialog(
-            comp,
+            StaticSwingTools.getParentFrame(comp),
             "Die gewählte Route gehört nicht zum eingestellten Fließgewässer.",
             "Route ungültig",
             JOptionPane.ERROR_MESSAGE);

@@ -14,6 +14,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -71,7 +73,7 @@ public class FgskHelper {
                 }
             } else {
                 JOptionPane.showMessageDialog(
-                    parent,
+                    StaticSwingTools.getParentFrame(parent),
                     "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
                     "Felder gesetzt",
                     JOptionPane.INFORMATION_MESSAGE);

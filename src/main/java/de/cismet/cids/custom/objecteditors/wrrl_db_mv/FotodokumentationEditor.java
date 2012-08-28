@@ -127,6 +127,7 @@ import de.cismet.tools.PasswordEncrypter;
 
 import de.cismet.tools.gui.CurvedFlowBackgroundPanel;
 import de.cismet.tools.gui.RoundedPanel;
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
 
 /**
@@ -1623,7 +1624,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         final Object[] selection = lstFotos.getSelectedValues();
         if ((selection != null) && (selection.length > 0)) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Sollen die Fotos wirklich gelöscht werden?",
                     "Fotos entfernen",
                     JOptionPane.YES_NO_OPTION);

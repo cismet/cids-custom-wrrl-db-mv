@@ -19,6 +19,8 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -388,7 +390,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 tfVerockerung.setText("0");
             } else {
                 JOptionPane.showMessageDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
                     "Felder gesetzt",
                     JOptionPane.INFORMATION_MESSAGE);

@@ -76,8 +76,7 @@ public class FgskToolbarItem extends AbstractAction implements CidsClientToolbar
     @Override
     public void actionPerformed(final ActionEvent e) {
         final FgskDialog dialog = new FgskDialog(true, CismapBroker.getInstance().getMappingComponent());
-        dialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()));
-        dialog.setVisible(true);
+        StaticSwingTools.showDialog(dialog);
     }
 
     @Override

@@ -13,11 +13,9 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -70,6 +68,7 @@ import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateLinearReferencedMarksListener;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
@@ -79,6 +78,7 @@ import de.cismet.tools.Calculator;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.RoundedPanel;
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.EmptyAbsoluteHeightedBand;
@@ -1547,7 +1547,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
         try {
             JOptionPane.showConfirmDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 "Wenn Sie die Abschnitte übernehmen, dann werden die bereits vorhandenen Abschnitte gelöscht. Wollen Sie fortrfahren?",
                 "Stationen übernehmen",
                 JOptionPane.OK_CANCEL_OPTION);
@@ -1590,6 +1590,18 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         if (bean == null) {
             bean = LinearReferencingHelper.createStationBeanFromRouteBean((CidsBean)s.getProperty("route"),
                     (Double)s.getProperty("wert"));
+
+            // add the station geometry
+            final Geometry geom = LinearReferencedPointFeature.getPointOnLine(LinearReferencingHelper
+                            .getLinearValueFromStationBean(bean),
+                    LinearReferencingHelper.getRouteGeometryFromStationBean(bean));
+            geom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+            try {
+                LinearReferencingHelper.setPointGeometryToStationBean(geom, bean);
+            } catch (Exception ex) {
+                LOG.error("Cannot create geometry for station", ex);
+            }
+
             stations.put(s, bean);
         }
 

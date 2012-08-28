@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -31,6 +32,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -112,7 +115,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgWhyHmwbsCataloge = new javax.swing.JDialog();
+        dlgWhyHmwbsCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblWhyHmwbCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(WHY_HMWB_MC, true, true);
         cbWhyHmwbSrcCataloge = cb2;
@@ -543,9 +546,8 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddWhyHmwbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddWhyHmwbActionPerformed
-        dlgWhyHmwbsCataloge.setLocationRelativeTo(this);
         dlgWhyHmwbsCataloge.pack();
-        dlgWhyHmwbsCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgWhyHmwbsCataloge, true);
     }                                                                                 //GEN-LAST:event_btnAddWhyHmwbActionPerformed
 
     /**
@@ -557,7 +559,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         final Object selection = lstWhyHmwbs.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der Eintrag wirklich gelöscht werden?",
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);

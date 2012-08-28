@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.*;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
@@ -64,6 +65,7 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * Massnahmen koennen sich auf Fliessgewaesser und Seegewaesser beziehen. Massnahmen, die sich auf Seegewaesser beziehen
@@ -367,13 +369,13 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
-        dlgMeas = new javax.swing.JDialog();
+        dlgMeas = new JDialog(StaticSwingTools.getParentFrame(this));
         lblMeasCataloge = new javax.swing.JLabel();
         cbMeasCataloge = new ScrollableComboBox(DE_MEASURE_TYPE_CODE_MC, true, true, new CustomElementComparator());
         panMenButtonsMeas = new javax.swing.JPanel();
         btnMeasAbort = new javax.swing.JButton();
         btnMeasOk = new javax.swing.JButton();
-        dlgMeas15 = new javax.swing.JDialog();
+        dlgMeas15 = new JDialog(StaticSwingTools.getParentFrame(this));
         lblMeas15Cataloge = new javax.swing.JLabel();
         cbMeas15Cataloge = new ScrollableComboBox(
                 DE_MEASURE_TYPE_CODE_AFTER2015_MC,
@@ -383,7 +385,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panMenButtonsMeas15 = new javax.swing.JPanel();
         btnMeas15Abort = new javax.swing.JButton();
         btnMeas15Ok = new javax.swing.JButton();
-        dlgMeas21 = new javax.swing.JDialog();
+        dlgMeas21 = new JDialog(StaticSwingTools.getParentFrame(this));
         lblMeas21Cataloge = new javax.swing.JLabel();
         cbMeas21Cataloge = new ScrollableComboBox(
                 DE_MEASURE_TYPE_CODE_AFTER2015_MC,
@@ -1612,9 +1614,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddDe_measActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMeas);
         dlgMeas.setSize(750, 150);
-        dlgMeas.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMeas, true);
     }                                                                                 //GEN-LAST:event_btnAddDe_measActionPerformed
 
     /**
@@ -1626,7 +1627,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         final Object selection = lstdeMeas.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Massnahmenart '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -1652,9 +1653,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddMeas15ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMeas15ActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMeas15);
         dlgMeas15.setSize(750, 150);
-        dlgMeas15.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMeas15, true);
     }                                                                                //GEN-LAST:event_btnAddMeas15ActionPerformed
 
     /**
@@ -1666,7 +1666,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         final Object selection = lstMeas15.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Massnahmenart '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -1692,9 +1692,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddMeas21ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMeas21ActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMeas21);
         dlgMeas21.setSize(750, 150);
-        dlgMeas21.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMeas21, true);
     }                                                                                //GEN-LAST:event_btnAddMeas21ActionPerformed
 
     /**
@@ -1706,7 +1705,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         final Object selection = lstMeas21.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Massnahmenart '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -1938,7 +1937,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             cidsBean.getMetaObject().setAllClasses();
             if (dropBehaviorListener.isRouteChanged() && !linearReferencedLineEditor.hasChangedSinceDrop()) {
                 final int ans = JOptionPane.showConfirmDialog(
-                        this,
+                        StaticSwingTools.getParentFrame(this),
                         "Sie haben die Stationen nicht geändert, nachdem Sie eine "
                                 + "neue Route ausgewählt haben. Möchten Sie die Stationen ändern?",
                         "Keine Änderung der Stationen",

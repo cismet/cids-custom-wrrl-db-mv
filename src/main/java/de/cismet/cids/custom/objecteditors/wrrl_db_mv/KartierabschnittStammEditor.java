@@ -16,13 +16,13 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -33,6 +33,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -128,7 +130,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        geomDialog = new javax.swing.JDialog();
+        geomDialog = new JDialog(StaticSwingTools.getParentFrame(this));
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
@@ -682,7 +684,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                         || (timErfassungsdatum.getTimestamp().getTime() == 0)
                         || (cidsBean.getProperty("linie") == null)) {
                 JOptionPane.showMessageDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Mindestens die Stationierung des Abschnitts, "
                             + "Datum und Bearbeiter müssen angegeben werden.",
                     "Unvollständig",
@@ -715,9 +717,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                     0,
                     0);
             jPanel1.add(linearReferencedLineEditor, constraints);
-            UIUtil.findOptimalPositionOnScreen(geomDialog);
             geomDialog.setModal(true);
-            geomDialog.setVisible(true);
+            StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), geomDialog, true);
         } else {
             geomDialog.setVisible(false);
             jPanel1.removeAll();

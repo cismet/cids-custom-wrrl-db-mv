@@ -49,6 +49,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -602,7 +603,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Ausnahme wirklich gelöscht werden?",
                     "Ausnahme entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -667,7 +668,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         if (!isWkkUnique()) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 org.openide.util.NbBundle.getMessage(
                     WkFgEditor.class,
                     "WkFgEditor.prepareForSave().wkkNotUnique.message"),

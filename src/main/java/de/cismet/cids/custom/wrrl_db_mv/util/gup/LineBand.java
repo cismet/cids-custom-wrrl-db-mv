@@ -189,6 +189,20 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             line.setProperty("bis", endStation);
             line.setProperty("id", LinearReferencingHelper.getNewLineId());
             objectBean.setProperty(lineFieldName, line);
+
+            // add geometry
+            final Geometry lineGeom = LinearReferencedLineFeature.createSubline((Double)startStation.getProperty(
+                        "wert"),
+                    (Double)endStation.getProperty("wert"),
+                    (Geometry)startStation.getProperty("route.geom.geo_field"));
+            lineGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+
+            try {
+                LinearReferencingHelper.setGeometryToLineBean(lineGeom, line);
+            } catch (Exception ex) {
+                LOG.error("Cannot create geometry for station", ex);
+            }
+
             final LineBandMember m = refresh(objectBean, true);
             objectBeans.add(objectBean);
             fireBandChanged(new BandEvent());
@@ -631,6 +645,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      *
      * @param  min  DOCUMENT ME!
      */
+    @Override
     public void setMin(final Double min) {
         this.fixMin = min;
     }
@@ -640,6 +655,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      *
      * @param  max  DOCUMENT ME!
      */
+    @Override
     public void setMax(final Double max) {
         this.fixMax = max;
     }

@@ -25,6 +25,8 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -581,7 +583,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 tfWurzeln.setText("0");
             } else {
                 JOptionPane.showMessageDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Felder gesetzt",
                     "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
                     JOptionPane.INFORMATION_MESSAGE);

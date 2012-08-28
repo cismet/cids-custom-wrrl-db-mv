@@ -53,6 +53,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -644,7 +645,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.envRatingNotPossible.message"), // NOI18N
@@ -664,7 +665,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.longProfileRatingNotPossible.message"), // NOI18N
@@ -684,7 +685,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.courseEvoRatingNotPossible.message"), // NOI18N
@@ -704,7 +705,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.crossProfileRatingNotPossible.message"), // NOI18N
@@ -724,7 +725,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.bedStructureRatingNotPossible.message"), // NOI18N
@@ -744,7 +745,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.bankStructureRatingNotPossible.message"), // NOI18N
@@ -764,7 +765,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.overallRatingNotPossible.message"), // NOI18N
@@ -813,7 +814,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             }
 
             JOptionPane.showMessageDialog(
-                FgskKartierabschnittEditor.this,
+                StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                 NbBundle.getMessage(
                     FgskKartierabschnittEditor.class,
                     "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.message", // NOI18N
