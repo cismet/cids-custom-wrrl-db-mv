@@ -142,7 +142,7 @@ public class DuplicateGeometryFeatureAction extends AbstractAction implements Co
                     final PureNewFeature pnf = new PureNewFeature(g);
 
                     pnf.setEditable(true);
-                    pnf.setGeometryType(null);
+                    pnf.setGeometryType(PureNewFeature.geomTypes.UNKNOWN);
                     CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(pnf);
                     return null;
                 }
