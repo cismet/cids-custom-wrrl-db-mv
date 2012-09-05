@@ -14,7 +14,6 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -125,7 +124,7 @@ public class MassnahmenComboBox extends ScrollableComboBox {
         }
 
         // Sorts the model using String comparison on the bean's toString()
-        Collections.sort(cbv, beanToStringComparator);
+        Collections.sort(cbv, BEAN_TOSTRING_COMPARATOR);
         return new DefaultComboBoxModel(cbv.toArray());
     }
 
