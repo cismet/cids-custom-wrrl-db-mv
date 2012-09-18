@@ -49,8 +49,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.wfsforms.AbstractWFSForm;
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 import de.cismet.cismap.commons.wfsforms.WFSFormQuery;
-import de.cismet.tools.gui.StaticSwingTools;
 
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /**
@@ -398,16 +398,16 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtSearchInputMethodTextChanged(final java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtSearchInputMethodTextChanged
+    private void txtSearchInputMethodTextChanged(final java.awt.event.InputMethodEvent evt) { //GEN-FIRST:event_txtSearchInputMethodTextChanged
         log.fatal("kik");                                                                     // NOI18N
-    }//GEN-LAST:event_txtSearchInputMethodTextChanged
+    }                                                                                         //GEN-LAST:event_txtSearchInputMethodTextChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkVisualizeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVisualizeActionPerformed
+    private void chkVisualizeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkVisualizeActionPerformed
 //        MappingComponent mc = getMappingComponent();
 //        if (mc == null) {
 //            mc = CismapBroker.getInstance().getMappingComponent();
@@ -416,14 +416,14 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         if (gemeinde != null) {
             visualizePosition(gemeinde, chkVisualize.isSelected());
         }
-    }//GEN-LAST:event_chkVisualizeActionPerformed
+    } //GEN-LAST:event_chkVisualizeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
         final boolean history = true;
         MappingComponent mc = getMappingComponent();
         if (mc == null) {
@@ -439,21 +439,21 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         }
         mc.gotoBoundingBox(bb, history, scaling, animation);
         chkVisualizeActionPerformed(null);
-    }//GEN-LAST:event_cmdOkActionPerformed
+    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cboGemeindenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGemeindenActionPerformed
+    private void cboGemeindenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cboGemeindenActionPerformed
         if (log.isDebugEnabled()) {
             log.debug("cboGemeindenActionPerformed()");                              // NOI18N
         }
         if (cboGemeinden.getSelectedItem() instanceof WFSFormFeature) {
             gemeinde = (WFSFormFeature)cboGemeinden.getSelectedItem();
         }
-    }//GEN-LAST:event_cboGemeindenActionPerformed
+    }                                                                                //GEN-LAST:event_cboGemeindenActionPerformed
 
     @Override
     public void actionPerformed(final ActionEvent e) {
