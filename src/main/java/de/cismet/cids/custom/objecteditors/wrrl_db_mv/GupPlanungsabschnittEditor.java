@@ -135,7 +135,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     static {
         // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
         // verhindern
-        MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().lock();
         new Thread(new Runnable() {
 
                 @Override
@@ -163,31 +162,26 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             }).start();
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+        de.cismet.tools.CismetThreadPool.execute(new Runnable() {
 
                 @Override
-                protected MetaObject[] doInBackground() throws Exception {
-                    final String query = "select " + MASSNAHMEN_BEZEICHNUNG.getID() + ", "
-                                + MASSNAHMEN_BEZEICHNUNG.getPrimaryKey()
-                                + " from "
-                                + MASSNAHMEN_BEZEICHNUNG.getTableName();
-
-                    final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-                    return metaObjects;
-                }
-
-                @Override
-                protected void done() {
+                public void run() {
+                    MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().lock();
                     try {
-                        final MetaObject[] res = get();
+                        final String query = "select " + MASSNAHMEN_BEZEICHNUNG.getID() + ", "
+                                    + MASSNAHMEN_BEZEICHNUNG.getPrimaryKey()
+                                    + " from "
+                                    + MASSNAHMEN_BEZEICHNUNG.getTableName();
 
-                        for (final MetaObject mo : res) {
+                        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+                        for (final MetaObject mo : metaObjects) {
                             MASSNAHMEN_BEZEICHNUNGEN.put(mo.getId(), mo.getBean());
                         }
                     } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Massnahmenbezeichnungen", e);
+                        LOG.error("error", e);
                     } finally {
-                        MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().unlock();
+                        MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().lock();
                     }
                 }
             });
