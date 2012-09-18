@@ -113,7 +113,33 @@ public class DuplicateGeometryFeatureAction extends AbstractAction implements Co
 
                 @Override
                 protected Void doInBackground() throws Exception {
-                    final PureNewFeature pnf = new PureNewFeature(f.getGeometry());
+                    Geometry g = f.getGeometry();
+
+                    // shape files can contain polygons, which are not closed. Such polygons must be closed,
+                    // so they will be recognised as polygon.
+                    if (g instanceof Polygon) {
+                        final Coordinate[] coordArr = g.getCoordinates();
+
+                        if (!coordArr[0].equals(coordArr[coordArr.length - 1])) {
+                            final Coordinate[] newCoords = new Coordinate[coordArr.length + 1];
+
+                            for (int n = 0; n < coordArr.length; ++n) {
+                                newCoords[n] = coordArr[n];
+                            }
+
+                            newCoords[coordArr.length] = coordArr[0];
+                            try {
+                                g = g.getFactory()
+                                            .createPolygon(
+                                                    g.getFactory().createLinearRing(newCoords),
+                                                    new LinearRing[0]);
+                            } catch (Throwable e) {
+                                log.error("Error while fixing a polygon.", e);
+                            }
+                        }
+                    }
+
+                    final PureNewFeature pnf = new PureNewFeature(g);
 
                     pnf.setEditable(true);
                     pnf.setGeometryType(PureNewFeature.geomTypes.UNKNOWN);
