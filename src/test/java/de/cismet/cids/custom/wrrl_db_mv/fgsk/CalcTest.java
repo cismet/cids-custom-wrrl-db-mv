@@ -2787,6 +2787,11 @@ public class CalcTest {
             public FromStringCreator getObjectCreator() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+
+            @Override
+            public boolean hasObjectWritePermission(User user) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         }
     }
 }
