@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
@@ -245,6 +245,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelOrth">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -388,6 +389,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelAmm">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -492,6 +494,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelGesN">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -635,6 +638,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelPhos">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -739,6 +743,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelNit">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -882,6 +887,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelChlor">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
@@ -965,6 +971,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMittelO2">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkFgPanSix.lblMittel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>

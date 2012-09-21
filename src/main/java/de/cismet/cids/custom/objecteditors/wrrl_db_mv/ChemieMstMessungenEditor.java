@@ -355,7 +355,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -517,6 +517,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panOrtho.add(lblOWertOrth, gridBagConstraints);
 
+        lblMittelOrth.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -638,6 +639,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAmm.add(lblOWertAmm, gridBagConstraints);
 
+        lblMittelAmm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -726,6 +728,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panGesN.add(lblGkLawaGesN, gridBagConstraints);
 
+        lblMittelGesN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -847,6 +850,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPhos.add(lblOWertPhos, gridBagConstraints);
 
+        lblMittelPhos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -935,6 +939,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNit.add(lblGkLawaNit, gridBagConstraints);
 
+        lblMittelNit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelNit.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -1057,6 +1062,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panChlor.add(lblOWertChlor, gridBagConstraints);
 
+        lblMittelChlor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -1124,6 +1130,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panO2.add(lblOWertO2, gridBagConstraints);
 
+        lblMittelO2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
