@@ -1539,6 +1539,10 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * @param  pe   DOCUMENT ME!
      */
     public static void setColorOfField(final JLabel mit, final JLabel ow, final JLabel pe) {
+        if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
+            mit.setOpaque(false);
+            mit.repaint();
+        }
         try {
             final double mitD = Double.parseDouble(mit.getText());
             double oD = Double.MAX_VALUE;
