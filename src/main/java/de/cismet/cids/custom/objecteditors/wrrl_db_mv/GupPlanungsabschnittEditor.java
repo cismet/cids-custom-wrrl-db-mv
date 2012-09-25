@@ -181,7 +181,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     } catch (Exception e) {
                         LOG.error("error", e);
                     } finally {
-                        MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().lock();
+                        MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().unlock();
                     }
                 }
             });
