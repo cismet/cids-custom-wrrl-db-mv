@@ -46,7 +46,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class GupLosEditor_1 extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -59,17 +59,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton jbMove;
+    private javax.swing.JList jlObjectList;
     private javax.swing.JList jlObjectList1;
     private javax.swing.JList jlObjectList2;
     private javax.swing.JScrollPane jsGupList;
+    private javax.swing.JScrollPane jsMassnahmenList;
     private javax.swing.JScrollPane jsMassnahmenabschnittList;
     private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblBezeichnung;
@@ -85,7 +82,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupLosEditor() {
+    public GupLosEditor_1() {
         this(false);
     }
 
@@ -94,7 +91,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupLosEditor(final boolean readOnly) {
+    public GupLosEditor_1(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
 
@@ -112,37 +109,105 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        lblMassnahmen = new javax.swing.JLabel();
+        lblBemerkungen = new javax.swing.JLabel();
+        jsMassnahmenList = new javax.swing.JScrollPane();
+        jlObjectList = new javax.swing.JList();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        teBemerkungHinweise = new javax.swing.JTextArea();
         lblMassnahmenabschnitte = new javax.swing.JLabel();
         jsMassnahmenabschnittList = new javax.swing.JScrollPane();
         jlObjectList1 = new javax.swing.JList();
         jsGupList = new javax.swing.JScrollPane();
         jlObjectList2 = new javax.swing.JList();
         lblGups = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        lblMassnahmen = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jbMove = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jPanel2 = new javax.swing.JPanel();
-        lblBemerkungen = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        teBemerkungHinweise = new javax.swing.JTextArea();
-        jPanel3 = new javax.swing.JPanel();
         lblBezeichnung = new javax.swing.JLabel();
         txtGewaessername = new javax.swing.JTextField();
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
 
-        lblMassnahmenabschnitte.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblMassnahmenabschnitte.text")); // NOI18N
+        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblMassnahmen.text")); // NOI18N
+        lblMassnahmen.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblMassnahmen.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblMassnahmen.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
+        add(lblMassnahmen, gridBagConstraints);
+
+        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblBemerkungen.text")); // NOI18N
+        lblBemerkungen.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBemerkungen.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBemerkungen.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
+        add(lblBemerkungen, gridBagConstraints);
+
+        jsMassnahmenList.setPreferredSize(new java.awt.Dimension(300, 154));
+
+        jlObjectList.setModel(new javax.swing.AbstractListModel() {
+
+                String[] strings = { "Mähboot", "Gehölzpflege", "Krautung" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public Object getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+        jsMassnahmenList.setViewportView(jlObjectList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
+        add(jsMassnahmenList, gridBagConstraints);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 154));
+
+        teBemerkungHinweise.setColumns(20);
+        teBemerkungHinweise.setRows(5);
+        jScrollPane1.setViewportView(teBemerkungHinweise);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 25);
+        add(jScrollPane1, gridBagConstraints);
+
+        lblMassnahmenabschnitte.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblMassnahmenabschnitte.text")); // NOI18N
         lblMassnahmenabschnitte.setMaximumSize(new java.awt.Dimension(230, 17));
         lblMassnahmenabschnitte.setMinimumSize(new java.awt.Dimension(230, 17));
         lblMassnahmenabschnitte.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
@@ -151,36 +216,51 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jsMassnahmenabschnittList.setPreferredSize(new java.awt.Dimension(300, 154));
 
         jlObjectList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Alle Einheiten", "Einheit 1", "Einheit 2", " " };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+
+                String[] strings = { "Abschnitt 1", "Abschnitt 2", " " };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public Object getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
         jsMassnahmenabschnittList.setViewportView(jlObjectList1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 15);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(jsMassnahmenabschnittList, gridBagConstraints);
 
         jsGupList.setPreferredSize(new java.awt.Dimension(300, 154));
 
         jlObjectList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "GUP 1", "GUP 2" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+
+                String[] strings = { "GUP 1", "GUP 2" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public Object getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
         jsGupList.setViewportView(jlObjectList2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 15);
         add(jsGupList, gridBagConstraints);
@@ -190,143 +270,28 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblGups.setMinimumSize(new java.awt.Dimension(230, 17));
         lblGups.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(lblGups, gridBagConstraints);
-
-        jScrollPane2.setOpaque(false);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "Böschungsmahd  mit Balkenmäher", "2012", "jährlich", "15.Juli", null, null, "aufnehmen"},
-                {null, "Böschungsmahd  mit Balkenmäher", "2012", "alle 2 Jahre", "15.Juli", "15.August", null, "aufnehmen"},
-                {null, "Sohlkrautung  mit Mähboot", "2012", "jährlich", "15.Juli", null, null, null},
-                {null, "Sohlkrautung mit Mähkorb", "2012", "jährlich", "15.Juli", null, null, null}
-            },
-            new String [] {
-                "", "Maßnahme", "Jahr", "Intervall", "1. Zeitpunkt", "2. Zeitpunkt", "Hinweise", "Verbleib des Materials"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jTable1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
-        add(jScrollPane2, gridBagConstraints);
-
-        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblMassnahmen.text")); // NOI18N
-        lblMassnahmen.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblMassnahmen.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblMassnahmen.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
-        add(lblMassnahmen, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jbMove.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.jbMove.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel1.add(jbMove, gridBagConstraints);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Los 2", "Los 3" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 15);
-        jPanel1.add(jComboBox1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        add(jPanel1, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblBemerkungen.text")); // NOI18N
-        lblBemerkungen.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblBemerkungen.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblBemerkungen.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 15);
-        jPanel2.add(lblBemerkungen, gridBagConstraints);
-
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(300, 50));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(300, 50));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 50));
-
-        teBemerkungHinweise.setColumns(20);
-        teBemerkungHinweise.setRows(2);
-        jScrollPane1.setViewportView(teBemerkungHinweise);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 15);
-        jPanel2.add(jScrollPane1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        add(jPanel2, gridBagConstraints);
-
-        jPanel3.setOpaque(false);
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-
-        lblBezeichnung.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblBezeichnung.text")); // NOI18N
+        lblBezeichnung.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblBezeichnung.text")); // NOI18N
         lblBezeichnung.setMaximumSize(new java.awt.Dimension(150, 17));
         lblBezeichnung.setMinimumSize(new java.awt.Dimension(150, 17));
         lblBezeichnung.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 15);
-        jPanel3.add(lblBezeichnung, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(25, 0, 5, 0);
+        jPanel1.add(lblBezeichnung, gridBagConstraints);
 
         txtGewaessername.setMaximumSize(new java.awt.Dimension(180, 20));
         txtGewaessername.setMinimumSize(new java.awt.Dimension(180, 20));
@@ -337,21 +302,27 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 15);
-        jPanel3.add(txtGewaessername, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 0);
+        jPanel1.add(txtGewaessername, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 15);
+        add(jPanel1, gridBagConstraints);
+
+        glassPanel.setAlpha(0);
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        add(jPanel3, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-
-    }//GEN-LAST:event_jTable1MouseClicked
+        add(glassPanel, gridBagConstraints);
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -378,7 +349,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  readOnly  DOCUMENT ME!
      */
     public void setReadOnly(final boolean readOnly) {
-
+        if (readOnly) {
+            glassPanel.addMouseListener(new MouseAdapter() {
+                });
+        } else {
+            for (final MouseListener ml : glassPanel.getMouseListeners()) {
+                glassPanel.removeMouseListener(ml);
+            }
+        }
     }
 
     @Override
