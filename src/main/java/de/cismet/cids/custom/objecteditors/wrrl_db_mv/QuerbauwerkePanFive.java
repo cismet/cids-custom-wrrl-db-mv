@@ -90,7 +90,13 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
     public QuerbauwerkePanFive() {
         initComponents();
 
-        new CidsBeanDropTarget(jLabel4);
+        try {
+            new CidsBeanDropTarget(jLabel4);
+        } catch (final Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+            }
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
