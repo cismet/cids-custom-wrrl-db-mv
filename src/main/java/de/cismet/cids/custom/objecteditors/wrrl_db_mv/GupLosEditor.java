@@ -13,6 +13,8 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 
 import Sirius.server.search.CidsServerSearch;
 
@@ -27,9 +29,11 @@ import java.util.Collection;
 import java.util.List;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WbvSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -37,8 +41,11 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 
 /**
  * DOCUMENT ME!
@@ -52,23 +59,26 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupLosEditor.class);
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "GUP_UNTERHALTUNGSABSCHNITT");
+    private static final String QUERY = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName()
+            + " m WHERE m.los = %1$s";
+    private List<CidsBean> massnahmen;
+    private List<CidsBean> gups;
+    private List<CidsBean> planungsabschnitte;
+
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private boolean initialised = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton jbMove;
-    private javax.swing.JList jlObjectList1;
-    private javax.swing.JList jlObjectList2;
     private javax.swing.JScrollPane jsGupList;
     private javax.swing.JScrollPane jsMassnahmenabschnittList;
     private javax.swing.JLabel lblBemerkungen;
@@ -76,8 +86,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblGups;
     private javax.swing.JLabel lblMassnahmen;
     private javax.swing.JLabel lblMassnahmenabschnitte;
+    private javax.swing.JList liGup;
+    private javax.swing.JList liPlan;
     private javax.swing.JTextArea teBemerkungHinweise;
-    private javax.swing.JTextField txtGewaessername;
+    private javax.swing.JTextField txtBezeichnung;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -111,26 +124,24 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblMassnahmenabschnitte = new javax.swing.JLabel();
         jsMassnahmenabschnittList = new javax.swing.JScrollPane();
-        jlObjectList1 = new javax.swing.JList();
+        liPlan = new javax.swing.JList();
         jsGupList = new javax.swing.JScrollPane();
-        jlObjectList2 = new javax.swing.JList();
+        liGup = new javax.swing.JList();
         lblGups = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         lblMassnahmen = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jbMove = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         lblBemerkungen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         teBemerkungHinweise = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         lblBezeichnung = new javax.swing.JLabel();
-        txtGewaessername = new javax.swing.JTextField();
+        txtBezeichnung = new javax.swing.JTextField();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 500));
@@ -149,13 +160,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         add(lblMassnahmenabschnitte, gridBagConstraints);
 
         jsMassnahmenabschnittList.setPreferredSize(new java.awt.Dimension(300, 154));
-
-        jlObjectList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Alle Einheiten", "Einheit 1", "Einheit 2", " " };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jsMassnahmenabschnittList.setViewportView(jlObjectList1);
+        jsMassnahmenabschnittList.setViewportView(liPlan);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -167,13 +172,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         add(jsMassnahmenabschnittList, gridBagConstraints);
 
         jsGupList.setPreferredSize(new java.awt.Dimension(300, 154));
-
-        jlObjectList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "GUP 1", "GUP 2" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jsGupList.setViewportView(jlObjectList2);
+        jsGupList.setViewportView(liGup);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -247,34 +246,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(lblMassnahmen, gridBagConstraints);
 
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        jbMove.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.jbMove.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel1.add(jbMove, gridBagConstraints);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Los 2", "Los 3" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 15);
-        jPanel1.add(jComboBox1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        add(jPanel1, gridBagConstraints);
-
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -296,6 +267,10 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         teBemerkungHinweise.setColumns(20);
         teBemerkungHinweise.setRows(2);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), teBemerkungHinweise, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jScrollPane1.setViewportView(teBemerkungHinweise);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -328,9 +303,13 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 15);
         jPanel3.add(lblBezeichnung, gridBagConstraints);
 
-        txtGewaessername.setMaximumSize(new java.awt.Dimension(180, 20));
-        txtGewaessername.setMinimumSize(new java.awt.Dimension(180, 20));
-        txtGewaessername.setPreferredSize(new java.awt.Dimension(180, 20));
+        txtBezeichnung.setMaximumSize(new java.awt.Dimension(180, 20));
+        txtBezeichnung.setMinimumSize(new java.awt.Dimension(180, 20));
+        txtBezeichnung.setPreferredSize(new java.awt.Dimension(180, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bezeichnung}"), txtBezeichnung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -339,7 +318,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 15);
-        jPanel3.add(txtGewaessername, gridBagConstraints);
+        jPanel3.add(txtBezeichnung, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -347,6 +326,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         add(jPanel3, gridBagConstraints);
+
+        bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -360,30 +341,61 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//        bindingGroup.unbind();
-//        this.cidsBean = cidsBean;
-//
-//        if (cidsBean != null) {
-//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-//                bindingGroup,
-//                cidsBean);
-//            bindingGroup.bind();
-//
-//        }
+        bindingGroup.unbind();
+        this.cidsBean = cidsBean;
+
+        if (cidsBean != null) {
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                cidsBean);
+            bindingGroup.bind();
+        }
     }
 
+    
+    private void loadData() {
+        String query = String.format(QUERY, cidsBean.getProperty("id").toString());
+        
+        try {
+            MetaObject[] massnBeans = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            
+            massnahmen = new ArrayList<CidsBean>();
+            gups = new ArrayList<CidsBean>();
+            planungsabschnitte = new ArrayList<CidsBean>();
+            
+            for (MetaObject mo : massnBeans) {
+                massnahmen.add(mo.getBean());
+                CidsBean plan = (CidsBean)mo.getBean().getProperty("planungsabschnitt");
+                
+                if (!planungsabschnitte.contains(plan)) {
+                    planungsabschnitte.add(plan);
+                    CidsBean gup = (CidsBean)plan.getProperty("gup");
+                    if (!gups.contains(gup)) {
+                        gups.add(gup);
+                    }
+                }
+            }
+            
+            liGup.setModel(new CidsBeanModel(gups));
+        } catch (Exception e) {
+            LOG.error("Error while trying to receive the underlying data.", e);
+        }
+    }
+    
+    
     /**
      * DOCUMENT ME!
      *
      * @param  readOnly  DOCUMENT ME!
      */
     public void setReadOnly(final boolean readOnly) {
-
+        RendererTools.makeReadOnly(txtBezeichnung);
+        RendererTools.makeReadOnly(teBemerkungHinweise);
     }
 
     @Override
     public void dispose() {
-//        bindingGroup.unbind();
+        bindingGroup.unbind();
     }
 
     @Override
@@ -421,5 +433,37 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             1,
             1280,
             1024);
+    }
+    
+    
+    private class CidsBeanModel implements ListModel {
+        private List beans;
+        private List<ListDataListener> listener = new ArrayList<ListDataListener>();
+        
+        public CidsBeanModel(List beans) {
+            this.beans = beans;
+        }
+        
+        
+        @Override
+        public int getSize() {
+            return beans.size();
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return beans.get(index);
+        }
+
+        @Override
+        public void addListDataListener(ListDataListener l) {
+            listener.add(l);
+            
+        }
+
+        @Override
+        public void removeListDataListener(ListDataListener l) {
+            listener.remove(l);
+        }
     }
 }
