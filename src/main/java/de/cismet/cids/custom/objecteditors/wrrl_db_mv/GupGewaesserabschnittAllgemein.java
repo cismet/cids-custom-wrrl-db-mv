@@ -40,6 +40,7 @@ import javax.swing.SwingWorker;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 
@@ -116,6 +117,11 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
     public GupGewaesserabschnittAllgemein(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+        
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtGewaessername);
+            jpDelete.setEnabled(readOnly);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -304,7 +310,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
+    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpDeleteActionPerformed
         if (readOnly) {
             return;
         }
@@ -314,16 +320,16 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         for (final int index : selection) {
             ((DocumentDropList)jlObjectList).removeObject(index - (count++));
         }
-    } //GEN-LAST:event_jpDeleteActionPerformed
+    }//GEN-LAST:event_jpDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
+    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDownloadActionPerformed
         ((DocumentDropList)jlObjectList).downloadSelectedDocs();
-    }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
+    }//GEN-LAST:event_jbDownloadActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -380,14 +386,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
             });
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  readOnly  DOCUMENT ME!
-     */
-    public void setReadOnly(final boolean readOnly) {
-        this.readOnly = readOnly;
-    }
 
     @Override
     public void dispose() {

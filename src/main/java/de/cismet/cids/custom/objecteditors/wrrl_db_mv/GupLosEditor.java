@@ -13,9 +13,9 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-
 import Sirius.server.search.CidsServerSearch;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -28,9 +28,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.cismet.cids.client.tools.DevelopmentTools;
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import javax.swing.JList;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
+import de.cismet.cids.client.tools.DevelopmentTools;
+
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WbvSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
@@ -41,11 +46,17 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropListenerComponent;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
+
+import de.cismet.tools.CismetThreadPool;
+import java.awt.Component;
+import javax.swing.*;
 
 /**
  * DOCUMENT ME!
@@ -59,15 +70,20 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupLosEditor.class);
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "GUP_UNTERHALTUNGSABSCHNITT");
-    private static final String QUERY = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName()
-            + " m WHERE m.los = %1$s";
+    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "GUP_UNTERHALTUNGSMASSNAHME");
+    private static final String QUERY = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from "
+                + MC.getTableName()
+                + " m WHERE m.los = %1$s";
+
+    //~ Instance fields --------------------------------------------------------
+
     private List<CidsBean> massnahmen;
     private List<CidsBean> gups;
     private List<CidsBean> planungsabschnitte;
 
-
-    //~ Instance fields --------------------------------------------------------
+    private List<CidsBean> massnToAdd = new ArrayList<CidsBean>();
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
@@ -111,7 +127,18 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         this.readOnly = readOnly;
         initComponents();
 
-        setReadOnly(readOnly);
+        if (readOnly) {
+            setReadOnly();
+        } else {
+            try {
+                new CidsBeanDropTarget(liGup);
+                new CidsBeanDropTarget(liPlan);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
+            }
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -128,12 +155,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         lblMassnahmenabschnitte = new javax.swing.JLabel();
         jsMassnahmenabschnittList = new javax.swing.JScrollPane();
-        liPlan = new javax.swing.JList();
+        liPlan = new PlanungsabschnittList();
         jsGupList = new javax.swing.JScrollPane();
-        liGup = new javax.swing.JList();
+        liGup = new GupList();
         lblGups = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new MassnahmenTable();
         lblMassnahmen = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblBemerkungen = new javax.swing.JLabel();
@@ -160,6 +187,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         add(lblMassnahmenabschnitte, gridBagConstraints);
 
         jsMassnahmenabschnittList.setPreferredSize(new java.awt.Dimension(300, 154));
+
+        liPlan.setCellRenderer(new PlanungsabschnittListCellRenderer());
         jsMassnahmenabschnittList.setViewportView(liPlan);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -330,8 +359,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jTable1MouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
     }//GEN-LAST:event_jTable1MouseClicked
 
     @Override
@@ -349,52 +382,62 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+
+            CismetThreadPool.execute(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        loadData();
+                    }
+                });
         }
     }
 
-    
+    /**
+     * DOCUMENT ME!
+     */
     private void loadData() {
-        String query = String.format(QUERY, cidsBean.getProperty("id").toString());
-        
+        final String query = String.format(QUERY, cidsBean.getProperty("id").toString());
+
         try {
-            MetaObject[] massnBeans = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            
+            final MetaObject[] massnBeans = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
             massnahmen = new ArrayList<CidsBean>();
             gups = new ArrayList<CidsBean>();
             planungsabschnitte = new ArrayList<CidsBean>();
-            
-            for (MetaObject mo : massnBeans) {
+
+            for (final MetaObject mo : massnBeans) {
                 massnahmen.add(mo.getBean());
-                CidsBean plan = (CidsBean)mo.getBean().getProperty("planungsabschnitt");
-                
+                final CidsBean plan = (CidsBean)mo.getBean().getProperty("planungsabschnitt");
+
                 if (!planungsabschnitte.contains(plan)) {
                     planungsabschnitte.add(plan);
-                    CidsBean gup = (CidsBean)plan.getProperty("gup");
+                    final CidsBean gup = (CidsBean)plan.getProperty("gup");
                     if (!gups.contains(gup)) {
                         gups.add(gup);
                     }
                 }
             }
-            
+
             liGup.setModel(new CidsBeanModel(gups));
+            liPlan.setModel(new CidsBeanModel(planungsabschnitte));
+            initialised = true;
         } catch (Exception e) {
             LOG.error("Error while trying to receive the underlying data.", e);
         }
     }
-    
-    
+
     /**
      * DOCUMENT ME!
-     *
-     * @param  readOnly  DOCUMENT ME!
      */
-    public void setReadOnly(final boolean readOnly) {
+    public void setReadOnly() {
         RendererTools.makeReadOnly(txtBezeichnung);
         RendererTools.makeReadOnly(teBemerkungHinweise);
     }
 
     @Override
     public void dispose() {
+        initialised = false;
         bindingGroup.unbind();
     }
 
@@ -413,6 +456,21 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public boolean prepareForSave() {
+        final Object id = cidsBean.getProperty("id");
+
+        while (massnToAdd.size() > 0) {
+            final CidsBean bean = massnToAdd.get(0);
+            try {
+                bean.setProperty("los", cidsBean);
+                bean.persist();
+                massnToAdd.remove(0);
+            } catch (Exception e) {
+                LOG.error("Error while saving a los object.", e);
+
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -434,36 +492,184 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             1280,
             1024);
     }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class GupList extends JList implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class PlanungsabschnittList extends JList implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            if (readOnly || !initialised) {
+                // ignore the drop action
+                return;
+            }
+
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_planungsabschnitt")) {
+                    if (!planungsabschnitte.contains(bean)) {
+                        ((CidsBeanModel)liPlan.getModel()).add(bean);
+                    }
+                    final List<CidsBean> massnBeans = CidsBeanSupport.getBeanCollectionFromProperty(bean, "massnahmen");
+
+                    if (massnBeans != null) {
+                        for (final CidsBean tmp : massnBeans) {
+                            if (!massnahmen.contains(tmp)) {
+                                massnahmen.add(tmp);
+                                massnToAdd.add(tmp);
+                                cidsBean.setArtificialChangeFlag(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     
+    private class MassnahmenTable extends JTable implements CidsBeanDropListener {
+
+        @Override
+        public void beansDropped(ArrayList<CidsBean> beans) {
+            if (readOnly || !initialised) {
+                // ignore the drop action
+                return;
+            }
+
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")) {
+                    if (!massnahmen.contains(bean)) {
+                        massnahmen.add(bean);
+                        massnToAdd.add(bean);
+                        cidsBean.setArtificialChangeFlag(true);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class PlanungsabschnittListCellRenderer extends DefaultListCellRenderer {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public Component getListCellRendererComponent(final JList list,
+                final Object value,
+                final int index,
+                final boolean isSelected,
+                final boolean cellHasFocus) {
+            final Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            
+            if ((result instanceof JLabel) && (value instanceof CidsBean)) {
+                final CidsBean bean = (CidsBean)value;
+                final String routenname = String.valueOf( bean.getProperty("linie.von.route.routenname") );
+                final String von = String.valueOf(bean.getProperty("linie.von.wert"));
+                final String bis = String.valueOf(bean.getProperty("linie.von.route.routenname"));
+                
+
+                final String text = routenname + " " + von + " - " + bis;
+                ((JLabel)result).setText(text);
+            }
+
+            return result;
+        }
+    }    
     
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
     private class CidsBeanModel implements ListModel {
+
+        //~ Instance fields ----------------------------------------------------
+
         private List beans;
         private List<ListDataListener> listener = new ArrayList<ListDataListener>();
-        
-        public CidsBeanModel(List beans) {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new CidsBeanModel object.
+         *
+         * @param  beans  DOCUMENT ME!
+         */
+        public CidsBeanModel(final List beans) {
             this.beans = beans;
         }
-        
-        
+
+        //~ Methods ------------------------------------------------------------
+
         @Override
         public int getSize() {
             return beans.size();
         }
 
         @Override
-        public Object getElementAt(int index) {
+        public Object getElementAt(final int index) {
             return beans.get(index);
         }
 
         @Override
-        public void addListDataListener(ListDataListener l) {
+        public void addListDataListener(final ListDataListener l) {
             listener.add(l);
-            
         }
 
         @Override
-        public void removeListDataListener(ListDataListener l) {
+        public void removeListDataListener(final ListDataListener l) {
             listener.remove(l);
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        private void fireIntervalAdded() {
+            final ListDataEvent e = new ListDataEvent(
+                    this,
+                    ListDataEvent.INTERVAL_ADDED,
+                    beans.size()
+                            - 1,
+                    beans.size()
+                            - 1);
+
+            for (final ListDataListener tmp : listener) {
+                tmp.intervalAdded(e);
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  bean  DOCUMENT ME!
+         */
+        public void add(final CidsBean bean) {
+            beans.add(bean);
+
+            fireIntervalAdded();
         }
     }
 }
