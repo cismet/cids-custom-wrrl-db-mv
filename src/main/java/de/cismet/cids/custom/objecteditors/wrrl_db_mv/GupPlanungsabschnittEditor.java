@@ -111,15 +111,11 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             GupPlanungsabschnittEditor.class);
     private static final String GUP_MASSNAHME = "gup_unterhaltungsmassnahme";
     private static final String VERMESSUNG = "vermessung_band_element";
-    private static final int GUP_MASSNAHME_UFER_LINKS = 2;
-    private static final int GUP_MASSNAHME_UFER_RECHTS = 1;
-    private static final int GUP_MASSNAHME_UMFELD_RECHTS = 4;
-    private static final int GUP_MASSNAHME_UMFELD_LINKS = 3;
-    private static final int GUP_MASSNAHME_SOHLE = 5;
-    private static HashMap<Integer, CidsBean> MASSNAHMEN_BEZEICHNUNGEN = new HashMap<Integer, CidsBean>();
-    private static final MetaClass MASSNAHMEN_BEZEICHNUNG = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            "GUP_MASSNAHMENBEZUG");
+    public static final int GUP_MASSNAHME_UFER_LINKS = 2;
+    public static final int GUP_MASSNAHME_UFER_RECHTS = 1;
+    public static final int GUP_MASSNAHME_UMFELD_RECHTS = 4;
+    public static final int GUP_MASSNAHME_UMFELD_LINKS = 3;
+    public static final int GUP_MASSNAHME_SOHLE = 5;
     private static CalculationCache<List, ArrayList<ArrayList>> naturschutzCache =
         new CalculationCache<List, ArrayList<ArrayList>>(new NaturschutzCalculator());
     private static CalculationCache<List, MetaObject[]> umlandCache = new CalculationCache<List, MetaObject[]>(
@@ -130,7 +126,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         new CalculationCache<List, ArrayList<ArrayList>>(new QuerbauwerkeCalculator());
     private static CalculationCache<List, MetaObject[]> unterhaltungserfordernisCache =
         new CalculationCache<List, MetaObject[]>(new UnterhaltungserfordernisCalculator());
-    private static final transient ReentrantReadWriteLock MASSNAHMEN_BEZEICHNUNG_LOCK = new ReentrantReadWriteLock();
 
     static {
         // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
@@ -161,30 +156,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     }
                 }
             }).start();
-
-        de.cismet.tools.CismetThreadPool.execute(new Runnable() {
-
-                @Override
-                public void run() {
-                    MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().lock();
-                    try {
-                        final String query = "select " + MASSNAHMEN_BEZEICHNUNG.getID() + ", "
-                                    + MASSNAHMEN_BEZEICHNUNG.getPrimaryKey()
-                                    + " from "
-                                    + MASSNAHMEN_BEZEICHNUNG.getTableName();
-
-                        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                        for (final MetaObject mo : metaObjects) {
-                            MASSNAHMEN_BEZEICHNUNGEN.put(mo.getId(), mo.getBean());
-                        }
-                    } catch (Exception e) {
-                        LOG.error("error", e);
-                    } finally {
-                        MASSNAHMEN_BEZEICHNUNG_LOCK.writeLock().unlock();
-                    }
-                }
-            });
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -437,7 +408,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 final DefaultMetaTreeNode dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getCatalogueTree()
                             .getSelectedNode();
                 final ObjectTreeNode node = (ObjectTreeNode)dmtn.getParent();
-                final long gup_id = node.getMetaObject().getId();
 
                 try {
                     cidsBean.setProperty("gup", node.getMetaObject().getBean());
@@ -529,21 +499,33 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             }
         }
 
+        // Massnahmen extrahieren
         rechtesUferList = ObservableCollections.observableList(rechtesUferList);
         linkesUferList = ObservableCollections.observableList(linkesUferList);
         sohleList = ObservableCollections.observableList(sohleList);
         rechtesUmfeldList = ObservableCollections.observableList(rechtesUmfeldList);
         linkesUmfeldList = ObservableCollections.observableList(linkesUmfeldList);
 
-        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new CustomListListener(
-                GUP_MASSNAHME_UFER_RECHTS));
-        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new CustomListListener(
-                GUP_MASSNAHME_UFER_LINKS));
-        ((ObservableList<CidsBean>)rechtesUmfeldList).addObservableListListener(new CustomListListener(
-                GUP_MASSNAHME_UMFELD_RECHTS));
-        ((ObservableList<CidsBean>)linkesUmfeldList).addObservableListListener(new CustomListListener(
-                GUP_MASSNAHME_UMFELD_LINKS));
-        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new CustomListListener(GUP_MASSNAHME_SOHLE));
+        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
+                GUP_MASSNAHME_UFER_RECHTS,
+                cidsBean,
+                "massnahmen"));
+        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
+                GUP_MASSNAHME_UFER_LINKS,
+                cidsBean,
+                "massnahmen"));
+        ((ObservableList<CidsBean>)rechtesUmfeldList).addObservableListListener(new MassnBezugListListener(
+                GUP_MASSNAHME_UMFELD_RECHTS,
+                cidsBean,
+                "massnahmen"));
+        ((ObservableList<CidsBean>)linkesUmfeldList).addObservableListListener(new MassnBezugListListener(
+                GUP_MASSNAHME_UMFELD_LINKS,
+                cidsBean,
+                "massnahmen"));
+        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
+                GUP_MASSNAHME_SOHLE,
+                cidsBean,
+                "massnahmen"));
 
         rechtesUferBand.setCidsBeans(rechtesUferList);
         sohleBand.setCidsBeans(sohleList);
@@ -1796,92 +1778,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     }
 
     //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class CustomListListener implements ObservableListListener {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private int kindId;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new CustomListListener object.
-         *
-         * @param  kindId  DOCUMENT ME!
-         */
-        public CustomListListener(final int kindId) {
-            this.kindId = kindId;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public void listElementsAdded(final ObservableList list, final int index, final int length) {
-            if (length == 1) {
-                final List<CidsBean> all = cidsBean.getBeanCollectionProperty("massnahmen");
-
-                all.add((CidsBean)list.get(index));
-
-                try {
-                    de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<CidsBean, Void>() {
-
-                            @Override
-                            protected CidsBean doInBackground() throws Exception {
-                                CidsBean res = null;
-                                MASSNAHMEN_BEZEICHNUNG_LOCK.readLock().lock();
-                                try {
-                                    res = MASSNAHMEN_BEZEICHNUNGEN.get(kindId);
-                                } finally {
-                                    MASSNAHMEN_BEZEICHNUNG_LOCK.readLock().unlock();
-                                }
-                                return res;
-                            }
-
-                            @Override
-                            protected void done() {
-                                try {
-                                    final CidsBean kind = get();
-                                    if (kind != null) {
-                                        ((CidsBean)list.get(index)).setProperty("wo", kind);
-                                    } else {
-                                        LOG.error("Massnahmenbezeichnung whith id " + kindId + " does not exist.");
-                                    }
-                                } catch (Exception e) {
-                                    LOG.error("Problem beim Suchen der Massnahmenbezeichnungen", e);
-                                }
-                            }
-                        });
-                } catch (Exception e) {
-                    LOG.error("Cannot set the wo attribute of an object of the type massnahme.", e);
-                }
-            } else {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        }
-
-        @Override
-        public void listElementsRemoved(final ObservableList list, final int index, final List oldElements) {
-            final List<CidsBean> all = cidsBean.getBeanCollectionProperty("massnahmen");
-
-            all.remove((CidsBean)list.get(index));
-        }
-
-        @Override
-        public void listElementReplaced(final ObservableList list, final int index, final Object oldElement) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void listElementPropertyChanged(final ObservableList list, final int index) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    }
 
     /**
      * DOCUMENT ME!

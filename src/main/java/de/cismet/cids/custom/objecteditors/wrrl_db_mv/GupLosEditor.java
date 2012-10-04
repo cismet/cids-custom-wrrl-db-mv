@@ -13,33 +13,37 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
-
+import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
+import java.awt.Toolkit;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.*;
 import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+import javax.swing.tree.TreePath;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WbvSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -48,15 +52,18 @@ import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
-import de.cismet.cids.navigator.utils.CidsBeanDropListenerComponent;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.CalculationCache;
+import de.cismet.tools.Calculator;
 import de.cismet.tools.CismetThreadPool;
-import java.awt.Component;
-import javax.swing.*;
+
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.TitleComponentProvider;
+import de.cismet.tools.gui.WaitDialog;
 
 /**
  * DOCUMENT ME!
@@ -64,37 +71,37 @@ import javax.swing.*;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    TitleComponentProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupLosEditor.class);
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            "GUP_UNTERHALTUNGSMASSNAHME");
-    private static final String QUERY = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from "
-                + MC.getTableName()
-                + " m WHERE m.los = %1$s";
+    private static CalculationCache<List, ArrayList<ArrayList>> massnCache =
+        new CalculationCache<List, ArrayList<ArrayList>>(
+            new GupLosEditor.MassnCalculator());
 
     //~ Instance fields --------------------------------------------------------
 
-    private List<CidsBean> massnahmen;
-    private List<CidsBean> gups;
-    private List<CidsBean> planungsabschnitte;
-
+    private List<String> gups;
+    private List<String> planungsabschnitte;
     private List<CidsBean> massnToAdd = new ArrayList<CidsBean>();
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private boolean initialised = false;
+    private TreePath treePath;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JScrollPane jsGupList;
     private javax.swing.JScrollPane jsMassnahmenabschnittList;
     private javax.swing.JLabel lblBemerkungen;
@@ -102,8 +109,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblGups;
     private javax.swing.JLabel lblMassnahmen;
     private javax.swing.JLabel lblMassnahmenabschnitte;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JList liGup;
     private javax.swing.JList liPlan;
+    private javax.swing.JPanel panTitle;
+    private javax.swing.JTable tabMassn;
     private javax.swing.JTextArea teBemerkungHinweise;
     private javax.swing.JTextField txtBezeichnung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -131,8 +141,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             setReadOnly();
         } else {
             try {
-                new CidsBeanDropTarget(liGup);
+                new CidsBeanDropTarget(tabMassn);
                 new CidsBeanDropTarget(liPlan);
+                new CidsBeanDropTarget(jScrollPane2);
             } catch (final Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
@@ -153,14 +164,19 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        panTitle = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         lblMassnahmenabschnitte = new javax.swing.JLabel();
         jsMassnahmenabschnittList = new javax.swing.JScrollPane();
         liPlan = new PlanungsabschnittList();
         jsGupList = new javax.swing.JScrollPane();
         liGup = new GupList();
         lblGups = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new MassnahmenTable();
+        jScrollPane2 = new TabScrollPane();
+        tabMassn = new MassnahmenTable();
         lblMassnahmen = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblBemerkungen = new javax.swing.JLabel();
@@ -170,11 +186,60 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblBezeichnung = new javax.swing.JLabel();
         txtBezeichnung = new javax.swing.JTextField();
 
+        panTitle.setMinimumSize(new java.awt.Dimension(1050, 48));
+        panTitle.setOpaque(false);
+        panTitle.setPreferredSize(new java.awt.Dimension(1050, 44));
+        panTitle.setLayout(new java.awt.GridBagLayout());
+
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 24));                                                     // NOI18N
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblTitle.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panTitle.add(lblTitle, gridBagConstraints);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/export.png")));                // NOI18N
+        jButton1.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.jButton1.text")); // NOI18N
+        jButton1.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
+        panTitle.add(jButton1, gridBagConstraints);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/print.png")));                 // NOI18N
+        jButton2.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.jButton2.text")); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        panTitle.add(jButton2, gridBagConstraints);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/gaeb.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        panTitle.add(jLabel6, gridBagConstraints);
+
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 500));
+        setPreferredSize(new java.awt.Dimension(1294, 500));
         setLayout(new java.awt.GridBagLayout());
 
-        lblMassnahmenabschnitte.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblMassnahmenabschnitte.text")); // NOI18N
+        lblMassnahmenabschnitte.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblMassnahmenabschnitte.text")); // NOI18N
         lblMassnahmenabschnitte.setMaximumSize(new java.awt.Dimension(230, 17));
         lblMassnahmenabschnitte.setMinimumSize(new java.awt.Dimension(230, 17));
         lblMassnahmenabschnitte.setPreferredSize(new java.awt.Dimension(230, 17));
@@ -228,31 +293,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jScrollPane2.setOpaque(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "Böschungsmahd  mit Balkenmäher", "2012", "jährlich", "15.Juli", null, null, "aufnehmen"},
-                {null, "Böschungsmahd  mit Balkenmäher", "2012", "alle 2 Jahre", "15.Juli", "15.August", null, "aufnehmen"},
-                {null, "Sohlkrautung  mit Mähboot", "2012", "jährlich", "15.Juli", null, null, null},
-                {null, "Sohlkrautung mit Mähkorb", "2012", "jährlich", "15.Juli", null, null, null}
-            },
-            new String [] {
-                "", "Maßnahme", "Jahr", "Intervall", "1. Zeitpunkt", "2. Zeitpunkt", "Hinweise", "Verbleib des Materials"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
+        tabMassn.addMouseListener(new java.awt.event.MouseAdapter() {
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jTable1);
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    tabMassnMouseClicked(evt);
+                }
+            });
+        jScrollPane2.setViewportView(tabMassn);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -263,7 +311,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         add(jScrollPane2, gridBagConstraints);
 
-        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblMassnahmen.text")); // NOI18N
+        lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblMassnahmen.text")); // NOI18N
         lblMassnahmen.setMaximumSize(new java.awt.Dimension(230, 17));
         lblMassnahmen.setMinimumSize(new java.awt.Dimension(230, 17));
         lblMassnahmen.setPreferredSize(new java.awt.Dimension(230, 17));
@@ -278,7 +328,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblBemerkungen.text")); // NOI18N
+        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblBemerkungen.text")); // NOI18N
         lblBemerkungen.setMaximumSize(new java.awt.Dimension(230, 17));
         lblBemerkungen.setMinimumSize(new java.awt.Dimension(230, 17));
         lblBemerkungen.setPreferredSize(new java.awt.Dimension(230, 17));
@@ -297,7 +349,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         teBemerkungHinweise.setColumns(20);
         teBemerkungHinweise.setRows(2);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"), teBemerkungHinweise, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                teBemerkungHinweise,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(teBemerkungHinweise);
@@ -321,7 +378,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        lblBezeichnung.setText(org.openide.util.NbBundle.getMessage(GupLosEditor.class, "GupLosEditor.lblBezeichnung.text")); // NOI18N
+        lblBezeichnung.setText(org.openide.util.NbBundle.getMessage(
+                GupLosEditor.class,
+                "GupLosEditor.lblBezeichnung.text")); // NOI18N
         lblBezeichnung.setMaximumSize(new java.awt.Dimension(150, 17));
         lblBezeichnung.setMinimumSize(new java.awt.Dimension(150, 17));
         lblBezeichnung.setPreferredSize(new java.awt.Dimension(150, 17));
@@ -336,7 +395,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         txtBezeichnung.setMinimumSize(new java.awt.Dimension(180, 20));
         txtBezeichnung.setPreferredSize(new java.awt.Dimension(180, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bezeichnung}"), txtBezeichnung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bezeichnung}"),
+                txtBezeichnung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -357,15 +421,29 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         add(jPanel3, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jTable1MouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-    }//GEN-LAST:event_jTable1MouseClicked
+    private void tabMassnMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tabMassnMouseClicked
+    }                                                                        //GEN-LAST:event_tabMassnMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
+//        try {
+//            java.awt.Desktop.getDesktop()
+//                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
+//        } catch (Exception ex) {
+//            log.error("Problem beim Oeffnen des LV", ex);
+//        }
+    } //GEN-LAST:event_jButton2ActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -378,6 +456,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            treePath = ComponentRegistry.getRegistry().getCatalogueTree().getSelectionPath();
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
@@ -397,22 +476,20 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * DOCUMENT ME!
      */
     private void loadData() {
-        final String query = String.format(QUERY, cidsBean.getProperty("id").toString());
-
         try {
-            final MetaObject[] massnBeans = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            final List in = new ArrayList(1);
+            in.add(cidsBean.getProperty("id").toString());
+            final ArrayList<ArrayList> massnBeans = massnCache.calcValue(in);
+            gups = new ArrayList<String>();
+            planungsabschnitte = new ArrayList<String>();
 
-            massnahmen = new ArrayList<CidsBean>();
-            gups = new ArrayList<CidsBean>();
-            planungsabschnitte = new ArrayList<CidsBean>();
-
-            for (final MetaObject mo : massnBeans) {
-                massnahmen.add(mo.getBean());
-                final CidsBean plan = (CidsBean)mo.getBean().getProperty("planungsabschnitt");
+            for (final ArrayList bean : massnBeans) {
+                final String plan = toName(bean);
 
                 if (!planungsabschnitte.contains(plan)) {
+                    final String gup = String.valueOf(bean.get(2));
+
                     planungsabschnitte.add(plan);
-                    final CidsBean gup = (CidsBean)plan.getProperty("gup");
                     if (!gups.contains(gup)) {
                         gups.add(gup);
                     }
@@ -421,10 +498,37 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             liGup.setModel(new CidsBeanModel(gups));
             liPlan.setModel(new CidsBeanModel(planungsabschnitte));
+            tabMassn.setModel(new MassnTableModel(massnBeans));
             initialised = true;
         } catch (Exception e) {
             LOG.error("Error while trying to receive the underlying data.", e);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static String toName(final ArrayList bean) {
+        return String.valueOf(bean.get(3)) + " " + String.valueOf(bean.get(0)) + " - " + String.valueOf(bean.get(1));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static String toName(final CidsBean bean) {
+        final String routenname = String.valueOf(bean.getProperty("linie.von.route.routenname"));
+        final String von = String.valueOf(bean.getProperty("linie.von.wert"));
+        final String bis = String.valueOf(bean.getProperty("linie.bis.wert"));
+
+        return routenname + " " + von + " - " + bis;
     }
 
     /**
@@ -452,26 +556,93 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            if (massnToAdd.size() > 0) {
+                new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            int n = 0;
+                            final int deps = massnToAdd.size();
+                            final ProgressMonitor pm = new ProgressMonitor(
+                                    GupLosEditor.this,
+                                    "Speichere Abhängigkeiten zu "
+                                            + deps
+                                            + " Maßnahmen",
+                                    "Scheichere Abhängigkeit 1 von "
+                                            + deps,
+                                    0,
+                                    deps
+                                            - 1);
+                            pm.setMillisToDecideToPopup(0);
+                            pm.setMillisToPopup(100);
+
+                            while (massnToAdd.size() > 0) {
+                                final CidsBean bean = massnToAdd.get(0);
+                                try {
+                                    bean.setProperty("los", event.getSavedBean());
+                                    bean.persist();
+                                    massnToAdd.remove(0);
+                                    pm.setProgress(++n);
+                                    pm.setNote("Speichere Abhängigkeit " + (n + 1) + " von " + deps);
+                                } catch (Exception e) {
+                                    LOG.error("Error while saving a los object.", e);
+                                }
+                            }
+                            pm.close();
+                            EventQueue.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        refreshTree();
+                                    }
+                                });
+                        }
+                    }).start();
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshTree() {
+        if (treePath != null) {
+            try {
+                final MetaCatalogueTree metaCatalogueTree = ComponentRegistry.getRegistry().getCatalogueTree();
+                metaCatalogueTree.refreshTreePath(treePath);
+            } catch (Exception e) {
+                LOG.error("Error when refreshing Tree", e); // NOI18N
+            }
+        }
     }
 
     @Override
     public boolean prepareForSave() {
-        final Object id = cidsBean.getProperty("id");
+        return true;
+    }
 
-        while (massnToAdd.size() > 0) {
-            final CidsBean bean = massnToAdd.get(0);
-            try {
-                bean.setProperty("los", cidsBean);
-                bean.persist();
-                massnToAdd.remove(0);
-            } catch (Exception e) {
-                LOG.error("Error while saving a los object.", e);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bean  DOCUMENT ME!
+     */
+    private void addMassnahme(final CidsBean bean) {
+        if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")) {
+            if (((MassnTableModel)tabMassn.getModel()).add(bean)) {
+                massnToAdd.add(bean);
+                cidsBean.setArtificialChangeFlag(true);
 
-                return false;
+                if (!planungsabschnitte.contains(toName((CidsBean)bean.getProperty("planungsabschnitt")))) {
+                    ((CidsBeanModel)liPlan.getModel()).add(toName(bean));
+                    final Object gupName = bean.getProperty("planungsabschnitt.gup.name");
+
+                    if (!gups.contains(String.valueOf(gupName))) {
+                        ((CidsBeanModel)liGup.getModel()).add(String.valueOf(gupName));
+                    }
+                }
             }
         }
-
-        return true;
     }
 
     /**
@@ -491,6 +662,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             1,
             1280,
             1024);
+    }
+
+    @Override
+    public JComponent getTitleComponent() {
+        return panTitle;
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -527,15 +703,24 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_planungsabschnitt")) {
-                    if (!planungsabschnitte.contains(bean)) {
-                        ((CidsBeanModel)liPlan.getModel()).add(bean);
+                    final String beanName = toName(bean);
+                    final String von = String.valueOf(bean.getProperty("linie.von.wert"));
+                    final String bis = String.valueOf(bean.getProperty("linie.bis.wert"));
+                    final String gup = String.valueOf(bean.getProperty("gup.name"));
+                    final String name = String.valueOf(bean.getProperty("name"));
+
+                    if (!planungsabschnitte.contains(beanName)) {
+                        ((CidsBeanModel)liPlan.getModel()).add(beanName);
+
+                        if (!gups.contains(gup)) {
+                            ((CidsBeanModel)liGup.getModel()).add(gup);
+                        }
                     }
                     final List<CidsBean> massnBeans = CidsBeanSupport.getBeanCollectionFromProperty(bean, "massnahmen");
 
                     if (massnBeans != null) {
                         for (final CidsBean tmp : massnBeans) {
-                            if (!massnahmen.contains(tmp)) {
-                                massnahmen.add(tmp);
+                            if (((MassnTableModel)tabMassn.getModel()).add(tmp, name, gup, von, bis)) {
                                 massnToAdd.add(tmp);
                                 cidsBean.setArtificialChangeFlag(true);
                             }
@@ -543,27 +728,54 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     }
                 }
             }
+
+            ((MassnTableModel)tabMassn.getModel()).fireTableChanged();
         }
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
     private class MassnahmenTable extends JTable implements CidsBeanDropListener {
 
+        //~ Methods ------------------------------------------------------------
+
         @Override
-        public void beansDropped(ArrayList<CidsBean> beans) {
+        public void beansDropped(final ArrayList<CidsBean> beans) {
             if (readOnly || !initialised) {
                 // ignore the drop action
                 return;
             }
 
             for (final CidsBean bean : beans) {
-                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")) {
-                    if (!massnahmen.contains(bean)) {
-                        massnahmen.add(bean);
-                        massnToAdd.add(bean);
-                        cidsBean.setArtificialChangeFlag(true);
-                    }
-                }
+                addMassnahme(bean);
             }
+            ((MassnTableModel)tabMassn.getModel()).fireTableChanged();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class TabScrollPane extends JScrollPane implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            if (readOnly || !initialised) {
+                // ignore the drop action
+                return;
+            }
+
+            for (final CidsBean bean : beans) {
+                addMassnahme(bean);
+            }
+            ((MassnTableModel)tabMassn.getModel()).fireTableChanged();
         }
     }
 
@@ -583,13 +795,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 final boolean isSelected,
                 final boolean cellHasFocus) {
             final Component result = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            
+
             if ((result instanceof JLabel) && (value instanceof CidsBean)) {
                 final CidsBean bean = (CidsBean)value;
-                final String routenname = String.valueOf( bean.getProperty("linie.von.route.routenname") );
+                final String routenname = String.valueOf(bean.getProperty("linie.von.route.routenname"));
                 final String von = String.valueOf(bean.getProperty("linie.von.wert"));
-                final String bis = String.valueOf(bean.getProperty("linie.von.route.routenname"));
-                
+                final String bis = String.valueOf(bean.getProperty("linie.bis.wert"));
 
                 final String text = routenname + " " + von + " - " + bis;
                 ((JLabel)result).setText(text);
@@ -597,8 +808,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             return result;
         }
-    }    
-    
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -608,7 +819,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         //~ Instance fields ----------------------------------------------------
 
-        private List beans;
+        private List<String> beans;
         private List<ListDataListener> listener = new ArrayList<ListDataListener>();
 
         //~ Constructors -------------------------------------------------------
@@ -618,7 +829,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
          *
          * @param  beans  DOCUMENT ME!
          */
-        public CidsBeanModel(final List beans) {
+        public CidsBeanModel(final List<String> beans) {
             this.beans = beans;
         }
 
@@ -666,10 +877,271 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
          *
          * @param  bean  DOCUMENT ME!
          */
-        public void add(final CidsBean bean) {
+        public void add(final String bean) {
             beans.add(bean);
 
             fireIntervalAdded();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class MassnTableModel implements TableModel {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String[] columns = {
+                "GUP",
+                "Planungsabschnitt",
+                "Maßn.Typ",
+                "Kompartiment",
+                "von",
+                "bis",
+                "Attr.1",
+                "Wert Attr.1",
+                "Attr.2",
+                "Wert Attr.2",
+                "Attr.3",
+                "Wert Attr.3"
+            };
+        private static final String[] additionalAttribs = {
+                "Randstreifenbreite",
+                "Böschungsbreite",
+                "Böschungslänge",
+                "Deichkronenbreite",
+                "Sohlbreite",
+                "Vorlandbreite"
+            };
+
+        //~ Instance fields ----------------------------------------------------
+
+        private ArrayList<ArrayList> beans;
+        private List<TableModelListener> listener = new ArrayList<TableModelListener>();
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new MassnTableModel object.
+         *
+         * @param  beans  DOCUMENT ME!
+         */
+        public MassnTableModel(final ArrayList<ArrayList> beans) {
+            this.beans = beans;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int getRowCount() {
+            return beans.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columns.length;
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            return columns[columnIndex];
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            return String.class;
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            final ArrayList bean = beans.get(rowIndex);
+
+            switch (columnIndex) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5: {
+                    return String.valueOf(bean.get(columnIndex + 2));
+                }
+                case 6: {
+                    return getAttribute(bean, 1, false);
+                }
+                case 7: {
+                    return getAttribute(bean, 1, true);
+                }
+                case 8: {
+                    return getAttribute(bean, 2, false);
+                }
+                case 9: {
+                    return getAttribute(bean, 2, true);
+                }
+                case 10: {
+                    return getAttribute(bean, 3, false);
+                }
+                case 11: {
+                    return getAttribute(bean, 3, true);
+                }
+            }
+
+            return "";
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   bean    DOCUMENT ME!
+         * @param   number  DOCUMENT ME!
+         * @param   value   DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private String getAttribute(final ArrayList bean, final int number, final boolean value) {
+            final int FIRST_ATTRIB = 8;
+            int currentNumber = 0;
+
+            for (int i = FIRST_ATTRIB; i < bean.size(); ++i) {
+                final Object tmpVal = bean.get(i);
+                if (tmpVal != null) {
+                    if (++currentNumber == number) {
+                        if (value) {
+                            return String.valueOf(tmpVal);
+                        } else {
+                            return additionalAttribs[i - FIRST_ATTRIB];
+                        }
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        @Override
+        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void addTableModelListener(final TableModelListener l) {
+            listener.add(l);
+        }
+
+        @Override
+        public void removeTableModelListener(final TableModelListener l) {
+            listener.remove(l);
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void fireTableChanged() {
+            final TableModelEvent e = new TableModelEvent(this);
+            for (final TableModelListener tmp : listener) {
+                tmp.tableChanged(e);
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   massnBean  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private boolean add(final CidsBean massnBean) {
+            final String von = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.von.wert"));
+            final String bis = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.bis.wert"));
+            final String gup = String.valueOf(massnBean.getProperty("planungsabschnitt.gup.name"));
+            final String name = String.valueOf(massnBean.getProperty("planungsabschnitt.name"));
+
+            return add(massnBean, name, gup, von, bis);
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   massnBean  DOCUMENT ME!
+         * @param   name       DOCUMENT ME!
+         * @param   gup        DOCUMENT ME!
+         * @param   von        DOCUMENT ME!
+         * @param   bis        DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private boolean add(final CidsBean massnBean,
+                final String name,
+                final String gup,
+                final String von,
+                final String bis) {
+            final ArrayList newBean = new ArrayList();
+
+            newBean.add(von);
+            newBean.add(bis);
+            newBean.add(gup);
+            newBean.add(name);
+            newBean.add(massnBean.getProperty("massnahme.name"));
+            newBean.add(massnBean.getProperty("wo.ort"));
+            newBean.add(massnBean.getProperty("linie.von.wert"));
+            newBean.add(massnBean.getProperty("linie.bis.wert"));
+            newBean.add(massnBean.getProperty("randstreifenbreite"));
+            newBean.add(massnBean.getProperty("boeschungsbreite"));
+            newBean.add(massnBean.getProperty("boeschungslaenge"));
+            newBean.add(massnBean.getProperty("deichkronenbreite"));
+            newBean.add(massnBean.getProperty("sohlbreite"));
+            newBean.add(massnBean.getProperty("vorlandbreite"));
+
+            if (!beans.contains(newBean)) {
+                beans.add(newBean);
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class MassnCalculator implements Calculator<List, ArrayList<ArrayList>> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_UNTERHALTUNGSMASSNAHME");
+        private static final String QUERY = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from "
+                    + MC.getTableName()
+                    + " m WHERE m.los = %1$s";
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public ArrayList<ArrayList> calculate(final List input) throws Exception {
+            final CidsServerSearch search = new MassnahmenSearch((String)input.get(0));
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+
+            return (ArrayList<ArrayList>)res;
         }
     }
 }
