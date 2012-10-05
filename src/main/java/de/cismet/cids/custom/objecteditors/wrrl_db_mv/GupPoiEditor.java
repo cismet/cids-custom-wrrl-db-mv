@@ -12,10 +12,17 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jfree.chart.renderer.RendererUtilities;
+
 import java.awt.event.ItemEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -36,19 +43,17 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     private String title;
     private CidsBean cidsBean;
+    private List<CidsBean> others;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSw_cat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor stationEditor;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -58,12 +63,43 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * Creates new form AltlastRenderer.
      */
     public GupPoiEditor() {
-        initComponents();
+        this(false);
+    }
+
+    /**
+     * Creates new form AltlastRenderer.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupPoiEditor(final boolean readOnly) {
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
-        linearReferencedLineEditor.setOtherLinesEnabled(false);
+        initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(jTextArea1);
+            RendererTools.makeReadOnly(jTextField1);
+            RendererTools.makeReadOnly(cbSw_cat);
+        } else {
+            linearReferencedLineEditor.setOtherLinesEnabled(true);
+            linearReferencedLineEditor.setOtherLinesQueryAddition(
+                "gup_poi",
+                "gup_poi.linie = ");
+            linearReferencedLineEditor.setShowOtherInDialog(true);
+            linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  others  DOCUMENT ME!
+     */
+    public void setOthers(final List<CidsBean> others) {
+        this.others = others;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -78,15 +114,12 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cbSw_cat = new ScrollableComboBox();
-        stationEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.StationEditor();
-        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        linearReferencedLineEditor = linearReferencedLineEditor;
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jSeparator1 = new javax.swing.JSeparator();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -117,15 +150,6 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
         add(jLabel3, gridBagConstraints);
 
-        jLabel4.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel4.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        add(jLabel4, gridBagConstraints);
-
         jTextField1.setPreferredSize(new java.awt.Dimension(250, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -142,16 +166,16 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 49, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 49, 0, 15);
         add(jTextField1, gridBagConstraints);
 
         jLabel6.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel6.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
         add(jLabel6, gridBagConstraints);
 
         cbSw_cat.setMinimumSize(new java.awt.Dimension(120, 20));
@@ -171,36 +195,17 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 49, 15, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 49, 15, 15);
         add(cbSw_cat, gridBagConstraints);
-
-        stationEditor.setMinimumSize(new java.awt.Dimension(120, 38));
-        stationEditor.setPreferredSize(new java.awt.Dimension(120, 38));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.station}"),
-                stationEditor,
-                org.jdesktop.beansbinding.BeanProperty.create("cidsBean"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 49, 30, 15);
-        add(stationEditor, gridBagConstraints);
 
         linearReferencedLineEditor.setPreferredSize(new java.awt.Dimension(420, 60));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 49, 0, 15);
+        gridBagConstraints.insets = new java.awt.Insets(20, 49, 0, 15);
         add(linearReferencedLineEditor, gridBagConstraints);
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(190, 20));
@@ -208,6 +213,15 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jTextArea1.setColumns(10);
         jTextArea1.setRows(2);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jScrollPane1.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -217,17 +231,8 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 49, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 49, 0, 15);
         add(jScrollPane1, gridBagConstraints);
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
-        add(jSeparator1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -247,6 +252,20 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+
+            if (this.others != null) {
+                final List<CidsBean> lineBeans = new ArrayList<CidsBean>();
+                final Object id = cidsBean.getProperty("linie.id");
+
+                for (final CidsBean b : this.others) {
+                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                    if ((tmp != null) && (!tmp.getProperty("id").equals(id))) {
+                        lineBeans.add(tmp);
+                    }
+                }
+                linearReferencedLineEditor.setOtherLines(lineBeans);
+            }
 
             linearReferencedLineEditor.setCidsBean(cidsBean);
         }

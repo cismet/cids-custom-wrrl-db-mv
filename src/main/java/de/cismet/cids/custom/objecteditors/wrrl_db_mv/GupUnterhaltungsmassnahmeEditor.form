@@ -4,7 +4,7 @@
   <Properties>
     <Property name="opaque" type="boolean" value="false"/>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[994, 800]"/>
+      <Dimension value="[894, 400]"/>
     </Property>
   </Properties>
   <AuxValues>

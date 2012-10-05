@@ -19,6 +19,7 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
 import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
@@ -210,7 +211,13 @@ public class GupWasserkoerper extends javax.swing.JPanel implements CidsBeanRend
                                 cidsBean = metaObjects[0].getBean();
                             }
 
-                            lblScreenshot.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                            EventQueue.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        lblScreenshot.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                                    }
+                                });
                         }
                     } catch (Exception e) {
                     }

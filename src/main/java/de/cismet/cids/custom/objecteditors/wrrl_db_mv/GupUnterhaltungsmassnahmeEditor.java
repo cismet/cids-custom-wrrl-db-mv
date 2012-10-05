@@ -207,7 +207,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         cbAusfuehrungSec = new ScrollableComboBox();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 800));
+        setPreferredSize(new java.awt.Dimension(894, 400));
         setLayout(new java.awt.GridBagLayout());
 
         lblBearbeiter.setText(org.openide.util.NbBundle.getMessage(
