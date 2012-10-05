@@ -380,9 +380,9 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNew.add(jbApply, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 800));
+        setMinimumSize(new java.awt.Dimension(1050, 600));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 800));
+        setPreferredSize(new java.awt.Dimension(1050, 600));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(640, 310));

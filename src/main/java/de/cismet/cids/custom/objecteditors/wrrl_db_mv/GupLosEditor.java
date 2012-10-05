@@ -56,6 +56,7 @@ import de.cismet.tools.CalculationCache;
 import de.cismet.tools.Calculator;
 import de.cismet.tools.CismetThreadPool;
 
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 
 /**
@@ -559,17 +560,17 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                             int n = 0;
                             final int deps = massnToAdd.size();
                             final ProgressMonitor pm = new ProgressMonitor(
-                                    GupLosEditor.this,
+                                    StaticSwingTools.getParentFrame(GupLosEditor.this),
                                     "Speichere Abhängigkeiten zu "
                                             + deps
                                             + " Maßnahmen",
-                                    "Scheichere Abhängigkeit 1 von "
+                                    "Speichere Abhängigkeit 1 von "
                                             + deps,
                                     0,
                                     deps
                                             - 1);
-                            pm.setMillisToDecideToPopup(0);
-                            pm.setMillisToPopup(100);
+                            pm.setMillisToDecideToPopup(100);
+                            pm.setMillisToPopup(200);
 
                             while (massnToAdd.size() > 0) {
                                 final CidsBean bean = massnToAdd.get(0);
