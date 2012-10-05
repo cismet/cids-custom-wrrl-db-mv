@@ -6,9 +6,9 @@
 *
 ****************************************************/
 /*
- * GupMassnahmeSohle.java
+ * GupLosEditor.java
  *
- * Created on 04.04.2012, 11:49:19
+ * Created on 28.09.2012, 11:49:19
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
@@ -16,13 +16,10 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.tree.MetaCatalogueTree;
 
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.search.CidsServerSearch;
 
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.Toolkit;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +37,6 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
@@ -53,7 +49,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -61,9 +56,7 @@ import de.cismet.tools.CalculationCache;
 import de.cismet.tools.Calculator;
 import de.cismet.tools.CismetThreadPool;
 
-import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
-import de.cismet.tools.gui.WaitDialog;
 
 /**
  * DOCUMENT ME!
@@ -122,14 +115,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form GupMassnahmeSohle.
+     * Creates new form gup_los.
      */
     public GupLosEditor() {
         this(false);
     }
 
     /**
-     * Creates new form GupMassnahmeSohle.
+     * Creates new form gup_los.
      *
      * @param  readOnly  DOCUMENT ME!
      */
@@ -173,7 +166,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jsMassnahmenabschnittList = new javax.swing.JScrollPane();
         liPlan = new PlanungsabschnittList();
         jsGupList = new javax.swing.JScrollPane();
-        liGup = new GupList();
+        liGup = new javax.swing.JList();
         lblGups = new javax.swing.JLabel();
         jScrollPane2 = new TabScrollPane();
         tabMassn = new MassnahmenTable();
@@ -473,7 +466,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * loads the contained objects from the server.
      */
     private void loadData() {
         try {
@@ -510,7 +503,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param   bean  DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @return  the name of the planungsabschnitt object that is assigned to the given bean
      */
     private static String toName(final ArrayList bean) {
         return String.valueOf(bean.get(3)) + " " + String.valueOf(bean.get(0)) + " - " + String.valueOf(bean.get(1));
@@ -521,7 +514,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param   bean  DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @return  the name of the planungsabschnitt object that is assigned to the given bean
      */
     private static String toName(final CidsBean bean) {
         final String routenname = String.valueOf(bean.getProperty("linie.von.route.routenname"));
@@ -557,6 +550,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            // saves the references between the gup_unterhaltungsmassnahme objects and the los object
             if (massnToAdd.size() > 0) {
                 new Thread(new Runnable() {
 
@@ -594,6 +588,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                                     @Override
                                     public void run() {
+                                        // the new referenced objects should be shown on the navigator tree
                                         refreshTree();
                                     }
                                 });
@@ -604,7 +599,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * refreshs the navigator tree.
      */
     private void refreshTree() {
         if (treePath != null) {
@@ -623,9 +618,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * add a new gup_unterhaltungsmassnahme object to the los.
      *
-     * @param  bean  DOCUMENT ME!
+     * @param  bean  the object of the type gup_unterhaltungsmassnahme that should be added
      */
     private void addMassnahme(final CidsBean bean) {
         if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")) {
@@ -646,7 +641,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * only for test purposes.
      *
      * @param   args  DOCUMENT ME!
      *
@@ -672,21 +667,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     //~ Inner Classes ----------------------------------------------------------
 
     /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class GupList extends JList implements CidsBeanDropListener {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public void beansDropped(final ArrayList<CidsBean> beans) {
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
+     * This list shows the planungsabschnitte objects.
      *
      * @version  $Revision$, $Date$
      */
@@ -811,7 +792,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * A List Model for String values.
      *
      * @version  $Revision$, $Date$
      */
@@ -819,7 +800,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         //~ Instance fields ----------------------------------------------------
 
-        private List<String> beans;
+        private List<String> titles;
         private List<ListDataListener> listener = new ArrayList<ListDataListener>();
 
         //~ Constructors -------------------------------------------------------
@@ -830,19 +811,19 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
          * @param  beans  DOCUMENT ME!
          */
         public CidsBeanModel(final List<String> beans) {
-            this.beans = beans;
+            this.titles = beans;
         }
 
         //~ Methods ------------------------------------------------------------
 
         @Override
         public int getSize() {
-            return beans.size();
+            return titles.size();
         }
 
         @Override
         public Object getElementAt(final int index) {
-            return beans.get(index);
+            return titles.get(index);
         }
 
         @Override
@@ -862,9 +843,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             final ListDataEvent e = new ListDataEvent(
                     this,
                     ListDataEvent.INTERVAL_ADDED,
-                    beans.size()
+                    titles.size()
                             - 1,
-                    beans.size()
+                    titles.size()
                             - 1);
 
             for (final ListDataListener tmp : listener) {
@@ -875,17 +856,18 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         /**
          * DOCUMENT ME!
          *
-         * @param  bean  DOCUMENT ME!
+         * @param  title  bean DOCUMENT ME!
          */
-        public void add(final String bean) {
-            beans.add(bean);
+        public void add(final String title) {
+            titles.add(title);
 
             fireIntervalAdded();
         }
     }
 
     /**
-     * DOCUMENT ME!
+     * Handles cidsBeans of the type gup_unterhaltungsmassnahme and ArrayLists, that containes information about
+     * massnahmen.
      *
      * @version  $Revision$, $Date$
      */
@@ -996,13 +978,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         }
 
         /**
-         * DOCUMENT ME!
+         * Returns the optional attributes.
          *
-         * @param   bean    DOCUMENT ME!
-         * @param   number  DOCUMENT ME!
-         * @param   value   DOCUMENT ME!
+         * @param   bean    the object, the attribute should be determined from
+         * @param   number  The number of the attribute
+         * @param   value   true, if the value of the attribute should be determined. Otherwise the name of the
+         *                  attribute is determined.
          *
-         * @return  DOCUMENT ME!
+         * @return  the numberth optional attribute of the given object
          */
         private String getAttribute(final ArrayList bean, final int number, final boolean value) {
             final int FIRST_ATTRIB = 8;
@@ -1050,11 +1033,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         }
 
         /**
-         * DOCUMENT ME!
+         * Adds the given bean of the type gup_unterhaltungsmassnahme.
          *
-         * @param   massnBean  DOCUMENT ME!
+         * @param   massnBean  a cids bean of the type gup_unterhaltungsmassnahme
          *
-         * @return  DOCUMENT ME!
+         * @return  true, iff the bean was added. The bean is only added, if it is not already contained
          */
         private boolean add(final CidsBean massnBean) {
             final String von = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.von.wert"));
@@ -1069,12 +1052,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
          * DOCUMENT ME!
          *
          * @param   massnBean  DOCUMENT ME!
-         * @param   name       DOCUMENT ME!
-         * @param   gup        DOCUMENT ME!
-         * @param   von        DOCUMENT ME!
-         * @param   bis        DOCUMENT ME!
+         * @param   name       the name of the corresponding planungsabschnitt
+         * @param   gup        the name of the corresponding gup
+         * @param   von        the first station value of the corresponding planungsabschnitt
+         * @param   bis        the second station value of the corresponding planungsabschnitt
          *
-         * @return  DOCUMENT ME!
+         * @return  true, iff the object was added. The object is only added, if it is not already contained
          */
         private boolean add(final CidsBean massnBean,
                 final String name,
@@ -1108,28 +1091,18 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * Loads the contained gup_unterhaltungsmassnahme objects.
      *
      * @version  $Revision$, $Date$
      */
     private static class MassnCalculator implements Calculator<List, ArrayList<ArrayList>> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_UNTERHALTUNGSMASSNAHME");
-        private static final String QUERY = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from "
-                    + MC.getTableName()
-                    + " m WHERE m.los = %1$s";
 
         //~ Methods ------------------------------------------------------------
 
         /**
          * DOCUMENT ME!
          *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
+         * @param   input  containes the los id
          *
          * @return  DOCUMENT ME!
          *
