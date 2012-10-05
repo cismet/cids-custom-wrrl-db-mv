@@ -572,6 +572,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             } catch (Exception ex) {
                 LOG.error("Cannot save the current time.", ex);
             }
+            try {
+                cidsBean.setProperty("gwk", cidsBean.getProperty("linie.von.route.gwk"));
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current gwk.", ex);
+            }
 
             performCalculations(tpMain.getComponentAt(selectedTabIndex), panErgebnisse);
         }
