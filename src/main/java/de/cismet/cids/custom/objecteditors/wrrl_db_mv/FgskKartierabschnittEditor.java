@@ -39,7 +39,6 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
-import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;

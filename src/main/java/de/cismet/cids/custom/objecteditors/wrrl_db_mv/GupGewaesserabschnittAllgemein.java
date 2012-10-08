@@ -40,6 +40,7 @@ import javax.swing.SwingWorker;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 
@@ -116,6 +117,11 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
     public GupGewaesserabschnittAllgemein(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtGewaessername);
+            jpDelete.setEnabled(readOnly);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -378,15 +384,6 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                     txtGwk.setText(gwkV);
                 }
             });
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  readOnly  DOCUMENT ME!
-     */
-    public void setReadOnly(final boolean readOnly) {
-        this.readOnly = readOnly;
     }
 
     @Override
