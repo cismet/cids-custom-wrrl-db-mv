@@ -19,7 +19,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.OperativeZieleComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -35,16 +35,12 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel implements CidsBeanRenderer,
-    EditorSaveListener {
+public class SchutzgebietEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final int OPERATIVES_ZIEL_UFER = 1;
-    public static final int OPERATIVES_ZIEL_SOHLE = 2;
-    public static final int OPERATIVES_ZIEL_UMFELD = 3;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupOperativesZielAbschnittEditor.class);
+            SchutzgebietEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -53,7 +49,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbName;
-    private javax.swing.JLabel lblZiel;
+    private javax.swing.JLabel lblArt;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -63,7 +59,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupOperativesZielAbschnittEditor() {
+    public SchutzgebietEditor() {
         this(false);
     }
 
@@ -72,7 +68,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupOperativesZielAbschnittEditor(final boolean readOnly) {
+    public SchutzgebietEditor(final boolean readOnly) {
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
@@ -80,8 +76,8 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
         if (!readOnly) {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
             linearReferencedLineEditor.setOtherLinesQueryAddition(
-                "gup_operatives_ziel",
-                "gup_operatives_ziel.linie = ");
+                "schutzgebiet",
+                "schutzgebiet.linie = ");
             linearReferencedLineEditor.setShowOtherInDialog(true);
         } else {
             RendererTools.makeReadOnly(cbName);
@@ -100,26 +96,26 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        lblZiel = new javax.swing.JLabel();
-        cbName = new OperativeZieleComboBox();
+        lblArt = new javax.swing.JLabel();
+        cbName = new ScrollableComboBox();
         linearReferencedLineEditor = linearReferencedLineEditor;
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
         setLayout(new java.awt.GridBagLayout());
 
-        lblZiel.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielAbschnittEditor.class,
-                "GupOperativesZielAbschnittEditor.lblZiel.text")); // NOI18N
-        lblZiel.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblZiel.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblZiel.setPreferredSize(new java.awt.Dimension(170, 17));
+        lblArt.setText(org.openide.util.NbBundle.getMessage(
+                SchutzgebietEditor.class,
+                "SchutzgebietEditor.lblArt.text")); // NOI18N
+        lblArt.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblArt.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblArt.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
-        add(lblZiel, gridBagConstraints);
+        add(lblArt, gridBagConstraints);
 
         cbName.setMaximumSize(new java.awt.Dimension(420, 20));
         cbName.setMinimumSize(new java.awt.Dimension(420, 20));
@@ -128,7 +124,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.operatives_ziel}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.art}"),
                 cbName,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -182,28 +178,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
             }
 
             linearReferencedLineEditor.setCidsBean(cidsBean);
-
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        final Object item = cidsBean.getProperty("operatives_ziel");
-                        if (item != null) {
-                            cbName.setSelectedItem(item);
-                        }
-                    }
-                }).start();
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  kompartiment  the kompartiment to set
-     */
-    public void setKompartiment(final int kompartiment) {
-        ((OperativeZieleComboBox)cbName).setKompartiment(kompartiment);
-        cbName.setSelectedItem(null);
     }
 
     /**
@@ -223,7 +198,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
 
     @Override
     public String getTitle() {
-        return "Operatives Ziel";
+        return "Schutzgebiet";
     }
 
     @Override
@@ -252,7 +227,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
             "Administratoren",
             "admin",
             "x",
-            "gup_operatives_ziel",
+            "schutzgebiet",
             1,
             1280,
             1024);

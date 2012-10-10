@@ -13,7 +13,6 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.search.CidsServerSearch;
 
@@ -35,7 +34,6 @@ import javax.swing.ScrollPaneConstants;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
@@ -59,40 +57,37 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, FooterComponentProvider, EditorSaveListener {
+public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
+    FooterComponentProvider,
+    EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String COLLECTION_PROPERTY = "pois";
+    private static final String COLLECTION_PROPERTY = "schutzgebiete";
 
 // RequestsFullSizeComponent,
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupPoiRouteEditor.class);
-    private static final String GUP_POI = "gup_poi";
+            SchutzgebietRouteEditor.class);
+    private static final String SCHUTZGEBIET = "schutzgebiet";
 
     //~ Instance fields --------------------------------------------------------
 
-    private PoiRWBand ufer_links = new PoiRWBand(
+    private SchutzgebietRWBand ufer_links = new SchutzgebietRWBand(
             "Ufer links",
-            GUP_POI);
-    private PoiRWBand ufer_rechts = new PoiRWBand(
+            SCHUTZGEBIET);
+    private SchutzgebietRWBand ufer_rechts = new SchutzgebietRWBand(
             "Ufer rechts",
-            GUP_POI);
-    private PoiRWBand sohle = new PoiRWBand(
-            "Sohle",
-            GUP_POI);
+            SCHUTZGEBIET);
     private WKBand wkband;
     private final JBand jband;
     private final BandModelListener modelListener = new GupPoiBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
-    private List<CidsBean> sohleList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
-    private GupPoiEditor poiEditor;
-    private boolean readOnly = false;
+    private SchutzgebietEditor schutzgebietEditor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -118,7 +113,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
-    private javax.swing.JPanel panUnterhaltungshinweis;
+    private javax.swing.JPanel panSchutzgebiet;
     private javax.swing.JSlider sldZoom;
     // End of variables declaration//GEN-END:variables
 
@@ -127,7 +122,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
     /**
      * Creates a new GupGewaesserabschnittEditor object.
      */
-    public GupPoiRouteEditor() {
+    public SchutzgebietRouteEditor() {
         this(false);
     }
 
@@ -136,20 +131,16 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupPoiRouteEditor(final boolean readOnly) {
-        this.readOnly = readOnly;
+    public SchutzgebietRouteEditor(final boolean readOnly) {
         jband = new JBand(readOnly);
         initComponents();
 
-        poiEditor = new GupPoiEditor(readOnly);
+        schutzgebietEditor = new SchutzgebietEditor(readOnly);
         ufer_rechts.setReadOnly(readOnly);
-        ufer_rechts.setSide(PoiRWBand.RIGHT);
+        ufer_rechts.setType(PoiRWBand.RIGHT);
         sbm.addBand(ufer_rechts);
-        sohle.setReadOnly(readOnly);
-        sohle.setSide(PoiRWBand.MIDDLE);
-        sbm.addBand(sohle);
         ufer_links.setReadOnly(readOnly);
-        ufer_links.setSide(PoiRWBand.LEFT);
+        ufer_links.setType(PoiRWBand.LEFT);
         sbm.addBand(ufer_links);
 
         jband.setModel(sbm);
@@ -157,8 +148,8 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         panBand.add(jband, BorderLayout.CENTER);
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
-        lblHeading.setText("Poi");
-        panUnterhaltungshinweis.add(poiEditor, BorderLayout.CENTER);
+        lblHeading.setText("Schutzgebiet");
+        panSchutzgebiet.add(schutzgebietEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -223,16 +214,14 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         jband.setMaxValue(till);
         ufer_links.setRoute(route);
         ufer_rechts.setRoute(route);
-        sohle.setRoute(route);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        // extract pois
+        // extract Schutzgebiete
         final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
         rechtesUferList = new ArrayList<CidsBean>();
-        sohleList = new ArrayList<CidsBean>();
         linkesUferList = new ArrayList<CidsBean>();
 
         for (final CidsBean tmp : all) {
@@ -247,16 +236,11 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
                     rechtesUferList.add(tmp);
                     break;
                 }
-                case GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE: {
-                    sohleList.add(tmp);
-                    break;
-                }
             }
         }
 
         rechtesUferList = ObservableCollections.observableList(rechtesUferList);
         linkesUferList = ObservableCollections.observableList(linkesUferList);
-        sohleList = ObservableCollections.observableList(sohleList);
 
         ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
                 GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_RECHTS,
@@ -266,13 +250,8 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
                 GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_LINKS,
                 cidsBean,
                 COLLECTION_PROPERTY));
-        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
-                GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE,
-                cidsBean,
-                COLLECTION_PROPERTY));
 
         ufer_rechts.setCidsBeans(rechtesUferList);
-        sohle.setCidsBeans(sohleList);
         ufer_links.setCidsBeans(linkesUferList);
 
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
@@ -328,7 +307,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        panUnterhaltungshinweis = new javax.swing.JPanel();
+        panSchutzgebiet = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
@@ -367,7 +346,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
-        jbApply.setText(org.openide.util.NbBundle.getMessage(GupPoiRouteEditor.class, "GupGewaesserabschnitt")); // NOI18N
+        jbApply.setText(org.openide.util.NbBundle.getMessage(SchutzgebietRouteEditor.class, "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -404,9 +383,9 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.CardLayout());
 
-        panUnterhaltungshinweis.setOpaque(false);
-        panUnterhaltungshinweis.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panUnterhaltungshinweis, "unterhaltungshinweis");
+        panSchutzgebiet.setOpaque(false);
+        panSchutzgebiet.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panSchutzgebiet, "schutzgebiet");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
@@ -608,7 +587,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
             "Administratoren",
             "admin",
             "x",
-            "gup_gewaesserabschnitt",
+            "schutzgebiet_route",
             1,
             1280,
             1024);
@@ -617,7 +596,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
-        poiEditor.dispose();
+        schutzgebietEditor.dispose();
     }
 
     @Override
@@ -644,30 +623,28 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
             jband.setRefreshAvoided(true);
-            poiEditor.dispose();
+            schutzgebietEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof PoiRWBandMember) {
-                    switchToForm("unterhaltungshinweis");
-                    lblHeading.setText("Unterhaltungshinweise");
+                if (bm instanceof SchutzgebietRWBandMember) {
+                    switchToForm("schutzgebiet");
+                    lblHeading.setText("Schutzgebiet");
 
-                    final PoiRWBand band = (PoiRWBand)((PoiRWBandMember)bm).getParentBand();
+                    final SchutzgebietRWBand band = (SchutzgebietRWBand)((SchutzgebietRWBandMember)bm).getParentBand();
                     final List<CidsBean> otherBeans;
 
-                    if (band.getSide() == PoiRWBand.RIGHT) {
-                        otherBeans = rechtesUferList;
-                    } else if (band.getSide() == PoiRWBand.LEFT) {
-                        otherBeans = linkesUferList;
+                    if (band.getType() == PoiRWBand.RIGHT) {
+                        otherBeans = new ArrayList(rechtesUferList);
                     } else {
-                        otherBeans = sohleList;
+                        otherBeans = new ArrayList(linkesUferList);
                     }
 
-                    poiEditor.setOthers(otherBeans);
-                    poiEditor.setCidsBean(((PoiRWBandMember)bm).getCidsBean());
+                    schutzgebietEditor.setOthers(otherBeans);
+                    schutzgebietEditor.setCidsBean(((SchutzgebietRWBandMember)bm).getCidsBean());
                 }
             } else {
                 switchToForm("empty");
