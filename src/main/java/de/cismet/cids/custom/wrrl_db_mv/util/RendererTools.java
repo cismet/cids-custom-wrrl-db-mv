@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import de.cismet.cids.editors.DefaultBindableCheckboxField;
 import de.cismet.cids.editors.DefaultBindableColorChooser;
 
 /**
@@ -69,6 +70,15 @@ public class RendererTools {
      * @param  cc  DOCUMENT ME!
      */
     public static void makeReadOnly(final DefaultBindableColorChooser cc) {
+        cc.setReadOnly(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cc  DOCUMENT ME!
+     */
+    public static void makeReadOnly(final DefaultBindableCheckboxField cc) {
         cc.setReadOnly(true);
     }
 }

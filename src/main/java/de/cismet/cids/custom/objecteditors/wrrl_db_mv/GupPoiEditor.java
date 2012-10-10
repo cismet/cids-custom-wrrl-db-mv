@@ -50,6 +50,8 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
@@ -120,14 +122,15 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         linearReferencedLineEditor = linearReferencedLineEditor;
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
         add(jLabel1, gridBagConstraints);
@@ -143,9 +146,8 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
         add(jLabel3, gridBagConstraints);
@@ -171,9 +173,8 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jLabel6.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel6.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
         add(jLabel6, gridBagConstraints);
@@ -233,6 +234,20 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 49, 0, 15);
         add(jScrollPane1, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weightx = 0.2;
+        add(jPanel1, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weightx = 0.2;
+        add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

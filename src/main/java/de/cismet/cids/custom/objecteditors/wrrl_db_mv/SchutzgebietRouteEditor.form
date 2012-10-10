@@ -149,13 +149,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="panUnterhaltungshinweis">
+            <Container class="javax.swing.JPanel" name="panSchutzgebiet">
               <Properties>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                  <CardConstraints cardName="unterhaltungshinweis"/>
+                  <CardConstraints cardName="schutzgebiet"/>
                 </Constraint>
               </Constraints>
 
