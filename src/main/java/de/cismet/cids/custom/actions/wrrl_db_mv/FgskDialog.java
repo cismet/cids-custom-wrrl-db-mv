@@ -513,6 +513,7 @@ public class FgskDialog extends javax.swing.JDialog {
                             fgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
                             fgskBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
                             fgskBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                            fgskBean.setProperty("gwk", routeBean.getProperty("gwk"));
 
                             r.add(new MetaObjectNode(fgskBean.persist()));
                             jProgressBar1.setValue(numOfPersisted++);

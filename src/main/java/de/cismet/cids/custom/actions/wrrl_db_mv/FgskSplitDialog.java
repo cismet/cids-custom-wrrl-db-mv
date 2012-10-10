@@ -856,6 +856,8 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         newfgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
         newfgskBean.setProperty("gewaesser_abschnitt", newSubAbschnitt);
         newfgskBean.setProperty("linie", newLinieBean);
+        newfgskBean.setProperty("gwk", oldRouteBean.getProperty("gwk"));
+
         // ---
         final CidsBean persistedNewFgskBean = newfgskBean.persist();
         jProgressBar1.setValue(3);
