@@ -1003,9 +1003,14 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             if (kompartiment == null) {
                 return true;
             }
-            return (kompartiment.getProperty("id").equals(1) && (Boolean)mo.getBean().getProperty("sohle"))
-                        || (kompartiment.getProperty("id").equals(2) && (Boolean)mo.getBean().getProperty("ufer"))
-                        || (kompartiment.getProperty("id").equals(3) && (Boolean)mo.getBean().getProperty("umfeld"));
+            final Object id = kompartiment.getProperty("id");
+
+            return (id.equals(1) && (mo.getBean().getProperty("sohle") != null)
+                            && (Boolean)mo.getBean().getProperty("sohle"))
+                        || (id.equals(2) && ((Boolean)mo.getBean().getProperty("ufer") != null)
+                            && (Boolean)mo.getBean().getProperty("ufer"))
+                        || (id.equals(3) && ((Boolean)mo.getBean().getProperty("umfeld") != null)
+                            && (Boolean)mo.getBean().getProperty("umfeld"));
         }
 
         /**
