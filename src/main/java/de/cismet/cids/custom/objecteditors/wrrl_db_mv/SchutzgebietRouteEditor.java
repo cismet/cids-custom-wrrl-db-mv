@@ -81,9 +81,8 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
             SCHUTZGEBIET);
     private WKBand wkband;
     private final JBand jband;
-    private final BandModelListener modelListener = new GupPoiBandModelListener();
+    private final BandModelListener modelListener = new GupSchutzgebietBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
@@ -137,10 +136,10 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
 
         schutzgebietEditor = new SchutzgebietEditor(readOnly);
         ufer_rechts.setReadOnly(readOnly);
-        ufer_rechts.setType(PoiRWBand.RIGHT);
+        ufer_rechts.setType(SchutzgebietRWBand.RIGHT);
         sbm.addBand(ufer_rechts);
         ufer_links.setReadOnly(readOnly);
-        ufer_links.setType(PoiRWBand.LEFT);
+        ufer_links.setType(SchutzgebietRWBand.LEFT);
         sbm.addBand(ufer_links);
 
         jband.setModel(sbm);
@@ -277,7 +276,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }
                 }
             });
@@ -611,7 +610,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
      *
      * @version  $Revision$, $Date$
      */
-    class GupPoiBandModelListener implements BandModelListener {
+    class GupSchutzgebietBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 
@@ -637,7 +636,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
                     final SchutzgebietRWBand band = (SchutzgebietRWBand)((SchutzgebietRWBandMember)bm).getParentBand();
                     final List<CidsBean> otherBeans;
 
-                    if (band.getType() == PoiRWBand.RIGHT) {
+                    if (band.getType() == SchutzgebietRWBand.RIGHT) {
                         otherBeans = new ArrayList(rechtesUferList);
                     } else {
                         otherBeans = new ArrayList(linkesUferList);
