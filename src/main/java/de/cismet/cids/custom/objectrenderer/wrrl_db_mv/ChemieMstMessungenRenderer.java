@@ -1504,13 +1504,13 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
      * DOCUMENT ME!
      */
     private void setColors() {
-        ChemieMstMessungenEditor.setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelNit, null, lbl90PerzentilNit);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelO2, lblOWertO2, null);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelNit, null, lbl90PerzentilNit, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelO2, lblOWertO2, null, true);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos, false);
     }
 
     /**
