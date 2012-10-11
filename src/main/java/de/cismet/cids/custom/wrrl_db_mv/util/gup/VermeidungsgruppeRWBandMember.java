@@ -37,13 +37,13 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class SchutzgebietRWBandMember extends LineBandMember {
+public class VermeidungsgruppeRWBandMember extends LineBandMember {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final MetaClass SCHUTZGEBIET = ClassCacheMultiple.getMetaClass(
+    private static final MetaClass VERMEIDUNGSGRUPPE = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "SCHUTZGEBIETSART");
+            "VERMEIDUNGSGRUPPE");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -56,7 +56,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
      *
      * @param  parent  DOCUMENT ME!
      */
-    public SchutzgebietRWBandMember(final SchutzgebietRWBand parent) {
+    public VermeidungsgruppeRWBandMember(final VermeidungsgruppeRWBand parent) {
         super(parent);
         lineFieldName = "linie";
     }
@@ -67,7 +67,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
      * @param  parent    DOCUMENT ME!
      * @param  readOnly  DOCUMENT ME!
      */
-    public SchutzgebietRWBandMember(final SchutzgebietRWBand parent, final boolean readOnly) {
+    public VermeidungsgruppeRWBandMember(final VermeidungsgruppeRWBand parent, final boolean readOnly) {
         super(parent, readOnly);
         lineFieldName = "linie";
     }
@@ -77,7 +77,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("art.name") + "");
+        setToolTipText(bean.getProperty("vermeidungsgruppe.name") + "");
     }
 
     /**
@@ -85,12 +85,12 @@ public class SchutzgebietRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if ((bean.getProperty("art") == null) || (bean.getProperty("art.color") == null)) {
+        if ((bean.getProperty("vermeidungsgruppe") == null) || (bean.getProperty("vermeidungsgruppe.color") == null)) {
             setDefaultBackgound();
             return;
         }
 
-        final String color = (String)bean.getProperty("art.color");
+        final String color = (String)bean.getProperty("vermeidungsgruppe.color");
 
         if (color != null) {
             try {
@@ -123,10 +123,11 @@ public class SchutzgebietRWBandMember extends LineBandMember {
      *
      * @param  id  DOCUMENT ME!
      */
-    private void setSchutzgebiet(final String id) {
+    private void setVermeidungsgruppe(final String id) {
         try {
-            final String query = "select " + SCHUTZGEBIET.getID() + "," + SCHUTZGEBIET.getPrimaryKey() + " from "
-                        + SCHUTZGEBIET.getTableName(); // NOI18N
+            final String query = "select " + VERMEIDUNGSGRUPPE.getID() + "," + VERMEIDUNGSGRUPPE.getPrimaryKey()
+                        + " from "
+                        + VERMEIDUNGSGRUPPE.getTableName(); // NOI18N
             final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
             CidsBean b = null;
 
@@ -138,7 +139,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
                     }
                 }
             }
-            bean.setProperty("art", b);
+            bean.setProperty("vermeidungsgruppe", b);
         } catch (Exception e) {
             LOG.error("Error while setting property massnahme.", e);
         }
@@ -150,8 +151,9 @@ public class SchutzgebietRWBandMember extends LineBandMember {
     @Override
     protected void configurePopupMenu() {
         try {
-            final String query = "select " + SCHUTZGEBIET.getID() + "," + SCHUTZGEBIET.getPrimaryKey() + " from "
-                        + SCHUTZGEBIET.getTableName(); // NOI18N
+            final String query = "select " + VERMEIDUNGSGRUPPE.getID() + "," + VERMEIDUNGSGRUPPE.getPrimaryKey()
+                        + " from "
+                        + VERMEIDUNGSGRUPPE.getTableName(); // NOI18N
             final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
 
             menuItems = new JMenuItem[metaObjects.length];
@@ -177,7 +179,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
         for (final JMenuItem tmp : menuItems) {
             if (e.getSource() == tmp) {
                 found = true;
-                setSchutzgebiet(tmp.getActionCommand());
+                setVermeidungsgruppe(tmp.getActionCommand());
                 fireBandMemberChanged(false);
                 break;
             }
@@ -192,10 +194,10 @@ public class SchutzgebietRWBandMember extends LineBandMember {
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("art")) {
+        if (evt.getPropertyName().equals("vermeidungsgruppe")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("art.name") + "");
+            setToolTipText(bean.getProperty("vermeidungsgruppe.name") + "");
         } else {
             super.propertyChange(evt);
         }

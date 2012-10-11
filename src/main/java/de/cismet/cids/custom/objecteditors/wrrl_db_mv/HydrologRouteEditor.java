@@ -75,7 +75,6 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
     private GupHydrologEditor hydrologieEditor;
     private boolean readOnly = false;
@@ -230,7 +229,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }
                 }
             });

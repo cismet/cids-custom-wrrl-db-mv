@@ -75,7 +75,6 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
     private GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor;
     private boolean readOnly = false;
@@ -218,7 +217,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
             wkband = new WKBand(sbm.getMin(), sbm.getMax(), resArrayWK);
             sbm.insertBand(wkband, 0);
         } catch (Exception e) {
-            log.error("Problem beim Suchen der Wasserkoerper", e);
+            LOG.error("Problem beim Suchen der Wasserkoerper", e);
         }
     }
 

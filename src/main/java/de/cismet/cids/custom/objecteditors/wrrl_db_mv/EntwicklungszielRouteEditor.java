@@ -16,11 +16,8 @@ import Sirius.navigator.connection.SessionManager;
 
 import Sirius.server.search.CidsServerSearch;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -45,14 +42,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.PFeature;
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
 import de.cismet.tools.gui.FooterComponentProvider;
-import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
@@ -84,7 +74,6 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
     private GupEntwicklungszielEditor entwicklungszielEditor;
     private boolean readOnly = false;
@@ -239,7 +228,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }
                 }
             });

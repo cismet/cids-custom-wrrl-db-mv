@@ -86,7 +86,6 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
     private final JBand jband;
     private final BandModelListener modelListener = new GupPoiBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
     private List<CidsBean> sohleList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
@@ -298,7 +297,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }
                 }
             });
