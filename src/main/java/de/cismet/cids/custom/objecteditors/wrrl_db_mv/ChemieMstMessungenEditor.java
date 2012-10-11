@@ -1534,12 +1534,15 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     /**
      * DOCUMENT ME!
      *
-     * @param  mit  DOCUMENT ME!
-     * @param  ow   DOCUMENT ME!
-     * @param  pe   DOCUMENT ME!
-     * @param  reverseColors   DOCUMENT ME!
+     * @param  mit            DOCUMENT ME!
+     * @param  ow             DOCUMENT ME!
+     * @param  pe             DOCUMENT ME!
+     * @param  reverseColors  DOCUMENT ME!
      */
-    public static void setColorOfField(final JLabel mit, final JLabel ow, final JLabel pe, boolean reverseColors) {
+    public static void setColorOfField(final JLabel mit,
+            final JLabel ow,
+            final JLabel pe,
+            final boolean reverseColors) {
         if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
             mit.setOpaque(false);
             mit.repaint();
@@ -1589,7 +1592,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
             return Color.RED;
         }
     }
-    
+
     /**
      * DOCUMENT ME!
      *
