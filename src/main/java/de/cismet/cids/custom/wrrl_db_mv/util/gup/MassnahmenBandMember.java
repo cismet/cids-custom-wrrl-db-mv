@@ -80,7 +80,7 @@ public class MassnahmenBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.color") == null)) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
         final String color = (String)bean.getProperty("massnahme.color");
@@ -90,7 +90,7 @@ public class MassnahmenBandMember extends LineBandMember {
                 setBackgroundPainter(new MattePainter(Color.decode(color)));
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
-                setDefaultBackgound();
+                setDefaultBackground();
             }
         }
 //        switch (action) {

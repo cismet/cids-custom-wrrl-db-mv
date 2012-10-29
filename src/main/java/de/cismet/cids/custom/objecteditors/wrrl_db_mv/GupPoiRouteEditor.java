@@ -12,11 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
-
-import Sirius.server.search.CidsServerSearch;
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -25,7 +20,6 @@ import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -34,8 +28,6 @@ import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
@@ -67,8 +59,6 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
 
 // RequestsFullSizeComponent,
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupPoiRouteEditor.class);
     private static final String GUP_POI = "gup_poi";
 
     //~ Instance fields --------------------------------------------------------
@@ -274,33 +264,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         sohle.setCidsBeans(sohleList);
         ufer_links.setCidsBeans(linkesUferList);
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchWK = new WkSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-
-                    final Collection resWK = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-                    return (ArrayList<ArrayList>)resWK;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final ArrayList<ArrayList> res = get();
-                        wkband.setWK(res);
-                        sbm.insertBand(wkband, 0);
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                        updateUI();
-                    } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
-                    }
-                }
-            });
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband);
     }
 
     @Override

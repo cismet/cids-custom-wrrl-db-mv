@@ -70,7 +70,7 @@ public class UmlandnutzerRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if (bean.getProperty("nutzer") == null) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
 

@@ -90,7 +90,7 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if (bean.getProperty("art") == null) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
         final CidsBean artBean = (CidsBean)bean.getProperty("art");

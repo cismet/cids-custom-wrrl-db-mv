@@ -17,6 +17,9 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.search.CidsServerSearch;
 
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.observablecollections.ObservableList;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -62,17 +65,24 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
 
     //~ Static fields/initializers ---------------------------------------------
 
+    public static final String COLLECTION_PROPERTY = "ziele";
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupOperativesZielRouteEditor.class);
     private static final String GUP_OPERATIVES_ZIEL = "gup_operatives_ziel_abschnitt";
     public static final int GUP_UFER_LINKS = 1;
     public static final int GUP_UFER_RECHTS = 2;
     public static final int GUP_UMFELD_RECHTS = 3;
-    public static final int GUP_UMFELD_LINKS = 3;
-    public static final int GUP_SOHLE = 4;
+    public static final int GUP_UMFELD_LINKS = 4;
+    public static final int GUP_SOHLE = 5;
 
     //~ Instance fields --------------------------------------------------------
 
+    private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> sohleList = new ArrayList<CidsBean>();
+    private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> rechtesUmfeldList = new ArrayList<CidsBean>();
+    private List<CidsBean> linkesUmfeldList = new ArrayList<CidsBean>();
     private OperativesZielRWBand uferLinksBand = new OperativesZielRWBand("Ufer links", GUP_OPERATIVES_ZIEL);
     private OperativesZielRWBand uferRechtsBand = new OperativesZielRWBand("Ufer rechts", GUP_OPERATIVES_ZIEL);
     private OperativesZielRWBand umfeldLinksBand = new OperativesZielRWBand("Umfeld links", GUP_OPERATIVES_ZIEL);
@@ -80,7 +90,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     private OperativesZielRWBand sohleBand = new OperativesZielRWBand("Sohle", GUP_OPERATIVES_ZIEL);
     private WKBand wkband;
     private final JBand jband;
-    private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
+    private final BandModelListener modelListener = new GupOperativesZielBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private GupOperativesZielAbschnittEditor operativesZielEditor;
@@ -224,43 +234,86 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         sohleBand.setRoute(route);
         umfeldRechtsBand.setRoute(route);
         umfeldLinksBand.setRoute(route);
-        uferLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_links"));
-        uferRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_rechts"));
-        umfeldLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_links"));
-        umfeldRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_rechts"));
-        sohleBand.setCidsBeans(cidsBean.getBeanCollectionProperty("sohle"));
+
+        final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
+        rechtesUferList = new ArrayList<CidsBean>();
+        sohleList = new ArrayList<CidsBean>();
+        linkesUferList = new ArrayList<CidsBean>();
+        rechtesUmfeldList = new ArrayList<CidsBean>();
+        linkesUmfeldList = new ArrayList<CidsBean>();
+
+        for (final CidsBean tmp : all) {
+            final Integer kind = (Integer)tmp.getProperty("wo.id");
+
+            switch (kind) {
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_LINKS: {
+                    linkesUferList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_RECHTS: {
+                    rechtesUferList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_UMFELD_LINKS: {
+                    linkesUmfeldList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_UMFELD_RECHTS: {
+                    rechtesUmfeldList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE: {
+                    sohleList.add(tmp);
+                    break;
+                }
+            }
+        }
+
+        // Massnahmen extrahieren
+        rechtesUferList = ObservableCollections.observableList(rechtesUferList);
+        linkesUferList = ObservableCollections.observableList(linkesUferList);
+        sohleList = ObservableCollections.observableList(sohleList);
+        rechtesUmfeldList = ObservableCollections.observableList(rechtesUmfeldList);
+        linkesUmfeldList = ObservableCollections.observableList(linkesUmfeldList);
+
+        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_LINKS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)rechtesUmfeldList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_UMFELD_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)linkesUmfeldList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_UMFELD_LINKS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE,
+                cidsBean,
+                COLLECTION_PROPERTY));
+
+        uferRechtsBand.setCidsBeans(rechtesUferList);
+        sohleBand.setCidsBeans(sohleList);
+        uferLinksBand.setCidsBeans(linkesUferList);
+        umfeldRechtsBand.setCidsBeans(rechtesUmfeldList);
+        umfeldLinksBand.setCidsBeans(linkesUmfeldList);
+
+//        uferLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_links"));
+//        uferRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_rechts"));
+//        umfeldLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_links"));
+//        umfeldRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_rechts"));
+//        sohleBand.setCidsBeans(cidsBean.getBeanCollectionProperty("sohle"));
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchWK = new WkSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-
-                    final Collection resWK = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-                    return (ArrayList<ArrayList>)resWK;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final ArrayList<ArrayList> res = get();
-                        wkband.setWK(res);
-                        sbm.insertBand(wkband, 0);
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                        updateUI();
-                    } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
-                    }
-                }
-            });
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband);
     }
 
     @Override
@@ -593,7 +646,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
      *
      * @version  $Revision$, $Date$
      */
-    class GupGewaesserabschnittBandModelListener implements BandModelListener {
+    class GupOperativesZielBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 
@@ -615,30 +668,26 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
                 if (bm instanceof OperativesZielRWBandMember) {
                     switchToForm("ziele");
                     lblHeading.setText("Operatives Ziel");
-                    String memberProperty = null;
                     final int type = ((OperativesZielRWBand)((OperativesZielRWBandMember)bm).getParentBand()).getType();
                     int kompartiment = 0;
+                    List<CidsBean> otherBeans = null;
 
                     if (type == GUP_SOHLE) {
-                        memberProperty = "sohle";
                         kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_SOHLE;
+                        otherBeans = sohleList;
                     } else if (type == GUP_UFER_LINKS) {
-                        memberProperty = "ufer_links";
                         kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
+                        otherBeans = linkesUferList;
                     } else if (type == GUP_UFER_RECHTS) {
-                        memberProperty = "ufer_rechts";
                         kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
+                        otherBeans = rechtesUferList;
                     } else if (type == GUP_UMFELD_LINKS) {
-                        memberProperty = "umfeld_links";
                         kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
+                        otherBeans = linkesUmfeldList;
                     } else if (type == GUP_UMFELD_RECHTS) {
-                        memberProperty = "umfeld_rechts";
                         kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
+                        otherBeans = rechtesUmfeldList;
                     }
-
-                    final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
-                            cidsBean,
-                            memberProperty);
 
                     operativesZielEditor.setKompartiment(kompartiment);
                     operativesZielEditor.setOthers(otherBeans);

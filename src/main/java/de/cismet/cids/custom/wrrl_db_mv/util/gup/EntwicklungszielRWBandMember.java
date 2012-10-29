@@ -87,7 +87,7 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if ((bean.getProperty("name_bezeichnung") == null) || (bean.getProperty("name_bezeichnung.color") == null)) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
         final String color = (String)bean.getProperty("name_bezeichnung.color");
@@ -97,7 +97,7 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
                 setBackgroundPainter(new MattePainter(Color.decode(color)));
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
-                setDefaultBackgound();
+                setDefaultBackground();
             }
         }
 
