@@ -94,6 +94,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     //~ Instance fields --------------------------------------------------------
 
+    boolean isNew = false;
+
     private List<String> gups;
     private List<String> planungsabschnitte;
     private List<CidsBean> massnToAdd = new ArrayList<CidsBean>();
@@ -602,6 +604,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             group.set(1, ((Integer)group.get(1)) + 1);
             group.set(2, (Double)group.get(2) + calculateLength(bean));
+            group.set(3, (Double)group.get(3) + (calculateLength(bean) * boeschungslaenge(bean)));
         }
 
         tabMassnKum.setModel(new MassnKumTableModel(groups));
@@ -619,6 +622,23 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         final double bis = (Double)bean.get(7);
 
         return bis - von;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private double boeschungslaenge(final ArrayList bean) {
+        final Double bl = (Double)bean.get(10);
+
+        if (bl == null) {
+            return 0.0;
+        } else {
+            return bl;
+        }
     }
 
     /**
@@ -673,6 +693,54 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            // saves the references between the gup_unterhaltungsmassnahme objects and the los object
+            if (massnToAdd.size() > 0) {
+                final int deps = massnToAdd.size();
+                final WaitDialog wd = new WaitDialog(
+                        StaticSwingTools.getParentFrame(GupLosEditor.this),
+                        true,
+                        "Speichere Abhängigkeit 1 von "
+                                + deps,
+                        null);
+
+                new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try {
+                                int n = 0;
+                                wd.setMax(deps);
+
+                                while (massnToAdd.size() > 0) {
+                                    final CidsBean bean = massnToAdd.get(0);
+                                    try {
+                                        bean.setProperty("los", event.getSavedBean());
+                                        bean.persist();
+                                        massnToAdd.remove(0);
+                                        wd.setProgress(++n);
+                                        wd.setText("Speichere Abhängigkeit " + (n + 1) + " von " + deps);
+                                    } catch (Exception e) {
+                                        LOG.error("Error while saving a los object.", e);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                LOG.error("Error while saving a los object.", e);
+                            } finally {
+                                while (!wd.isVisible()) {
+                                    try {
+                                        Thread.sleep(50);
+                                    } catch (InterruptedException e) {
+                                        // nothing to do
+                                    }
+                                }
+                                wd.setVisible(false);
+                            }
+                        }
+                    }).start();
+
+                StaticSwingTools.showDialog(wd);
+            }
+
             EventQueue.invokeLater(new Thread(new Runnable() {
 
                         @Override
@@ -708,51 +776,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public boolean prepareForSave() {
-        // saves the references between the gup_unterhaltungsmassnahme objects and the los object
-        if (massnToAdd.size() > 0) {
-            final int deps = massnToAdd.size();
-            final WaitDialog wd = new WaitDialog(
-                    StaticSwingTools.getParentFrame(GupLosEditor.this),
-                    true,
-                    "Speichere Abhängigkeit 1 von "
-                            + deps,
-                    null);
-
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        try {
-                            int n = 0;
-                            wd.setMax(deps - 1);
-
-                            while (massnToAdd.size() > 0) {
-                                final CidsBean bean = massnToAdd.get(0);
-                                try {
-                                    bean.setProperty("los", cidsBean);
-                                    bean.persist();
-                                    massnToAdd.remove(0);
-                                    wd.setProgress(++n);
-                                    wd.setText("Speichere Abhängigkeit " + (n + 1) + " von " + deps);
-                                } catch (Exception e) {
-                                    LOG.error("Error while saving a los object.", e);
-                                }
-                            }
-                        } finally {
-                            while (!wd.isVisible()) {
-                                try {
-                                    Thread.sleep(50);
-                                } catch (InterruptedException e) {
-                                    // nothing to do
-                                }
-                            }
-                            wd.setVisible(false);
-                        }
-                    }
-                }).start();
-
-            StaticSwingTools.showDialog(wd);
-        }
         return true;
     }
 

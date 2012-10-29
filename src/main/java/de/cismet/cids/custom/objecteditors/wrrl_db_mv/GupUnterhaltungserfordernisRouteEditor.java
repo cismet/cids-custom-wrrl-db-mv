@@ -12,14 +12,10 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -28,7 +24,6 @@ import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
@@ -72,7 +67,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
             GUP_UNTERHALTUNGSERFORDERNIS);
     private WKBand wkband;
     private final JBand jband;
-    private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
+    private final BandModelListener modelListener = new GupUnterhaltungserfordernisBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor;
@@ -204,20 +199,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        try {
-            final CidsServerSearch searchWK = new WkSearchByStations(sbm.getMin(),
-                    sbm.getMax(),
-                    String.valueOf(route.getProperty("gwk")));
-
-            final Collection resWK = SessionManager.getProxy()
-                        .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-            final ArrayList<ArrayList> resArrayWK = (ArrayList<ArrayList>)resWK;
-
-            wkband = new WKBand(sbm.getMin(), sbm.getMax(), resArrayWK);
-            sbm.insertBand(wkband, 0);
-        } catch (Exception e) {
-            LOG.error("Problem beim Suchen der Wasserkoerper", e);
-        }
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband);
     }
 
     @Override
@@ -550,7 +532,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
      *
      * @version  $Revision$, $Date$
      */
-    class GupGewaesserabschnittBandModelListener implements BandModelListener {
+    class GupUnterhaltungserfordernisBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 

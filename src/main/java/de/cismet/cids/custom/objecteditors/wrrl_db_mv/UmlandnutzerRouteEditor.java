@@ -12,15 +12,10 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -29,7 +24,6 @@ import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
@@ -79,7 +73,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
             UMLANDNUTZER);
     private WKBand wkband;
     private final JBand jband;
-    private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
+    private final BandModelListener modelListener = new UmlandnutzerBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private UmlandnutzerEditor umlandnutzerEditor;
@@ -219,33 +213,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchWK = new WkSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-
-                    final Collection resWK = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-                    return (ArrayList<ArrayList>)resWK;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final ArrayList<ArrayList> res = get();
-                        wkband.setWK(res);
-                        sbm.insertBand(wkband, 0);
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                        updateUI();
-                    } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
-                    }
-                }
-            });
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband);
     }
 
     @Override
@@ -576,7 +544,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
      *
      * @version  $Revision$, $Date$
      */
-    class GupGewaesserabschnittBandModelListener implements BandModelListener {
+    class UmlandnutzerBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 

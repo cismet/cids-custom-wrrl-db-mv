@@ -74,7 +74,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
             GUP_ENTWICKLUNGSZIEL);
     private WKBand wkband;
     private final JBand jband;
-    private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
+    private final BandModelListener modelListener = new HydrologieBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private GupHydrologEditor hydrologieEditor;
@@ -207,33 +207,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchWK = new WkSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-
-                    final Collection resWK = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-                    return (ArrayList<ArrayList>)resWK;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final ArrayList<ArrayList> res = get();
-                        wkband.setWK(res);
-                        sbm.insertBand(wkband, 0);
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                        updateUI();
-                    } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
-                    }
-                }
-            });
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband);
     }
 
     @Override
@@ -564,7 +538,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
      *
      * @version  $Revision$, $Date$
      */
-    class GupGewaesserabschnittBandModelListener implements BandModelListener {
+    class HydrologieBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 

@@ -254,33 +254,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
         ufer_rechts.setCidsBeans(rechtesUferList);
         ufer_links.setCidsBeans(linkesUferList);
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchWK = new WkSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-
-                    final Collection resWK = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-                    return (ArrayList<ArrayList>)resWK;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final ArrayList<ArrayList> res = get();
-                        wkband.setWK(res);
-                        sbm.insertBand(wkband, 0);
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                        updateUI();
-                    } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
-                    }
-                }
-            });
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband);
     }
 
     @Override
