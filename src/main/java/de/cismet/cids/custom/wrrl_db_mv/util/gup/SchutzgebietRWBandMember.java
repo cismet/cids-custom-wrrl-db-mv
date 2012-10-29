@@ -86,7 +86,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if ((bean.getProperty("art") == null) || (bean.getProperty("art.color") == null)) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
 
@@ -97,7 +97,7 @@ public class SchutzgebietRWBandMember extends LineBandMember {
                 setBackgroundPainter(new MattePainter(Color.decode(color)));
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
-                setDefaultBackgound();
+                setDefaultBackground();
             }
         }
 
