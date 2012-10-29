@@ -1546,6 +1546,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
             mit.setOpaque(false);
             mit.repaint();
+            return;
         }
         try {
             final double mitD = Double.parseDouble(mit.getText());
