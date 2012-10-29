@@ -1021,7 +1021,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -1635,6 +1635,87 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             txtMassnahme.setBackground(new Color(237, 16, 42));
             txtMassnahme.setText("ungültige Kombination");
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshMassnahme() {
+        txtMassnahme.setText("Suche ...");
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    final long startTime = System.currentTimeMillis();
+                    try {
+                        final String query = "select " + MASSNAHMENART_MC.getID() + ","
+                                    + MASSNAHMENART_MC.getPrimaryKey()
+                                    + " from " + MASSNAHMENART_MC.getTableName();
+                        final MetaObject[] mo = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+                        MetaObject validMetaObject = null;
+                        int validCount = 0;
+
+                        for (final MetaObject tmp : mo) {
+                            if (isValidMassnahmenart(tmp.getBean())) {
+                                validMetaObject = tmp;
+                                ++validCount;
+                            }
+                        }
+
+                        final int count = validCount;
+                        final MetaObject metaObject = validMetaObject;
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    if (count == 1) {
+                                        txtMassnahme.setBackground(new Color(54, 196, 165));
+                                        txtMassnahme.setOpaque(true);
+                                        txtMassnahme.setText(
+                                            String.valueOf(metaObject.getBean().getProperty("massnahmen_id")));
+                                    } else if (count > 1) {
+                                        txtMassnahme.setOpaque(true);
+                                        txtMassnahme.setBackground(new Color(237, 218, 16));
+                                        txtMassnahme.setText(count + " Treffer");
+                                    } else {
+                                        txtMassnahme.setOpaque(true);
+                                        txtMassnahme.setBackground(new Color(237, 16, 42));
+                                        txtMassnahme.setText("ungültige Kombination");
+                                    }
+                                }
+                            });
+                    } catch (Exception e) {
+                        LOG.error("Cannot determine the valid objects of the type massnahmenart.", e);
+                    }
+                    LOG.error("time: " + (System.currentTimeMillis() - startTime));
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isValidMassnahmenart(final CidsBean bean) {
+        final Object geraet = cbGeraet.getSelectedItem();
+        final Object gewerk = cbGewerk.getSelectedItem();
+        final Object einsatz = cbEinsatz.getSelectedItem();
+        final Object intervall = cbIntervall.getSelectedItem();
+        final Object verbleib = cbVerbleib.getSelectedItem();
+        final Object zeitpunkt = cbZeitpunkt.getSelectedItem();
+        final Object zeitpunkt2 = cbZeitpunkt2.getSelectedItem();
+
+        return ((geraet == null) || geraet.equals(bean.getProperty("geraet")))
+                    && ((gewerk == null) || gewerk.equals(bean.getProperty("gewerk")))
+                    && ((einsatz == null) || einsatz.equals(bean.getProperty("einsatzvariante")))
+                    && ((intervall == null) || intervall.equals(bean.getProperty("intervall")))
+                    && ((verbleib == null) || verbleib.equals(bean.getProperty("verbleib")))
+                    && ((zeitpunkt == null) || zeitpunkt.equals(bean.getProperty("ausfuehrungszeitpunkt")))
+                    && ((zeitpunkt2 == null) || zeitpunkt2.equals(bean.getProperty("zweiter_ausfuehrungszeitpunkt")));
     }
 
     /**

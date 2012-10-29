@@ -170,7 +170,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         DefaultBindableReferenceCombo.getModelByMetaClass(time, true);
                         DefaultBindableReferenceCombo.getModelByMetaClass(material, true);
                     } catch (Exception e) {
-                        // nothing to do
+                        LOG.error("Error while loading all object of the type gup_massnahmenart.", e);
                     }
                 }
             });
@@ -1936,6 +1936,32 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         sbm.fireBandModelValuesChanged();
     }//GEN-LAST:event_chkOperativeZieleActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkVerbreitungsraumActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkVerbreitungsraumActionPerformed
+        verbreitungsraumLinksBand.setEnabled(chkVerbreitungsraum.isSelected());
+        verbreitungsraumRechtsBand.setEnabled(chkVerbreitungsraum.isSelected());
+        verbreitungsraumSohleBand.setEnabled(chkVerbreitungsraum.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                       //GEN-LAST:event_chkVerbreitungsraumActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkOperativeZieleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkOperativeZieleActionPerformed
+        operativeZieleLinksBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleRechtsBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleSohleBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleUmfeldLinksBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                     //GEN-LAST:event_chkOperativeZieleActionPerformed
 
     /**
      * DOCUMENT ME!
