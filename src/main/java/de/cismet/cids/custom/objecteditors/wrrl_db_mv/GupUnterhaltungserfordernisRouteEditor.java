@@ -188,6 +188,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
                     "linie.bis"));
         sbm.setMin(from);
         sbm.setMax(till);
+        wkband = new WKBand(from, till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
         unterhaltungsband.setRoute(route);
