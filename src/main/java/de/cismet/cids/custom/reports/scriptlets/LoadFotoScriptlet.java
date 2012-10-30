@@ -43,6 +43,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.imageio.ImageIO;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.BoundingBox;
@@ -104,10 +106,11 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
         Image result = null;
 
         final String fileName = (String)((JRFillField)fieldsMap.get("file")).getValue();
+        final String encodedFilename = WebDavHelper.encodeURL(fileName);
 
         InputStream inputStream = null;
         try {
-            inputStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY + fileName);
+            inputStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY + encodedFilename);
             result = ImageIO.read(inputStream);
         } catch (IOException ex) {
             LOG.error("Couldn't load photo", ex);
@@ -116,7 +119,7 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
                 try {
                     inputStream.close();
                 } catch (IOException ex) {
-                    LOG.error("Couldn't close stream for " + fileName, ex);
+                    LOG.error("Couldn't close stream for " + encodedFilename, ex);
                 }
             }
         }
