@@ -13,6 +13,8 @@ import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import org.apache.log4j.Logger;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
@@ -32,6 +34,12 @@ import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cismap.commons.XBoundingBox;
+import de.cismet.cismap.commons.features.DefaultStyledFeature;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.piccolo.PFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.jbands.JBandCursorManager;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
@@ -58,6 +66,7 @@ public class ColoredReadOnlyBandMember extends AbschnittsinfoMember implements B
     private Painter unselectedBackgroundPainter;
     private Painter selectedBackgroundPainter;
     private String colorProperty;
+    private String lineFieldName = "linie";
 
     //~ Constructors -----------------------------------------------------------
 
@@ -174,6 +183,38 @@ public class ColoredReadOnlyBandMember extends AbschnittsinfoMember implements B
 
     @Override
     public void mouseClicked(final MouseEvent e) {
+        if ((e.getClickCount() == 2) && (cidsBean != null)) {
+            final Geometry g = (Geometry)(cidsBean.getProperty(lineFieldName + ".geom.geo_field"));
+            final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
+            final XBoundingBox xbb = new XBoundingBox(g);
+
+            mc.gotoBoundingBoxWithHistory(new XBoundingBox(
+                    g.getEnvelope().buffer((xbb.getWidth() + xbb.getHeight()) / 2 * 0.1)));
+            final DefaultStyledFeature dsf = new DefaultStyledFeature();
+            dsf.setGeometry(g);
+            dsf.setCanBeSelected(false);
+            dsf.setLinePaint(Color.YELLOW);
+            dsf.setLineWidth(6);
+            final PFeature highlighter = new PFeature(dsf, mc);
+            mc.getHighlightingLayer().addChild(highlighter);
+            highlighter.animateToTransparency(0.1f, 2000);
+            de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Thread.currentThread().sleep(2500);
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            mc.getHighlightingLayer().removeChild(highlighter);
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+        }
     }
 
     @Override

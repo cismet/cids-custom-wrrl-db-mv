@@ -138,50 +138,62 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     static {
         // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
         // verhindern
-// new Thread(new Runnable() {
-//
-// @Override
-// public void run() {
-// final MetaClass year = ClassCacheMultiple.getMetaClass(
-// WRRLUtil.DOMAIN_NAME,
-// "GUP_JAHR");
-// final MetaClass interval = ClassCacheMultiple.getMetaClass(
-// WRRLUtil.DOMAIN_NAME,
-// "gup_massnahmenintervall");
-// final MetaClass time = ClassCacheMultiple.getMetaClass(
-// WRRLUtil.DOMAIN_NAME,
-// "gup_unterhaltungsmassnahme_ausfuehrungszeitpunkt");
-// final MetaClass material = ClassCacheMultiple.getMetaClass(
-// WRRLUtil.DOMAIN_NAME,
-// "gup_material_verbleib");
-// try {
-// DefaultBindableReferenceCombo.getModelByMetaClass(year, true);
-// DefaultBindableReferenceCombo.getModelByMetaClass(interval, true);
-// DefaultBindableReferenceCombo.getModelByMetaClass(time, true);
-// DefaultBindableReferenceCombo.getModelByMetaClass(material, true);
-// } catch (Exception e) {
-// // nothing to do
-// }
-// }
-// }).start();
-    }
-
-    static {
         CismetThreadPool.execute(new Runnable() {
-
-                private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
-                        WRRLUtil.DOMAIN_NAME,
-                        "gup_massnahmenart");
 
                 @Override
                 public void run() {
+                    final MetaClass year = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "GUP_JAHR");
+                    final MetaClass interval = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_massnahmenintervall");
+
                     try {
-                        final String query = "select " + MASSNAHMENART_MC.getID() + ","
-                                    + MASSNAHMENART_MC.getPrimaryKey()
-                                    + " from " + MASSNAHMENART_MC.getTableName();
-                        MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(year, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(interval, true);
                     } catch (Exception e) {
-                        LOG.error("Error while loading all object of the type gup_massnahmenart.", e);
+                        // nothing to do
+                    }
+                }
+            });
+        // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
+        // verhindern
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    final MetaClass time = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_unterhaltungsmassnahme_ausfuehrungszeitpunkt");
+                    final MetaClass material = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_material_verbleib");
+                    try {
+                        DefaultBindableReferenceCombo.getModelByMetaClass(time, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(material, true);
+                    } catch (Exception e) {
+                        // nothing to do
+                    }
+                }
+            });
+        // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
+        // verhindern
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    final MetaClass geraet = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_geraet");
+                    final MetaClass einsatzvariante = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_einsatzvariante");
+                    try {
+                        DefaultBindableReferenceCombo.getModelByMetaClass(geraet, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(einsatzvariante, true);
+                    } catch (Exception e) {
+                        // nothing to do
                     }
                 }
             });
@@ -456,6 +468,33 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         }
 
         sldZoom.setPaintTrack(false);
+
+        CismetThreadPool.execute(new Runnable() {
+
+                private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
+                        WRRLUtil.DOMAIN_NAME,
+                        "gup_massnahmenart");
+
+                @Override
+                public void run() {
+                    try {
+                        final String query = "select " + MASSNAHMENART_MC.getID() + ","
+                                    + MASSNAHMENART_MC.getPrimaryKey()
+                                    + " from " + MASSNAHMENART_MC.getTableName();
+                        final MetaObject[] mo = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    massnahmeEditor.setMassnahmnenObjects(mo);
+                                }
+                            });
+                    } catch (Exception e) {
+                        LOG.error("Error while retrieving massnahmen objects.", e);
+                    }
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
