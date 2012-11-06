@@ -9,14 +9,13 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import Sirius.navigator.connection.SessionManager;
 
-import Sirius.server.search.CidsServerSearch;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.MinimumHeightBand;
