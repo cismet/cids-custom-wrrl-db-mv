@@ -61,6 +61,7 @@ import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.server.search.CidsServerSearch;
 
@@ -1942,26 +1943,26 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkVerbreitungsraumActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkVerbreitungsraumActionPerformed
+    private void chkVerbreitungsraumActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVerbreitungsraumActionPerformed
         verbreitungsraumLinksBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumRechtsBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumSohleBand.setEnabled(chkVerbreitungsraum.isSelected());
         sbm.fireBandModelValuesChanged();
-    }                                                                                       //GEN-LAST:event_chkVerbreitungsraumActionPerformed
+    }//GEN-LAST:event_chkVerbreitungsraumActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkOperativeZieleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkOperativeZieleActionPerformed
+    private void chkOperativeZieleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkOperativeZieleActionPerformed
         operativeZieleLinksBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleSohleBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleUmfeldLinksBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         sbm.fireBandModelValuesChanged();
-    }                                                                                     //GEN-LAST:event_chkOperativeZieleActionPerformed
+    }//GEN-LAST:event_chkOperativeZieleActionPerformed
 
     /**
      * DOCUMENT ME!
