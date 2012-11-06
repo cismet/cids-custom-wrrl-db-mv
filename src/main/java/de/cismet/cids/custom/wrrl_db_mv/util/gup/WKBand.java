@@ -9,7 +9,6 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import Sirius.navigator.connection.SessionManager;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 

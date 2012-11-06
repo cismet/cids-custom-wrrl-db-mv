@@ -23,7 +23,6 @@ import Sirius.server.middleware.types.MetaObject;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -62,6 +61,7 @@ import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -1610,22 +1610,22 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
         vBand.setZoomFactor(zoom);
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togAllgemeinInfoActionPerformed
+    private void togAllgemeinInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togAllgemeinInfoActionPerformed
         switchToForm("allgemein");
         lblHeading.setText("Allgemeine Informationen");
         zoomToAbschnitt();
-    }//GEN-LAST:event_togAllgemeinInfoActionPerformed
+    }                                                                                    //GEN-LAST:event_togAllgemeinInfoActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1642,85 +1642,85 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkQuerbauwerkeActionPerformed
+    private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkQuerbauwerkeActionPerformed
         querbauwerksband.setEnabled(chkQuerbauwerke.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkQuerbauwerkeActionPerformed
+    }                                                                                   //GEN-LAST:event_chkQuerbauwerkeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMassnahmenActionPerformed
+    private void chkMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkMassnahmenActionPerformed
         linkesUferBand.setEnabled(chkMassnahmen.isSelected());
         rechtesUferBand.setEnabled(chkMassnahmen.isSelected());
         sohleBand.setEnabled(chkMassnahmen.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkMassnahmenActionPerformed
+    }                                                                                 //GEN-LAST:event_chkMassnahmenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
+    private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
         rechtesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         linkesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
+    }                                                                                         //GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkWasserkoerperActionPerformed
+    private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkWasserkoerperActionPerformed
         wkband.setEnabled(chkWasserkoerper.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkWasserkoerperActionPerformed
+    }                                                                                    //GEN-LAST:event_chkWasserkoerperActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUmlandnutzungActionPerformed
+    private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzungActionPerformed
         nutzungLinksBand.setEnabled(chkUmlandnutzung.isSelected());
         nutzungRechtsBand.setEnabled(chkUmlandnutzung.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkUmlandnutzungActionPerformed
+    }                                                                                    //GEN-LAST:event_chkUmlandnutzungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNaturschutzActionPerformed
+    private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkNaturschutzActionPerformed
         schutzgebietLinksBand.setEnabled(chkNaturschutz.isSelected());
         schutzgebietRechtsBand.setEnabled(chkNaturschutz.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkNaturschutzActionPerformed
+    }                                                                                  //GEN-LAST:event_chkNaturschutzActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkUnterhaltungserfordernisActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUnterhaltungserfordernisActionPerformed
+    private void chkUnterhaltungserfordernisActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUnterhaltungserfordernisActionPerformed
         unterhaltungserfordernisBand.setEnabled((chkUnterhaltungserfordernis.isSelected()));
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkUnterhaltungserfordernisActionPerformed
+    }                                                                                               //GEN-LAST:event_chkUnterhaltungserfordernisActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkEntwicklungszielActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEntwicklungszielActionPerformed
+    private void chkEntwicklungszielActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkEntwicklungszielActionPerformed
         entwicklungszielBand.setEnabled(chkEntwicklungsziel.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkEntwicklungszielActionPerformed
+    }                                                                                       //GEN-LAST:event_chkEntwicklungszielActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1765,27 +1765,27 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApplyActionPerformed
+    private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApplyActionPerformed
         panBand.removeAll();
         panBand.add(jband, BorderLayout.CENTER);
         setNamesAndBands();
         linearReferencedLineEditor.dispose();
         showRoute();
         togApplyStats.setEnabled(true);
-    }//GEN-LAST:event_jbApplyActionPerformed
+    }                                                                           //GEN-LAST:event_jbApplyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togApplyStatsActionPerformed
+    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
             showVermessungsband();
         } else {
             hideVermessungsband();
         }
-    }//GEN-LAST:event_togApplyStatsActionPerformed
+    }                                                                                 //GEN-LAST:event_togApplyStatsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1877,7 +1877,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApply1ActionPerformed
+    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
         try {
             JOptionPane.showConfirmDialog(
                 StaticSwingTools.getParentFrame(this),
@@ -1907,33 +1907,33 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         } catch (Exception e) {
             LOG.error("Error while creating the initial bands.", e);
         }
-    }//GEN-LAST:event_jbApply1ActionPerformed
+    } //GEN-LAST:event_jbApply1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkVerbreitungsraumActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVerbreitungsraumActionPerformed
+    private void chkVerbreitungsraumActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkVerbreitungsraumActionPerformed
         verbreitungsraumLinksBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumRechtsBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumSohleBand.setEnabled(chkVerbreitungsraum.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkVerbreitungsraumActionPerformed
+    }                                                                                       //GEN-LAST:event_chkVerbreitungsraumActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void chkOperativeZieleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkOperativeZieleActionPerformed
+    private void chkOperativeZieleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkOperativeZieleActionPerformed
         operativeZieleLinksBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleSohleBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleUmfeldLinksBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         sbm.fireBandModelValuesChanged();
-    }//GEN-LAST:event_chkOperativeZieleActionPerformed
+    }                                                                                     //GEN-LAST:event_chkOperativeZieleActionPerformed
 
     /**
      * DOCUMENT ME!
