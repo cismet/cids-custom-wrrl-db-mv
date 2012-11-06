@@ -18,11 +18,9 @@ import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
-import Sirius.server.search.CidsServerSearch;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.Exceptions;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -41,7 +39,6 @@ import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRende
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenartSearch;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.StaluSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsmaßnahmeValidator;
@@ -53,6 +50,8 @@ import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -1019,20 +1018,20 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbJahrItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbJahrItemStateChanged
+    private void cbJahrItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbJahrItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 changeBearbeiter();
             }
         }
-    }                                                                         //GEN-LAST:event_cbJahrItemStateChanged
+    }//GEN-LAST:event_cbJahrItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbIntervallItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbIntervallItemStateChanged
+    private void cbIntervallItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIntervallItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 final CidsBean bean = (CidsBean)evt.getItem();
@@ -1041,85 +1040,85 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 refreshMassnahme();
             }
         }
-    }                                                                              //GEN-LAST:event_cbIntervallItemStateChanged
+    }//GEN-LAST:event_cbIntervallItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbZeitpunkt2ItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbZeitpunkt2ItemStateChanged
+    private void cbZeitpunkt2ItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbZeitpunkt2ItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 refreshMassnahme();
             }
         }
-    }                                                                               //GEN-LAST:event_cbZeitpunkt2ItemStateChanged
+    }//GEN-LAST:event_cbZeitpunkt2ItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbVerbleibItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbVerbleibItemStateChanged
+    private void cbVerbleibItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVerbleibItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 refreshMassnahme();
             }
         }
-    }                                                                             //GEN-LAST:event_cbVerbleibItemStateChanged
+    }//GEN-LAST:event_cbVerbleibItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbEinsatzItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbEinsatzItemStateChanged
+    private void cbEinsatzItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEinsatzItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 refreshMassnahme();
             }
         }
-    }                                                                            //GEN-LAST:event_cbEinsatzItemStateChanged
+    }//GEN-LAST:event_cbEinsatzItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGeraetItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGeraetItemStateChanged
+    private void cbGeraetItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbGeraetItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 refreshMassnahme();
             }
         }
-    }                                                                           //GEN-LAST:event_cbGeraetItemStateChanged
+    }//GEN-LAST:event_cbGeraetItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGewerkItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGewerkItemStateChanged
+    private void cbGewerkItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbGewerkItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 refreshMassnahme();
             }
         }
-    }                                                                           //GEN-LAST:event_cbGewerkItemStateChanged
+    }//GEN-LAST:event_cbGewerkItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbZeitpunktItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbZeitpunktItemStateChanged
+    private void cbZeitpunktItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbZeitpunktItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 refreshMassnahme();
             }
         }
-    }                                                                              //GEN-LAST:event_cbZeitpunktItemStateChanged
+    }//GEN-LAST:event_cbZeitpunktItemStateChanged
 
     @Override
     public CidsBean getCidsBean() {
@@ -1328,7 +1327,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                                     ? String.valueOf(
                                         ((CidsBean)cbVerbleib.getSelectedItem()).getProperty("id")) : null);
 
-                            final CidsServerSearch search = new MassnahmenartSearch(
+                            final AbstractCidsServerSearch search = new MassnahmenartSearch(
                                     intervall,
                                     einsatzvariante,
                                     geraet,
