@@ -8,42 +8,30 @@
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObjectNode;
-import Sirius.server.middleware.types.Node;
-
-import com.vividsolutions.jts.geom.Geometry;
-
-import java.awt.Color;
-import java.awt.Component;
+import Sirius.server.search.CidsServerSearch;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WrongStationSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
-import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.PFeature;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateLinearReferencedMarksListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 
-import de.cismet.cismap.navigatorplugin.CidsFeature;
+import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -52,36 +40,23 @@ import de.cismet.tools.gui.StaticSwingTools;
  *
  * @version  $Revision$, $Date$
  */
-public class FgskDialog extends javax.swing.JDialog {
+public class RoutenDialog extends javax.swing.JDialog {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FgskDialog.class);
-    private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            "fgsk_kartierabschnitt");
-    private static final MetaClass MC_STATION = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            LinearReferencingConstants.CN_STATION);
-    private static final MetaClass MC_STATIONLINIE = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            LinearReferencingConstants.CN_STATIONLINE);
-    private static final MetaClass MC_GEOM = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            LinearReferencingConstants.CN_GEOM);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutenDialog.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private MappingComponent mappingComponent = null;
     private String interactionModeWhenFinished = ""; // NOI18N
-    private final Double[] positions;
     private CidsBean routeBean = null;
-    private final ArrayList<KartierAbschnitt> kartierAbschnitte = new ArrayList<KartierAbschnitt>();
-    private boolean allValid;
+    private CustomTableModel model = new CustomTableModel();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdCancel;
     private javax.swing.JButton cmdOk;
+    private javax.swing.JButton cmdStart;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -107,58 +82,13 @@ public class FgskDialog extends javax.swing.JDialog {
      * @param  modal             DOCUMENT ME!
      * @param  mappingComponent  DOCUMENT ME!
      */
-    public FgskDialog(final boolean modal, final MappingComponent mappingComponent) {
+    public RoutenDialog(final boolean modal, final MappingComponent mappingComponent) {
         super(StaticSwingTools.getParentFrame(mappingComponent), modal);
 
         initComponents();
         getRootPane().setDefaultButton(cmdOk);
         this.mappingComponent = mappingComponent;
         cmdOk.setEnabled(false);
-
-        // positionen speichern
-        final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
-            mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
-        final PFeature selectedPFeature = marksListener.getSelectedLinePFeature();
-        positions = marksListener.getMarkPositionsOfSelectedFeature();
-
-        // route bestimmen
-        if (selectedPFeature != null) {
-            final Feature feature = selectedPFeature.getFeature();
-            if ((feature != null) && (feature instanceof CidsFeature)) {
-                final CidsFeature cidsFeature = (CidsFeature)feature;
-                if (cidsFeature.getMetaClass().getName().equals(LinearReferencingConstants.CN_ROUTE)) {
-                    routeBean = cidsFeature.getMetaObject().getBean();
-                }
-            }
-        }
-
-        // tabelle füllen
-        if (routeBean != null) {
-            Double fromPosition = null;
-            for (final double position : positions) {
-                final Double toPosition = position;
-                if (fromPosition != null) {
-                    kartierAbschnitte.add(new KartierAbschnitt(fromPosition.intValue(), toPosition.intValue()));
-                }
-                fromPosition = toPosition;
-            }
-        }
-
-        allValid = true;
-        for (int index = 0; index < kartierAbschnitte.size(); index++) {
-            final KartierAbschnitt kartierAbschnitt = kartierAbschnitte.get(index);
-            ((DefaultTableModel)jTable1.getModel()).addRow(
-                new Object[] {
-                    index,
-                    kartierAbschnitt.getVon(),
-                    kartierAbschnitt.getBis()
-                });
-            if (!kartierAbschnitt.isValid()) {
-                allValid = false;
-            }
-        }
-
-        cmdOk.setEnabled(positions.length > 1);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -185,63 +115,57 @@ public class FgskDialog extends javax.swing.JDialog {
         jSeparator4 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        cmdStart = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.title")); // NOI18N
+        setTitle(org.openide.util.NbBundle.getMessage(RoutenDialog.class, "RoutenDialog.title")); // NOI18N
 
         panDesc.setBackground(new java.awt.Color(216, 228, 248));
 
-        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLeftCaption.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftCaption.text")); // NOI18N
+                RoutenDialog.class,
+                "RoutenDialog.lblLeftCaption.text"));               // NOI18N
 
         lblLeftDescription.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftDescription.text")); // NOI18N
+                RoutenDialog.class,
+                "RoutenDialog.lblLeftDescription.text")); // NOI18N
 
         lblLeftDescription1.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftDescription1.text")); // NOI18N
+                RoutenDialog.class,
+                "RoutenDialog.lblLeftDescription1.text")); // NOI18N
 
-        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLeftCaption1.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftCaption1.text")); // NOI18N
+                RoutenDialog.class,
+                "RoutenDialog.lblLeftCaption1.text"));               // NOI18N
 
         final org.jdesktop.layout.GroupLayout panDescLayout = new org.jdesktop.layout.GroupLayout(panDesc);
         panDesc.setLayout(panDescLayout);
         panDescLayout.setHorizontalGroup(
-            panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                jSeparator3,
-                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                438,
-                Short.MAX_VALUE).add(
-                org.jdesktop.layout.GroupLayout.TRAILING,
-                panDescLayout.createSequentialGroup().addContainerGap(426, Short.MAX_VALUE).add(jLabel5)
-                            .addContainerGap()).add(
+            panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(jSeparator3).add(
                 panDescLayout.createSequentialGroup().addContainerGap().add(
                     panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
+                        panDescLayout.createSequentialGroup().add(lblLeftCaption).add(354, 354, 354)).add(
                         panDescLayout.createSequentialGroup().add(
-                            jSeparator2,
-                            org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            414,
-                            Short.MAX_VALUE).addContainerGap()).add(
-                        panDescLayout.createSequentialGroup().add(lblLeftCaption).add(354, 354, 354)))).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(
-                    lblLeftDescription,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(219, Short.MAX_VALUE)).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(lblLeftCaption1).addContainerGap(
-                    356,
-                    Short.MAX_VALUE)).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(
-                    lblLeftDescription1,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(215, Short.MAX_VALUE)));
+                            panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
+                                jSeparator2).add(
+                                org.jdesktop.layout.GroupLayout.TRAILING,
+                                panDescLayout.createSequentialGroup().add(0, 0, Short.MAX_VALUE).add(jLabel5)).add(
+                                panDescLayout.createSequentialGroup().add(
+                                    panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
+                                        lblLeftDescription,
+                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(lblLeftCaption1).add(
+                                        lblLeftDescription1,
+                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).add(
+                                    0,
+                                    0,
+                                    Short.MAX_VALUE))).addContainerGap()))));
         panDescLayout.setVerticalGroup(
             panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
                 panDescLayout.createSequentialGroup().addContainerGap().add(lblLeftCaption).addPreferredGap(
@@ -261,7 +185,7 @@ public class FgskDialog extends javax.swing.JDialog {
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
                     org.jdesktop.layout.LayoutStyle.RELATED,
-                    64,
+                    46,
                     Short.MAX_VALUE).add(jLabel5).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(
                     jSeparator3,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
@@ -269,7 +193,7 @@ public class FgskDialog extends javax.swing.JDialog {
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
 
         cmdOk.setMnemonic('O');
-        cmdOk.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdOk.text")); // NOI18N
+        cmdOk.setText(org.openide.util.NbBundle.getMessage(RoutenDialog.class, "RoutenDialog.cmdOk.text")); // NOI18N
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -279,7 +203,7 @@ public class FgskDialog extends javax.swing.JDialog {
             });
 
         cmdCancel.setMnemonic('A');
-        cmdCancel.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdCancel.text")); // NOI18N
+        cmdCancel.setText(org.openide.util.NbBundle.getMessage(RoutenDialog.class, "RoutenDialog.cmdCancel.text")); // NOI18N
         cmdCancel.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -288,58 +212,52 @@ public class FgskDialog extends javax.swing.JDialog {
                 }
             });
 
-        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRightCaption.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblRightCaption.text")); // NOI18N
+                RoutenDialog.class,
+                "RoutenDialog.lblRightCaption.text"));               // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] { "#", "von", "bis" }) {
+        jTable1.setModel(model);
+        jScrollPane1.setViewportView(jTable1);
 
-                Class[] types = new Class[] {
-                        java.lang.Integer.class,
-                        java.lang.Integer.class,
-                        java.lang.Integer.class
-                    };
-                boolean[] canEdit = new boolean[] { false, false, false };
+        cmdStart.setMnemonic('S');
+        cmdStart.setText(org.openide.util.NbBundle.getMessage(RoutenDialog.class, "RoutenDialog.cmdStart.text")); // NOI18N
+        cmdStart.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdStartActionPerformed(evt);
                 }
             });
-        jTable1.setDefaultRenderer(Integer.class, new MyTableCellRenderer());
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
-        jScrollPane1.setViewportView(jTable1);
 
         final org.jdesktop.layout.GroupLayout panSettingsLayout = new org.jdesktop.layout.GroupLayout(panSettings);
         panSettings.setLayout(panSettingsLayout);
         panSettingsLayout.setHorizontalGroup(
             panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                panSettingsLayout.createSequentialGroup().addContainerGap().add(lblRightCaption).addContainerGap(
-                    214,
-                    Short.MAX_VALUE)).add(
                 jSeparator4,
                 org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                 288,
                 Short.MAX_VALUE).add(
-                org.jdesktop.layout.GroupLayout.TRAILING,
                 panSettingsLayout.createSequentialGroup().addContainerGap().add(
-                    jSeparator1,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    276,
-                    Short.MAX_VALUE)).add(
-                panSettingsLayout.createSequentialGroup().addContainerGap().add(
-                    jScrollPane1,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    276,
-                    Short.MAX_VALUE)));
+                    panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
+                        panSettingsLayout.createSequentialGroup().add(lblRightCaption).addContainerGap(
+                            214,
+                            Short.MAX_VALUE)).add(
+                        org.jdesktop.layout.GroupLayout.TRAILING,
+                        jSeparator1,
+                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                        276,
+                        Short.MAX_VALUE).add(
+                        jScrollPane1,
+                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                        276,
+                        Short.MAX_VALUE).add(
+                        org.jdesktop.layout.GroupLayout.TRAILING,
+                        panSettingsLayout.createSequentialGroup().add(0, 0, Short.MAX_VALUE).add(
+                            cmdStart,
+                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                            107,
+                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(75, 75, 75)))));
         panSettingsLayout.setVerticalGroup(
             panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
                 panSettingsLayout.createSequentialGroup().addContainerGap().add(lblRightCaption).addPreferredGap(
@@ -350,18 +268,18 @@ public class FgskDialog extends javax.swing.JDialog {
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
                     org.jdesktop.layout.LayoutStyle.RELATED).add(
                     jScrollPane1,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                    168,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                    org.jdesktop.layout.LayoutStyle.RELATED,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    222,
-                    Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED).add(
+                    Short.MAX_VALUE).add(cmdStart).add(18, 18, 18).add(
                     jSeparator4,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
 
         jProgressBar1.setVisible(false);
-        jProgressBar1.setString(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.jProgressBar1.string")); // NOI18N
         jProgressBar1.setStringPainted(true);
 
         final org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -423,142 +341,61 @@ public class FgskDialog extends javax.swing.JDialog {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
-        if (!allValid) {
-            final int returnOption = JOptionPane.showOptionDialog(
-                    StaticSwingTools.getParentFrame(this),
-                    "<html>Die Regeln zur Mindest- oder Höchstlänge<br/>von Kartierabschnitten werden verletzt.",
-                    "Vorsicht",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    new String[] { "Abbrechen", "Trotzdem Fortfahren" },
-                    "Abbrechen");
-            if (returnOption == 0) {
-                cmdCancelActionPerformed(null);
-                return;
-            }
-        }
-
-        cmdOk.setEnabled(false);
-        cmdCancel.setEnabled(false);
-        jProgressBar1.setVisible(true);
-
-        final SwingWorker<Collection<Node>, Void> sw = new SwingWorker<Collection<Node>, Void>() {
-
-                @Override
-                protected Collection<Node> doInBackground() throws Exception {
-                    final Collection<Node> r = new ArrayList<Node>();
-
-                    jProgressBar1.setMaximum((positions.length * 2) - 1);
-                    int numOfPersisted = 0;
-
-                    final Geometry routeGeom = (Geometry)
-                        ((CidsBean)routeBean.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
-                            LinearReferencingConstants.PROP_GEOM_GEOFIELD);
-
-                    // stationen erzeugen
-                    final Collection<CidsBean> stationenBeans = new ArrayList<CidsBean>();
-                    for (final Double position : positions) {
-                        try {
-                            final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(position, routeGeom);
-                            // punkt geom bean erzeugen
-                            final CidsBean pointGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                            pointGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, pointGeom);
-                            // punkt erzeugen
-                            final CidsBean toPointBean = MC_STATION.getEmptyInstance().getBean();
-                            toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, pointGeomBean);
-                            toPointBean.setProperty(
-                                LinearReferencingConstants.PROP_STATION_VALUE,
-                                ((Integer)position.intValue()).doubleValue());
-                            toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, routeBean);
-                            stationenBeans.add(toPointBean.persist());
-                            jProgressBar1.setValue(numOfPersisted++);
-                        } catch (Exception ex) {
-                            LOG.error("error while creating point bean", ex);
-                        }
-                    }
-
-                    // station_linien erzeugen
-
-                    CidsBean fromPointBean = null;
-                    for (final CidsBean stationenBean : stationenBeans) {
-                        final CidsBean toPointBean = stationenBean;
-
-                        if (fromPointBean != null) {
-                            final int fromValue =
-                                ((Double)fromPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
-                                        .intValue();
-                            final int toValue =
-                                ((Double)toPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
-                                        .intValue();
-                            final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
-                                    fromValue,
-                                    toValue,
-                                    routeGeom);
-
-                            // linien geom bean erzeugen
-                            final CidsBean lineGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                            lineGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, lineGeom);
-
-                            // linie bean erzeugen
-                            final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
-                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, fromPointBean);
-                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, toPointBean);
-                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, lineGeomBean);
-
-                            // fgsk bean erzeugen
-                            final CidsBean fgskBean = MC_FGSK.getEmptyInstance().getBean();
-                            fgskBean.setProperty("linie", lineBean);
-                            fgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
-                            fgskBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
-                            fgskBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-                            fgskBean.setProperty("gwk", routeBean.getProperty("gwk"));
-
-                            r.add(new MetaObjectNode(fgskBean.persist()));
-                            jProgressBar1.setValue(numOfPersisted++);
-                        }
-                        fromPointBean = toPointBean;
-                    }
-                    return r;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final Collection<Node> r = get();
-                        MethodManager.getManager().showSearchResults(r.toArray(new Node[r.size()]), false);
-                    } catch (Exception ex) {
-                        LOG.error("error while creating beans", ex);
-                    }
-                    cmdOk.setEnabled(true);
-                    cmdCancel.setEnabled(true);
-                    jProgressBar1.setVisible(false);
-                    dispose();
-                }
-            };
-        sw.execute();
-    } //GEN-LAST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
+    }//GEN-LAST:event_cmdOkActionPerformed
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdCancelActionPerformed
+    private void cmdCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCancelActionPerformed
         mappingComponent.setInteractionMode(interactionModeWhenFinished);
         dispose();
-    }                                                                             //GEN-LAST:event_cmdCancelActionPerformed
+    }//GEN-LAST:event_cmdCancelActionPerformed
 
     /**
      * DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @param  evt  DOCUMENT ME!
      */
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
+    private void cmdStartActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdStartActionPerformed
+        try {
+            jProgressBar1.setIndeterminate(true);
+            jProgressBar1.setVisible(true);
+            CismetThreadPool.execute(new SwingWorker<ArrayList<ArrayList>, Void>() {
+
+                    @Override
+                    protected ArrayList<ArrayList> doInBackground() throws Exception {
+                        final CidsServerSearch search = new WrongStationSearch();
+                        final ArrayList<ArrayList> res = (ArrayList<ArrayList>)SessionManager.getProxy()
+                                    .customServerSearch(SessionManager.getSession().getUser(), search);
+
+                        return res;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            final ArrayList<ArrayList> resArray = get();
+
+                            if ((resArray != null)) {
+                                model.setData(resArray);
+                            }
+
+                            jTable1.repaint();
+                        } catch (Exception e) {
+                            LOG.error("Exception during custom search.");
+                        } finally {
+                            jProgressBar1.setIndeterminate(false);
+                            jProgressBar1.setVisible(false);
+                        }
+                    }
+                });
+        } catch (Exception e) {
+            LOG.error("Error while searching wrong station geometries.");
+        }
+    }//GEN-LAST:event_cmdStartActionPerformed
+
     /**
      * DOCUMENT ME!
      *
@@ -666,38 +503,91 @@ public class FgskDialog extends javax.swing.JDialog {
      *
      * @version  $Revision$, $Date$
      */
-    private class MyTableCellRenderer extends JLabel implements TableCellRenderer {
+    private class CustomTableModel implements TableModel {
+
+        //~ Instance fields ----------------------------------------------------
+
+        String[] names = { "Typ", "Name", "ID" };
+        ArrayList<ArrayList> data = new ArrayList<ArrayList>();
+        List<TableModelListener> listener = new ArrayList<TableModelListener>();
 
         //~ Methods ------------------------------------------------------------
 
         @Override
-        public Component getTableCellRendererComponent(final JTable table,
-                final Object value,
-                final boolean isSelected,
-                final boolean hasFocus,
-                final int row,
-                final int column) {
-            final KartierAbschnitt kartierAbschnitt = kartierAbschnitte.get(row);
-            String tooltip = null;
-            final int distance = kartierAbschnitt.getDistance();
-            if (kartierAbschnitt.isTooShort()) {
-                tooltip = "<html>Mit " + distance
-                            + " Metern ist dieser Kartierabschnitt zu kurz,<br/>er sollte mindestens 50 Meter lang sein.";
-            } else if (kartierAbschnitt.isTooLong()) {
-                tooltip = "<html>Mit " + distance
-                            + " Metern ist dieser Kartierabschnitt zu lang,<br/>er sollte höchstens 400 Meter lang sein.";
-            }
-            setToolTipText(tooltip);
-            if (!kartierAbschnitt.isValid()) {
-                setOpaque(true);
-                setBackground(Color.RED);
-                setForeground(Color.WHITE);
+        public int getRowCount() {
+            return data.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return names.length;
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            return names[columnIndex];
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            return String.class;
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            int col = 0;
+
+            if (columnIndex == 0) {
+                return ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            ((Integer)data.get(rowIndex).get(1))).getName();
+            } else if (columnIndex == 1) {
+                col = 4;
             } else {
-                setBackground(null);
-                setForeground(null);
+                col = 2;
             }
-            setText(value.toString());
-            return this;
+
+            return data.get(rowIndex).get(col);
+        }
+
+        @Override
+        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void addTableModelListener(final TableModelListener l) {
+            listener.add(l);
+        }
+
+        @Override
+        public void removeTableModelListener(final TableModelListener l) {
+            listener.remove(l);
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  data  DOCUMENT ME!
+         */
+        public void setData(final ArrayList<ArrayList> data) {
+            this.data = data;
+            fireTableChanged();
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        private void fireTableChanged() {
+            final TableModelEvent e = new TableModelEvent(this);
+            for (final TableModelListener tmp : listener) {
+                tmp.tableChanged(e);
+            }
         }
     }
 }
