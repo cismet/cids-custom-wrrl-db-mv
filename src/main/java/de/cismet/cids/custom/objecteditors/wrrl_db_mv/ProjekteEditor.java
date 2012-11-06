@@ -2028,9 +2028,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 } catch (final Exception ex) {
                     LOG.error(ex, ex);
                 }
+            } else {
+                LOG.error("The property aggregierte_massnahmen_typen was not found.");
             }
-        } else {
-            LOG.error("The property aggregierte_massnahmen_typen was not found.");
         }
     }
 

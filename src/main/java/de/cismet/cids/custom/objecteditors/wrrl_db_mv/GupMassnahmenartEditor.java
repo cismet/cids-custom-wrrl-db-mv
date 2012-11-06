@@ -57,6 +57,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAusfuehrungszeitraum;
     private javax.swing.JCheckBox cbBoeschungslaenge;
     private javax.swing.JCheckBox cbBoeschungsneigung;
+    private javax.swing.JCheckBox cbCbmprom;
     private javax.swing.JCheckBox cbDeichkronenbreite;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEinsatzvariante;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeraet;
@@ -65,6 +66,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbKompartiment;
     private javax.swing.JCheckBox cbRandstreifenbreite;
     private javax.swing.JCheckBox cbSohlbreite;
+    private javax.swing.JCheckBox cbStueck;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
     private javax.swing.JCheckBox cbVorlandbreite;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbZweiterAusfuehrungszeitraum;
@@ -147,6 +149,8 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(cbRandstreifenbreite);
             RendererTools.makeReadOnly(cbSohlbreite);
             RendererTools.makeReadOnly(cbVorlandbreite);
+            RendererTools.makeReadOnly(cbStueck);
+            RendererTools.makeReadOnly(cbCbmprom);
             RendererTools.makeReadOnly(cbKompartiment);
             RendererTools.makeReadOnly(dccColor);
             RendererTools.makeReadOnly(cbGeraet);
@@ -194,6 +198,8 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         cbSohlbreite = new javax.swing.JCheckBox();
         cbDeichkronenbreite = new javax.swing.JCheckBox();
         cbVorlandbreite = new javax.swing.JCheckBox();
+        cbCbmprom = new javax.swing.JCheckBox();
+        cbStueck = new javax.swing.JCheckBox();
         lblOptionaleFelder = new javax.swing.JLabel();
         lblKompartiment = new javax.swing.JLabel();
         cbKompartiment = new ScrollableComboBox();
@@ -486,6 +492,49 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         jPanel1.add(cbVorlandbreite, gridBagConstraints);
+
+        cbCbmprom.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.cbCbmprom.text")); // NOI18N
+        cbCbmprom.setContentAreaFilled(false);
+        cbCbmprom.setPreferredSize(new java.awt.Dimension(223, 22));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cbmprom}"),
+                cbCbmprom,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        jPanel1.add(cbCbmprom, gridBagConstraints);
+
+        cbStueck.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.cbStueck.text")); // NOI18N
+        cbStueck.setContentAreaFilled(false);
+        cbStueck.setPreferredSize(new java.awt.Dimension(223, 22));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stueck}"),
+                cbStueck,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"),
+                "StueckId");
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        jPanel1.add(cbStueck, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1105,8 +1154,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
-            if (!readOnly) {
-            }
             bindingGroup.bind();
 
             final CidsBean bean = (CidsBean)cidsBean.getProperty("intervall");

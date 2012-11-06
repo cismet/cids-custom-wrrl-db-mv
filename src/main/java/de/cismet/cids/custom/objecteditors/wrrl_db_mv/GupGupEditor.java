@@ -18,9 +18,6 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
-
 import javax.swing.JComponent;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -28,7 +25,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.DocumentDropList;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -158,7 +155,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblWorkflowStatus = new javax.swing.JLabel();
         cbMassnahme = new ScrollableComboBox();
         jsObjectList = new javax.swing.JScrollPane();
-        jlObjectList = new javax.swing.JList();
+        jlObjectList = new DocumentDropList(readOnly);
         jbDownload = new javax.swing.JButton();
         lblGenehmigungsbehoerde = new javax.swing.JLabel();
         cbGenehmigungsbehoerde = new ScrollableComboBox();
@@ -174,7 +171,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
