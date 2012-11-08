@@ -28,13 +28,14 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
-import Sirius.server.search.builtin.GeoSearch;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import org.openide.util.Lookup;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;
@@ -48,6 +49,8 @@ import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.server.search.builtin.GeoSearch;
 
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.Feature;
@@ -224,7 +227,9 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
                     transformed.setSRID(
                         CismapBroker.getInstance().getDefaultCrsAlias());
 
-                    final GeoSearch gs = new GeoSearch(transformed);
+                    // default geosearch always present
+                    final GeoSearch gs = Lookup.getDefault().lookup(GeoSearch.class);
+                    gs.setGeometry(transformed);
 
                     if (type.equals(OEG_GESAMT)) {
                         if (oegGesamt == null) {

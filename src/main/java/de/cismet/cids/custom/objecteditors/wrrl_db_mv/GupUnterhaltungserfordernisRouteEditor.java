@@ -13,9 +13,6 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
-
-import Sirius.server.search.CidsServerSearch;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -40,6 +37,8 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 

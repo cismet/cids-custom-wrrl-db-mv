@@ -10,8 +10,6 @@ package de.cismet.cids.custom.wrrl_db_mv.fgsk;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
-import Sirius.server.search.CidsServerSearch;
-
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
@@ -34,6 +32,8 @@ import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SectionLengthSearch;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleMappingSearch;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleRatingSearch.DoubleRatingSearch;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleRatingSearch.IntegerRatingSearch;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 /**
  * DOCUMENT ME!
