@@ -75,6 +75,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
     private WebDavClient webDavClient = null;
     private final List<CidsBean> removedFotoBeans = new ArrayList<CidsBean>();
     private final List<CidsBean> removeNewAddedFotoBean = new ArrayList<CidsBean>();
+    private String beanProperty = "dokumente";
     private DropTarget dropTarget = null;
 
     //~ Instance initializers --------------------------------------------------
@@ -97,13 +98,15 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
     /**
      * Creates a new DocumentDragList object.
      *
-     * @param  readOnly  DOCUMENT ME!
+     * @param  readOnly      DOCUMENT ME!
+     * @param  beanProperty  DOCUMENT ME!
      */
-    public DocumentDropList(final boolean readOnly) {
+    public DocumentDropList(final boolean readOnly, final String beanProperty) {
         if (!readOnly) {
 //                new CidsBeanDropTarget(this);
             dropTarget = new DropTarget(this, this);
             this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
+            this.beanProperty = beanProperty;
         }
         this.readOnly = readOnly;
     }
