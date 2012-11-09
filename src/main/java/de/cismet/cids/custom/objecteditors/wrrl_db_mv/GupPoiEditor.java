@@ -74,7 +74,8 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  readOnly  DOCUMENT ME!
      */
     public GupPoiEditor(final boolean readOnly) {
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 

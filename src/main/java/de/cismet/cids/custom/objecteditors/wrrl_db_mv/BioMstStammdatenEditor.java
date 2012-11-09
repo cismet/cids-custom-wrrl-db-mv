@@ -6,7 +6,7 @@
 *
 ****************************************************/
 /*
- * WkFgEditor.java
+ * BioMstStammdatenEditor.java
  *
  * Created on 04.08.2010, 13:13:12
  */
@@ -719,7 +719,6 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        LOG.error("editorClosed");
     }
 
     @Override

@@ -79,7 +79,8 @@ public class UmlandnutzerEditor extends javax.swing.JPanel implements CidsBeanRe
      */
     public UmlandnutzerEditor(final boolean readOnly) {
         this.readOnly = readOnly;
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 

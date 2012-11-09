@@ -889,7 +889,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                     if (massnBeans != null) {
                         for (final CidsBean tmp : massnBeans) {
-                            if ((losId == null) || tmp.getProperty("los.id").equals(losId)) {
+                            if ((losId == null)
+                                        || ((tmp.getProperty("los.id") != null)
+                                            && tmp.getProperty("los.id").equals(losId))) {
                                 if (((MassnTableModel)tabMassn.getModel()).add(tmp, name, gup, von, bis)) {
                                     massnToAdd.add(tmp);
                                     cidsBean.setArtificialChangeFlag(true);
@@ -1129,11 +1131,13 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             };
         private static final String[] additionalAttribs = {
                 "Randstreifenbreite",
-                "Böschungsbreite",
+                "Böschungsneigung",
                 "Böschungslänge",
                 "Deichkronenbreite",
                 "Sohlbreite",
-                "Vorlandbreite"
+                "Vorlandbreite",
+                "m³/m",
+                "Stück"
             };
 
         //~ Instance fields ----------------------------------------------------
@@ -1356,11 +1360,13 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             newBean.add(massnBean.getProperty("linie.von.wert"));
             newBean.add(massnBean.getProperty("linie.bis.wert"));
             newBean.add(massnBean.getProperty("randstreifenbreite"));
-            newBean.add(massnBean.getProperty("boeschungsbreite"));
+            newBean.add(massnBean.getProperty("boeschungsneigung"));
             newBean.add(massnBean.getProperty("boeschungslaenge"));
             newBean.add(massnBean.getProperty("deichkronenbreite"));
             newBean.add(massnBean.getProperty("sohlbreite"));
             newBean.add(massnBean.getProperty("vorlandbreite"));
+            newBean.add(massnBean.getProperty("cbmprom"));
+            newBean.add(massnBean.getProperty("stueck"));
 
             if (!beans.contains(newBean)) {
                 beans.add(newBean);

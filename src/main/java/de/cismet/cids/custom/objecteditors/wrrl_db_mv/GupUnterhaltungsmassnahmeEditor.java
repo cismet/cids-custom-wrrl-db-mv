@@ -32,12 +32,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenartSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.MassnahmenUmsetzungCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsmaßnahmeValidator;
@@ -48,6 +50,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.search.AbstractCidsServerSearch;
@@ -65,7 +69,8 @@ import de.cismet.tools.CismetThreadPool;
  */
 public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implements CidsBeanRenderer,
     EditorSaveListener,
-    PropertyChangeListener {
+    PropertyChangeListener,
+    CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -115,11 +120,16 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblBearbeiter1;
     private javax.swing.JLabel lblBemerkung;
+    private javax.swing.JLabel lblBlMeas;
+    private javax.swing.JLabel lblBnMeas;
     private javax.swing.JLabel lblBoeschungslaenge;
     private javax.swing.JLabel lblBoeschungsneigung;
+    private javax.swing.JLabel lblCbmMeas;
+    private javax.swing.JLabel lblDbMeas;
     private javax.swing.JLabel lblDeichkronenbreite;
     private javax.swing.JLabel lblEinsatz;
     private javax.swing.JLabel lblGeraet;
@@ -129,14 +139,18 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JLabel lblJahr;
     private javax.swing.JLabel lblMassnahme;
     private javax.swing.JLabel lblRandstreifenbreite;
+    private javax.swing.JLabel lblSbMeas;
     private javax.swing.JLabel lblSohlbreite;
+    private javax.swing.JLabel lblStMeas;
     private javax.swing.JLabel lblStueck;
     private javax.swing.JLabel lblValid;
     private javax.swing.JLabel lblValidLab;
+    private javax.swing.JLabel lblVbMeas;
     private javax.swing.JLabel lblVerbleib;
     private javax.swing.JLabel lblVorlandbreite;
     private javax.swing.JLabel lblZeitpunkt;
     private javax.swing.JLabel lblZeitpunkt2;
+    private javax.swing.JLabel lblrsbMeas;
     private javax.swing.JLabel lclCbmprom;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JPanel panBoeschungslaenge;
@@ -182,11 +196,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setOtherLinesEnabled(true);
         linearReferencedLineEditor.setShowOtherInDialog(true);
-//        linearReferencedLineEditor.setOtherLinesQueryAddition("gup_massnahme_sonstige gms", "gms.linie = ");
         linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
         initComponents();
         panValid.setVisible(false);
-//        lblValid.setVisible(false);
         RendererTools.makeReadOnly(txtBearbeiter);
         RendererTools.makeReadOnly(txtMassnahme);
 
@@ -208,6 +220,14 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             RendererTools.makeReadOnly(cbGewerk);
             RendererTools.makeReadOnly(cbZeitpunkt);
             RendererTools.makeReadOnly(cbZeitpunkt2);
+
+            try {
+                new CidsBeanDropTarget(this);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
+            }
         }
     }
 
@@ -236,27 +256,35 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         panBoeschungslaenge = new javax.swing.JPanel();
         lblBoeschungslaenge = new javax.swing.JLabel();
         txtBoeschungslaenge = new javax.swing.JTextField();
+        lblBlMeas = new javax.swing.JLabel();
         panRandstreifen = new javax.swing.JPanel();
         lblRandstreifenbreite = new javax.swing.JLabel();
         txtRandstreifenbreite = new javax.swing.JTextField();
+        lblrsbMeas = new javax.swing.JLabel();
         panBoeschungsneigung = new javax.swing.JPanel();
         lblBoeschungsneigung = new javax.swing.JLabel();
         txtBoeschungsneigung = new javax.swing.JTextField();
+        lblBnMeas = new javax.swing.JLabel();
         panSohlbreite = new javax.swing.JPanel();
         lblSohlbreite = new javax.swing.JLabel();
         txtSohlbreite = new javax.swing.JTextField();
+        lblSbMeas = new javax.swing.JLabel();
         panDeichkronenbreite = new javax.swing.JPanel();
         lblDeichkronenbreite = new javax.swing.JLabel();
         txtDeichkronenbreite = new javax.swing.JTextField();
+        lblDbMeas = new javax.swing.JLabel();
         panVorlandbreite = new javax.swing.JPanel();
         lblVorlandbreite = new javax.swing.JLabel();
         txtVorlandbreite = new javax.swing.JTextField();
+        lblVbMeas = new javax.swing.JLabel();
         panStueck = new javax.swing.JPanel();
         lblStueck = new javax.swing.JLabel();
         txtStueck = new javax.swing.JTextField();
+        lblStMeas = new javax.swing.JLabel();
         panCbmProM = new javax.swing.JPanel();
         lclCbmprom = new javax.swing.JLabel();
         txtCbmProM = new javax.swing.JTextField();
+        lblCbmMeas = new javax.swing.JLabel();
         lblValidLab = new javax.swing.JLabel();
         panValid = new javax.swing.JPanel();
         lblValid = new javax.swing.JLabel();
@@ -279,6 +307,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblGewerk = new javax.swing.JLabel();
         cbZeitpunkt = new ScrollableComboBox(ZEITPUNKT_MC, true, false);
         txtMassnahme = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(894, 400));
@@ -318,7 +347,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblJahr.setPreferredSize(new java.awt.Dimension(100, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblJahr, gridBagConstraints);
@@ -367,7 +396,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 20, 10);
         add(linearReferencedLineEditor, gridBagConstraints);
 
         jPanel1.setOpaque(false);
@@ -391,7 +420,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         flowPanel.setMinimumSize(new java.awt.Dimension(250, 250));
         flowPanel.setOpaque(false);
-        flowPanel.setPreferredSize(new java.awt.Dimension(250, 250));
+        flowPanel.setPreferredSize(new java.awt.Dimension(275, 250));
 
         panBoeschungslaenge.setOpaque(false);
         panBoeschungslaenge.setLayout(new java.awt.GridBagLayout());
@@ -427,8 +456,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panBoeschungslaenge.add(txtBoeschungslaenge, gridBagConstraints);
+
+        lblBlMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblBlMeas.text")); // NOI18N
+        lblBlMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblBlMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblBlMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panBoeschungslaenge.add(lblBlMeas, gridBagConstraints);
 
         flowPanel.add(panBoeschungslaenge);
 
@@ -466,8 +508,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panRandstreifen.add(txtRandstreifenbreite, gridBagConstraints);
+
+        lblrsbMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblrsbMeas.text")); // NOI18N
+        lblrsbMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblrsbMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblrsbMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panRandstreifen.add(lblrsbMeas, gridBagConstraints);
 
         flowPanel.add(panRandstreifen);
 
@@ -505,8 +560,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panBoeschungsneigung.add(txtBoeschungsneigung, gridBagConstraints);
+
+        lblBnMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblBnMeas.text")); // NOI18N
+        lblBnMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblBnMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblBnMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panBoeschungsneigung.add(lblBnMeas, gridBagConstraints);
 
         flowPanel.add(panBoeschungsneigung);
 
@@ -544,8 +612,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panSohlbreite.add(txtSohlbreite, gridBagConstraints);
+
+        lblSbMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblSbMeas.text")); // NOI18N
+        lblSbMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblSbMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblSbMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panSohlbreite.add(lblSbMeas, gridBagConstraints);
 
         flowPanel.add(panSohlbreite);
 
@@ -583,8 +664,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panDeichkronenbreite.add(txtDeichkronenbreite, gridBagConstraints);
+
+        lblDbMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblDbMeas.text")); // NOI18N
+        lblDbMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblDbMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblDbMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panDeichkronenbreite.add(lblDbMeas, gridBagConstraints);
 
         flowPanel.add(panDeichkronenbreite);
 
@@ -622,8 +716,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panVorlandbreite.add(txtVorlandbreite, gridBagConstraints);
+
+        lblVbMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblVbMeas.text")); // NOI18N
+        lblVbMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblVbMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblVbMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panVorlandbreite.add(lblVbMeas, gridBagConstraints);
 
         flowPanel.add(panVorlandbreite);
 
@@ -646,14 +753,36 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         txtStueck.setMaximumSize(new java.awt.Dimension(100, 20));
         txtStueck.setMinimumSize(new java.awt.Dimension(60, 20));
         txtStueck.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stueck}"),
+                txtStueck,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panStueck.add(txtStueck, gridBagConstraints);
+
+        lblStMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblStMeas.text")); // NOI18N
+        lblStMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblStMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblStMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panStueck.add(lblStMeas, gridBagConstraints);
 
         flowPanel.add(panStueck);
 
@@ -676,14 +805,36 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         txtCbmProM.setMaximumSize(new java.awt.Dimension(100, 20));
         txtCbmProM.setMinimumSize(new java.awt.Dimension(60, 20));
         txtCbmProM.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cpmprom}"),
+                txtCbmProM,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
         panCbmProM.add(txtCbmProM, gridBagConstraints);
+
+        lblCbmMeas.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.lblCbmMeas.text")); // NOI18N
+        lblCbmMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblCbmMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblCbmMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        panCbmProM.add(lblCbmMeas, gridBagConstraints);
 
         flowPanel.add(panCbmProM);
 
@@ -759,7 +910,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -805,7 +956,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblBearbeiter1.setPreferredSize(new java.awt.Dimension(90, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblBearbeiter1, gridBagConstraints);
@@ -815,7 +966,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         txtBearbeiter.setPreferredSize(new java.awt.Dimension(200, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -1009,6 +1160,13 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         add(txtMassnahme, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        add(jSeparator2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -1195,49 +1353,71 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 //                }).start();
 
             deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
-
-            // validiere Maßnahme
-            CismetThreadPool.execute(new SwingWorker<UnterhaltungsmaßnahmeValidator.ValidationResult, Void>() {
-
-                    @Override
-                    protected UnterhaltungsmaßnahmeValidator.ValidationResult doInBackground() throws Exception {
-                        if (validator == null) {
-                            return null;
-                        } else {
-                            return validator.validate(cidsBean);
-                        }
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            final UnterhaltungsmaßnahmeValidator.ValidationResult res = get();
-
-                            if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.ok) {
-                                lblValid.setIcon(
-                                    new javax.swing.ImageIcon(
-                                        getClass().getResource(
-                                            "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ok.png")));
-//                                lblValid.setText("Gültig");
-                            } else if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.warning) {
-                                lblValid.setIcon(
-                                    new javax.swing.ImageIcon(
-                                        getClass().getResource(
-                                            "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ok_auflagen.png")));
-//                                lblValid.setText("Warnung");
-                            } else if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.error) {
-                                lblValid.setIcon(
-                                    new javax.swing.ImageIcon(
-                                        getClass().getResource(
-                                            "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/stop.png")));
-//                                lblValid.setText("Ungültig");
-                            }
-                        } catch (Exception e) {
-                            LOG.error("Exception while validating.", e);
-                        }
-                    }
-                });
+            validateMassnahme();
         }
+    }
+
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if (readOnly) {
+            return;
+        }
+
+        if (cidsBean != null) {
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_massnahmenart")) { // NOI18N
+                    setNewMassnahme(1, bean.getMetaObject());
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void validateMassnahme() {
+        lblValid.setVisible(false);
+        // validiere Maßnahme
+        CismetThreadPool.execute(new SwingWorker<UnterhaltungsmaßnahmeValidator.ValidationResult, Void>() {
+
+                @Override
+                protected UnterhaltungsmaßnahmeValidator.ValidationResult doInBackground() throws Exception {
+                    if (validator == null) {
+                        return null;
+                    } else {
+                        return validator.validate(cidsBean);
+                    }
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final UnterhaltungsmaßnahmeValidator.ValidationResult res = get();
+                        lblValid.setVisible(true);
+                        if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.ok) {
+                            lblValid.setIcon(
+                                new javax.swing.ImageIcon(
+                                    getClass().getResource(
+                                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ok.png")));
+//                                lblValid.setText("Gültig");
+                        } else if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.warning) {
+                            lblValid.setIcon(
+                                new javax.swing.ImageIcon(
+                                    getClass().getResource(
+                                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ok_auflagen.png")));
+//                                lblValid.setText("Warnung");
+                        } else if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.error) {
+                            lblValid.setIcon(
+                                new javax.swing.ImageIcon(
+                                    getClass().getResource(
+                                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/stop.png")));
+//                                lblValid.setText("Ungültig");
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Exception while validating.", e);
+                    }
+                }
+            });
     }
 
     /**
@@ -1270,25 +1450,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
                                     @Override
                                     public void run() {
-                                        if (count == 1) {
-                                            txtMassnahme.setBackground(new Color(54, 196, 165));
-                                            txtMassnahme.setOpaque(true);
-                                            txtMassnahme.setText(
-                                                String.valueOf(metaObject.getBean().getProperty("massnahmen_id")));
-                                            try {
-                                                cidsBean.setProperty("massnahme", metaObject.getBean());
-                                            } catch (Exception e) {
-                                                LOG.error("Error while saving the new massnahme property", e);
-                                            }
-                                        } else if (count > 1) {
-                                            txtMassnahme.setOpaque(true);
-                                            txtMassnahme.setBackground(new Color(237, 218, 16));
-                                            txtMassnahme.setText(count + " Treffer");
-                                        } else {
-                                            txtMassnahme.setOpaque(true);
-                                            txtMassnahme.setBackground(new Color(237, 16, 42));
-                                            txtMassnahme.setText("ungültige Kombination");
-                                        }
+                                        setNewMassnahme(count, metaObject);
                                     }
                                 });
                         } catch (Exception e) {
@@ -1434,25 +1596,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
                                     @Override
                                     public void run() {
-                                        if (count == 1) {
-                                            txtMassnahme.setBackground(new Color(54, 196, 165));
-                                            txtMassnahme.setOpaque(true);
-                                            txtMassnahme.setText(
-                                                String.valueOf(metaObject.getBean().getProperty("massnahmen_id")));
-                                            try {
-                                                cidsBean.setProperty("massnahme", metaObject.getBean());
-                                            } catch (Exception e) {
-                                                LOG.error("Error while saving the new massnahme property", e);
-                                            }
-                                        } else if (count > 1) {
-                                            txtMassnahme.setOpaque(true);
-                                            txtMassnahme.setBackground(new Color(237, 218, 16));
-                                            txtMassnahme.setText(count + " Treffer");
-                                        } else {
-                                            txtMassnahme.setOpaque(true);
-                                            txtMassnahme.setBackground(new Color(237, 16, 42));
-                                            txtMassnahme.setText("ungültige Kombination");
-                                        }
+                                        setNewMassnahme(count, metaObject);
                                     }
                                 });
                         } catch (Exception e) {
@@ -1461,6 +1605,35 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                         LOG.error("time: " + (System.currentTimeMillis() - startTime));
                     }
                 });
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  count       DOCUMENT ME!
+     * @param  metaObject  DOCUMENT ME!
+     */
+    private void setNewMassnahme(final int count, final MetaObject metaObject) {
+        if (count == 1) {
+            txtMassnahme.setBackground(new Color(54, 196, 165));
+            txtMassnahme.setOpaque(true);
+            txtMassnahme.setText(
+                String.valueOf(metaObject.getBean().getProperty("massnahmen_id")));
+            try {
+                cidsBean.setProperty("massnahme", metaObject.getBean());
+            } catch (Exception e) {
+                LOG.error("Error while saving the new massnahme property", e);
+            }
+            deActivateAdditionalAttributes(metaObject.getBean());
+        } else if (count > 1) {
+            txtMassnahme.setOpaque(true);
+            txtMassnahme.setBackground(new Color(237, 218, 16));
+            txtMassnahme.setText(count + " Treffer");
+        } else {
+            txtMassnahme.setOpaque(true);
+            txtMassnahme.setBackground(new Color(237, 16, 42));
+            txtMassnahme.setText("ungültige Kombination");
         }
     }
 

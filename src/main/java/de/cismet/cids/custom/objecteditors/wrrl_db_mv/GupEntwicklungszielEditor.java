@@ -75,7 +75,8 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
      */
     public GupEntwicklungszielEditor(final boolean readOnly) {
         this.readOnly = readOnly;
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
 
         initComponents();

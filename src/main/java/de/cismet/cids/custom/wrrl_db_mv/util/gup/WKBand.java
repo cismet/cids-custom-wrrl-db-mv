@@ -148,6 +148,21 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
      * @param  jband  DOCUMENT ME!
      */
     public void fillAndInsertBand(final SimpleBandModel sbm, final String gwk, final JBand jband) {
+        fillAndInsertBand(sbm, gwk, jband, null);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  sbm              DOCUMENT ME!
+     * @param  gwk              DOCUMENT ME!
+     * @param  jband            DOCUMENT ME!
+     * @param  vermessungsband  DOCUMENT ME!
+     */
+    public void fillAndInsertBand(final SimpleBandModel sbm,
+            final String gwk,
+            final JBand jband,
+            final VermessungsbandHelper vermessungsband) {
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 
                 @Override
@@ -169,7 +184,10 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
                         setWK(res);
                         sbm.insertBand(WKBand.this, 0);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-//                        updateUI();
+
+                        if (vermessungsband != null) {
+                            vermessungsband.setWk(res);
+                        }
                     } catch (Exception e) {
                         LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }

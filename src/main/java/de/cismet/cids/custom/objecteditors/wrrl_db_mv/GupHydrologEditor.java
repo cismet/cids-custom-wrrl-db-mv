@@ -164,7 +164,7 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
                     g.drawLine(0, 1, getWidth() - 1, getHeight() - 1);
                 }
             };
-        lrle = readOnly ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        lrle = readOnly ? new LinearReferencedLineRenderer(true) : new LinearReferencedLineEditor();
         this.readOnly = readOnly;
         initComponents();
         tpMain.setUI(new TabbedPaneUITransparent());
@@ -1276,7 +1276,8 @@ public class GupHydrologEditor extends javax.swing.JPanel implements CidsBeanRen
 
     @Override
     public String getTitle() {
-        return "Gewässerprofil und hydraulische Daten";
+//        return "Gewässerprofil und hydraulische Daten: ";
+        return cidsBean.toString();
     }
 
     @Override
