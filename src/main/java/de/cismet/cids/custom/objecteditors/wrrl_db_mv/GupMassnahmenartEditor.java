@@ -12,17 +12,20 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.server.middleware.types.MetaObject;
+
+import java.awt.Color;
+import java.awt.Component;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.DefaultBindableColorChooser;
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
-import de.cismet.cids.editors.EditorClosedEvent;
-import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cids.editors.*;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -43,25 +46,53 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private OperativeZieleDecider decider = new OperativeZieleDecider();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAusfuehrungszeitraum;
     private javax.swing.JCheckBox cbBoeschungslaenge;
     private javax.swing.JCheckBox cbBoeschungsneigung;
     private javax.swing.JCheckBox cbDeichkronenbreite;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEinsatzvariante;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeraet;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGewerk;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbInterval;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbKompartiment;
     private javax.swing.JCheckBox cbRandstreifenbreite;
     private javax.swing.JCheckBox cbSohlbreite;
     private javax.swing.JCheckBox cbVorlandbreite;
+    private de.cismet.cids.editors.DefaultBindableCheckboxField ccOperativeZiele;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel jpAllgemein;
+    private javax.swing.JPanel jpGeschuetzteArten;
+    private javax.swing.JPanel jpOperativeZiele;
     private javax.swing.JScrollPane jsLeistungstext;
     private javax.swing.JTextArea jtLeistungstext;
+    private javax.swing.JLabel lblAusfuehrungszeitraum;
     private javax.swing.JLabel lblBeschreibung;
     private javax.swing.JLabel lblColor;
+    private javax.swing.JLabel lblEinsatzvariante;
+    private javax.swing.JLabel lblGeraet;
+    private javax.swing.JLabel lblGewerk;
+    private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblInterval;
     private javax.swing.JLabel lblKompartiment;
     private javax.swing.JLabel lblLeistungstext;
     private javax.swing.JLabel lblOptionaleFelder;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JPanel panSpacingBottom;
+    private javax.swing.JPanel panSpacingBottom1;
     private javax.swing.JTextField txtBeschreibung;
     private javax.swing.JTextField txtId;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -84,6 +115,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     public GupMassnahmenartEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+        ccOperativeZiele.setBackgroundSelected(Color.GREEN);
+        ccOperativeZiele.setBackgroundUnselected(Color.RED);
+        jTabbedPane1.setUI(new TabbedPaneUITransparent());
 
         if (readOnly) {
             RendererTools.makeReadOnly(jtLeistungstext);
@@ -97,6 +131,12 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(cbVorlandbreite);
             RendererTools.makeReadOnly(cbKompartiment);
             RendererTools.makeReadOnly(dccColor);
+            RendererTools.makeReadOnly(cbGeraet);
+            RendererTools.makeReadOnly(cbGewerk);
+            RendererTools.makeReadOnly(cbEinsatzvariante);
+            RendererTools.makeReadOnly(cbInterval);
+            RendererTools.makeReadOnly(cbAusfuehrungszeitraum);
+            RendererTools.makeReadOnly(ccOperativeZiele);
         }
     }
 
@@ -112,6 +152,13 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jpAllgemein = new javax.swing.JPanel();
+        panInfo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading = new javax.swing.JLabel();
+        panInfoContent = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         lblId = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         lblBeschreibung = new javax.swing.JLabel();
@@ -131,10 +178,52 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         cbKompartiment = new ScrollableComboBox();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
         lblColor = new javax.swing.JLabel();
+        lblInterval = new javax.swing.JLabel();
+        cbInterval = new ScrollableComboBox();
+        lblAusfuehrungszeitraum = new javax.swing.JLabel();
+        cbAusfuehrungszeitraum = new ScrollableComboBox();
+        lblGewerk = new javax.swing.JLabel();
+        lblEinsatzvariante = new javax.swing.JLabel();
+        lblGeraet = new javax.swing.JLabel();
+        cbGewerk = new ScrollableComboBox();
+        cbEinsatzvariante = new ScrollableComboBox();
+        cbGeraet = new ScrollableComboBox();
+        panSpacingBottom = new javax.swing.JPanel();
+        jpOperativeZiele = new javax.swing.JPanel();
+        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        ccOperativeZiele = new de.cismet.cids.editors.DefaultBindableCheckboxField();
+        panSpacingBottom1 = new javax.swing.JPanel();
+        jpGeschuetzteArten = new javax.swing.JPanel();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 400));
+        setPreferredSize(new java.awt.Dimension(994, 700));
         setLayout(new java.awt.GridBagLayout());
+
+        jpAllgemein.setOpaque(false);
+        jpAllgemein.setLayout(new java.awt.GridBagLayout());
+
+        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setLayout(new java.awt.FlowLayout());
+
+        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblHeading.text")); // NOI18N
+        panHeadInfo.add(lblHeading);
+
+        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
+
+        panInfoContent.setOpaque(false);
+        panInfoContent.setLayout(new java.awt.GridBagLayout());
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblId.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -147,7 +236,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
-        add(lblId, gridBagConstraints);
+        jPanel2.add(lblId, gridBagConstraints);
 
         txtId.setMinimumSize(new java.awt.Dimension(400, 25));
         txtId.setPreferredSize(new java.awt.Dimension(450, 25));
@@ -166,7 +255,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
-        add(txtId, gridBagConstraints);
+        jPanel2.add(txtId, gridBagConstraints);
 
         lblBeschreibung.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -179,7 +268,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblBeschreibung, gridBagConstraints);
+        jPanel2.add(lblBeschreibung, gridBagConstraints);
 
         txtBeschreibung.setMinimumSize(new java.awt.Dimension(300, 25));
         txtBeschreibung.setPreferredSize(new java.awt.Dimension(300, 25));
@@ -189,7 +278,8 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
                 txtBeschreibung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+                org.jdesktop.beansbinding.BeanProperty.create("text"),
+                "");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -198,7 +288,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtBeschreibung, gridBagConstraints);
+        jPanel2.add(txtBeschreibung, gridBagConstraints);
 
         lblLeistungstext.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -208,10 +298,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         lblLeistungstext.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblLeistungstext, gridBagConstraints);
+        jPanel2.add(lblLeistungstext, gridBagConstraints);
 
         jsLeistungstext.setMaximumSize(new java.awt.Dimension(327, 320));
 
@@ -230,11 +320,11 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jsLeistungstext, gridBagConstraints);
+        jPanel2.add(jsLeistungstext, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -367,10 +457,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 0);
-        add(jPanel1, gridBagConstraints);
+        jPanel2.add(jPanel1, gridBagConstraints);
 
         lblOptionaleFelder.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -380,10 +470,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         lblOptionaleFelder.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblOptionaleFelder, gridBagConstraints);
+        jPanel2.add(lblOptionaleFelder, gridBagConstraints);
 
         lblKompartiment.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -396,7 +486,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblKompartiment, gridBagConstraints);
+        jPanel2.add(lblKompartiment, gridBagConstraints);
 
         cbKompartiment.setMaximumSize(new java.awt.Dimension(290, 20));
         cbKompartiment.setMinimumSize(new java.awt.Dimension(290, 20));
@@ -407,9 +497,17 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kompartiment}"),
                 cbKompartiment,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "kompartimentid");
         bindingGroup.addBinding(binding);
 
+        cbKompartiment.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbKompartimentItemStateChanged(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -417,7 +515,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbKompartiment, gridBagConstraints);
+        jPanel2.add(cbKompartiment, gridBagConstraints);
 
         dccColor.setMinimumSize(new java.awt.Dimension(250, 20));
         dccColor.setPreferredSize(new java.awt.Dimension(250, 20));
@@ -433,10 +531,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        add(dccColor, gridBagConstraints);
+        jPanel2.add(dccColor, gridBagConstraints);
 
         lblColor.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -446,13 +544,363 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblColor, gridBagConstraints);
+        jPanel2.add(lblColor, gridBagConstraints);
+
+        lblInterval.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblInterval.text")); // NOI18N
+        lblInterval.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblInterval.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblInterval.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        jPanel2.add(lblInterval, gridBagConstraints);
+
+        cbInterval.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbInterval.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbInterval.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.intervall}"),
+                cbInterval,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbInterval, gridBagConstraints);
+
+        lblAusfuehrungszeitraum.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblAusfuehrungszeitraum.text")); // NOI18N
+        lblAusfuehrungszeitraum.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblAusfuehrungszeitraum.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblAusfuehrungszeitraum.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        jPanel2.add(lblAusfuehrungszeitraum, gridBagConstraints);
+
+        cbAusfuehrungszeitraum.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbAusfuehrungszeitraum.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbAusfuehrungszeitraum.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ausfuehrungszeitpunkt}"),
+                cbAusfuehrungszeitraum,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbAusfuehrungszeitraum, gridBagConstraints);
+
+        lblGewerk.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblGewerk.text")); // NOI18N
+        lblGewerk.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblGewerk.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblGewerk.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        jPanel2.add(lblGewerk, gridBagConstraints);
+
+        lblEinsatzvariante.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblEinsatzvariante.text")); // NOI18N
+        lblEinsatzvariante.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblEinsatzvariante.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblEinsatzvariante.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        jPanel2.add(lblEinsatzvariante, gridBagConstraints);
+
+        lblGeraet.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblGeraet.text")); // NOI18N
+        lblGeraet.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblGeraet.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblGeraet.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        jPanel2.add(lblGeraet, gridBagConstraints);
+
+        cbGewerk.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbGewerk.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbGewerk.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gewerk}"),
+                cbGewerk,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbGewerk.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbGewerkItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbGewerk, gridBagConstraints);
+
+        cbEinsatzvariante.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbEinsatzvariante.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbEinsatzvariante.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einsatzvariante}"),
+                cbEinsatzvariante,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbEinsatzvariante.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbEinsatzvarianteItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbEinsatzvariante, gridBagConstraints);
+
+        cbGeraet.setMaximumSize(new java.awt.Dimension(290, 20));
+        cbGeraet.setMinimumSize(new java.awt.Dimension(290, 20));
+        cbGeraet.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geraet}"),
+                cbGeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbGeraet.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    cbGeraetItemStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbGeraet, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jPanel2, gridBagConstraints);
+
+        panSpacingBottom.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent.add(panSpacingBottom, gridBagConstraints);
+
+        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        jpAllgemein.add(panInfo, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.jpAllgemein.title"),
+            jpAllgemein); // NOI18N
+
+        jpOperativeZiele.setOpaque(false);
+        jpOperativeZiele.setLayout(new java.awt.GridBagLayout());
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        ccOperativeZiele.setMinimumSize(new java.awt.Dimension(370, 320));
+        ccOperativeZiele.setOpaque(false);
+        ccOperativeZiele.setPreferredSize(new java.awt.Dimension(370, 320));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.operative_ziele}"),
+                ccOperativeZiele,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        jPanel3.add(ccOperativeZiele, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent1.add(jPanel3, gridBagConstraints);
+
+        panSpacingBottom1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(panSpacingBottom1, gridBagConstraints);
+
+        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        jpOperativeZiele.add(panInfo1, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor.jpOperativeZiele.title"),
+            jpOperativeZiele); // NOI18N
+
+        jpGeschuetzteArten.setOpaque(false);
+        jpGeschuetzteArten.setLayout(new java.awt.GridBagLayout());
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                GupMassnahmenartEditor.class,
+                "GupMassnahmenartEditor"),
+            jpGeschuetzteArten); // NOI18N
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jTabbedPane1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbKompartimentItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbKompartimentItemStateChanged
+        if (evt.getItem() != null) {
+            if (((Component)evt.getSource()).hasFocus()) {
+                final CidsBean bean = (CidsBean)evt.getItem();
+                decider.setKompartiment(bean);
+                ccOperativeZiele.refreshCheckboxState(decider, true, true);
+            }
+        }
+    }                                                                                 //GEN-LAST:event_cbKompartimentItemStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbGewerkItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGewerkItemStateChanged
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbGewerkItemStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbEinsatzvarianteItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbEinsatzvarianteItemStateChanged
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbEinsatzvarianteItemStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbGeraetItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGeraetItemStateChanged
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbGeraetItemStateChanged
 
     @Override
     public CidsBean getCidsBean() {
@@ -461,14 +909,19 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        bindingGroup.unbind();
+        dispose();
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            decider.setKompartiment((CidsBean)cidsBean.getProperty("kompartiment"));
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
+            if (!readOnly) {
+            }
             bindingGroup.bind();
+
+            ccOperativeZiele.refreshCheckboxState(decider, true, false);
         }
     }
 
@@ -511,5 +964,71 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             11,
             1280,
             1024);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class OperativeZieleDecider implements FieldStateDecider {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private CidsBean kompartiment;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new SubTypeDecider object.
+         */
+        public OperativeZieleDecider() {
+        }
+
+        /**
+         * Creates a new SubTypeDecider object.
+         *
+         * @param  kompartiment  type DOCUMENT ME!
+         */
+        public OperativeZieleDecider(final CidsBean kompartiment) {
+            this.kompartiment = kompartiment;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public boolean isCheckboxForClassActive(final MetaObject mo) {
+            if (kompartiment == null) {
+                return true;
+            }
+            final Object id = kompartiment.getProperty("id");
+
+            return (id.equals(1) && (mo.getBean().getProperty("sohle") != null)
+                            && (Boolean)mo.getBean().getProperty("sohle"))
+                        || (id.equals(2) && ((Boolean)mo.getBean().getProperty("ufer") != null)
+                            && (Boolean)mo.getBean().getProperty("ufer"))
+                        || (id.equals(3) && ((Boolean)mo.getBean().getProperty("umfeld") != null)
+                            && (Boolean)mo.getBean().getProperty("umfeld"));
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the kompartiment
+         */
+        public CidsBean getKompartiment() {
+            return kompartiment;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  kompartiment  the kompartiment to set
+         */
+        public void setKompartiment(final CidsBean kompartiment) {
+            this.kompartiment = kompartiment;
+        }
     }
 }

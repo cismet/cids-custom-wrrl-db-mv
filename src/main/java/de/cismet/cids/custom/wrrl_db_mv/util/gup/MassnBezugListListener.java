@@ -19,6 +19,8 @@ import Sirius.server.middleware.types.MetaObject;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
 
+import java.awt.EventQueue;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -151,9 +153,11 @@ public class MassnBezugListListener implements ObservableListListener {
 
     @Override
     public void listElementsRemoved(final ObservableList list, final int index, final List oldElements) {
-        final List<CidsBean> all = cidsBean.getBeanCollectionProperty("massnahmen");
+        final List<CidsBean> all = cidsBean.getBeanCollectionProperty(collectionPropertyName);
 
-        all.remove((CidsBean)list.get(index));
+        for (final Object b : oldElements) {
+            all.remove((CidsBean)b);
+        }
     }
 
     @Override

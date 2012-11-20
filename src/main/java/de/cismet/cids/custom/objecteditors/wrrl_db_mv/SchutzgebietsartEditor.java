@@ -8,7 +8,7 @@
 /*
  * GupMassnahmeSohle.java
  *
- * Created on 04.04.2012, 11:49:19
+ * Created on 10.10.2012, 11:49:19
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
@@ -31,26 +31,21 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class SchutzgebietsartEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupOperativesZielEditor.class);
+            SchutzgebietsartEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cbUfer;
-    private javax.swing.JCheckBox cbUmfeld;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblBereiche;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblName;
-    private javax.swing.JCheckBox sbSohle;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -60,7 +55,7 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupOperativesZielEditor() {
+    public SchutzgebietsartEditor() {
         this(false);
     }
 
@@ -69,14 +64,11 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupOperativesZielEditor(final boolean readOnly) {
+    public SchutzgebietsartEditor(final boolean readOnly) {
         initComponents();
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtName);
-            RendererTools.makeReadOnly(cbUmfeld);
-            RendererTools.makeReadOnly(sbSohle);
-            RendererTools.makeReadOnly(cbUfer);
             RendererTools.makeReadOnly(dccColor);
         }
     }
@@ -95,11 +87,6 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
 
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        cbUfer = new javax.swing.JCheckBox();
-        cbUmfeld = new javax.swing.JCheckBox();
-        sbSohle = new javax.swing.JCheckBox();
-        lblBereiche = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
 
@@ -108,8 +95,8 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         setLayout(new java.awt.GridBagLayout());
 
         lblName.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielEditor.class,
-                "GupOperativesZielEditor.lblName.text")); // NOI18N
+                SchutzgebietsartEditor.class,
+                "SchutzgebietsartEditor.lblName.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(170, 17));
         lblName.setMinimumSize(new java.awt.Dimension(170, 17));
         lblName.setPreferredSize(new java.awt.Dimension(215, 17));
@@ -139,98 +126,9 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
         add(txtName, gridBagConstraints);
 
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        cbUfer.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielEditor.class,
-                "GupOperativesZielEditor.cbUfer.text")); // NOI18N
-        cbUfer.setContentAreaFilled(false);
-        cbUfer.setPreferredSize(new java.awt.Dimension(120, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ufer}"),
-                cbUfer,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel1.add(cbUfer, gridBagConstraints);
-
-        cbUmfeld.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielEditor.class,
-                "GupOperativesZielEditor.cbUmfeld.text")); // NOI18N
-        cbUmfeld.setContentAreaFilled(false);
-        cbUmfeld.setPreferredSize(new java.awt.Dimension(120, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeld}"),
-                cbUmfeld,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel1.add(cbUmfeld, gridBagConstraints);
-
-        sbSohle.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielEditor.class,
-                "GupOperativesZielEditor.cbSohle.text")); // NOI18N
-        sbSohle.setContentAreaFilled(false);
-        sbSohle.setPreferredSize(new java.awt.Dimension(120, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohle}"),
-                sbSohle,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel1.add(sbSohle, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 10, 0);
-        add(jPanel1, gridBagConstraints);
-
-        lblBereiche.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielEditor.class,
-                "GupOperativesZielEditor.lblBereiche.text")); // NOI18N
-        lblBereiche.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblBereiche.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblBereiche.setPreferredSize(new java.awt.Dimension(215, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblBereiche, gridBagConstraints);
-
         lblColor.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielEditor.class,
-                "GupOperativesZielEditor.lblColor.text")); // NOI18N
+                SchutzgebietsartEditor.class,
+                "SchutzgebietsartEditor.lblColor.text")); // NOI18N
         lblColor.setMaximumSize(new java.awt.Dimension(170, 17));
         lblColor.setMinimumSize(new java.awt.Dimension(170, 17));
         lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
@@ -288,7 +186,7 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
 
     @Override
     public String getTitle() {
-        return "Operatives Ziel: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
+        return "Schutzgebietsart: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
     }
 
     @Override
@@ -316,7 +214,7 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
             "Administratoren",
             "admin",
             "x",
-            "gup_operatives_ziel",
+            "schutzgebietsart",
             1,
             1280,
             1024);

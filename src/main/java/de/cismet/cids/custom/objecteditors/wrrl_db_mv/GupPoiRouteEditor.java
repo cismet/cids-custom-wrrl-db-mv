@@ -15,8 +15,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import Sirius.server.search.CidsServerSearch;
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -44,6 +42,9 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -62,6 +63,8 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, FooterComponentProvider, EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
+
+    public static final String COLLECTION_PROPERTY = "pois";
 
 // RequestsFullSizeComponent,
 
@@ -84,7 +87,6 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
     private final JBand jband;
     private final BandModelListener modelListener = new GupPoiBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
     private List<CidsBean> sohleList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
@@ -228,7 +230,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
         // extract pois
-        final List<CidsBean> all = cidsBean.getBeanCollectionProperty("pois");
+        final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
         rechtesUferList = new ArrayList<CidsBean>();
         sohleList = new ArrayList<CidsBean>();
         linkesUferList = new ArrayList<CidsBean>();
@@ -259,15 +261,15 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
                 GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_RECHTS,
                 cidsBean,
-                "pois"));
+                COLLECTION_PROPERTY));
         ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
                 GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_LINKS,
                 cidsBean,
-                "pois"));
+                COLLECTION_PROPERTY));
         ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
                 GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE,
                 cidsBean,
-                "pois"));
+                COLLECTION_PROPERTY));
 
         ufer_rechts.setCidsBeans(rechtesUferList);
         sohle.setCidsBeans(sohleList);
@@ -296,7 +298,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }
                 }
             });
@@ -380,9 +382,9 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNew.add(jbApply, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 800));
+        setMinimumSize(new java.awt.Dimension(1050, 600));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 800));
+        setPreferredSize(new java.awt.Dimension(1050, 600));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(640, 310));

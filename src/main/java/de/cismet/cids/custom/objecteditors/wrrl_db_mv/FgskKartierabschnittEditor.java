@@ -9,8 +9,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 
-import Sirius.server.search.CidsServerSearch;
-
 import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
@@ -48,6 +46,9 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -571,6 +572,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
             } catch (Exception ex) {
                 LOG.error("Cannot save the current time.", ex);
+            }
+            try {
+                cidsBean.setProperty("gwk", cidsBean.getProperty("linie.von.route.gwk"));
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current gwk.", ex);
             }
 
             performCalculations(tpMain.getComponentAt(selectedTabIndex), panErgebnisse);

@@ -12,6 +12,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -343,10 +344,15 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
                                         + OBERGRUPPE_ART.getTableName() + " o, gup_umlandnutzungsobergruppe_gruppe ug "
                                         + "where o.gruppen = ug.gup_obergruppe_reference and ug.gruppe = " + groupId; // NOI18N
 
-                            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+                            try {
+                                final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                                            .getMetaObjectsByQuery(query);
 
-                            if ((metaObjects != null) && (metaObjects.length == 1)) {
-                                return metaObjects[0].getBean().toString();
+                                if ((metaObjects != null) && (metaObjects.length == 1)) {
+                                    return metaObjects[0].getBean().toString();
+                                }
+                            } catch (CacheException e) {
+                                LOG.error("Cache Exception", e);
                             }
                         }
                     }

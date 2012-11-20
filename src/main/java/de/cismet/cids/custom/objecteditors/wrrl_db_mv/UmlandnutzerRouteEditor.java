@@ -15,8 +15,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.RequestsFullSizeComponent;
 
-import Sirius.server.search.CidsServerSearch;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -40,6 +38,9 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -80,7 +81,6 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private final transient org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private CidsBean cidsBean;
     private UmlandnutzerEditor umlandnutzerEditor;
     private boolean readOnly = false;
@@ -242,7 +242,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
                     } catch (Exception e) {
-                        log.error("Problem beim Suchen der Wasserkoerper", e);
+                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
                     }
                 }
             });

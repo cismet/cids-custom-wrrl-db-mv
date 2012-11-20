@@ -16,7 +16,6 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.search.CidsServerSearch;
 
 import java.awt.EventQueue;
 
@@ -45,6 +44,9 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.tools.gui.StaticSwingTools;
 

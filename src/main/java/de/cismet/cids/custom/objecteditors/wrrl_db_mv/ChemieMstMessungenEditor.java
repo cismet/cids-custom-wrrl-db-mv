@@ -1522,23 +1522,31 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * DOCUMENT ME!
      */
     private void setColors() {
-        setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth);
-        setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm);
-        setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor);
-        setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN);
-        setColorOfField(lblMittelNit, null, lbl90PerzentilNit);
-        setColorOfField(lblMittelO2, lblOWertO2, null);
-        setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos);
+        setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth, false);
+        setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm, false);
+        setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor, false);
+        setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN, false);
+        setColorOfField(lblMittelNit, null, lbl90PerzentilNit, false);
+        setColorOfField(lblMittelO2, lblOWertO2, null, true);
+        setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos, false);
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  mit  DOCUMENT ME!
-     * @param  ow   DOCUMENT ME!
-     * @param  pe   DOCUMENT ME!
+     * @param  mit            DOCUMENT ME!
+     * @param  ow             DOCUMENT ME!
+     * @param  pe             DOCUMENT ME!
+     * @param  reverseColors  DOCUMENT ME!
      */
-    public static void setColorOfField(final JLabel mit, final JLabel ow, final JLabel pe) {
+    public static void setColorOfField(final JLabel mit,
+            final JLabel ow,
+            final JLabel pe,
+            final boolean reverseColors) {
+        if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
+            mit.setOpaque(false);
+            mit.repaint();
+        }
         try {
             final double mitD = Double.parseDouble(mit.getText());
             double oD = Double.MAX_VALUE;
@@ -1552,7 +1560,11 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 hgrD = Double.parseDouble(pe.getText());
             }
 
-            mit.setBackground(calcColor(mitD, oD, hgrD));
+            if (reverseColors) {
+                mit.setBackground(calcColorReverse(mitD, oD, hgrD));
+            } else {
+                mit.setBackground(calcColor(mitD, oD, hgrD));
+            }
             mit.setOpaque(true);
             mit.repaint();
         } catch (NumberFormatException e) {
@@ -1578,6 +1590,27 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
             return Color.ORANGE;
         } else {
             return Color.RED;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   mittel  DOCUMENT ME!
+     * @param   o       DOCUMENT ME!
+     * @param   hgr     DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Color calcColorReverse(final double mittel, final double o, final double hgr) {
+        if ((mittel <= hgr) && (hgr != Double.MAX_VALUE)) {
+            return Color.RED;
+        } else if (mittel <= o) {
+            return Color.ORANGE;
+        } else if (mittel <= (2 * o)) {
+            return Color.GREEN;
+        } else {
+            return LIGHT_BLUE;
         }
     }
 

@@ -13,7 +13,9 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
+
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -30,7 +32,6 @@ import javax.swing.ScrollPaneConstants;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
@@ -39,7 +40,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -57,35 +57,41 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRenderer,
+public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final String COLLECTION_PROPERTY = "abschnitt";
+
+// RequestsFullSizeComponent,
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupOperativesZielRouteEditor.class);
-    private static final String GUP_OPERATIVES_ZIEL = "gup_operatives_ziel_abschnitt";
-    public static final int GUP_UFER_LINKS = 1;
-    public static final int GUP_UFER_RECHTS = 2;
-    public static final int GUP_UMFELD_RECHTS = 3;
-    public static final int GUP_UMFELD_LINKS = 3;
-    public static final int GUP_SOHLE = 4;
+            VerbreitungsraumEditor.class);
+    private static final String VERMEIDUNGSGRUPPE_ABSCHNITT = "vermeidungsgruppe_abschnitt";
 
     //~ Instance fields --------------------------------------------------------
 
-    private OperativesZielRWBand uferLinksBand = new OperativesZielRWBand("Ufer links", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand uferRechtsBand = new OperativesZielRWBand("Ufer rechts", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand umfeldLinksBand = new OperativesZielRWBand("Umfeld links", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand umfeldRechtsBand = new OperativesZielRWBand("Umfeld rechts", GUP_OPERATIVES_ZIEL);
-    private OperativesZielRWBand sohleBand = new OperativesZielRWBand("Sohle", GUP_OPERATIVES_ZIEL);
+    private VermeidungsgruppeRWBand ufer_links = new VermeidungsgruppeRWBand(
+            "Ufer links",
+            VERMEIDUNGSGRUPPE_ABSCHNITT);
+    private VermeidungsgruppeRWBand ufer_rechts = new VermeidungsgruppeRWBand(
+            "Ufer rechts",
+            VERMEIDUNGSGRUPPE_ABSCHNITT);
+    private VermeidungsgruppeRWBand sohle = new VermeidungsgruppeRWBand(
+            "Sohle",
+            VERMEIDUNGSGRUPPE_ABSCHNITT);
     private WKBand wkband;
     private final JBand jband;
-    private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
+    private final BandModelListener modelListener = new GupVerbreitungsraumBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
+    private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> sohleList = new ArrayList<CidsBean>();
+    private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
-    private GupOperativesZielAbschnittEditor operativesZielEditor;
-    private boolean readOnly = false;
+    private VermeidungsgruppenAbschnittEditor vermeidungsgruppenAbschnittEditor;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
     private javax.swing.JLabel jLabel3;
@@ -110,7 +116,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
-    private javax.swing.JPanel panZiele;
+    private javax.swing.JPanel panVerbreitungsraum;
     private javax.swing.JSlider sldZoom;
     // End of variables declaration//GEN-END:variables
 
@@ -119,7 +125,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     /**
      * Creates a new GupGewaesserabschnittEditor object.
      */
-    public GupOperativesZielRouteEditor() {
+    public VerbreitungsraumEditor() {
         this(false);
     }
 
@@ -128,35 +134,28 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupOperativesZielRouteEditor(final boolean readOnly) {
-        this.readOnly = readOnly;
+    public VerbreitungsraumEditor(final boolean readOnly) {
         jband = new JBand(readOnly);
         initComponents();
 
-        uferLinksBand.setReadOnly(readOnly);
-        uferRechtsBand.setReadOnly(readOnly);
-        umfeldLinksBand.setReadOnly(readOnly);
-        umfeldRechtsBand.setReadOnly(readOnly);
-        sohleBand.setReadOnly(readOnly);
-        uferLinksBand.setType(GUP_UFER_LINKS);
-        uferRechtsBand.setType(GUP_UFER_RECHTS);
-        umfeldLinksBand.setType(GUP_UMFELD_LINKS);
-        umfeldRechtsBand.setType(GUP_UMFELD_RECHTS);
-        sohleBand.setType(GUP_SOHLE);
-        operativesZielEditor = new GupOperativesZielAbschnittEditor(readOnly);
-        sbm.addBand(umfeldRechtsBand);
-        sbm.addBand(uferRechtsBand);
-        sbm.addBand(sohleBand);
-        sbm.addBand(uferLinksBand);
-        sbm.addBand(umfeldLinksBand);
+        vermeidungsgruppenAbschnittEditor = new VermeidungsgruppenAbschnittEditor(readOnly);
+        ufer_rechts.setReadOnly(readOnly);
+        ufer_rechts.setType(VermeidungsgruppeRWBand.RIGHT);
+        sbm.addBand(ufer_rechts);
+        sohle.setReadOnly(readOnly);
+        sohle.setType(VermeidungsgruppeRWBand.MIDDLE);
+        sbm.addBand(sohle);
+        ufer_links.setReadOnly(readOnly);
+        ufer_links.setType(VermeidungsgruppeRWBand.LEFT);
+        sbm.addBand(ufer_links);
 
         jband.setModel(sbm);
 
         panBand.add(jband, BorderLayout.CENTER);
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
-        lblHeading.setText("Allgemeine Informationen");
-        panZiele.add(operativesZielEditor, BorderLayout.CENTER);
+        lblHeading.setText("Schutzgebiet");
+        panVerbreitungsraum.add(vermeidungsgruppenAbschnittEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -187,7 +186,6 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//        bindingGroup.unbind();
         this.cidsBean = cidsBean;
 
         switchToForm("empty");
@@ -217,23 +215,62 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
                     "linie.bis"));
         sbm.setMin(from);
         sbm.setMax(till);
-        wkband = new WKBand(sbm.getMin(), sbm.getMax());
+        wkband = new WKBand(from, till);
         jband.setMinValue(from);
         jband.setMaxValue(till);
-        uferLinksBand.setRoute(route);
-        uferRechtsBand.setRoute(route);
-        sohleBand.setRoute(route);
-        umfeldRechtsBand.setRoute(route);
-        umfeldLinksBand.setRoute(route);
-        uferLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_links"));
-        uferRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("ufer_rechts"));
-        umfeldLinksBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_links"));
-        umfeldRechtsBand.setCidsBeans(cidsBean.getBeanCollectionProperty("umfeld_rechts"));
-        sohleBand.setCidsBeans(cidsBean.getBeanCollectionProperty("sohle"));
+        ufer_links.setRoute(route);
+        sohle.setRoute(route);
+        ufer_rechts.setRoute(route);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
+
+        // extract Vermeidungsgebiete
+        final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
+        rechtesUferList = new ArrayList<CidsBean>();
+        sohleList = new ArrayList<CidsBean>();
+        linkesUferList = new ArrayList<CidsBean>();
+
+        for (final CidsBean tmp : all) {
+            final Integer kind = (Integer)tmp.getProperty("wo.id");
+
+            switch (kind) {
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_LINKS: {
+                    linkesUferList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_RECHTS: {
+                    rechtesUferList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE: {
+                    sohleList.add(tmp);
+                    break;
+                }
+            }
+        }
+
+        rechtesUferList = ObservableCollections.observableList(rechtesUferList);
+        sohleList = ObservableCollections.observableList(sohleList);
+        linkesUferList = ObservableCollections.observableList(linkesUferList);
+
+        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_SOHLE,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_MASSNAHME_UFER_LINKS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+
+        ufer_rechts.setCidsBeans(rechtesUferList);
+        ufer_links.setCidsBeans(linkesUferList);
+        sohle.setCidsBeans(sohleList);
 
         de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 
@@ -288,7 +325,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        panZiele = new javax.swing.JPanel();
+        panVerbreitungsraum = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
@@ -327,9 +364,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panNew.add(linearReferencedLineEditor, gridBagConstraints);
 
-        jbApply.setText(org.openide.util.NbBundle.getMessage(
-                GupOperativesZielRouteEditor.class,
-                "GupGewaesserabschnitt")); // NOI18N
+        jbApply.setText(org.openide.util.NbBundle.getMessage(VerbreitungsraumEditor.class, "GupGewaesserabschnitt")); // NOI18N
         jbApply.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -344,9 +379,9 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNew.add(jbApply, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 800));
+        setMinimumSize(new java.awt.Dimension(1050, 600));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 800));
+        setPreferredSize(new java.awt.Dimension(1050, 600));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(640, 310));
@@ -366,9 +401,9 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.CardLayout());
 
-        panZiele.setOpaque(false);
-        panZiele.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panZiele, "ziele");
+        panVerbreitungsraum.setOpaque(false);
+        panVerbreitungsraum.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panVerbreitungsraum, "verbreitungsraum");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
@@ -570,7 +605,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
             "Administratoren",
             "admin",
             "x",
-            "gup_gewaesserabschnitt",
+            "schutzgebiet_route",
             1,
             1280,
             1024);
@@ -578,8 +613,8 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        operativesZielEditor.dispose();
         linearReferencedLineEditor.editorClosed(event);
+        vermeidungsgruppenAbschnittEditor.dispose();
     }
 
     @Override
@@ -594,7 +629,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
      *
      * @version  $Revision$, $Date$
      */
-    class GupGewaesserabschnittBandModelListener implements BandModelListener {
+    class GupVerbreitungsraumBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 
@@ -605,45 +640,32 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         @Override
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm = jband.getSelectedBandMember();
-            operativesZielEditor.dispose();
             jband.setRefreshAvoided(true);
+            vermeidungsgruppenAbschnittEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof OperativesZielRWBandMember) {
-                    switchToForm("ziele");
-                    lblHeading.setText("Operatives Ziel");
-                    String memberProperty = null;
-                    final int type = ((OperativesZielRWBand)((OperativesZielRWBandMember)bm).getParentBand()).getType();
-                    int kompartiment = 0;
+                if (bm instanceof VermeidungsgruppeRWBandMember) {
+                    switchToForm("verbreitungsraum");
+                    lblHeading.setText("Verbreitungsraum");
 
-                    if (type == GUP_SOHLE) {
-                        memberProperty = "sohle";
-                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_SOHLE;
-                    } else if (type == GUP_UFER_LINKS) {
-                        memberProperty = "ufer_links";
-                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
-                    } else if (type == GUP_UFER_RECHTS) {
-                        memberProperty = "ufer_rechts";
-                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UFER;
-                    } else if (type == GUP_UMFELD_LINKS) {
-                        memberProperty = "umfeld_links";
-                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
-                    } else if (type == GUP_UMFELD_RECHTS) {
-                        memberProperty = "umfeld_rechts";
-                        kompartiment = GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_UMFELD;
+                    final VermeidungsgruppeRWBand band = (VermeidungsgruppeRWBand)((VermeidungsgruppeRWBandMember)bm)
+                                .getParentBand();
+                    final List<CidsBean> otherBeans;
+
+                    if (band.getType() == VermeidungsgruppeRWBand.RIGHT) {
+                        otherBeans = new ArrayList(rechtesUferList);
+                    } else if (band.getType() == VermeidungsgruppeRWBand.LEFT) {
+                        otherBeans = new ArrayList(linkesUferList);
+                    } else {
+                        otherBeans = new ArrayList(sohleList);
                     }
 
-                    final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
-                            cidsBean,
-                            memberProperty);
-
-                    operativesZielEditor.setKompartiment(kompartiment);
-                    operativesZielEditor.setOthers(otherBeans);
-                    operativesZielEditor.setCidsBean(((OperativesZielRWBandMember)bm).getCidsBean());
+                    vermeidungsgruppenAbschnittEditor.setOthers(otherBeans);
+                    vermeidungsgruppenAbschnittEditor.setCidsBean(((VermeidungsgruppeRWBandMember)bm).getCidsBean());
                 }
             } else {
                 switchToForm("empty");
