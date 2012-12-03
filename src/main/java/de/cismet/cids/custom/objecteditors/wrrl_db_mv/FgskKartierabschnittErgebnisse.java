@@ -12,9 +12,15 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jdesktop.beansbinding.Converter;
+
 import org.openide.util.NbBundle;
+import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.RoundedNumberConverter;
@@ -33,6 +39,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
     //~ Instance fields --------------------------------------------------------
+
+    private final transient PropertyChangeListener criteraCountChangeL;
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -135,6 +143,8 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
      * Creates new form WkFgPanOne.
      */
     public FgskKartierabschnittErgebnisse() {
+        this.criteraCountChangeL = new CriteriaCountChangeL();
+
         initComponents();
         setOpaque(false);
     }
@@ -688,6 +698,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtCourseEvoRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("laufentwicklung_anzahl_kriterien"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -760,6 +771,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtLongProfileRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("laengsprofil_anzahl_kriterien"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -846,6 +858,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtBedStructureRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("sohlenstruktur_anzahl_kriterien"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -959,6 +972,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtBankStructRatingOverall,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("uferstruktur_anzahl_kriterien"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1080,6 +1094,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtBankStructRatingRight,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("uferstruktur_anzahl_kriterien_rechts"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1126,6 +1141,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtBankStructRatingLeft,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("uferstruktur_anzahl_kriterien_links"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1149,6 +1165,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtCrossProfileRating,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("querprofil_anzahl_kriterien"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1276,6 +1293,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtWBEnvRatingOverall,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("gewaesserumfeld_anzahl_kriterien"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1384,6 +1402,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtWBEnvRatingLeft,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("gewaesserumfeld_anzahl_kriterien_links"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1434,6 +1453,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                 txtWBEnvRatingRight,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht berechnet>");
+        binding.setConverter(new MaxRatingConverter("gewaesserumfeld_anzahl_kriterien_rechts"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1500,6 +1520,8 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
+            this.cidsBean.addPropertyChangeListener(WeakListeners.propertyChange(criteraCountChangeL, this.cidsBean));
+
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
@@ -1514,6 +1536,31 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
                     }
                 });
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   rating      DOCUMENT ME!
+     * @param   critCountO  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getRatingString(final Object rating, final Object critCountO) {
+        if (rating instanceof Double) {
+            final StringBuilder sb = new StringBuilder();
+            sb.append(rating);
+
+            if (critCountO instanceof Integer) {
+                final double maxPoints = ((Integer)critCountO) * 5;
+
+                sb.append(" / ").append(maxPoints); // NOI18N
+            }
+
+            return sb.toString();
+        }
+
+        return null;
     }
 
     @Override
@@ -1548,5 +1595,143 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         }
 
         txtGueteklasse.setText(gueteklasse);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private final class CriteriaCountChangeL implements PropertyChangeListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void propertyChange(final PropertyChangeEvent evt) {
+            final Object value = evt.getNewValue();
+            if (value instanceof Integer) {
+                if (Calc.PROP_COURSE_EVO_SUM_CRIT.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(Calc.PROP_COURSE_EVO_SUM_RATING),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtCourseEvoRating.setText(ratingString);
+                } else if (Calc.PROP_LONG_PROFILE_SUM_CRIT.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(Calc.PROP_LONG_PROFILE_SUM_RATING),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtLongProfileRating.setText(ratingString);
+                } else if (Calc.PROP_BED_STRUCTURE_SUM_CRIT.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(
+                                Calc.PROP_BED_STRUCTURE_SUM_RATING),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtBedStructureRating.setText(ratingString);
+                } else if (Calc.PROP_BANK_STRUCTURE_SUM_CRIT.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(
+                                Calc.PROP_BANK_STRUCTURE_SUM_RATING),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtBankStructRatingOverall.setText(ratingString);
+                } else if (Calc.PROP_BANK_STRUCTURE_SUM_CRIT_LE.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(
+                                Calc.PROP_BANK_STRUCTURE_SUM_RATING_LE),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtBankStructRatingLeft.setText(ratingString);
+                } else if (Calc.PROP_BANK_STRUCTURE_SUM_CRIT_RI.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(
+                                Calc.PROP_BANK_STRUCTURE_SUM_RATING_RI),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtBankStructRatingRight.setText(ratingString);
+                } else if (Calc.PROP_CROSS_PROFILE_SUM_CRIT.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(
+                                Calc.PROP_CROSS_PROFILE_SUM_RATING),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtCrossProfileRating.setText(ratingString);
+                } else if (Calc.PROP_WB_ENV_SUM_CRIT.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(Calc.PROP_WB_ENV_SUM_RATING),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtWBEnvRatingOverall.setText(ratingString);
+                } else if (Calc.PROP_WB_ENV_SUM_CRIT_LE.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(Calc.PROP_WB_ENV_SUM_RATING_LE),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtWBEnvRatingLeft.setText(ratingString);
+                } else if (Calc.PROP_WB_ENV_SUM_CRIT_RI.equals(evt.getPropertyName())) {
+                    final String ratingString = getRatingString(cidsBean.getProperty(Calc.PROP_WB_ENV_SUM_RATING_RI),
+                            value);
+
+                    assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
+
+                    txtWBEnvRatingRight.setText(ratingString);
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private final class MaxRatingConverter extends Converter<Double, String> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final transient String criteriaCountProperty;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new MaxRatingConverter object.
+         *
+         * @param  criteriaCountProperty  DOCUMENT ME!
+         */
+        public MaxRatingConverter(final String criteriaCountProperty) {
+            this.criteriaCountProperty = criteriaCountProperty;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String convertForward(final Double value) {
+            final Object critCountO = cidsBean.getProperty(criteriaCountProperty);
+
+            return getRatingString(value, critCountO);
+        }
+
+        @Override
+        public Double convertReverse(final String value) {
+            if (value == null) {
+                return null;
+            } else {
+                final String[] split = value.split(" / "); // NOI18N
+
+                return Double.parseDouble(split[0]);
+            }
+        }
     }
 }
