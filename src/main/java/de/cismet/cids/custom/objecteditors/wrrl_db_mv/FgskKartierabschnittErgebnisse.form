@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
@@ -751,6 +751,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.laufentwicklung_summe_punktzahl}" target="txtCourseEvoRating" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;laufentwicklung_anzahl_kriterien&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -845,6 +848,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.laengsprofil_summe_punktzahl}" target="txtLongProfileRating" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;laengsprofil_anzahl_kriterien&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -960,6 +966,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlenstruktur_summe_punktzahl}" target="txtBedStructureRating" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;sohlenstruktur_anzahl_kriterien&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1144,6 +1153,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.uferstruktur_summe_punktzahl}" target="txtBankStructRatingOverall" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;uferstruktur_anzahl_kriterien&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1306,6 +1318,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.uferstruktur_summe_punktzahl_rechts}" target="txtBankStructRatingRight" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;uferstruktur_anzahl_kriterien_rechts&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1358,6 +1373,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.uferstruktur_summe_punktzahl_links}" target="txtBankStructRatingLeft" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;uferstruktur_anzahl_kriterien_links&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1384,6 +1402,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.querprofil_summe_punktzahl}" target="txtCrossProfileRating" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;querprofil_anzahl_kriterien&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1589,6 +1610,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gewaesserumfeld_summe_punktzahl}" target="txtWBEnvRatingOverall" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;gewaesserumfeld_anzahl_kriterien&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1730,6 +1754,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gewaesserumfeld_summe_punktzahl_links}" target="txtWBEnvRatingLeft" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;gewaesserumfeld_anzahl_kriterien_links&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
@@ -1798,6 +1825,9 @@
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gewaesserumfeld_summe_punktzahl_rechts}" target="txtWBEnvRatingRight" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht berechnet&gt;"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="new MaxRatingConverter(&quot;gewaesserumfeld_anzahl_kriterien_rechts&quot;)" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
