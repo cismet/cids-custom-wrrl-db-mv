@@ -1022,7 +1022,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_schwermetalle}" target="lblEqsHmMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1045,7 +1045,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_schwermetalle_welche}" target="txtEqsHmMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1175,7 +1175,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_psm}" target="lblEqsPesticMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1198,7 +1198,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_ind_stoffe}" target="lblIndPolMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1221,7 +1221,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_stoffe}" target="lblEqsOthplVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1244,7 +1244,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_nat}" target="lblUNonCompVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1267,7 +1267,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_nat_welche}" target="lblUNonCompBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1287,7 +1287,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_stoffe_welche}" target="txtEqsOthplBemerkungMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1307,7 +1307,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_ind_stoffe_welche}" target="txtIndpolBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1327,7 +1327,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_psm_welche}" target="txtEqsPesticBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1365,7 +1365,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_eco_stoffe}" target="lblUEcoMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1388,7 +1388,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_eco_stoffe_welche}" target="lblUEcoBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>

@@ -1180,7 +1180,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_schwermetalle}"),
                 lblEqsHmMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1200,7 +1200,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_schwermetalle_welche}"),
                 txtEqsHmMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1297,7 +1297,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_psm}"),
                 lblEqsPesticMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1317,7 +1317,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_ind_stoffe}"),
                 lblIndPolMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1337,7 +1337,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_stoffe}"),
                 lblEqsOthplVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1357,7 +1357,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_nat}"),
                 lblUNonCompVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1377,7 +1377,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_nat_welche}"),
                 lblUNonCompBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1398,7 +1398,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_stoffe_welche}"),
                 txtEqsOthplBemerkungMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1419,7 +1419,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_ind_stoffe_welche}"),
                 txtIndpolBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1440,7 +1440,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_psm_welche}"),
                 txtEqsPesticBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1473,7 +1473,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_eco_stoffe}"),
                 lblUEcoMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1493,7 +1493,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_eco_stoffe_welche}"),
                 lblUEcoBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1604,15 +1604,24 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * @return  DOCUMENT ME!
      */
     public static Color calcColorReverse(final double mittel, final double o, final double hgr) {
-        if ((mittel <= hgr) && (hgr != Double.MAX_VALUE)) {
-            return Color.RED;
-        } else if (mittel <= o) {
-            return Color.ORANGE;
-        } else if (mittel <= (2 * o)) {
-            return Color.GREEN;
-        } else {
+        if ((mittel > hgr) && (hgr != Double.MAX_VALUE)) {
             return LIGHT_BLUE;
+        } else if (mittel > o) {
+            return Color.GREEN;
+        } else if (mittel >= (1 / 2 * o)) {
+            return Color.ORANGE;
+        } else {
+            return Color.RED;
         }
+//        if ((mittel <= hgr) && (hgr != Double.MAX_VALUE)) {
+//            return Color.RED;
+//        } else if (mittel <= o) {
+//            return Color.ORANGE;
+//        } else if (mittel <= (2 * o)) {
+//            return Color.GREEN;
+//        } else {
+//            return LIGHT_BLUE;
+//        }
     }
 
     /**

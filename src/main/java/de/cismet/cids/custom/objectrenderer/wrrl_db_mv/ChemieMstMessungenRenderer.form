@@ -149,7 +149,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.opo4_90_perzentil}" target="lbl90PerzentilOrth" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -172,8 +172,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.opo4_gk_lawa.name}" target="lblGkLawaOrth" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -196,7 +196,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.opo4_owert_rakon}" target="lblOWertOrth" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -220,7 +220,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.opo4_mittelwert}" target="lblMittelOrth" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -302,7 +302,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nh4_90_perzentil}" target="lbl90PerzentilAmm" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -325,8 +325,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nh4_gk_lawa.name}" target="lblGkLawaAmm" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -349,7 +349,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nh4_owert_rakon}" target="lblOWertAmm" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -373,7 +373,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.nh4_mittelwert}" target="lblMittelAmm" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -437,7 +437,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ges_n_90_perzentil}" target="lbl90PerzentilGesN" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -460,8 +460,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ges_n_gk_lawa.name}" target="lblGkLawaGesN" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -567,7 +567,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ges_p_90_perzentil}" target="lbl90PerzentilPhos" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -590,8 +590,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ges_p_gk_lawa.name}" target="lblGkLawaPhos" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -614,7 +614,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ges_p_owert_rakon}" target="lblOWertPhos" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -638,7 +638,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ges_p_mittelwert}" target="lblMittelPhos" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -702,7 +702,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.no3_n_90_perzentil}" target="lbl90PerzentilNit" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -725,8 +725,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.no3_n_gk_lawa.name}" target="lblGkLawaNit" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -750,7 +750,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.no3_n_mittelwert}" target="lblMittelNit" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -832,7 +832,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.cl_90_perzentil}" target="lbl90PerzentilChlor" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -855,8 +855,8 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.cl_gk_lawa.name}" target="lblGkLawaChlor" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -879,7 +879,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.cl_owert_rakon}" target="lblOWertChlor" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -903,7 +903,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.cl_mittelwert}" target="lblMittelChlor" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -967,7 +967,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.o2_owert_rakon}" target="lblOWertO2" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -991,7 +991,7 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.o2_mittelwert}" target="lblMittelO2" targetPath="text" updateStrategy="0" immediately="false">
-                  <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -1031,7 +1031,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_schwermetalle}" target="lblEqsHmMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1054,7 +1054,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_schwermetalle_welche}" target="txtEqsHmMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1184,7 +1184,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_psm}" target="lblEqsPesticMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1207,7 +1207,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_ind_stoffe}" target="lblIndPolMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1230,7 +1230,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_stoffe}" target="lblEqsOthplVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1253,7 +1253,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_nat}" target="lblUNonCompMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1276,7 +1276,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_nat_welche}" target="lblUNonCompBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1296,7 +1296,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_andere_stoffe_welche}" target="txtEqsOthplBemerkungMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1316,7 +1316,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_ind_stoffe_welche}" target="txtIndpolBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1336,7 +1336,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_psm_welche}" target="txtEqsPesticBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1374,7 +1374,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_eco_stoffe}" target="lblUEcoMstVal" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="YesNoConverter.getInstance()" type="code"/>
               </Property>
@@ -1397,7 +1397,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.u_eco_stoffe_welche}" target="lblUEcoBemerkMst" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1417,8 +1417,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_mst.name}" target="lblGkPhysChem" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -1438,7 +1438,7 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_pc}" target="lblPhysChemBem" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
