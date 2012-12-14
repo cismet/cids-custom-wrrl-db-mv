@@ -145,41 +145,18 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="GupGupEditor.lblZustaendigkeit.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[230, 17]"/>
+                  <Dimension value="[260, 17]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[230, 17]"/>
+                  <Dimension value="[260, 17]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[230, 17]"/>
+                  <Dimension value="[260, 17]"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="15" insetsBottom="5" insetsRight="5" anchor="17" weightX="0.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtVon">
-              <Properties>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[280, 25]"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[130, 25]"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[380, 22]"/>
-                </Property>
-              </Properties>
-              <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.startjahr}" target="txtVon" targetPath="text" updateStrategy="0" immediately="false">
-                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                </BindingProperty>
-              </BindingProperties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="15" anchor="18" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -254,29 +231,6 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtBis">
-              <Properties>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[280, 25]"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[130, 25]"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[380, 22]"/>
-                </Property>
-              </Properties>
-              <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.endjahr}" target="txtBis" targetPath="text" updateStrategy="0" immediately="false">
-                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                </BindingProperty>
-              </BindingProperties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="4" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="15" anchor="18" weightX="1.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
             <Component class="javax.swing.JLabel" name="lblName">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -334,13 +288,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="GupGupEditor.lblErlaeuterungsberichte.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 17]"/>
+                  <Dimension value="[310, 17]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 17]"/>
+                  <Dimension value="[310, 17]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[230, 17]"/>
+                  <Dimension value="[310, 17]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -410,6 +364,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JList" name="jlObjectList">
+                  <BindingProperties>
+                    <BindingProperty name="elements" source="Form" sourcePath="${cidsBean.dokumente}" target="jlObjectList" targetPath="elements" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DocumentDropList(readOnly, &quot;dokumente&quot;)"/>
                   </AuxValues>
@@ -491,6 +448,57 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="5" gridY="5" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="15" insetsBottom="5" insetsRight="15" anchor="13" weightX="0.0" weightY="0.0"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcVon">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[280, 25]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[130, 25]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[280, 25]"/>
+                </Property>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="date" source="Form" sourcePath="${cidsBean.start_datum}" target="dcVon" targetPath="date" updateStrategy="0" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="dcVon.getConverter()" type="code"/>
+                  </Property>
+                </BindingProperty>
+              </BindingProperties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                  <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="15" anchor="18" weightX="1.0" weightY="0.0"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcBis">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[280, 25]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[130, 25]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[280, 25]"/>
+                </Property>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="date" source="Form" sourcePath="${cidsBean.end_datum}" target="dcBis" targetPath="date" updateStrategy="0" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="dcBis.getConverter()" type="code"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value=""/>
+                </BindingProperty>
+              </BindingProperties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                  <GridBagConstraints gridX="4" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="15" anchor="18" weightX="1.0" weightY="0.0"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -579,6 +587,9 @@
                     </Property>
                     <Property name="opaque" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PlanungsabschnittPanel()"/>
+                  </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                 </Container>

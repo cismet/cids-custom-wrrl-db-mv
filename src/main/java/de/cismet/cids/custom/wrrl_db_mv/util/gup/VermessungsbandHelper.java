@@ -30,6 +30,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencing
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -76,6 +79,7 @@ public class VermessungsbandHelper {
     private JBand vBand = new JBand();
     private SimpleBandModel vBandModel = new SimpleBandModel();
     private CidsBean route;
+    private List<CidsBean> createdBeans = new ArrayList<CidsBean>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -253,25 +257,26 @@ public class VermessungsbandHelper {
      */
     public void applyStats(final Component comp, final LineBand[] bands, final String cidsBeanTableName) {
         try {
-            JOptionPane.showConfirmDialog(
-                StaticSwingTools.getParentFrame(comp),
-                "Wenn Sie die Abschnitte übernehmen, dann werden die bereits vorhandenen Abschnitte gelöscht. Wollen Sie fortrfahren?",
-                "Stationen übernehmen",
-                JOptionPane.OK_CANCEL_OPTION);
+            final int res = JOptionPane.showConfirmDialog(
+                    StaticSwingTools.getParentFrame(comp),
+                    "Wenn Sie die Abschnitte übernehmen, dann werden die bereits vorhandenen Abschnitte gelöscht. Wollen Sie fortrfahren?",
+                    "Stationen übernehmen",
+                    JOptionPane.OK_CANCEL_OPTION);
 
-            for (final LineBand tmp : bands) {
-                final HashMap<CidsBean, CidsBean> stations = new HashMap<CidsBean, CidsBean>();
-                tmp.removeAllMember();
-                for (int i = 0; i < vermessungsBand.getNumberOfMembers(); ++i) {
-                    final CidsBean bean = ((VermessungsbandMember)vermessungsBand.getMember(i)).getCidsBean();
-                    final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(cidsBeanTableName);
-                    final CidsBean von = getStationCopy((CidsBean)bean.getProperty("linie.von"), stations);
-                    final CidsBean bis = getStationCopy((CidsBean)bean.getProperty("linie.bis"), stations);
+            if (res == JOptionPane.OK_OPTION) {
+                for (final LineBand tmp : bands) {
+                    final HashMap<CidsBean, CidsBean> stations = new HashMap<CidsBean, CidsBean>();
+                    tmp.removeAllMember();
+                    for (int i = 0; i < vermessungsBand.getNumberOfMembers(); ++i) {
+                        final CidsBean bean = ((VermessungsbandMember)vermessungsBand.getMember(i)).getCidsBean();
+                        final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(cidsBeanTableName);
+                        final CidsBean von = getStationCopy((CidsBean)bean.getProperty("linie.von"), stations);
+                        final CidsBean bis = getStationCopy((CidsBean)bean.getProperty("linie.bis"), stations);
 
-                    tmp.addMember(newBean, von, bis);
+                        tmp.addMember(newBean, von, bis);
+                    }
                 }
             }
-
             togApplyStats.setSelected(false);
             hideVermessungsband();
         } catch (Exception e) {
@@ -293,6 +298,17 @@ public class VermessungsbandHelper {
         if (bean == null) {
             bean = LinearReferencingHelper.createStationBeanFromRouteBean((CidsBean)s.getProperty("route"),
                     (Double)s.getProperty("wert"));
+            try {
+                bean = bean.persist();
+                createdBeans.add(bean);
+                final CidsBean geom = (CidsBean)bean.getProperty(LinearReferencingConstants.PROP_STATION_GEOM);
+
+                if (geom != null) {
+                    createdBeans.add(geom);
+                }
+            } catch (Exception e) {
+                LOG.error("Cannot persist station.", e);
+            }
 
             // add the station geometry
             final Geometry geom = LinearReferencedPointFeature.getPointOnLine(LinearReferencingHelper
@@ -337,6 +353,15 @@ public class VermessungsbandHelper {
     /**
      * DOCUMENT ME!
      *
+     * @param  zoom  DOCUMENT ME!
+     */
+    public void setZoomFactor(final double zoom) {
+        vBand.setZoomFactor(zoom);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  avoided  DOCUMENT ME!
      */
     public void setRefreshAvoided(final boolean avoided) {
@@ -356,6 +381,24 @@ public class VermessungsbandHelper {
     public void dispose() {
         if (route != null) {
             FeatureRegistry.getInstance().removeRouteFeature(route);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  event  DOCUMENT ME!
+     */
+    public void editorClosed(final EditorClosedEvent event) {
+        if ((event.getStatus() == EditorSaveListener.EditorSaveStatus.CANCELED) && (createdBeans != null)) {
+            for (final CidsBean c : createdBeans) {
+                try {
+                    c.delete();
+                    c.persist();
+                } catch (Exception e) {
+                    LOG.error("Error while deleting unused bean.", e);
+                }
+            }
         }
     }
 }

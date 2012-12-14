@@ -12,10 +12,14 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.observablecollections.ObservableList;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -57,6 +61,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final String COLLECTION_PROPERTY = "umlandnutzung";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             UmlandnutzungRouteEditor.class);
     private static final String GUP_UMLANDNUTZUNG = "gup_umlandnutzung";
@@ -69,6 +74,8 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
     private UmlandnutzungRWBand umlandnutzung_rechts = new UmlandnutzungRWBand(
             "Umlandnutzung rechts",
             GUP_UMLANDNUTZUNG);
+    private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private WKBand wkband;
     private final JBand jband;
     private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
@@ -227,9 +234,42 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
         jband.setMinValue(from);
         jband.setMaxValue(till);
         umlandnutzung_links.setRoute(route);
-        umlandnutzung_links.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzung_links"));
         umlandnutzung_rechts.setRoute(route);
-        umlandnutzung_rechts.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzung_rechts"));
+
+        // extract Umlandnutzung
+        final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
+        rechtesUferList = new ArrayList<CidsBean>();
+        linkesUferList = new ArrayList<CidsBean>();
+
+        for (final CidsBean tmp : all) {
+            final Integer kind = (Integer)tmp.getProperty("wo.id");
+
+            switch (kind) {
+                case GupPlanungsabschnittEditor.GUP_UFER_LINKS: {
+                    linkesUferList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_UFER_RECHTS: {
+                    rechtesUferList.add(tmp);
+                    break;
+                }
+            }
+        }
+
+        rechtesUferList = ObservableCollections.observableList(rechtesUferList);
+        linkesUferList = ObservableCollections.observableList(linkesUferList);
+
+        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_UFER_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_UFER_LINKS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+
+        umlandnutzung_rechts.setCidsBeans(rechtesUferList);
+        umlandnutzung_links.setCidsBeans(linkesUferList);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -548,6 +588,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -640,6 +681,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override

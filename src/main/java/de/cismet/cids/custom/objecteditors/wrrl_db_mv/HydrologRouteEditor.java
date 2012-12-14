@@ -17,6 +17,7 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -545,6 +546,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -571,8 +573,12 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
             vermessungsband.showVermessungsband();
+            panInfo.setPreferredSize(new Dimension(640, 400));
+            panInfo.setMinimumSize(new Dimension(640, 400));
         } else {
             vermessungsband.hideVermessungsband();
+            panInfo.setPreferredSize(new Dimension(640, 460));
+            panInfo.setMinimumSize(new Dimension(640, 460));
         }
         updateUI();
         repaint();
@@ -587,6 +593,8 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         final HydrologRWBand[] bands = new HydrologRWBand[1];
         bands[0] = hydrologieband;
         vermessungsband.applyStats(this, bands, GUP_HYDROLOGIE);
+        panInfo.setPreferredSize(new Dimension(640, 460));
+        panInfo.setMinimumSize(new Dimension(640, 460));
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     @Override
@@ -636,6 +644,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override

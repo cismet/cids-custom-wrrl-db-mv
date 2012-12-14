@@ -543,6 +543,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -635,6 +636,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override

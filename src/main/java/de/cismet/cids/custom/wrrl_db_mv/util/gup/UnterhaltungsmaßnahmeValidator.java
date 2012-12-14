@@ -17,6 +17,8 @@ import org.openide.util.Exceptions;
 
 import java.util.List;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
@@ -43,7 +45,7 @@ public class UnterhaltungsmaßnahmeValidator {
 
     //~ Instance fields --------------------------------------------------------
 
-    private MetaObject[] verbreitungsraum;
+    private VermeidungsgruppeMitGeom[] verbreitungsraum;
     private MetaObject[] schutzgebiete;
     private MetaObject[] operativeZiele;
 
@@ -62,7 +64,7 @@ public class UnterhaltungsmaßnahmeValidator {
      *
      * @return  the verbreitungsraum
      */
-    public MetaObject[] getVerbreitungsraum() {
+    public VermeidungsgruppeMitGeom[] getVerbreitungsraum() {
         return verbreitungsraum;
     }
 
@@ -71,7 +73,7 @@ public class UnterhaltungsmaßnahmeValidator {
      *
      * @param  verbreitungsraum  the verbreitungsraum to set
      */
-    public void setVerbreitungsraum(final MetaObject[] verbreitungsraum) {
+    public void setVerbreitungsraum(final VermeidungsgruppeMitGeom[] verbreitungsraum) {
         this.verbreitungsraum = verbreitungsraum;
     }
 
@@ -114,11 +116,12 @@ public class UnterhaltungsmaßnahmeValidator {
     /**
      * DOCUMENT ME!
      *
-     * @param   bean  DOCUMENT ME!
+     * @param   bean    DOCUMENT ME!
+     * @param   errors  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public ValidationResult validate(final CidsBean bean) {
+    public ValidationResult validate(final CidsBean bean, final List<String> errors) {
         while ((operativeZiele == null) || (verbreitungsraum == null) || (schutzgebiete == null)) {
             try {
                 Thread.sleep(50);
@@ -141,7 +144,13 @@ public class UnterhaltungsmaßnahmeValidator {
 
         for (final MetaObject mo : operativeZiele) {
             if (isLineInsideBean(mo, von, bis, wo)) {
-                if ((opBeans == null) || !opBeans.contains(mo.getBean())) {
+                if ((opBeans == null) || !opBeans.contains((CidsBean)mo.getBean().getProperty("operatives_ziel"))) {
+                    final CidsBean oz = (CidsBean)mo.getBean().getProperty("operatives_ziel");
+                    if (oz != null) {
+                        errors.add("Das operative Ziel \"" + oz + "\" ist nicht kompatibel mit der Maßnahme.");
+                    } else {
+                        errors.add("Ein operatives Ziel ohne Wert entdeckt.");
+                    }
                     res = ValidationResult.error;
                 }
             }
@@ -149,16 +158,31 @@ public class UnterhaltungsmaßnahmeValidator {
 
         final List<CidsBean> vrBeans = massn.getBeanCollectionProperty("vermeidungsgruppen");
 
-        for (final MetaObject mo : verbreitungsraum) {
-            if (isLineInsideBean(mo, von, bis, wo)) {
-                if ((vrBeans == null) || !vrBeans.contains(mo.getBean())) {
+        for (final VermeidungsgruppeMitGeom vg : verbreitungsraum) {
+            if (isLineInsideBean(vg, von, bis, wo)) {
+                if ((vrBeans == null) || !vrBeans.contains((CidsBean)vg.getVermeidungsgruppe())) {
+                    final CidsBean v = (CidsBean)vg.getVermeidungsgruppe();
+                    if (v != null) {
+                        errors.add("Die Vermeidungsgruppe \"" + v + "\" ist nicht kompatibel mit der Maßnahme.");
+                    } else {
+                        errors.add("Ein operatives Ziel ohne Wert entdeckt.");
+                    }
                     res = ValidationResult.error;
                 }
             }
         }
 
+        int schuWo = wo;
+        // Umlandmaßnahmen rechts/links nutzen bei den Schutzgebieten auch Ufer rechts/links
+        if (schuWo == GupPlanungsabschnittEditor.GUP_UMFELD_LINKS) {
+            schuWo = GupPlanungsabschnittEditor.GUP_UFER_LINKS;
+        } else if (wo == GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS) {
+            schuWo = GupPlanungsabschnittEditor.GUP_UFER_RECHTS;
+        }
+
         for (final MetaObject mo : schutzgebiete) {
-            if (isLineInsideBean(mo, von, bis, wo)) {
+            if (isLineInsideBean(mo, von, bis, schuWo)) {
+                errors.add("Maßnahme liegt in einem Schutzgebiet.");
                 res = ValidationResult.error;
             }
         }
@@ -188,5 +212,22 @@ public class UnterhaltungsmaßnahmeValidator {
         return (wo == woId)
                     && (((von < fromBean) && (bis > fromBean)) || ((von < untilBean) && (bis > untilBean))
                         || ((von >= fromBean) && (bis <= untilBean)));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   mo         DOCUMENT ME!
+     * @param   fromBean   DOCUMENT ME!
+     * @param   untilBean  DOCUMENT ME!
+     * @param   woId       DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isLineInsideBean(final VermeidungsgruppeMitGeom mo,
+            final double fromBean,
+            final double untilBean,
+            final int woId) {
+        return isLineInsideBean(mo.getGeschuetzteArt().getMetaObject(), fromBean, untilBean, woId);
     }
 }

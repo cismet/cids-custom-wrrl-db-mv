@@ -15,13 +15,13 @@ import de.cismet.tools.gui.jbands.interfaces.BandSnappingPointProvider;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class SchutzgebietRWBand extends LineBand implements BandSnappingPointProvider {
+public class GeschuetzteArtRWBand extends LineBand implements BandSnappingPointProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
     public static final int RIGHT = 1;
     public static final int LEFT = 2;
-    public static final int SOHLE = 3;
+    public static final int MIDDLE = 3;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -35,7 +35,7 @@ public class SchutzgebietRWBand extends LineBand implements BandSnappingPointPro
      * @param  title            DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
      */
-    public SchutzgebietRWBand(final String title, final String objectTableName) {
+    public GeschuetzteArtRWBand(final String title, final String objectTableName) {
         this(1f, title, objectTableName);
     }
 
@@ -45,8 +45,9 @@ public class SchutzgebietRWBand extends LineBand implements BandSnappingPointPro
      * @param  heightWeight     DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
      */
-    public SchutzgebietRWBand(final float heightWeight, final String objectTableName) {
+    public GeschuetzteArtRWBand(final float heightWeight, final String objectTableName) {
         super(heightWeight, objectTableName);
+        setOnlyAcceptNewBeanWithValue(false);
     }
 
     /**
@@ -56,15 +57,16 @@ public class SchutzgebietRWBand extends LineBand implements BandSnappingPointPro
      * @param  title            DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
      */
-    public SchutzgebietRWBand(final float heightWeight, final String title, final String objectTableName) {
+    public GeschuetzteArtRWBand(final float heightWeight, final String title, final String objectTableName) {
         super(heightWeight, title, objectTableName);
+        setOnlyAcceptNewBeanWithValue(false);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     protected LineBandMember createBandMemberFromBean() {
-        final SchutzgebietRWBandMember m = new SchutzgebietRWBandMember(this, readOnly);
+        final GeschuetzteArtRWBandMember m = new GeschuetzteArtRWBandMember(this, readOnly);
 
         return m;
     }

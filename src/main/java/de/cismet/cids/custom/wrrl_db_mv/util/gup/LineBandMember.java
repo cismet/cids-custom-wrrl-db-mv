@@ -529,7 +529,12 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         try {
             final CidsBean endStation = (CidsBean)bean.getProperty(lineFieldName + ".bis");
             final CidsBean route = (CidsBean)endStation.getProperty("route");
-            final CidsBean newStation = LinearReferencingHelper.createStationBeanFromRouteBean(route, (double)pos);
+            CidsBean newStation = LinearReferencingHelper.createStationBeanFromRouteBean(route, (double)pos);
+            try {
+                newStation = newStation.persist();
+            } catch (Exception e) {
+                LOG.error("Error while persist station", e);
+            }
             final LinearReferencedPointFeature pointFeature = LinearReferencingSingletonInstances.FEATURE_REGISTRY
                         .addStationFeature(
                             newStation);

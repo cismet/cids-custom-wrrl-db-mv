@@ -151,7 +151,7 @@
             </BindingProperty>
           </BindingProperties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DocumentDropList(readOnly)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DocumentDropList(readOnly, &quot;dokumente&quot;)"/>
           </AuxValues>
         </Component>
       </SubComponents>

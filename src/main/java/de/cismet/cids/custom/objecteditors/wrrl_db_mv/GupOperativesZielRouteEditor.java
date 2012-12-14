@@ -657,6 +657,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -752,6 +753,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override
@@ -777,7 +779,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         @Override
         public void bandModelSelectionChanged(final BandModelEvent e) {
             BandMember bm;
-            operativesZielEditor.disable();
+            operativesZielEditor.dispose();
 
             if (togApplyStats.isSelected()) {
                 bm = vermessungsband.getSelectedMember();

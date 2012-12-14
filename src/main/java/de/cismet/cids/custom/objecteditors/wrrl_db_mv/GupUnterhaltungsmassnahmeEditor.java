@@ -39,9 +39,11 @@ import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRende
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenartSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MassnahmenUmsetzungCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenHistoryListModel;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsmaßnahmeValidator;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -97,6 +99,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     public static final int KOMPARTIMENT_UMFELD = 3;
     private static final int INTERVAL_TWO_TIMES = 4;
     private static final Logger LOG = Logger.getLogger(GupUnterhaltungsmassnahmeEditor.class);
+    private static MassnahmenHistoryListModel historyModel;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -122,6 +125,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jscEval;
     private javax.swing.JLabel lblBearbeiter1;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblBlMeas;
@@ -163,6 +167,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JPanel panValid;
     private javax.swing.JPanel panVorlandbreite;
     private javax.swing.JScrollPane spBemerkung;
+    private javax.swing.JTextArea textEval;
     private javax.swing.JTextField txtBearbeiter;
     private javax.swing.JTextField txtBoeschungslaenge;
     private javax.swing.JTextField txtBoeschungsneigung;
@@ -220,7 +225,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             RendererTools.makeReadOnly(cbGewerk);
             RendererTools.makeReadOnly(cbZeitpunkt);
             RendererTools.makeReadOnly(cbZeitpunkt2);
-
+        } else {
             try {
                 new CidsBeanDropTarget(this);
             } catch (final Exception ex) {
@@ -229,9 +234,30 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 }
             }
         }
+
+        RendererTools.makeReadOnly(textEval);
+        jscEval.setVisible(false);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the historyModel
+     */
+    public static MassnahmenHistoryListModel getHistoryModel() {
+        return historyModel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  aHistoryModel  the historyModel to set
+     */
+    public static void setHistoryModel(final MassnahmenHistoryListModel aHistoryModel) {
+        historyModel = aHistoryModel;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -288,6 +314,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblValidLab = new javax.swing.JLabel();
         panValid = new javax.swing.JPanel();
         lblValid = new javax.swing.JLabel();
+        jscEval = new javax.swing.JScrollPane();
+        textEval = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         cbJahr = new ScrollableComboBox();
@@ -396,7 +424,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         add(linearReferencedLineEditor, gridBagConstraints);
 
         jPanel1.setOpaque(false);
@@ -809,7 +837,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cpmprom}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cbmprom}"),
                 txtCbmProM,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -854,6 +882,16 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblValid.setMinimumSize(new java.awt.Dimension(128, 128));
         lblValid.setPreferredSize(new java.awt.Dimension(128, 128));
         flowPanel.add(lblValid);
+
+        jscEval.setMaximumSize(new java.awt.Dimension(235, 100));
+        jscEval.setMinimumSize(new java.awt.Dimension(235, 100));
+        jscEval.setPreferredSize(new java.awt.Dimension(235, 100));
+
+        textEval.setColumns(18);
+        textEval.setRows(3);
+        jscEval.setViewportView(textEval);
+
+        flowPanel.add(jscEval);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -964,6 +1002,15 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         txtBearbeiter.setMaximumSize(new java.awt.Dimension(200, 20));
         txtBearbeiter.setMinimumSize(new java.awt.Dimension(200, 20));
         txtBearbeiter.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bearbeiter}"),
+                txtBearbeiter,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 5;
@@ -1322,24 +1369,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             }
             cidsBean.addPropertyChangeListener(this);
 
-            final CidsBean massnBean = (CidsBean)cidsBean.getProperty("massnahme");
             txtMassnahme.setOpaque(false);
-
-            if (massnBean != null) {
-                final CidsBean bean = (CidsBean)massnBean.getProperty("intervall");
-                cbZeitpunkt2.setEnabled((bean != null) && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
-                ((ScrollableComboBox)cbEinsatz).setSelectedItem(
-                    massnBean.getProperty("einsatzvariante"));
-                ((ScrollableComboBox)cbGeraet).setSelectedItem(massnBean.getProperty("geraet"));
-                ((ScrollableComboBox)cbGewerk).setSelectedItem(massnBean.getProperty("gewerk"));
-                ((ScrollableComboBox)cbIntervall).setSelectedItem(massnBean.getProperty("intervall"));
-                ((ScrollableComboBox)cbVerbleib).setSelectedItem(massnBean.getProperty("verbleib"));
-                ((ScrollableComboBox)cbZeitpunkt).setSelectedItem(massnBean.getProperty("ausfuehrungszeitpunkt"));
-                ((ScrollableComboBox)cbZeitpunkt2).setSelectedItem(massnBean.getProperty(
-                        "zweiter_ausfuehrungszeitpunkt"));
-
-                txtMassnahme.setText(String.valueOf(massnBean.getProperty("massnahmen_id")));
-            }
 
 //            new Thread(new Runnable() {
 //
@@ -1352,8 +1382,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 //                    }
 //                }).start();
 
-            deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
-            validateMassnahme();
+            refreshMassnahmenFields();
+//            validateMassnahme();
         }
     }
 
@@ -1375,17 +1405,53 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     /**
      * DOCUMENT ME!
      */
+    private void setComboboxes() {
+        final CidsBean massnBean = (CidsBean)cidsBean.getProperty("massnahme");
+
+        if (massnBean != null) {
+            final CidsBean bean = (CidsBean)massnBean.getProperty("intervall");
+            cbZeitpunkt2.setEnabled((bean != null) && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
+            ((ScrollableComboBox)cbEinsatz).setSelectedItem(
+                massnBean.getProperty("einsatzvariante"));
+            ((ScrollableComboBox)cbGeraet).setSelectedItem(massnBean.getProperty("geraet"));
+            ((ScrollableComboBox)cbGewerk).setSelectedItem(massnBean.getProperty("gewerk"));
+            ((ScrollableComboBox)cbIntervall).setSelectedItem(massnBean.getProperty("intervall"));
+            ((ScrollableComboBox)cbVerbleib).setSelectedItem(massnBean.getProperty("verbleib"));
+            ((ScrollableComboBox)cbZeitpunkt).setSelectedItem(massnBean.getProperty("ausfuehrungszeitpunkt"));
+            ((ScrollableComboBox)cbZeitpunkt2).setSelectedItem(massnBean.getProperty(
+                    "zweiter_ausfuehrungszeitpunkt"));
+
+            txtMassnahme.setText(String.valueOf(massnBean.getProperty("massnahmen_id")));
+        } else {
+            cbZeitpunkt2.setEnabled(false);
+            ((ScrollableComboBox)cbEinsatz).setSelectedItem(null);
+            ((ScrollableComboBox)cbGeraet).setSelectedItem(null);
+            ((ScrollableComboBox)cbGewerk).setSelectedItem(null);
+            ((ScrollableComboBox)cbIntervall).setSelectedItem(null);
+            ((ScrollableComboBox)cbVerbleib).setSelectedItem(null);
+            ((ScrollableComboBox)cbZeitpunkt).setSelectedItem(null);
+            ((ScrollableComboBox)cbZeitpunkt2).setSelectedItem(null);
+
+            txtMassnahme.setText("");
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     private void validateMassnahme() {
         lblValid.setVisible(false);
         // validiere Maßnahme
         CismetThreadPool.execute(new SwingWorker<UnterhaltungsmaßnahmeValidator.ValidationResult, Void>() {
+
+                List<String> errors = new ArrayList<String>();
 
                 @Override
                 protected UnterhaltungsmaßnahmeValidator.ValidationResult doInBackground() throws Exception {
                     if (validator == null) {
                         return null;
                     } else {
-                        return validator.validate(cidsBean);
+                        return validator.validate(cidsBean, errors);
                     }
                 }
 
@@ -1399,19 +1465,34 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                                 new javax.swing.ImageIcon(
                                     getClass().getResource(
                                         "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ok.png")));
-//                                lblValid.setText("Gültig");
+                            lblValid.setToolTipText("OK");
+                            textEval.setText("");
+                            jscEval.setVisible(false);
                         } else if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.warning) {
                             lblValid.setIcon(
                                 new javax.swing.ImageIcon(
                                     getClass().getResource(
                                         "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/ok_auflagen.png")));
-//                                lblValid.setText("Warnung");
+                            lblValid.setToolTipText("");
+                            textEval.setText("");
+                            jscEval.setVisible(false);
                         } else if (res == UnterhaltungsmaßnahmeValidator.ValidationResult.error) {
                             lblValid.setIcon(
                                 new javax.swing.ImageIcon(
                                     getClass().getResource(
                                         "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/stop.png")));
-//                                lblValid.setText("Ungültig");
+                            final StringBuilder errorText = new StringBuilder("<html>");
+                            final StringBuilder errorT = new StringBuilder("");
+
+                            for (final String tmp : errors) {
+                                errorText.append(tmp).append("<br />");
+                                errorT.append(tmp).append("\n");
+                            }
+
+                            errorText.append("</html>");
+                            lblValid.setToolTipText(errorText.toString());
+                            textEval.setText(errorT.toString());
+                            jscEval.setVisible(true);
                         }
                     } catch (Exception e) {
                         LOG.error("Exception while validating.", e);
@@ -1616,16 +1697,24 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     private void setNewMassnahme(final int count, final MetaObject metaObject) {
         if (count == 1) {
-            txtMassnahme.setBackground(new Color(54, 196, 165));
-            txtMassnahme.setOpaque(true);
-            txtMassnahme.setText(
-                String.valueOf(metaObject.getBean().getProperty("massnahmen_id")));
-            try {
-                cidsBean.setProperty("massnahme", metaObject.getBean());
-            } catch (Exception e) {
-                LOG.error("Error while saving the new massnahme property", e);
+            if (supportsKompartiment(metaObject.getBean(), kompartiment)) {
+                txtMassnahme.setBackground(new Color(54, 196, 165));
+                txtMassnahme.setOpaque(true);
+                txtMassnahme.setText(
+                    String.valueOf(metaObject.getBean().getProperty("massnahmen_id")));
+                try {
+                    cidsBean.setProperty("massnahme", metaObject.getBean());
+                    getHistoryModel().addElement(metaObject.getBean());
+                } catch (Exception e) {
+                    LOG.error("Error while saving the new massnahme property", e);
+                }
+            } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Die ausgewählte Maßnahme ist für das aktuelle Kompartiment nicht gültig.",
+                    "Ungültige Maßnahme",
+                    JOptionPane.ERROR_MESSAGE);
             }
-            deActivateAdditionalAttributes(metaObject.getBean());
         } else if (count > 1) {
             txtMassnahme.setOpaque(true);
             txtMassnahme.setBackground(new Color(237, 218, 16));
@@ -1716,6 +1805,45 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                     && ((verbleib == null) || verbleib.equals(bean.getProperty("verbleib")))
                     && ((zeitpunkt == null) || zeitpunkt.equals(bean.getProperty("ausfuehrungszeitpunkt")))
                     && ((zeitpunkt2 == null) || zeitpunkt2.equals(bean.getProperty("zweiter_ausfuehrungszeitpunkt")));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean          DOCUMENT ME!
+     * @param   kompartiment  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static boolean supportsKompartiment(final CidsBean bean, final int kompartiment) {
+        final CidsBean kompartimentList = (CidsBean)bean.getProperty("kompartiment");
+        boolean artKompartiment = false;
+
+        if (kompartimentList != null) {
+            if (kompartimentList.getProperty("id").equals(kompartiment)) {
+                artKompartiment = true;
+            }
+        }
+
+        return artKompartiment;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  metaObject  DOCUMENT ME!
+     */
+    public void setNewMassnahme(final MetaObject metaObject) {
+        setNewMassnahme(1, metaObject);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshMassnahmenFields() {
+        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
+        setComboboxes();
+        validateMassnahme();
     }
 
     /**
@@ -1871,6 +1999,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 ((CidsBean)evt.getOldValue()).removePropertyChangeListener(this);
                 ((CidsBean)evt.getNewValue()).addPropertyChangeListener(this);
             }
+        } else if (evt.getPropertyName().equals("massnahme")) {
+            refreshMassnahmenFields();
         }
     }
 

@@ -14,6 +14,9 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import org.jdesktop.swingx.JXPanel;
 
+import java.awt.Font;
+import java.awt.Rectangle;
+
 import javax.swing.JComponent;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -37,6 +40,9 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
     CidsBean abschnittsInfo;
     double from;
     double to;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel labText;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -56,15 +62,24 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        final java.awt.GridBagConstraints gridBagConstraints;
+
+        labText = new javax.swing.JLabel();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        labText.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        labText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        add(labText, gridBagConstraints);
+    }                                                        // </editor-fold>//GEN-END:initComponents
 
     @Override
     public JComponent getBandMemberComponent() {
@@ -101,5 +116,51 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
         abschnittsInfo = cidsBean;
         from = (Double)abschnittsInfo.getProperty("linie.von.wert");
         to = (Double)abschnittsInfo.getProperty("linie.bis.wert");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  text  DOCUMENT ME!
+     */
+    public void setText(final String text) {
+        labText.setText(text);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  font  DOCUMENT ME!
+     */
+    public void setTextFont(final Font font) {
+        labText.setFont(font);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Font getTextFont() {
+        return labText.getFont();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  visible  DOCUMENT ME!
+     */
+    public void setTextVisible(final boolean visible) {
+        labText.setVisible(visible);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   visible  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isTextVisible(final boolean visible) {
+        return labText.isVisible();
     }
 }

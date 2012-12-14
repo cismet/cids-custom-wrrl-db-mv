@@ -80,6 +80,9 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
     private SchutzgebietRWBand ufer_rechts = new SchutzgebietRWBand(
             "Ufer rechts",
             SCHUTZGEBIET);
+    private SchutzgebietRWBand sohle = new SchutzgebietRWBand(
+            "Sohle",
+            SCHUTZGEBIET);
     private WKBand wkband;
     private final JBand jband;
     private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
@@ -87,6 +90,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
     private final BandModelListener modelListener = new GupSchutzgebietBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> sohleList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
     private SchutzgebietEditor schutzgebietEditor;
@@ -148,6 +152,9 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
         ufer_rechts.setReadOnly(readOnly);
         ufer_rechts.setType(SchutzgebietRWBand.RIGHT);
         sbm.addBand(ufer_rechts);
+        sohle.setReadOnly(readOnly);
+        sohle.setType(SchutzgebietRWBand.SOHLE);
+        sbm.addBand(sohle);
         ufer_links.setReadOnly(readOnly);
         ufer_links.setType(SchutzgebietRWBand.LEFT);
         sbm.addBand(ufer_links);
@@ -241,6 +248,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
         jband.setMaxValue(till);
         ufer_links.setRoute(route);
         ufer_rechts.setRoute(route);
+        sohle.setRoute(route);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -250,6 +258,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
         final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
         rechtesUferList = new ArrayList<CidsBean>();
         linkesUferList = new ArrayList<CidsBean>();
+        sohleList = new ArrayList<CidsBean>();
 
         for (final CidsBean tmp : all) {
             final Integer kind = (Integer)tmp.getProperty("wo.id");
@@ -263,14 +272,23 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
                     rechtesUferList.add(tmp);
                     break;
                 }
+                case GupPlanungsabschnittEditor.GUP_SOHLE: {
+                    sohleList.add(tmp);
+                    break;
+                }
             }
         }
 
         rechtesUferList = ObservableCollections.observableList(rechtesUferList);
+        sohleList = ObservableCollections.observableList(sohleList);
         linkesUferList = ObservableCollections.observableList(linkesUferList);
 
         ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
                 GupPlanungsabschnittEditor.GUP_UFER_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_SOHLE,
                 cidsBean,
                 COLLECTION_PROPERTY));
         ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
@@ -279,6 +297,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
                 COLLECTION_PROPERTY));
 
         ufer_rechts.setCidsBeans(rechtesUferList);
+        sohle.setCidsBeans(sohleList);
         ufer_links.setCidsBeans(linkesUferList);
 
         wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband, vermessungsband);
@@ -594,6 +613,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -633,9 +653,10 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
-        final SchutzgebietRWBand[] bands = new SchutzgebietRWBand[2];
+        final SchutzgebietRWBand[] bands = new SchutzgebietRWBand[3];
         bands[0] = ufer_links;
-        bands[1] = ufer_rechts;
+        bands[1] = sohle;
+        bands[2] = ufer_rechts;
         vermessungsband.applyStats(this, bands, SCHUTZGEBIET);
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
@@ -686,6 +707,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override
@@ -735,8 +757,10 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
 
                     if (band.getType() == SchutzgebietRWBand.RIGHT) {
                         otherBeans = new ArrayList(rechtesUferList);
-                    } else {
+                    } else if (band.getType() == SchutzgebietRWBand.LEFT) {
                         otherBeans = new ArrayList(linkesUferList);
+                    } else {
+                        otherBeans = new ArrayList(sohleList);
                     }
 
                     schutzgebietEditor.setOthers(otherBeans);

@@ -69,19 +69,19 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             VerbreitungsraumEditor.class);
-    private static final String VERMEIDUNGSGRUPPE_ABSCHNITT = "vermeidungsgruppe_abschnitt";
+    private static final String GschuetzteArt_ABSCHNITT = "geschuetzte_art_abschnitt";
 
     //~ Instance fields --------------------------------------------------------
 
-    private VermeidungsgruppeRWBand ufer_links = new VermeidungsgruppeRWBand(
+    private GeschuetzteArtRWBand ufer_links = new GeschuetzteArtRWBand(
             "Ufer links",
-            VERMEIDUNGSGRUPPE_ABSCHNITT);
-    private VermeidungsgruppeRWBand ufer_rechts = new VermeidungsgruppeRWBand(
+            GschuetzteArt_ABSCHNITT);
+    private GeschuetzteArtRWBand ufer_rechts = new GeschuetzteArtRWBand(
             "Ufer rechts",
-            VERMEIDUNGSGRUPPE_ABSCHNITT);
-    private VermeidungsgruppeRWBand sohle = new VermeidungsgruppeRWBand(
+            GschuetzteArt_ABSCHNITT);
+    private GeschuetzteArtRWBand sohle = new GeschuetzteArtRWBand(
             "Sohle",
-            VERMEIDUNGSGRUPPE_ABSCHNITT);
+            GschuetzteArt_ABSCHNITT);
     private WKBand wkband;
     private VermessungsbandHelper vermessungsband;
     private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
@@ -92,7 +92,7 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     private List<CidsBean> sohleList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
-    private VermeidungsgruppenAbschnittEditor vermeidungsgruppenAbschnittEditor;
+    private GeschuetzteArtAbschnittEditor geschuetzteArtAbschnittEditor;
     private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -147,15 +147,15 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         this.readOnly = readOnly;
         initComponents();
 
-        vermeidungsgruppenAbschnittEditor = new VermeidungsgruppenAbschnittEditor(readOnly);
+        geschuetzteArtAbschnittEditor = new GeschuetzteArtAbschnittEditor(readOnly);
         ufer_rechts.setReadOnly(readOnly);
-        ufer_rechts.setType(VermeidungsgruppeRWBand.RIGHT);
+        ufer_rechts.setType(GeschuetzteArtRWBand.RIGHT);
         sbm.addBand(ufer_rechts);
         sohle.setReadOnly(readOnly);
-        sohle.setType(VermeidungsgruppeRWBand.MIDDLE);
+        sohle.setType(GeschuetzteArtRWBand.MIDDLE);
         sbm.addBand(sohle);
         ufer_links.setReadOnly(readOnly);
-        ufer_links.setType(VermeidungsgruppeRWBand.LEFT);
+        ufer_links.setType(GeschuetzteArtRWBand.LEFT);
         sbm.addBand(ufer_links);
         panVermessung.add(vermessungsEditor, BorderLayout.CENTER);
 
@@ -164,8 +164,8 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         panBand.add(jband, BorderLayout.CENTER);
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("empty");
-        lblHeading.setText("Schutzgebiet");
-        panVerbreitungsraum.add(vermeidungsgruppenAbschnittEditor, BorderLayout.CENTER);
+        lblHeading.setText("Geschützte Art");
+        panVerbreitungsraum.add(geschuetzteArtAbschnittEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
@@ -253,7 +253,7 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        // extract Vermeidungsgebiete
+        // extract geschuetzte Arten
         final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
         rechtesUferList = new ArrayList<CidsBean>();
         sohleList = new ArrayList<CidsBean>();
@@ -612,6 +612,7 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -651,16 +652,16 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
-        final VermeidungsgruppeRWBand[] bands = new VermeidungsgruppeRWBand[3];
+        final GeschuetzteArtRWBand[] bands = new GeschuetzteArtRWBand[3];
         bands[0] = ufer_links;
         bands[1] = ufer_rechts;
         bands[2] = sohle;
-        vermessungsband.applyStats(this, bands, VERMEIDUNGSGRUPPE_ABSCHNITT);
+        vermessungsband.applyStats(this, bands, GschuetzteArt_ABSCHNITT);
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     @Override
     public void dispose() {
-        vermeidungsgruppenAbschnittEditor.dispose();
+        geschuetzteArtAbschnittEditor.dispose();
         vermessungsEditor.dispose();
         if (!readOnly) {
             vermessungsband.dispose();
@@ -696,7 +697,7 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
             "Administratoren",
             "admin",
             "x",
-            "schutzgebiet_route",
+            "verbreitungsraum",
             1,
             1280,
             1024);
@@ -705,6 +706,7 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override
@@ -738,31 +740,31 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
                 bm = jband.getSelectedBandMember();
                 jband.setRefreshAvoided(true);
             }
-            vermeidungsgruppenAbschnittEditor.dispose();
+            geschuetzteArtAbschnittEditor.dispose();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof VermeidungsgruppeRWBandMember) {
+                if (bm instanceof GeschuetzteArtRWBandMember) {
                     switchToForm("verbreitungsraum");
                     lblHeading.setText("Verbreitungsraum");
 
-                    final VermeidungsgruppeRWBand band = (VermeidungsgruppeRWBand)((VermeidungsgruppeRWBandMember)bm)
+                    final GeschuetzteArtRWBand band = (GeschuetzteArtRWBand)((GeschuetzteArtRWBandMember)bm)
                                 .getParentBand();
                     final List<CidsBean> otherBeans;
 
-                    if (band.getType() == VermeidungsgruppeRWBand.RIGHT) {
+                    if (band.getType() == GeschuetzteArtRWBand.RIGHT) {
                         otherBeans = new ArrayList(rechtesUferList);
-                    } else if (band.getType() == VermeidungsgruppeRWBand.LEFT) {
+                    } else if (band.getType() == GeschuetzteArtRWBand.LEFT) {
                         otherBeans = new ArrayList(linkesUferList);
                     } else {
                         otherBeans = new ArrayList(sohleList);
                     }
 
-                    vermeidungsgruppenAbschnittEditor.setOthers(otherBeans);
-                    vermeidungsgruppenAbschnittEditor.setCidsBean(((VermeidungsgruppeRWBandMember)bm).getCidsBean());
+                    geschuetzteArtAbschnittEditor.setOthers(otherBeans);
+                    geschuetzteArtAbschnittEditor.setCidsBean(((GeschuetzteArtRWBandMember)bm).getCidsBean());
                 } else if (bm instanceof VermessungsbandMember) {
                     switchToForm("vermessung");
                     lblHeading.setText("Vermessungselement");
