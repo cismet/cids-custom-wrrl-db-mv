@@ -11,6 +11,8 @@ import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.EventQueue;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -1000,25 +1002,31 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
      * @param  kategorie  DOCUMENT ME!
      */
     public void setKategorie(final Kategorie kategorie) {
-        if (kategorie != null) {
-            switch (kategorie) {
-                case Fliessgewaesser: {
-                    jLabel12.setText("Fließgewässer");
-                    jLabel12.setVisible(true);
-                    lblWaKoerperKey1.setVisible(true);
-                    break;
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (kategorie != null) {
+                        switch (kategorie) {
+                            case Fliessgewaesser: {
+                                jLabel12.setText("Fließgewässer");
+                                jLabel12.setVisible(true);
+                                lblWaKoerperKey1.setVisible(true);
+                                break;
+                            }
+                            case Standgewaesser: {
+                                jLabel12.setText("Standgewässer");
+                                jLabel12.setVisible(true);
+                                lblWaKoerperKey1.setVisible(true);
+                                break;
+                            }
+                        }
+                    } else {
+                        jLabel12.setVisible(false);
+                        lblWaKoerperKey1.setVisible(false);
+                    }
                 }
-                case Standgewaesser: {
-                    jLabel12.setText("Standgewässer");
-                    jLabel12.setVisible(true);
-                    lblWaKoerperKey1.setVisible(true);
-                    break;
-                }
-            }
-        } else {
-            jLabel12.setVisible(false);
-            lblWaKoerperKey1.setVisible(false);
-        }
+            });
     }
 
     /**
@@ -1027,9 +1035,15 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
      * @param  waKoerper  DOCUMENT ME!
      */
     public void setWaKoerper(final String waKoerper) {
-        lblWaKoerperKey.setVisible(waKoerper != null);
-        jLabel10.setVisible(waKoerper != null);
-        jLabel10.setText(waKoerper);
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lblWaKoerperKey.setVisible(waKoerper != null);
+                    jLabel10.setVisible(waKoerper != null);
+                    jLabel10.setText(waKoerper);
+                }
+            });
     }
 
     @Override
