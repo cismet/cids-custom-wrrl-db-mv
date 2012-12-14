@@ -28,6 +28,7 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -51,10 +52,14 @@ import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
@@ -857,6 +862,35 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         newfgskBean.setProperty("gewaesser_abschnitt", newSubAbschnitt);
         newfgskBean.setProperty("linie", newLinieBean);
         newfgskBean.setProperty("gwk", oldRouteBean.getProperty("gwk"));
+
+        try {
+            if ((newLinieBean != null) && (oldRouteBean != null)) {
+                final Double vonWert = (Double)newLinieBean.getProperty("von.wert");
+                final Double bisWert = (Double)newLinieBean.getProperty("bis.wert");
+                if ((vonWert != null) && (bisWert != null)) {
+                    final double wert = (bisWert + vonWert) / 2;
+                    final CidsServerSearch search = new WKKSearchBySingleStation(String.valueOf(
+                                oldRouteBean.getProperty("id")),
+                            String.valueOf(wert));
+                    final Collection res = SessionManager.getProxy()
+                                .customServerSearch(SessionManager.getSession().getUser(), search);
+                    final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+                    if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                        final Object o = resArray.get(0).get(0);
+
+                        if (o instanceof String) {
+                            newfgskBean.setProperty("wkk", o.toString());
+                        }
+                    } else {
+                        LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                                    + "See the server logs for further information");     // NOI18N
+                    }
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Error while determining the water body", e);
+        }
 
         // ---
         final CidsBean persistedNewFgskBean = newfgskBean.persist();

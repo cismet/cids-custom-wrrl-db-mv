@@ -712,9 +712,6 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblCourseEvoCritCount.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblCourseEvoCritCount.text")); // NOI18N
-        lblCourseEvoCritCount.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblCourseEvoCritCount.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblCourseEvoCritCount.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1270,9 +1267,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblWBEnvRatingOverall.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblWBEnvRatingOverall.text")); // NOI18N
-        lblWBEnvRatingOverall.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvRatingOverall.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvRatingOverall.setPreferredSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingOverall.setMaximumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvRatingOverall.setMinimumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvRatingOverall.setPreferredSize(new java.awt.Dimension(255, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1307,9 +1304,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblWBEnvCritCountOverall.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblWBEnvCritCountOverall.text")); // NOI18N
-        lblWBEnvCritCountOverall.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvCritCountOverall.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvCritCountOverall.setPreferredSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountOverall.setMaximumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvCritCountOverall.setMinimumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvCritCountOverall.setPreferredSize(new java.awt.Dimension(255, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1343,9 +1340,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblWBEnvRatingRight.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblWBEnvRatingRight.text")); // NOI18N
-        lblWBEnvRatingRight.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvRatingRight.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvRatingRight.setPreferredSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingRight.setMaximumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvRatingRight.setMinimumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvRatingRight.setPreferredSize(new java.awt.Dimension(255, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1379,9 +1376,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblWBEnvRatingLeft.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblWBEnvRatingLeft.text")); // NOI18N
-        lblWBEnvRatingLeft.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvRatingLeft.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvRatingLeft.setPreferredSize(new java.awt.Dimension(230, 17));
+        lblWBEnvRatingLeft.setMaximumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvRatingLeft.setMinimumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvRatingLeft.setPreferredSize(new java.awt.Dimension(255, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -1416,9 +1413,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblWBEnvCritCountRight.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblWBEnvCritCountRight.text")); // NOI18N
-        lblWBEnvCritCountRight.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvCritCountRight.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvCritCountRight.setPreferredSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountRight.setMaximumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvCritCountRight.setMinimumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvCritCountRight.setPreferredSize(new java.awt.Dimension(255, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -1430,9 +1427,9 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblWBEnvCritCountLeft.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittErgebnisse.class,
                 "FgskKartierabschnittErgebnisse.lblWBEnvCritCountLeft.text")); // NOI18N
-        lblWBEnvCritCountLeft.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvCritCountLeft.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWBEnvCritCountLeft.setPreferredSize(new java.awt.Dimension(230, 17));
+        lblWBEnvCritCountLeft.setMaximumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvCritCountLeft.setMinimumSize(new java.awt.Dimension(255, 17));
+        lblWBEnvCritCountLeft.setPreferredSize(new java.awt.Dimension(255, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
