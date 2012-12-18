@@ -14,10 +14,12 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import org.jdesktop.swingx.JXPanel;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 
 import javax.swing.JComponent;
+import javax.swing.border.LineBorder;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
@@ -162,5 +164,18 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
      */
     public boolean isTextVisible(final boolean visible) {
         return labText.isVisible();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  border  DOCUMENT ME!
+     */
+    public void setMemberBorder(final boolean border) {
+        if (!border) {
+            setBorder(null);
+        } else {
+            setBorder(new LineBorder(Color.BLACK));
+        }
     }
 }

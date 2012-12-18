@@ -170,6 +170,31 @@ public class MassnahmenHistoryListModel implements ListModel {
     /**
      * DOCUMENT ME!
      */
+    public void clean() {
+        list.clear();
+        fireListDataListener();
+
+        CismetThreadPool.executeSequentially(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        final List<CidsBean> history = CidsBeanSupport.getBeanCollectionFromProperty(
+                                userHistory,
+                                "massnahmenarten");
+                        history.clear();
+
+                        userHistory = userHistory.persist();
+                    } catch (Exception e) {
+                        LOG.error("Error while saving history.", e);
+                    }
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     private void fireListDataListener() {
         final ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, list.size());
 

@@ -70,6 +70,7 @@ public class ReadOnlyTextBandMember extends AbschnittsinfoMember implements Band
     public ReadOnlyTextBandMember() {
         setMinimumSize(new Dimension(1, 7));
         setPreferredSize(getMinimumSize());
+        setMemberBorder(true);
     }
 
     //~ Methods ----------------------------------------------------------------

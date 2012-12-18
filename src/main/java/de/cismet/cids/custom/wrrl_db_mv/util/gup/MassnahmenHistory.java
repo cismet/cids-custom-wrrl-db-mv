@@ -34,6 +34,8 @@ public class MassnahmenHistory extends javax.swing.JPanel implements CidsWindowS
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.CidsBeanList cidsBeanList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbClear;
+    private javax.swing.JToolBar toolbar;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -56,28 +58,61 @@ public class MassnahmenHistory extends javax.swing.JPanel implements CidsWindowS
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
         jScrollPane1 = new javax.swing.JScrollPane();
         cidsBeanList1 = new de.cismet.cids.editors.CidsBeanList();
+        toolbar = new javax.swing.JToolBar();
+        jbClear = new javax.swing.JButton();
+
+        setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setViewportView(cidsBeanList1);
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                jScrollPane1,
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                javax.swing.GroupLayout.DEFAULT_SIZE,
-                400,
-                Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                jScrollPane1,
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                javax.swing.GroupLayout.DEFAULT_SIZE,
-                300,
-                Short.MAX_VALUE));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jScrollPane1, gridBagConstraints);
+
+        toolbar.setRollover(true);
+
+        jbClear.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/Filesystem-trash-empty-icon.png"))); // NOI18N
+        jbClear.setToolTipText(org.openide.util.NbBundle.getMessage(
+                MassnahmenHistory.class,
+                "MassnahmenHistory.jbClear.toolTipText"));                                                              // NOI18N
+        jbClear.setBorderPainted(false);
+        jbClear.setFocusPainted(false);
+        jbClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbClear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbClear.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbClearActionPerformed(evt);
+                }
+            });
+        toolbar.add(jbClear);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        add(toolbar, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbClearActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbClearActionPerformed
+        model.clean();
+    }                                                                           //GEN-LAST:event_jbClearActionPerformed
 
     @Override
     public JComponent getSearchWindowComponent() {
