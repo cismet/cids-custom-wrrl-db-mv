@@ -113,6 +113,15 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
+    public void setCidsBean(final CidsBean cidsBean) {
+        this.cidsBean = cidsBean;
+    }
+
     @Override
     public void dragEnter(final DropTargetDragEvent dtde) {
     }
@@ -189,7 +198,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
      */
     public void removeObject(final int index) {
         final CidsBean bean = (CidsBean)getModel().getElementAt(index);
-        final List<CidsBean> docs = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "dokumente");
+        final List<CidsBean> docs = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, beanProperty);
 
         docs.remove(bean);
         removedFotoBeans.add(bean);
@@ -309,7 +318,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
                 if (!newBeans.isEmpty()) {
                     final List<CidsBean> oldBeans = CidsBeanSupport.getBeanCollectionFromProperty(
                             cidsBean,
-                            "dokumente");
+                            beanProperty);
                     oldBeans.addAll(newBeans);
                     removeNewAddedFotoBean.addAll(newBeans);
                     setSelectedValue(newBeans.iterator().next(), true);

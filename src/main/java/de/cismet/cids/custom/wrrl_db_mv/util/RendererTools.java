@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import de.cismet.cids.editors.DefaultBindableCheckboxField;
 import de.cismet.cids.editors.DefaultBindableColorChooser;
+import de.cismet.cids.editors.DefaultBindableDateChooser;
 
 /**
  * Contains some methods to set gui components to read only.
@@ -44,6 +45,15 @@ public class RendererTools {
     public static void makeReadOnly(final JComboBox cb) {
         cb.setEnabled(false);
         cb.setRenderer(new CustomListCellRenderer());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cb  DOCUMENT ME!
+     */
+    public static void makeReadOnly(final DefaultBindableDateChooser cb) {
+        cb.setEditable(false);
     }
 
     /**

@@ -48,7 +48,7 @@ public class MassnBezugListListener implements ObservableListListener {
             "GUP_MASSNAHMENBEZUG");
     private static final transient ReentrantReadWriteLock MASSNAHMEN_BEZEICHNUNG_LOCK = new ReentrantReadWriteLock();
     private static HashMap<Integer, CidsBean> MASSNAHMEN_BEZEICHNUNGEN = new HashMap<Integer, CidsBean>();
-    private static int waitingOperations;
+    protected static int waitingOperations;
 
     static {
         de.cismet.tools.CismetThreadPool.execute(new Runnable() {
@@ -78,9 +78,9 @@ public class MassnBezugListListener implements ObservableListListener {
 
     //~ Instance fields --------------------------------------------------------
 
-    private CidsBean cidsBean;
-    private String collectionPropertyName;
-    private int kindId;
+    protected CidsBean cidsBean;
+    protected String collectionPropertyName;
+    protected int kindId;
 
     //~ Constructors -----------------------------------------------------------
 

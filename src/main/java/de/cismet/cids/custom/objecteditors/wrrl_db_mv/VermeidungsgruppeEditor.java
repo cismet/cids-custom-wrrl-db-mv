@@ -12,8 +12,18 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.apache.log4j.Logger;
+
+import java.awt.event.KeyEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JList;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -22,6 +32,9 @@ import de.cismet.cids.editors.DefaultBindableColorChooser;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -33,12 +46,20 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  */
 public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static Logger LOG = Logger.getLogger(VermeidungsgruppeEditor.class);
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private boolean readOnly;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
+    private javax.swing.JList jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblArten;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblName;
     private javax.swing.JTextField txtName;
@@ -60,11 +81,20 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
      * @param  readOnly  DOCUMENT ME!
      */
     public VermeidungsgruppeEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtName);
             RendererTools.makeReadOnly(dccColor);
+        } else {
+            try {
+                new CidsBeanDropTarget(jList1);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
+            }
         }
     }
 
@@ -84,6 +114,9 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         txtName = new javax.swing.JTextField();
         lblColor = new javax.swing.JLabel();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new ArtenList();
+        lblArten = new javax.swing.JLabel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -153,8 +186,92 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(dccColor, gridBagConstraints);
 
+        jList1.setModel(new javax.swing.AbstractListModel() {
+
+                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public Object getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.arten}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jList1);
+        bindingGroup.addBinding(jListBinding);
+
+        jList1.addKeyListener(new java.awt.event.KeyAdapter() {
+
+                @Override
+                public void keyPressed(final java.awt.event.KeyEvent evt) {
+                    jList1KeyPressed(evt);
+                }
+                @Override
+                public void keyTyped(final java.awt.event.KeyEvent evt) {
+                    jList1KeyTyped(evt);
+                }
+            });
+        jScrollPane1.setViewportView(jList1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(jScrollPane1, gridBagConstraints);
+
+        lblArten.setText(org.openide.util.NbBundle.getMessage(
+                VermeidungsgruppeEditor.class,
+                "VermeidungsgruppeEditor.lblArten.text")); // NOI18N
+        lblArten.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblArten.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblArten.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblArten, gridBagConstraints);
+
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jList1KeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_jList1KeyTyped
+    }                                                                //GEN-LAST:event_jList1KeyTyped
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jList1KeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_jList1KeyPressed
+        if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
+            evt.consume();
+            if (!readOnly) {
+                final List<CidsBean> artenBeans = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "arten");
+                final Object[] o = jList1.getSelectedValues();
+
+                for (final Object tmp : o) {
+                    artenBeans.remove((CidsBean)tmp);
+                }
+            }
+        }
+    } //GEN-LAST:event_jList1KeyPressed
 
     @Override
     public CidsBean getCidsBean() {
@@ -213,5 +330,40 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
             1,
             1280,
             1024);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class ArtenList extends JList implements CidsBeanDropListener {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ArtenList object.
+         */
+        public ArtenList() {
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            if (readOnly) {
+                // ignore the drop action
+                return;
+            }
+
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Geschuetzte_art")) {
+                    final List<CidsBean> artenBeans = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "arten");
+                    artenBeans.add(bean);
+                }
+            }
+        }
     }
 }

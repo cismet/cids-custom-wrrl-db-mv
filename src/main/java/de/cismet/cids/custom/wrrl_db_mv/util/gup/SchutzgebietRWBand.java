@@ -21,6 +21,7 @@ public class SchutzgebietRWBand extends LineBand implements BandSnappingPointPro
 
     public static final int RIGHT = 1;
     public static final int LEFT = 2;
+    public static final int SOHLE = 3;
 
     //~ Instance fields --------------------------------------------------------
 

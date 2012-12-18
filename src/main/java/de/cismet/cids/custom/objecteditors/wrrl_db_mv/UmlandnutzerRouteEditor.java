@@ -12,10 +12,14 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.observablecollections.ObservableList;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -62,6 +66,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             UmlandnutzerRouteEditor.class);
     private static final String UMLANDNUTZER = "umlandnutzer";
+    private static final String COLLECTION_PROPERTY = "umlandnutzer";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -80,6 +85,8 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private UmlandnutzerEditor umlandnutzerEditor;
     private boolean readOnly = false;
+    private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -230,9 +237,42 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
         jband.setMinValue(from);
         jband.setMaxValue(till);
         umlandnutzer_links.setRoute(route);
-        umlandnutzer_links.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzer_links"));
         umlandnutzer_rechts.setRoute(route);
-        umlandnutzer_rechts.setCidsBeans(cidsBean.getBeanCollectionProperty("umlandnutzer_rechts"));
+
+        // extract Umlandnutzer
+        final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
+        rechtesUferList = new ArrayList<CidsBean>();
+        linkesUferList = new ArrayList<CidsBean>();
+
+        for (final CidsBean tmp : all) {
+            final Integer kind = (Integer)tmp.getProperty("wo.id");
+
+            switch (kind) {
+                case GupPlanungsabschnittEditor.GUP_UFER_LINKS: {
+                    linkesUferList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_UFER_RECHTS: {
+                    rechtesUferList.add(tmp);
+                    break;
+                }
+            }
+        }
+
+        rechtesUferList = ObservableCollections.observableList(rechtesUferList);
+        linkesUferList = ObservableCollections.observableList(linkesUferList);
+
+        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_UFER_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_UFER_LINKS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+
+        umlandnutzer_rechts.setCidsBeans(rechtesUferList);
+        umlandnutzer_links.setCidsBeans(linkesUferList);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -551,6 +591,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -643,6 +684,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override
