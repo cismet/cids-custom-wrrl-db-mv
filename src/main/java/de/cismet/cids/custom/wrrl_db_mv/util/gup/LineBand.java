@@ -361,6 +361,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         pointGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
         LinearReferencingHelper.setPointGeometryToStationBean(pointGeom, newStat);
 
+        final CidsBean tmp = newStat.persist();
         return newStat;
     }
 

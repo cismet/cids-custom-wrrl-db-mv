@@ -691,8 +691,21 @@ public final class Calc {
                 wbSubTypeId,
                 wbTypeId);
 
+        boolean ignoreSubstrates = true;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_BLO) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_KIE) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_KUE) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TON) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TOR) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TOT) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_SAN) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_SCH) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_STE) == 0.0;
+        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_WUR) == 0.0;
+
         final Integer ratingSubstrates;
-        if (Equals.nonNull(ratingNaturalSubstrates, ratingArtificialSubstrates, ratingHardSubstrates)) {
+        if (!ignoreSubstrates
+                    && Equals.nonNull(ratingNaturalSubstrates, ratingArtificialSubstrates, ratingHardSubstrates)) {
             ratingSubstrates = round(round(
                         (ratingNaturalSubstrates + ratingArtificialSubstrates + ratingHardSubstrates)
                                 / 3.0,

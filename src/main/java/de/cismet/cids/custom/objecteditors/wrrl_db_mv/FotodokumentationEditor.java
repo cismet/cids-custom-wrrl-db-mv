@@ -2012,6 +2012,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 if (toAdd != null) {
                     try {
                         cidsBean.setProperty("wk_fg", toAdd.getProperty("id"));
+                        cidsBean.setProperty("wk_k", toAdd.getProperty("wk_k"));
                         refreshWkFg();
                     } catch (Exception ex) {
                         log.error("error while setting wk_fg", ex);

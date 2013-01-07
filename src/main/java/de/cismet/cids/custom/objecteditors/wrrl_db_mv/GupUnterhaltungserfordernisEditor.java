@@ -76,7 +76,8 @@ public class GupUnterhaltungserfordernisEditor extends javax.swing.JPanel implem
      */
     public GupUnterhaltungserfordernisEditor(final boolean readOnly) {
         this.readOnly = readOnly;
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 

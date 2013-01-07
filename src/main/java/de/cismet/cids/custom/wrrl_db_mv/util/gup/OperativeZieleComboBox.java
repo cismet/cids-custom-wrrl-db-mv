@@ -125,6 +125,9 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
      */
     public static boolean isRelevantBean(final int kompartiment, final CidsBean bean) {
         String kompartimentProp = "ufer";
+        if (kompartiment == -1) {
+            return true;
+        }
 
         if (kompartiment == GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_SOHLE) {
             kompartimentProp = "sohle";

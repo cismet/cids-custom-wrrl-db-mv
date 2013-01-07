@@ -44,7 +44,7 @@ public class VermessungsbandMember extends LineBandMember {
 
     @Override
     protected void determineBackgroundColour() {
-        setDefaultBackgound();
+        setDefaultBackground();
     }
 
     @Override

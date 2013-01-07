@@ -332,53 +332,53 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
                     }
                 });
 
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(final PropertyChangeEvent pce) {
+//                        if (pce.getPropertyName().equals("name")) {
+//                            try {
+//                                cidsBean.setProperty("ms_cd_cw", "DEMV_" + (String)pce.getNewValue());
+//                            } catch (Exception ex) {
+//                                if (LOG.isDebugEnabled()) {
+//                                    LOG.debug("autosetting ms_cd_cw failed", ex);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
 
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("name")) {
-                            try {
-                                cidsBean.setProperty("ms_cd_cw", "DEMV_" + (String)pce.getNewValue());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting ms_cd_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
+//            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(final PropertyChangeEvent pce) {
+//                        if (pce.getPropertyName().equals("ms_cd_cw")) {
+//                            try {
+//                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
+//                            } catch (Exception ex) {
+//                                if (LOG.isDebugEnabled()) {
+//                                    LOG.debug("autosetting eu_cd_cw failed", ex);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
 
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("ms_cd_cw")) {
-                            try {
-                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting eu_cd_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
-
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("ms_cd_cw")) {
-                            try {
-                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting eu_cd_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
+//            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(final PropertyChangeEvent pce) {
+//                        if (pce.getPropertyName().equals("ms_cd_cw")) {
+//                            try {
+//                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
+//                            } catch (Exception ex) {
+//                                if (LOG.isDebugEnabled()) {
+//                                    LOG.debug("autosetting eu_cd_cw failed", ex);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
 
             cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
 

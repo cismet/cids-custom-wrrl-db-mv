@@ -77,6 +77,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     private final transient ChangeListener calcL;
     private final transient PropertyChangeListener excL;
+    private String wkk = null;
 
     // will only be changed in EDT
     private transient int selectedTabIndex;
@@ -371,7 +372,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -379,12 +380,12 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1105, 720));
+        setMinimumSize(new java.awt.Dimension(1100, 720));
         setPreferredSize(new java.awt.Dimension(1100, 720));
         setLayout(new java.awt.BorderLayout());
 
-        tpMain.setMinimumSize(new java.awt.Dimension(1104, 710));
-        tpMain.setPreferredSize(new java.awt.Dimension(1104, 710));
+        tpMain.setMinimumSize(new java.awt.Dimension(1100, 710));
+        tpMain.setPreferredSize(new java.awt.Dimension(1100, 710));
 
         panKartierabschnitt.setOpaque(false);
         panKartierabschnitt.setLayout(new java.awt.GridBagLayout());
@@ -579,6 +580,12 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                 LOG.error("Cannot save the current gwk.", ex);
             }
 
+            try {
+                cidsBean.setProperty("wkk", wkk);
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current gwk.", ex);
+            }
+
             performCalculations(tpMain.getComponentAt(selectedTabIndex), panErgebnisse);
         }
         return res;
@@ -595,6 +602,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @param  wkk  DOCUMENT ME!
      */
     public void setWkk(final String wkk) {
+        if (wkk == null) {
+            this.wkk = "";
+        } else {
+            this.wkk = wkk;
+        }
         fgskKartierabschnittKartierabschnitt1.setWkk(wkk);
         fgskKartierabschnittGewaesserumfeld1.setWkk(wkk);
         fgskKartierabschnittLaengsprofil1.setWkk(wkk);

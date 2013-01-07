@@ -676,7 +676,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
             setValueToFeature(value);
 
             // realgeoms nur nach manueller eingabe updaten
-            if (isInited()) {
+            if (isInited() && isEditable()) {
                 updateGeometry();
             }
         } finally {
@@ -856,7 +856,9 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
                 new javax.swing.ImageIcon(
                     StationEditor.class.getResource(
                         "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation-octagon.png")).getImage(),
-                null));
+                new javax.swing.ImageIcon(
+                    StationEditor.class.getResource(
+                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation-octagon.png")).getImage()));
         return dsf;
     }
 

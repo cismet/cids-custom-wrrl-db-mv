@@ -31,10 +31,13 @@ import javax.swing.table.TableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -514,6 +517,37 @@ public class FgskDialog extends javax.swing.JDialog {
                             fgskBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
                             fgskBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
                             fgskBean.setProperty("gwk", routeBean.getProperty("gwk"));
+
+                            try {
+                                if ((lineBean != null) && (routeBean != null)) {
+                                    final Double vonWert = (Double)lineBean.getProperty("von.wert");
+                                    final Double bisWert = (Double)lineBean.getProperty("bis.wert");
+                                    if ((vonWert != null) && (bisWert != null)) {
+                                        final double wert = (bisWert + vonWert) / 2;
+                                        final CidsServerSearch search = new WKKSearchBySingleStation(String.valueOf(
+                                                    routeBean.getProperty("id")),
+                                                String.valueOf(wert));
+                                        final Collection res = SessionManager.getProxy()
+                                                    .customServerSearch(SessionManager.getSession().getUser(), search);
+                                        final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+                                        if ((resArray != null) && (resArray.size() > 0)
+                                                    && (resArray.get(0).size() > 0)) {
+                                            final Object o = resArray.get(0).get(0);
+
+                                            if (o instanceof String) {
+                                                fgskBean.setProperty("wkk", o.toString());
+                                            }
+                                        } else {
+                                            LOG.error(
+                                                "Server error in getWk_k(). Cids server search return null. " // NOI18N
+                                                        + "See the server logs for further information");     // NOI18N
+                                        }
+                                    }
+                                }
+                            } catch (final Exception e) {
+                                LOG.error("Error while determining the water body", e);
+                            }
 
                             r.add(new MetaObjectNode(fgskBean.persist()));
                             jProgressBar1.setValue(numOfPersisted++);
