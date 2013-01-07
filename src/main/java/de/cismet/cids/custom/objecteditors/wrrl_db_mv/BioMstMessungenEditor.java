@@ -6,7 +6,7 @@
 *
 ****************************************************/
 /*
- * WkFgEditor.java
+ * BioMstMessungenEditor.java
  *
  * Created on 04.08.2010, 13:13:12
  */

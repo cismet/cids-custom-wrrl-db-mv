@@ -56,7 +56,7 @@ public class UnterhaltungserfordernisBandMember extends AbschnittsinfoMember imp
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
         this.cidsBean = cidsBean;
-        setToolTipText(String.valueOf(cidsBean.getProperty("name_bezeichnung.name")));
+        setToolTipText(String.valueOf(cidsBean.getProperty("name_beschreibung.name")));
         determineBackgroundColour();
         setBackgroundPainter(unselectedBackgroundPainter);
     }
@@ -65,10 +65,10 @@ public class UnterhaltungserfordernisBandMember extends AbschnittsinfoMember imp
      * DOCUMENT ME!
      */
     protected void determineBackgroundColour() {
-        if (cidsBean.getProperty("name_bezeichnung") == null) {
+        if (cidsBean.getProperty("name_beschreibung") == null) {
             return;
         }
-        final int art = (Integer)cidsBean.getProperty("name_bezeichnung.id");
+        final int art = (Integer)cidsBean.getProperty("name_beschreibung.id");
 
         switch (art) {
             case 1: {

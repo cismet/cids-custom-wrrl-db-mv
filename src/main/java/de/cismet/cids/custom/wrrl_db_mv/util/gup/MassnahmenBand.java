@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeEditor;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.tools.gui.jbands.interfaces.BandSnappingPointProvider;
@@ -22,6 +25,7 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
     //~ Instance fields --------------------------------------------------------
 
     private int measureType;
+    private UnterhaltungsmaßnahmeValidator uv = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -62,7 +66,7 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
 
     @Override
     protected LineBandMember createBandMemberFromBean() {
-        final MassnahmenBandMember m = new MassnahmenBandMember(this, readOnly);
+        final MassnahmenBandMember m = new MassnahmenBandMember(this, readOnly, uv);
 
         return m;
     }
@@ -83,5 +87,37 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      */
     public int getMeasureType() {
         return measureType;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public int getKompartiment() {
+        if ((measureType == GupPlanungsabschnittEditor.GUP_UFER_LINKS)
+                    || (measureType == GupPlanungsabschnittEditor.GUP_UFER_RECHTS)) {
+            return GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_UFER;
+        } else if ((measureType == GupPlanungsabschnittEditor.GUP_UMFELD_LINKS)
+                    || (measureType == GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS)) {
+            return GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_UMFELD;
+        } else {
+            return GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_SOHLE;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  uv  DOCUMENT ME!
+     */
+    public void setUnterhaltungsmassnahmeValidator(final UnterhaltungsmaßnahmeValidator uv) {
+        this.uv = uv;
+
+        for (int i = 0; i < getNumberOfMembers(); ++i) {
+            final MassnahmenBandMember bm = (MassnahmenBandMember)getMember(i);
+
+            bm.setUnterhaltungsmassnahmeValidator(uv);
+        }
     }
 }

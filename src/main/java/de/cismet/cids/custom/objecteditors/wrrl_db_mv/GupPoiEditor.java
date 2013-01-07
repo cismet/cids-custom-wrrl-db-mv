@@ -28,6 +28,8 @@ import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -37,7 +39,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer {
+public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -74,7 +76,8 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  readOnly  DOCUMENT ME!
      */
     public GupPoiEditor(final boolean readOnly) {
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 
@@ -304,6 +307,16 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
     @Override
     public void setTitle(final String title) {
         this.title = title;
+    }
+
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        linearReferencedLineEditor.editorClosed(event);
+    }
+
+    @Override
+    public boolean prepareForSave() {
+        return linearReferencedLineEditor.prepareForSave();
     }
 
     /**

@@ -47,6 +47,7 @@ public class VermeidungsgruppeRWBand extends LineBand implements BandSnappingPoi
      */
     public VermeidungsgruppeRWBand(final float heightWeight, final String objectTableName) {
         super(heightWeight, objectTableName);
+        readOnly = true;
     }
 
     /**
@@ -58,6 +59,7 @@ public class VermeidungsgruppeRWBand extends LineBand implements BandSnappingPoi
      */
     public VermeidungsgruppeRWBand(final float heightWeight, final String title, final String objectTableName) {
         super(heightWeight, title, objectTableName);
+        readOnly = true;
     }
 
     //~ Methods ----------------------------------------------------------------

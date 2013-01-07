@@ -13,6 +13,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
@@ -22,11 +23,8 @@ import Sirius.server.middleware.types.MetaObject;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import org.apache.commons.digester.SetPropertyRule;
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
-import org.jdesktop.observablecollections.ObservableListListener;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -36,25 +34,19 @@ import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.NaturschutzgebietSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.QuerbautenSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
-import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistry;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -65,29 +57,21 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
-import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateLinearReferencedMarksListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
-
-import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.CalculationCache;
 import de.cismet.tools.Calculator;
+import de.cismet.tools.CismetThreadPool;
 
-import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.RoundedPanel;
-import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.EmptyAbsoluteHeightedBand;
@@ -103,7 +87,6 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  * @version  $Revision$, $Date$
  */
 public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRenderer,
-    FooterComponentProvider,
     TitleComponentProvider,
     EditorSaveListener {
 
@@ -113,26 +96,37 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             GupPlanungsabschnittEditor.class);
     private static final String GUP_MASSNAHME = "gup_unterhaltungsmassnahme";
     private static final String VERMESSUNG = "vermessung_band_element";
-    public static final int GUP_MASSNAHME_UFER_LINKS = 2;
-    public static final int GUP_MASSNAHME_UFER_RECHTS = 1;
-    public static final int GUP_MASSNAHME_UMFELD_RECHTS = 4;
-    public static final int GUP_MASSNAHME_UMFELD_LINKS = 3;
-    public static final int GUP_MASSNAHME_SOHLE = 5;
-    private static CalculationCache<List, ArrayList<ArrayList>> naturschutzCache =
-        new CalculationCache<List, ArrayList<ArrayList>>(new NaturschutzCalculator());
+    public static final int GUP_UFER_LINKS = 2;
+    public static final int GUP_UFER_RECHTS = 1;
+    public static final int GUP_UMFELD_RECHTS = 4;
+    public static final int GUP_UMFELD_LINKS = 3;
+    public static final int GUP_SOHLE = 5;
+    private static CalculationCache<List, MetaObject[]> schutzgebietCache = new CalculationCache<List, MetaObject[]>(
+            new SchutzgebietCalculator());
     private static CalculationCache<List, MetaObject[]> umlandCache = new CalculationCache<List, MetaObject[]>(
             new UmlandnutzungCalculator());
+    private static CalculationCache<List, MetaObject[]> umlandnutzerCache = new CalculationCache<List, MetaObject[]>(
+            new UmlandnutzerCalculator());
     private static CalculationCache<List, MetaObject[]> entwicklungszielCache =
         new CalculationCache<List, MetaObject[]>(new EntwicklungszielCalculator());
     private static CalculationCache<List, ArrayList<ArrayList>> querbauwerkCache =
         new CalculationCache<List, ArrayList<ArrayList>>(new QuerbauwerkeCalculator());
     private static CalculationCache<List, MetaObject[]> unterhaltungserfordernisCache =
         new CalculationCache<List, MetaObject[]>(new UnterhaltungserfordernisCalculator());
+    private static CalculationCache<List, MetaObject[]> verbreitungsraumCache =
+        new CalculationCache<List, MetaObject[]>(new VerbreitungsraumCalculator());
+    private static CalculationCache<List, MetaObject[]> operativeZieleCache = new CalculationCache<List, MetaObject[]>(
+            new OperativesZielCalculator());
+    private static CalculationCache<List, MetaObject[]> unterhaltungshinweiseCache =
+        new CalculationCache<List, MetaObject[]>(
+            new UnterhaltungshinweiseCalculator());
+    private static CalculationCache<List, MetaObject[]> hydrologieCache = new CalculationCache<List, MetaObject[]>(
+            new HydrologieCalculator());
 
     static {
         // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
         // verhindern
-        new Thread(new Runnable() {
+        CismetThreadPool.execute(new Runnable() {
 
                 @Override
                 public void run() {
@@ -142,6 +136,21 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     final MetaClass interval = ClassCacheMultiple.getMetaClass(
                             WRRLUtil.DOMAIN_NAME,
                             "gup_massnahmenintervall");
+
+                    try {
+                        DefaultBindableReferenceCombo.getModelByMetaClass(year, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(interval, true);
+                    } catch (Exception e) {
+                        // nothing to do
+                    }
+                }
+            });
+        // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
+        // verhindern
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
                     final MetaClass time = ClassCacheMultiple.getMetaClass(
                             WRRLUtil.DOMAIN_NAME,
                             "gup_unterhaltungsmassnahme_ausfuehrungszeitpunkt");
@@ -149,15 +158,33 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                             WRRLUtil.DOMAIN_NAME,
                             "gup_material_verbleib");
                     try {
-                        DefaultBindableReferenceCombo.getModelByMetaClass(year, true);
-                        DefaultBindableReferenceCombo.getModelByMetaClass(interval, true);
                         DefaultBindableReferenceCombo.getModelByMetaClass(time, true);
                         DefaultBindableReferenceCombo.getModelByMetaClass(material, true);
+                    } catch (Exception e) {
+                        LOG.error("Error while loading all object of the type gup_massnahmenart.", e);
+                    }
+                }
+            });
+        // Inhalte der Comboboxen des Massnahmeneditors schon laden, um Wartezeiten beim Oeffnen des Editors zu
+        // verhindern
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    final MetaClass geraet = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_geraet");
+                    final MetaClass einsatzvariante = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "gup_einsatzvariante");
+                    try {
+                        DefaultBindableReferenceCombo.getModelByMetaClass(geraet, true);
+                        DefaultBindableReferenceCombo.getModelByMetaClass(einsatzvariante, true);
                     } catch (Exception e) {
                         // nothing to do
                     }
                 }
-            }).start();
+            });
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -168,25 +195,97 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private List<CidsBean> rechtesUmfeldList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUmfeldList = new ArrayList<CidsBean>();
 
-    private PureNewFeature routeFeature;
-    private JBand vBand = new JBand();
-    private SimpleBandModel vBandModel = new SimpleBandModel();
-    private VermessungsBand vermessungsBand = new VermessungsBand("Vermessung", VERMESSUNG);
+    private VermessungsbandHelper vermessungsband;
     private MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME);
     private MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME);
     private MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME);
     private MassnahmenBand rechtesUmfeldBand = new MassnahmenBand("Umfeld rechts", GUP_MASSNAHME);
     private MassnahmenBand linkesUmfeldBand = new MassnahmenBand("Umfeld links", GUP_MASSNAHME);
-    private UmlandnutzungBand nutzungLinksBand = new UmlandnutzungBand("links");
-    private UmlandnutzungBand nutzungRechtsBand = new UmlandnutzungBand("rechts");
-    private NaturschutzBand naturchutzBand = new NaturschutzBand();
-    private AnwohnerBand anwohnerLinksBand = new AnwohnerBand(0.5f, "Ansprechpartner");
-    private AnwohnerBand anwohnerRechtsBand = new AnwohnerBand(0.5f, "Ansprechpartner");
-    private EntwicklungszielBand entwicklungszielBand = new EntwicklungszielBand();
+//    private UmlandnutzungBand nutzungLinksBand = new UmlandnutzungBand("links");
+//    private UmlandnutzungBand nutzungRechtsBand = new UmlandnutzungBand("rechts");
+    private ColoredReadOnlyBand nutzungLinksBand = new ColoredReadOnlyBand(
+            "Umlandnutzung links",
+            "art",
+            "art.name");
+    private ColoredReadOnlyBand nutzungRechtsBand = new ColoredReadOnlyBand(
+            "Umlandnutzung rechts",
+            "art",
+            "art.name");
+    private ColoredReadOnlyBand schutzgebietLinksBand = new ColoredReadOnlyBand(
+            "Schutzgebiet links",
+            "art",
+            "art.name");
+    private ColoredReadOnlyBand schutzgebietRechtsBand = new ColoredReadOnlyBand(
+            "Schutzgebiet rechts",
+            "art",
+            "art.name");
+    private ColoredReadOnlyBand schutzgebietSohleBand = new ColoredReadOnlyBand(
+            "Schutzgebiet Sohle",
+            "art",
+            "art.name");
+    private VermeidungsgruppeRBand verbreitungsraumLinksBand = new VermeidungsgruppeRBand(
+            "Verbreitungsraum links");
+    private VermeidungsgruppeRBand verbreitungsraumRechtsBand = new VermeidungsgruppeRBand(
+            "Verbreitungsraum rechts");
+    private VermeidungsgruppeRBand verbreitungsraumSohleBand = new VermeidungsgruppeRBand(
+            "Verbreitungsraum Sohle");
+    private ColoredReadOnlyBand operativeZieleLinksBand = new ColoredReadOnlyBand(
+            "Op. Ziele links",
+            "operatives_ziel",
+            "operatives_ziel.name");
+    private ColoredReadOnlyBand operativeZieleRechtsBand = new ColoredReadOnlyBand(
+            "Op. Ziele rechts",
+            "operatives_ziel",
+            "operatives_ziel.name");
+    private ColoredReadOnlyBand operativeZieleSohleBand = new ColoredReadOnlyBand(
+            "Op. Ziele Sohle",
+            "operatives_ziel",
+            "operatives_ziel.name");
+    private ColoredReadOnlyBand operativeZieleUmfeldLinksBand = new ColoredReadOnlyBand(
+            "Op. Ziele Umfeld links",
+            "operatives_ziel",
+            "operatives_ziel.name");
+    private ColoredReadOnlyBand operativeZieleUmfeldRechtsBand = new ColoredReadOnlyBand(
+            "Op. Ziele Umfeld rechts",
+            "operatives_ziel",
+            "operatives_ziel.name");
+    private ColoredReadOnlyBand entwicklungszielBand = new ColoredReadOnlyBand(
+            "Entwicklungsziel",
+            "name_bezeichnung",
+            "name_bezeichnung.name");
+    private ReadOnlyTextBand unterhaltungshinweisLinks = new ReadOnlyTextBand(
+            "Unterhaltungshinweise links",
+            "art.name",
+            "art.name");
+    private ReadOnlyTextBand unterhaltungshinweisRechts = new ReadOnlyTextBand(
+            "Unterhaltungshinweise rechts",
+            "art.name",
+            "art.name");
+    private ReadOnlyTextBand unterhaltungshinweisSohle = new ReadOnlyTextBand(
+            "Unterhaltungshinweise Sohle",
+            "art.name",
+            "art.name");
+    private ReadOnlyTextBand umlandnutzerLinks = new ReadOnlyTextBand(
+            "Umlandnutzer links",
+            null,
+            null);
+    private ReadOnlyTextBand umlandnutzerRechts = new ReadOnlyTextBand(
+            "Umlandnutzer rechts",
+            null,
+            null);
+    private ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
+            "Hydrologie",
+            "name_bezeichnung",
+            "name_bezeichnung.name");
     private UnterhaltungserfordernisBand unterhaltungserfordernisBand = new UnterhaltungserfordernisBand();
     private WKBand wkband;
-    private WKBand vwkband;
     private QuerbauwerksBand querbauwerksband = new QuerbauwerksBand();
+    private EmptyAbsoluteHeightedBand operativeZieleFiller = new EmptyAbsoluteHeightedBand(5);
+    private EmptyAbsoluteHeightedBand unterhaltungshinweisFiller = new EmptyAbsoluteHeightedBand(5);
+    private EmptyAbsoluteHeightedBand schutzgebieteFiller = new EmptyAbsoluteHeightedBand(5);
+    private EmptyAbsoluteHeightedBand hydrologieFiller = new EmptyAbsoluteHeightedBand(5);
+    private EmptyAbsoluteHeightedBand verbreitungsraumFiller = new EmptyAbsoluteHeightedBand(5);
+    private EmptyAbsoluteHeightedBand wkBandFiller = new EmptyAbsoluteHeightedBand(5);
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
@@ -195,41 +294,52 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private GupAbschnittsinfoEditor abschnittsinfoEditor = new GupAbschnittsinfoEditor();
     private GupEntwicklungszielEditor entwicklungszielEditor = new GupEntwicklungszielEditor(true);
+    private GupPoiEditor unterhaltungshinweisEditor = new GupPoiEditor(true);
+    private UmlandnutzerEditor umlandnutzerEditor = new UmlandnutzerEditor(true);
     private GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor = new GupUnterhaltungserfordernisEditor(
             true);
     private GupUnterhaltungsmassnahmeEditor massnahmeEditor;
     private GupUmlandnutzungEditor umlandnutzungEditor = new GupUmlandnutzungEditor(true);
+    private SchutzgebietEditor schutzgebietEditor = new SchutzgebietEditor(true);
+    private GupOperativesZielAbschnittEditor operativesZielEditor = new GupOperativesZielAbschnittEditor(true);
+    private GeschuetzteArtAbschnittEditor verbreitungsraumEditor = new GeschuetzteArtAbschnittEditor(true, true);
     private GupGewaesserabschnittAllgemein allgemeinEditor;
     private GupGewaesserWrrl wrrlEditor = new GupGewaesserWrrl();
-    private GupHydrologieEditor hydroEditor = new GupHydrologieEditor();
+    private GupHydrologEditor hydroEditor = new GupHydrologEditor(true);
     private boolean readOnly = false;
-    private CidsBean route;
+    private UnterhaltungsmaßnahmeValidator validator;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
     private javax.swing.JCheckBox chkEntwicklungsziel;
+    private javax.swing.JCheckBox chkHydrologie;
     private javax.swing.JCheckBox chkMassnahmen;
     private javax.swing.JCheckBox chkNaturschutz;
+    private javax.swing.JCheckBox chkOperativeZiele;
     private javax.swing.JCheckBox chkQuerbauwerke;
     private javax.swing.JCheckBox chkSonstigeMassnahmen;
+    private javax.swing.JCheckBox chkUmlandnutzer;
     private javax.swing.JCheckBox chkUmlandnutzung;
     private javax.swing.JCheckBox chkUnterhaltungserfordernis;
+    private javax.swing.JCheckBox chkUnterhaltungshinweise;
+    private javax.swing.JCheckBox chkVerbreitungsraum;
     private javax.swing.JCheckBox chkWasserkoerper;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JButton jbApply;
     private javax.swing.JButton jbApply1;
+    private javax.swing.JLabel lblFiller;
+    private javax.swing.JLabel lblFiller2;
+    private javax.swing.JLabel lblFiller3;
+    private javax.swing.JLabel lblFiller4;
+    private javax.swing.JLabel lblFiller5;
     private javax.swing.JLabel lblFoot;
+    private javax.swing.JLabel lblGup;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblLos;
+    private javax.swing.JLabel lblLosVal;
     private javax.swing.JLabel lblSubTitle;
     private javax.swing.JLabel lblTitle;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
@@ -239,7 +349,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private javax.swing.JPanel panApplyBand;
     private javax.swing.JPanel panBand;
     private javax.swing.JPanel panBandControl;
-    private javax.swing.JPanel panControls;
     private javax.swing.JPanel panEmpty;
     private javax.swing.JPanel panEntwicklungsziel;
     private javax.swing.JPanel panFooter;
@@ -252,16 +361,21 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private javax.swing.JPanel panMassnahme;
     private javax.swing.JPanel panMassnahmeSonstige;
     private javax.swing.JPanel panNew;
+    private javax.swing.JPanel panOperativeZiele;
+    private javax.swing.JPanel panSchutzgebiet;
     private javax.swing.JPanel panTitle;
+    private javax.swing.JPanel panUmlandnutzer;
     private javax.swing.JPanel panUmlandnutzung;
     private javax.swing.JPanel panUnterhaltungserfordernis;
+    private javax.swing.JPanel panUnterhaltungshinweis;
+    private javax.swing.JPanel panVerbreitungsraum;
     private javax.swing.JPanel panVermessung;
     private javax.swing.JPanel panWRRL;
-    private javax.swing.JPanel panWithMinSize;
     private javax.swing.JSlider sldZoom;
     private javax.swing.JScrollPane spBand;
     private javax.swing.JToggleButton togAllgemeinInfo;
     private javax.swing.JToggleButton togApplyStats;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -282,10 +396,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         this.readOnly = readOnly;
         jband = new JBand(readOnly);
         initComponents();
-
-        if (readOnly) {
-            togApplyStats.setVisible(false);
-        }
+//        chkUnterhaltungshinweise.setVisible(false);
+//        chkUmlandnutzer.setVisible(false);
 
         spBand.getViewport().setOpaque(false);
         massnahmeEditor = new GupUnterhaltungsmassnahmeEditor(readOnly);
@@ -295,45 +407,83 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         rechtesUmfeldBand.setReadOnly(readOnly);
         linkesUmfeldBand.setReadOnly(readOnly);
         sohleBand.setReadOnly(readOnly);
-        naturchutzBand.setEnabled(false);
         unterhaltungserfordernisBand.setEnabled(false);
         entwicklungszielBand.setEnabled(false);
+        unterhaltungshinweisLinks.setEnabled(false);
+        unterhaltungshinweisRechts.setEnabled(false);
+        unterhaltungshinweisSohle.setEnabled(false);
+        umlandnutzerLinks.setEnabled(false);
+        umlandnutzerRechts.setEnabled(false);
+        hydrologieBand.setEnabled(false);
         querbauwerksband.setEnabled(false);
-        anwohnerLinksBand.setEnabled(false);
-        anwohnerRechtsBand.setEnabled(false);
 
         rechtesUmfeldBand.setEnabled(false);
         linkesUmfeldBand.setEnabled(false);
         nutzungLinksBand.setEnabled(false);
         nutzungRechtsBand.setEnabled(false);
+        schutzgebietRechtsBand.setEnabled(false);
+        schutzgebietSohleBand.setEnabled(false);
+        schutzgebietLinksBand.setEnabled(false);
+        verbreitungsraumRechtsBand.setEnabled(false);
+        verbreitungsraumLinksBand.setEnabled(false);
+        verbreitungsraumSohleBand.setEnabled(false);
+        operativeZieleRechtsBand.setEnabled(false);
+        operativeZieleLinksBand.setEnabled(false);
+        operativeZieleSohleBand.setEnabled(false);
+        operativeZieleUmfeldLinksBand.setEnabled(false);
+        operativeZieleUmfeldRechtsBand.setEnabled(false);
 
-        sohleBand.setMeasureType(GUP_MASSNAHME_SOHLE);
-        rechtesUferBand.setMeasureType(GUP_MASSNAHME_UFER_RECHTS);
-        linkesUferBand.setMeasureType(GUP_MASSNAHME_UFER_LINKS);
-        rechtesUmfeldBand.setMeasureType(GUP_MASSNAHME_UMFELD_RECHTS);
-        linkesUmfeldBand.setMeasureType(GUP_MASSNAHME_UMFELD_LINKS);
+        operativeZieleFiller.setEnabled(false);
+        unterhaltungshinweisFiller.setEnabled(false);
+        schutzgebieteFiller.setEnabled(false);
+        hydrologieFiller.setEnabled(false);
+        verbreitungsraumFiller.setEnabled(false);
+        wkBandFiller.setEnabled(false);
+
+        sohleBand.setMeasureType(GUP_SOHLE);
+        rechtesUferBand.setMeasureType(GUP_UFER_RECHTS);
+        linkesUferBand.setMeasureType(GUP_UFER_LINKS);
+        rechtesUmfeldBand.setMeasureType(GUP_UMFELD_RECHTS);
+        linkesUmfeldBand.setMeasureType(GUP_UMFELD_LINKS);
         wkband = new WKBand(sbm.getMin(), sbm.getMax());
-        vwkband = new WKBand(sbm.getMin(), sbm.getMax());
 
         sbm.addBand(wkband);
-        sbm.addBand(new EmptyAbsoluteHeightedBand(5));
-        sbm.addBand(naturchutzBand);
+        sbm.addBand(wkBandFiller);                     // filler
         sbm.addBand(entwicklungszielBand);
         sbm.addBand(unterhaltungserfordernisBand);
-        sbm.addBand(new EmptyAbsoluteHeightedBand(5));
+        sbm.addBand(new EmptyAbsoluteHeightedBand(5)); // filler
+        sbm.addBand(unterhaltungshinweisRechts);
+        sbm.addBand(unterhaltungshinweisSohle);
+        sbm.addBand(unterhaltungshinweisLinks);
+        sbm.addBand(unterhaltungshinweisFiller);       // filler
+        sbm.addBand(verbreitungsraumRechtsBand);
+        sbm.addBand(verbreitungsraumSohleBand);
+        sbm.addBand(verbreitungsraumLinksBand);
+        sbm.addBand(verbreitungsraumFiller);           // filler
+        sbm.addBand(schutzgebietRechtsBand);
+        sbm.addBand(schutzgebietSohleBand);
+        sbm.addBand(schutzgebietLinksBand);
+        sbm.addBand(schutzgebieteFiller);              // filler
+        sbm.addBand(operativeZieleUmfeldRechtsBand);
+        sbm.addBand(operativeZieleRechtsBand);
+        sbm.addBand(operativeZieleSohleBand);
+        sbm.addBand(operativeZieleLinksBand);
+        sbm.addBand(operativeZieleUmfeldLinksBand);
+        sbm.addBand(operativeZieleFiller);             // filler
+        sbm.addBand(umlandnutzerRechts);
         sbm.addBand(nutzungRechtsBand);
-        sbm.addBand(anwohnerRechtsBand);
         sbm.addBand(rechtesUmfeldBand);
         sbm.addBand(rechtesUferBand);
         sbm.addBand(sohleBand);
         sbm.addBand(linkesUferBand);
         sbm.addBand(linkesUmfeldBand);
-        sbm.addBand(anwohnerLinksBand);
         sbm.addBand(nutzungLinksBand);
-        sbm.addBand(new EmptyAbsoluteHeightedBand(5));
-        sbm.addBand(new EmptyAbsoluteHeightedBand(5));
+        sbm.addBand(umlandnutzerLinks);
+        sbm.addBand(new EmptyAbsoluteHeightedBand(5)); // filler
+        sbm.addBand(hydrologieBand);
+        sbm.addBand(hydrologieFiller);                 // filler
         sbm.addBand(querbauwerksband);
-        sbm.addBand(new EmptyAbsoluteHeightedBand(12));
+        sbm.addBand(new EmptyAbsoluteHeightedBand(5)); // filler
 
         jband.setModel(sbm);
 
@@ -343,25 +493,60 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         lblHeading.setText("Allgemeine Informationen");
         panAbschnittsinfo.add(abschnittsinfoEditor, BorderLayout.CENTER);
         panEntwicklungsziel.add(entwicklungszielEditor, BorderLayout.CENTER);
+        panUnterhaltungshinweis.add(unterhaltungshinweisEditor, BorderLayout.CENTER);
+        panUmlandnutzer.add(umlandnutzerEditor, BorderLayout.CENTER);
         panUnterhaltungserfordernis.add(unterhaltungserfordernisEditor, BorderLayout.CENTER);
         panVermessung.add(vermessungsEditor, BorderLayout.CENTER);
         panMassnahme.add(massnahmeEditor);
         panUmlandnutzung.add(umlandnutzungEditor, BorderLayout.CENTER);
+        panSchutzgebiet.add(schutzgebietEditor, BorderLayout.CENTER);
+        panOperativeZiele.add(operativesZielEditor, BorderLayout.CENTER);
+        panVerbreitungsraum.add(verbreitungsraumEditor, BorderLayout.CENTER);
         panAllgemein.add(allgemeinEditor, BorderLayout.CENTER);
         panWRRL.add(wrrlEditor, BorderLayout.CENTER);
         panHydro.add(hydroEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
-        if (!readOnly) {
-            vBand.setModel(vBandModel);
-            vBandModel.addBand(vwkband);
-            vBandModel.addBand(new EmptyAbsoluteHeightedBand(5));
-            vBandModel.addBand(vermessungsBand);
-            vBandModel.addBandModelListener(modelListener);
-        }
-
         sldZoom.setPaintTrack(false);
+
+        CismetThreadPool.execute(new Runnable() {
+
+                private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
+                        WRRLUtil.DOMAIN_NAME,
+                        "gup_massnahmenart");
+
+                @Override
+                public void run() {
+                    try {
+                        final String query = "select " + MASSNAHMENART_MC.getID() + ","
+                                    + MASSNAHMENART_MC.getPrimaryKey()
+                                    + " from " + MASSNAHMENART_MC.getTableName();
+                        final MetaObject[] mo = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    massnahmeEditor.setMassnahmnenObjects(mo);
+                                }
+                            });
+                    } catch (Exception e) {
+                        LOG.error("Error while retrieving massnahmen objects.", e);
+                    }
+                }
+            });
+        if (!readOnly) {
+            vermessungsband = new VermessungsbandHelper(
+                    jband,
+                    modelListener,
+                    panBand,
+                    panApplyBand,
+                    panApply,
+                    togApplyStats);
+        } else {
+            togApplyStats.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -398,13 +583,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//        bindingGroup.unbind();
+        bindingGroup.unbind();
         this.cidsBean = cidsBean;
 
         switchToForm("empty");
         lblHeading.setText("");
 
         if (cidsBean != null) {
+            bindingGroup.bind();
+            if (!readOnly) {
+                vermessungsband.setCidsBean(cidsBean);
+            }
             if (cidsBean.getProperty("linie") == null) {
                 panBand.removeAll();
                 final DefaultMetaTreeNode dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getCatalogueTree()
@@ -412,16 +601,16 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 final ObjectTreeNode node = (ObjectTreeNode)dmtn.getParent();
 
                 try {
-                    cidsBean.setProperty("gup", node.getMetaObject().getBean());
+                    if (!readOnly && (cidsBean.getProperty("gup") != null)) {
+                        cidsBean.setProperty("gup", node.getMetaObject().getBean());
+                    }
                 } catch (Exception e) {
                     LOG.error("Error while setting the gup id.", e);
                 }
                 panBand.add(panNew, BorderLayout.CENTER);
                 linearReferencedLineEditor.setLineField("linie");
                 linearReferencedLineEditor.setCidsBean(cidsBean);
-                togApplyStats.setEnabled(false);
             } else {
-                showRoute();
                 setNamesAndBands();
             }
         }
@@ -430,25 +619,15 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     /**
      * DOCUMENT ME!
      */
-    private void showRoute() {
-        final CidsBean station = (CidsBean)cidsBean.getProperty("linie.von");
-        if ((station != null) && !readOnly) {
-            final Geometry routeGeometry = LinearReferencingHelper.getRouteGeometryFromStationBean(station);
-            route = LinearReferencingHelper.getRouteBeanFromStationBean(station);
-            routeFeature = FeatureRegistry.getInstance().addRouteFeature(route, routeGeometry);
-            final MappingComponent map = CismapBroker.getInstance().getMappingComponent();
-            if (!map.isFixedMapExtent()) {
-                map.zoomToAFeatureCollection(map.getFeatureCollection().getAllFeatures(),
-                    true,
-                    map.isFixedMapScale());
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
     private void setNamesAndBands() {
+        validator = new UnterhaltungsmaßnahmeValidator();
+        massnahmeEditor.setValidator(validator);
+        rechtesUferBand.setUnterhaltungsmassnahmeValidator(validator);
+        sohleBand.setUnterhaltungsmassnahmeValidator(validator);
+        linkesUferBand.setUnterhaltungsmassnahmeValidator(validator);
+        rechtesUmfeldBand.setUnterhaltungsmassnahmeValidator(validator);
+        linkesUmfeldBand.setUnterhaltungsmassnahmeValidator(validator);
+
         final CidsBean route = LinearReferencingHelper.getRouteBeanFromStationBean((CidsBean)cidsBean.getProperty(
                     "linie.von"));
         final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
@@ -458,7 +637,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         sbm.setMin(from);
         sbm.setMax(till);
         wkband.setMinMax(from, till);
-        vwkband.setMinMax(from, till);
+        if (!readOnly) {
+            vermessungsband.setVwkBand(new WKBand(sbm.getMin(), sbm.getMax()));
+        }
         jband.setMinValue(from);
         jband.setMaxValue(till);
         rechtesUferBand.setRoute(route);
@@ -478,23 +659,23 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             final Integer kind = (Integer)tmp.getProperty("wo.id");
 
             switch (kind) {
-                case GUP_MASSNAHME_UFER_LINKS: {
+                case GUP_UFER_LINKS: {
                     linkesUferList.add(tmp);
                     break;
                 }
-                case GUP_MASSNAHME_UFER_RECHTS: {
+                case GUP_UFER_RECHTS: {
                     rechtesUferList.add(tmp);
                     break;
                 }
-                case GUP_MASSNAHME_UMFELD_LINKS: {
+                case GUP_UMFELD_LINKS: {
                     linkesUmfeldList.add(tmp);
                     break;
                 }
-                case GUP_MASSNAHME_UMFELD_RECHTS: {
+                case GUP_UMFELD_RECHTS: {
                     rechtesUmfeldList.add(tmp);
                     break;
                 }
-                case GUP_MASSNAHME_SOHLE: {
+                case GUP_SOHLE: {
                     sohleList.add(tmp);
                     break;
                 }
@@ -508,24 +689,24 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         rechtesUmfeldList = ObservableCollections.observableList(rechtesUmfeldList);
         linkesUmfeldList = ObservableCollections.observableList(linkesUmfeldList);
 
-        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
-                GUP_MASSNAHME_UFER_RECHTS,
+        ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnahmenListListener(
+                GUP_UFER_RECHTS,
                 cidsBean,
                 "massnahmen"));
-        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnBezugListListener(
-                GUP_MASSNAHME_UFER_LINKS,
+        ((ObservableList<CidsBean>)linkesUferList).addObservableListListener(new MassnahmenListListener(
+                GUP_UFER_LINKS,
                 cidsBean,
                 "massnahmen"));
-        ((ObservableList<CidsBean>)rechtesUmfeldList).addObservableListListener(new MassnBezugListListener(
-                GUP_MASSNAHME_UMFELD_RECHTS,
+        ((ObservableList<CidsBean>)rechtesUmfeldList).addObservableListListener(new MassnahmenListListener(
+                GUP_UMFELD_RECHTS,
                 cidsBean,
                 "massnahmen"));
-        ((ObservableList<CidsBean>)linkesUmfeldList).addObservableListListener(new MassnBezugListListener(
-                GUP_MASSNAHME_UMFELD_LINKS,
+        ((ObservableList<CidsBean>)linkesUmfeldList).addObservableListListener(new MassnahmenListListener(
+                GUP_UMFELD_LINKS,
                 cidsBean,
                 "massnahmen"));
-        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
-                GUP_MASSNAHME_SOHLE,
+        ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnahmenListListener(
+                GUP_SOHLE,
                 cidsBean,
                 "massnahmen"));
 
@@ -541,7 +722,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         final String rname = String.valueOf(route.getProperty("routenname"));
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
-
+//        lblGup.setText(String.valueOf(cidsBean.getProperty("gup.name")));
+//        if (cidsBean.getProperty("los.bezeichnung") != null) {
+//            lblLosVal.setText(String.valueOf(cidsBean.getProperty("los.name.bezeichnung")));
+//        } else {
+//            lblLosVal.setText("");
+//        }
         loadExternalData(route);
     }
 
@@ -571,8 +757,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         final ArrayList<ArrayList> res = get();
                         wkband.setWK(res);
                         if (!readOnly) {
-                            vwkband.setWK(res);
-                            vBandModel.fireBandModelChanged();
+                            vermessungsband.setWk(res);
                         }
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                         updateUI();
@@ -605,25 +790,209 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
+//        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
+//
+//                @Override
+//                protected ArrayList<ArrayList> doInBackground() throws Exception {
+//                    final List in = new ArrayList(3);
+//                    in.add(sbm.getMin());
+//                    in.add(sbm.getMax());
+//                    in.add(route.getProperty("gwk"));
+//                    return naturschutzCache.calcValue(in);
+//                }
+//
+//                @Override
+//                protected void done() {
+//                    try {
+//                        chkNaturschutz.setEnabled(true);
+//                        naturchutzBand.addMembersFromQueryResult(get());
+//                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+//                    } catch (Exception e) {
+//                        LOG.error("Problem beim Suchen der Naturschutzgebiete", e);
+//                    }
+//                }
+//            });
+
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
                 @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
+                protected MetaObject[] doInBackground() throws Exception {
                     final List in = new ArrayList(3);
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return naturschutzCache.calcValue(in);
+                    return schutzgebietCache.calcValue(in);
                 }
 
                 @Override
                 protected void done() {
                     try {
+                        final MetaObject[] result = get();
+                        final List<CidsBean> beansLeft = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansRight = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansSohle = new ArrayList<CidsBean>();
+                        validator.setSchutzgebiete(result);
+
+                        for (final MetaObject tmp : result) {
+                            final CidsBean side = (CidsBean)tmp.getBean().getProperty("wo");
+
+                            if (side != null) {
+                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
+                                    beansRight.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
+                                    beansLeft.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_SOHLE) {
+                                    beansSohle.add(tmp.getBean());
+                                }
+                            }
+                        }
+
+                        schutzgebietLinksBand.setCidsBeans(beansLeft);
+                        schutzgebietRechtsBand.setCidsBeans(beansRight);
+                        schutzgebietSohleBand.setCidsBeans(beansSohle);
                         chkNaturschutz.setEnabled(true);
-                        naturchutzBand.addMembersFromQueryResult(get());
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Naturschutzgebiete", e);
+                        LOG.error("Problem beim Suchen der Schutzgebiete", e);
+                    }
+                }
+            });
+
+        de.cismet.tools.CismetThreadPool.execute(
+            new javax.swing.SwingWorker<VermeidungsgruppeReadOnlyBandMember[], Void>() {
+
+                private final MetaClass VERMEIDUNGSGRUPPE = ClassCacheMultiple.getMetaClass(
+                        WRRLUtil.DOMAIN_NAME,
+                        "VERMEIDUNGSGRUPPE");
+
+                private final String query = "select " + VERMEIDUNGSGRUPPE.getID() + ", v."
+                            + VERMEIDUNGSGRUPPE.getPrimaryKey()
+                            + " from "
+                            + VERMEIDUNGSGRUPPE.getTableName()
+                            + " v join VERMEIDUNGSGRUPPE_GESCHUETZTE_ART vga on v.arten = vga.id "
+                            + "join geschuetzte_art ga on vga.art = ga.id where ga.id = ";
+
+                @Override
+                protected VermeidungsgruppeReadOnlyBandMember[] doInBackground() throws Exception {
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    final MetaObject[] mo = verbreitungsraumCache.calcValue(in);
+                    final List<VermeidungsgruppeReadOnlyBandMember> res =
+                        new ArrayList<VermeidungsgruppeReadOnlyBandMember>();
+
+                    for (final MetaObject tmp : mo) {
+                        final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
+                                        .getMetaObjectsByQuery(query + tmp.getBean().getProperty("id"));
+
+                        if (vermeidungsgruppen != null) {
+                            for (final MetaObject vermeidungsgruppe : vermeidungsgruppen) {
+                                final VermeidungsgruppeReadOnlyBandMember bandMember =
+                                    new VermeidungsgruppeReadOnlyBandMember();
+                                bandMember.setCidsBean(tmp.getBean(), vermeidungsgruppe.getBean());
+                                res.add(bandMember);
+                            }
+                        }
+                    }
+
+                    return res.toArray(new VermeidungsgruppeReadOnlyBandMember[res.size()]);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final VermeidungsgruppeReadOnlyBandMember[] result = get();
+                        final List<VermeidungsgruppeReadOnlyBandMember> beansLeft =
+                            new ArrayList<VermeidungsgruppeReadOnlyBandMember>();
+                        final List<VermeidungsgruppeReadOnlyBandMember> beansRight =
+                            new ArrayList<VermeidungsgruppeReadOnlyBandMember>();
+                        final List<VermeidungsgruppeReadOnlyBandMember> beansMiddle =
+                            new ArrayList<VermeidungsgruppeReadOnlyBandMember>();
+
+                        final List<VermeidungsgruppeMitGeom> verbreitungsraeume =
+                            new ArrayList<VermeidungsgruppeMitGeom>();
+                        for (final VermeidungsgruppeReadOnlyBandMember tmp : result) {
+                            verbreitungsraeume.add(
+                                new VermeidungsgruppeMitGeom(tmp.getVermeidungsgruppe(), tmp.getArt()));
+                        }
+                        validator.setVerbreitungsraum(
+                            verbreitungsraeume.toArray(new VermeidungsgruppeMitGeom[verbreitungsraeume.size()]));
+
+                        for (final VermeidungsgruppeReadOnlyBandMember tmp : result) {
+                            final CidsBean side = (CidsBean)tmp.getCidsBean().getProperty("wo");
+
+                            if (side != null) {
+                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
+                                    beansRight.add(tmp);
+                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
+                                    beansLeft.add(tmp);
+                                } else if ((Integer)side.getProperty("id") == GUP_SOHLE) {
+                                    beansMiddle.add(tmp);
+                                }
+                            }
+                        }
+
+                        verbreitungsraumLinksBand.addMember(beansLeft);
+                        verbreitungsraumRechtsBand.addMember(beansRight);
+                        verbreitungsraumSohleBand.addMember(beansMiddle);
+                        chkVerbreitungsraum.setEnabled(true);
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der Verbreitungsräume", e);
+                    }
+                }
+            });
+
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+
+                @Override
+                protected MetaObject[] doInBackground() throws Exception {
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return operativeZieleCache.calcValue(in);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final MetaObject[] result = get();
+                        final List<CidsBean> beansLeft = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansRight = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansMiddle = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansUmLeft = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansUmRight = new ArrayList<CidsBean>();
+                        validator.setOperativeZiele(result);
+
+                        for (final MetaObject tmp : result) {
+                            final CidsBean side = (CidsBean)tmp.getBean().getProperty("wo");
+
+                            if (side != null) {
+                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
+                                    beansRight.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
+                                    beansLeft.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_SOHLE) {
+                                    beansMiddle.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UMFELD_LINKS) {
+                                    beansUmLeft.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UMFELD_RECHTS) {
+                                    beansUmRight.add(tmp.getBean());
+                                }
+                            }
+                        }
+
+                        operativeZieleLinksBand.setCidsBeans(beansLeft);
+                        operativeZieleRechtsBand.setCidsBeans(beansRight);
+                        operativeZieleSohleBand.setCidsBeans(beansMiddle);
+                        operativeZieleUmfeldLinksBand.setCidsBeans(beansUmLeft);
+                        operativeZieleUmfeldRechtsBand.setCidsBeans(beansUmRight);
+                        chkOperativeZiele.setEnabled(true);
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der Operativen Ziele", e);
                     }
                 }
             });
@@ -647,15 +1016,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         final List<CidsBean> beansRight = new ArrayList<CidsBean>();
 
                         for (final MetaObject tmp : result) {
-                            final CidsBean side = (CidsBean)tmp.getBean().getProperty("seite");
+                            final CidsBean side = (CidsBean)tmp.getBean().getProperty("wo");
 
                             if (side != null) {
-                                if ((Integer)side.getProperty("id") == 1) {
+                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
                                     beansRight.add(tmp.getBean());
-                                } else if ((Integer)side.getProperty("id") == 2) {
-                                    beansLeft.add(tmp.getBean());
-                                } else if ((Integer)side.getProperty("id") == 3) {
-                                    beansRight.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
                                     beansLeft.add(tmp.getBean());
                                 }
                             }
@@ -709,6 +1075,92 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
+                    return unterhaltungshinweiseCache.calcValue(in);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final MetaObject[] result = get();
+
+                        final List<CidsBean> beansLeft = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansRight = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansMiddle = new ArrayList<CidsBean>();
+
+                        for (final MetaObject tmp : result) {
+                            final CidsBean side = (CidsBean)tmp.getBean().getProperty("wo");
+
+                            if (side != null) {
+                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
+                                    beansRight.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
+                                    beansLeft.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_SOHLE) {
+                                    beansMiddle.add(tmp.getBean());
+                                }
+                            }
+                        }
+
+                        unterhaltungshinweisLinks.setCidsBeans(beansLeft);
+                        unterhaltungshinweisRechts.setCidsBeans(beansRight);
+                        unterhaltungshinweisSohle.setCidsBeans(beansMiddle);
+                        chkUnterhaltungshinweise.setEnabled(true);
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der Unterhaltungshinweise", e);
+                    }
+                }
+            });
+
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+
+                @Override
+                protected MetaObject[] doInBackground() throws Exception {
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return umlandnutzerCache.calcValue(in);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final MetaObject[] result = get();
+
+                        final List<CidsBean> beansLeft = new ArrayList<CidsBean>();
+                        final List<CidsBean> beansRight = new ArrayList<CidsBean>();
+
+                        for (final MetaObject tmp : result) {
+                            final CidsBean side = (CidsBean)tmp.getBean().getProperty("wo");
+
+                            if (side != null) {
+                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
+                                    beansRight.add(tmp.getBean());
+                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
+                                    beansLeft.add(tmp.getBean());
+                                }
+                            }
+                        }
+
+                        umlandnutzerLinks.setCidsBeans(beansLeft);
+                        umlandnutzerRechts.setCidsBeans(beansRight);
+                        chkUmlandnutzer.setEnabled(true);
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der Umlandnutzer", e);
+                    }
+                }
+            });
+
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+
+                @Override
+                protected MetaObject[] doInBackground() throws Exception {
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
                     return unterhaltungserfordernisCache.calcValue(in);
                 }
 
@@ -727,6 +1179,36 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
                         LOG.error("Problem beim Suchen der Unterhaltungserfordernisse", e);
+                    }
+                }
+            });
+
+        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+
+                @Override
+                protected MetaObject[] doInBackground() throws Exception {
+                    final List in = new ArrayList(3);
+                    in.add(sbm.getMin());
+                    in.add(sbm.getMax());
+                    in.add(route.getProperty("gwk"));
+                    return hydrologieCache.calcValue(in);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final MetaObject[] result = get();
+                        final List<CidsBean> beans = new ArrayList<CidsBean>();
+
+                        for (final MetaObject tmp : result) {
+                            beans.add(tmp.getBean());
+                        }
+
+                        hydrologieBand.setCidsBeans(beans);
+                        chkHydrologie.setEnabled(true);
+                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der Hydrologiedaten", e);
                     }
                 }
             });
@@ -777,15 +1259,13 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
         bgrpDetails = new javax.swing.ButtonGroup();
         panTitle = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         togAllgemeinInfo = new javax.swing.JToggleButton();
         togApplyStats = new javax.swing.JToggleButton();
         panNew = new javax.swing.JPanel();
@@ -794,7 +1274,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panApply = new javax.swing.JPanel();
         jbApply1 = new javax.swing.JButton();
         panApplyBand = new javax.swing.JPanel();
-        panWithMinSize = new javax.swing.JPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -810,18 +1289,21 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panUmlandnutzung = new javax.swing.JPanel();
         panMassnahme = new javax.swing.JPanel();
         panVermessung = new javax.swing.JPanel();
+        panSchutzgebiet = new javax.swing.JPanel();
+        panVerbreitungsraum = new javax.swing.JPanel();
+        panOperativeZiele = new javax.swing.JPanel();
+        panUnterhaltungshinweis = new javax.swing.JPanel();
+        panUmlandnutzer = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblGup = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblSubTitle = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         sldZoom = new javax.swing.JSlider();
-        panControls = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        lblLos = new javax.swing.JLabel();
+        lblLosVal = new javax.swing.JLabel();
         panBand = new javax.swing.JPanel();
         spBand = new javax.swing.JScrollPane();
         panBandControl = new RoundedPanel();
@@ -833,6 +1315,16 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkNaturschutz = new javax.swing.JCheckBox();
         chkUnterhaltungserfordernis = new javax.swing.JCheckBox();
         chkEntwicklungsziel = new javax.swing.JCheckBox();
+        chkVerbreitungsraum = new javax.swing.JCheckBox();
+        chkOperativeZiele = new javax.swing.JCheckBox();
+        chkUnterhaltungshinweise = new javax.swing.JCheckBox();
+        chkUmlandnutzer = new javax.swing.JCheckBox();
+        chkHydrologie = new javax.swing.JCheckBox();
+        lblFiller = new javax.swing.JLabel();
+        lblFiller2 = new javax.swing.JLabel();
+        lblFiller3 = new javax.swing.JLabel();
+        lblFiller4 = new javax.swing.JLabel();
+        lblFiller5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -849,52 +1341,19 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        panTitle.setMinimumSize(new java.awt.Dimension(1050, 48));
+        panTitle.setMinimumSize(new java.awt.Dimension(1050, 36));
         panTitle.setOpaque(false);
-        panTitle.setPreferredSize(new java.awt.Dimension(1050, 44));
+        panTitle.setPreferredSize(new java.awt.Dimension(1050, 36));
         panTitle.setLayout(new java.awt.GridBagLayout());
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitle.setText("GUP Gewässerabschnitt");
+        lblTitle.setText("GUP Planungsabschnitt");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panTitle.add(lblTitle, gridBagConstraints);
-
-        jButton1.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/export.png"))); // NOI18N
-        jButton1.setText("Export");
-        jButton1.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
-        panTitle.add(jButton1, gridBagConstraints);
-
-        jButton2.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/print.png"))); // NOI18N
-        jButton2.setText("Massenermittlung");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jButton2ActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        panTitle.add(jButton2, gridBagConstraints);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/wrrl_db_mv/util/gup/gaeb.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        panTitle.add(jLabel6, gridBagConstraints);
 
         bgrpDetails.add(togAllgemeinInfo);
         togAllgemeinInfo.setText("Allgemeine Infos");
@@ -986,18 +1445,13 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panApply.add(panApplyBand, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 700));
+        setMinimumSize(new java.awt.Dimension(1050, 850));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 700));
+        setPreferredSize(new java.awt.Dimension(1050, 850));
         setLayout(new java.awt.GridBagLayout());
 
-        panWithMinSize.setMinimumSize(new java.awt.Dimension(1050, 750));
-        panWithMinSize.setOpaque(false);
-        panWithMinSize.setPreferredSize(new java.awt.Dimension(1050, 800));
-        panWithMinSize.setLayout(new java.awt.GridBagLayout());
-
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 310));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 310));
+        panInfo.setMinimumSize(new java.awt.Dimension(740, 460));
+        panInfo.setPreferredSize(new java.awt.Dimension(740, 460));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -1057,6 +1511,26 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panVermessung.setLayout(new java.awt.BorderLayout());
         panInfoContent.add(panVermessung, "vermessung");
 
+        panSchutzgebiet.setOpaque(false);
+        panSchutzgebiet.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panSchutzgebiet, "schutzgebiet");
+
+        panVerbreitungsraum.setOpaque(false);
+        panVerbreitungsraum.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panVerbreitungsraum, "verbreitungsraum");
+
+        panOperativeZiele.setOpaque(false);
+        panOperativeZiele.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panOperativeZiele, "operativeZiele");
+
+        panUnterhaltungshinweis.setOpaque(false);
+        panUnterhaltungshinweis.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panUnterhaltungshinweis, "unterhaltungshinweis");
+
+        panUmlandnutzer.setOpaque(false);
+        panUmlandnutzer.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panUmlandnutzer, "umlandnutzer");
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1065,38 +1539,46 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panWithMinSize.add(panInfo, gridBagConstraints);
+        add(panInfo, gridBagConstraints);
 
         panHeader.setOpaque(false);
         panHeader.setLayout(new java.awt.GridBagLayout());
 
-        panHeaderInfo.setMinimumSize(new java.awt.Dimension(431, 102));
+        panHeaderInfo.setMinimumSize(new java.awt.Dimension(400, 102));
         panHeaderInfo.setOpaque(false);
-        panHeaderInfo.setPreferredSize(new java.awt.Dimension(431, 102));
+        panHeaderInfo.setPreferredSize(new java.awt.Dimension(400, 102));
         panHeaderInfo.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel1.setText("GUP:");
         jLabel1.setMinimumSize(new java.awt.Dimension(91, 22));
         panHeaderInfo.add(jLabel1);
-        jLabel1.setBounds(12, 12, 45, 22);
+        jLabel1.setBounds(12, 23, 39, 17);
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel2.setText("Demo-GUP");
-        panHeaderInfo.add(jLabel2);
-        jLabel2.setBounds(110, 12, 250, 22);
+        lblGup.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gup.name}"),
+                lblGup,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        panHeaderInfo.add(lblGup);
+        lblGup.setBounds(110, 23, 250, 20);
+
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel3.setText("Gewässer:");
         jLabel3.setMinimumSize(new java.awt.Dimension(91, 22));
         panHeaderInfo.add(jLabel3);
-        jLabel3.setBounds(12, 40, 92, 22);
+        jLabel3.setBounds(12, 46, 86, 17);
 
-        lblSubTitle.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        lblSubTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         panHeaderInfo.add(lblSubTitle);
-        lblSubTitle.setBounds(110, 40, 250, 0);
+        lblSubTitle.setBounds(110, 46, 250, 20);
 
-        jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel5.setText("Zoom:");
         jLabel5.setMaximumSize(new java.awt.Dimension(92, 22));
         jLabel5.setMinimumSize(new java.awt.Dimension(92, 22));
@@ -1116,48 +1598,35 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panHeaderInfo.add(sldZoom);
         sldZoom.setBounds(110, 72, 250, 16);
 
+        lblLos.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblLos.setText("LOS:");
+        lblLos.setMinimumSize(new java.awt.Dimension(91, 22));
+        panHeaderInfo.add(lblLos);
+        lblLos.setBounds(12, 0, 37, 17);
+
+        lblLosVal.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.los.bezeichnung}"),
+                lblLosVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        panHeaderInfo.add(lblLosVal);
+        lblLosVal.setBounds(110, 0, 250, 20);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         panHeader.add(panHeaderInfo, gridBagConstraints);
-
-        panControls.setOpaque(false);
-        panControls.setLayout(new java.awt.GridBagLayout());
-
-        jPanel1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        panControls.add(jPanel1, gridBagConstraints);
-
-        jPanel2.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        panControls.add(jPanel2, gridBagConstraints);
-
-        jPanel4.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        panControls.add(jPanel4, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
-        panHeader.add(panControls, gridBagConstraints);
 
         panBand.setOpaque(false);
         panBand.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -1174,9 +1643,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panBandControl.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 2));
 
         chkMassnahmen.setSelected(true);
-        chkMassnahmen.setText("Maßnahmen (links, Sohle, rechts)");
+        chkMassnahmen.setText("Maßnahmen (Ufer, Sohle)");
         chkMassnahmen.setContentAreaFilled(false);
-        chkMassnahmen.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkMassnahmen.setPreferredSize(new java.awt.Dimension(180, 18));
         chkMassnahmen.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1188,7 +1657,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         chkSonstigeMassnahmen.setText("Umfeld Maßnahmen");
         chkSonstigeMassnahmen.setContentAreaFilled(false);
-        chkSonstigeMassnahmen.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkSonstigeMassnahmen.setPreferredSize(new java.awt.Dimension(180, 18));
         chkSonstigeMassnahmen.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1201,7 +1670,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkWasserkoerper.setSelected(true);
         chkWasserkoerper.setText("Wasserkörper");
         chkWasserkoerper.setContentAreaFilled(false);
-        chkWasserkoerper.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkWasserkoerper.setPreferredSize(new java.awt.Dimension(180, 18));
         chkWasserkoerper.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1214,7 +1683,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkUmlandnutzung.setText("Umlandnutzung");
         chkUmlandnutzung.setContentAreaFilled(false);
         chkUmlandnutzung.setEnabled(false);
-        chkUmlandnutzung.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkUmlandnutzung.setPreferredSize(new java.awt.Dimension(180, 18));
         chkUmlandnutzung.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1227,7 +1696,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkQuerbauwerke.setText("Querbauwerke");
         chkQuerbauwerke.setContentAreaFilled(false);
         chkQuerbauwerke.setEnabled(false);
-        chkQuerbauwerke.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkQuerbauwerke.setPreferredSize(new java.awt.Dimension(180, 18));
         chkQuerbauwerke.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1240,7 +1709,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkNaturschutz.setText("Schutzgebiete");
         chkNaturschutz.setContentAreaFilled(false);
         chkNaturschutz.setEnabled(false);
-        chkNaturschutz.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkNaturschutz.setPreferredSize(new java.awt.Dimension(180, 18));
         chkNaturschutz.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1253,7 +1722,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkUnterhaltungserfordernis.setText("Unterhaltungserfordernis");
         chkUnterhaltungserfordernis.setContentAreaFilled(false);
         chkUnterhaltungserfordernis.setEnabled(false);
-        chkUnterhaltungserfordernis.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkUnterhaltungserfordernis.setPreferredSize(new java.awt.Dimension(180, 18));
         chkUnterhaltungserfordernis.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1266,7 +1735,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkEntwicklungsziel.setText("Entwicklungsziel");
         chkEntwicklungsziel.setContentAreaFilled(false);
         chkEntwicklungsziel.setEnabled(false);
-        chkEntwicklungsziel.setPreferredSize(new java.awt.Dimension(240, 22));
+        chkEntwicklungsziel.setPreferredSize(new java.awt.Dimension(180, 18));
         chkEntwicklungsziel.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1276,14 +1745,96 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkEntwicklungsziel);
 
+        chkVerbreitungsraum.setText("Verbreitungsraum");
+        chkVerbreitungsraum.setContentAreaFilled(false);
+        chkVerbreitungsraum.setEnabled(false);
+        chkVerbreitungsraum.setPreferredSize(new java.awt.Dimension(180, 18));
+        chkVerbreitungsraum.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkVerbreitungsraumActionPerformed(evt);
+                }
+            });
+        panBandControl.add(chkVerbreitungsraum);
+
+        chkOperativeZiele.setText("Operative Ziele");
+        chkOperativeZiele.setContentAreaFilled(false);
+        chkOperativeZiele.setEnabled(false);
+        chkOperativeZiele.setPreferredSize(new java.awt.Dimension(180, 18));
+        chkOperativeZiele.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkOperativeZieleActionPerformed(evt);
+                }
+            });
+        panBandControl.add(chkOperativeZiele);
+
+        chkUnterhaltungshinweise.setText("Unterhaltungshinweise");
+        chkUnterhaltungshinweise.setContentAreaFilled(false);
+        chkUnterhaltungshinweise.setEnabled(false);
+        chkUnterhaltungshinweise.setPreferredSize(new java.awt.Dimension(180, 18));
+        chkUnterhaltungshinweise.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkUnterhaltungshinweiseActionPerformed(evt);
+                }
+            });
+        panBandControl.add(chkUnterhaltungshinweise);
+
+        chkUmlandnutzer.setText("Umlandnutzer");
+        chkUmlandnutzer.setContentAreaFilled(false);
+        chkUmlandnutzer.setEnabled(false);
+        chkUmlandnutzer.setPreferredSize(new java.awt.Dimension(180, 18));
+        chkUmlandnutzer.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkUmlandnutzerActionPerformed(evt);
+                }
+            });
+        panBandControl.add(chkUmlandnutzer);
+
+        chkHydrologie.setText("Hydrologie");
+        chkHydrologie.setContentAreaFilled(false);
+        chkHydrologie.setEnabled(false);
+        chkHydrologie.setPreferredSize(new java.awt.Dimension(180, 18));
+        chkHydrologie.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkHydrologieActionPerformed(evt);
+                }
+            });
+        panBandControl.add(chkHydrologie);
+
+        lblFiller.setPreferredSize(new java.awt.Dimension(180, 18));
+        panBandControl.add(lblFiller);
+
+        lblFiller2.setPreferredSize(new java.awt.Dimension(180, 18));
+        panBandControl.add(lblFiller2);
+
+        lblFiller3.setPreferredSize(new java.awt.Dimension(180, 18));
+        panBandControl.add(lblFiller3);
+
+        lblFiller4.setPreferredSize(new java.awt.Dimension(180, 18));
+        panBandControl.add(lblFiller4);
+
+        lblFiller5.setPreferredSize(new java.awt.Dimension(180, 18));
+        panBandControl.add(lblFiller5);
+
         spBand.setViewportView(panBandControl);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(4, 22, 4, 4);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 4);
         panHeader.add(spBand, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1292,7 +1843,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        panWithMinSize.add(panHeader, gridBagConstraints);
+        add(panHeader, gridBagConstraints);
 
         jPanel3.setMinimumSize(new java.awt.Dimension(1050, 1));
         jPanel3.setOpaque(false);
@@ -1328,13 +1879,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        panWithMinSize.add(jPanel3, gridBagConstraints);
+        add(jPanel3, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        add(panWithMinSize, gridBagConstraints);
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -1345,7 +1892,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
-        vBand.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -1359,16 +1906,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         zoomToAbschnitt();
     }                                                                                    //GEN-LAST:event_togAllgemeinInfoActionPerformed
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     /**
      * DOCUMENT ME!
      *
@@ -1409,6 +1946,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkWasserkoerperActionPerformed
         wkband.setEnabled(chkWasserkoerper.isSelected());
+        wkBandFiller.setEnabled(chkWasserkoerper.isSelected());
         sbm.fireBandModelValuesChanged();
     }                                                                                    //GEN-LAST:event_chkWasserkoerperActionPerformed
 
@@ -1429,7 +1967,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      * @param  evt  DOCUMENT ME!
      */
     private void chkNaturschutzActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkNaturschutzActionPerformed
-        naturchutzBand.setEnabled(chkNaturschutz.isSelected());
+        schutzgebietLinksBand.setEnabled(chkNaturschutz.isSelected());
+        schutzgebietRechtsBand.setEnabled(chkNaturschutz.isSelected());
+        schutzgebietSohleBand.setEnabled(chkNaturschutz.isSelected());
+        schutzgebieteFiller.setEnabled(chkNaturschutz.isSelected());
         sbm.fireBandModelValuesChanged();
     }                                                                                  //GEN-LAST:event_chkNaturschutzActionPerformed
 
@@ -1496,27 +2037,15 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
-//        try {
-//            java.awt.Desktop.getDesktop()
-//                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
-//        } catch (Exception ex) {
-//            log.error("Problem beim Oeffnen des LV", ex);
-//        }
-    } //GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApplyActionPerformed
         panBand.removeAll();
         panBand.add(jband, BorderLayout.CENTER);
         setNamesAndBands();
         linearReferencedLineEditor.dispose();
-        showRoute();
-        togApplyStats.setEnabled(true);
+        if (!readOnly) {
+            vermessungsband.showRoute();
+            togApplyStats.setEnabled(true);
+        }
     }                                                                           //GEN-LAST:event_jbApplyActionPerformed
 
     /**
@@ -1526,96 +2055,13 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
-            showVermessungsband();
+            vermessungsband.showVermessungsband();
         } else {
-            hideVermessungsband();
+            vermessungsband.hideVermessungsband();
         }
-    }                                                                                 //GEN-LAST:event_togApplyStatsActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void showVermessungsband() {
-        try {
-            final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
-
-            // positionen speichern
-            final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
-                mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
-            final PFeature selectedPFeature = marksListener.getSelectedLinePFeature();
-            final Double[] positions = marksListener.getMarkPositionsOfSelectedFeature();
-            CidsBean routeBean = null;
-
-            // route bestimmen
-            if (selectedPFeature != null) {
-                final Feature feature = selectedPFeature.getFeature();
-                if ((feature != null) && (feature instanceof CidsFeature)) {
-                    final CidsFeature cidsFeature = (CidsFeature)feature;
-                    if (cidsFeature.getMetaClass().getName().equals(LinearReferencingConstants.CN_ROUTE)) {
-                        routeBean = cidsFeature.getMetaObject().getBean();
-                    }
-                } else if ((feature != null) && (feature == routeFeature)) {
-                    routeBean = (CidsBean)cidsBean.getProperty("linie.von.route");
-                }
-            }
-
-            // Member hinzufuegen
-            if (routeBean != null) {
-                final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
-                        cidsBean.getProperty(
-                            "linie.von"));
-                final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
-                        cidsBean.getProperty(
-                            "linie.bis"));
-                vermessungsBand.setRoute(routeBean);
-                vermessungsBand.removeAllMember();
-                Double fromPosition = null;
-                CidsBean fromStation = null;
-                CidsBean toStation = null;
-                for (final double position : positions) {
-                    Double toPosition = Math.floor(position);
-                    if (toPosition < from) {
-                        toPosition = from;
-                    } else if (position > till) {
-                        toPosition = till;
-                    }
-                    toStation = LinearReferencingHelper.createStationBeanFromRouteBean(routeBean, (double)toPosition);
-                    if ((fromPosition != null) && (toPosition > fromPosition)) {
-                        final CidsBean memberBean = CidsBeanSupport.createNewCidsBeanFromTableName(VERMESSUNG);
-                        vermessungsBand.addMember(memberBean, fromStation, toStation);
-                    }
-                    fromPosition = toPosition;
-                    fromStation = toStation;
-                }
-            }
-
-            final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
-                        "linie.von"));
-            final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
-                        "linie.bis"));
-            vBand.setMinValue(from);
-            vBand.setMaxValue(till);
-            panBand.removeAll();
-            panApplyBand.removeAll();
-            panApplyBand.add(vBand, BorderLayout.CENTER);
-            panBand.add(panApply, BorderLayout.CENTER);
-            updateUI();
-            repaint();
-            modelListener.bandModelSelectionChanged(null);
-        } catch (Exception e) {
-            LOG.error("Error while applying stations.", e);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void hideVermessungsband() {
-        panBand.removeAll();
-        panBand.add(jband, BorderLayout.CENTER);
         updateUI();
-        modelListener.bandModelSelectionChanged(null);
-    }
+        repaint();
+    }                                                                                 //GEN-LAST:event_togApplyStatsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1623,76 +2069,84 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      * @param  evt  DOCUMENT ME!
      */
     private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
-        try {
-            JOptionPane.showConfirmDialog(
-                StaticSwingTools.getParentFrame(this),
-                "Wenn Sie die Abschnitte übernehmen, dann werden die bereits vorhandenen Abschnitte gelöscht. Wollen Sie fortrfahren?",
-                "Stationen übernehmen",
-                JOptionPane.OK_CANCEL_OPTION);
-            final MassnahmenBand[] bands = new MassnahmenBand[3];
-            bands[0] = rechtesUferBand;
-            bands[1] = linkesUferBand;
-            bands[2] = sohleBand;
-
-            for (final MassnahmenBand tmp : bands) {
-                final HashMap<CidsBean, CidsBean> stations = new HashMap<CidsBean, CidsBean>();
-                tmp.removeAllMember();
-                for (int i = 0; i < vermessungsBand.getNumberOfMembers(); ++i) {
-                    final CidsBean bean = ((VermessungsbandMember)vermessungsBand.getMember(i)).getCidsBean();
-                    final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(GUP_MASSNAHME);
-                    final CidsBean von = getStationCopy((CidsBean)bean.getProperty("linie.von"), stations);
-                    final CidsBean bis = getStationCopy((CidsBean)bean.getProperty("linie.bis"), stations);
-
-                    tmp.addMember(newBean, von, bis);
-                }
-            }
-
-            togApplyStats.setSelected(false);
-            hideVermessungsband();
-        } catch (Exception e) {
-            LOG.error("Error while creating the initial bands.", e);
-        }
-    } //GEN-LAST:event_jbApply1ActionPerformed
+        final MassnahmenBand[] bands = new MassnahmenBand[3];
+        bands[0] = rechtesUferBand;
+        bands[1] = linkesUferBand;
+        bands[2] = sohleBand;
+        vermessungsband.applyStats(this, bands, GUP_MASSNAHME);
+    }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
-     * @param   s         DOCUMENT ME!
-     * @param   stations  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
+     * @param  evt  DOCUMENT ME!
      */
-    private CidsBean getStationCopy(final CidsBean s, final HashMap<CidsBean, CidsBean> stations) {
-        CidsBean bean = stations.get(s);
+    private void chkVerbreitungsraumActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkVerbreitungsraumActionPerformed
+        verbreitungsraumLinksBand.setEnabled(chkVerbreitungsraum.isSelected());
+        verbreitungsraumRechtsBand.setEnabled(chkVerbreitungsraum.isSelected());
+        verbreitungsraumSohleBand.setEnabled(chkVerbreitungsraum.isSelected());
+        verbreitungsraumFiller.setEnabled(chkVerbreitungsraum.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                       //GEN-LAST:event_chkVerbreitungsraumActionPerformed
 
-        if (bean == null) {
-            bean = LinearReferencingHelper.createStationBeanFromRouteBean((CidsBean)s.getProperty("route"),
-                    (Double)s.getProperty("wert"));
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkOperativeZieleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkOperativeZieleActionPerformed
+        operativeZieleLinksBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleRechtsBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleSohleBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleUmfeldLinksBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
+        operativeZieleFiller.setEnabled(chkOperativeZiele.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                     //GEN-LAST:event_chkOperativeZieleActionPerformed
 
-            // add the station geometry
-            final Geometry geom = LinearReferencedPointFeature.getPointOnLine(LinearReferencingHelper
-                            .getLinearValueFromStationBean(bean),
-                    LinearReferencingHelper.getRouteGeometryFromStationBean(bean));
-            geom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
-            try {
-                LinearReferencingHelper.setPointGeometryToStationBean(geom, bean);
-            } catch (Exception ex) {
-                LOG.error("Cannot create geometry for station", ex);
-            }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkUnterhaltungshinweiseActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUnterhaltungshinweiseActionPerformed
+        unterhaltungshinweisLinks.setEnabled(chkUnterhaltungshinweise.isSelected());
+        unterhaltungshinweisRechts.setEnabled(chkUnterhaltungshinweise.isSelected());
+        unterhaltungshinweisSohle.setEnabled(chkUnterhaltungshinweise.isSelected());
+        unterhaltungshinweisFiller.setEnabled(chkUnterhaltungshinweise.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                            //GEN-LAST:event_chkUnterhaltungshinweiseActionPerformed
 
-            stations.put(s, bean);
-        }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkUmlandnutzerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzerActionPerformed
+        umlandnutzerLinks.setEnabled(chkUmlandnutzer.isSelected());
+        umlandnutzerRechts.setEnabled(chkUmlandnutzer.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                   //GEN-LAST:event_chkUmlandnutzerActionPerformed
 
-        return bean;
-    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkHydrologieActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkHydrologieActionPerformed
+        hydrologieBand.setEnabled(chkHydrologie.isSelected());
+        hydrologieFiller.setEnabled(chkHydrologie.isSelected());
+        sbm.fireBandModelValuesChanged();
+    }                                                                                 //GEN-LAST:event_chkHydrologieActionPerformed
 
     @Override
     public void dispose() {
         disposeEditors();
-        sbm.removeBandModelListener(modelListener);
-        if (route != null) {
-            FeatureRegistry.getInstance().removeRouteFeature(route);
+        if (!readOnly) {
+            vermessungsband.dispose();
         }
+        sbm.removeBandModelListener(modelListener);
+        bindingGroup.unbind();
     }
 
     /**
@@ -1702,12 +2156,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         abschnittsinfoEditor.dispose();
         massnahmeEditor.dispose();
         umlandnutzungEditor.dispose();
+        schutzgebietEditor.dispose();
+        verbreitungsraumEditor.dispose();
+        operativesZielEditor.dispose();
         allgemeinEditor.dispose();
         wrrlEditor.dispose();
         hydroEditor.dispose();
         entwicklungszielEditor.dispose();
         unterhaltungserfordernisEditor.dispose();
         vermessungsEditor.dispose();
+        unterhaltungshinweisEditor.dispose();
+        umlandnutzerEditor.dispose();
     }
 
     @Override
@@ -1720,10 +2179,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         // NOP
     }
 
-    @Override
-    public JComponent getFooterComponent() {
-        return panFooter;
-    }
+//    @Override
+//    public JComponent getFooterComponent() {
+//        return panFooter;
+//    }
 
     /**
      * DOCUMENT ME!
@@ -1751,11 +2210,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         abschnittsinfoEditor.editorClosed(event);
         massnahmeEditor.editorClosed(event);
         umlandnutzungEditor.editorClosed(event);
+        schutzgebietEditor.editorClosed(event);
+        verbreitungsraumEditor.editorClosed(event);
+        operativesZielEditor.editorClosed(event);
         wrrlEditor.editorClosed(event);
         hydroEditor.editorClosed(event);
         entwicklungszielEditor.editorClosed(event);
         unterhaltungserfordernisEditor.editorClosed(event);
         vermessungsEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
+        unterhaltungshinweisEditor.editorClosed(event);
+        umlandnutzerEditor.editorClosed(event);
     }
 
     @Override
@@ -1798,16 +2263,16 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         public void bandModelSelectionChanged(final BandModelEvent e) {
             BandMember bm;
             togAllgemeinInfo.setSelected(false);
+            disposeEditors();
 
             if (togApplyStats.isSelected()) {
-                bm = vBand.getSelectedBandMember();
-                vBand.setRefreshAvoided(true);
+                bm = vermessungsband.getSelectedMember();
+                vermessungsband.setRefreshAvoided(true);
             } else {
                 bm = jband.getSelectedBandMember();
                 jband.setRefreshAvoided(true);
             }
 
-            disposeEditors();
             if (bm != null) {
                 bgrpDetails.clearSelection();
                 switchToForm("empty");
@@ -1817,34 +2282,32 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     final CidsBean bean = ((MassnahmenBandMember)bm).getCidsBean();
                     final MassnahmenBand mb = (MassnahmenBand)((MassnahmenBandMember)bm).getParentBand();
 
-                    if (mb.getMeasureType() == GUP_MASSNAHME_SOHLE) {
+                    if (mb.getMeasureType() == GUP_SOHLE) {
                         switchToForm("massnahme");
                         lblHeading.setText("Maßnahmen Sohle");
                         massnahmeEditor.setMassnahmen(sohleList);
                         massnahmeEditor.setKompartiment(GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_SOHLE);
                         massnahmeEditor.setCidsBean(bean);
-                    } else if (mb.getMeasureType() == GUP_MASSNAHME_UMFELD_RECHTS) {
+                    } else if (mb.getMeasureType() == GUP_UMFELD_RECHTS) {
                         switchToForm("massnahme");
                         lblHeading.setText("Umfeld rechts");
                         massnahmeEditor.setKompartiment(GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_UMFELD);
                         massnahmeEditor.setMassnahmen(rechtesUmfeldList);
                         massnahmeEditor.setCidsBean(bean);
-                    } else if (mb.getMeasureType() == GUP_MASSNAHME_UMFELD_LINKS) {
+                    } else if (mb.getMeasureType() == GUP_UMFELD_LINKS) {
                         switchToForm("massnahme");
                         lblHeading.setText("Umfeld links");
                         massnahmeEditor.setKompartiment(GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_UMFELD);
                         massnahmeEditor.setMassnahmen(linkesUmfeldList);
                         massnahmeEditor.setCidsBean(bean);
-                    } else if (mb.getMeasureType() == GUP_MASSNAHME_UFER_RECHTS) {
+                    } else if (mb.getMeasureType() == GUP_UFER_RECHTS) {
                         switchToForm("massnahme");
                         lblHeading.setText("Maßnahmen Ufer");
-
-                        final List<CidsBean> massnBeans;
 
                         massnahmeEditor.setKompartiment(GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_UFER);
                         massnahmeEditor.setMassnahmen(rechtesUferList);
                         massnahmeEditor.setCidsBean(bean);
-                    } else if (mb.getMeasureType() == GUP_MASSNAHME_UFER_LINKS) {
+                    } else if (mb.getMeasureType() == GUP_UFER_LINKS) {
                         switchToForm("massnahme");
                         lblHeading.setText("Maßnahmen Ufer");
 
@@ -1854,25 +2317,60 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         massnahmeEditor.setMassnahmen(linkesUferList);
                         massnahmeEditor.setCidsBean(bean);
                     }
-                } else if (bm instanceof UmlandnutzungBandMember) {
-                    switchToForm("umlandnutzung");
-                    lblHeading.setText("Umlandnutzung");
-                    umlandnutzungEditor.setCidsBean(((UmlandnutzungBandMember)bm).getCidsBean());
-                } else if (bm instanceof EntwicklungszielBandMember) {
-                    switchToForm("entwicklungsziel");
-                    lblHeading.setText("Entwicklungsziel");
-                    entwicklungszielEditor.setCidsBean(((EntwicklungszielBandMember)bm).getCidsBean());
+                } else if (bm instanceof VermeidungsgruppeReadOnlyBandMember) {
+                    switchToForm("verbreitungsraum");
+                    lblHeading.setText("Verbreitungsraum");
+                    verbreitungsraumEditor.setVerbreitungsraum(((VermeidungsgruppeReadOnlyBandMember)bm)
+                                .getVermeidungsgruppe());
+                    verbreitungsraumEditor.setCidsBean(((VermeidungsgruppeReadOnlyBandMember)bm).getCidsBean());
+                } else if (bm instanceof ColoredReadOnlyBandMember) {
+                    if (((ColoredReadOnlyBandMember)bm).getColorProperty().equals("operatives_ziel")) {
+                        switchToForm("operativeZiele");
+                        lblHeading.setText("Operatives Ziel");
+
+                        final int kompartiment = -1;
+
+                        // kompartiment -1 steht für alle
+                        operativesZielEditor.setKompartiment(kompartiment);
+                        operativesZielEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
+                    } else if (((ColoredReadOnlyBandMember)bm).getCidsBean().getClass().getName().endsWith(
+                                    "Gup_umlandnutzung")) {
+                        switchToForm("umlandnutzung");
+                        lblHeading.setText("Umlandnutzung");
+                        umlandnutzungEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
+                    } else if (((ColoredReadOnlyBandMember)bm).getCidsBean().getClass().getName().endsWith(
+                                    "hydrolog")) {
+                        switchToForm("hydro");
+                        lblHeading.setText("Hydrologie");
+                        hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
+                    } else if (((ColoredReadOnlyBandMember)bm).getColorProperty().equals("name_bezeichnung")) {
+                        switchToForm("entwicklungsziel");
+                        lblHeading.setText("Entwicklungsziel");
+                        entwicklungszielEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
+                    } else {
+                        switchToForm("schutzgebiet");
+                        lblHeading.setText("Schutzgebiet");
+                        schutzgebietEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
+                    }
                 } else if (bm instanceof UnterhaltungserfordernisBandMember) {
                     switchToForm("unterhaltungserfordernis");
                     lblHeading.setText("Unterhaltungserfordernis");
                     unterhaltungserfordernisEditor.setCidsBean(((UnterhaltungserfordernisBandMember)bm).getCidsBean());
+                } else if (bm instanceof ReadOnlyTextBandMember) {
+                    final String textProperty = ((ReadOnlyTextBandMember)bm).getTextProperty();
+                    if ((textProperty != null) && textProperty.equals("art.name")) {
+                        switchToForm("unterhaltungshinweis");
+                        lblHeading.setText("Unterhaltungshinweis");
+                        unterhaltungshinweisEditor.setCidsBean(((ReadOnlyTextBandMember)bm).getCidsBean());
+                    } else {
+                        switchToForm("umlandnutzer");
+                        lblHeading.setText("Umlandnutzer");
+                        umlandnutzerEditor.setCidsBean(((ReadOnlyTextBandMember)bm).getCidsBean());
+                    }
                 } else if (bm instanceof VermessungsbandMember) {
                     switchToForm("vermessung");
                     lblHeading.setText("Vermessungselement");
-                    final List<CidsBean> others = new ArrayList<CidsBean>();
-                    for (int i = 0; i < vermessungsBand.getNumberOfMembers(); ++i) {
-                        others.add(((VermessungsbandMember)vermessungsBand.getMember(i)).getCidsBean());
-                    }
+                    final List<CidsBean> others = vermessungsband.getAllMembers();
                     vermessungsEditor.setOthers(others);
                     vermessungsEditor.setCidsBean(((VermessungsbandMember)bm).getCidsBean());
                 }
@@ -1882,8 +2380,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             }
 
             if (togApplyStats.isSelected()) {
-                vBand.setRefreshAvoided(false);
-                vBand.bandModelChanged(null);
+                vermessungsband.setRefreshAvoided(false);
+                vermessungsband.bandModelChanged();
             } else {
                 jband.setRefreshAvoided(false);
                 jband.bandModelChanged(null);
@@ -1955,20 +2453,277 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             final String query = "select " + UMLANDNUTZUNG.getID() + ", u." + UMLANDNUTZUNG.getPrimaryKey()
                         + " from "
                         + UMLANDNUTZUNG.getTableName()
-                        + " u, station_linie sl, station von, station bis, route r "
-                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + " u, umlandnutzung_route_umlandnutzung route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.umlandnutzung = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
                         + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and ((" + (Double)input.get(0) + " >= von.wert and " + (Double)input.get(0)
-                        + " < bis.wert) OR "
-                        + "             (" + (Double)input.get(1) + " > von.wert AND " + (Double)input.get(1)
-                        + " <= bis.wert))"; // NOI18N
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request for Umlandnutzung: " + query);
             }
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
             // Passe die Groessen der Umfeldnutzung an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // der Umfeldnutzung und dem Gewaesser besteht, werde diese Aenderungen auch nicht gespeichert
+            // der Umfeldnutzung und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class UmlandnutzerCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass UMLANDNUTZER = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "UMLANDNUTZER");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + UMLANDNUTZER.getID() + ", u." + UMLANDNUTZER.getPrimaryKey()
+                        + " from "
+                        + UMLANDNUTZER.getTableName()
+                        + " u, umlandnutzer_route_umlandnutzer route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.umlandnutzer = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Umlandnutzer: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            // Passe die Groessen der Umfeldnutzer an die Groesse des GUP an. Da keine Verknuepfung zwischen
+            // den Umfeldnutzern und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class HydrologieCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass HYDROLOGIE = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_HYDROLOG");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + HYDROLOGIE.getID() + ", u." + HYDROLOGIE.getPrimaryKey()
+                        + " from "
+                        + HYDROLOGIE.getTableName()
+                        + " u, hydrolog_route_hydrolog route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.hydrologie = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Hydrologie: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            // Passe die Groessen der Umfeldnutzer an die Groesse des GUP an. Da keine Verknuepfung zwischen
+            // den Umfeldnutzern und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class SchutzgebietCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass SCHUTZGEBIET = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "SCHUTZGEBIET");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + SCHUTZGEBIET.getID() + ", u." + SCHUTZGEBIET.getPrimaryKey()
+                        + " from "
+                        + SCHUTZGEBIET.getTableName()
+                        + " u, station_linie sl, station von, station bis, route r "
+                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Schutzgebiete: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            // Passe die Groessen der SChutzgebiete an die Groesse des GUP an. Da keine Verknuepfung zwischen
+            // den Schutzgebieten und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class OperativesZielCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass OPERATIVES_ZIEL = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_OPERATIVES_ZIEL_ABSCHNITT");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + OPERATIVES_ZIEL.getID() + ", u." + OPERATIVES_ZIEL.getPrimaryKey()
+                        + " from "
+                        + OPERATIVES_ZIEL.getTableName()
+                        + " u, gup_operatives_ziel_route_abschnitt route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.abschnitt = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for operatives Ziel: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            // Passe die Groessen der operativen Ziele an die Groesse des GUP an. Da keine Verknuepfung zwischen
+            // den operativen Zielen und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class VerbreitungsraumCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass VERMEIDUNGSGRUPPE_ABSCHNITT = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GESCHUETZTE_ART_ABSCHNITT");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + VERMEIDUNGSGRUPPE_ABSCHNITT.getID() + ", u."
+                        + VERMEIDUNGSGRUPPE_ABSCHNITT.getPrimaryKey()
+                        + " from "
+                        + VERMEIDUNGSGRUPPE_ABSCHNITT.getTableName()
+                        + " u, verbreitungsraum_geschuetzte_art_abschnitt route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.abschnitt = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Verbreitungsraum: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            // Passe die Groessen der Verbreitungsraeume an die Groesse des GUP an. Da keine Verknuepfung zwischen
+            // den Verbreitungsraeumen und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
             adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
 
             return metaObjects;
@@ -2006,15 +2761,64 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         + ENTWICKLUNGSZIEL.getPrimaryKey()
                         + " from "
                         + ENTWICKLUNGSZIEL.getTableName()
-                        + " u, station_linie sl, station von, station bis, route r "
-                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + " u, entwicklungsziel_route_entwicklungsziel route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.entwicklungsziel = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
                         + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and ((" + (Double)input.get(0) + " >= von.wert and " + (Double)input.get(0)
-                        + " < bis.wert) OR "
-                        + "             (" + (Double)input.get(1) + " > von.wert AND " + (Double)input.get(1)
-                        + " <= bis.wert))"; // NOI18N
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request for Entwicklungsziel: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
+
+            return metaObjects;
+        }
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class UnterhaltungshinweiseCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final MetaClass GUP_POI = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "GUP_poi");
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
+         *                 Reihenfolge
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "select " + GUP_POI.getID() + ", u."
+                        + GUP_POI.getPrimaryKey()
+                        + " from "
+                        + GUP_POI.getTableName()
+                        + " u, gup_poi_route route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.id = u.poi_route and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + "      and r.gwk = " + String.valueOf(input.get(2))
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for Gup_POIs: " + query);
             }
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
             adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
@@ -2054,13 +2858,14 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         + UNTERHALTUNGSERFORDERNIS.getPrimaryKey()
                         + " from "
                         + UNTERHALTUNGSERFORDERNIS.getTableName()
-                        + " u, station_linie sl, station von, station bis, route r "
-                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
+                        + " u, gup_unterhaltungserfordernis_route_unterhaltungserfordernis route, station_linie sl, station von, station bis, route r "
+                        + "WHERE route.unterhaltungserfordernis = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
                         + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and ((" + (Double)input.get(0) + " >= von.wert and " + (Double)input.get(0)
-                        + " < bis.wert) OR "
-                        + "             (" + (Double)input.get(1) + " > von.wert AND " + (Double)input.get(1)
-                        + " <= bis.wert))"; // NOI18N
+                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
+                        + ") OR "
+                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
+                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
+                        + "))"; // NOI18N
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request for Unterhaltungserfordernisse: " + query);
             }
@@ -2098,6 +2903,49 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             final Collection resQB = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), searchQB);
             return (ArrayList<ArrayList>)resQB;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class MassnahmenListListener extends MassnBezugListListener {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new MassnahmenListListener object.
+         *
+         * @param  kindId                  DOCUMENT ME!
+         * @param  cidsBean                DOCUMENT ME!
+         * @param  collectionPropertyName  DOCUMENT ME!
+         */
+        public MassnahmenListListener(final int kindId, final CidsBean cidsBean, final String collectionPropertyName) {
+            super(kindId, cidsBean, collectionPropertyName);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void listElementsAdded(final ObservableList list, final int index, final int length) {
+            super.listElementsAdded(list, index, length);
+
+            if (length == 1) {
+                final CidsBean los = (CidsBean)cidsBean.getProperty("los");
+
+                if (los != null) {
+                    final CidsBean bean = (CidsBean)list.get(index);
+                    try {
+                        bean.setProperty("los", los);
+                    } catch (Exception e) {
+                        LOG.error("Error while assigning the los object", e);
+                    }
+                }
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         }
     }
 }

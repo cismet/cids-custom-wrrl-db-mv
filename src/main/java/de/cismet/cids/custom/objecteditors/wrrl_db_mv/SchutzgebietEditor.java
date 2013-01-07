@@ -69,7 +69,8 @@ public class SchutzgebietEditor extends javax.swing.JPanel implements CidsBeanRe
      * @param  readOnly  DOCUMENT ME!
      */
     public SchutzgebietEditor(final boolean readOnly) {
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 

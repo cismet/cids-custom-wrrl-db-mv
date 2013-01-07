@@ -14,21 +14,28 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.PinstripePainter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
 import java.beans.PropertyChangeEvent;
 
-import javax.swing.JMenuItem;
-import javax.swing.event.PopupMenuEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JOptionPane;
+
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeEditor;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
@@ -37,7 +44,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class MassnahmenBandMember extends LineBandMember {
+public class MassnahmenBandMember extends LineBandMember implements CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -45,25 +52,34 @@ public class MassnahmenBandMember extends LineBandMember {
             WRRLUtil.DOMAIN_NAME,
             "gup_massnahmenart");
 
-    //~ Constructors -----------------------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
-    /**
-     * Creates new form MassnahmenBandMember.
-     *
-     * @param  parent  DOCUMENT ME!
-     */
-    public MassnahmenBandMember(final MassnahmenBand parent) {
-        super(parent);
-    }
+    private List<String> errorList;
+    private UnterhaltungsmaßnahmeValidator.ValidationResult res;
+    private UnterhaltungsmaßnahmeValidator uv;
+
+    //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
      *
      * @param  parent    DOCUMENT ME!
      * @param  readOnly  DOCUMENT ME!
+     * @param  uv        DOCUMENT ME!
      */
-    public MassnahmenBandMember(final MassnahmenBand parent, final boolean readOnly) {
+    public MassnahmenBandMember(final MassnahmenBand parent,
+            final boolean readOnly,
+            final UnterhaltungsmaßnahmeValidator uv) {
         super(parent, readOnly);
+        this.uv = uv;
+
+        try {
+            new CidsBeanDropTarget(this);
+        } catch (final Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+            }
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -71,7 +87,68 @@ public class MassnahmenBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("massnahme.name") + "");
+        setToolTip();
+
+        validateBean();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  uv  DOCUMENT ME!
+     */
+    public void setUnterhaltungsmassnahmeValidator(final UnterhaltungsmaßnahmeValidator uv) {
+        this.uv = uv;
+
+        validateBean();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void validateBean() {
+        if (uv != null) {
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final List<String> errorList = new ArrayList<String>();
+                        final UnterhaltungsmaßnahmeValidator.ValidationResult res = uv.validate(
+                                getCidsBean(),
+                                errorList);
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    MassnahmenBandMember.this.errorList = errorList;
+                                    MassnahmenBandMember.this.res = res;
+                                    determineBackgroundColour();
+                                    setToolTip();
+                                }
+                            });
+                    }
+                }).start();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setToolTip() {
+        if ((res == null) || (res != UnterhaltungsmaßnahmeValidator.ValidationResult.error)) {
+            setToolTipText(bean.getProperty("massnahme.name") + "");
+        } else {
+            final StringBuilder text = new StringBuilder("<html>" + bean.getProperty("massnahme.name"));
+
+            if (errorList != null) {
+                for (final String tmp : errorList) {
+                    text.append(tmp).append("<br />");
+                }
+            }
+            text.append("</html>");
+            setToolTipText(bean.getProperty("massnahme.name") + "");
+        }
     }
 
     /**
@@ -80,70 +157,26 @@ public class MassnahmenBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.color") == null)) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
         final String color = (String)bean.getProperty("massnahme.color");
 
         if (color != null) {
             try {
-                setBackgroundPainter(new MattePainter(Color.decode(color)));
+                if ((res == null) || (res != UnterhaltungsmaßnahmeValidator.ValidationResult.error)) {
+                    setBackgroundPainter(new MattePainter(Color.decode(color)));
+                } else {
+                    setBackgroundPainter(new CompoundPainter(
+                            new MattePainter(Color.decode(color)),
+                            new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+                }
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
-                setDefaultBackgound();
+                setDefaultBackground();
             }
         }
-//        switch (action) {
-//            case 1: {
-//                // Mahd mit Mäh-, Harkkombination
-//                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
-//                break;
-//            }
-//            case 2: {
-//                // Mahd mit Schlägelmähwerk
-//                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
-//                break;
-//            }
-//            case 3: {
-//                // Mähkorb
-//                setBackgroundPainter(new MattePainter(new Color(69, 173, 168)));
-//                break;
-//            }
-//            case 4: {
-//                // Handmahd
-//                setBackgroundPainter(new MattePainter(new Color(229, 252, 194)));
-//
-//                break;
-//            }
-//            case 5: {
-//                // Mähboot
-//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(157, 224, 173)), stripes));
-//                break;
-//            }
-//            case 6: {
-//                // Grundräumung
-//                setBackgroundPainter(new MattePainter(new Color(89, 79, 79)));
-//                break;
-//            }
-//            case 7: {
-//                // Mähboot/Mähbalken
-//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(69, 173, 168)), stripes));
-//                break;
-//            }
-//            case 8: {
-//                // Mähwerk
-//                setBackgroundPainter(new MattePainter(new Color(84, 121, 128)));
-//                break;
-//            }
-//            case 9: {
-//                // Handmahd/Mähboot
-//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
-//                break;
-//            }
-//            default: {
-//                setBackgroundPainter(new CompoundPainter(new MattePainter(new Color(229, 252, 194)), stripes));
-//            }
-//        }
+
         unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
@@ -201,7 +234,9 @@ public class MassnahmenBandMember extends LineBandMember {
         if (evt.getPropertyName().equals("massnahme")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("massnahme.name") + "");
+            setToolTip();
+
+            validateBean();
         } else {
             super.propertyChange(evt);
         }
@@ -219,5 +254,37 @@ public class MassnahmenBandMember extends LineBandMember {
     @Override
     protected CidsBean cloneBean(final CidsBean bean) throws Exception {
         return CidsBeanSupport.cloneCidsBean(bean, false);
+    }
+
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if (isReadOnly()) {
+            return;
+        }
+
+        final CidsBean cidsBean = getCidsBean();
+
+        if (cidsBean != null) {
+            for (final CidsBean bean : beans) {
+                if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_massnahmenart")) { // NOI18N
+                    try {
+                        if (GupUnterhaltungsmassnahmeEditor.supportsKompartiment(
+                                        bean,
+                                        ((MassnahmenBand)getParentBand()).getKompartiment())) {
+                            cidsBean.setProperty("massnahme", bean);
+                            GupUnterhaltungsmassnahmeEditor.getHistoryModel().addElement(bean);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                this,
+                                "Die ausgewählte Maßnahme ist für das aktuelle Kompartiment nicht gültig.",
+                                "Ungültige Maßnahme",
+                                JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error while saving the new massnahme property", e);
+                    }
+                }
+            }
+        }
     }
 }

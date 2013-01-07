@@ -17,6 +17,7 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -65,16 +66,18 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             HydrologRouteEditor.class);
-    private static final String GUP_ENTWICKLUNGSZIEL = "gup_hydrolog";
+    private static final String GUP_HYDROLOGIE = "gup_hydrolog";
 
     //~ Instance fields --------------------------------------------------------
 
     private HydrologRWBand hydrologieband = new HydrologRWBand(
             "Hydrologie",
-            GUP_ENTWICKLUNGSZIEL);
+            GUP_HYDROLOGIE);
     private WKBand wkband;
+    private VermessungsbandHelper vermessungsband;
+    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private final JBand jband;
-    private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
+    private final BandModelListener modelListener = new HydrologieBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private GupHydrologEditor hydrologieEditor;
@@ -89,10 +92,13 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton jbApply;
+    private javax.swing.JButton jbApply1;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblSubTitle;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JPanel panApply;
+    private javax.swing.JPanel panApplyBand;
     private javax.swing.JPanel panBand;
     private javax.swing.JPanel panControls;
     private javax.swing.JPanel panEmpty;
@@ -104,7 +110,9 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panNew;
+    private javax.swing.JPanel panVermessung;
     private javax.swing.JSlider sldZoom;
+    private javax.swing.JToggleButton togApplyStats;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -137,10 +145,22 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         switchToForm("empty");
         lblHeading.setText("Allgemeine Informationen");
         panHydrolog.add(hydrologieEditor, BorderLayout.CENTER);
+        panVermessung.add(vermessungsEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
 
         sldZoom.setPaintTrack(false);
+        if (!readOnly) {
+            vermessungsband = new VermessungsbandHelper(
+                    jband,
+                    modelListener,
+                    panBand,
+                    panApplyBand,
+                    panApply,
+                    togApplyStats);
+        } else {
+            togApplyStats.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -174,6 +194,9 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         lblHeading.setText("");
 
         if (cidsBean != null) {
+            if (!readOnly) {
+                vermessungsband.setCidsBean(cidsBean);
+            }
             if (cidsBean.getProperty("linie") == null) {
                 panBand.removeAll();
                 panBand.add(panNew, BorderLayout.CENTER);
@@ -198,6 +221,9 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         sbm.setMin(from);
         sbm.setMax(till);
         wkband = new WKBand(from, till);
+        if (!readOnly) {
+            vermessungsband.setVwkBand(new WKBand(sbm.getMin(), sbm.getMax()));
+        }
         jband.setMinValue(from);
         jband.setMaxValue(till);
         hydrologieband.setRoute(route);
@@ -207,33 +233,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
         lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
-
-                @Override
-                protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    final CidsServerSearch searchWK = new WkSearchByStations(
-                            sbm.getMin(),
-                            sbm.getMax(),
-                            String.valueOf(route.getProperty("gwk")));
-
-                    final Collection resWK = SessionManager.getProxy()
-                                .customServerSearch(SessionManager.getSession().getUser(), searchWK);
-                    return (ArrayList<ArrayList>)resWK;
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final ArrayList<ArrayList> res = get();
-                        wkband.setWK(res);
-                        sbm.insertBand(wkband, 0);
-                        ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
-                        updateUI();
-                    } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Wasserkoerper", e);
-                    }
-                }
-            });
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband, vermessungsband);
     }
 
     @Override
@@ -256,12 +256,16 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         panNew = new javax.swing.JPanel();
         linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
         jbApply = new javax.swing.JButton();
+        panApply = new javax.swing.JPanel();
+        jbApply1 = new javax.swing.JButton();
+        panApplyBand = new javax.swing.JPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         panHydrolog = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
+        panVermessung = new javax.swing.JPanel();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -273,6 +277,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         panBand = new javax.swing.JPanel();
+        togApplyStats = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -314,6 +319,34 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNew.add(jbApply, gridBagConstraints);
 
+        panApply.setOpaque(false);
+        panApply.setLayout(new java.awt.GridBagLayout());
+
+        jbApply1.setText(org.openide.util.NbBundle.getMessage(HydrologRouteEditor.class, "GupGewaesserabschnitt")); // NOI18N
+        jbApply1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbApply1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
+        panApply.add(jbApply1, gridBagConstraints);
+
+        panApplyBand.setOpaque(false);
+        panApplyBand.setPreferredSize(new java.awt.Dimension(300, 100));
+        panApplyBand.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panApply.add(panApplyBand, gridBagConstraints);
+
         setMinimumSize(new java.awt.Dimension(1050, 700));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1050, 700));
@@ -343,6 +376,10 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
         panInfoContent.add(panEmpty, "empty");
+
+        panVermessung.setOpaque(false);
+        panVermessung.setLayout(new java.awt.BorderLayout());
+        panInfoContent.add(panVermessung, "vermessung");
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -440,6 +477,22 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weighty = 1.0;
         panHeader.add(panBand, gridBagConstraints);
 
+        togApplyStats.setText("Vermessen");
+        togApplyStats.setPreferredSize(new java.awt.Dimension(117, 25));
+        togApplyStats.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    togApplyStatsActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
+        panHeader.add(togApplyStats, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -493,6 +546,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
+        vermessungsband.setZoomFactor(zoom);
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -505,11 +559,51 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         panBand.add(jband, BorderLayout.CENTER);
         setNamesAndBands();
         linearReferencedLineEditor.dispose();
+        if (!readOnly) {
+            vermessungsband.showRoute();
+            togApplyStats.setEnabled(true);
+        }
     }                                                                           //GEN-LAST:event_jbApplyActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
+        if (togApplyStats.isSelected()) {
+            vermessungsband.showVermessungsband();
+            panInfo.setPreferredSize(new Dimension(640, 400));
+            panInfo.setMinimumSize(new Dimension(640, 400));
+        } else {
+            vermessungsband.hideVermessungsband();
+            panInfo.setPreferredSize(new Dimension(640, 460));
+            panInfo.setMinimumSize(new Dimension(640, 460));
+        }
+        updateUI();
+        repaint();
+    }                                                                                 //GEN-LAST:event_togApplyStatsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
+        final HydrologRWBand[] bands = new HydrologRWBand[1];
+        bands[0] = hydrologieband;
+        vermessungsband.applyStats(this, bands, GUP_HYDROLOGIE);
+        panInfo.setPreferredSize(new Dimension(640, 460));
+        panInfo.setMinimumSize(new Dimension(640, 460));
+    }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     @Override
     public void dispose() {
+        vermessungsEditor.dispose();
         hydrologieEditor.dispose();
+        if (!readOnly) {
+            vermessungsband.dispose();
+        }
         sbm.removeBandModelListener(modelListener);
     }
 
@@ -550,6 +644,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
+        vermessungsband.editorClosed(event);
     }
 
     @Override
@@ -564,7 +659,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
      *
      * @version  $Revision$, $Date$
      */
-    class GupGewaesserabschnittBandModelListener implements BandModelListener {
+    class HydrologieBandModelListener implements BandModelListener {
 
         //~ Methods ------------------------------------------------------------
 
@@ -574,8 +669,15 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
         @Override
         public void bandModelSelectionChanged(final BandModelEvent e) {
-            final BandMember bm = jband.getSelectedBandMember();
-            jband.setRefreshAvoided(true);
+            BandMember bm;
+
+            if (togApplyStats.isSelected()) {
+                bm = vermessungsband.getSelectedMember();
+                vermessungsband.setRefreshAvoided(true);
+            } else {
+                bm = jband.getSelectedBandMember();
+                jband.setRefreshAvoided(true);
+            }
             hydrologieEditor.dispose();
 
             if (bm != null) {
@@ -592,14 +694,25 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
                             "hydrologien");
                     hydrologieEditor.setOthers(otherBeans);
                     hydrologieEditor.setCidsBean(((HydrologRWBandMember)bm).getCidsBean());
+                } else if (bm instanceof VermessungsbandMember) {
+                    switchToForm("vermessung");
+                    lblHeading.setText("Vermessungselement");
+                    final List<CidsBean> others = vermessungsband.getAllMembers();
+                    vermessungsEditor.setOthers(others);
+                    vermessungsEditor.setCidsBean(((VermessungsbandMember)bm).getCidsBean());
                 }
             } else {
                 switchToForm("empty");
                 lblHeading.setText("");
             }
 
-            jband.setRefreshAvoided(false);
-            jband.bandModelChanged(null);
+            if (togApplyStats.isSelected()) {
+                vermessungsband.setRefreshAvoided(false);
+                vermessungsband.bandModelChanged();
+            } else {
+                jband.setRefreshAvoided(false);
+                jband.bandModelChanged(null);
+            }
         }
 
         @Override

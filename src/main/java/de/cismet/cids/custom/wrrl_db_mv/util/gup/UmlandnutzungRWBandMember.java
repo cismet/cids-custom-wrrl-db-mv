@@ -89,83 +89,23 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("art") == null) {
-            setDefaultBackgound();
+        if ((bean.getProperty("art") == null) || (bean.getProperty("art.color") == null)) {
+            setDefaultBackground();
             return;
         }
-        final CidsBean artBean = (CidsBean)bean.getProperty("art");
-        final String query = "select " + OBERGRUPPE_ART.getID() + "," + OBERGRUPPE_ART.getPrimaryKey() + " from "
-                    + OBERGRUPPE_ART.getTableName(); // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-        int action = -1;
 
-        for (final MetaObject tmp : metaObjects) {
-            final List<CidsBean> beans = tmp.getBean().getBeanCollectionProperty("gruppen");
-            if ((beans != null) && beans.contains(artBean)) {
-                action = tmp.getId();
-                break;
+        final String color = (String)bean.getProperty("art.color");
+
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackground();
             }
         }
 
-        switch (action) {
-            case 1: {
-                // Gebaeude und Freiflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
-                break;
-            }
-            case 2: {
-                // Betriebsflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
-                break;
-            }
-            case 3: {
-                // Erholungsflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
-                break;
-            }
-            case 4: {
-                // Verkehrsflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
-
-                break;
-            }
-            case 5: {
-                // Acker
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
-            }
-            case 6: {
-                // Gruenland
-                unselectedBackgroundPainter = (new MattePainter(new Color(0, 255, 0)));
-                break;
-            }
-            case 7: {
-                // Sonderkultur
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
-            }
-            case 8: {
-                // LF Sonstige
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
-            }
-            case 9: {
-                // waldflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(51, 151, 51)));
-            }
-            case 10: {
-                // Wasserflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(79, 131, 189)));
-            }
-            case 11: {
-                // Sonstige Flaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
-            }
-            default: {
-                // Sonstige Flaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
-            }
-        }
+        unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
@@ -180,6 +120,97 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
                     2f,
                     new Color(50, 50, 50, 100)));
         setBackgroundPainter(unselectedBackgroundPainter);
+//        if (bean.getProperty("art") == null) {
+//            setDefaultBackground();
+//            return;
+//        }
+//        final CidsBean artBean = (CidsBean)bean.getProperty("art");
+//        final String query = "select " + OBERGRUPPE_ART.getID() + "," + OBERGRUPPE_ART.getPrimaryKey() + " from "
+//                    + OBERGRUPPE_ART.getTableName(); // NOI18N
+//        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+//        int action = -1;
+//
+//        for (final MetaObject tmp : metaObjects) {
+//            final List<CidsBean> beans = tmp.getBean().getBeanCollectionProperty("gruppen");
+//            if ((beans != null) && beans.contains(artBean)) {
+//                action = tmp.getId();
+//                break;
+//            }
+//        }
+//
+//        switch (action) {
+//            case 1: {
+//                // Gebaeude und Freiflaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
+//                break;
+//            }
+//            case 2: {
+//                // Betriebsflaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
+//                break;
+//            }
+//            case 3: {
+//                // Erholungsflaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
+//                break;
+//            }
+//            case 4: {
+//                // Verkehrsflaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
+//
+//                break;
+//            }
+//            case 5: {
+//                // Acker
+//                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
+//                break;
+//            }
+//            case 6: {
+//                // Gruenland
+//                unselectedBackgroundPainter = (new MattePainter(new Color(0, 255, 0)));
+//                break;
+//            }
+//            case 7: {
+//                // Sonderkultur
+//                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
+//                break;
+//            }
+//            case 8: {
+//                // LF Sonstige
+//                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
+//                break;
+//            }
+//            case 9: {
+//                // waldflaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(51, 151, 51)));
+//            }
+//            case 10: {
+//                // Wasserflaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(79, 131, 189)));
+//            }
+//            case 11: {
+//                // Sonstige Flaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
+//            }
+//            default: {
+//                // Sonstige Flaechen
+//                unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
+//            }
+//        }
+//        selectedBackgroundPainter = new CompoundPainter(
+//                unselectedBackgroundPainter,
+//                new RectanglePainter(
+//                    3,
+//                    3,
+//                    3,
+//                    3,
+//                    3,
+//                    3,
+//                    true,
+//                    new Color(100, 100, 100, 100),
+//                    2f,
+//                    new Color(50, 50, 50, 100)));
+//        setBackgroundPainter(unselectedBackgroundPainter);
     }
 
     /**

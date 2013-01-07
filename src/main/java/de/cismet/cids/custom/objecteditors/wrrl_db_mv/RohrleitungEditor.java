@@ -176,7 +176,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -315,7 +315,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         scpBemerkung.setPreferredSize(new java.awt.Dimension(500, 75));
 
         taBemerkung.setColumns(20);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taBemerkung.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -624,6 +624,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         jCheckBox1.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
                 "RohrleitungEditor.jCheckBox1.text")); // NOI18N
+        jCheckBox1.setContentAreaFilled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,

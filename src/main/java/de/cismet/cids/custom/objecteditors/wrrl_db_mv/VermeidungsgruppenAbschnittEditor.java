@@ -70,7 +70,8 @@ public class VermeidungsgruppenAbschnittEditor extends javax.swing.JPanel implem
      * @param  readOnly  DOCUMENT ME!
      */
     public VermeidungsgruppenAbschnittEditor(final boolean readOnly) {
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 
