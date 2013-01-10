@@ -105,6 +105,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerProvider;
+import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
@@ -136,7 +139,10 @@ import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class FotodokumentationEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class FotodokumentationEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    BeanInitializerProvider,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -533,8 +539,12 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         this.cidsBean = cidsBean;
-        refreshWkFg();
+        cidsBean.addPropertyChangeListener(this);
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
@@ -1788,6 +1798,43 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     @Override
     public void setTitle(final String title) {
         lblTitle.setText(title);
+    }
+
+    @Override
+    public BeanInitializer getBeanInitializer() {
+        return new DefaultBeanInitializer(cidsBean) {
+
+                @Override
+                protected void processSimpleProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Object simpleValueToProcess) throws Exception {
+                    if (propertyName.equals("av_user") || propertyName.equals("av_date")) {
+                        return;
+                    }
+                    super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+                }
+
+//                @Override
+//                protected void processArrayProperty(final CidsBean beanToInit,
+//                        final String propertyName,
+//                        final Collection<CidsBean> arrayValueToProcess) throws Exception {
+//                    return;
+//                }
+
+                @Override
+                protected void processComplexProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final CidsBean complexValueToProcess) throws Exception {
+                    return;
+                }
+            };
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("wk_fg")) {
+            refreshWkFg();
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------

@@ -40,12 +40,15 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JComponent;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -53,6 +56,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerProvider;
+import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -76,7 +82,9 @@ import de.cismet.tools.gui.FooterComponentProvider;
  */
 public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRenderer,
     EditorSaveListener,
-    FooterComponentProvider {
+    FooterComponentProvider,
+    BeanInitializerProvider,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -359,7 +367,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         this.cidsBean = cidsBean;
+        cidsBean.addPropertyChangeListener(this);
+
         if (cidsBean != null) {
             try {
                 cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
@@ -384,15 +397,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                 }
             }
 
-            updateQbwId();
-            // aus Performancegründen nicht in wertChanged
-            CismetThreadPool.execute(new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            updateWaKoerper();
-                        }
-                    }));
+            refreshReadOnlyFields();
 
             querbauwerkePanOne.setCidsBean(cidsBean);
             querbauwerkePanTwo.setCidsBean(cidsBean);
@@ -407,6 +412,21 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             tpMain.setEnabledAt(3, QuerbauwerkeEditor.showFishPanel(cidsBean));
             zoomToFeatures();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshReadOnlyFields() {
+        updateQbwId();
+        // aus Performancegründen nicht in wertChanged
+        CismetThreadPool.execute(new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        updateWaKoerper();
+                    }
+                }));
     }
 
     /**
@@ -659,5 +679,107 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    @Override
+    public BeanInitializer getBeanInitializer() {
+        return new DefaultBeanInitializer(cidsBean) {
+
+                private final String[] IGNORED_SIMPLE_TYPES = {
+                        "av_user",
+                        "av_date",
+                        "anlagename",
+                        "massn_id",
+                        "zurueckgebaut",
+                        "foto",
+                        "starr_ander",
+                        "wehr_andere",
+                        "info_quel",
+                        "sqa_id",
+                        "bemerk_alt",
+                        "hb",
+                        "b_index1",
+                        "b_unio",
+                        "b_rhithral",
+                        "vorrang",
+                        "qbw_anz3a",
+                        "up_bem",
+                        "endkontr",
+                        "bereich_o",
+                        "b_aal",
+                        "b_stoer",
+                        "b_fna",
+                        "b_lachs",
+                        "b_mai",
+                        "b_mf",
+                        "b_mna",
+                        "b_schnaep",
+                        "b_stint_w",
+                        "b_bf",
+                        "b_bna",
+                        "b_elritze",
+                        "b_groppe",
+                        "b_quappe",
+                        "b_rapfen",
+                        "b_stint_b",
+                        "b_wels",
+                        "b_zaehrte",
+                        "b_zope",
+                        "zuord_faa"
+                    };
+
+                {
+                    Arrays.sort(IGNORED_SIMPLE_TYPES);
+                }
+
+                @Override
+                protected void processSimpleProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Object simpleValueToProcess) throws Exception {
+                    if (Arrays.binarySearch(IGNORED_SIMPLE_TYPES, propertyName) >= 0) {
+                        return;
+                    }
+                    super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+                }
+
+                @Override
+                protected void processArrayProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Collection<CidsBean> arrayValueToProcess) throws Exception {
+                    final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
+                            beanToInit,
+                            propertyName);
+                    beans.clear();
+
+                    for (final CidsBean tmp : arrayValueToProcess) {
+                        beans.add(tmp);
+                    }
+                }
+
+                @Override
+                protected void processComplexProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final CidsBean complexValueToProcess) throws Exception {
+                    if (propertyName.equals("stat09") || propertyName.equals("stat09_bis")
+                                || propertyName.equals("massn_ref")
+                                || propertyName.equals("massn1") || propertyName.equals("massn2")
+                                || propertyName.equals("massn3") || propertyName.equalsIgnoreCase("foto_richtung")
+                                || propertyName.equals("starr") || propertyName.equalsIgnoreCase("wehr_1")
+                                || propertyName.equalsIgnoreCase("wehr_2") || propertyName.equalsIgnoreCase("oeko_dgk")
+                                || propertyName.equalsIgnoreCase("dgk_warum")) {
+                        return;
+                    }
+
+                    // flat copy
+                    beanToInit.setProperty(propertyName, complexValueToProcess);
+                }
+            };
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("stat09")) {
+            refreshReadOnlyFields();
+        }
     }
 }
