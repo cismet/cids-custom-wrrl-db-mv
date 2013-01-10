@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -34,6 +35,7 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.FgskKartierabschnittRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
@@ -44,6 +46,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerProvider;
+import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -63,11 +68,14 @@ import de.cismet.tools.gui.StaticSwingTools;
  */
 public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRenderer,
     EditorSaveListener,
-    FooterComponentProvider {
+    FooterComponentProvider,
+    PropertyChangeListener,
+    BeanInitializerProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient Logger LOG = Logger.getLogger(FgskKartierabschnittEditor.class);
+    private static FgskKartierabschnittEditor lastInstance = null;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -157,7 +165,16 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         this.cidsBean = cidsBean;
+        cidsBean.addPropertyChangeListener(this);
+
+        if (!readOnly) {
+            lastInstance = this;
+        }
+
         if (cidsBean != null) {
             fgskKartierabschnittKartierabschnitt1.setCidsBean(cidsBean);
             fgskKartierabschnittLaufentwicklung1.setCidsBean(cidsBean);
@@ -850,6 +867,72 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         if (selectedTabIndex == 7) {
             fgskKartierabschnittErgebnisse1.refreshGueteklasse();
         }
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equalsIgnoreCase("linie")) {
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refreshLabels();
+                    }
+                }).start();
+        }
+    }
+
+    @Override
+    public BeanInitializer getBeanInitializer() {
+        return new DefaultBeanInitializer(cidsBean) {
+
+                @Override
+                public void initializeBean(final CidsBean beanToInit) throws Exception {
+                    super.initializeBean(beanToInit);
+
+                    if (lastInstance != null) {
+                        lastInstance.setCidsBean(beanToInit);
+                    }
+                }
+
+                @Override
+                protected void processSimpleProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Object simpleValueToProcess) throws Exception {
+                    if (propertyName.equalsIgnoreCase("av_user") || propertyName.equalsIgnoreCase("av_date")
+                                || propertyName.equalsIgnoreCase("gewaesser_abschnitt")
+                                || propertyName.equalsIgnoreCase("foto_nr")) {
+                        return;
+                    }
+                    super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+                }
+
+                @Override
+                protected void processArrayProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Collection<CidsBean> arrayValueToProcess) throws Exception {
+                    final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
+                            beanToInit,
+                            propertyName);
+                    beans.clear();
+
+                    for (final CidsBean tmp : arrayValueToProcess) {
+                        beans.add(tmp);
+                    }
+                }
+
+                @Override
+                protected void processComplexProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final CidsBean complexValueToProcess) throws Exception {
+                    if (propertyName.equals("linie") || propertyName.equals("fliessrichtung_id")) {
+                        return;
+                    }
+
+                    // flat copy
+                    beanToInit.setProperty(propertyName, complexValueToProcess);
+                }
+            };
     }
 
     //~ Inner Classes ----------------------------------------------------------
