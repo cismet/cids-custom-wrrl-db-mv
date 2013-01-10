@@ -612,7 +612,9 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
-        vermessungsband.setZoomFactor(zoom);
+        if (vermessungsband != null) {
+            vermessungsband.setZoomFactor(zoom);
+        }
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**

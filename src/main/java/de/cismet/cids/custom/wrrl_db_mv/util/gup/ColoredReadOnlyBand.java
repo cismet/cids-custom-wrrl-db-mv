@@ -35,6 +35,7 @@ public class ColoredReadOnlyBand extends MinimumHeightBand implements CidsBeanCo
 
     private String colorProperty;
     private String tooltipProperty;
+    private boolean useBorder = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -64,6 +65,7 @@ public class ColoredReadOnlyBand extends MinimumHeightBand implements CidsBeanCo
         if (beans != null) {
             for (final CidsBean b : beans) {
                 final ColoredReadOnlyBandMember unrm = new ColoredReadOnlyBandMember();
+                unrm.setMemberBorder(useBorder);
                 try {
                     unrm.setCidsBean(b, getTooltipProperty(), getColorProperty());
                     addMember(unrm);
@@ -108,5 +110,23 @@ public class ColoredReadOnlyBand extends MinimumHeightBand implements CidsBeanCo
      */
     public void setTooltipProperty(final String tooltipProperty) {
         this.tooltipProperty = tooltipProperty;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the useBorder
+     */
+    public boolean isUseBorder() {
+        return useBorder;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  useBorder  the useBorder to set
+     */
+    public void setUseBorder(final boolean useBorder) {
+        this.useBorder = useBorder;
     }
 }

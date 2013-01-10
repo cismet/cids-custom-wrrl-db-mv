@@ -275,8 +275,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             null);
     private ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
             "Hydrologie",
-            "name_bezeichnung",
-            "name_bezeichnung.name");
+            null,
+            null);
     private UnterhaltungserfordernisBand unterhaltungserfordernisBand = new UnterhaltungserfordernisBand();
     private WKBand wkband;
     private QuerbauwerksBand querbauwerksband = new QuerbauwerksBand();
@@ -415,6 +415,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         umlandnutzerLinks.setEnabled(false);
         umlandnutzerRechts.setEnabled(false);
         hydrologieBand.setEnabled(false);
+        hydrologieBand.setUseBorder(true);
         querbauwerksband.setEnabled(false);
 
         rechtesUmfeldBand.setEnabled(false);
@@ -1892,7 +1893,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
-        vermessungsband.setZoomFactor(zoom);
+        if (vermessungsband != null) {
+            vermessungsband.setZoomFactor(zoom);
+        }
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
@@ -2324,7 +2327,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                                 .getVermeidungsgruppe());
                     verbreitungsraumEditor.setCidsBean(((VermeidungsgruppeReadOnlyBandMember)bm).getCidsBean());
                 } else if (bm instanceof ColoredReadOnlyBandMember) {
-                    if (((ColoredReadOnlyBandMember)bm).getColorProperty().equals("operatives_ziel")) {
+                    final String colorProp = ((ColoredReadOnlyBandMember)bm).getColorProperty();
+                    if ((colorProp != null) && colorProp.equals("operatives_ziel")) {
                         switchToForm("operativeZiele");
                         lblHeading.setText("Operatives Ziel");
 
@@ -2343,7 +2347,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         switchToForm("hydro");
                         lblHeading.setText("Hydrologie");
                         hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
-                    } else if (((ColoredReadOnlyBandMember)bm).getColorProperty().equals("name_bezeichnung")) {
+                    } else if ((colorProp != null) && colorProp.equals("name_bezeichnung")) {
                         switchToForm("entwicklungsziel");
                         lblHeading.setText("Entwicklungsziel");
                         entwicklungszielEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());

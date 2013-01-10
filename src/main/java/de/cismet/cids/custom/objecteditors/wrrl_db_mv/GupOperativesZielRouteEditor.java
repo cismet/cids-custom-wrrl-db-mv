@@ -449,9 +449,9 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panApply.add(panApplyBand, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1050, 800));
+        setMinimumSize(new java.awt.Dimension(1050, 700));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 800));
+        setPreferredSize(new java.awt.Dimension(1050, 700));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(640, 310));
@@ -648,7 +648,9 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
     private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
-        vermessungsband.setZoomFactor(zoom);
+        if (vermessungsband != null) {
+            vermessungsband.setZoomFactor(zoom);
+        }
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**

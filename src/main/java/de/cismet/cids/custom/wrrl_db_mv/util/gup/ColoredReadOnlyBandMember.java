@@ -91,7 +91,13 @@ public class ColoredReadOnlyBandMember extends AbschnittsinfoMember implements B
         super.setCidsBean(cidsBean);
         this.cidsBean = cidsBean;
         this.colorProperty = colorProperty;
-        setToolTipText(cidsBean.getProperty(tooltipProperty) + "");
+
+        if (tooltipProperty != null) {
+            setToolTipText(cidsBean.getProperty(tooltipProperty) + "");
+        } else {
+            setToolTipText(cidsBean.toString());
+        }
+
         determineBackgroundColour();
         setBackgroundPainter(unselectedBackgroundPainter);
     }
@@ -100,6 +106,24 @@ public class ColoredReadOnlyBandMember extends AbschnittsinfoMember implements B
      * DOCUMENT ME!
      */
     protected void determineBackgroundColour() {
+        if (getColorProperty() == null) {
+            setBackgroundPainter(new MattePainter(new Color(153, 204, 255)));
+            unselectedBackgroundPainter = getBackgroundPainter();
+            selectedBackgroundPainter = new CompoundPainter(
+                    unselectedBackgroundPainter,
+                    new RectanglePainter(
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        true,
+                        new Color(100, 100, 100, 100),
+                        2f,
+                        new Color(50, 50, 50, 100)));
+            return;
+        }
         if ((cidsBean.getProperty(getColorProperty()) == null)
                     || (cidsBean.getProperty(getColorProperty() + ".color") == null)) {
             setDefaultBackground();
