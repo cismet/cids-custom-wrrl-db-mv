@@ -16,22 +16,43 @@
 	<field name="massn_typ" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="revital" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="realisierung" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="wk_fg.wk_n" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band height="20">
+		<band height="80">
 			<staticText>
 				<reportElement x="0" y="0" width="802" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Maßnahmen]]></text>
+				<text><![CDATA[Maßnahmentabelle des Wasserkörpers]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="167" y="25" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.wk_n}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band/>
+		<band height="50"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="32">
