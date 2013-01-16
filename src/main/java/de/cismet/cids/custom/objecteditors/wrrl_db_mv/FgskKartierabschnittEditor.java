@@ -47,6 +47,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerForcePaste;
 import de.cismet.cids.editors.BeanInitializerProvider;
 import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.EditorClosedEvent;
@@ -884,58 +885,78 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public BeanInitializer getBeanInitializer() {
-        return new DefaultBeanInitializer(cidsBean) {
-
-                @Override
-                public void initializeBean(final CidsBean beanToInit) throws Exception {
-                    super.initializeBean(beanToInit);
-
-                    if (lastInstance != null) {
-                        lastInstance.setCidsBean(beanToInit);
-                    }
-                }
-
-                @Override
-                protected void processSimpleProperty(final CidsBean beanToInit,
-                        final String propertyName,
-                        final Object simpleValueToProcess) throws Exception {
-                    if (propertyName.equalsIgnoreCase("av_user") || propertyName.equalsIgnoreCase("av_date")
-                                || propertyName.equalsIgnoreCase("gewaesser_abschnitt")
-                                || propertyName.equalsIgnoreCase("foto_nr")) {
-                        return;
-                    }
-                    super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
-                }
-
-                @Override
-                protected void processArrayProperty(final CidsBean beanToInit,
-                        final String propertyName,
-                        final Collection<CidsBean> arrayValueToProcess) throws Exception {
-                    final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
-                            beanToInit,
-                            propertyName);
-                    beans.clear();
-
-                    for (final CidsBean tmp : arrayValueToProcess) {
-                        beans.add(tmp);
-                    }
-                }
-
-                @Override
-                protected void processComplexProperty(final CidsBean beanToInit,
-                        final String propertyName,
-                        final CidsBean complexValueToProcess) throws Exception {
-                    if (propertyName.equals("linie") || propertyName.equals("fliessrichtung_id")) {
-                        return;
-                    }
-
-                    // flat copy
-                    beanToInit.setProperty(propertyName, complexValueToProcess);
-                }
-            };
+        return new KartierabschnittInitializer(cidsBean);
     }
 
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class KartierabschnittInitializer extends DefaultBeanInitializer implements BeanInitializerForcePaste {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new KartierabschnittInitializer object.
+         *
+         * @param  cidsBean  DOCUMENT ME!
+         */
+        public KartierabschnittInitializer(final CidsBean cidsBean) {
+            super(cidsBean);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void initializeBean(final CidsBean beanToInit) throws Exception {
+            super.initializeBean(beanToInit);
+
+            if (lastInstance != null) {
+                lastInstance.setCidsBean(beanToInit);
+            }
+        }
+
+        @Override
+        protected void processSimpleProperty(final CidsBean beanToInit,
+                final String propertyName,
+                final Object simpleValueToProcess) throws Exception {
+            if (propertyName.equalsIgnoreCase("av_user") || propertyName.equalsIgnoreCase("av_date")
+                        || propertyName.equalsIgnoreCase("gewaesser_abschnitt")
+                        || propertyName.equalsIgnoreCase("foto_nr")) {
+                return;
+            }
+            super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+        }
+
+        @Override
+        protected void processArrayProperty(final CidsBean beanToInit,
+                final String propertyName,
+                final Collection<CidsBean> arrayValueToProcess) throws Exception {
+            final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
+                    beanToInit,
+                    propertyName);
+            beans.clear();
+
+            for (final CidsBean tmp : arrayValueToProcess) {
+                beans.add(tmp);
+            }
+        }
+
+        @Override
+        protected void processComplexProperty(final CidsBean beanToInit,
+                final String propertyName,
+                final CidsBean complexValueToProcess) throws Exception {
+            if (propertyName.equals("linie") || propertyName.equals("fliessrichtung_id")) {
+                return;
+            }
+
+            // flat copy
+            beanToInit.setProperty(propertyName, complexValueToProcess);
+        }
+    }
 
     /**
      * DOCUMENT ME!
