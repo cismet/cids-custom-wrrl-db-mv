@@ -145,7 +145,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private boolean readOnly = false;
     private boolean initialised = false;
     private TreePath treePath;
-    private TreeNode parentNode = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -695,7 +694,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 treePath = treePath.getParentPath();
             }
 
-            parentNode = ComponentRegistry.getRegistry().getCatalogueTree().getSelectedNode().getParent();
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
