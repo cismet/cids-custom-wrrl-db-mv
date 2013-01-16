@@ -1040,9 +1040,6 @@
           <Dimension value="[200, 20]"/>
         </Property>
       </Properties>
-      <BindingProperties>
-        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.verbleib}" target="cbVerbleib" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
-      </BindingProperties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbVerbleibItemStateChanged"/>
       </Events>
@@ -1097,9 +1094,6 @@
           <Dimension value="[200, 20]"/>
         </Property>
       </Properties>
-      <BindingProperties>
-        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.einsatzvariante}" target="cbEinsatz" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
-      </BindingProperties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbEinsatzItemStateChanged"/>
       </Events>
