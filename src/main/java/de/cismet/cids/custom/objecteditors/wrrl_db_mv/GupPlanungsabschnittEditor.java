@@ -602,7 +602,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 final ObjectTreeNode node = (ObjectTreeNode)dmtn.getParent();
 
                 try {
-                    if (!readOnly && (cidsBean.getProperty("gup") != null)) {
+                    if (!readOnly && (cidsBean.getProperty("gup") == null)) {
                         cidsBean.setProperty("gup", node.getMetaObject().getBean());
                     }
                 } catch (Exception e) {
