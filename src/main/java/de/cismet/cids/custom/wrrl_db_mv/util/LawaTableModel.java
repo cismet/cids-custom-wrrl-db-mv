@@ -13,18 +13,25 @@ package de.cismet.cids.custom.wrrl_db_mv.util;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+
 import Sirius.server.middleware.types.MetaClass;
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgLawaTypeSearch;
-import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-import de.cismet.cids.server.search.CidsServerSearch;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgLawaTypeSearch;
+
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 /**
  * DOCUMENT ME!
