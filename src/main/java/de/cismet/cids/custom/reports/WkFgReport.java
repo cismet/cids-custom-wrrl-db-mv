@@ -13,6 +13,8 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -135,6 +137,7 @@ public class WkFgReport {
     private static String getStationierungen(final CidsBean cidsBean) {
         String stationierungen = "";
         final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        final DecimalFormat df = new DecimalFormat(",##0");
         for (final CidsBean teil : teile) {
             final CidsBean linie = (CidsBean)teil.getProperty("linie");
             final CidsBean station_von = (CidsBean)linie.getProperty("von");
@@ -142,7 +145,7 @@ public class WkFgReport {
             final CidsBean station_bis = (CidsBean)linie.getProperty("bis");
             final Double wert_bis = (Double)station_bis.getProperty("wert");
 
-            stationierungen += wert_von + " - " + wert_bis + ", ";
+            stationierungen += df.format(wert_von) + " - " + df.format(wert_bis) + ", ";
         }
         if (!stationierungen.equals("")) {
             stationierungen = stationierungen.substring(0, stationierungen.length() - 2);
