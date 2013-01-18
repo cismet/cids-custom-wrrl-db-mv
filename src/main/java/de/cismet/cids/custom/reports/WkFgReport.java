@@ -15,6 +15,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
@@ -59,12 +60,16 @@ public class WkFgReport {
         reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
 
+        final HashMap parameters = new HashMap();
+        parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
+
         final ReportSwingWorker worker = new ReportSwingWorker(
                 beans,
                 reports,
                 true,
                 StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()),
-                CismapBroker.getInstance().getCismapFolderPath());
+                CismapBroker.getInstance().getCismapFolderPath(),
+                parameters);
         worker.execute();
     }
 
@@ -117,5 +122,31 @@ public class WkFgReport {
         }
 
         return collection;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  Stationierungen from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
+     */
+    private static String getStationierungen(final CidsBean cidsBean) {
+        String stationierungen = "";
+        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        for (final CidsBean teil : teile) {
+            final CidsBean linie = (CidsBean)teil.getProperty("linie");
+            final CidsBean station_von = (CidsBean)linie.getProperty("von");
+            final Double wert_von = (Double)station_von.getProperty("wert");
+            final CidsBean station_bis = (CidsBean)linie.getProperty("bis");
+            final Double wert_bis = (Double)station_bis.getProperty("wert");
+
+            stationierungen += wert_von + " - " + wert_bis + ", ";
+        }
+        if (!stationierungen.equals("")) {
+            stationierungen = stationierungen.substring(0, stationierungen.length() - 2);
+        }
+
+        return stationierungen;
     }
 }
