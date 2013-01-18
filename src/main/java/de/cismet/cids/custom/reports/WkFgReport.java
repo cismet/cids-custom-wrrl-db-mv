@@ -62,6 +62,7 @@ public class WkFgReport {
 
         final HashMap parameters = new HashMap();
         parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
+        parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
 
         final ReportSwingWorker worker = new ReportSwingWorker(
                 beans,
@@ -148,5 +149,30 @@ public class WkFgReport {
         }
 
         return stationierungen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  Gewaesserkennzahlen from a WK_FG as String, with the format "gwk, gwk, ... gwk"
+     */
+    private static String getGewaesserkennzahlen(final CidsBean cidsBean) {
+        String gewaesserkennzahlen = "";
+        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        for (final CidsBean teil : teile) {
+            final CidsBean linie = (CidsBean)teil.getProperty("linie");
+            final CidsBean station_von = (CidsBean)linie.getProperty("von");
+            final CidsBean route = (CidsBean)station_von.getProperty("route");
+            final Long gewaesserkennzahl = (Long)route.getProperty("gwk");
+
+            gewaesserkennzahlen += gewaesserkennzahl.toString() + ", ";
+        }
+        if (!gewaesserkennzahlen.equals("")) {
+            gewaesserkennzahlen = gewaesserkennzahlen.substring(0, gewaesserkennzahlen.length() - 2);
+        }
+
+        return gewaesserkennzahlen;
     }
 }

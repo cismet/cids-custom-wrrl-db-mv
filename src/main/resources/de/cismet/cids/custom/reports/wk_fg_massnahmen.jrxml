@@ -23,6 +23,7 @@
 		<defaultValueExpression><![CDATA["/home/jruiz/NetBeansProjects/svn/cids-custom-wrrl-db-mv/src/main/resources/de/cismet/cids/custom/reports/"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="STATIONIERUNGEN" class="java.lang.String"/>
+	<parameter name="GEWAESSERKENNZAHLEN" class="java.lang.String"/>
 	<field name="massn_id" class="java.lang.String"/>
 	<field name="massnahme" class="java.lang.String"/>
 	<field name="prioritaet" class="de.cismet.cids.dynamics.CidsBean"/>
@@ -145,7 +146,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GEWAESSERKENNZAHLEN}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="34" width="200" height="10"/>

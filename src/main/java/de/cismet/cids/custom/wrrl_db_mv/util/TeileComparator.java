@@ -11,8 +11,9 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util;
 
-import de.cismet.cids.dynamics.CidsBean;
 import java.util.Comparator;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
