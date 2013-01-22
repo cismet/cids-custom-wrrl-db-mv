@@ -37,6 +37,8 @@
 	<field name="realisierung" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="wk_fg.wk_n" class="java.lang.String"/>
 	<field name="wk_fg.wk_k" class="java.lang.String"/>
+	<field name="wk_fg.lawa_type.description" class="java.lang.String"/>
+	<field name="wk_fg.lawa_type.code" class="java.lang.Integer"/>
 	<background>
 		<band/>
 	</background>
@@ -163,7 +165,7 @@
 				<text><![CDATA[aggregierter LAWA - Typ: 
 ]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="200" y="34" width="200" height="10"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
@@ -175,7 +177,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.lawa_type.code} + " - " + $F{wk_fg.lawa_type.description}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="44" width="200" height="10"/>
