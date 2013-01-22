@@ -42,6 +42,7 @@
 	<field name="wk_fg.lawa_type.code" class="java.lang.Integer"/>
 	<field name="realisierung.name" class="java.lang.String"/>
 	<field name="stalu.value" class="java.lang.String"/>
+	<field name="wk_fg.bemerkung" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
@@ -598,7 +599,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.bemerkung}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<elementGroup>
@@ -628,7 +629,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 				</textField>
 				<elementGroup>
 					<staticText>
@@ -657,7 +658,7 @@ ung]]></text>
 						<textElement verticalAlignment="Middle">
 							<font size="6" isBold="false"/>
 						</textElement>
-						<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 					</textField>
 				</elementGroup>
 			</elementGroup>
@@ -688,7 +689,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<elementGroup>
@@ -718,7 +719,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<elementGroup>
@@ -748,7 +749,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 				</textField>
 				<elementGroup>
 					<staticText>
@@ -777,7 +778,7 @@ ung]]></text>
 						<textElement verticalAlignment="Middle">
 							<font size="6" isBold="false"/>
 						</textElement>
-						<textFieldExpression class="java.lang.String"><![CDATA["2 Niederschlagswassereinleitungen mit wasserrechtlicher Erlaubnis (rechts bei Stat. 123310, links bei 1455), 1 Abwassereinleitung (KA Vollrathsruhe rechts bei Stat. 123020); 3 Brücken, 6 Durchlässe, 15 Sohlenbauwerke, 2  Rohrleitungen \n 2 Niederschlagswassereinleitungen mit wasserrechtlicher Erlaubnis (rechts bei Stat. 123310, links bei 1455), 1 Abwassereinleitung (KA Vollrathsruhe rechts bei Stat. 123020); 3 Brücken, 6 Durchlässe, 15 Sohlenbauwerke, 2 Rohrleitungen"]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 					</textField>
 				</elementGroup>
 				<elementGroup>
@@ -807,7 +808,7 @@ ung]]></text>
 						<textElement verticalAlignment="Middle">
 							<font size="6" isBold="false"/>
 						</textElement>
-						<textFieldExpression class="java.lang.String"><![CDATA["Renaturierung von Fließgewässern und der angrenzenden Niederungsbereiche südwestlich des Malchiner Sees, Fördermittelantrag, Naturpark „Mecklenburgische Schweiz und Kummerower See, Limnologisches Gutachten Malchiner See, bioplan 2003"]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 					</textField>
 				</elementGroup>
 			</elementGroup>
@@ -838,7 +839,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<elementGroup>
@@ -868,7 +869,7 @@ ung]]></text>
 					<textElement verticalAlignment="Middle">
 						<font size="6" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<staticText>
