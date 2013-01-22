@@ -24,6 +24,7 @@
 	</parameter>
 	<parameter name="STATIONIERUNGEN" class="java.lang.String"/>
 	<parameter name="GEWAESSERKENNZAHLEN" class="java.lang.String"/>
+	<parameter name="LAWA-DETAILTYP" class="java.lang.String"/>
 	<field name="massn_id" class="java.lang.String"/>
 	<field name="massnahme" class="java.lang.String"/>
 	<field name="prioritaet" class="de.cismet.cids.dynamics.CidsBean"/>
@@ -39,6 +40,8 @@
 	<field name="wk_fg.wk_k" class="java.lang.String"/>
 	<field name="wk_fg.lawa_type.description" class="java.lang.String"/>
 	<field name="wk_fg.lawa_type.code" class="java.lang.Integer"/>
+	<field name="realisierung.name" class="java.lang.String"/>
+	<field name="stalu.value" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
@@ -177,7 +180,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.lawa_type.code} + " - " + $F{wk_fg.lawa_type.description}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.lawa_type.description} != null ? $F{wk_fg.lawa_type.code} + " - " + $F{wk_fg.lawa_type.description} : ""]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="44" width="200" height="10"/>
@@ -252,7 +255,7 @@
 				<text><![CDATA[LAWA - Detailtyp: 
 ]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="600" y="34" width="202" height="10"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
@@ -264,7 +267,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{LAWA-DETAILTYP}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="400" y="54" width="200" height="10"/>
@@ -446,7 +449,7 @@ ung]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_id}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_id}.split("_")[1]]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="200" y="0" width="25" height="16" isPrintWhenDetailOverflows="true"/>
@@ -541,7 +544,7 @@ ung]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="668" y="0" width="51" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["??? " + $F{stalu.value}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="719" y="0" width="41" height="16" isPrintWhenDetailOverflows="true"/>
@@ -551,7 +554,7 @@ ung]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="760" y="0" width="42" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung.name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
