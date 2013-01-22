@@ -209,7 +209,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="54" width="200" height="10"/>
@@ -238,7 +238,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["??? ist das die öklogische Einstufung?"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="400" y="34" width="200" height="10"/>
@@ -296,7 +296,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["guter ökologischer Zustand / guter chemischer Zustand"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["aktueller Zustand gefunden, aber nicht gewuenschter Zustand"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="600" y="14" width="202" height="10"/>
@@ -490,12 +490,12 @@ ung]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="250" y="0" width="89" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["aus Maßnahmenbeschreibung zu parsen"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="339" y="0" width="61" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["faehlt wohl weg"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="400" y="0" width="34" height="16" isPrintWhenDetailOverflows="true"/>
@@ -534,7 +534,7 @@ ung]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="553" y="0" width="47" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["aus Maßnahmenbeschreibung zu parsen"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="600" y="0" width="68" height="16" isPrintWhenDetailOverflows="true"/>
@@ -544,7 +544,7 @@ ung]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="668" y="0" width="51" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["??? " + $F{stalu.value}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["aus Maßnahmenbeschreibung zu parsen"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="719" y="0" width="41" height="16" isPrintWhenDetailOverflows="true"/>

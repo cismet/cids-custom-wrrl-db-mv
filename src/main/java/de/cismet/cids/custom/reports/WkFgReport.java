@@ -159,6 +159,8 @@ public class WkFgReport {
 
         return stationierungen;
     }
+    
+    
 
     /**
      * DOCUMENT ME!
@@ -190,7 +192,7 @@ public class WkFgReport {
      *
      * @param   cidsBean  DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @return  LAWA_Detailtyp from a WK_FG as String, with the format "typ1# (xx.x%), ... kein Typ (xx.x%)"
      */
     private static String getLawaDetailTyp(final CidsBean cidsBean) {
         final LawaTableModel model = new LawaTableModel();
