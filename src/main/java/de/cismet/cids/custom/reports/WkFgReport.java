@@ -159,8 +159,6 @@ public class WkFgReport {
 
         return stationierungen;
     }
-    
-    
 
     /**
      * DOCUMENT ME!
