@@ -17,9 +17,14 @@ import java.text.DecimalFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.LawaTableModel;
+import de.cismet.cids.custom.wrrl_db_mv.util.TeileComparator;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -65,6 +70,7 @@ public class WkFgReport {
         final HashMap parameters = new HashMap();
         parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
         parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
+        parameters.put("LAWA-DETAILTYP", getLawaDetailTyp(cidsBean));
 
         final ReportSwingWorker worker = new ReportSwingWorker(
                 beans,
@@ -177,5 +183,41 @@ public class WkFgReport {
         }
 
         return gewaesserkennzahlen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static String getLawaDetailTyp(final CidsBean cidsBean) {
+        final LawaTableModel model = new LawaTableModel();
+        model.setCidsBean(cidsBean);
+        final List<CidsBean> teile = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "teile");
+        if (teile != null) {
+            Collections.sort(teile, new TeileComparator());
+        }
+        model.setTeile(teile);
+        model.refreshData();
+
+        final int typIndex = 0;
+        final int anteilIndex = 1;
+        final int amountDifferentTypes = model.getRowCount();
+
+        String lawaDetailTyp = "";
+
+        for (int i = 0; i < (amountDifferentTypes - 1); i++) {
+            final String typ = (String)model.getValueAt(i, typIndex);
+            final String typ_number = typ.split("-")[0];
+            final String anteil = (String)model.getValueAt(i, anteilIndex);
+            lawaDetailTyp += typ_number + " (" + anteil + "%), ";
+        }
+        if (!lawaDetailTyp.equals("")) {
+            lawaDetailTyp = lawaDetailTyp.substring(0, lawaDetailTyp.length() - 2);
+        }
+
+        return lawaDetailTyp;
     }
 }
