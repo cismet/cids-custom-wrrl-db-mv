@@ -23,7 +23,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="500">
+		<band height="551">
 			<subreport>
 				<reportElement positionType="Float" x="0" y="0" width="555" height="50"/>
 				<subreportParameter name="map">
@@ -99,6 +99,11 @@
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_lawa.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="500" width="555" height="50"/>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_ges_zustand.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
