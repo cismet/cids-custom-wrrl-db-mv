@@ -7,6 +7,7 @@
 	<field name="pad_within" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="pad_stat" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="non_comp" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="evk" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -28,7 +29,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="64">
+		<band height="80">
 			<staticText>
 				<reportElement x="0" y="0" width="165" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
@@ -114,6 +115,17 @@
 				<reportElement x="445" y="16" width="110" height="16"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{non_comp}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="64" width="165" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<text><![CDATA[verändert/künstlich]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="165" y="64" width="110" height="16"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{evk}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
