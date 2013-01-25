@@ -8,6 +8,7 @@
 	<field name="wk_n" class="java.lang.String"/>
 	<field name="teile" class="java.util.Collection"/>
 	<field name="wk_group" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="evk" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -106,6 +107,17 @@
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_group}.getProperty("value").toString()]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="48" width="150" height="16"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{evk}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="48" width="115" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<text><![CDATA[verändert/künstlich]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
