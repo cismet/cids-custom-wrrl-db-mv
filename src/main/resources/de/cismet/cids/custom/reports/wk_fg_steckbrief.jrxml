@@ -7,6 +7,7 @@
 	<field name="wk_k" class="java.lang.String"/>
 	<field name="wk_n" class="java.lang.String"/>
 	<field name="teile" class="java.util.Collection"/>
+	<field name="wk_group" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -93,6 +94,18 @@
 				<reportElement x="0" y="60" width="555" height="375"/>
 				<imageExpression class="java.awt.Image"><![CDATA[$P{map}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="290" y="32" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2"/>
+				<textElement/>
+				<text><![CDATA[WK-Gruppe]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="32" width="150" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_group}.getProperty("value").toString()]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
