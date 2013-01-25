@@ -89,9 +89,13 @@
 		</conditionalStyle>
 	</style>
 	<field name="hydro_reg" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="hydro_reg_jahr" class="java.lang.Integer"/>
 	<field name="riv_cont" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="riv_cont_jahr" class="java.lang.Integer"/>
 	<field name="morph_cond" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="morph_jahr" class="java.lang.Integer"/>
 	<field name="hydromorph" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="hymo_gk_jahr" class="java.lang.Integer"/>
 	<background>
 		<band/>
 	</background>
@@ -113,9 +117,9 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="64">
+		<band height="80">
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="0" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -125,7 +129,7 @@
 				<text><![CDATA[Wasserhaushalt]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="32" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="48" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -135,7 +139,7 @@
 				<text><![CDATA[Morphologie]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="morphCol" x="131" y="32" width="425" height="16"/>
+				<reportElement style="morphCol" x="130" y="48" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -147,7 +151,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{morph_cond}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="32" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -157,7 +161,7 @@
 				<text><![CDATA[Durchgängigkeit]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="rivCol" x="131" y="16" width="425" height="16"/>
+				<reportElement style="rivCol" x="130" y="32" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -169,7 +173,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{riv_cont}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="48" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="64" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -179,7 +183,7 @@
 				<text><![CDATA[Hydromorphologie]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="hydromorphCol" x="131" y="48" width="425" height="16"/>
+				<reportElement style="hydromorphCol" x="130" y="64" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -191,7 +195,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{hydromorph}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="hydroCol" x="131" y="0" width="425" height="16"/>
+				<reportElement style="hydroCol" x="130" y="16" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -202,6 +206,74 @@
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{hydro_reg}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="hydroCol" x="465" y="16" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{hydro_reg_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="morphCol" x="465" y="48" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{morph_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="rivCol" x="465" y="32" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{riv_cont_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="hydromorphCol" x="465" y="64" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{hymo_gk_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="465" y="0" width="90" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jahr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="130" y="0" width="335" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Güteklasse]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

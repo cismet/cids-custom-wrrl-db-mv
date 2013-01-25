@@ -89,9 +89,13 @@
 		</conditionalStyle>
 	</style>
 	<field name="phyto" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="phyto_gk_jahr" class="java.lang.Integer"/>
 	<field name="mac_phyto" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="mac_phyto_gk_jahr" class="java.lang.Integer"/>
 	<field name="ben_inv" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="ben_inv_gk_jahr" class="java.lang.Integer"/>
 	<field name="fish" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="fish_gk_jahr" class="java.lang.Integer"/>
 	<field name="confidence" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
@@ -114,9 +118,9 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="80">
+		<band height="98">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -126,7 +130,7 @@
 				<text><![CDATA[Phytoplankton]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="32" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="48" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -136,7 +140,7 @@
 				<text><![CDATA[MZB]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="benCol" x="130" y="32" width="425" height="16"/>
+				<reportElement style="benCol" x="130" y="48" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -148,7 +152,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ben_inv}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="32" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -158,7 +162,7 @@
 				<text><![CDATA[Makrophyten]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="macCol" x="130" y="16" width="425" height="16"/>
+				<reportElement style="macCol" x="130" y="32" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -170,7 +174,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{mac_phyto}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="fishCol" x="130" y="48" width="425" height="16"/>
+				<reportElement style="fishCol" x="130" y="64" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -182,7 +186,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fish}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="48" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="64" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -192,7 +196,7 @@
 				<text><![CDATA[Fische]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="phytoCol" x="130" y="0" width="425" height="16"/>
+				<reportElement style="phytoCol" x="130" y="16" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -204,7 +208,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{phyto}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="64" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="80" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -214,7 +218,7 @@
 				<text><![CDATA[Verlässlichkeit]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="130" y="64" width="425" height="16"/>
+				<reportElement x="130" y="80" width="335" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -224,6 +228,74 @@
 				</box>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{confidence}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="130" y="0" width="335" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Güteklasse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="465" y="0" width="90" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jahr]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="phytoCol" x="465" y="16" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{phyto_gk_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="benCol" x="465" y="48" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ben_inv_gk_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="macCol" x="465" y="32" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mac_phyto_gk_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="fishCol" x="465" y="64" width="90" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fish_gk_jahr}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
