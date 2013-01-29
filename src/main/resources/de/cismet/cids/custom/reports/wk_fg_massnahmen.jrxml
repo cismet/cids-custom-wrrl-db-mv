@@ -328,81 +328,62 @@
 und Karte]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" x="68" y="0" width="132" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" x="68" y="0" width="282" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Maßnahmenbeschreibung und bedientes
 Entwicklungsziel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" x="200" y="0" width="50" height="20" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" x="350" y="0" width="50" height="20" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Stationierung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" x="200" y="20" width="25" height="45" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" x="350" y="20" width="25" height="45" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[von]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" x="225" y="20" width="25" height="45" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" x="375" y="20" width="25" height="45" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[bis]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="250" y="0" width="89" height="65" backcolor="#FFCC00"/>
-				<textElement/>
-				<text><![CDATA[Bemerkung und
-Anmerkungen zur
-Kostenermittlung]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="339" y="0" width="61" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="400" y="0" width="46" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Begründung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="400" y="0" width="34" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="446" y="0" width="43" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Priorität*
 (fachlich)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="434" y="0" width="41" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="489" y="0" width="46" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Priorität**
 (Ausführg.)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="475" y="0" width="40" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="535" y="0" width="55" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Priorität***]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="515" y="0" width="38" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="590" y="0" width="49" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Kosten
 (€)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="553" y="0" width="47" height="65" backcolor="#FFCC00"/>
-				<textElement/>
-				<text><![CDATA[Akzeptanz-
-analyse]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="600" y="0" width="68" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="639" y="0" width="68" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Finanzierungs- 
 möglichkeiten]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="668" y="0" width="51" height="65" backcolor="#FFCC00"/>
-				<textElement/>
-				<text><![CDATA[Zuständigkeit 
- Ausführung]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="719" y="0" width="41" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="707" y="0" width="51" height="65" backcolor="#FFCC00"/>
 				<textElement>
 					<font size="6"/>
 				</textElement>
@@ -417,7 +398,7 @@ anforder-
 ungen]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="760" y="0" width="42" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="758" y="0" width="44" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Termine
 Ausführ-
@@ -428,7 +409,7 @@ ung]]></text>
 	<detail>
 		<band height="16">
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="475" y="0" width="40" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="535" y="0" width="55" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -454,7 +435,7 @@ ung]]></text>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_id}.split("_")[1]]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="200" y="0" width="25" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="350" y="0" width="25" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -466,7 +447,7 @@ ung]]></text>
 				<textFieldExpression class="java.lang.Number"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="225" y="0" width="25" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="375" y="0" width="25" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -478,7 +459,7 @@ ung]]></text>
 				<textFieldExpression class="java.lang.Number"><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="68" y="0" width="101" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="68" y="0" width="251" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -490,27 +471,22 @@ ung]]></text>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{massnahme}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="250" y="0" width="89" height="16" isPrintWhenDetailOverflows="true"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["aus Maßnahmenbeschreibung zu parsen"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="339" y="0" width="61" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="400" y="0" width="46" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["faehlt wohl weg"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="400" y="0" width="34" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="446" y="0" width="43" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="434" y="0" width="41" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="489" y="0" width="46" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="169" y="0" width="31" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="319" y="0" width="31" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -522,7 +498,7 @@ ung]]></text>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ziele}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="515" y="0" width="38" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="590" y="0" width="49" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -534,27 +510,17 @@ ung]]></text>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$F{kosten}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="553" y="0" width="47" height="16" isPrintWhenDetailOverflows="true"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["aus Maßnahmenbeschreibung zu parsen"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="600" y="0" width="68" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="639" y="0" width="68" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="668" y="0" width="51" height="16" isPrintWhenDetailOverflows="true"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["aus Maßnahmenbeschreibung zu parsen"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="719" y="0" width="41" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="707" y="0" width="51" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="760" y="0" width="42" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="758" y="0" width="44" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung.name}]]></textFieldExpression>
 			</textField>
