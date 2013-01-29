@@ -43,6 +43,7 @@
 	<field name="realisierung.name" class="java.lang.String"/>
 	<field name="stalu.value" class="java.lang.String"/>
 	<field name="wk_fg.bemerkung" class="java.lang.String"/>
+	<field name="wk_fg.evk.name" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
@@ -239,7 +240,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["??? ist das die öklogische Einstufung?"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.evk.name}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="400" y="34" width="200" height="10"/>
