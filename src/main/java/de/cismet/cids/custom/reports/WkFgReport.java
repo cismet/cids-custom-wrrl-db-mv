@@ -220,4 +220,34 @@ public class WkFgReport {
 
         return lawaDetailTyp;
     }
+    
+    
+    
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    // TODO fuer jedes Teil ausfuehren, falls kein Bewirtschaftungsende gefunden, dann wird normales Ende der Linie
+    // benutzt
+    private Collection<CidsBean> getBewirtschaftungsende(final CidsBean cidsBean) {
+        try {
+            final MetaClass BEW_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "bewirtschaftungsende");
+
+            String query = "SELECT " + BEW_MC.getID() + ", b." + BEW_MC.getPrimaryKey() + " ";
+            query += "FROM " + BEW_MC.getTableName() + " b JOIN station s ON b.stat = s.id ";
+            query += "WHERE route = " + cidsBean.getProperty("linie.von.route") + " and s.wert > "
+                        + cidsBean.getProperty("linie.von.wert") + " and s.wert < "
+                        + cidsBean.getProperty("linie.bis.wert") + ";";
+
+            return getBeansFromQuery(query);
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.fatal("", ex);
+            }
+            return null;
+        }
+    }
 }
