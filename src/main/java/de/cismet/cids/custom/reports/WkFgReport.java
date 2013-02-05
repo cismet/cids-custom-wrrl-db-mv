@@ -13,6 +13,8 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import org.mortbay.log.Log;
+
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
@@ -71,6 +73,7 @@ public class WkFgReport {
         parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
         parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
         parameters.put("LAWA-DETAILTYP", getLawaDetailTyp(cidsBean));
+        parameters.put("BEWIRTSCHAFTUNGSBEREICHE", getBewirtschaftungsbereiche(cidsBean));
 
         final ReportSwingWorker worker = new ReportSwingWorker(
                 beans,
@@ -138,33 +141,6 @@ public class WkFgReport {
      *
      * @param   cidsBean  DOCUMENT ME!
      *
-     * @return  Stationierungen from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
-     */
-    private static String getStationierungen(final CidsBean cidsBean) {
-        String stationierungen = "";
-        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
-        final DecimalFormat df = new DecimalFormat(",##0");
-        for (final CidsBean teil : teile) {
-            final CidsBean linie = (CidsBean)teil.getProperty("linie");
-            final CidsBean station_von = (CidsBean)linie.getProperty("von");
-            final Double wert_von = (Double)station_von.getProperty("wert");
-            final CidsBean station_bis = (CidsBean)linie.getProperty("bis");
-            final Double wert_bis = (Double)station_bis.getProperty("wert");
-
-            stationierungen += df.format(wert_von) + " - " + df.format(wert_bis) + ", ";
-        }
-        if (!stationierungen.equals("")) {
-            stationierungen = stationierungen.substring(0, stationierungen.length() - 2);
-        }
-
-        return stationierungen;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   cidsBean  DOCUMENT ME!
-     *
      * @return  Gewaesserkennzahlen from a WK_FG as String, with the format "gwk, gwk, ... gwk"
      */
     private static String getGewaesserkennzahlen(final CidsBean cidsBean) {
@@ -220,27 +196,89 @@ public class WkFgReport {
 
         return lawaDetailTyp;
     }
-    
-    
-    
+
     /**
      * DOCUMENT ME!
      *
      * @param   cidsBean  DOCUMENT ME!
      *
+     * @return  Stationierungen from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
+     */
+    private static String getStationierungen(final CidsBean cidsBean) {
+        String stationierungen = "";
+        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        final DecimalFormat df = new DecimalFormat(",##0");
+        for (final CidsBean teil : teile) {
+            final CidsBean linie = (CidsBean)teil.getProperty("linie");
+            final CidsBean station_von = (CidsBean)linie.getProperty("von");
+            final Double wert_von = (Double)station_von.getProperty("wert");
+            final CidsBean station_bis = (CidsBean)linie.getProperty("bis");
+            final Double wert_bis = (Double)station_bis.getProperty("wert");
+
+            stationierungen += df.format(wert_von) + " - " + df.format(wert_bis) + ", ";
+        }
+        if (!stationierungen.equals("")) {
+            stationierungen = stationierungen.substring(0, stationierungen.length() - 2);
+        }
+
+        return stationierungen;
+    }
+
+    /**
+     * gets the Bewirtschaftungsbereiche from a WK_FG with format "von - bis, von - bis, ... von - bis". each
+     * Bewirtschaftungsbereich has usually the same von and bis stations as one Teil. Except it might finish earlier,
+     * but the starting station is always the same.
+     *
+     * @param   cidsBean  a WK_FG CidsBean
+     *
+     * @return  Bewirtschaftungsbereiche from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
+     */
+    private static String getBewirtschaftungsbereiche(final CidsBean cidsBean) {
+        String stationierungen = "";
+        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        final DecimalFormat df = new DecimalFormat(",##0");
+        for (final CidsBean teil : teile) {
+            final Double bewirtschaftung_von = (Double)teil.getProperty("linie.von.wert");
+
+            final Collection<CidsBean> bewirtschaftungsende_coll = getBewirtschaftungsende(teil);
+            Double bewirtschaftung_bis;
+
+            if (bewirtschaftungsende_coll.isEmpty()) {
+                bewirtschaftung_bis = (Double)teil.getProperty("linie.bis.wert");
+            } else if (bewirtschaftungsende_coll.size() == 1) {
+                final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.toArray(new CidsBean[0])[0];
+                bewirtschaftung_bis = (Double)bewirtschaftungsende.getProperty("stat.wert");
+            } else { // bewirtschaftungsende should contain only none or one CidsBean?
+                bewirtschaftung_bis = null;
+                Log.warn("Teil " + teil.getProperty("ID") + " hat mehrere Bewirtschaftungsenden.");
+            }
+            stationierungen += df.format(bewirtschaftung_von) + " - " + df.format(bewirtschaftung_bis) + ", ";
+        }
+        if (!stationierungen.equals("")) {
+            stationierungen = stationierungen.substring(0, stationierungen.length() - 2);
+        }
+
+        return stationierungen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   teilBean  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     // TODO fuer jedes Teil ausfuehren, falls kein Bewirtschaftungsende gefunden, dann wird normales Ende der Linie
     // benutzt
-    private Collection<CidsBean> getBewirtschaftungsende(final CidsBean cidsBean) {
+    private static Collection<CidsBean> getBewirtschaftungsende(final CidsBean teilBean) {
         try {
             final MetaClass BEW_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "bewirtschaftungsende");
 
             String query = "SELECT " + BEW_MC.getID() + ", b." + BEW_MC.getPrimaryKey() + " ";
             query += "FROM " + BEW_MC.getTableName() + " b JOIN station s ON b.stat = s.id ";
-            query += "WHERE route = " + cidsBean.getProperty("linie.von.route") + " and s.wert > "
-                        + cidsBean.getProperty("linie.von.wert") + " and s.wert < "
-                        + cidsBean.getProperty("linie.bis.wert") + ";";
+            query += "WHERE route = " + teilBean.getProperty("linie.von.route.id") + " and s.wert > "
+                        + teilBean.getProperty("linie.von.wert") + " and s.wert < "
+                        + teilBean.getProperty("linie.bis.wert") + ";";
 
             return getBeansFromQuery(query);
         } catch (Exception ex) {
