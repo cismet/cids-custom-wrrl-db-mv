@@ -138,15 +138,15 @@ public class WkFgReport {
     }
 
     /**
-     * DOCUMENT ME!
+     * gets the Gewaesserkennzahlen from a WK_FG and converts it to a String, with the format "gwk, gwk, ... gwk"
      *
-     * @param   cidsBean  DOCUMENT ME!
+     * @param   wk_fgBean  
      *
      * @return  Gewaesserkennzahlen from a WK_FG as String, with the format "gwk, gwk, ... gwk"
      */
-    private static String getGewaesserkennzahlen(final CidsBean cidsBean) {
+    private static String getGewaesserkennzahlen(final CidsBean wk_fgBean) {
         String gewaesserkennzahlen = "";
-        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        final Collection<CidsBean> teile = (Collection<CidsBean>)wk_fgBean.getProperty("teile");
         for (final CidsBean teil : teile) {
             final CidsBean linie = (CidsBean)teil.getProperty("linie");
             final CidsBean station_von = (CidsBean)linie.getProperty("von");
@@ -163,16 +163,16 @@ public class WkFgReport {
     }
 
     /**
-     * DOCUMENT ME!
+     * fetches the LAWA_Detailtyp from a WK_FG and converts it to a String with the format "typ1# (xx.x%), ... kein Typ (xx.x%)"
      *
-     * @param   cidsBean  DOCUMENT ME!
+     * @param   wk_fgBean  DOCUMENT ME!
      *
      * @return  LAWA_Detailtyp from a WK_FG as String, with the format "typ1# (xx.x%), ... kein Typ (xx.x%)"
      */
-    private static String getLawaDetailTyp(final CidsBean cidsBean) {
+    private static String getLawaDetailTyp(final CidsBean wk_fgBean) {
         final LawaTableModel model = new LawaTableModel();
-        model.setCidsBean(cidsBean);
-        final List<CidsBean> teile = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "teile");
+        model.setCidsBean(wk_fgBean);
+        final List<CidsBean> teile = CidsBeanSupport.getBeanCollectionFromProperty(wk_fgBean, "teile");
         if (teile != null) {
             Collections.sort(teile, new TeileComparator());
         }
@@ -199,15 +199,15 @@ public class WkFgReport {
     }
 
     /**
-     * DOCUMENT ME!
+     * gets the Stationierungen from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
      *
-     * @param   cidsBean  DOCUMENT ME!
+     * @param   wk_fgBean  DOCUMENT ME!
      *
      * @return  Stationierungen from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
      */
-    private static String getStationierungen(final CidsBean cidsBean) {
+    private static String getStationierungen(final CidsBean wk_fgBean) {
         String stationierungen = "";
-        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        final Collection<CidsBean> teile = (Collection<CidsBean>)wk_fgBean.getProperty("teile");
         final DecimalFormat df = new DecimalFormat(",##0");
         for (final CidsBean teil : teile) {
             final Double wert_von = (Double)teil.getProperty("linie.von.wert");
@@ -224,16 +224,16 @@ public class WkFgReport {
 
     /**
      * gets the Bewirtschaftungsbereiche from a WK_FG with format "von - bis, von - bis, ... von - bis". each
-     * Bewirtschaftungsbereich has usually the same von and bis stations as one Teil. Except it might finish earlier,
+     * Bewirtschaftungsbereich has usually the same von and bis stations as one Teil. Nevertheless it might finish earlier,
      * but the starting station is always the same.
      *
-     * @param   cidsBean  a WK_FG CidsBean
+     * @param   wk_fgBean  a WK_FG CidsBean
      *
      * @return  Bewirtschaftungsbereiche from a WK_FG as String, with the format "von - bis, von - bis, ... von - bis"
      */
-    private static String getBewirtschaftungsbereiche(final CidsBean cidsBean) {
+    private static String getBewirtschaftungsbereiche(final CidsBean wk_fgBean) {
         String stationierungen = "";
-        final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
+        final Collection<CidsBean> teile = (Collection<CidsBean>)wk_fgBean.getProperty("teile");
         final DecimalFormat df = new DecimalFormat(",##0");
         for (final CidsBean teil : teile) {
             final Double bewirtschaftung_von = (Double)teil.getProperty("linie.von.wert");
@@ -260,14 +260,12 @@ public class WkFgReport {
     }
 
     /**
-     * DOCUMENT ME!
+     * fetches the Bewirtschaftungsende of one Teil
      *
-     * @param   teilBean  DOCUMENT ME!
+     * @param   teilBean  a CidsBean representing a Teil
      *
-     * @return  DOCUMENT ME!
+     * @return  Bewirtschaftungsende of one Teil
      */
-    // TODO fuer jedes Teil ausfuehren, falls kein Bewirtschaftungsende gefunden, dann wird normales Ende der Linie
-    // benutzt
     private static Collection<CidsBean> getBewirtschaftungsende(final CidsBean teilBean) {
         try {
             final MetaClass BEW_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "bewirtschaftungsende");
