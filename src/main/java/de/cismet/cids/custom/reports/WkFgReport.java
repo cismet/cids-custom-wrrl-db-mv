@@ -140,7 +140,7 @@ public class WkFgReport {
     /**
      * gets the Gewaesserkennzahlen from a WK_FG and converts it to a String, with the format "gwk, gwk, ... gwk"
      *
-     * @param   wk_fgBean  
+     * @param   wk_fgBean  DOCUMENT ME!
      *
      * @return  Gewaesserkennzahlen from a WK_FG as String, with the format "gwk, gwk, ... gwk"
      */
@@ -163,7 +163,8 @@ public class WkFgReport {
     }
 
     /**
-     * fetches the LAWA_Detailtyp from a WK_FG and converts it to a String with the format "typ1# (xx.x%), ... kein Typ (xx.x%)"
+     * fetches the LAWA_Detailtyp from a WK_FG and converts it to a String with the format "typ1# (xx.x%), ... kein Typ
+     * (xx.x%)"
      *
      * @param   wk_fgBean  DOCUMENT ME!
      *
@@ -224,8 +225,8 @@ public class WkFgReport {
 
     /**
      * gets the Bewirtschaftungsbereiche from a WK_FG with format "von - bis, von - bis, ... von - bis". each
-     * Bewirtschaftungsbereich has usually the same von and bis stations as one Teil. Nevertheless it might finish earlier,
-     * but the starting station is always the same.
+     * Bewirtschaftungsbereich has usually the same von and bis stations as one Teil. Nevertheless it might finish
+     * earlier, but the starting station is always the same.
      *
      * @param   wk_fgBean  a WK_FG CidsBean
      *
@@ -260,7 +261,7 @@ public class WkFgReport {
     }
 
     /**
-     * fetches the Bewirtschaftungsende of one Teil
+     * fetches the Bewirtschaftungsende of one Teil.
      *
      * @param   teilBean  a CidsBean representing a Teil
      *
