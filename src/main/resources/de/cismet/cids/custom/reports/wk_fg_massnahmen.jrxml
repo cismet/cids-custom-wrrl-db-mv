@@ -59,7 +59,7 @@
 				<text><![CDATA[Maßnahmentabelle des Wasserkörpers]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="14" width="200" height="10"/>
+				<reportElement style="column_header_style" x="0" y="14" width="200" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -73,7 +73,7 @@
 				<text><![CDATA[Gewässername:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="14" width="200" height="10"/>
+				<reportElement style="column_header_style" x="400" y="14" width="200" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -87,7 +87,7 @@
 				<text><![CDATA[Wasserkörpernummer:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="24" width="200" height="10"/>
+				<reportElement style="column_header_style" x="0" y="24" width="200" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -101,7 +101,7 @@
 				<text><![CDATA[Stationierung:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="200" y="14" width="200" height="10"/>
+				<reportElement style="column_header_style" x="200" y="14" width="200" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -115,7 +115,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.wk_n}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="400" y="24" width="200" height="10"/>
+				<reportElement style="column_header_style" x="400" y="24" width="200" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -129,7 +129,7 @@
 				<text><![CDATA[Gewässerkennzahl:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="200" y="24" width="200" height="10"/>
+				<reportElement style="column_header_style" x="200" y="24" width="200" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -143,7 +143,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{STATIONIERUNGEN}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="600" y="24" width="202" height="10"/>
+				<reportElement style="column_header_style" x="600" y="24" width="202" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -302,7 +302,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["aktueller Zustand gefunden, aber nicht gewuenschter Zustand"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="600" y="14" width="202" height="10"/>
+				<reportElement style="column_header_style" x="600" y="14" width="202" height="10" backcolor="#FFCC00"/>
 				<box leftPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
