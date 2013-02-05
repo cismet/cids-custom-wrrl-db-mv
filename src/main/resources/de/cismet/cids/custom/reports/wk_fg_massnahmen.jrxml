@@ -25,6 +25,7 @@
 	<parameter name="STATIONIERUNGEN" class="java.lang.String"/>
 	<parameter name="GEWAESSERKENNZAHLEN" class="java.lang.String"/>
 	<parameter name="LAWA-DETAILTYP" class="java.lang.String"/>
+	<parameter name="BEWIRTSCHAFTUNGSBEREICHE" class="java.lang.String"/>
 	<field name="massn_id" class="java.lang.String"/>
 	<field name="massnahme" class="java.lang.String"/>
 	<field name="prioritaet" class="de.cismet.cids.dynamics.CidsBean"/>
@@ -211,7 +212,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["???"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{BEWIRTSCHAFTUNGSBEREICHE}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="54" width="200" height="10"/>
