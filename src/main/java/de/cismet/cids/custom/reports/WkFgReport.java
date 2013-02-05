@@ -103,6 +103,7 @@ public class WkFgReport {
                         + "   " + mcMassnahmen.getTableName() + " "
                         + "WHERE "
                         + "   wk_fg = " + String.valueOf(id)
+                        + "ORDER BY massn_id"
                         + ";";
 
             return getBeansFromQuery(query);
