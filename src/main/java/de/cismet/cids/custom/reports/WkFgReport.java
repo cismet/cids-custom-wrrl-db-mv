@@ -209,11 +209,8 @@ public class WkFgReport {
         final Collection<CidsBean> teile = (Collection<CidsBean>)cidsBean.getProperty("teile");
         final DecimalFormat df = new DecimalFormat(",##0");
         for (final CidsBean teil : teile) {
-            final CidsBean linie = (CidsBean)teil.getProperty("linie");
-            final CidsBean station_von = (CidsBean)linie.getProperty("von");
-            final Double wert_von = (Double)station_von.getProperty("wert");
-            final CidsBean station_bis = (CidsBean)linie.getProperty("bis");
-            final Double wert_bis = (Double)station_bis.getProperty("wert");
+            final Double wert_von = (Double)teil.getProperty("linie.von.wert");
+            final Double wert_bis = (Double)teil.getProperty("linie.bis.wert");
 
             stationierungen += df.format(wert_von) + " - " + df.format(wert_bis) + ", ";
         }
