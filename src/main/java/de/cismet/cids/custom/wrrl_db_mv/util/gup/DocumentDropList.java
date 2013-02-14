@@ -30,6 +30,7 @@ import javax.swing.JList;
 import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnittAllgemein;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupLosEditor;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 
@@ -45,6 +46,8 @@ import de.cismet.security.WebDavClient;
 import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.PasswordEncrypter;
 
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitDialog;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 import de.cismet.tools.gui.downloadmanager.WebDavDownload;
@@ -105,9 +108,9 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
         if (!readOnly) {
 //                new CidsBeanDropTarget(this);
             dropTarget = new DropTarget(this, this);
-            this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
-            this.beanProperty = beanProperty;
         }
+        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
+        this.beanProperty = beanProperty;
         this.readOnly = readOnly;
     }
 
@@ -151,7 +154,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
                     dtde.acceptDrop(dtde.getDropAction());
                     final List<File> files = (List<File>)tr.getTransferData(flavors[i]);
                     if ((files != null) && (files.size() > 0)) {
-                        CismetThreadPool.execute(new DocumentDropList.DocumentUploadWorker(files));
+                        addFiles(files);
                     }
                     dtde.dropComplete(true);
                     return;
@@ -178,7 +181,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
                     br.close();
 
                     if ((fileList != null) && (fileList.size() > 0)) {
-                        CismetThreadPool.execute(new DocumentDropList.DocumentUploadWorker(fileList));
+                        addFiles(fileList);
                         dtde.dropComplete(true);
                         return;
                     }
@@ -189,6 +192,23 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
         }
         // Problem ist aufgetreten
         dtde.rejectDrop();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fileList  DOCUMENT ME!
+     */
+    public void addFiles(final List<File> fileList) {
+        if ((fileList != null) && (fileList.size() > 0)) {
+            final WaitDialog wd = new WaitDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    true,
+                    "Speichere Dokument",
+                    null);
+            CismetThreadPool.execute(new DocumentDropList.DocumentUploadWorker(fileList, wd));
+            StaticSwingTools.showDialog(wd);
+        }
     }
 
     /**
@@ -217,7 +237,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
                     final String jobname = DownloadManagerDialog.getJobname();
                     final String name = bean.getProperty("name").toString();
                     final String file = bean.getProperty("file").toString();
-                    final String extension = name.substring(name.lastIndexOf(".") + 1);
+                    final String extension = name.substring(name.lastIndexOf("."));
                     final String filename = name.substring(0, name.lastIndexOf("."));
 
                     DownloadManager.instance()
@@ -275,6 +295,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
         //~ Instance fields ----------------------------------------------------
 
         private final Collection<File> docs;
+        private final WaitDialog wd;
 
         //~ Constructors -------------------------------------------------------
 
@@ -282,9 +303,11 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
          * Creates a new ImageUploadWorker object.
          *
          * @param  docs  fotos DOCUMENT ME!
+         * @param  wd    DOCUMENT ME!
          */
-        public DocumentUploadWorker(final Collection<File> docs) {
+        public DocumentUploadWorker(final Collection<File> docs, final WaitDialog wd) {
             this.docs = docs;
+            this.wd = wd;
 //                lblPicture.setText("");
 //                lblPicture.setToolTipText(null);
 //                showWait(true);
@@ -294,21 +317,34 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
 
         @Override
         protected Collection<CidsBean> doInBackground() throws Exception {
-            final Collection<CidsBean> newBeans = new ArrayList<CidsBean>();
-            for (final File imageFile : docs) {
-                final String webFileName = WebDavHelper.generateWebDAVFileName(FILE_PREFIX, imageFile);
-                WebDavHelper.uploadFileToWebDAV(
-                    webFileName,
-                    imageFile,
-                    WEB_DAV_DIRECTORY,
-                    webDavClient,
-                    DocumentDropList.this);
-                final CidsBean newFotoBean = CidsBeanSupport.createNewCidsBeanFromTableName("GUP_DOKUMENT");
-                newFotoBean.setProperty("name", imageFile.getName());
-                newFotoBean.setProperty("file", webFileName);
-                newBeans.add(newFotoBean);
+            try {
+                final Collection<CidsBean> newBeans = new ArrayList<CidsBean>();
+                for (final File imageFile : docs) {
+                    final String webFileName = WebDavHelper.generateWebDAVFileName(FILE_PREFIX, imageFile);
+                    WebDavHelper.uploadFileToWebDAV(
+                        webFileName,
+                        imageFile,
+                        WEB_DAV_DIRECTORY,
+                        webDavClient,
+                        DocumentDropList.this);
+                    final CidsBean newFotoBean = CidsBeanSupport.createNewCidsBeanFromTableName("GUP_DOKUMENT");
+                    newFotoBean.setProperty("name", imageFile.getName());
+                    newFotoBean.setProperty("file", webFileName);
+                    newBeans.add(newFotoBean);
+                }
+                return newBeans;
+            } finally {
+                while (!wd.isVisible()) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        // nothing to do
+                    }
+                }
+
+                wd.setVisible(false);
+                wd.dispose();
             }
-            return newBeans;
         }
 
         @Override

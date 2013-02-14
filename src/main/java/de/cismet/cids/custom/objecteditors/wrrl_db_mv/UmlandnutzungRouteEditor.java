@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
@@ -85,8 +86,11 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
     private CidsBean cidsBean;
     private GupUmlandnutzungEditor umlandnutzungEditor;
     private boolean readOnly = false;
+    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private boolean isNew = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
+    private javax.swing.JToggleButton butStationierung;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -94,6 +98,7 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JButton jbApply;
     private javax.swing.JButton jbApply1;
     private javax.swing.JLabel lblFoot;
@@ -204,6 +209,8 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
             if (!readOnly) {
                 vermessungsband.setCidsBean(cidsBean);
             }
+            isNew = cidsBean.getProperty("linie") == null;
+
             if (cidsBean.getProperty("linie") == null) {
                 panBand.removeAll();
                 panBand.add(panNew, BorderLayout.CENTER);
@@ -319,6 +326,8 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         panBand = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        butStationierung = new javax.swing.JToggleButton();
         togApplyStats = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -519,6 +528,25 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.weighty = 1.0;
         panHeader.add(panBand, gridBagConstraints);
 
+        jPanel5.setOpaque(false);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        butStationierung.setText("Stationierung");
+        butStationierung.setPreferredSize(new java.awt.Dimension(117, 25));
+        butStationierung.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butStationierungActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(37, 12, 38, 0);
+        jPanel5.add(butStationierung, gridBagConstraints);
+
         togApplyStats.setText("Vermessen");
         togApplyStats.setPreferredSize(new java.awt.Dimension(117, 25));
         togApplyStats.addActionListener(new java.awt.event.ActionListener() {
@@ -529,11 +557,17 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
-        panHeader.add(togApplyStats, gridBagConstraints);
+        jPanel5.add(togApplyStats, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        panHeader.add(jPanel5, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -599,15 +633,53 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
      * @param  evt  DOCUMENT ME!
      */
     private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApplyActionPerformed
-        panBand.removeAll();
-        panBand.add(jband, BorderLayout.CENTER);
-        setNamesAndBands();
-        linearReferencedLineEditor.dispose();
-        if (!readOnly) {
-            vermessungsband.showRoute();
-            togApplyStats.setEnabled(true);
+        if (isNew) {
+            panBand.removeAll();
+            panBand.add(jband, BorderLayout.CENTER);
+            setNamesAndBands();
+            linearReferencedLineEditor.dispose();
+            if (!readOnly) {
+                vermessungsband.showRoute();
+                togApplyStats.setEnabled(true);
+            }
+
+            isNew = false;
+        } else {
+            final int resp = JOptionPane.showConfirmDialog(
+                    this,
+                    "Ziele, die nicht mehr innerhalb des Routenabschnitts liegen, werden entfernt.",
+                    "Achtung",
+                    JOptionPane.OK_CANCEL_OPTION);
+
+            if (resp == JOptionPane.OK_OPTION) {
+                final Integer routeId = (Integer)LinearReferencingHelper.getRouteBeanFromStationBean((CidsBean)
+                            cidsBean.getProperty(
+                                "linie.von")).getProperty("id");
+                final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
+                        cidsBean.getProperty(
+                            "linie.von"));
+                final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
+                        cidsBean.getProperty(
+                            "linie.bis"));
+                final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
+
+                stationBackup.cutSubobjects(all, from, till, routeId);
+
+                panBand.removeAll();
+                panBand.add(jband, BorderLayout.CENTER);
+                repaint();
+                sbm.removeBand(wkband);
+                vermessungsband.reset();
+                butStationierung.setSelected(!butStationierung.isSelected());
+                setNamesAndBands();
+                linearReferencedLineEditor.dispose();
+                if (!readOnly) {
+                    vermessungsband.showRoute();
+                    togApplyStats.setEnabled(true);
+                }
+            }
         }
-    }                                                                           //GEN-LAST:event_jbApplyActionPerformed
+    } //GEN-LAST:event_jbApplyActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -617,12 +689,17 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
     private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
             vermessungsband.showVermessungsband();
+
+            if (butStationierung.isSelected()) {
+                butStationierung.setSelected(false);
+                stationBackup.restoreStationValues(cidsBean);
+            }
         } else {
             vermessungsband.hideVermessungsband();
         }
         updateUI();
         repaint();
-    }                                                                                 //GEN-LAST:event_togApplyStatsActionPerformed
+    } //GEN-LAST:event_togApplyStatsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -635,6 +712,34 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
         bands[1] = umlandnutzung_rechts;
         vermessungsband.applyStats(this, bands, GUP_UMLANDNUTZUNG);
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butStationierungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butStationierungActionPerformed
+        if (butStationierung.isSelected()) {
+            panBand.removeAll();
+            panBand.add(panNew, BorderLayout.CENTER);
+            if (togApplyStats.isSelected()) {
+                togApplyStats.setSelected(false);
+            }
+
+            // save old values to restore them if the user cancel the restation process
+            stationBackup.save(cidsBean);
+
+            linearReferencedLineEditor.setLineField("linie");
+            linearReferencedLineEditor.setOtherLinesEnabled(false);
+            linearReferencedLineEditor.setCidsBean(cidsBean);
+            repaint();
+        } else {
+            stationBackup.restoreStationValues(cidsBean);
+            panBand.removeAll();
+            panBand.add(jband, BorderLayout.CENTER);
+            repaint();
+        }
+    } //GEN-LAST:event_butStationierungActionPerformed
 
     @Override
     public void dispose() {

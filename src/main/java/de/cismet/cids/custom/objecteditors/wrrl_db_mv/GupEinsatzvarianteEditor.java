@@ -8,7 +8,7 @@
 /*
  * GupMassnahmeSohle.java
  *
- * Created on 10.10.2012, 11:49:19
+ * Created on 04.04.2012, 11:49:19
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
@@ -31,20 +31,24 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            GupEinsatzvarianteEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGruppe;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JLabel lblColor;
-    private javax.swing.JLabel lblGruppe;
-    private javax.swing.JLabel lblLatName;
+    private javax.swing.JLabel lblFaktor;
     private javax.swing.JLabel lblName;
-    private javax.swing.JTextField txtLatName;
+    private javax.swing.JTextField txtFaktor;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -54,7 +58,7 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GeschuetzteArtEditor() {
+    public GupEinsatzvarianteEditor() {
         this(false);
     }
 
@@ -63,13 +67,13 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GeschuetzteArtEditor(final boolean readOnly) {
+    public GupEinsatzvarianteEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtName);
-            RendererTools.makeReadOnly(txtLatName);
-            RendererTools.makeReadOnly(cbGruppe);
+            RendererTools.makeReadOnly(txtFaktor);
             RendererTools.makeReadOnly(dccColor);
         }
     }
@@ -90,18 +94,16 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         txtName = new javax.swing.JTextField();
         lblColor = new javax.swing.JLabel();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
-        lblLatName = new javax.swing.JLabel();
-        txtLatName = new javax.swing.JTextField();
-        lblGruppe = new javax.swing.JLabel();
-        cbGruppe = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        lblFaktor = new javax.swing.JLabel();
+        txtFaktor = new javax.swing.JTextField();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
         setLayout(new java.awt.GridBagLayout());
 
         lblName.setText(org.openide.util.NbBundle.getMessage(
-                GeschuetzteArtEditor.class,
-                "GeschuetzteArtEditor.lblName.text")); // NOI18N
+                GupEinsatzvarianteEditor.class,
+                "GupEinsatzvarianteEditor.lblName.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(170, 17));
         lblName.setMinimumSize(new java.awt.Dimension(170, 17));
         lblName.setPreferredSize(new java.awt.Dimension(215, 17));
@@ -132,8 +134,8 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         add(txtName, gridBagConstraints);
 
         lblColor.setText(org.openide.util.NbBundle.getMessage(
-                GeschuetzteArtEditor.class,
-                "GeschuetzteArtEditor.lblColor.text")); // NOI18N
+                GupEinsatzvarianteEditor.class,
+                "GupEinsatzvarianteEditor.lblColor.text")); // NOI18N
         lblColor.setMaximumSize(new java.awt.Dimension(170, 17));
         lblColor.setMinimumSize(new java.awt.Dimension(170, 17));
         lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
@@ -163,27 +165,27 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(dccColor, gridBagConstraints);
 
-        lblLatName.setText(org.openide.util.NbBundle.getMessage(
-                GeschuetzteArtEditor.class,
-                "GeschuetzteArtEditor.lblLatName.text")); // NOI18N
-        lblLatName.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblLatName.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblLatName.setPreferredSize(new java.awt.Dimension(215, 17));
+        lblFaktor.setText(org.openide.util.NbBundle.getMessage(
+                GupEinsatzvarianteEditor.class,
+                "GupEinsatzvarianteEditor.lblFaktor.text")); // NOI18N
+        lblFaktor.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblFaktor.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblFaktor.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblLatName, gridBagConstraints);
+        add(lblFaktor, gridBagConstraints);
 
-        txtLatName.setMinimumSize(new java.awt.Dimension(400, 25));
-        txtLatName.setPreferredSize(new java.awt.Dimension(450, 25));
+        txtFaktor.setMinimumSize(new java.awt.Dimension(400, 25));
+        txtFaktor.setPreferredSize(new java.awt.Dimension(450, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lateinischer_name}"),
-                txtLatName,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.factor}"),
+                txtFaktor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -193,40 +195,7 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtLatName, gridBagConstraints);
-
-        lblGruppe.setText(org.openide.util.NbBundle.getMessage(
-                GeschuetzteArtEditor.class,
-                "GeschuetzteArtEditor.lblGruppe.text")); // NOI18N
-        lblGruppe.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblGruppe.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblGruppe.setPreferredSize(new java.awt.Dimension(215, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblGruppe, gridBagConstraints);
-
-        cbGruppe.setMaximumSize(new java.awt.Dimension(450, 25));
-        cbGruppe.setMinimumSize(new java.awt.Dimension(450, 25));
-        cbGruppe.setPreferredSize(new java.awt.Dimension(450, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gruppe}"),
-                cbGruppe,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbGruppe, gridBagConstraints);
+        add(txtFaktor, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -256,7 +225,7 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
 
     @Override
     public String getTitle() {
-        return "Geschützte Art: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
+        return "Entwicklungsziel: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
     }
 
     @Override
@@ -284,8 +253,8 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
             "Administratoren",
             "admin",
             "x",
-            "geschuetzte_art",
-            1,
+            "gup_entwicklungsziel_name",
+            9,
             1280,
             1024);
     }

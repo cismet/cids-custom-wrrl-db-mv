@@ -62,6 +62,7 @@ public class ColoredReadOnlyBand extends MinimumHeightBand implements CidsBeanCo
     @Override
     public void setCidsBeans(final Collection<CidsBean> beans) {
         this.beans = beans;
+
         if (beans != null) {
             for (final CidsBean b : beans) {
                 final ColoredReadOnlyBandMember unrm = new ColoredReadOnlyBandMember();

@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import Sirius.navigator.ui.ComponentRegistry;
+
 import Sirius.server.middleware.types.MetaObject;
 
 import org.openide.util.Exceptions;
@@ -27,7 +29,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class UnterhaltungsmaßnahmeValidator {
+public class UnterhaltungsmassnahmeValidator {
 
     //~ Enums ------------------------------------------------------------------
 
@@ -54,7 +56,7 @@ public class UnterhaltungsmaßnahmeValidator {
     /**
      * Creates a new UnterhaltungsmaßnahmeValidator object.
      */
-    public UnterhaltungsmaßnahmeValidator() {
+    public UnterhaltungsmassnahmeValidator() {
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -75,6 +77,10 @@ public class UnterhaltungsmaßnahmeValidator {
      */
     public void setVerbreitungsraum(final VermeidungsgruppeMitGeom[] verbreitungsraum) {
         this.verbreitungsraum = verbreitungsraum;
+
+        if ((operativeZiele != null) && (schutzgebiete != null)) {
+            ComponentRegistry.getRegistry().getSearchResultsTree().repaint();
+        }
     }
 
     /**
@@ -93,6 +99,10 @@ public class UnterhaltungsmaßnahmeValidator {
      */
     public void setSchutzgebiete(final MetaObject[] schutzgebiete) {
         this.schutzgebiete = schutzgebiete;
+
+        if ((verbreitungsraum != null) && (operativeZiele != null)) {
+            ComponentRegistry.getRegistry().getSearchResultsTree().repaint();
+        }
     }
 
     /**
@@ -111,6 +121,19 @@ public class UnterhaltungsmaßnahmeValidator {
      */
     public void setOperativeZiele(final MetaObject[] operativeZiele) {
         this.operativeZiele = operativeZiele;
+
+        if ((verbreitungsraum != null) && (schutzgebiete != null)) {
+            ComponentRegistry.getRegistry().getSearchResultsTree().repaint();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isReady() {
+        return !((operativeZiele == null) || (verbreitungsraum == null) || (schutzgebiete == null));
     }
 
     /**
@@ -122,6 +145,19 @@ public class UnterhaltungsmaßnahmeValidator {
      * @return  DOCUMENT ME!
      */
     public ValidationResult validate(final CidsBean bean, final List<String> errors) {
+        return validate(bean, (CidsBean)bean.getProperty("massnahme"), errors);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   abschnittBean  bean DOCUMENT ME!
+     * @param   massn          DOCUMENT ME!
+     * @param   errors         DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ValidationResult validate(final CidsBean abschnittBean, final CidsBean massn, final List<String> errors) {
         while ((operativeZiele == null) || (verbreitungsraum == null) || (schutzgebiete == null)) {
             try {
                 Thread.sleep(50);
@@ -131,10 +167,9 @@ public class UnterhaltungsmaßnahmeValidator {
         }
 
         ValidationResult res = ValidationResult.ok;
-        final double von = (Double)bean.getProperty("linie.von.wert");
-        final double bis = (Double)bean.getProperty("linie.bis.wert");
-        final int wo = (Integer)bean.getProperty("wo.id");
-        final CidsBean massn = (CidsBean)bean.getProperty("massnahme");
+        final double von = (Double)abschnittBean.getProperty("linie.von.wert");
+        final double bis = (Double)abschnittBean.getProperty("linie.bis.wert");
+        final Integer wo = (Integer)abschnittBean.getProperty("wo.id");
 
         if (massn == null) {
             return ValidationResult.error;

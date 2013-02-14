@@ -25,7 +25,8 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
     //~ Instance fields --------------------------------------------------------
 
     private int measureType;
-    private UnterhaltungsmaßnahmeValidator uv = null;
+    private UnterhaltungsmassnahmeValidator uv = null;
+    private Boolean invertSide = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -34,9 +35,10 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      *
      * @param  title            DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
+     * @param  invertSide       DOCUMENT ME!
      */
-    public MassnahmenBand(final String title, final String objectTableName) {
-        this(1f, title, objectTableName);
+    public MassnahmenBand(final String title, final String objectTableName, final Boolean invertSide) {
+        this(1f, title, objectTableName, invertSide);
     }
 
     /**
@@ -44,10 +46,12 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      *
      * @param  heightWeight     DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
+     * @param  invertSide       DOCUMENT ME!
      */
-    public MassnahmenBand(final float heightWeight, final String objectTableName) {
+    public MassnahmenBand(final float heightWeight, final String objectTableName, final Boolean invertSide) {
         super(heightWeight, objectTableName);
         setOnlyAcceptNewBeanWithValue(false);
+        this.invertSide = invertSide;
     }
 
     /**
@@ -56,17 +60,22 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      * @param  heightWeight     DOCUMENT ME!
      * @param  title            DOCUMENT ME!
      * @param  objectTableName  DOCUMENT ME!
+     * @param  invertSide       DOCUMENT ME!
      */
-    public MassnahmenBand(final float heightWeight, final String title, final String objectTableName) {
+    public MassnahmenBand(final float heightWeight,
+            final String title,
+            final String objectTableName,
+            final Boolean invertSide) {
         super(heightWeight, title, objectTableName);
         setOnlyAcceptNewBeanWithValue(false);
+        this.invertSide = invertSide;
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     protected LineBandMember createBandMemberFromBean() {
-        final MassnahmenBandMember m = new MassnahmenBandMember(this, readOnly, uv);
+        final MassnahmenBandMember m = new MassnahmenBandMember(this, readOnly, uv, invertSide);
 
         return m;
     }
@@ -111,7 +120,7 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
      *
      * @param  uv  DOCUMENT ME!
      */
-    public void setUnterhaltungsmassnahmeValidator(final UnterhaltungsmaßnahmeValidator uv) {
+    public void setUnterhaltungsmassnahmeValidator(final UnterhaltungsmassnahmeValidator uv) {
         this.uv = uv;
 
         for (int i = 0; i < getNumberOfMembers(); ++i) {

@@ -56,8 +56,8 @@ public class PoiRWBandMember extends LineBandMember {
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
         String name = getKind();
-        if (name == null) {
-            name = "unbekannt";
+        if ((name == null) || name.equals("null")) {
+            name = "";
         }
 
         setToolTipText(name);
@@ -129,6 +129,12 @@ public class PoiRWBandMember extends LineBandMember {
      * @return  DOCUMENT ME!
      */
     private String getKind() {
-        return String.valueOf(bean.getProperty("art.name"));
+        final String kind = (String)bean.getProperty("art.name");
+
+        if (kind != null) {
+            return kind;
+        } else {
+            return "";
+        }
     }
 }

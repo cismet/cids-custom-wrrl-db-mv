@@ -543,6 +543,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             this.cidsBean.removePropertyChangeListener(this);
         }
         this.cidsBean = cidsBean;
+        refreshWkFg();
         cidsBean.addPropertyChangeListener(this);
 
         if (cidsBean != null) {
