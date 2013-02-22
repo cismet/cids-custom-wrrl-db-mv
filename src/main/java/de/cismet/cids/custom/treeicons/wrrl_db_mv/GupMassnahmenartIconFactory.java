@@ -16,7 +16,6 @@ import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.types.treenode.PureTreeNode;
 import Sirius.navigator.ui.tree.CidsTreeObjectIconFactory;
 
-
 import java.util.ArrayList;
 
 import javax.swing.Icon;
@@ -27,7 +26,6 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeE
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsmassnahmeValidator;
 
 import de.cismet.cids.dynamics.CidsBean;
-
 
 /**
  * DOCUMENT ME!
