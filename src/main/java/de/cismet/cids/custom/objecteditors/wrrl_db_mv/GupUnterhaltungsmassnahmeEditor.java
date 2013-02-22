@@ -1383,7 +1383,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        gridBagConstraints.insets = new java.awt.Insets(3, 2, 3, 2);
         jPanel3.add(butRefresh, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
