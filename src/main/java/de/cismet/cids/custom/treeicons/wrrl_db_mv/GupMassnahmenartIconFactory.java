@@ -30,7 +30,7 @@ import de.cismet.cids.dynamics.CidsBean;
 /**
  * DOCUMENT ME!
  *
- * @author   srichter
+ * @author   therter
  * @version  $Revision$, $Date$
  */
 public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
@@ -44,14 +44,10 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
 
     //~ Instance fields --------------------------------------------------------
 
-// volatile javax.swing.SwingWorker<Void, Void> objectRetrievingWorker = null;
-// final HashSet<ObjectTreeNode> listOfRetrievingObjectWorkers = new HashSet<ObjectTreeNode>();
-// private ExecutorService objectRetrievalExecutor = Executors.newFixedThreadPool(15);
     private final ImageIcon VALID_ICON;
     private final ImageIcon INVALID_ICON;
     private final ImageIcon WARNING_ICON;
     private final ImageIcon ERROR_ICON;
-//    private final Object objectRetrievingLock = new Object();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -64,9 +60,9 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
         INVALID_ICON = new ImageIcon(getClass().getResource(
                     "/de/cismet/cids/custom/treeicons/wrrl_db_mv/red_cog.png"));
         ERROR_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog_error.png_16x16.png"));
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
         WARNING_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog_error.png_16x16.png"));
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
     }
 
     //~ Methods ----------------------------------------------------------------
