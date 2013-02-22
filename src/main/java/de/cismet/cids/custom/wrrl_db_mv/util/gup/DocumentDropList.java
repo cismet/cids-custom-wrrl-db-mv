@@ -246,7 +246,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
                                     WEB_DAV_DIRECTORY
                                     + WebDavHelper.encodeURL(file),
                                     jobname,
-                                    "title",
+                                    filename + extension,
                                     filename,
                                     extension));
                 }

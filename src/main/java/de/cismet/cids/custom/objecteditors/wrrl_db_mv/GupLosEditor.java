@@ -590,8 +590,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 final String filename = cidsBean.toString();
 
                 DownloadManager.instance()
-                        .add(new GaebDownload(createKumMassnList(), cidsBean, jobname,
-                                "title",
+                        .add(new GaebDownload(
+                                createKumMassnList(),
+                                cidsBean,
+                                jobname,
+                                "Leistungsverzeichnis - "
+                                + filename,
                                 filename,
                                 extension));
             }
@@ -733,6 +737,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 protected ArrayList<ArrayList> doInBackground() throws Exception {
                     final List in = new ArrayList(1);
                     in.add(cidsBean.getProperty("id").toString());
+                    // TEST
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                    }
+                    // TEST
                     return (ArrayList<ArrayList>)massnCache.calcValue(in);
                 }
 
