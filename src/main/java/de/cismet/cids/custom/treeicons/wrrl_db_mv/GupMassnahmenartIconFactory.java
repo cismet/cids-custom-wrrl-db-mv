@@ -14,28 +14,20 @@ package de.cismet.cids.custom.treeicons.wrrl_db_mv;
 import Sirius.navigator.types.treenode.ClassTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.types.treenode.PureTreeNode;
-import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.tree.CidsTreeObjectIconFactory;
 
-import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.tree.DefaultTreeModel;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungserfordernisEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeEditor;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsmassnahmeValidator;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.tools.gui.Static2DTools;
 
 /**
  * DOCUMENT ME!
@@ -70,9 +62,9 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
      */
     public GupMassnahmenartIconFactory() {
         VALID_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/green_cog.png"));
         INVALID_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog_delete.png_16x16.png"));
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/red_cog.png"));
         ERROR_ICON = new ImageIcon(getClass().getResource(
                     "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog_error.png_16x16.png"));
         WARNING_ICON = new ImageIcon(getClass().getResource(
