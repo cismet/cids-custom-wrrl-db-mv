@@ -26,17 +26,10 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
 import java.awt.event.KeyEvent;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.*;
 import javax.swing.JList;
@@ -52,23 +45,18 @@ import javax.swing.tree.TreePath;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenGaebSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ExpressionEvaluator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.DocumentDropList;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.GaebExport;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.GaebDownload;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.gaeb.types.GaebContainer;
-import de.cismet.cids.gaeb.types.GaebLvItem;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -78,9 +66,6 @@ import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
-import de.cismet.tools.BrowserLauncher;
 import de.cismet.tools.CalculationCache;
 import de.cismet.tools.Calculator;
 import de.cismet.tools.CismetThreadPool;
@@ -88,6 +73,9 @@ import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.WaitDialog;
+import de.cismet.tools.gui.WaitingDialogThread;
+import de.cismet.tools.gui.downloadmanager.DownloadManager;
+import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
 /**
  * DOCUMENT ME!
@@ -397,8 +385,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         tabMassn.addKeyListener(new java.awt.event.KeyAdapter() {
 
                 @Override
-                public void keyTyped(final java.awt.event.KeyEvent evt) {
-                    tabMassnKeyTyped(evt);
+                public void keyPressed(final java.awt.event.KeyEvent evt) {
+                    tabMassnKeyPressed(evt);
                 }
             });
         jScrollPane2.setViewportView(tabMassn);
@@ -596,140 +584,21 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      */
     private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
         try {
-            final WaitDialog wd = new WaitDialog(
-                    StaticSwingTools.getParentFrame(GupLosEditor.this),
-                    true,
-                    "Erstelle Export-Datei",
-                    null);
+            if (DownloadManagerDialog.showAskingForUserTitle(this)) {
+                final String jobname = DownloadManagerDialog.getJobname();
+                final String extension = ".x81";
+                final String filename = cidsBean.toString();
 
-            CismetThreadPool.execute(new SwingWorker<Boolean, Object>() {
-
-                    private File file;
-
-                    @Override
-                    protected Boolean doInBackground() throws Exception {
-                        try {
-                            final CidsServerSearch search = new MassnahmenGaebSearch(
-                                    cidsBean.getProperty("id").toString());
-//                            final ArrayList<ArrayList> massnBeans = (ArrayList<ArrayList>)SessionManager
-//                                        .getConnection().customServerSearch(SessionManager.getSession().getUser(), search);
-                            final GaebExport ex = new GaebExport();
-                            final GaebContainer c = new GaebContainer();
-
-                            final List<GaebLvItem> l = new ArrayList<GaebLvItem>();
-                            final ArrayList<ArrayList> massnBeans = createKumMassnList();
-                            int i = 0;
-
-                            if (massnBeans != null) {
-                                for (final ArrayList al : massnBeans) {
-                                    final GaebLvItem item = new GaebLvItem();
-                                    item.setId(((Integer)al.get(5)).toString());
-                                    item.setAmount(new BigDecimal((Double)al.get(3)));
-                                    item.setMeasure(String.valueOf(al.get(4)));
-                                    item.setDescription(String.valueOf(al.get(6)));
-                                    item.setDescriptionShort(String.valueOf(al.get(0)));
-                                    item.setOz(String.valueOf(++i));
-                                    l.add(item);
-
-//                                    final GaebLvItem item = new GaebLvItem();
-//                                    item.setId(((Integer)al.get(0)).toString());
-//                                    item.setAmount(new BigDecimal((Double)al.get(1)));
-//                                    item.setMeasure(String.valueOf(al.get(2)));
-//                                    item.setDescription(String.valueOf(al.get(3)));
-//                                    item.setDescriptionShort(String.valueOf(al.get(4)));
-//                                    l.add(item);
-                                }
-                            }
-                            c.setItemList(l);
-                            c.setProjectName(String.valueOf(cidsBean.getProperty("bezeichnung")));
-                            c.setDescription(String.valueOf(cidsBean.getProperty("bemerkung")));
-                            c.setNebenangebot(true);
-                            c.setBieterKommentar(true);
-                            final String result = ex.startExport(c);
-                            file = new File(
-                                    CismapBroker.getInstance().getCismapFolderPath(),
-                                    cidsBean.toString()
-                                            + ".x81");
-                            int n = 1;
-                            while (file.exists()) {
-                                file = new File(
-                                        CismapBroker.getInstance().getCismapFolderPath(),
-                                        cidsBean.toString()
-                                                + "_"
-                                                + (n++)
-                                                + ".x81");
-                            }
-
-                            final FileWriter fw = new FileWriter(
-                                    file);
-                            final BufferedWriter bw = new BufferedWriter(fw);
-                            bw.write(result);
-                            bw.close();
-
-                            return true;
-                        } finally {
-                            while (!wd.isVisible()) {
-                                try {
-                                    Thread.sleep(50);
-                                } catch (InterruptedException e) {
-                                    // nothing to do
-                                }
-                            }
-                            wd.setVisible(false);
-                        }
-                    }
-
-                    @Override
-                    protected void done() {
-                        boolean error = false;
-                        try {
-                            error = !get();
-                        } catch (InterruptedException ex) {
-                            // unterbrochen, nichts tun
-                        } catch (ExecutionException ex) {
-                            error = true;
-                            LOG.error("error while generating gaeb export", ex);
-                        }
-
-                        if (error) {
-                            JOptionPane.showMessageDialog(
-                                GupLosEditor.this,
-                                "Beim Generieren des Gaeb Exports ist ein Fehler aufgetreten.",
-                                "Fehler!",
-                                JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            try {
-                                BrowserLauncher.openURL("file:///" + file.getAbsolutePath());
-                            } catch (Exception e) {
-                                LOG.error("Cannot open generated gaeb file in browser", e);
-                            }
-                        }
-                    }
-                });
-
-            StaticSwingTools.showDialog(wd);
+                DownloadManager.instance()
+                        .add(new GaebDownload(createKumMassnList(), cidsBean, jobname,
+                                "title",
+                                filename,
+                                extension));
+            }
         } catch (Exception e) {
             LOG.error("Error while creating gaeb file.", e);
         }
     } //GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void tabMassnKeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_tabMassnKeyTyped
-        if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
-            evt.consume();
-
-            if (!readOnly && (tabMassn.getModel() instanceof MassnTableModel)) {
-                final int[] rows = tabMassn.getSelectedRows();
-
-                final MassnTableModel model = (MassnTableModel)tabMassn.getModel();
-                model.removeRows(rows);
-            }
-        }
-    } //GEN-LAST:event_tabMassnKeyTyped
 
     /**
      * DOCUMENT ME!
@@ -797,6 +666,24 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         }
     } //GEN-LAST:event_liGupKeyPressed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tabMassnKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_tabMassnKeyPressed
+        if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
+            evt.consume();
+
+            if (!readOnly && (tabMassn.getModel() instanceof MassnTableModel)) {
+                final int[] rows = tabMassn.getSelectedRows();
+
+                final MassnTableModel model = (MassnTableModel)tabMassn.getModel();
+                model.removeRows(rows);
+            }
+        }
+    } //GEN-LAST:event_tabMassnKeyPressed
+
     @Override
     public CidsBean getCidsBean() {
         return this.cidsBean;
@@ -820,7 +707,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 cidsBean);
             bindingGroup.bind();
 
-            CismetThreadPool.execute(new Runnable() {
+            EventQueue.invokeLater(new Runnable() {
 
                     @Override
                     public void run() {
@@ -834,40 +721,24 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * loads the contained objects from the server.
      */
     private void loadData() {
-        final WaitDialog wd = new WaitDialog(
-                StaticSwingTools.getParentFrame(this),
+        final WaitingDialogThread<ArrayList<ArrayList>> t = new WaitingDialogThread<ArrayList<ArrayList>>(
+                StaticSwingTools.getParentFrame(
+                    GupLosEditor.this),
                 true,
                 "Lade betroffene Maßnahmen",
-                null);
-
-        CismetThreadPool.execute(new SwingWorker<ArrayList<ArrayList>, Object>() {
+                null,
+                200) {
 
                 @Override
                 protected ArrayList<ArrayList> doInBackground() throws Exception {
-                    try {
-                        final List in = new ArrayList(1);
-                        in.add(cidsBean.getProperty("id").toString());
-                        return (ArrayList<ArrayList>)massnCache.calcValue(in);
-                    } finally {
-                        while (!wd.isVisible()) {
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                // nothing to do
-                            }
-                        }
-
-                        wd.setVisible(false);
-                        wd.dispose();
-                    }
+                    final List in = new ArrayList(1);
+                    in.add(cidsBean.getProperty("id").toString());
+                    return (ArrayList<ArrayList>)massnCache.calcValue(in);
                 }
 
                 @Override
                 protected void done() {
                     try {
-//                            final List in = new ArrayList(1);
-//                            in.add(cidsBean.getProperty("id").toString());
-//                            final ArrayList<ArrayList> massnBeans = massnCache.calcValue(in);
                         final ArrayList<ArrayList> massnBeans = get();
                         gups = new ArrayList<String>();
                         planungsabschnitte = new ArrayList<String>();
@@ -917,58 +788,9 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         LOG.error("Error while trying to receive the underlying data.", e);
                     }
                 }
-            });
-        StaticSwingTools.showDialog(wd);
+            };
 
-//        try {
-//            final List in = new ArrayList(1);
-//            in.add(cidsBean.getProperty("id").toString());
-//            final ArrayList<ArrayList> massnBeans = massnCache.calcValue(in);
-//            gups = new ArrayList<String>();
-//            planungsabschnitte = new ArrayList<String>();
-//            final List<Integer> planungsabschnitteId = new ArrayList<Integer>();
-//            final List<Integer> gupId = new ArrayList<Integer>();
-//
-//            for (final ArrayList bean : massnBeans) {
-//                final String plan = toName(bean);
-//
-//                if (!planungsabschnitte.contains(plan)) {
-//                    final String gup = String.valueOf(bean.get(GUP_NAME));
-//
-//                    planungsabschnitte.add(plan);
-//                    planungsabschnitteId.add((Integer)bean.get(PL_ID));
-//                    if (!gups.contains(gup)) {
-//                        gups.add(gup);
-//                        gupId.add((Integer)bean.get(GUP_ID));
-//                    }
-//                }
-//            }
-//
-//            liGup.setModel(new CidsBeanModel(gups, gupId));
-//            liPlan.setModel(new CidsBeanModel(planungsabschnitte, planungsabschnitteId));
-//            tabMassn.setModel(new MassnTableModel(massnBeans));
-//            fillKumTable();
-//            tabMassnKum.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//
-//                    @Override
-//                    public void valueChanged(final ListSelectionEvent e) {
-//                        final int[] row = tabMassnKum.getSelectedRows();
-//                        final String[] filters = new String[row.length];
-//                        int index = 0;
-//
-//                        for (final int tmp : row) {
-//                            final Object filter = ((MassnKumTableModel)tabMassnKum.getModel()).getValueAt(tmp, 0);
-//                            filters[index++] = (String)filter;
-//                        }
-//
-//                        ((MassnTableModel)tabMassn.getModel()).setFilter(filters);
-//                    }
-//                });
-//            initialised = true;
-//            jButton1.setEnabled(true);
-//        } catch (Exception e) {
-//            LOG.error("Error while trying to receive the underlying data.", e);
-//        }
+        t.start();
     }
 
     /**
@@ -1431,54 +1253,71 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 final CidsBean bean = node.getMetaObject().getBean();
 
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_planungsabschnitt")) {
-                    final String beanName = toName(bean);
-                    final String von = String.valueOf(bean.getProperty("linie.von.wert"));
-                    final String bis = String.valueOf(bean.getProperty("linie.bis.wert"));
-                    final String gup = String.valueOf(bean.getProperty("gup.name"));
-                    final Integer gupId = (Integer)bean.getProperty("gup.id");
-                    final Integer plId = (Integer)bean.getProperty("id");
-                    final String name = String.valueOf(bean.getProperty("name"));
+                    final WaitingDialogThread<Void> t = new WaitingDialogThread<Void>(StaticSwingTools.getParentFrame(
+                                GupLosEditor.this),
+                            true,
+                            "Füge Planungsabschnitt hinzu",
+                            null,
+                            200) {
 
-                    if (!planungsabschnitte.contains(beanName)) {
-                        ((CidsBeanModel)liPlan.getModel()).add(beanName, plId);
+                            @Override
+                            public Void doInBackground() throws Exception {
+                                final String beanName = toName(bean);
+                                final String von = String.valueOf(bean.getProperty("linie.von.wert"));
+                                final String bis = String.valueOf(bean.getProperty("linie.bis.wert"));
+                                final String gup = String.valueOf(bean.getProperty("gup.name"));
+                                final Integer gupId = (Integer)bean.getProperty("gup.id");
+                                final Integer plId = (Integer)bean.getProperty("id");
+                                final String name = String.valueOf(bean.getProperty("name"));
 
-                        if (!gups.contains(gup)) {
-                            ((CidsBeanModel)liGup.getModel()).add(gup, gupId);
-                        }
-                    }
-                    final List<CidsBean> massnBeans = CidsBeanSupport.getBeanCollectionFromProperty(bean, "massnahmen");
-                    final ObjectTreeNode losNode = (ObjectTreeNode)node.getParent().getParent();
-                    // Wenn der Planungsabschnitt im Baum unter einem Los haengt, dann sollen nur die Massnahmen
-                    // hinzugefuegt werden, die auch dem Los zugeordnet sind
-                    Integer losId = null;
+                                if (!planungsabschnitte.contains(beanName)) {
+                                    ((CidsBeanModel)liPlan.getModel()).add(beanName, plId);
 
-                    if ((losNode != null)
-                                && losNode.getMetaObject().getBean().getClass().getName().equals(
-                                    "de.cismet.cids.dynamics.Gup_los")) {
-                        losId = (Integer)losNode.getMetaObject().getBean().getProperty("id");
-                    }
-
-                    if (massnBeans != null) {
-                        for (final CidsBean tmp : massnBeans) {
-                            if ((losId == null)
-                                        || ((tmp.getProperty("los.id") != null)
-                                            && tmp.getProperty("los.id").equals(losId))) {
-                                if (((MassnTableModel)tabMassn.getModel()).add(
-                                                tmp,
-                                                name,
-                                                gup,
-                                                von,
-                                                bis,
-                                                plId,
-                                                gupId,
-                                                (Integer)tmp.getProperty("id"))) {
-                                    massnToAdd.add(tmp);
+                                    if (!gups.contains(gup)) {
+                                        ((CidsBeanModel)liGup.getModel()).add(gup, gupId);
+                                    }
                                 }
+                                final List<CidsBean> massnBeans = CidsBeanSupport.getBeanCollectionFromProperty(
+                                        bean,
+                                        "massnahmen");
+                                final ObjectTreeNode losNode = (ObjectTreeNode)node.getParent().getParent();
+                                // Wenn der Planungsabschnitt im Baum unter einem Los haengt, dann sollen nur die
+                                // Massnahmen hinzugefuegt werden, die auch dem Los zugeordnet sind
+                                Integer losId = null;
+
+                                if ((losNode != null)
+                                            && losNode.getMetaObject().getBean().getClass().getName().equals(
+                                                "de.cismet.cids.dynamics.Gup_los")) {
+                                    losId = (Integer)losNode.getMetaObject().getBean().getProperty("id");
+                                }
+
+                                if (massnBeans != null) {
+                                    for (final CidsBean tmp : massnBeans) {
+                                        if ((losId == null)
+                                                    || ((tmp.getProperty("los.id") != null)
+                                                        && tmp.getProperty("los.id").equals(losId))) {
+                                            if (((MassnTableModel)tabMassn.getModel()).add(
+                                                            tmp,
+                                                            name,
+                                                            gup,
+                                                            von,
+                                                            bis,
+                                                            plId,
+                                                            gupId,
+                                                            (Integer)tmp.getProperty("id"))) {
+                                                massnToAdd.add(tmp);
+                                            }
+                                        }
+                                    }
+                                }
+                                massnToAdd.add(bean);
+                                cidsBean.setArtificialChangeFlag(true);
+
+                                return null;
                             }
-                        }
-                    }
-                    massnToAdd.add(bean);
-                    cidsBean.setArtificialChangeFlag(true);
+                        };
+
+                    t.start();
                 }
             }
 
@@ -1677,7 +1516,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         /**
          * DOCUMENT ME!
          */
-        private void fireIntervalAdded() {
+        private void fireContentsChanged() {
             final ListDataEvent e = new ListDataEvent(
                     this,
                     ListDataEvent.CONTENTS_CHANGED,
@@ -1699,7 +1538,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             titles.add(title);
             ids.add(id);
 
-            fireIntervalAdded();
+            fireContentsChanged();
         }
 
         /**
@@ -1714,7 +1553,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 titles.remove(index);
             }
 
-            fireIntervalAdded();
+            fireContentsChanged();
         }
     }
 
