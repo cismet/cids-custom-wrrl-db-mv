@@ -100,8 +100,8 @@ public class MassnahmenHistory extends javax.swing.JPanel implements CidsWindowS
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         add(toolbar, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
