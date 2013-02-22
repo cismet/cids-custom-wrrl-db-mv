@@ -116,6 +116,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean noRefresh = false;
+
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private List<CidsBean> massnahmen = null;
@@ -124,6 +126,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private MetaObject[] massnahmnenObjects;
     private List<Node> massnartList = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butRefresh;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEinsatz;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeraet;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGewerk;
@@ -135,8 +138,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JPanel flowPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JScrollPane jscEval;
     private javax.swing.JLabel lblBearbeiter1;
@@ -227,6 +232,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         panValid.setVisible(false);
         RendererTools.makeReadOnly(txtBearbeiter);
         RendererTools.makeReadOnly(txtMassnahme);
+        butRefresh.setVisible(!readOnly);
 
         if (readOnly) {
             RendererTools.makeReadOnly(cbIntervall);
@@ -364,7 +370,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblGewerk = new javax.swing.JLabel();
         cbZeitpunkt = new ScrollableComboBox(ZEITPUNKT_MC, true, false);
         txtMassnahme = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
+        butRefresh = new javax.swing.JButton();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(894, 400));
@@ -1345,13 +1354,45 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         add(txtMassnahme, gridBagConstraints);
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel3.add(jSeparator2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel3.add(jSeparator3, gridBagConstraints);
+
+        butRefresh.setText(org.openide.util.NbBundle.getMessage(
+                GupUnterhaltungsmassnahmeEditor.class,
+                "GupUnterhaltungsmassnahmeEditor.butRefresh.text")); // NOI18N
+        butRefresh.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butRefreshActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
+        jPanel3.add(butRefresh, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
-        add(jSeparator2, gridBagConstraints);
+        add(jPanel3, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -1484,6 +1525,34 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             MethodManager.getManager().showSearchResults();
         }
     }                                                                            //GEN-LAST:event_txtMassnahmeMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butRefreshActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butRefreshActionPerformed
+        refreshFilter();
+    }                                                                              //GEN-LAST:event_butRefreshActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshFilter() {
+        try {
+            noRefresh = true;
+            cbGewerk.setSelectedIndex(0);
+            cbEinsatz.setSelectedIndex(0);
+            cbGeraet.setSelectedIndex(0);
+            cbVerbleib.setSelectedIndex(0);
+            cbIntervall.setSelectedIndex(0);
+            cbZeitpunkt.setSelectedIndex(0);
+            cbZeitpunkt2.setSelectedIndex(0);
+        } finally {
+            noRefresh = false;
+        }
+        refreshMassnahme();
+    }
 
     @Override
     public CidsBean getCidsBean() {
@@ -1667,6 +1736,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      * DOCUMENT ME!
      */
     private void refreshMassnahme() {
+        if (noRefresh) {
+            return;
+        }
         txtMassnahme.setText("Suche ...");
         txtMassnahme.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
