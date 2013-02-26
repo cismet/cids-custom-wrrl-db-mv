@@ -247,10 +247,11 @@ public class WkFgReport {
             if (bewirtschaftungsende_coll.isEmpty()) {
                 bewirtschaftung_bis = (Double)teil.getProperty("linie.bis.wert");
             } else if (bewirtschaftungsende_coll.size() == 1) {
-                final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.toArray(new CidsBean[0])[0];
+                final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.iterator().next();
                 bewirtschaftung_bis = (Double)bewirtschaftungsende.getProperty("stat.wert");
-            } else { // bewirtschaftungsende should contain only none or one CidsBean?
-                bewirtschaftung_bis = null;
+            } else { //??? bewirtschaftungsende should contain only none or one CidsBean?
+                final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.iterator().next();
+                bewirtschaftung_bis = (Double)bewirtschaftungsende.getProperty("stat.wert");
                 Log.warn("Teil " + teil.getProperty("ID") + " hat mehrere Bewirtschaftungsenden.");
             }
             stationierungen += df.format(bewirtschaftung_von) + " - " + df.format(bewirtschaftung_bis) + ", ";
