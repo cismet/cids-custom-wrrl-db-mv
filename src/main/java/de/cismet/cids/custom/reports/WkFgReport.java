@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import de.cismet.cids.client.tools.DevelopmentTools;
+
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.LawaTableModel;
@@ -283,6 +285,28 @@ public class WkFgReport {
                 LOG.fatal("", ex);
             }
             return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  the command line arguments
+     */
+    public static void main(final String[] args) {
+        try {
+            DevelopmentTools.createRendererInFrameFromRMIConnectionOnLocalhost(
+                "WRRL_DB_MV",
+                "Administratoren",
+                "admin",
+                "kif",
+                "wk_fg",
+                579,
+                "Test",
+                1280,
+                1024);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
