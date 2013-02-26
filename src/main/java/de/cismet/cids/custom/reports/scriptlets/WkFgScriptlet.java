@@ -22,6 +22,7 @@ import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fill.JRFillField;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -240,19 +241,41 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      * @return  DOCUMENT ME!
      */
     public Image generateMap() {
-        try {
-            BufferedImage result = null;
-
-            final Lock lock = new ReentrantLock();
-            final Condition waitForImageRetrieval = lock.newCondition();
-
-            final String call = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
+        final BufferedImage background = fetchMap("http://www.geodaten-mv.de/dienste/gdimv_topomv"
                         + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
                         + "&BBOX=<cismap:boundingBox>"
                         + "&SRS=EPSG:35833&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
-                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage");
+        final BufferedImage overlay = fetchMap("http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
+                        + "&REQUEST=GetMap"
+                        + "&BBOX=<cismap:boundingBox>"
+                        + "&WIDTH=<cismap:width>"
+                        + "&HEIGHT=<cismap:height>"
+                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&TRANSPARENT=TRUE"
+                        + "&BGCOLOR=0xF0F0F0"
+                        + "&EXCEPTIONS=application/vnd.ogc.se_xml"
+                        + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
+                        + "&STYLES=default,default,default,default");
+
+        return mergeImages(background, overlay);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   call  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private BufferedImage fetchMap(final String call) {
+        try {
+            BufferedImage result = null;
+
+            final Lock lock = new ReentrantLock();
+            final Condition waitForImageRetrieval = lock.newCondition();
 
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
@@ -298,6 +321,26 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   image    DOCUMENT ME!
+     * @param   overlay  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private BufferedImage mergeImages(final BufferedImage image, final BufferedImage overlay) {
+        final int w = Math.max(image.getWidth(), overlay.getWidth());
+        final int h = Math.max(image.getHeight(), overlay.getHeight());
+        final BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        final Graphics g = combined.getGraphics();
+
+        g.drawImage(image, 0, 0, null);
+        g.drawImage(overlay, 0, 0, null);
+
+        return combined;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -339,12 +382,12 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
         @Override
         public void retrievalComplete(final RetrievalEvent e) {
             if (e.getRetrievedObject() instanceof Image) {
-                final Image retrievedImage = (Image) e.getRetrievedObject();
+                final Image retrievedImage = (Image)e.getRetrievedObject();
                 image = new BufferedImage(
                         retrievedImage.getWidth(null),
                         retrievedImage.getHeight(null),
                         BufferedImage.TYPE_INT_ARGB);
-                final Graphics2D g = (Graphics2D) image.getGraphics();
+                final Graphics2D g = (Graphics2D)image.getGraphics();
                 g.drawImage(retrievedImage, 0, 0, null);
                 g.dispose();
             }
