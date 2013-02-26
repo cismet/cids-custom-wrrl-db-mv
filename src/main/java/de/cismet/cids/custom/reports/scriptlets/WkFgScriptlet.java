@@ -339,12 +339,12 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
         @Override
         public void retrievalComplete(final RetrievalEvent e) {
             if (e.getRetrievedObject() instanceof Image) {
-                final Image retrievedImage = (Image)e.getRetrievedObject();
+                final Image retrievedImage = (Image) e.getRetrievedObject();
                 image = new BufferedImage(
                         retrievedImage.getWidth(null),
                         retrievedImage.getHeight(null),
-                        BufferedImage.TYPE_INT_RGB);
-                final Graphics2D g = (Graphics2D)image.getGraphics();
+                        BufferedImage.TYPE_INT_ARGB);
+                final Graphics2D g = (Graphics2D) image.getGraphics();
                 g.drawImage(retrievedImage, 0, 0, null);
                 g.dispose();
             }
