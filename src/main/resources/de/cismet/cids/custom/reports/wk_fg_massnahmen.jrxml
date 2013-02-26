@@ -474,7 +474,7 @@ ung]]></text>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="400" y="0" width="46" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["faehlt wohl weg"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["fällt wohl weg"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="446" y="0" width="43" height="16" isPrintWhenDetailOverflows="true"/>
