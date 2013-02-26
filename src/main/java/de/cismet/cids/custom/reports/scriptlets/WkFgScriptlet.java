@@ -217,7 +217,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      *
      * @return  DOCUMENT ME!
      */
-    private Collection<CidsBean> getBeansFromQuery(final String query) {
+    private ArrayList<CidsBean> getBeansFromQuery(final String query) {
         final ArrayList<CidsBean> collection = new ArrayList<CidsBean>();
         try {
             if (LOG.isDebugEnabled()) {
