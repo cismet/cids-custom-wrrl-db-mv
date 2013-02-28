@@ -20,6 +20,8 @@ import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import org.openide.util.Exceptions;
+
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.datatransfer.DataFlavor;
@@ -1289,9 +1291,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private void addMassnahme(final CidsBean bean) {
         if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")) {
             if (((MassnTableModel)tabMassn.getModel()).add(bean)) {
-//                massnToAdd.add(bean);
                 cidsBean.getBeanCollectionProperty("massnahmen").add(bean);
-                cidsBean.setArtificialChangeFlag(true);
+//                cidsBean.setArtificialChangeFlag(true);
                 final String planName = toName((CidsBean)bean.getProperty("planungsabschnitt"));
 
                 if (!planungsabschnitte.contains(planName)) {
@@ -1420,13 +1421,13 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                                             gupId,
                                                             (Integer)tmp.getProperty("id"))) {
 //                                                massnToAdd.add(tmp);
-                                                cidsBean.getBeanCollectionProperty("massnahmen").add(bean);
+                                                cidsBean.getBeanCollectionProperty("massnahmen").add(tmp);
                                             }
                                         }
                                     }
                                 }
 //                                massnToAdd.add(bean);
-                                cidsBean.setArtificialChangeFlag(true);
+//                                cidsBean.setArtificialChangeFlag(true);
 
                                 return null;
                             }
@@ -2019,7 +2020,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 //                if (!GupLosEditor.this.massnToDelete.contains(id)) {
 //                    GupLosEditor.this.massnToDelete.add(id);
 //                }
-                cidsBean.getBeanCollectionProperty("massnahmen").remove(getRow(tmp).get(BEAN));
+                cidsBean.getBeanCollectionProperty("massnahmen").remove((CidsBean)getRow(tmp).get(BEAN));
 
 //                // bean should not be added, so remove it from the corresponding list
 //                for (final CidsBean bean : GupLosEditor.this.massnToAdd) {
