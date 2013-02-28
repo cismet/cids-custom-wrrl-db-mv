@@ -124,7 +124,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int UM_ID = 22;
     public static final int PL_ID = 23;
     public static final int GUP_ID = 24;
-    public static final int BEAN = 24;
+    public static final int BEAN = 25;
     private static MetaClass MASSN_CLASS = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_unterhaltungsmassnahme");
@@ -138,15 +138,12 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     private List<String> gups;
     private List<String> planungsabschnitte;
-//    private List<CidsBean> massnToAdd = new ArrayList<CidsBean>();
-//    private List<Integer> massnToDelete = new ArrayList<Integer>();
-//    private List<Integer> planungsabschnittToDelete = new ArrayList<Integer>();
     private ExpressionEvaluator eval = new ExpressionEvaluator();
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private boolean initialised = false;
-    private TreePath treePath;
+//    private TreePath treePath;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -554,38 +551,38 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tabMassnMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tabMassnMouseClicked
-    }                                                                        //GEN-LAST:event_tabMassnMouseClicked
+    private void tabMassnMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMassnMouseClicked
+    }//GEN-LAST:event_tabMassnMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 //        try {
 //            java.awt.Desktop.getDesktop()
 //                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
 //        } catch (Exception ex) {
 //            log.error("Problem beim Oeffnen des LV", ex);
 //        }
-    } //GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tabMassnKumMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tabMassnKumMouseClicked
+    private void tabMassnKumMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMassnKumMouseClicked
         // TODO add your handling code here:
-    } //GEN-LAST:event_tabMassnKumMouseClicked
+    }//GEN-LAST:event_tabMassnKumMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             if (DownloadManagerDialog.showAskingForUserTitle(this)) {
                 final String jobname = DownloadManagerDialog.getJobname();
@@ -605,20 +602,19 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         } catch (Exception e) {
             LOG.error("Error while creating gaeb file.", e);
         }
-    } //GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void liPlanKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_liPlanKeyPressed
+    private void liPlanKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_liPlanKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
             evt.consume();
 
             if (!readOnly && (liPlan.getModel() instanceof CidsBeanModel)) {
                 final CidsBeanModel model = (CidsBeanModel)liPlan.getModel();
-//                final List rows = liPlan.getSelectedValuesList();
                 final int[] rows = liPlan.getSelectedIndices();
                 final MassnTableModel massnModel = (MassnTableModel)tabMassn.getModel();
                 final List<Integer> beanIds = new ArrayList<Integer>();
@@ -634,23 +630,23 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 }
             }
         }
-    } //GEN-LAST:event_liPlanKeyPressed
+    }//GEN-LAST:event_liPlanKeyPressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void liGupKeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_liGupKeyTyped
+    private void liGupKeyTyped(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_liGupKeyTyped
         // TODO add your handling code here:
-    } //GEN-LAST:event_liGupKeyTyped
+    }//GEN-LAST:event_liGupKeyTyped
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void liGupKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_liGupKeyPressed
+    private void liGupKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_liGupKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
             evt.consume();
 
@@ -671,14 +667,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 }
             }
         }
-    } //GEN-LAST:event_liGupKeyPressed
+    }//GEN-LAST:event_liGupKeyPressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tabMassnKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_tabMassnKeyPressed
+    private void tabMassnKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabMassnKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
             evt.consume();
 
@@ -689,7 +685,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 model.removeRows(rows);
             }
         }
-    } //GEN-LAST:event_tabMassnKeyPressed
+    }//GEN-LAST:event_tabMassnKeyPressed
 
     @Override
     public CidsBean getCidsBean() {
@@ -784,77 +780,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * loads the contained objects from the server.
      */
     private void loadData() {
-//        final WaitingDialogThread<ArrayList<ArrayList>> t = new WaitingDialogThread<ArrayList<ArrayList>>(
-//                StaticSwingTools.getParentFrame(
-//                    GupLosEditor.this),
-//                true,
-//                "Lade betroffene Maßnahmen",
-//                null,
-//                200) {
-//
-//                @Override
-//                protected ArrayList<ArrayList> doInBackground() throws Exception {
-//                    final List in = new ArrayList(1);
-//                    in.add(cidsBean.getProperty("id").toString());
-//                    return (ArrayList<ArrayList>)massnCache.calcValue(in);
-//                }
-//
-//                @Override
-//                protected void done() {
-//                    try {
-//                        final ArrayList<ArrayList> massnBeans = get();
-//                        gups = new ArrayList<String>();
-//                        planungsabschnitte = new ArrayList<String>();
-//                        final List<Integer> planungsabschnitteId = new ArrayList<Integer>();
-//                        final List<Integer> gupId = new ArrayList<Integer>();
-//
-//                        for (final ArrayList bean : massnBeans) {
-//                            final String plan = toName(bean);
-//
-//                            if (!planungsabschnitte.contains(plan)) {
-//                                final String gup = String.valueOf(bean.get(GUP_NAME));
-//
-//                                planungsabschnitte.add(plan);
-//                                planungsabschnitteId.add((Integer)bean.get(PL_ID));
-//                                if (!gups.contains(gup)) {
-//                                    gups.add(gup);
-//                                    gupId.add((Integer)bean.get(GUP_ID));
-//                                }
-//                            }
-//                        }
-//
-//                        liGup.setModel(new CidsBeanModel(gups, gupId));
-//                        liPlan.setModel(new CidsBeanModel(planungsabschnitte, planungsabschnitteId));
-//                        tabMassn.setModel(new MassnTableModel(massnBeans));
-//                        fillKumTable();
-//                        tabMassnKum.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//
-//                                @Override
-//                                public void valueChanged(final ListSelectionEvent e) {
-//                                    final int[] row = tabMassnKum.getSelectedRows();
-//                                    final String[] filters = new String[row.length];
-//                                    int index = 0;
-//
-//                                    for (final int tmp : row) {
-//                                        final Object filter = ((MassnKumTableModel)tabMassnKum.getModel()).getValueAt(
-//                                                tmp,
-//                                                0);
-//                                        filters[index++] = (String)filter;
-//                                    }
-//
-//                                    ((MassnTableModel)tabMassn.getModel()).setFilter(filters);
-//                                }
-//                            });
-//                        initialised = true;
-//                        jButton1.setEnabled(true);
-//                    } catch (Exception e) {
-//                        LOG.error("Error while trying to receive the underlying data.", e);
-//                    }
-//                }
-//            };
-//
-//        t.start();
-
         final ArrayList<ArrayList> massnBeans = new ArrayList();
         final List<CidsBean> beans = cidsBean.getBeanCollectionProperty("massnahmen");
 
@@ -1165,117 +1090,13 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-//        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
-//            // saves the references between the gup_unterhaltungsmassnahme objects and the los object
-//            final int deps = massnToAdd.size() + massnToDelete.size() + planungsabschnittToDelete.size();
+//        EventQueue.invokeLater(new Thread(new Runnable() {
 //
-//            if (deps > 0) {
-//                final WaitDialog wd = new WaitDialog(
-//                        StaticSwingTools.getParentFrame(GupLosEditor.this),
-//                        true,
-//                        "Speichere Abhängigkeit 1 von "
-//                                + deps,
-//                        null);
-//
-//                new Thread(new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                int n = 0;
-//                                synchronized (wd.getTreeLock()) {
-//                                    wd.setMax(deps);
-//                                }
-//                                // add massnahmen objects
-//                                while (massnToAdd.size() > 0) {
-//                                    final CidsBean bean = massnToAdd.get(0);
-//                                    try {
-//                                        // the bean can be a object of the type gup_unterhaltungsmassnahmen
-//                                        // or gup_planungsabschnitt. Both have a property with the name los
-//                                        bean.setProperty("los", event.getSavedBean());
-//                                        bean.persist();
-//                                        massnToAdd.remove(0);
-//                                        synchronized (wd.getTreeLock()) {
-//                                            wd.setProgress(++n);
-//                                            wd.setText("Speichere Abhängigkeit " + (n + 1) + " von " + deps);
-//                                        }
-//                                    } catch (Exception e) {
-//                                        LOG.error("Error while saving a los object.", e);
-//                                    }
-//                                }
-//
-//                                // remove massnahmen objects
-//                                while (massnToDelete.size() > 0) {
-//                                    final Integer id = massnToDelete.get(0);
-//                                    try {
-//                                        final MetaObject mo = SessionManager.getProxy()
-//                                                    .getMetaObject(id, MASSN_CLASS.getId(), MASSN_CLASS.getDomain());
-//
-//                                        final CidsBean bean = mo.getBean();
-//                                        bean.setProperty("los", null);
-//                                        bean.persist();
-//
-//                                        massnToDelete.remove(0);
-//                                        synchronized (wd.getTreeLock()) {
-//                                            wd.setProgress(++n);
-//                                            wd.setText("Speichere Abhängigkeit " + (n + 1) + " von " + deps);
-//                                        }
-//                                    } catch (Exception e) {
-//                                        LOG.error("Error while saving a los object.", e);
-//                                    }
-//                                }
-//
-//                                // remove planungsabschnitt objects
-//                                while (planungsabschnittToDelete.size() > 0) {
-//                                    try {
-//                                        final Integer id = planungsabschnittToDelete.get(0);
-//                                        final MetaObject mo = SessionManager.getProxy()
-//                                                    .getMetaObject(id, PLAN_CLASS.getId(), PLAN_CLASS.getDomain());
-//
-//                                        final CidsBean bean = mo.getBean();
-//                                        bean.setProperty("los", null);
-//                                        bean.persist();
-//
-//                                        planungsabschnittToDelete.remove(0);
-//                                        synchronized (wd.getTreeLock()) {
-//                                            wd.setProgress(++n);
-//                                            wd.setText("Speichere Abhängigkeit " + (n + 1) + " von " + deps);
-//                                        }
-//                                    } catch (Exception e) {
-//                                        LOG.error("Error while saving a los object.", e);
-//                                    }
-//                                }
-//                            } catch (Exception e) {
-//                                LOG.error("Error while saving a los object.", e);
-//                            } finally {
-//                                waitUntilVisible();
-//                                wd.setVisible(false);
-//                                wd.dispose();
-//                            }
-//                        }
-//
-//                        private void waitUntilVisible() {
-//                            while (!wd.isVisible()) {
-//                                try {
-//                                    Thread.sleep(50);
-//                                } catch (InterruptedException e) {
-//                                    // nothing to do
-//                                }
-//                            }
-//                        }
-//                    }).start();
-//
-//                StaticSwingTools.showDialog(wd);
-//            }
-
-        EventQueue.invokeLater(new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        UIUtil.refreshTree(treePath);
-                    }
-                }));
-//        }
+//                    @Override
+//                    public void run() {
+//                        UIUtil.refreshTree(treePath);
+//                    }
+//                }));
     }
 
     @Override
@@ -2106,27 +1927,10 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             for (final ArrayList bean : beans) {
                 if ((bean.get(GUP_ID) != null) && bean.get(GUP_ID).equals(gupId)) {
-//                    CidsBean beanToRemove = null;
-//                    final Integer id = (Integer)bean.get(UM_ID);
                     final CidsBean cbean = (CidsBean)bean.get(BEAN);
 
-//                    if (!GupLosEditor.this.massnToDelete.contains(id)) {
-//                        GupLosEditor.this.massnToDelete.add(id);
-//                    }
                     cidsBean.getBeanCollectionProperty("massnahmen").remove(cbean);
 
-//                    // bean should not be added, so remove it from the corresponding list
-//                    for (final CidsBean tmpBean : GupLosEditor.this.massnToAdd) {
-//                        if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")
-//                                    && tmpBean.getProperty("id").equals(id)) {
-//                            beanToRemove = tmpBean;
-//                            break;
-//                        }
-//                    }
-
-//                    if (beanToRemove != null) {
-//                        massnToAdd.remove(beanToRemove);
-//                    }
                     tmpToRemove.add(bean);
                 }
             }
