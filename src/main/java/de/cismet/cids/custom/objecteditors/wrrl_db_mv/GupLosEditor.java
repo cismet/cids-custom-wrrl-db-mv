@@ -551,38 +551,38 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tabMassnMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMassnMouseClicked
-    }//GEN-LAST:event_tabMassnMouseClicked
+    private void tabMassnMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tabMassnMouseClicked
+    }                                                                        //GEN-LAST:event_tabMassnMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
 //        try {
 //            java.awt.Desktop.getDesktop()
 //                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
 //        } catch (Exception ex) {
 //            log.error("Problem beim Oeffnen des LV", ex);
 //        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    } //GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tabMassnKumMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMassnKumMouseClicked
+    private void tabMassnKumMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_tabMassnKumMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tabMassnKumMouseClicked
+    } //GEN-LAST:event_tabMassnKumMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
         try {
             if (DownloadManagerDialog.showAskingForUserTitle(this)) {
                 final String jobname = DownloadManagerDialog.getJobname();
@@ -602,14 +602,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         } catch (Exception e) {
             LOG.error("Error while creating gaeb file.", e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    } //GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void liPlanKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_liPlanKeyPressed
+    private void liPlanKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_liPlanKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
             evt.consume();
 
@@ -630,23 +630,23 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 }
             }
         }
-    }//GEN-LAST:event_liPlanKeyPressed
+    } //GEN-LAST:event_liPlanKeyPressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void liGupKeyTyped(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_liGupKeyTyped
+    private void liGupKeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_liGupKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_liGupKeyTyped
+    } //GEN-LAST:event_liGupKeyTyped
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void liGupKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_liGupKeyPressed
+    private void liGupKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_liGupKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
             evt.consume();
 
@@ -667,14 +667,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 }
             }
         }
-    }//GEN-LAST:event_liGupKeyPressed
+    } //GEN-LAST:event_liGupKeyPressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tabMassnKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabMassnKeyPressed
+    private void tabMassnKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_tabMassnKeyPressed
         if (evt.getKeyChar() == KeyEvent.VK_DELETE) {
             evt.consume();
 
@@ -685,7 +685,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 model.removeRows(rows);
             }
         }
-    }//GEN-LAST:event_tabMassnKeyPressed
+    } //GEN-LAST:event_tabMassnKeyPressed
 
     @Override
     public CidsBean getCidsBean() {
@@ -699,11 +699,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jButton1.setEnabled(false);
 
         if (cidsBean != null) {
-            treePath = ComponentRegistry.getRegistry().getCatalogueTree().getSelectionPath();
-
-            if (treePath != null) {
-                treePath = treePath.getParentPath();
-            }
+//            treePath = ComponentRegistry.getRegistry().getCatalogueTree().getSelectionPath();
+//
+//            if (treePath != null) {
+//                treePath = treePath.getParentPath();
+//            }
 
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
@@ -1883,33 +1883,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             for (final ArrayList bean : beans) {
                 if ((bean.get(PL_ID) != null) && bean.get(PL_ID).equals(planId)) {
                     final CidsBean beanToRemove = null;
-//                    final Integer id = (Integer)bean.get(UM_ID);
                     final CidsBean cbean = (CidsBean)bean.get(BEAN);
-
-//                    if (!GupLosEditor.this.massnToDelete.contains(id)) {
-//                        GupLosEditor.this.massnToDelete.add(id);
-//                    }
                     cidsBean.getBeanCollectionProperty("massnahmen").remove(cbean);
 
-//                    // bean should not be added, so remove it from the corresponding list
-//                    for (final CidsBean tmpBean : GupLosEditor.this.massnToAdd) {
-//                        if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_unterhaltungsmassnahme")
-//                                    && tmpBean.getProperty("id").equals(id)) {
-//                            beanToRemove = tmpBean;
-//                            break;
-//                        }
-//                    }
-//
-//                    if (beanToRemove != null) {
-//                        massnToAdd.remove(beanToRemove);
-//                    }
                     tmpToRemove.add(bean);
                 }
             }
 
             beans.removeAll(tmpToRemove);
-
-//            planungsabschnittToDelete.add(planId);
 
             cidsBean.setArtificialChangeFlag(true);
             fireTableChanged();
