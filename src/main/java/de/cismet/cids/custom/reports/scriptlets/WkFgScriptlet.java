@@ -22,6 +22,8 @@ import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fill.JRFillField;
 
+import org.openide.util.Exceptions;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -29,11 +31,13 @@ import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ListIterator;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -136,30 +140,107 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * DOCUMENT ME!
+     * fetches a list with lawa types, ordered by their "von"-Station,for the wk_fg report. adds "Kein Typ" and "Gewässerwechsel" elements to that list.
      *
      * @return  DOCUMENT ME!
      */
     public Collection<CidsBean> getLawa() {
         try {
             final MetaClass mcLawa = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "lawa");
+            final MetaClass mcStation_linie = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station_linie");
+            final MetaClass mcStation = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station");
 
-            final String query = "SELECT "
+            final String query = "SELECT"
                         + "   " + mcLawa.getID() + ", "
-                        + "   " + mcLawa.getPrimaryKey() + " "
-                        + "FROM "
-                        + "   " + mcLawa.getTableName() + " "
-                        + "WHERE "
-                        + "   wk_k = '" + getWkK() + "' "
-                        + ";";
+                        + "   l." + mcLawa.getPrimaryKey() + ", "
+                        + "       s.wert "
+                        + " FROM "
+                        + "   " + mcLawa.getTableName() + " l "
+                        + " JOIN "
+                        + "   " + mcStation_linie.getTableName() + " sl on l.linie = sl."
+                        + mcStation_linie.getPrimaryKey()
+                        + " JOIN "
+                        + "   " + mcStation.getTableName() + " s on sl.von = s." + mcStation.getPrimaryKey()
+                        + " WHERE "
+                        + "       wk_k = '" + getWkK() + "' "
+                        + " order by s.wert ;";
 
-            return getBeansFromQuery(query);
+            final ArrayList<CidsBean> lawa_types = getBeansFromQuery(query);
+
+            if (lawa_types.size() > 1) {
+                extendLawa_TypesWithNoTypeElements(lawa_types);
+            }
+
+            return lawa_types;
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
+                LOG.fatal("Problem in getLawa() in WkFgScriplet", ex);
             }
             return null;
         }
+    }
+
+    /**
+     * Adds "Kein Typ" and "Gewässerwechsel" elements to the Lawa_types list. These elements are added when the end
+     * station and the begin station of two successive Lawa types differ.
+     *
+     * @param   lawa_types  The list to modify with Lawa Types
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private void extendLawa_TypesWithNoTypeElements(final ArrayList<CidsBean> lawa_types) throws Exception {
+        // cursor position of ListIterator is always between the elements
+        // possible cursor positions (^):  ^ Element(0) ^ Element(1) ^ Element(2) ^ ... Element(n-1) ^
+        final ListIterator<CidsBean> iter = lawa_types.listIterator();
+        CidsBean lawa_type1 = iter.next();
+        while (iter.hasNext()) {
+            final CidsBean lawa_type2 = iter.next();
+            final Double lawa1_bis = ((Double)lawa_type1.getProperty("linie.bis.wert"));
+            final Double lawa2_von = ((Double)lawa_type2.getProperty("linie.von.wert"));
+
+            if (lawa1_bis < lawa2_von) {
+                final CidsBean newLawa = createNewLawaCidsBean();
+
+                final long cids1RouteGWK = ((Long)lawa_type1.getProperty("linie.von.route.gwk"));
+                final long cids2RouteGWK = ((Long)lawa_type2.getProperty("linie.von.route.gwk"));
+
+                if (cids1RouteGWK == cids2RouteGWK) {
+                    newLawa.setProperty("lawa_nr.description", "kein Typ");
+                    newLawa.setProperty("linie.von.wert", lawa1_bis);
+                    newLawa.setProperty("linie.bis.wert", lawa2_von);
+                } else {
+                    newLawa.setProperty("lawa_nr.description", "Gewässerwechsel");
+                }
+
+                // add newLawa before cids2
+                iter.previous();
+                iter.add(newLawa);
+                // set the iterator back to the old position (after cids2)
+                iter.next();
+            }
+            lawa_type1 = lawa_type2;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private CidsBean createNewLawaCidsBean() throws Exception {
+        final CidsBean newLawa = CidsBeanSupport.createNewCidsBeanFromTableName("LAWA");
+        final CidsBean newLawa_Nr = CidsBeanSupport.createNewCidsBeanFromTableName("LA_LAWA_NR");
+        final CidsBean newLinie = CidsBeanSupport.createNewCidsBeanFromTableName("Station_linie");
+        final CidsBean newVon = CidsBeanSupport.createNewCidsBeanFromTableName("Station");
+        final CidsBean newBis = CidsBeanSupport.createNewCidsBeanFromTableName("Station");
+
+        newLawa.setProperty("lawa_nr", newLawa_Nr);
+        newLawa.setProperty("linie", newLinie);
+        newLinie.setProperty("von", newVon);
+        newLinie.setProperty("bis", newBis);
+        return newLawa;
     }
 
     /**

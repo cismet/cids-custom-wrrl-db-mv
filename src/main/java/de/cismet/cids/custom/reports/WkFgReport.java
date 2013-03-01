@@ -249,7 +249,7 @@ public class WkFgReport {
             } else if (bewirtschaftungsende_coll.size() == 1) {
                 final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.iterator().next();
                 bewirtschaftung_bis = (Double)bewirtschaftungsende.getProperty("stat.wert");
-            } else { //??? bewirtschaftungsende should contain only none or one CidsBean?
+            } else { // ??? bewirtschaftungsende should contain only none or one CidsBean?
                 final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.iterator().next();
                 bewirtschaftung_bis = (Double)bewirtschaftungsende.getProperty("stat.wert");
                 Log.warn("Teil " + teil.getProperty("ID") + " hat mehrere Bewirtschaftungsenden.");
@@ -302,7 +302,7 @@ public class WkFgReport {
                 "admin",
                 "kif",
                 "wk_fg",
-                579,
+                23,
                 "Test",
                 1280,
                 1024);
