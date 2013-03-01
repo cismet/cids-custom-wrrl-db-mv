@@ -56,7 +56,12 @@ public class EntwicklungszielBandMember extends AbschnittsinfoMember implements 
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
         this.cidsBean = cidsBean;
-        setToolTipText(String.valueOf(cidsBean.getProperty("name_bezeichnung.name")));
+
+        if (cidsBean.getProperty("name_bezeichnung.name") != null) {
+            setToolTipText(String.valueOf(cidsBean.getProperty("name_bezeichnung.name")));
+        } else {
+            setToolTipText("");
+        }
         determineBackgroundColour();
         setBackgroundPainter(unselectedBackgroundPainter);
     }
