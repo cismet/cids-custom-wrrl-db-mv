@@ -78,7 +78,12 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+
+        if (bean.getProperty("name_bezeichnung.name") != null) {
+            setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+        } else {
+            setToolTipText("");
+        }
     }
 
     /**
@@ -192,7 +197,12 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
         if (evt.getPropertyName().equals("name_bezeichnung")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+
+            if (bean.getProperty("name_bezeichnung.name") != null) {
+                setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+            } else {
+                setToolTipText("");
+            }
         } else {
             super.propertyChange(evt);
         }

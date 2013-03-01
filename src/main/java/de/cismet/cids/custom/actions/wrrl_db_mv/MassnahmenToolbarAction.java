@@ -38,7 +38,7 @@ import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
  */
 
 @ServiceProvider(service = CidsClientToolbarItem.class)
-public class MaßnahmenToolbarAction extends AbstractNewObjectToolbarAction {
+public class MassnahmenToolbarAction extends AbstractNewObjectToolbarAction {
 
     //~ Methods ----------------------------------------------------------------
 
