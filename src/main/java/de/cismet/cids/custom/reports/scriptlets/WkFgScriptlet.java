@@ -140,7 +140,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * fetches a list with lawa types, ordered by their "von"-Station,for the wk_fg report. adds "Kein Typ" and "Gewässerwechsel" elements to that list.
+     * fetches a list with lawa types, ordered by their "von"-Station,for the wk_fg report. adds "Kein Typ" and
+     * "Gewässerwechsel" elements to that list.
      *
      * @return  DOCUMENT ME!
      */
