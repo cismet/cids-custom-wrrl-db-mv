@@ -31,6 +31,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.*;
@@ -780,57 +782,136 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * loads the contained objects from the server.
      */
     private void loadData() {
-        final ArrayList<ArrayList> massnBeans = new ArrayList();
-        final List<CidsBean> beans = cidsBean.getBeanCollectionProperty("massnahmen");
-
-        for (final CidsBean tmp : beans) {
-            massnBeans.add(convertToList(tmp));
-        }
-
-        gups = new ArrayList<String>();
-        planungsabschnitte = new ArrayList<String>();
-        final List<Integer> planungsabschnitteId = new ArrayList<Integer>();
-        final List<Integer> gupId = new ArrayList<Integer>();
-
-        for (final ArrayList bean : massnBeans) {
-            final String plan = toName(bean);
-
-            if (!planungsabschnitte.contains(plan)) {
-                final String gup = String.valueOf(bean.get(GUP_NAME));
-
-                planungsabschnitte.add(plan);
-                planungsabschnitteId.add((Integer)bean.get(PL_ID));
-                if (!gups.contains(gup)) {
-                    gups.add(gup);
-                    gupId.add((Integer)bean.get(GUP_ID));
-                }
-            }
-        }
-
-        liGup.setModel(new CidsBeanModel(gups, gupId));
-        liPlan.setModel(new CidsBeanModel(planungsabschnitte, planungsabschnitteId));
-        tabMassn.setModel(new MassnTableModel(massnBeans));
-        fillKumTable();
-        tabMassnKum.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        final WaitingDialogThread<ArrayList<ArrayList>> t = new WaitingDialogThread<ArrayList<ArrayList>>(
+                StaticSwingTools.getParentFrame(
+                    GupLosEditor.this),
+                true,
+                "Lade betroffene Maßnahmen",
+                null,
+                200) {
 
                 @Override
-                public void valueChanged(final ListSelectionEvent e) {
-                    final int[] row = tabMassnKum.getSelectedRows();
-                    final String[] filters = new String[row.length];
-                    int index = 0;
-
-                    for (final int tmp : row) {
-                        final Object filter = ((MassnKumTableModel)tabMassnKum.getModel()).getValueAt(
-                                tmp,
-                                0);
-                        filters[index++] = (String)filter;
-                    }
-
-                    ((MassnTableModel)tabMassn.getModel()).setFilter(filters);
+                protected ArrayList<ArrayList> doInBackground() throws Exception {
+                    final List in = new ArrayList(1);
+                    in.add(cidsBean.getProperty("id").toString());
+                    return (ArrayList<ArrayList>)massnCache.calcValue(in);
                 }
-            });
-        initialised = true;
-        jButton1.setEnabled(true);
+
+                @Override
+                protected void done() {
+                    try {
+                        final ArrayList<ArrayList> massnBeans = get();
+                        gups = new ArrayList<String>();
+                        planungsabschnitte = new ArrayList<String>();
+                        final List<Integer> planungsabschnitteId = new ArrayList<Integer>();
+                        final List<Integer> gupId = new ArrayList<Integer>();
+                        final List<CidsBean> beans = cidsBean.getBeanCollectionProperty("massnahmen");
+
+                        for (final ArrayList bean : massnBeans) {
+                            final String plan = toName(bean);
+                            final Integer id = (Integer)bean.get(UM_ID);
+
+                            for (final CidsBean tmp : beans) {
+                                if (tmp.getProperty("id").equals(id) && (bean.size() == 25)) {
+                                    bean.add(tmp);
+                                    break;
+                                }
+                            }
+
+                            if (!planungsabschnitte.contains(plan)) {
+                                final String gup = String.valueOf(bean.get(GUP_NAME));
+
+                                planungsabschnitte.add(plan);
+                                planungsabschnitteId.add((Integer)bean.get(PL_ID));
+                                if (!gups.contains(gup)) {
+                                    gups.add(gup);
+                                    gupId.add((Integer)bean.get(GUP_ID));
+                                }
+                            }
+                        }
+
+                        liGup.setModel(new CidsBeanModel(gups, gupId));
+                        liPlan.setModel(new CidsBeanModel(planungsabschnitte, planungsabschnitteId));
+                        tabMassn.setModel(new MassnTableModel(massnBeans));
+                        fillKumTable();
+                        tabMassnKum.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+                                @Override
+                                public void valueChanged(final ListSelectionEvent e) {
+                                    final int[] row = tabMassnKum.getSelectedRows();
+                                    final String[] filters = new String[row.length];
+                                    int index = 0;
+
+                                    for (final int tmp : row) {
+                                        final Object filter = ((MassnKumTableModel)tabMassnKum.getModel()).getValueAt(
+                                                tmp,
+                                                0);
+                                        filters[index++] = (String)filter;
+                                    }
+
+                                    ((MassnTableModel)tabMassn.getModel()).setFilter(filters);
+                                }
+                            });
+                        initialised = true;
+                        jButton1.setEnabled(true);
+                    } catch (Exception e) {
+                        LOG.error("Error while trying to receive the underlying data.", e);
+                    }
+                }
+            };
+
+        t.start();
+//        final ArrayList<ArrayList> massnBeans = new ArrayList();
+//        final List<CidsBean> beans = cidsBean.getBeanCollectionProperty("massnahmen");
+//
+//        for (final CidsBean tmp : beans) {
+//            massnBeans.add(convertToList(tmp));
+//        }
+//
+//        gups = new ArrayList<String>();
+//        planungsabschnitte = new ArrayList<String>();
+//        final List<Integer> planungsabschnitteId = new ArrayList<Integer>();
+//        final List<Integer> gupId = new ArrayList<Integer>();
+//
+//        for (final ArrayList bean : massnBeans) {
+//            final String plan = toName(bean);
+//
+//            if (!planungsabschnitte.contains(plan)) {
+//                final String gup = String.valueOf(bean.get(GUP_NAME));
+//
+//                planungsabschnitte.add(plan);
+//                planungsabschnitteId.add((Integer)bean.get(PL_ID));
+//                if (!gups.contains(gup)) {
+//                    gups.add(gup);
+//                    gupId.add((Integer)bean.get(GUP_ID));
+//                }
+//            }
+//        }
+//
+//        liGup.setModel(new CidsBeanModel(gups, gupId));
+//        liPlan.setModel(new CidsBeanModel(planungsabschnitte, planungsabschnitteId));
+//        tabMassn.setModel(new MassnTableModel(massnBeans));
+//        fillKumTable();
+//        tabMassnKum.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//
+//                @Override
+//                public void valueChanged(final ListSelectionEvent e) {
+//                    final int[] row = tabMassnKum.getSelectedRows();
+//                    final String[] filters = new String[row.length];
+//                    int index = 0;
+//
+//                    for (final int tmp : row) {
+//                        final Object filter = ((MassnKumTableModel)tabMassnKum.getModel()).getValueAt(
+//                                tmp,
+//                                0);
+//                        filters[index++] = (String)filter;
+//                    }
+//
+//                    ((MassnTableModel)tabMassn.getModel()).setFilter(filters);
+//                }
+//            });
+//        initialised = true;
+//        jButton1.setEnabled(true);
     }
 
     /**
@@ -916,6 +997,22 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 }
             }
         }
+
+        Collections.sort(groups, new Comparator<ArrayList>() {
+
+                @Override
+                public int compare(final ArrayList o1, final ArrayList o2) {
+                    if (((o1 != null) && (o1.get(0) != null)) && ((o2 != null) && (o2.get(0) != null))) {
+                        return ((String)o1.get(0)).compareTo((String)o2.get(0));
+                    } else if (((o1 == null) || (o1.get(0) == null)) && ((o2 == null) || (o2.get(0) == null))) {
+                        return 0;
+                    } else if ((o1 == null) || (o1.get(0) == null)) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            });
 
         return groups;
     }
