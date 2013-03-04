@@ -122,6 +122,8 @@
 	<field name="nh4_gk_lawa" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="nh4_owert_rakon" class="java.math.BigDecimal"/>
 	<field name="messjahr" class="java.lang.Integer"/>
+	<field name="cl_owert_rakon" class="java.math.BigDecimal"/>
+	<field name="cl_gk_lawa" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -143,7 +145,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="137">
+		<band height="145">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="64" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
@@ -444,11 +446,56 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nh4_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="0" y="112" width="130" height="16" forecolor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="128" width="130" height="16" forecolor="#000000"/>
 				<textElement markup="none">
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Messjahr: " + $F{messjahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="nh4Col" x="130" y="112" width="141" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cl_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="112" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Chlorid]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="412" y="112" width="143" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="271" y="112" width="141" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cl_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
