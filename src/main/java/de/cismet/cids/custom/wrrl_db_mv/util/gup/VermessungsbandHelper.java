@@ -260,6 +260,7 @@ public class VermessungsbandHelper {
         panBand.add(jband, BorderLayout.CENTER);
 //        updateUI();
         modelListener.bandModelSelectionChanged(null);
+        jband.repaint();
     }
 
     /**
