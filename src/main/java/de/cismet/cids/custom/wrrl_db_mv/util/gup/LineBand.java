@@ -25,9 +25,14 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.jbands.BandEvent;
 import de.cismet.tools.gui.jbands.BandMemberEvent;
@@ -45,7 +50,8 @@ import de.cismet.tools.gui.jbands.interfaces.BandModificationProvider;
  */
 public abstract class LineBand extends DefaultBand implements CidsBeanCollectionStore,
     BandModificationProvider,
-    BandMemberListener {
+    BandMemberListener,
+    EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -65,6 +71,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     private HashMap<String, CidsBean> beanMap = new HashMap<String, CidsBean>();
     private boolean normalise = false;
     private CidsBean route;
+    private List<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -582,6 +589,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         final CidsBean memberBean = member.getCidsBean();
         refresh(memberBean, false);
         objectBeans.remove(memberBean);
+        beansToDelete.add(memberBean);
 
         final BandEvent e = new BandEvent();
         e.setSelectionLost(true);
@@ -596,6 +604,42 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 //        } catch (Exception e) {
 //            LOG.error("Error while deleting a band member.", e);
 //        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  event  status DOCUMENT ME!
+     */
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            // all as delete marked band member will be deleted in the database
+            CismetThreadPool.execute(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        for (final CidsBean tmp : beansToDelete) {
+                            try {
+                                tmp.delete();
+                                tmp.persist();
+                            } catch (Exception e) {
+                                LOG.error("Cannot delete bean.", e);
+                            }
+                        }
+                    }
+                });
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public boolean prepareForSave() {
+        return true;
     }
 
     /**

@@ -72,7 +72,11 @@ public class GeschuetzteArtRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("art.name") + "");
+        if (bean.getProperty("art.name") != null) {
+            setToolTipText(bean.getProperty("art.name") + "");
+        } else {
+            setToolTipText("");
+        }
     }
 
     /**
@@ -118,7 +122,11 @@ public class GeschuetzteArtRWBandMember extends LineBandMember {
         if (evt.getPropertyName().equals("art")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("art.name") + "");
+            if (bean.getProperty("art.name") != null) {
+                setToolTipText(bean.getProperty("art.name") + "");
+            } else {
+                setToolTipText("");
+            }
         } else {
             super.propertyChange(evt);
         }

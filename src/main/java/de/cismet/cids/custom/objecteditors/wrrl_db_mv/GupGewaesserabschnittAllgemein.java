@@ -14,6 +14,12 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import java.awt.EventQueue;
 
+import java.io.File;
+
+import java.util.Arrays;
+
+import javax.swing.JFileChooser;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
@@ -48,6 +54,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel glassPanel;
+    private javax.swing.JButton jbAdd;
     private javax.swing.JButton jbDownload;
     private javax.swing.JList jlObjectList;
     private javax.swing.JPanel jpControl;
@@ -81,8 +88,9 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtGewaessername);
-            jpDelete.setEnabled(readOnly);
         }
+        jpDelete.setEnabled(!readOnly);
+        jbAdd.setEnabled(!readOnly);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -107,6 +115,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         jpControl = new javax.swing.JPanel();
         jbDownload = new javax.swing.JButton();
         jpDelete = new javax.swing.JButton();
+        jbAdd = new javax.swing.JButton();
         glassPanel = new de.cismet.tools.gui.RoundedPanel();
 
         setOpaque(false);
@@ -223,6 +232,7 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 15, 15);
@@ -239,12 +249,31 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 15, 0);
         jpControl.add(jpDelete, gridBagConstraints);
+
+        jbAdd.setText(org.openide.util.NbBundle.getMessage(
+                GupGewaesserabschnittAllgemein.class,
+                "GupGewaesserabschnittAllgemein.jbAdd.text")); // NOI18N
+        jbAdd.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbAddActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 15, 15);
+        jpControl.add(jbAdd, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -291,6 +320,22 @@ public class GupGewaesserabschnittAllgemein extends javax.swing.JPanel implement
     private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
         ((DocumentDropList)jlObjectList).downloadSelectedDocs();
     }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAddActionPerformed
+        if (!readOnly) {
+            final JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showDialog(this, "Hinzufügen");
+            final File[] files = chooser.getSelectedFiles();
+
+            ((DocumentDropList)jlObjectList).addFiles(Arrays.asList(files));
+        }
+    } //GEN-LAST:event_jbAddActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

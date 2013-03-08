@@ -53,6 +53,7 @@ import javax.swing.event.DocumentListener;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -783,6 +784,18 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         final String oldAbschnitt = (String)oldBean.getProperty("gewaesser_abschnitt");
         final String oldSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".2" : ".1");
         final String newSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".1" : ".2");
+
+        // Linie durch die Linie aus dem Cache ersetzen
+        final CidsBean line = CidsBeanCache.getInstance().getCachedBeanFor((CidsBean)oldBean.getProperty("linie"));
+        oldBean.setProperty("linie", line);
+        line.setProperty(
+            "von",
+            CidsBeanCache.getInstance().getCachedBeanFor(
+                (CidsBean)line.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM)));
+        line.setProperty(
+            "bis",
+            CidsBeanCache.getInstance().getCachedBeanFor(
+                (CidsBean)line.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO)));
 
         final CidsBean oldFromPointBean = (CidsBean)oldBean.getProperty("linie."
                         + LinearReferencingConstants.PROP_STATIONLINIE_FROM);

@@ -38,9 +38,13 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGruppe;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JLabel lblColor;
+    private javax.swing.JLabel lblGruppe;
+    private javax.swing.JLabel lblLatName;
     private javax.swing.JLabel lblName;
+    private javax.swing.JTextField txtLatName;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -64,6 +68,8 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtName);
+            RendererTools.makeReadOnly(txtLatName);
+            RendererTools.makeReadOnly(cbGruppe);
             RendererTools.makeReadOnly(dccColor);
         }
     }
@@ -84,6 +90,10 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         txtName = new javax.swing.JTextField();
         lblColor = new javax.swing.JLabel();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
+        lblLatName = new javax.swing.JLabel();
+        txtLatName = new javax.swing.JTextField();
+        lblGruppe = new javax.swing.JLabel();
+        cbGruppe = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -152,6 +162,71 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(dccColor, gridBagConstraints);
+
+        lblLatName.setText(org.openide.util.NbBundle.getMessage(
+                GeschuetzteArtEditor.class,
+                "GeschuetzteArtEditor.lblLatName.text")); // NOI18N
+        lblLatName.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblLatName.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblLatName.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblLatName, gridBagConstraints);
+
+        txtLatName.setMinimumSize(new java.awt.Dimension(400, 25));
+        txtLatName.setPreferredSize(new java.awt.Dimension(450, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lateinischer_name}"),
+                txtLatName,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(txtLatName, gridBagConstraints);
+
+        lblGruppe.setText(org.openide.util.NbBundle.getMessage(
+                GeschuetzteArtEditor.class,
+                "GeschuetzteArtEditor.lblGruppe.text")); // NOI18N
+        lblGruppe.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblGruppe.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblGruppe.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblGruppe, gridBagConstraints);
+
+        cbGruppe.setMaximumSize(new java.awt.Dimension(450, 25));
+        cbGruppe.setMinimumSize(new java.awt.Dimension(450, 25));
+        cbGruppe.setPreferredSize(new java.awt.Dimension(450, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gruppe}"),
+                cbGruppe,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbGruppe, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

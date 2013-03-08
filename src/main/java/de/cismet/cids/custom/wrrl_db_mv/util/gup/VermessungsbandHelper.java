@@ -149,7 +149,21 @@ public class VermessungsbandHelper {
     /**
      * DOCUMENT ME!
      */
+    public void reset() {
+        vermessungsBand = new VermessungsBand("Vermessung", VERMESSUNG);
+        vBand = new JBand();
+        vBandModel = new SimpleBandModel();
+        createdBeans = new ArrayList<CidsBean>();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     public void showRoute() {
+        if (route != null) {
+            FeatureRegistry.getInstance().removeRouteFeature(route);
+        }
+
         final CidsBean station = (CidsBean)cidsBean.getProperty("linie.von");
 
         if ((station != null)) {
@@ -246,6 +260,7 @@ public class VermessungsbandHelper {
         panBand.add(jband, BorderLayout.CENTER);
 //        updateUI();
         modelListener.bandModelSelectionChanged(null);
+        jband.repaint();
     }
 
     /**
@@ -259,7 +274,7 @@ public class VermessungsbandHelper {
         try {
             final int res = JOptionPane.showConfirmDialog(
                     StaticSwingTools.getParentFrame(comp),
-                    "Wenn Sie die Abschnitte übernehmen, dann werden die bereits vorhandenen Abschnitte gelöscht. Wollen Sie fortrfahren?",
+                    "Wenn Sie die Abschnitte übernehmen, dann werden die bereits vorhandenen Abschnitte gelöscht. Wollen Sie fortfahren?",
                     "Stationen übernehmen",
                     JOptionPane.OK_CANCEL_OPTION);
 

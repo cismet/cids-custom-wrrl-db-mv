@@ -66,12 +66,10 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
     private List<CidsBean> others;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSeite;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbUmlandnutzungsart;
     private javax.swing.JLabel lblObergruppe;
     private javax.swing.JLabel lblSchutzkategorie;
     private javax.swing.JTextField lblSchutzkategorieVal;
-    private javax.swing.JLabel lblSeite;
     private javax.swing.JLabel lblUmlandnutzungsart;
     private javax.swing.JLabel lblUmlandnutzungsobergruppe;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
@@ -99,8 +97,9 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
         linearReferencedLineEditor.setLineField("linie");
         linearReferencedLineEditor.setShowOtherInDialog(true);
         initComponents();
-        lblSeite.setVisible(false);
-        cbSeite.setVisible(false);
+
+        lblObergruppe.setVisible(false);
+        lblUmlandnutzungsobergruppe.setVisible(false);
 
         if (!readOnly) {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
@@ -108,7 +107,6 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
                 "gup_unterhaltungserfordernis",
                 "gup_unterhaltungserfordernis.linie = ");
         } else {
-            RendererTools.makeReadOnly(cbSeite);
             RendererTools.makeReadOnly(lblSchutzkategorieVal);
             RendererTools.makeReadOnly(cbUmlandnutzungsart);
         }
@@ -131,8 +129,6 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
         lblUmlandnutzungsart = new javax.swing.JLabel();
         cbUmlandnutzungsart = new ScrollableComboBox();
         lblSchutzkategorie = new javax.swing.JLabel();
-        lblSeite = new javax.swing.JLabel();
-        cbSeite = new ScrollableComboBox();
         linearReferencedLineEditor = linearReferencedLineEditor;
         lblSchutzkategorieVal = new javax.swing.JTextField();
 
@@ -216,31 +212,6 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblSchutzkategorie, gridBagConstraints);
-
-        lblSeite.setText(org.openide.util.NbBundle.getMessage(
-                GupUmlandnutzungEditor.class,
-                "GupUmlandnutzungEditor.lblSeite.text")); // NOI18N
-        lblSeite.setMaximumSize(new java.awt.Dimension(150, 17));
-        lblSeite.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblSeite.setPreferredSize(new java.awt.Dimension(150, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblSeite, gridBagConstraints);
-
-        cbSeite.setMaximumSize(new java.awt.Dimension(290, 20));
-        cbSeite.setMinimumSize(new java.awt.Dimension(290, 20));
-        cbSeite.setPreferredSize(new java.awt.Dimension(290, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbSeite, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
