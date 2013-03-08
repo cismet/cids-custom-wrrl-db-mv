@@ -423,6 +423,25 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
         return combined;
     }
 
+    /**
+     * gets a collection of measure type codes and returns their names as String with the format: "measureTypeCode \n
+     * measureTypeCode \n ... measureTypeCode"
+     *
+     * @param   measureTypeCollection
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String formatMeasureTypeCodes(final Collection<CidsBean> measureTypeCollection) {
+        String measureTypeCodes = "";
+        for (final CidsBean measureTypeCode : measureTypeCollection) {
+            measureTypeCodes += measureTypeCode.getProperty("name") + "\n";
+        }
+        if (!measureTypeCodes.equals("")) {
+            measureTypeCodes = measureTypeCodes.substring(0, measureTypeCodes.length() - 1);
+        }
+        return measureTypeCodes;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**

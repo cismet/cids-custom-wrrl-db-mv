@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkFgScriptlet">
 	<import value="de.cismet.cids.dynamics.CidsBean"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="detail_style" isDefault="false" fill="Solid" hAlign="Center" vAlign="Middle" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" isPdfEmbedded="true">
@@ -45,6 +45,7 @@
 	<field name="stalu.value" class="java.lang.String"/>
 	<field name="wk_fg.bemerkung" class="java.lang.String"/>
 	<field name="wk_fg.evk.name" class="java.lang.String"/>
+	<field name="de_meas_cd" class="java.util.Collection"/>
 	<background>
 		<band/>
 	</background>
@@ -321,29 +322,35 @@ Entwicklungsziel]]></text>
 				<text><![CDATA[bis]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="575" y="0" width="113" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="696" y="0" width="47" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Kosten
 (€)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="688" y="0" width="114" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="743" y="0" width="59" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Termine
-Ausführ-
-ung]]></text>
+Ausführung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="column_header_style" mode="Opaque" x="462" y="0" width="113" height="65" backcolor="#FFCC00"/>
+				<reportElement style="column_header_style" mode="Opaque" x="462" y="0" width="42" height="65" backcolor="#FFCC00"/>
 				<textElement/>
 				<text><![CDATA[Priorität]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="column_header_style" mode="Opaque" x="504" y="0" width="192" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Measure
+Type
+Code]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="16">
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="462" y="0" width="113" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="462" y="0" width="42" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -417,7 +424,7 @@ ung]]></text>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ziele}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="575" y="0" width="113" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="696" y="0" width="47" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -429,9 +436,21 @@ ung]]></text>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$F{kosten}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="688" y="0" width="114" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="743" y="0" width="59" height="16" isPrintWhenDetailOverflows="true"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung.name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="504" y="0" width="192" height="16" isPrintWhenDetailOverflows="true"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_SCRIPTLET}.formatMeasureTypeCodes($F{de_meas_cd})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
