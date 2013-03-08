@@ -424,8 +424,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * gets a collection of measure type codes and returns their names as String with the format: "measureTypeCode \n
-     * measureTypeCode \n ... measureTypeCode"
+     * gets a collection of measure type codes and returns their names as String with the format: "code: measureType \n
+     * code: measureType \n ... code: measureType"
      *
      * @param   measureTypeCollection  DOCUMENT ME!
      *
@@ -434,7 +434,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     public String formatMeasureTypeCodes(final Collection<CidsBean> measureTypeCollection) {
         String measureTypeCodes = "";
         for (final CidsBean measureTypeCode : measureTypeCollection) {
-            measureTypeCodes += measureTypeCode.getProperty("name") + "\n";
+            measureTypeCodes += measureTypeCode.getProperty("value") + ": " + measureTypeCode.getProperty("name")
+                        + "\n";
         }
         if (!measureTypeCodes.equals("")) {
             measureTypeCodes = measureTypeCodes.substring(0, measureTypeCodes.length() - 1);
