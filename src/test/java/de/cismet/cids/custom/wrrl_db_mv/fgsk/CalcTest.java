@@ -53,9 +53,9 @@ import de.cismet.cids.tools.fromstring.FromStringCreator;
 
 import de.cismet.netutil.Proxy;
 
-import de.cismet.remotetesthelper.RemoteTestHelperService;
+//import de.cismet.remotetesthelper.RemoteTestHelperService;
 
-import de.cismet.remotetesthelper.ws.rest.RemoteTestHelperClient;
+//import de.cismet.remotetesthelper.ws.rest.RemoteTestHelperClient;
 
 import java.util.Arrays;
 import org.junit.Ignore;
@@ -76,7 +76,7 @@ public class CalcTest {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final String TEST_DB_NAME = "calc_test_db";
-    private static final RemoteTestHelperService SERVICE = new RemoteTestHelperClient();
+//    private static final RemoteTestHelperService SERVICE = new RemoteTestHelperClient();
     private static final String SERVER_CONFIG =
         "src/test/resources/de/cismet/cids/custom/wrrl_db_mv/fgsk/runtime.properties"; // NOI18N
 
@@ -102,9 +102,9 @@ public class CalcTest {
         p.put("log4j.rootLogger", "ALL,Remote");
         org.apache.log4j.PropertyConfigurator.configure(p);
 
-        if (!Boolean.valueOf(SERVICE.initCidsSystem(TEST_DB_NAME))) {
-            throw new IllegalStateException("cannot initilise test db");
-        }
+//        if (!Boolean.valueOf(SERVICE.initCidsSystem(TEST_DB_NAME))) {
+//            throw new IllegalStateException("cannot initilise test db");
+//        }
         final ServerProperties props = new ServerProperties(SERVER_CONFIG);
         final DBConnectionPool pool = new DBConnectionPool(props);
         final Connection con = pool.getConnection();
@@ -157,9 +157,9 @@ public class CalcTest {
             System.err.println("exit error");
         }
 
-        if (!Boolean.valueOf(SERVICE.dropDatabase(TEST_DB_NAME))) {
-            throw new IllegalStateException("could not drop test db");
-        }
+//        if (!Boolean.valueOf(SERVICE.dropDatabase(TEST_DB_NAME))) {
+//            throw new IllegalStateException("could not drop test db");
+//        }
     }
 
     /**
