@@ -50,7 +50,7 @@ import de.cismet.cismap.commons.retrieval.RetrievalEvent;
 import de.cismet.cismap.commons.retrieval.RetrievalListener;
 
 /**
- * DOCUMENT ME!
+ * The WkFgScriptlet contains the methods which are called from the WkFg reports.
  *
  * @author   jruiz
  * @version  $Revision$, $Date$
@@ -318,7 +318,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * DOCUMENT ME!
+     * generates the map in the WkFg Report. The map consists of a background and some layers, which are merged.
      *
      * @return  DOCUMENT ME!
      */
@@ -346,9 +346,9 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * DOCUMENT ME!
+     * gets an URL and fetches the Map from that URL.
      *
-     * @param   call  DOCUMENT ME!
+     * @param   call  the URL, (origin of the map)
      *
      * @return  DOCUMENT ME!
      */
@@ -404,10 +404,10 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * DOCUMENT ME!
+     * merges two images, where one image is the background and the other is the foreground.
      *
-     * @param   image    DOCUMENT ME!
-     * @param   overlay  DOCUMENT ME!
+     * @param   image    background
+     * @param   overlay  foreground
      *
      * @return  DOCUMENT ME!
      */
@@ -427,7 +427,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      * gets a collection of measure type codes and returns their names as String with the format: "measureTypeCode \n
      * measureTypeCode \n ... measureTypeCode"
      *
-     * @param   measureTypeCollection
+     * @param   measureTypeCollection  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
