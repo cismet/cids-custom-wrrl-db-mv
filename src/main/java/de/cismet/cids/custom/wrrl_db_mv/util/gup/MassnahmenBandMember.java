@@ -55,23 +55,33 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
     //~ Instance fields --------------------------------------------------------
 
     private List<String> errorList;
-    private UnterhaltungsmaßnahmeValidator.ValidationResult res;
-    private UnterhaltungsmaßnahmeValidator uv;
+    private UnterhaltungsmassnahmeValidator.ValidationResult res;
+    private UnterhaltungsmassnahmeValidator uv;
+    private boolean invertSide = false;
+    private boolean multiColorAllowed = true;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
      *
-     * @param  parent    DOCUMENT ME!
-     * @param  readOnly  DOCUMENT ME!
-     * @param  uv        DOCUMENT ME!
+     * @param  parent      DOCUMENT ME!
+     * @param  readOnly    DOCUMENT ME!
+     * @param  uv          DOCUMENT ME!
+     * @param  invertSide  DOCUMENT ME!
      */
     public MassnahmenBandMember(final MassnahmenBand parent,
             final boolean readOnly,
-            final UnterhaltungsmaßnahmeValidator uv) {
+            final UnterhaltungsmassnahmeValidator uv,
+            final Boolean invertSide) {
         super(parent, readOnly);
         this.uv = uv;
+
+        if (invertSide != null) {
+            this.invertSide = invertSide;
+        } else {
+            multiColorAllowed = false;
+        }
 
         try {
             new CidsBeanDropTarget(this);
@@ -97,7 +107,7 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      *
      * @param  uv  DOCUMENT ME!
      */
-    public void setUnterhaltungsmassnahmeValidator(final UnterhaltungsmaßnahmeValidator uv) {
+    public void setUnterhaltungsmassnahmeValidator(final UnterhaltungsmassnahmeValidator uv) {
         this.uv = uv;
 
         validateBean();
@@ -113,7 +123,7 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                     @Override
                     public void run() {
                         final List<String> errorList = new ArrayList<String>();
-                        final UnterhaltungsmaßnahmeValidator.ValidationResult res = uv.validate(
+                        final UnterhaltungsmassnahmeValidator.ValidationResult res = uv.validate(
                                 getCidsBean(),
                                 errorList);
 
@@ -136,8 +146,12 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      * DOCUMENT ME!
      */
     private void setToolTip() {
-        if ((res == null) || (res != UnterhaltungsmaßnahmeValidator.ValidationResult.error)) {
-            setToolTipText(bean.getProperty("massnahme.name") + "");
+        if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
+            if (bean.getProperty("massnahme.name") != null) {
+                setToolTipText(bean.getProperty("massnahme.name") + "");
+            } else {
+                setToolTipText("");
+            }
         } else {
             final StringBuilder text = new StringBuilder("<html>" + bean.getProperty("massnahme.name"));
 
@@ -147,7 +161,11 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                 }
             }
             text.append("</html>");
-            setToolTipText(bean.getProperty("massnahme.name") + "");
+            if (bean.getProperty("massnahme.name") != null) {
+                setToolTipText(bean.getProperty("massnahme.name") + "");
+            } else {
+                setToolTipText("");
+            }
         }
     }
 
@@ -161,14 +179,30 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
             return;
         }
         final String color = (String)bean.getProperty("massnahme.color");
+        double factor = 0.0;
+        Color secondColor = new Color(255, 66, 66);
 
+        if (multiColorAllowed) {
+            if (bean.getProperty("massnahme.einsatzvariante.factor") != null) {
+                factor = (Double)bean.getProperty("massnahme.einsatzvariante.factor");
+            }
+
+            if (bean.getProperty("massnahme.einsatzvariante.color") != null) {
+                final String secColorString = (String)bean.getProperty("massnahme.einsatzvariante.color");
+                secondColor = Color.decode(secColorString);
+            }
+        }
         if (color != null) {
             try {
-                if ((res == null) || (res != UnterhaltungsmaßnahmeValidator.ValidationResult.error)) {
-                    setBackgroundPainter(new MattePainter(Color.decode(color)));
+                if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
+                    setBackgroundPainter(new ExtendedMattePainter(
+                            Color.decode(color),
+                            secondColor,
+                            factor,
+                            invertSide));
                 } else {
                     setBackgroundPainter(new CompoundPainter(
-                            new MattePainter(Color.decode(color)),
+                            new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
                             new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
                 }
             } catch (NumberFormatException e) {

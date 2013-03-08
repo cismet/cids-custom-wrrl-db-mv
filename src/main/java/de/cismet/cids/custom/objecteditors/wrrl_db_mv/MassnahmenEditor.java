@@ -21,6 +21,9 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.Component;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.math.BigDecimal;
 
 import java.sql.Timestamp;
@@ -48,6 +51,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.*;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerProvider;
+import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
@@ -80,7 +86,9 @@ import de.cismet.tools.gui.StaticSwingTools;
 public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     EditorSaveListener,
     FooterComponentProvider,
-    CidsBeanDropListener {
+    CidsBeanDropListener,
+    BeanInitializerProvider,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -234,7 +242,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         this.cidsBean = cidsBean;
+        cidsBean.addPropertyChangeListener(this);
 
         if (cidsBean != null) {
             deActivateGUI(true);
@@ -2198,6 +2210,63 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             panGeo.setVisible(true);
             cbGeom.setVisible(true);
             lblGeom.setVisible(true);
+        }
+    }
+
+    @Override
+    public BeanInitializer getBeanInitializer() {
+        return new DefaultBeanInitializer(cidsBean) {
+
+                @Override
+                protected void processSimpleProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Object simpleValueToProcess) throws Exception {
+                    if (propertyName.equalsIgnoreCase("av_user") || propertyName.equalsIgnoreCase("av_date")
+                                || propertyName.equalsIgnoreCase("massn_wk_lfdnr")
+                                || propertyName.equalsIgnoreCase("kosten")) {
+                        return;
+                    }
+                    super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+                }
+
+                @Override
+                protected void processArrayProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Collection<CidsBean> arrayValueToProcess) throws Exception {
+                    final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
+                            beanToInit,
+                            propertyName);
+                    beans.clear();
+
+                    for (final CidsBean tmp : arrayValueToProcess) {
+                        beans.add(tmp);
+                    }
+                }
+
+                @Override
+                protected void processComplexProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final CidsBean complexValueToProcess) throws Exception {
+                    if (propertyName.equals("linie") || propertyName.equals("additional_geom")) {
+                        return;
+                    }
+
+                    // flat copy
+                    beanToInit.setProperty(propertyName, complexValueToProcess);
+                }
+            };
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equalsIgnoreCase("wk_fg")
+                    || evt.getPropertyName().equalsIgnoreCase("massn_wk_lfdnr")) {
+            bindReadOnlyFields();
+        }
+
+        if (evt.getPropertyName().equalsIgnoreCase(WB_PROPERTIES[1])
+                    || evt.getPropertyName().equalsIgnoreCase("linie")) {
+            showOrHideGeometryEditors();
         }
     }
 

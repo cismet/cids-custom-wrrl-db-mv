@@ -12,15 +12,18 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,8 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.CismetThreadPool;
+
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
 
@@ -56,7 +61,7 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
             GupGewaesserPreview.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "gup_gewaesserabschnitt");
+            "gup_planungsabschnitt");
     private static final String GUP_MASSNAHME = "gup_unterhaltungsmassnahme";
 
     public static final int GUP_MASSNAHME_UFER_LINKS = 2;
@@ -72,9 +77,9 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
     private String beanName = "";
     private JBand band = new JBand(true);
     private SimpleBandModel bandModel = new SimpleBandModel();
-    private MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME);
-    private MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME);
-    private MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME);
+    private MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME, Boolean.TRUE);
+    private MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME, null);
+    private MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME, Boolean.FALSE);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel glassPanel;
@@ -249,6 +254,38 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
 //                cidsBean);
 //            bindingGroup.bind();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void loadCidsBean(final int id) {
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "
+                                    + MC.getTableName(); // NOI18N
+                        query += " WHERE id = " + id;    // NOI18N
+
+                        final MetaObject metaObject = SessionManager.getProxy()
+                                    .getMetaObject(id, MC.getId(), MC.getDomain());
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    setCidsBean(metaObject.getBean());
+                                }
+                            });
+                    } catch (Exception e) {
+                        LOG.error("Error while loading planungsabschnitt", e);
+                    }
+                }
+            });
     }
 
     /**
