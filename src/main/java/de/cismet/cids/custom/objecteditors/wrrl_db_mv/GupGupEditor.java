@@ -21,13 +21,12 @@ import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
+import Sirius.server.newuser.User;
 import Sirius.server.newuser.permission.Policy;
 
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetListener;
 
 import java.io.File;
 
@@ -37,7 +36,6 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.tree.TreePath;
 
@@ -49,6 +47,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.DocumentDropList;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.StateMachine;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -63,6 +62,10 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.commons.concurrency.CismetConcurrency;
+
+import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
@@ -80,11 +83,58 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     //~ Static fields/initializers ---------------------------------------------
 
+    public static final String WORKFLOW_STATUS_PROPERTY = "status";
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupGupEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_planungsabschnitt");
+    private static final MetaClass MC_WF = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "gup_workflow_status");
+    // The user and the action attributes cannot be changed while the navigator is running,
+    // so the action attributes can be saved in a static context
+    private static boolean hasActionSachbearbeiter;
+    private static boolean hasActionPruefer;
+    private static final int STAT_PLANUNG = 0;
+    private static final int STAT_ANTRAG = 1;
+    private static final int STAT_PRUEFUNG = 2;
+    private static final int STAT_GENEHMIGT = 3;
+    private static final int STAT_ANGENOMMEN = 4;
+    private static final int ID_PLANUNG = 1;
+    private static final int ID_ANTRAG = 2;
+    private static final int ID_PRUEFUNG = 3;
+    private static final int ID_GENEHMIGT = 4;
+    private static final int ID_GESCHLOSSEN = -1;
+    private static final int[][] STATE_MATRIX = {
+            { 0, 1, 0, 0, 0 },
+            { 1, 0, 2, 0, 0 },
+            { 2, 0, 0, 2, 0 },
+            { 1, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0 }
+        };
+    private static MetaObject[] STATE_BEANS = null;
+
+    static {
+        readActions();
+
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    final String query = "SELECT "
+                                + MC_WF.getID() + ", "
+                                + MC_WF.getPrimaryKey()
+                                + " FROM "
+                                + MC_WF.getTableName();
+                    try {
+                        final MetaObject[] mosWkFg;
+                        STATE_BEANS = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                    } catch (Exception ex) {
+                        LOG.error("error while loading wk_fgs", ex);
+                    }
+                }
+            });
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -93,15 +143,20 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private List<CidsBean> planToAdd = new ArrayList<CidsBean>();
     private TreePath treePath;
     private int y = 0;
+    private final StateMachine stateMachine = new StateMachine(STATE_MATRIX);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butNewPlan;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGenehmigungsbehoerde;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahme;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcVon;
     private javax.swing.JButton jbAdd;
+    private javax.swing.JButton jbAngenommen;
+    private javax.swing.JButton jbAntrag;
     private javax.swing.JButton jbDownload;
+    private javax.swing.JButton jbGenehmigt;
+    private javax.swing.JButton jbPlanung;
+    private javax.swing.JButton jbPruefung;
     private javax.swing.JList jlObjectList;
     private javax.swing.JButton jpDelete;
     private javax.swing.JScrollPane jsObjectList;
@@ -112,8 +167,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblVon;
-    private javax.swing.JLabel lblWorkflowStatus;
     private javax.swing.JLabel lblZeitraum;
     private javax.swing.JLabel lblZustaendigkeit;
     private javax.swing.JPanel panFooter;
@@ -124,6 +179,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private de.cismet.tools.gui.RoundedPanel panInfo1;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JPanel panState;
     private javax.swing.JScrollPane scrollGewaesser;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtZustaendigkeit;
@@ -152,10 +208,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jbAdd.setEnabled(!readOnly);
         jpDelete.setEnabled(!readOnly);
+        jbAngenommen.setVisible(false);
+        jbAntrag.setVisible(false);
+        jbGenehmigt.setVisible(false);
+        jbPlanung.setVisible(false);
+        jbPruefung.setVisible(false);
 
         if (readOnly) {
             RendererTools.makeReadOnly(cbGenehmigungsbehoerde);
-            RendererTools.makeReadOnly(cbMassnahme);
             RendererTools.makeReadOnly(dcVon);
             RendererTools.makeReadOnly(txtName);
             RendererTools.makeReadOnly(dcBis);
@@ -172,6 +232,19 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private static void readActions() {
+        final User usr = SessionManager.getSession().getUser();
+        try {
+            hasActionSachbearbeiter = SessionManager.getProxy().hasConfigAttr(usr, "gup.sachbearbeiter");
+            hasActionPruefer = SessionManager.getProxy().hasConfigAttr(usr, "gup.genehmigungsbehoerde");
+        } catch (ConnectionException e) {
+            LOG.error("Connection Exception: ", e);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -197,8 +270,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         lblErlaeuterungsberichte = new javax.swing.JLabel();
-        lblWorkflowStatus = new javax.swing.JLabel();
-        cbMassnahme = new ScrollableComboBox();
         jsObjectList = new javax.swing.JScrollPane();
         jlObjectList = new DocumentDropList(readOnly, "dokumente");
         jbDownload = new javax.swing.JButton();
@@ -208,6 +279,13 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         dcVon = new de.cismet.cids.editors.DefaultBindableDateChooser();
         dcBis = new de.cismet.cids.editors.DefaultBindableDateChooser();
         jbAdd = new javax.swing.JButton();
+        panState = new javax.swing.JPanel();
+        jbPlanung = new javax.swing.JButton();
+        jbAntrag = new javax.swing.JButton();
+        jbPruefung = new javax.swing.JButton();
+        jbGenehmigt = new javax.swing.JButton();
+        jbAngenommen = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
         panInfo1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
@@ -249,7 +327,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblZeitraum.setFont(new java.awt.Font("Ubuntu", 1, 15));                                                        // NOI18N
+        lblZeitraum.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         lblZeitraum.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblZeitraum.text")); // NOI18N
         lblZeitraum.setMaximumSize(new java.awt.Dimension(170, 17));
         lblZeitraum.setMinimumSize(new java.awt.Dimension(170, 17));
@@ -262,9 +340,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.add(lblZeitraum, gridBagConstraints);
 
         lblZustaendigkeit.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        lblZustaendigkeit.setText(org.openide.util.NbBundle.getMessage(
-                GupGupEditor.class,
-                "GupGupEditor.lblZustaendigkeit.text"));               // NOI18N
+        lblZustaendigkeit.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblZustaendigkeit.text")); // NOI18N
         lblZustaendigkeit.setMaximumSize(new java.awt.Dimension(280, 17));
         lblZustaendigkeit.setMinimumSize(new java.awt.Dimension(280, 17));
         lblZustaendigkeit.setPreferredSize(new java.awt.Dimension(280, 17));
@@ -279,12 +355,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         txtZustaendigkeit.setMinimumSize(new java.awt.Dimension(280, 25));
         txtZustaendigkeit.setPreferredSize(new java.awt.Dimension(380, 22));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zustaendigkeit}"),
-                txtZustaendigkeit,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zustaendigkeit}"), txtZustaendigkeit, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -297,7 +368,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtZustaendigkeit, gridBagConstraints);
 
-        lblVon.setFont(new java.awt.Font("Ubuntu", 1, 15));                                                   // NOI18N
+        lblVon.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         lblVon.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblVon.text")); // NOI18N
         lblVon.setMaximumSize(new java.awt.Dimension(30, 17));
         lblVon.setMinimumSize(new java.awt.Dimension(30, 17));
@@ -309,7 +380,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblVon, gridBagConstraints);
 
-        lblBis.setFont(new java.awt.Font("Ubuntu", 1, 15));                                                   // NOI18N
+        lblBis.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         lblBis.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblBis.text")); // NOI18N
         lblBis.setMaximumSize(new java.awt.Dimension(25, 17));
         lblBis.setMinimumSize(new java.awt.Dimension(25, 17));
@@ -321,7 +392,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblBis, gridBagConstraints);
 
-        lblName.setFont(new java.awt.Font("Ubuntu", 1, 15));                                                    // NOI18N
+        lblName.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         lblName.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblName.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(170, 17));
         lblName.setMinimumSize(new java.awt.Dimension(170, 17));
@@ -337,12 +408,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         txtName.setMinimumSize(new java.awt.Dimension(280, 25));
         txtName.setPreferredSize(new java.awt.Dimension(380, 24));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
-                txtName,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"), txtName, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -357,9 +423,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         lblErlaeuterungsberichte.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         lblErlaeuterungsberichte.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblErlaeuterungsberichte.setText(org.openide.util.NbBundle.getMessage(
-                GupGupEditor.class,
-                "GupGupEditor.lblErlaeuterungsberichte.text"));               // NOI18N
+        lblErlaeuterungsberichte.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblErlaeuterungsberichte.text")); // NOI18N
         lblErlaeuterungsberichte.setMaximumSize(new java.awt.Dimension(310, 17));
         lblErlaeuterungsberichte.setMinimumSize(new java.awt.Dimension(310, 17));
         lblErlaeuterungsberichte.setPreferredSize(new java.awt.Dimension(310, 17));
@@ -370,49 +434,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 15);
         panInfoContent.add(lblErlaeuterungsberichte, gridBagConstraints);
 
-        lblWorkflowStatus.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        lblWorkflowStatus.setText(org.openide.util.NbBundle.getMessage(
-                GupGupEditor.class,
-                "GupGupEditor.lblWorkflowStatus.text"));               // NOI18N
-        lblWorkflowStatus.setMaximumSize(new java.awt.Dimension(230, 17));
-        lblWorkflowStatus.setMinimumSize(new java.awt.Dimension(230, 17));
-        lblWorkflowStatus.setPreferredSize(new java.awt.Dimension(230, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        panInfoContent.add(lblWorkflowStatus, gridBagConstraints);
-
-        cbMassnahme.setMaximumSize(new java.awt.Dimension(290, 25));
-        cbMassnahme.setMinimumSize(new java.awt.Dimension(290, 25));
-        cbMassnahme.setPreferredSize(new java.awt.Dimension(290, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"),
-                cbMassnahme,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbMassnahme, gridBagConstraints);
-
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.dokumente}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        jlObjectList);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dokumente}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jlObjectList);
         bindingGroup.addBinding(jListBinding);
 
         jsObjectList.setViewportView(jlObjectList);
@@ -420,7 +443,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
@@ -429,12 +452,10 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jbDownload.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbDownload.text")); // NOI18N
         jbDownload.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jbDownloadActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDownloadActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 5;
@@ -443,16 +464,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.add(jbDownload, gridBagConstraints);
 
         lblGenehmigungsbehoerde.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        lblGenehmigungsbehoerde.setText(org.openide.util.NbBundle.getMessage(
-                GupGupEditor.class,
-                "GupGupEditor.lblGenehmigungsbehoerde.text"));               // NOI18N
+        lblGenehmigungsbehoerde.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblGenehmigungsbehoerde.text")); // NOI18N
         lblGenehmigungsbehoerde.setMaximumSize(new java.awt.Dimension(230, 17));
         lblGenehmigungsbehoerde.setMinimumSize(new java.awt.Dimension(230, 17));
         lblGenehmigungsbehoerde.setPreferredSize(new java.awt.Dimension(230, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent.add(lblGenehmigungsbehoerde, gridBagConstraints);
 
@@ -460,17 +479,12 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         cbGenehmigungsbehoerde.setMinimumSize(new java.awt.Dimension(290, 25));
         cbGenehmigungsbehoerde.setPreferredSize(new java.awt.Dimension(290, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.genehmigungsbehoerde}"),
-                cbGenehmigungsbehoerde,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.genehmigungsbehoerde}"), cbGenehmigungsbehoerde, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -479,12 +493,10 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jpDelete.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jpDelete.text")); // NOI18N
         jpDelete.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jpDeleteActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jpDeleteActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 5;
@@ -496,12 +508,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         dcVon.setMinimumSize(new java.awt.Dimension(130, 25));
         dcVon.setPreferredSize(new java.awt.Dimension(280, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.start_datum}"),
-                dcVon,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.start_datum}"), dcVon, org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setConverter(dcVon.getConverter());
         bindingGroup.addBinding(binding);
 
@@ -518,13 +525,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         dcBis.setMinimumSize(new java.awt.Dimension(130, 25));
         dcBis.setPreferredSize(new java.awt.Dimension(280, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.end_datum}"),
-                dcBis,
-                org.jdesktop.beansbinding.BeanProperty.create("date"),
-                "");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.end_datum}"), dcBis, org.jdesktop.beansbinding.BeanProperty.create("date"), "");
         binding.setConverter(dcBis.getConverter());
         bindingGroup.addBinding(binding);
 
@@ -539,17 +540,94 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         jbAdd.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbAdd.text")); // NOI18N
         jbAdd.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jbAddActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
         panInfoContent.add(jbAdd, gridBagConstraints);
+
+        panState.setOpaque(false);
+        panState.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 5));
+
+        jbPlanung.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbPlanung.text")); // NOI18N
+        jbPlanung.setMaximumSize(new java.awt.Dimension(210, 30));
+        jbPlanung.setMinimumSize(new java.awt.Dimension(210, 30));
+        jbPlanung.setPreferredSize(new java.awt.Dimension(210, 30));
+        jbPlanung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPlanungActionPerformed(evt);
+            }
+        });
+        panState.add(jbPlanung);
+
+        jbAntrag.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbAntrag.text")); // NOI18N
+        jbAntrag.setMaximumSize(new java.awt.Dimension(210, 30));
+        jbAntrag.setMinimumSize(new java.awt.Dimension(210, 30));
+        jbAntrag.setPreferredSize(new java.awt.Dimension(210, 30));
+        jbAntrag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAntragActionPerformed(evt);
+            }
+        });
+        panState.add(jbAntrag);
+
+        jbPruefung.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbPruefung.text")); // NOI18N
+        jbPruefung.setMaximumSize(new java.awt.Dimension(210, 30));
+        jbPruefung.setMinimumSize(new java.awt.Dimension(210, 30));
+        jbPruefung.setPreferredSize(new java.awt.Dimension(210, 30));
+        jbPruefung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPruefungActionPerformed(evt);
+            }
+        });
+        panState.add(jbPruefung);
+
+        jbGenehmigt.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbGenehmigt.text")); // NOI18N
+        jbGenehmigt.setMaximumSize(new java.awt.Dimension(210, 30));
+        jbGenehmigt.setMinimumSize(new java.awt.Dimension(210, 30));
+        jbGenehmigt.setPreferredSize(new java.awt.Dimension(210, 30));
+        jbGenehmigt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGenehmigtActionPerformed(evt);
+            }
+        });
+        panState.add(jbGenehmigt);
+
+        jbAngenommen.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.jbAngenommen.text")); // NOI18N
+        jbAngenommen.setMaximumSize(new java.awt.Dimension(210, 30));
+        jbAngenommen.setMinimumSize(new java.awt.Dimension(210, 30));
+        jbAngenommen.setPreferredSize(new java.awt.Dimension(210, 30));
+        jbAngenommen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAngenommenActionPerformed(evt);
+            }
+        });
+        panState.add(jbAngenommen);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(panState, gridBagConstraints);
+
+        lblStatus.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblStatus.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblStatus.text")); // NOI18N
+        lblStatus.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblStatus.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblStatus.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 5);
+        panInfoContent.add(lblStatus, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -610,12 +688,10 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         butNewPlan.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.butNewPlan.text")); // NOI18N
         butNewPlan.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    butNewPlanActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butNewPlanActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -623,23 +699,23 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         add(butNewPlan, gridBagConstraints);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
+    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDownloadActionPerformed
         ((DocumentDropList)jlObjectList).downloadSelectedDocs();
-    }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
+    }//GEN-LAST:event_jbDownloadActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
+    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpDeleteActionPerformed
         if (readOnly) {
             return;
         }
@@ -649,14 +725,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         for (final int index : selection) {
             ((DocumentDropList)jlObjectList).removeObject(index - (count++));
         }
-    } //GEN-LAST:event_jpDeleteActionPerformed
+    }//GEN-LAST:event_jpDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAddActionPerformed
+    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddActionPerformed
         if (!readOnly) {
             final JFileChooser chooser = new JFileChooser();
             chooser.setMultiSelectionEnabled(true);
@@ -665,14 +741,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             ((DocumentDropList)jlObjectList).addFiles(Arrays.asList(files));
         }
-    } //GEN-LAST:event_jbAddActionPerformed
+    }//GEN-LAST:event_jbAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butNewPlanActionPerformed
+    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNewPlanActionPerformed
         GupPlanungsabschnittEditor.setLastGup(cidsBean);
 
         final MetaClass MC = ClassCacheMultiple.getMetaClass(
@@ -699,7 +775,52 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         } catch (Exception e) {
             LOG.error("Error while creating a new object", e);
         }
-    } //GEN-LAST:event_butNewPlanActionPerformed
+    }//GEN-LAST:event_butNewPlanActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPlanungActionPerformed
+        setState(STAT_PLANUNG, ID_PLANUNG);
+    }//GEN-LAST:event_jbPlanungActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAntragActionPerformed
+        setState(STAT_ANTRAG, ID_ANTRAG);
+    }//GEN-LAST:event_jbAntragActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbPruefungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungActionPerformed
+        setState(STAT_PRUEFUNG, ID_PRUEFUNG);
+    }//GEN-LAST:event_jbPruefungActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbGenehmigtActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtActionPerformed
+        setState(STAT_GENEHMIGT, ID_GENEHMIGT);
+    }//GEN-LAST:event_jbGenehmigtActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAngenommenActionPerformed
+        setState(STAT_ANGENOMMEN, ID_GESCHLOSSEN);
+    }//GEN-LAST:event_jbAngenommenActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -721,11 +842,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
-//            gupGewaesserPreviewTollense.setBeanName("Tollense");
-//            gupGewaesserPreviewLindebach.setBeanName("Lindebach");
-//            gupGewaesserPreviewTollense.setCidsBean(cidsBean);
-//            gupGewaesserPreviewLindebach.setCidsBean(cidsBean);
-//            lblFoot.setText("Zuletzt bearbeitet von admin am 05.04.2012");
+
             new Thread(new Runnable() {
 
                     @Override
@@ -733,7 +850,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         setCidsBeans();
                     }
                 }).start();
-//            refreshGewaesser();
         }
     }
 
@@ -742,10 +858,6 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      */
     private void setCidsBeans() {
         try {
-//            String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-//            query += " WHERE gup = " + cidsBean.getProperty("id");                                            // NOI18N
-//
-//            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
             final CidsServerSearch search = new PlanungsabschnittSearch(cidsBean.getProperty("id").toString());
             final ArrayList<ArrayList> list = (ArrayList<ArrayList>)SessionManager.getProxy()
                         .customServerSearch(search);
@@ -761,8 +873,98 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         }
                     }
                 });
+
+            if (!readOnly) {
+                activateButtons();
+            }
         } catch (final ConnectionException e) {
             LOG.error("Error while trying to receive measurements.", e); // NOI18N
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  state    DOCUMENT ME!
+     * @param  stateId  DOCUMENT ME!
+     */
+    private void setState(final Integer state, final Integer stateId) {
+        CidsBean stateObject = null;
+        final int oldState = stateMachine.getState();
+        stateMachine.setState(state);
+
+        for (final MetaObject tmp : STATE_BEANS) {
+            if (tmp.getBean().getProperty("id").equals(stateId)) {
+                stateObject = tmp.getBean();
+            }
+        }
+
+        try {
+            if (stateId == ID_GESCHLOSSEN) {
+                cidsBean.setProperty("geschlossen", true);
+
+                cidsBean.setProperty(WORKFLOW_STATUS_PROPERTY, stateObject);
+            } else {
+                final Boolean closed = (Boolean)cidsBean.getProperty("geschlossen");
+
+                if ((closed != null) && closed.booleanValue()) {
+                    cidsBean.setProperty("geschlossen", false);
+                }
+
+                cidsBean.setProperty(WORKFLOW_STATUS_PROPERTY, stateObject);
+            }
+        } catch (Exception e) {
+            LOG.error("Cannot change the state of the gup.", e);
+            stateMachine.forceState(oldState);
+        }
+
+        activateButtons();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void activateButtons() {
+        Integer status = (Integer)cidsBean.getProperty(WORKFLOW_STATUS_PROPERTY + ".id");
+
+        if (status == null) {
+            status = STAT_PLANUNG;
+        } else {
+            status = status - 1;
+        }
+
+        int rights = 0;
+
+        if (hasActionSachbearbeiter) {
+            rights = 1;
+        }
+
+        if (hasActionPruefer) {
+            rights += 2;
+        }
+
+        stateMachine.forceState(status);
+
+        jbPlanung.setVisible(false);
+        jbAntrag.setVisible(false);
+        jbPruefung.setVisible(false);
+        jbGenehmigt.setVisible(false);
+        jbAngenommen.setVisible(false);
+
+        if ((stateMachine.getRoleForState(STAT_PLANUNG) & rights) != 0) {
+            jbPlanung.setVisible(true);
+        }
+        if ((stateMachine.getRoleForState(STAT_ANTRAG) & rights) != 0) {
+            jbAntrag.setVisible(true);
+        }
+        if ((stateMachine.getRoleForState(STAT_PRUEFUNG) & rights) != 0) {
+            jbPruefung.setVisible(true);
+        }
+        if ((stateMachine.getRoleForState(STAT_GENEHMIGT) & rights) != 0) {
+            jbGenehmigt.setVisible(true);
+        }
+        if ((stateMachine.getRoleForState(STAT_ANGENOMMEN) & rights) != 0) {
+            jbAngenommen.setVisible(true);
         }
     }
 
@@ -779,7 +981,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 y++,
                 1,
                 1,
-                0,
+                1,
                 0,
                 GridBagConstraints.NORTHWEST,
                 GridBagConstraints.NONE,
@@ -797,13 +999,13 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  mo  DOCUMENT ME!
      */
     private void addPa(final MetaObject mo) {
-        final GupGewaesserPreview comp = new GupGewaesserPreview();
+        final GupGewaesserPreview comp = new GupGewaesserPreview(readOnly);
         final GridBagConstraints constraint = new GridBagConstraints(
                 0,
                 y++,
                 1,
                 1,
-                0,
+                1,
                 0,
                 GridBagConstraints.NORTHWEST,
                 GridBagConstraints.NONE,

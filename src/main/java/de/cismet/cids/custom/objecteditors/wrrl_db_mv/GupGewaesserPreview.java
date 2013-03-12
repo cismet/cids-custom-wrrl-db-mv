@@ -93,6 +93,16 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
      * Creates new form GupMassnahmeSohle.
      */
     public GupGewaesserPreview() {
+        this(false);
+    }
+
+    /**
+     * Creates new form GupMassnahmeSohle.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupGewaesserPreview(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
 
         band.setModel(bandModel);
@@ -128,7 +138,9 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 50);
         add(lblGewName, gridBagConstraints);
 
