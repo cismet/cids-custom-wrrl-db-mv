@@ -53,7 +53,6 @@ import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ExpressionEvaluator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.GaebDownload;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -72,11 +71,9 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.CalculationCache;
 import de.cismet.tools.Calculator;
-import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
-import de.cismet.tools.gui.WaitDialog;
 import de.cismet.tools.gui.WaitingDialogThread;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
@@ -127,12 +124,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int PL_ID = 23;
     public static final int GUP_ID = 24;
     public static final int BEAN = 25;
-    private static MetaClass MASSN_CLASS = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            "gup_unterhaltungsmassnahme");
-    private static MetaClass PLAN_CLASS = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            "gup_planungsabschnitt");
 
     //~ Instance fields --------------------------------------------------------
 
