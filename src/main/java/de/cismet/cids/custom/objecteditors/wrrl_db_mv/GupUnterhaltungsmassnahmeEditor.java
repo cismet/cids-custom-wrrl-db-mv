@@ -1572,7 +1572,14 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             final List<CidsBean> linieBeans = getOtherLineBeansInNeighbourhood();
 
             linearReferencedLineEditor.setOtherLines(linieBeans);
-            linearReferencedLineEditor.setCidsBean(cidsBean);
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        linearReferencedLineEditor.setCidsBean(cidsBean);
+                    }
+                });
+
             final CidsBean line = (CidsBean)cidsBean.getProperty("linie");
 
             if (line != null) {
