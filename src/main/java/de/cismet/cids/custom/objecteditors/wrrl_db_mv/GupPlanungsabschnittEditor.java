@@ -90,7 +90,8 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
  */
 public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRenderer,
     TitleComponentProvider,
-    EditorSaveListener {
+    EditorSaveListener,
+    CheckAssistentListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -313,6 +314,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private GupGewaesserWrrl wrrlEditor = new GupGewaesserWrrl();
     private GupHydrologEditor hydroEditor = new GupHydrologEditor(true);
     private boolean readOnly = false;
+    private boolean initialReadOnly = false;
     private StationLineBackup stationBackup = new StationLineBackup("linie");
     private UnterhaltungsmassnahmeValidator validator;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -401,12 +403,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      * @param  readOnly  DOCUMENT ME!
      */
     public GupPlanungsabschnittEditor(final boolean readOnly) {
-        this.readOnly = readOnly;
+        this.initialReadOnly = readOnly;
         jband = new JBand(readOnly);
         initComponents();
         butStationierung.setVisible(!readOnly);
-//        chkUnterhaltungshinweise.setVisible(false);
-//        chkUmlandnutzer.setVisible(false);
 
         spBand.getViewport().setOpaque(false);
         massnahmeEditor = new GupUnterhaltungsmassnahmeEditor(readOnly);
@@ -600,6 +600,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         lblHeading.setText("");
 
         if (cidsBean != null) {
+            setReadOnly(isReadOnly());
             bindingGroup.bind();
             if (!readOnly) {
                 vermessungsband.setCidsBean(cidsBean);
@@ -639,14 +640,81 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    private void setReadOnly(final boolean readOnly) {
+        this.readOnly = readOnly;
+
+        jband.setReadOnly(readOnly);
+        massnahmeEditor = new GupUnterhaltungsmassnahmeEditor(readOnly);
+        allgemeinEditor = new GupGewaesserabschnittAllgemein(readOnly);
+
+        panMassnahme.removeAll();
+        panAllgemein.removeAll();
+        panMassnahme.add(massnahmeEditor);
+        panAllgemein.add(allgemeinEditor, BorderLayout.CENTER);
+        butStationierung.setVisible(!readOnly);
+        rechtesUferBand.setReadOnly(readOnly);
+        linkesUferBand.setReadOnly(readOnly);
+        rechtesUmfeldBand.setReadOnly(readOnly);
+        linkesUmfeldBand.setReadOnly(readOnly);
+        sohleBand.setReadOnly(readOnly);
+
+        if (!readOnly) {
+            vermessungsband = new VermessungsbandHelper(
+                    jband,
+                    modelListener,
+                    panBand,
+                    panApplyBand,
+                    panApply,
+                    togApplyStats);
+            togApplyStats.setVisible(true);
+        } else {
+            vermessungsband = null;
+            togApplyStats.setVisible(false);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isReadOnly() {
+        if (initialReadOnly) {
+            return true;
+        }
+
+        final Boolean isClosed = (Boolean)cidsBean.getProperty("geschlossen");
+
+        if ((isClosed != null) && isClosed.booleanValue()) {
+            return true;
+        }
+
+        Integer statId = (Integer)cidsBean.getProperty("gup.status.id");
+
+        if (statId == null) {
+            statId = GupGupEditor.ID_PLANUNG;
+        }
+
+        if (GupGupEditor.hasActionSachbearbeiter() && (statId == GupGupEditor.ID_PLANUNG)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * DOCUMENT ME!
      */
     private void setNamesAndBands() {
         validator = new UnterhaltungsmassnahmeValidator();
-
-        if (!readOnly) {
-            searchValidator = validator;
+        searchValidator = validator;
+        if (!initialReadOnly) {
+            CheckAssistent.getInstance().addListener(this);
+            CheckAssistent.getInstance().setCidsBean(cidsBean);
         }
-
         massnahmeEditor.setValidator(validator);
         rechtesUferBand.setUnterhaltungsmassnahmeValidator(validator);
         sohleBand.setUnterhaltungsmassnahmeValidator(validator);
@@ -2391,10 +2459,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         entwicklungszielEditor.editorClosed(event);
         unterhaltungserfordernisEditor.editorClosed(event);
         vermessungsEditor.editorClosed(event);
-        vermessungsband.editorClosed(event);
         unterhaltungshinweisEditor.editorClosed(event);
         umlandnutzerEditor.editorClosed(event);
 
+        if (vermessungsband != null) {
+            vermessungsband.editorClosed(event);
+        }
+
+        if (!initialReadOnly) {
+            CheckAssistent.getInstance().removeListener(this);
+            CheckAssistent.getInstance().dispose();
+        }
 //        rechtesUferBand.editorClosed(event);
 //        linkesUferBand.editorClosed(event);
 //        rechtesUmfeldBand.editorClosed(event);
@@ -2439,6 +2514,50 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     public static CidsBean getLastActiveMassnBean() {
         return lastActiveMassnBean;
+    }
+
+    @Override
+    public void onSelectionChange(final CidsBean massnBean) {
+        final Integer wo = (Integer)massnBean.getProperty("wo.id");
+        MassnahmenBand band = null;
+
+        switch (wo) {
+            case GUP_SOHLE: {
+                band = sohleBand;
+                break;
+            }
+            case GUP_UFER_LINKS: {
+                band = linkesUferBand;
+                break;
+            }
+            case GUP_UFER_RECHTS: {
+                band = rechtesUferBand;
+                break;
+            }
+            case GUP_UMFELD_LINKS: {
+                band = linkesUmfeldBand;
+                break;
+            }
+            case GUP_UMFELD_RECHTS: {
+                band = rechtesUmfeldBand;
+                break;
+            }
+        }
+        final Integer id = (Integer)massnBean.getProperty("id");
+        MassnahmenBandMember member = null;
+
+        for (int i = 0; i < band.getNumberOfMembers(); ++i) {
+            member = (MassnahmenBandMember)band.getMember(i);
+            final CidsBean bean = member.getCidsBean();
+
+            if (bean.getProperty("id").equals(id)) {
+                break;
+            }
+        }
+
+        if (!member.isSelected()) {
+            jband.setSelectedMember(member);
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -2522,6 +2641,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         lastActiveMassnBean = bean;
                     }
                     ComponentRegistry.getRegistry().getSearchResultsTree().repaint();
+
+                    if (!initialReadOnly) {
+                        CheckAssistent.getInstance().setSelection(bean);
+                    }
                 } else if (bm instanceof VermeidungsgruppeReadOnlyBandMember) {
                     switchToForm("verbreitungsraum");
                     lblHeading.setText("Verbreitungsraum");
