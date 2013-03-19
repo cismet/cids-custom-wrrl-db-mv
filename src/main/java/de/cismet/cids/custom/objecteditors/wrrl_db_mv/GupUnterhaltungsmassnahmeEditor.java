@@ -1569,19 +1569,17 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
-            final List<CidsBean> linieBeans = new ArrayList<CidsBean>();
+            final List<CidsBean> linieBeans = getOtherLineBeansInNeighbourhood();
 
-            if (getMassnahmen() != null) {
-                for (final CidsBean b : getMassnahmen()) {
-                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
-
-                    if ((tmp != null) && (!tmp.getProperty("id").equals(cidsBean.getProperty("linie.id")))) {
-                        linieBeans.add(tmp);
-                    }
-                }
-            }
             linearReferencedLineEditor.setOtherLines(linieBeans);
-            linearReferencedLineEditor.setCidsBean(cidsBean);
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        linearReferencedLineEditor.setCidsBean(cidsBean);
+                    }
+                });
+
             final CidsBean line = (CidsBean)cidsBean.getProperty("linie");
 
             if (line != null) {
@@ -1614,6 +1612,66 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             refreshMassnahmenFields();
 //            validateMassnahme();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getOtherLineBeansInNeighbourhood() {
+        final List<CidsBean> linieBeans = new ArrayList<CidsBean>();
+
+        if (getMassnahmen() != null) {
+            CidsBean before = null;
+            CidsBean after = null;
+            final Double from = (Double)cidsBean.getProperty("linie.von.wert");
+            final Double until = (Double)cidsBean.getProperty("linie.bis.wert");
+
+            if ((from == null) || (until == null)) {
+                return linieBeans;
+            }
+
+            for (final CidsBean b : getMassnahmen()) {
+                final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                if ((tmp != null) && (!tmp.getProperty("id").equals(cidsBean.getProperty("linie.id")))) {
+                    final Double tmpFrom = (Double)tmp.getProperty("von.wert");
+                    final Double tmpUntil = (Double)tmp.getProperty("bis.wert");
+
+                    if ((tmpFrom != null) && (tmpFrom >= until)) {
+                        if (after == null) {
+                            after = tmp;
+                        } else {
+                            if (((Double)after.getProperty("von.wert")) > tmpFrom) {
+                                after = tmp;
+                            }
+                        }
+                    }
+
+                    if ((tmpUntil != null) && (tmpUntil <= from)) {
+                        if (before == null) {
+                            before = tmp;
+                        } else {
+                            if (((Double)before.getProperty("bis.wert")) < tmpUntil) {
+                                before = tmp;
+                            }
+                        }
+                    }
+
+//                    linieBeans.add(tmp);
+                }
+            }
+
+            if (before != null) {
+                linieBeans.add(before);
+            }
+            if (after != null) {
+                linieBeans.add(after);
+            }
+        }
+
+        return linieBeans;
     }
 
     @Override
@@ -2193,8 +2251,15 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             changeBearbeiter();
 
             if (evt.getPropertyName().equals("von") || evt.getPropertyName().equals("bis")) {
-                ((CidsBean)evt.getOldValue()).removePropertyChangeListener(this);
-                ((CidsBean)evt.getNewValue()).addPropertyChangeListener(this);
+                final CidsBean oldVal = (CidsBean)evt.getOldValue();
+                final CidsBean newVal = (CidsBean)evt.getNewValue();
+
+                if (oldVal != null) {
+                    oldVal.removePropertyChangeListener(this);
+                }
+                if (newVal != null) {
+                    newVal.addPropertyChangeListener(this);
+                }
             }
         } else if (evt.getPropertyName().equals("massnahme")) {
             refreshMassnahmenFields();

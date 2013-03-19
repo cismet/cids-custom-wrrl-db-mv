@@ -2460,8 +2460,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm;
             togAllgemeinInfo.setSelected(false);
+            final long startTime1 = System.currentTimeMillis();
             disposeEditors();
-
+            LOG.error("dispose: " + (System.currentTimeMillis() - startTime1));
             if (togApplyStats.isSelected()) {
                 bm = vermessungsband.getSelectedMember();
                 vermessungsband.setRefreshAvoided(true);
@@ -2469,6 +2470,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 bm = jband.getSelectedBandMember();
                 jband.setRefreshAvoided(true);
             }
+
+            final long startTime = System.currentTimeMillis();
 
             if (bm != null) {
                 bgrpDetails.clearSelection();
@@ -2582,6 +2585,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 lblHeading.setText("");
             }
 
+            LOG.error("time: " + (System.currentTimeMillis() - startTime));
+            final long startTime2 = System.currentTimeMillis();
+
             if (togApplyStats.isSelected()) {
                 vermessungsband.setRefreshAvoided(false);
                 vermessungsband.bandModelChanged();
@@ -2589,6 +2595,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 jband.setRefreshAvoided(false);
                 jband.bandModelChanged(null);
             }
+            LOG.error("model changed time: " + (System.currentTimeMillis() - startTime2));
         }
 
         @Override
