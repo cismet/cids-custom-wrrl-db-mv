@@ -2247,7 +2247,12 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         if (!readOnly && !evt.getPropertyName().equals("bearbeiter")
                     && !evt.getPropertyName().equals("intervall")
                     && !evt.getPropertyName().equals("ausfuehrungszeitpunkt")
-                    && !evt.getPropertyName().equals("verbleib") && !evt.getPropertyName().equals("massnahme")) {
+                    && !evt.getPropertyName().equals("verbleib")
+                    && !evt.getPropertyName().equals("angenommen")
+                    && !evt.getPropertyName().equals("abgelehnt")
+                    && !evt.getPropertyName().equals("geaendert_nach_pruefung")
+                    && !evt.getPropertyName().equals("auflagen")
+                    && !evt.getPropertyName().equals("massnahme")) {
             changeBearbeiter();
 
             if (evt.getPropertyName().equals("von") || evt.getPropertyName().equals("bis")) {
@@ -2275,6 +2280,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             try {
                 final User user = SessionManager.getSession().getUser();
                 cidsBean.setProperty("bearbeiter", user.getName() + "@" + user.getDomain());
+                cidsBean.setProperty("geaendert_nach_pruefung", Boolean.TRUE);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
