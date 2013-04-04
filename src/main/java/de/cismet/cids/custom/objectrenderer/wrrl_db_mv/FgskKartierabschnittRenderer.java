@@ -34,6 +34,7 @@ public class FgskKartierabschnittRenderer extends FgskKartierabschnittEditor imp
      */
     public FgskKartierabschnittRenderer() {
         super(true);
+	// NPE fix
         titleComponent = new FgskKartierabschnittTitleComponent();
     }
 
