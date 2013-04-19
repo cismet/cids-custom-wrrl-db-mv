@@ -17,6 +17,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.openide.util.Exceptions;
 
+import java.util.Collection;
 import java.util.List;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
@@ -48,8 +49,8 @@ public class UnterhaltungsmassnahmeValidator {
     //~ Instance fields --------------------------------------------------------
 
     private VermeidungsgruppeMitGeom[] verbreitungsraum;
-    private MetaObject[] schutzgebiete;
-    private MetaObject[] operativeZiele;
+    private Collection<CidsBean> schutzgebiete;
+    private Collection<CidsBean> operativeZiele;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -88,7 +89,7 @@ public class UnterhaltungsmassnahmeValidator {
      *
      * @return  the schutzgebiete
      */
-    public MetaObject[] getSchutzgebiete() {
+    public Collection<CidsBean> getSchutzgebiete() {
         return schutzgebiete;
     }
 
@@ -97,7 +98,7 @@ public class UnterhaltungsmassnahmeValidator {
      *
      * @param  schutzgebiete  the schutzgebiete to set
      */
-    public void setSchutzgebiete(final MetaObject[] schutzgebiete) {
+    public void setSchutzgebiete(final Collection<CidsBean> schutzgebiete) {
         this.schutzgebiete = schutzgebiete;
 
         if ((verbreitungsraum != null) && (operativeZiele != null)) {
@@ -110,7 +111,7 @@ public class UnterhaltungsmassnahmeValidator {
      *
      * @return  the operativeZiele
      */
-    public MetaObject[] getOperativeZiele() {
+    public Collection<CidsBean> getOperativeZiele() {
         return operativeZiele;
     }
 
@@ -119,7 +120,7 @@ public class UnterhaltungsmassnahmeValidator {
      *
      * @param  operativeZiele  the operativeZiele to set
      */
-    public void setOperativeZiele(final MetaObject[] operativeZiele) {
+    public void setOperativeZiele(final Collection<CidsBean> operativeZiele) {
         this.operativeZiele = operativeZiele;
 
         if ((verbreitungsraum != null) && (schutzgebiete != null)) {
@@ -177,10 +178,10 @@ public class UnterhaltungsmassnahmeValidator {
 
         final List<CidsBean> opBeans = massn.getBeanCollectionProperty("operative_ziele");
 
-        for (final MetaObject mo : operativeZiele) {
+        for (final CidsBean mo : operativeZiele) {
             if (isLineInsideBean(mo, von, bis, wo)) {
-                if ((opBeans == null) || !opBeans.contains((CidsBean)mo.getBean().getProperty("operatives_ziel"))) {
-                    final CidsBean oz = (CidsBean)mo.getBean().getProperty("operatives_ziel");
+                if ((opBeans == null) || !opBeans.contains((CidsBean)mo.getProperty("operatives_ziel"))) {
+                    final CidsBean oz = (CidsBean)mo.getProperty("operatives_ziel");
                     if (oz != null) {
                         errors.add("Das operative Ziel \"" + oz + "\" ist nicht kompatibel mit der Maßnahme.");
                     } else {
@@ -215,7 +216,7 @@ public class UnterhaltungsmassnahmeValidator {
             schuWo = GupPlanungsabschnittEditor.GUP_UFER_RECHTS;
         }
 
-        for (final MetaObject mo : schutzgebiete) {
+        for (final CidsBean mo : schutzgebiete) {
             if (isLineInsideBean(mo, von, bis, schuWo)) {
                 errors.add("Maßnahme liegt in einem Schutzgebiet.");
                 res = ValidationResult.error;
@@ -228,18 +229,18 @@ public class UnterhaltungsmassnahmeValidator {
     /**
      * DOCUMENT ME!
      *
-     * @param   mo         DOCUMENT ME!
+     * @param   moBean     mo DOCUMENT ME!
      * @param   fromBean   DOCUMENT ME!
      * @param   untilBean  DOCUMENT ME!
      * @param   woId       DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private boolean isLineInsideBean(final MetaObject mo,
+    private boolean isLineInsideBean(final CidsBean moBean,
             final double fromBean,
             final double untilBean,
             final int woId) {
-        final CidsBean moBean = mo.getBean();
+//        final CidsBean moBean = mo.getBean();
         final double von = (Double)moBean.getProperty("linie.von.wert");
         final double bis = (Double)moBean.getProperty("linie.bis.wert");
         final int wo = (Integer)moBean.getProperty("wo.id");
@@ -263,6 +264,6 @@ public class UnterhaltungsmassnahmeValidator {
             final double fromBean,
             final double untilBean,
             final int woId) {
-        return isLineInsideBean(mo.getGeschuetzteArt().getMetaObject(), fromBean, untilBean, woId);
+        return isLineInsideBean(mo.getGeschuetzteArt(), fromBean, untilBean, woId);
     }
 }
