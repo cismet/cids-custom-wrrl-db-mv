@@ -692,16 +692,26 @@ public final class Calc {
                 wbTypeId);
 
         boolean ignoreSubstrates = true;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_BLO) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_KIE) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_KUE) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TON) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TOR) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TOT) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_SAN) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_SCH) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_STE) == 0.0;
-        ignoreSubstrates &= (Double)kaBean.getProperty(PROP_BED_SUBSTRATE_WUR) == 0.0;
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_BLO) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_BLO) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_KIE) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_KIE) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_KUE) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_KUE) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_TON) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TON) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_TOR) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TOR) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_TOT) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_TOT) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_SAN) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_SAN) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_SCH) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_SCH) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_STE) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_STE) == 0.0));
+        ignoreSubstrates &= ((kaBean.getProperty(PROP_BED_SUBSTRATE_WUR) == null)
+                        || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_WUR) == 0.0));
 
         final Integer ratingSubstrates;
         if (!ignoreSubstrates
