@@ -599,7 +599,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             }
 
             try {
-                cidsBean.setProperty("wkk", wkk);
+                if (wkk != null) {
+                    cidsBean.setProperty("wkk", wkk);
+                }
             } catch (Exception ex) {
                 LOG.error("Cannot save the current gwk.", ex);
             }

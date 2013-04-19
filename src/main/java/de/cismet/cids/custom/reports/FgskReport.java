@@ -255,9 +255,11 @@ public final class FgskReport extends AbstractJasperReportPrint {
             params.put("wasserfuehrung_id", toString(bean.getProperty("wasserfuehrung_id")));
             params.put("foto_nr", toString(bean.getProperty("foto_nr")));
 
-            Boolean unterhaltungerkennbar = (Boolean)bean.getProperty("unterhaltungerkennbar");
-            unterhaltungerkennbar = (unterhaltungerkennbar == null) ? Boolean.FALSE : unterhaltungerkennbar;
-            params.put("unterhaltungerkennbar", unterhaltungerkennbar ? "ja" : "nein");
+            final Boolean unterhaltungerkennbar = (Boolean)bean.getProperty("unterhaltungerkennbar");
+            if (unterhaltungerkennbar != null) {
+                params.put("unterhaltungerkennbar", unterhaltungerkennbar ? "ja" : "nein");
+            }
+
             params.put("sonderfall_id", toInteger(bean.getProperty("sonderfall_id.value")));
             params.put("erlaeuterung", toString(bean.getProperty("erlaeuterung")));
             params.put("gewaesserbreite_id", toInteger(bean.getProperty("gewaesserbreite_id.value")));
@@ -570,9 +572,17 @@ public final class FgskReport extends AbstractJasperReportPrint {
         isUferVegetationRechtsTypical = (isUferVegetationRechtsTypical == null) ? Boolean.FALSE
                                                                                 : isUferVegetationRechtsTypical;
 
-        params.put("ufervegetation_links_typical", isUferVegetationLinksTypical ? "Ja" : "Nein");
-        params.put("ufervegetation_rechts_typical", isUferVegetationRechtsTypical ? "Ja" : "Nein");
+        if (isUferVegetationLinksTypical != null) {
+            params.put("ufervegetation_links_typical", isUferVegetationLinksTypical ? "Ja" : "Nein");
+        } else {
+            params.put("ufervegetation_links_typical", "ja / nein");
+        }
 
+        if (isUferVegetationRechtsTypical != null) {
+            params.put("ufervegetation_rechts_typical", isUferVegetationRechtsTypical ? "Ja" : "Nein");
+        } else {
+            params.put("ufervegetation_rechts_typical", "ja / nein");
+        }
         // ---
 
         params.put("uferverbau_links_id", toInteger(bean.getProperty("uferverbau_links_id.value")));
