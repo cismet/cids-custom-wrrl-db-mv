@@ -491,8 +491,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         jsMain.setOpaque(false);
 
         jPanel2.setBorder(null);
-        jPanel2.setMinimumSize(new java.awt.Dimension(400, 500));
-        jPanel2.setPreferredSize(new java.awt.Dimension(450, 573));
+        jPanel2.setMinimumSize(new java.awt.Dimension(580, 500));
+        jPanel2.setPreferredSize(new java.awt.Dimension(580, 573));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         panMain.setMinimumSize(new java.awt.Dimension(740, 460));
