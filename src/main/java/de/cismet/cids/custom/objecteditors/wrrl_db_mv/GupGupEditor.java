@@ -1117,7 +1117,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @return  DOCUMENT ME!
      */
     private boolean isReadOnly() {
-        if (readOnly) {
+        if (initialReadOnly) {
             return true;
         }
 
@@ -1317,7 +1317,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  name  DOCUMENT ME!
      */
     private void addPa(final int id, final String name) {
-        final GupGewaesserPreview comp = new GupGewaesserPreview(readOnly);
+        final GupGewaesserPreview comp = new GupGewaesserPreview(initialReadOnly);
         final GridBagConstraints constraint = new GridBagConstraints(
                 0,
                 y++,
