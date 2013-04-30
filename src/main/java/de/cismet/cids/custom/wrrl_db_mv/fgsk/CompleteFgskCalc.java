@@ -103,6 +103,7 @@ public final class CompleteFgskCalc {
     private transient int overallRatingZeroCounter;
     private transient int exceptionCounter;
     private final transient List<Integer> exceptionIds;
+    private final transient List<Integer> vorkartIds;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -161,6 +162,7 @@ public final class CompleteFgskCalc {
         kaWoWBTypeIds = new ArrayList<Integer>();
         unexpectedErrorIds = new ArrayList<Integer>();
         exceptionIds = new ArrayList<Integer>();
+        vorkartIds = new ArrayList<Integer>();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -207,6 +209,7 @@ public final class CompleteFgskCalc {
         int cidsCounter = 0;
         int unexpectedErrors = 0;
         int noCalcCounter = 0;
+        int vorkCounter = 0;
 
         while (setCids.next()) {
             try {
@@ -226,6 +229,13 @@ public final class CompleteFgskCalc {
                 if (FgskKartierabschnittEditor.isException(mo.getBean())) {
                     ++exceptionCounter;
                     exceptionIds.add(idCids);
+                    continue;
+                }
+                final Boolean vork = (Boolean)mo.getBean().getProperty("vorkatierung");
+
+                if ((vork != null) && vork.booleanValue()) {
+                    ++vorkCounter;
+                    vorkartIds.add(idCids);
                     continue;
                 }
 
@@ -384,6 +394,11 @@ public final class CompleteFgskCalc {
         System.out.println();
         System.out.println("Nicht berechenbare Datensätze");
         System.out.println(Arrays.toString(noCalcIds.toArray()));
+        System.out.println();
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println();
+        System.out.println("Vorkartierung");
+        System.out.println(Arrays.toString(vorkartIds.toArray()));
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------");
         System.out.println();
