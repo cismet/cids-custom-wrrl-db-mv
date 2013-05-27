@@ -124,6 +124,19 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int PL_ID = 23;
     public static final int GUP_ID = 24;
     public static final int BEAN = 25;
+    public static final String[] ADDITIONAL_ATTRIBUTES = {
+            "Randstreifenbreite",
+            "Böschungsneigung",
+            "Böschungslänge",
+            "Deichkronenbreite",
+            "Sohlbreite",
+            "Vorlandbreite",
+            "m³/m",
+            "Stück",
+            "Stunden",
+            "Schnitttiefe"
+        };
+    private static ExpressionEvaluator eval = new ExpressionEvaluator();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -131,7 +144,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     private List<String> gups;
     private List<String> planungsabschnitte;
-    private ExpressionEvaluator eval = new ExpressionEvaluator();
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
@@ -714,22 +726,22 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * This method creates an incomplete list. this list should not be used in the MassnTableModel
      *
      * @param   massnBean  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private ArrayList convertToList(final CidsBean massnBean) {
-        final String von = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.von.wert"));
-        final String bis = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.bis.wert"));
-        final String gup = String.valueOf(massnBean.getProperty("planungsabschnitt.gup.name"));
-        final String name = String.valueOf(massnBean.getProperty("planungsabschnitt.name"));
+    public static ArrayList convertToList(final CidsBean massnBean) {
+        final String von = "";   // String.valueOf(massnBean.getProperty("planungsabschnitt.linie.von.wert"));
+        final String bis = "";   // String.valueOf(massnBean.getProperty("planungsabschnitt.linie.bis.wert"));
+        final String gup = "";   // String.valueOf(massnBean.getProperty("planungsabschnitt.gup.name"));
+        final String name = "";  // String.valueOf(massnBean.getProperty("planungsabschnitt.name"));
         final Integer umId = (Integer)massnBean.getProperty("id");
-        final Integer plId = (Integer)massnBean.getProperty("planungsabschnitt.id");
-        final Integer gupId = (Integer)massnBean.getProperty("planungsabschnitt.gup.id");
-        String aufmassRegel = (String)massnBean.getProperty("massnahme.aufmass_regel");
-        String einheit = (String)massnBean.getProperty("massnahme.einheit");
+        final Integer plId = 0;  // (Integer)massnBean.getProperty("planungsabschnitt.id");
+        final Integer gupId = 0; // (Integer)massnBean.getProperty("planungsabschnitt.gup.id");
+        final String aufmassRegel = getAufmassRegel(massnBean);
+        final String einheit = getEinheit(massnBean);
         final ArrayList newBean = new ArrayList();
 
         newBean.add(von);
@@ -752,21 +764,48 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         newBean.add(massnBean.getProperty("schnitttiefe"));
         newBean.add(massnBean.getProperty("massnahme.id"));
         newBean.add(massnBean.getProperty("massnahme.leistungstext"));
-        if ((aufmassRegel == null) || aufmassRegel.equals("")) {
-            aufmassRegel = (String)massnBean.getProperty("massnahme.gewerk.aufmass_regel");
-        }
-
-        if ((einheit == null) || einheit.equals("")) {
-            einheit = (String)massnBean.getProperty("massnahme.gewerk.einheit");
-        }
         newBean.add(aufmassRegel);
         newBean.add(einheit);
-        newBean.add(umId);  // unterhaltungsmassnahme id
-        newBean.add(plId);  // unterhaltungsmassnahme id
-        newBean.add(gupId); // unterhaltungsmassnahme id
+        newBean.add(umId);                                      // unterhaltungsmassnahme id
+        newBean.add(plId);                                      // unterhaltungsmassnahme id
+        newBean.add(gupId);                                     // unterhaltungsmassnahme id
         newBean.add(massnBean);
 
         return newBean;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String getAufmassRegel(final CidsBean bean) {
+        String aufmassRegel = (String)bean.getProperty("massnahme.aufmass_regel");
+
+        if ((aufmassRegel == null) || aufmassRegel.equals("")) {
+            aufmassRegel = (String)bean.getProperty("massnahme.gewerk.aufmass_regel");
+        }
+
+        return aufmassRegel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String getEinheit(final CidsBean bean) {
+        String einheit = (String)bean.getProperty("massnahme.einheit");
+
+        if ((einheit == null) || einheit.equals("")) {
+            einheit = (String)bean.getProperty("massnahme.gewerk.einheit");
+        }
+
+        return einheit;
     }
 
     /**
@@ -907,25 +946,10 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             group.set(1, ((Integer)group.get(1)) + 1);
             group.set(2, (Double)group.get(2) + calculateLength(bean));
 
-            String expression = (String)bean.get(AUFMASS_REGEL);
+            final String expression = (String)bean.get(AUFMASS_REGEL);
 
-            if (expression != null) {
-                expression = replaceVariablesFromExpression(expression, bean);
-
-                if (!eval.isValidExpression(expression)) {
-                    JOptionPane.showMessageDialog(
-                        GupLosEditor.this,
-                        "Ungültige Formel zur Berechnung des Aufmaßes der Maßnahme: "
-                                + bean.get(MASSNAHMENART_NAME)
-                                + " Formel: "
-                                + bean.get(AUFMASS_REGEL)
-                                + ". Die angezeigten Werte sind nicht korrekt",
-                        "Fehler!",
-                        JOptionPane.ERROR_MESSAGE);
-                    break;
-                }
-
-                final Double a = eval.eval(expression);
+            try {
+                final Double a = calcMenge(bean, expression);
 
                 if (a != null) {
                     group.set(3, (Double)group.get(3) + a);
@@ -941,6 +965,13 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         JOptionPane.ERROR_MESSAGE);
                     break;
                 }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(
+                    GupLosEditor.this,
+                    e.getMessage(),
+                    "Fehler!",
+                    JOptionPane.ERROR_MESSAGE);
+                break;
             }
         }
 
@@ -961,6 +992,35 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             });
 
         return groups;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean        DOCUMENT ME!
+     * @param   expression  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static Double calcMenge(final ArrayList bean, String expression) throws Exception {
+        if (expression != null) {
+            expression = replaceVariablesFromExpression(expression, bean);
+
+            if (!eval.isValidExpression(expression)) {
+                final String text = "Ungültige Formel zur Berechnung des Aufmaßes der Maßnahme: "
+                            + bean.get(MASSNAHMENART_NAME)
+                            + " Formel: "
+                            + bean.get(AUFMASS_REGEL)
+                            + ". Die angezeigten Werte sind nicht korrekt";
+                throw new Exception(text);
+            }
+
+            return eval.eval(expression);
+        }
+
+        return null;
     }
 
     /**
@@ -1564,18 +1624,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 "Attr.3",
                 "Wert Attr.3"
             };
-        private final String[] additionalAttribs = {
-                "Randstreifenbreite",
-                "Böschungsneigung",
-                "Böschungslänge",
-                "Deichkronenbreite",
-                "Sohlbreite",
-                "Vorlandbreite",
-                "m³/m",
-                "Stück",
-                "Stunden",
-                "Schnitttiefe"
-            };
 
         private ArrayList<ArrayList> beans;
         private List<TableModelListener> listener = new ArrayList<TableModelListener>();
@@ -1725,7 +1773,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         if (value) {
                             return String.valueOf(tmpVal);
                         } else {
-                            return additionalAttribs[i - FIRST_ATTRIB];
+                            return ADDITIONAL_ATTRIBUTES[i - FIRST_ATTRIB];
                         }
                     }
                 }
@@ -1810,8 +1858,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 final Integer plId,
                 final Integer gupId,
                 final Integer umId) {
-            String aufmassRegel = (String)massnBean.getProperty("massnahme.aufmass_regel");
-            String einheit = (String)massnBean.getProperty("massnahme.einheit");
+            final String aufmassRegel = getAufmassRegel(massnBean);
+            final String einheit = getEinheit(massnBean);
             final ArrayList newBean = new ArrayList();
 
             newBean.add(von);
@@ -1834,18 +1882,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             newBean.add(massnBean.getProperty("schnitttiefe"));
             newBean.add(massnBean.getProperty("massnahme.id"));
             newBean.add(massnBean.getProperty("massnahme.leistungstext"));
-            if ((aufmassRegel == null) || aufmassRegel.equals("")) {
-                aufmassRegel = (String)massnBean.getProperty("massnahme.gewerk.aufmass_regel");
-            }
-
-            if ((einheit == null) || einheit.equals("")) {
-                einheit = (String)massnBean.getProperty("massnahme.gewerk.einheit");
-            }
             newBean.add(aufmassRegel);
             newBean.add(einheit);
-            newBean.add(umId);  // unterhaltungsmassnahme id
-            newBean.add(plId);  // planungseinheit id
-            newBean.add(gupId); // gup id
+            newBean.add(umId);                                      // unterhaltungsmassnahme id
+            newBean.add(plId);                                      // planungseinheit id
+            newBean.add(gupId);                                     // gup id
             newBean.add(massnBean);
 
             if (!containsBean(beans, newBean)) {
@@ -1891,8 +1932,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
          * @param  rows  DOCUMENT ME!
          */
         public void removeRows(final int[] rows) {
-            final Integer id;
-            final int i = 0;
             final int selectedRow = tabMassnKum.getSelectedRow();
 
             for (final int tmp : rows) {
