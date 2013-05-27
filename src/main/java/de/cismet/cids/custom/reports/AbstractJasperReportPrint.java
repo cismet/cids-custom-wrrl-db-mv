@@ -74,15 +74,27 @@ public abstract class AbstractJasperReportPrint {
     /**
      * Creates a new AbstractJasperReportPrint object.
      *
+     * @param  reportURL  DOCUMENT ME!
+     * @param  bean       DOCUMENT ME!
+     */
+    public AbstractJasperReportPrint(final String reportURL, final CidsBean bean) {
+        this(null, reportURL, bean);
+    }
+
+    /**
+     * Creates a new AbstractJasperReportPrint object.
+     *
+     * @param   parent     DOCUMENT ME!
      * @param   reportURL  DOCUMENT ME!
      * @param   bean       DOCUMENT ME!
      *
      * @throws  NullPointerException  DOCUMENT ME!
      */
-    public AbstractJasperReportPrint(final String reportURL, final CidsBean bean) {
+    public AbstractJasperReportPrint(final JFrame parent, final String reportURL, final CidsBean bean) {
         if ((reportURL == null) || (bean == null)) {
             throw new NullPointerException();
         }
+        this.parentFrame = parent;
         this.reportURL = reportURL;
         this.beans = new ArrayList<CidsBean>();
         beans.add(bean);
@@ -201,15 +213,21 @@ public abstract class AbstractJasperReportPrint {
             final JasperReport jasperReport;
 
             if (parentFrame != null) {
+                int maxVal = beans.size() + 1;
+                if (AbstractJasperReportPrint.this instanceof ProgressMonitorHandler) {
+                    maxVal = 100;
+                }
                 monitor = new ProgressMonitor(
                         parentFrame,
                         "erstelle Report",
                         "",
                         0,
-                        beans.size()
-                                + 1);
-                monitor.setMillisToDecideToPopup(100);
-                monitor.setMillisToPopup(200);
+                        maxVal);
+                monitor.setMillisToDecideToPopup(0);
+                monitor.setMillisToPopup(0);
+                if (AbstractJasperReportPrint.this instanceof ProgressMonitorHandler) {
+                    ((ProgressMonitorHandler)AbstractJasperReportPrint.this).setMonitor(monitor);
+                }
             }
             try {
                 jasperReport = (JasperReport)JRLoader.loadObject(getClass().getResourceAsStream(reportURL));
@@ -217,7 +235,7 @@ public abstract class AbstractJasperReportPrint {
                 log.error(e);
                 throw new RuntimeException(e);
             }
-            if (monitor != null) {
+            if ((monitor != null)) {
                 monitor.setProgress(1);
             }
             JasperPrint jasperPrint = null;
@@ -232,7 +250,7 @@ public abstract class AbstractJasperReportPrint {
                     if (isCancelled()) {
                         return null;
                     }
-                    if (monitor != null) {
+                    if ((monitor != null) && (beans.size() > 1)) {
                         monitor.setProgress(++count);
                         monitor.setNote(current.toString());
                     }
