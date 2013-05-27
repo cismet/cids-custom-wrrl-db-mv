@@ -45,6 +45,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.HeadlessMapProvider;
+import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
@@ -325,25 +326,41 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Image generateMap() {
         try {
-            String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                            + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
-                            + "&BBOX=<cismap:boundingBox>"
-                            + "&SRS=EPSG:35833&FORMAT=image/png"
-                            + "&WIDTH=<cismap:width>"
-                            + "&HEIGHT=<cismap:height>"
-                            + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
-            String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
-                            + "&REQUEST=GetMap"
-                            + "&BBOX=<cismap:boundingBox>"
-                            + "&WIDTH=<cismap:width>"
-                            + "&HEIGHT=<cismap:height>"
-                            + "&SRS=EPSG:35833&FORMAT=image/png"
-                            + "&TRANSPARENT=TRUE"
-                            + "&BGCOLOR=0xF0F0F0"
-                            + "&EXCEPTIONS=application/vnd.ogc.se_xml"
-                            + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
-                            + "&STYLES=default,default,default,default";
-            HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            final String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+                        + "&BBOX=<cismap:boundingBox>"
+                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&WIDTH=<cismap:width>"
+                        + "&HEIGHT=<cismap:height>"
+                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+            final String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
+                        + "&REQUEST=GetMap"
+                        + "&BBOX=<cismap:boundingBox>"
+                        + "&WIDTH=<cismap:width>"
+                        + "&HEIGHT=<cismap:height>"
+                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&TRANSPARENT=TRUE"
+                        + "&BGCOLOR=0xF0F0F0"
+                        + "&EXCEPTIONS=application/vnd.ogc.se_xml"
+                        + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
+                        + "&STYLES=default,default,default,default";
+            final GeometryFactory gf = new GeometryFactory();
+            final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
+            final Collection<LineString> lineStrings = new ArrayList<LineString>();
+            for (final CidsBean wkTeilBean : wkTeile) {
+                final CidsBean geomBean = (CidsBean)wkTeilBean.getProperty("linie.geom");
+                final LineString geom = (LineString)geomBean.getProperty("geo_field");
+                lineStrings.add(geom);
+            }
+            final XBoundingBox boundingBox = new XBoundingBox(gf.createMultiLineString(
+                        lineStrings.toArray(new LineString[0])));
+            boundingBox.setX1(boundingBox.getX1() - 50);
+            boundingBox.setY1(boundingBox.getY1() - 50);
+            boundingBox.setX2(boundingBox.getX2() + 50);
+            boundingBox.setY2(boundingBox.getY2() + 50);
+
+            final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            mapProvider.setBoundingBox(boundingBox);
             SimpleWmsGetMapUrl getMapUrl = new SimpleWmsGetMapUrl(urlBackground);
             SimpleWMS simpleWms = new SimpleWMS(getMapUrl);
             mapProvider.addLayer(simpleWms);
