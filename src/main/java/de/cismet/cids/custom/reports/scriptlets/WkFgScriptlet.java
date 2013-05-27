@@ -44,6 +44,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.HeadlessMapProvider;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
@@ -323,104 +324,38 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      * @return  DOCUMENT ME!
      */
     public Image generateMap() {
-        final BufferedImage background = fetchMap("http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
-                        + "&BBOX=<cismap:boundingBox>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
-                        + "&WIDTH=<cismap:width>"
-                        + "&HEIGHT=<cismap:height>"
-                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage");
-        final BufferedImage overlay = fetchMap("http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
-                        + "&REQUEST=GetMap"
-                        + "&BBOX=<cismap:boundingBox>"
-                        + "&WIDTH=<cismap:width>"
-                        + "&HEIGHT=<cismap:height>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
-                        + "&TRANSPARENT=TRUE"
-                        + "&BGCOLOR=0xF0F0F0"
-                        + "&EXCEPTIONS=application/vnd.ogc.se_xml"
-                        + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
-                        + "&STYLES=default,default,default,default");
-
-        return mergeImages(background, overlay);
-    }
-
-    /**
-     * gets an URL and fetches the Map from that URL.
-     *
-     * @param   call  the URL, (origin of the map)
-     *
-     * @return  DOCUMENT ME!
-     */
-    private BufferedImage fetchMap(final String call) {
         try {
-            BufferedImage result = null;
+            String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
+                            + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+                            + "&BBOX=<cismap:boundingBox>"
+                            + "&SRS=EPSG:35833&FORMAT=image/png"
+                            + "&WIDTH=<cismap:width>"
+                            + "&HEIGHT=<cismap:height>"
+                            + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+            String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
+                            + "&REQUEST=GetMap"
+                            + "&BBOX=<cismap:boundingBox>"
+                            + "&WIDTH=<cismap:width>"
+                            + "&HEIGHT=<cismap:height>"
+                            + "&SRS=EPSG:35833&FORMAT=image/png"
+                            + "&TRANSPARENT=TRUE"
+                            + "&BGCOLOR=0xF0F0F0"
+                            + "&EXCEPTIONS=application/vnd.ogc.se_xml"
+                            + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
+                            + "&STYLES=default,default,default,default";
+            HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            SimpleWmsGetMapUrl getMapUrl = new SimpleWmsGetMapUrl(urlBackground);
+            SimpleWMS simpleWms = new SimpleWMS(getMapUrl);
+            mapProvider.addLayer(simpleWms);
+            getMapUrl = new SimpleWmsGetMapUrl(urlOverlay);
+            simpleWms = new SimpleWMS(getMapUrl);
+            mapProvider.addLayer(simpleWms);
 
-            final Lock lock = new ReentrantLock();
-            final Condition waitForImageRetrieval = lock.newCondition();
-
-            final GeometryFactory gf = new GeometryFactory();
-            final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
-            final Collection<LineString> lineStrings = new ArrayList<LineString>();
-            for (final CidsBean wkTeilBean : wkTeile) {
-                final CidsBean geomBean = (CidsBean)wkTeilBean.getProperty("linie.geom");
-                final LineString geom = (LineString)geomBean.getProperty("geo_field");
-                lineStrings.add(geom);
-            }
-            final BoundingBox boundingBox = new BoundingBox(gf.createMultiLineString(
-                        lineStrings.toArray(new LineString[0])));
-            boundingBox.setX1(boundingBox.getX1() - 50);
-            boundingBox.setY1(boundingBox.getY1() - 50);
-            boundingBox.setX2(boundingBox.getX2() + 50);
-            boundingBox.setY2(boundingBox.getY2() + 50);
-
-            final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(call));
-            swms.setName((String)((JRFillField)fieldsMap.get("wk_n")).getValue());
-            swms.setBoundingBox(boundingBox);
-            swms.setSize(375, 555);
-
-            final WkFgScriptlet.SignallingRetrievalListener listener = new WkFgScriptlet.SignallingRetrievalListener(
-                    lock,
-                    waitForImageRetrieval);
-            swms.addRetrievalListener(listener);
-
-            lock.lock();
-            try {
-                swms.retrieve(true);
-                waitForImageRetrieval.await();
-            } catch (Throwable t) {
-                LOG.error("Error occurred while retrieving WMS image", t);
-            } finally {
-                lock.unlock();
-            }
-
-            result = listener.getRetrievedImage();
-
-            return result;
-        } catch (Exception ex) {
-            LOG.fatal("error", ex);
+            return mapProvider.getImageAndWait(72, 130, 555, 375);
+        } catch (Exception e) {
+            LOG.error("Error while retrievin gmap.", e);
             return null;
         }
-    }
-
-    /**
-     * merges two images, where one image is the background and the other is the foreground.
-     *
-     * @param   image    background
-     * @param   overlay  foreground
-     *
-     * @return  DOCUMENT ME!
-     */
-    private BufferedImage mergeImages(final BufferedImage image, final BufferedImage overlay) {
-        final int w = Math.max(image.getWidth(), overlay.getWidth());
-        final int h = Math.max(image.getHeight(), overlay.getHeight());
-        final BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        final Graphics g = combined.getGraphics();
-
-        g.drawImage(image, 0, 0, null);
-        g.drawImage(overlay, 0, 0, null);
-
-        return combined;
     }
 
     /**
