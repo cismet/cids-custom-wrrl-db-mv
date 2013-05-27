@@ -28,7 +28,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="66">
+		<band height="64">
 			<staticText>
 				<reportElement x="0" y="0" width="165" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
