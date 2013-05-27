@@ -323,7 +323,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @throws  IllegalArgumentException  DOCUMENT ME!
      */
-    private boolean isException(final CidsBean kaBean) {
+    public static boolean isException(final CidsBean kaBean) {
         if (kaBean == null) {
             throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
         }
