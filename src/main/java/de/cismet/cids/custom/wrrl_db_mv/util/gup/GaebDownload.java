@@ -11,7 +11,6 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
-
 import org.openide.util.Cancellable;
 
 import java.io.BufferedWriter;
@@ -22,12 +21,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.gaeb.types.GaebContainer;
 import de.cismet.cids.gaeb.types.GaebLvItem;
-
 
 import de.cismet.tools.gui.downloadmanager.AbstractDownload;
 import de.cismet.tools.gui.downloadmanager.Download;
