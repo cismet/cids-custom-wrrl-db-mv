@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.net.URLDecoder;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -170,11 +172,19 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
                     final List<File> fileList = new ArrayList<File>();
                     while ((tmp = br.readLine()) != null) {
                         if (tmp.trim().startsWith(FILE_PROTOCOL_PREFIX)) {
-                            final File f = new File(tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()));
+                            File f = new File(tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()));
                             if (f.exists()) {
                                 fileList.add(f);
                             } else {
-                                LOG.warn("File " + f.toString() + " does not exist.");
+                                f = new File(URLDecoder.decode(
+                                            tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()),
+                                            "UTF-8"));
+
+                                if (f.exists()) {
+                                    fileList.add(f);
+                                } else {
+                                    LOG.warn("File " + f.toString() + " does not exist.");
+                                }
                             }
                         }
                     }
