@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="gepp_pruefer_uebersicht" pageWidth="802" pageHeight="450" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<style name="header" isDefault="false" mode="Opaque" backcolor="#C0C0C0" hAlign="Center" fontName="Times New Roman" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false">
+	<style name="header" isDefault="false" mode="Opaque" backcolor="#C0C0C0" hAlign="Center" fontName="SansSerif" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false">
 		<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 			<pen lineWidth="1.0" lineColor="#000000"/>
 			<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -9,7 +9,7 @@
 			<rightPen lineWidth="1.0" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="cell" isDefault="false" hAlign="Left" fontName="Times New Roman" fontSize="12">
+	<style name="cell" isDefault="false" hAlign="Left" fontName="SansSerif" fontSize="12">
 		<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 			<pen lineWidth="1.0"/>
 			<topPen lineWidth="1.0"/>
@@ -28,7 +28,7 @@
 			<textField>
 				<reportElement x="0" y="20" width="802" height="20"/>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="14" isBold="true"/>
+					<font fontName="sansserif" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Maßnahmenbeschreibung"]]></textFieldExpression>
 			</textField>

@@ -29,6 +29,8 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.Exceptions;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -38,12 +40,15 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,6 +67,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.spi.IIORegistry;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -297,6 +304,7 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
             bandImage = removeTransparentLeftMargin(bandImage);
             LOG.error("time " + (System.currentTimeMillis() - time));
             bandHeight = (int)(bandImage.getHeight(null) * 605 / bandImage.getWidth(null));
+//            bandHeight *= 1.4;
         } catch (Exception e) {
             LOG.error("Error while creating image from band", e);
         }
@@ -342,7 +350,6 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
         } catch (Exception e) {
             LOG.error("Error while filling the parameters.", e);
         }
-
         return params;
     }
 
@@ -484,7 +491,7 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
                 BufferedImage.TYPE_INT_ARGB_PRE);
 
         final Graphics g = img.getGraphics();
-        final Font basicFont = new Font("Times New Roman", Font.PLAIN, titleSize - PARA_SPACE);
+        final Font basicFont = new Font("Arial", Font.PLAIN, titleSize - PARA_SPACE);
 
         y = titleSize - PARA_SPACE;
         y = drawLegendIntro(basicFont, textSize, textStart, y, g, true);
@@ -734,10 +741,8 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
      * @param   component  DOCUMENT ME!
      *
      * @return  the given component as image
-     *
-     * @throws  IOException  DOCUMENT ME!
      */
-    private BufferedImage componentToImage(final JComponent component) throws IOException {
+    private BufferedImage componentToImage(final JComponent component) {
         layoutComponent(component);
         final BufferedImage img = new BufferedImage(component.getWidth(),
                 component.getHeight(),
@@ -855,12 +860,12 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
                         + "&BBOX=<cismap:boundingBox>"
                         + "&WIDTH=<cismap:width>&HEIGHT=<cismap:height>"
                         + "&SRS=EPSG:35833&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0"
-                        + "&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=route_stat_big&STYLES=default";
+                        + "&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=gepp&STYLES=default";
 //            final String overlayUrl = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1&REQUEST=GetMap"
 //                        + "&BBOX=<cismap:boundingBox>"
 //                        + "&WIDTH=<cismap:width>&HEIGHT=<cismap:height>"
 //                        + "&SRS=EPSG:35833&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0"
-//                        + "&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=route_stat&STYLES=ohneBeschriftung";
+//                        + "&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=route_stat_big&STYLES=default";
 
             final Geometry geom = (Geometry)bean.getProperty("linie.geom.geo_field");
 
@@ -899,7 +904,7 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
             }
 
             mapProvider.setBoundingBox(boundingBox);
-            final Future<Image> imageFuture = mapProvider.getImage(72, 125, 620, 400);
+            final Future<Image> imageFuture = mapProvider.getImage(72, 125, 600, 400);
             return imageFuture.get();
                 /*
                  * final BufferedImage map = fetchMap(mapUrl, geom, size); final BufferedImage overlay =

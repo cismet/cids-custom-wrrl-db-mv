@@ -19,7 +19,7 @@
 			<textField>
 				<reportElement x="0" y="6" width="802" height="21"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font fontName="Times New Roman" size="14"/>
+					<font fontName="sansserif" size="14"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Schematische Darstellung des Planungsabschnitts " + $P{geppName}]]></textFieldExpression>
 			</textField>

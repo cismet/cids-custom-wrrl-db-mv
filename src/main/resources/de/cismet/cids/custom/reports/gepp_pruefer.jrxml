@@ -29,7 +29,7 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="30" isPrintWhenDetailOverflows="true"/>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="16"/>
+					<font fontName="sansserif" size="16"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Kartenreport für Prüfer"]]></textFieldExpression>
 			</textField>
