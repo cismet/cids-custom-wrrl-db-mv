@@ -40,6 +40,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.FgskKartierabschnittEditor;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -114,9 +115,18 @@ public class FgskSplitToolbarItem extends AbstractAction implements CidsClientTo
                         "Fehler",
                         JOptionPane.ERROR_MESSAGE);
                 } else {
+                    final CidsBean openBean = FgskKartierabschnittEditor.getCurrentlyOpenBean();
                     final CidsBean cidsBean = cidsFeature.getMetaObject().getBean();
-                    final FgskSplitDialog dialog = new FgskSplitDialog(cidsBean, mappingComponent);
-                    StaticSwingTools.showDialog(dialog);
+                    if ((openBean != null) && (openBean.getMetaObject().getID() == cidsBean.getMetaObject().getID())) {
+                        JOptionPane.showMessageDialog(
+                            parentFrame,
+                            "Der Editor des Kartierabschnitts muss vor dem Teilen geschlossen werden.",
+                            "Fehler",
+                            JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        final FgskSplitDialog dialog = new FgskSplitDialog(cidsBean, mappingComponent);
+                        StaticSwingTools.showDialog(dialog);
+                    }
                 }
             }
         }
