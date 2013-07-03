@@ -42,12 +42,14 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.reports.GeppReport;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.NaturschutzgebietSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.QuerbautenSearchByStations;
@@ -78,6 +80,7 @@ import de.cismet.tools.Calculator;
 import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.RoundedPanel;
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.EmptyAbsoluteHeightedBand;
@@ -288,6 +291,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             "Hydrologie",
             null,
             null);
+    private RulerBand ruler = new RulerBand(0, 5000);
+    private RulerLabelBand rulerLabel = new RulerLabelBand(0, 5000);
     private UnterhaltungserfordernisBand unterhaltungserfordernisBand = new UnterhaltungserfordernisBand();
     private WKBand wkband;
     private QuerbauwerksBand querbauwerksband = new QuerbauwerksBand();
@@ -323,6 +328,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private UnterhaltungsmassnahmeValidator validator;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
+    private javax.swing.JButton btnReport;
     private javax.swing.JToggleButton butStationierung;
     private javax.swing.JCheckBox chkEntwicklungsziel;
     private javax.swing.JCheckBox chkHydrologie;
@@ -341,6 +347,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton jbApply;
     private javax.swing.JButton jbApply1;
@@ -462,6 +469,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         linkesUmfeldBand.setMeasureType(GUP_UMFELD_LINKS);
         wkband = new WKBand(sbm.getMin(), sbm.getMax());
 
+//        sbm.addBand(rulerLabel);
+//        sbm.addBand(ruler);
         sbm.addBand(wkband);
         sbm.addBand(wkBandFiller);                     // filler
         sbm.addBand(entwicklungszielBand);
@@ -837,6 +846,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         sbm.setMin(from);
         sbm.setMax(till);
         wkband.setMinMax(from, till);
+        ruler.setMinMax(from, till);
+        rulerLabel.setMinMax(from, till);
         if (!readOnly) {
             vermessungsband.setVwkBand(new WKBand(sbm.getMin(), sbm.getMax()));
         }
@@ -1587,6 +1598,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         togAllgemeinInfo = new javax.swing.JToggleButton();
         togApplyStats = new javax.swing.JToggleButton();
         butStationierung = new javax.swing.JToggleButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnReport = new javax.swing.JButton();
         panNew = new javax.swing.JPanel();
         linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
         jbApply = new javax.swing.JButton();
@@ -1696,7 +1709,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
@@ -1712,7 +1725,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
@@ -1728,11 +1741,50 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
         panTitle.add(butStationierung, gridBagConstraints);
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(1, 1));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1, 1));
+        jPanel1.setOpaque(false);
+
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1, Short.MAX_VALUE));
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1, Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        panTitle.add(jPanel1, gridBagConstraints);
+
+        btnReport.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer.png")));         // NOI18N
+        btnReport.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "FotodokumentationRenderer.btnReport.text"));                                                     // NOI18N
+        btnReport.setBorder(null);
+        btnReport.setBorderPainted(false);
+        btnReport.setContentAreaFilled(false);
+        btnReport.setFocusPainted(false);
+        btnReport.setPressedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objectrenderer/wrrl_db_mv/printer_pressed.png"))); // NOI18N
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnReportActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        panTitle.add(btnReport, gridBagConstraints);
 
         panNew.setOpaque(false);
         panNew.setLayout(new java.awt.GridBagLayout());
@@ -2562,6 +2614,26 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnReportActionPerformed
+//        final GeppReport report = new GeppReport(jPanel1, cidsBean, sbm);
+        final MassnahmenBand[] mBandArray = new MassnahmenBand[5];
+        mBandArray[0] = rechtesUferBand;
+        mBandArray[1] = linkesUferBand;
+        mBandArray[2] = sohleBand;
+        mBandArray[3] = rechtesUmfeldBand;
+        mBandArray[4] = linkesUmfeldBand;
+        final GeppReport report = new GeppReport((JFrame)StaticSwingTools.getParentFrame(this),
+                cidsBean,
+                jband,
+                mBandArray);
+        report.print();
+    } //GEN-LAST:event_btnReportActionPerformed
+
+    /**
+     * DOCUMENT ME!
      */
     private void resetBands() {
         wkband.removeAllMember();
@@ -2663,9 +2735,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             "WRRL_DB_MV",
             "Administratoren",
             "admin",
-            "x",
-            "gup_gewaesserabschnitt",
-            1,
+            "kif",
+            "gup_planungsabschnitt",
+            19,
             1280,
             1024);
     }

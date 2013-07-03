@@ -7,11 +7,18 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeEditor;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandSnappingPointProvider;
 
 /**
@@ -127,6 +134,46 @@ public class MassnahmenBand extends LineBand implements BandSnappingPointProvide
             final MassnahmenBandMember bm = (MassnahmenBandMember)getMember(i);
 
             bm.setUnterhaltungsmassnahmeValidator(uv);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  firstNumber  DOCUMENT ME!
+     */
+    public void showNumbers(final int firstNumber) {
+        int number = firstNumber;
+        final Map<CidsBean, MassnahmenBandMember> beanToMember = new HashMap<CidsBean, MassnahmenBandMember>();
+        final List<CidsBean> beans = new ArrayList<CidsBean>();
+
+        for (final BandMember member : members) {
+            if (member instanceof MassnahmenBandMember) {
+                final CidsBean bean = ((MassnahmenBandMember)member).getCidsBean();
+                beans.add(bean);
+                beanToMember.put(bean, (MassnahmenBandMember)member);
+            }
+        }
+
+        Collections.sort(beans, new MassnStationComparator());
+
+        for (final CidsBean bean : beans) {
+            final MassnahmenBandMember member = beanToMember.get(bean);
+
+            if (member != null) {
+                member.setText(String.valueOf(number++));
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void hideNumbers() {
+        for (final BandMember member : members) {
+            if (member instanceof MassnahmenBandMember) {
+                ((MassnahmenBandMember)member).setText("");
+            }
         }
     }
 }
