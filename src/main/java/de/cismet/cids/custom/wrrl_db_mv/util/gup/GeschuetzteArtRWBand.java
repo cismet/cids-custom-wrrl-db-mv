@@ -22,6 +22,8 @@ public class GeschuetzteArtRWBand extends LineBand implements BandSnappingPointP
     public static final int RIGHT = 1;
     public static final int LEFT = 2;
     public static final int MIDDLE = 3;
+    public static final int UM_RIGHT = 4;
+    public static final int UM_LEFT = 5;
 
     //~ Instance fields --------------------------------------------------------
 

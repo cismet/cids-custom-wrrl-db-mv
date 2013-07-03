@@ -273,6 +273,7 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
             validateBean();
         } else {
             super.propertyChange(evt);
+            validateBean();
         }
     }
 
