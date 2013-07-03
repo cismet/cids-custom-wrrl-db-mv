@@ -914,6 +914,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private ArrayList<ArrayList> createKumMassnList() {
         final ArrayList<ArrayList> beans = ((MassnTableModel)tabMassn.getModel()).getBeans();
         final ArrayList<ArrayList> groups = new ArrayList<ArrayList>();
+        boolean error = false;
 
         for (final ArrayList bean : beans) {
             ArrayList group = null;
@@ -954,16 +955,26 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 if (a != null) {
                     group.set(3, (Double)group.get(3) + a);
                 } else {
-                    JOptionPane.showMessageDialog(
-                        GupLosEditor.this,
-                        "Ungültige Formel zur Berechnung des Aufmaßes der Maßnahme: "
-                                + bean.get(MASSNAHMENART_NAME)
-                                + " Formel: "
-                                + expression
-                                + ". Die angezeigten Werte sind nicht korrekt",
-                        "Fehler!",
-                        JOptionPane.ERROR_MESSAGE);
-                    break;
+                    if (!error) {
+                        error = true;
+                        if (bean.get(MASSNAHMENART_ID) == null) {
+                            JOptionPane.showMessageDialog(
+                                GupLosEditor.this,
+                                "Maßnahme wurde nicht gesetzt. Die angezeigten Werte sind nicht korrekt",
+                                "Fehler!",
+                                JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                GupLosEditor.this,
+                                "Ungültige Formel zur Berechnung des Aufmaßes der Maßnahme: "
+                                        + bean.get(MASSNAHMENART_NAME)
+                                        + " Formel: "
+                                        + expression
+                                        + ". Die angezeigten Werte sind nicht korrekt",
+                                "Fehler!",
+                                JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(
@@ -971,7 +982,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     e.getMessage(),
                     "Fehler!",
                     JOptionPane.ERROR_MESSAGE);
-                break;
             }
         }
 
