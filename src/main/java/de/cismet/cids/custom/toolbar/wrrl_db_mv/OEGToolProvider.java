@@ -100,11 +100,13 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
         sep.setName("oeg-sep");
 
         final JToggleButton cmdOEGGesamt = new JToggleButton();
-        cmdOEGGesamt.setText("OEG (Gesamt)");
+//        cmdOEGGesamt.setText("OEG (Gesamt)");
         cmdOEGGesamt.setToolTipText("OEG Tool (Gesamt)");
         cmdOEGGesamt.setName("oeg_tool_gesamt");
         cmdOEGGesamt.setBorderPainted(false);
         cmdOEGGesamt.setFocusable(false);
+        cmdOEGGesamt.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/toolbar/wrrl_db_mv/Tool_oeg.png")));
         // setIcon(new
         // javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/alkisframeprint.png")));
         cmdOEGGesamt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -139,11 +141,13 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
             });
 
         final JToggleButton cmdOEGEinzel = new JToggleButton();
-        cmdOEGEinzel.setText("OEG (Einzeln)");
+//        cmdOEGEinzel.setText("OEG (Einzeln)");
         cmdOEGEinzel.setToolTipText("OEG Tool (Einzeln)");
         cmdOEGEinzel.setName("oeg_tool_einzeln");
         cmdOEGEinzel.setBorderPainted(false);
         cmdOEGEinzel.setFocusable(false);
+        cmdOEGEinzel.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/toolbar/wrrl_db_mv/Tool_oeg.png")));
         // setIcon(new
         // javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/alkisframeprint.png")));
         cmdOEGEinzel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

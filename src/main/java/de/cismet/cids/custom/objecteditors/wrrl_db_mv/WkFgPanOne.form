@@ -571,7 +571,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.typ_k}" target="cbTypK" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.lawa_type}" target="cbTypK" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox()"/>

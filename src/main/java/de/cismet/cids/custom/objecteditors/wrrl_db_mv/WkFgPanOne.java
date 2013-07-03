@@ -583,7 +583,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_k}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_type}"),
                 cbTypK,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
