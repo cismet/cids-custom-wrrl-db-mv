@@ -171,7 +171,11 @@ public class GaebDownload extends AbstractDownload implements Cancellable {
 
     @Override
     public boolean cancel() {
-        final boolean cancelled = downloadFuture.cancel(true);
+        boolean cancelled = true;
+        if (downloadFuture != null) {
+            cancelled = downloadFuture.cancel(true);
+        }
+                
         if (cancelled) {
             status = State.ABORTED;
             stateChanged();
