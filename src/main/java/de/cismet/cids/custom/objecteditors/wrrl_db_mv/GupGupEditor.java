@@ -1501,7 +1501,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(beanCollection);
+                    return CidsBean.toJSONString(true, beanCollection);
                 }
 
                 @Override
@@ -1532,7 +1532,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(beanCollection);
+                    return CidsBean.toJSONString(true, beanCollection);
                 }
 
                 @Override
@@ -1563,7 +1563,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(beanCollection);
+                    return CidsBean.toJSONString(true, beanCollection);
                 }
 
                 @Override
@@ -1594,7 +1594,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(beanCollection);
+                    return CidsBean.toJSONString(true, beanCollection);
                 }
 
                 @Override
@@ -1647,7 +1647,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         }
                     }
 
-                    return CidsBean.toJSONString(beanCollection);
+                    return CidsBean.toJSONString(true, beanCollection);
                 }
 
                 @Override
