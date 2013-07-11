@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
@@ -736,6 +737,15 @@ public class FgskSplitDialog extends javax.swing.JDialog {
 //        final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
 //                mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
 //
+        if (jSpinner1.getValue().equals(getStationMinimum()) || jSpinner1.getValue().equals(getStationMaximum())) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Länge der resultierenden Kartierabschnitte muss > 0 sein.",
+                "Fehler",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         cmdOk.setEnabled(false);
         cmdCancel.setEnabled(false);
         jProgressBar1.setVisible(true);
@@ -785,6 +795,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         final String oldSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".2" : ".1");
         final String newSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".1" : ".2");
 
+        CidsBeanCache.getInstance().clear();
         // Linie durch die Linie aus dem Cache ersetzen
         final CidsBean line = CidsBeanCache.getInstance().getCachedBeanFor((CidsBean)oldBean.getProperty("linie"));
         oldBean.setProperty("linie", line);
@@ -917,6 +928,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         final Collection<Node> nodes = new ArrayList<Node>();
         nodes.add(firstSearchNode);
         nodes.add(secondSearchNode);
+        CidsBeanCache.getInstance().clear();
         return nodes;
     }
     /**
