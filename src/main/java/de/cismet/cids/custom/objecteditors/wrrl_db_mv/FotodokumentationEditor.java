@@ -1985,25 +1985,27 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                     if (cidsBean.getProperty(PROP_POINT) == null) {
                         // the coordinates of the image should be used
                         Point point = reader.getGpsCoords();
-                        final Collection<Feature> features = new ArrayList<Feature>();
-                        point = CrsTransformer.transformToDefaultCrs(point);
-                        point.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
-                        final PureNewFeature feature = new PureNewFeature(point);
-//                        feature.setName(imageFile.getName());
-                        features.add(feature);
-//
-//                        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(feature);
-                        final CidsBean geom = CidsBeanSupport.createNewCidsBeanFromTableName(
-                                LinearReferencingConstants.CN_GEOM);
-                        MapUtil.zoomToFeatureCollection(features);
+                        if (point != null) {
+                            final Collection<Feature> features = new ArrayList<Feature>();
+                            point = CrsTransformer.transformToDefaultCrs(point);
+                            point.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+                            final PureNewFeature feature = new PureNewFeature(point);
+                            // feature.setName(imageFile.getName());
+                            features.add(feature);
+                            //
+                            // CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(feature);
+                            final CidsBean geom = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                    LinearReferencingConstants.CN_GEOM);
+                            MapUtil.zoomToFeatureCollection(features);
 
-                        geom.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, point);
-                        cidsBean.setProperty(PROP_POINT, geom);
-                        exifInfosFound = true;
+                            geom.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, point);
+                            cidsBean.setProperty(PROP_POINT, geom);
+                            exifInfosFound = true;
+                        }
                     }
 
                     newFotoBean.setProperty(PROP_ANGLE, (int)reader.getGpsDirection());
-                } catch (MetadataException ex) {
+                } catch (Throwable ex) {
                     log.error("Error while reading exif data.", ex);
                 }
                 newBeans.add(newFotoBean);
