@@ -520,7 +520,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
      * @return  DOCUMENT ME!
      */
     private boolean isCrsSupported(final Crs crs) {
-        return CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833;
+        return (CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833)
+                    || (CrsTransformer.extractSridFromCrs(crs.getCode()) == 5650);
     }
 
     /**

@@ -91,4 +91,70 @@ public class RendererTools {
     public static void makeReadOnly(final DefaultBindableCheckboxField cc) {
         cc.setReadOnly(true);
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  tf  DOCUMENT ME!
+     */
+    public static void makeWritable(final JTextField tf) {
+        tf.setBorder(new JTextField().getBorder());
+        tf.setOpaque(true);
+        tf.setEditable(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cb  DOCUMENT ME!
+     */
+    public static void makeWritable(final JComboBox cb) {
+        cb.setEnabled(true);
+        cb.setRenderer((new JComboBox()).getRenderer());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cb  DOCUMENT ME!
+     */
+    public static void makeWritable(final DefaultBindableDateChooser cb) {
+        cb.setEditable(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  ta  DOCUMENT ME!
+     */
+    public static void makeWritable(final JTextArea ta) {
+        ta.setEditable(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cb  DOCUMENT ME!
+     */
+    public static void makeWritable(final JCheckBox cb) {
+        cb.setEnabled(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cc  DOCUMENT ME!
+     */
+    public static void makeWritable(final DefaultBindableColorChooser cc) {
+        cc.setReadOnly(false);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cc  DOCUMENT ME!
+     */
+    public static void makeWritable(final DefaultBindableCheckboxField cc) {
+        cc.setReadOnly(false);
+    }
 }

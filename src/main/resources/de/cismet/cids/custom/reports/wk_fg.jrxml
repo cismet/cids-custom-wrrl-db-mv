@@ -23,7 +23,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="450">
+		<band height="551">
 			<subreport>
 				<reportElement positionType="Float" x="0" y="0" width="555" height="50"/>
 				<subreportParameter name="map">
@@ -61,24 +61,16 @@
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{impact_src})]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_belausw.jasper"]]></subreportExpression>
 			</subreport>
-			<subreport>
-				<reportElement positionType="Float" x="0" y="200" width="555" height="50"/>
-				<subreportParameter name="lawa">
-					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.getLawa()]]></subreportParameterExpression>
-				</subreportParameter>
-				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getLawa())]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_lawa.jasper"]]></subreportExpression>
-			</subreport>
 			<break>
-				<reportElement x="0" y="249" width="555" height="1"/>
+				<reportElement x="0" y="300" width="555" height="1"/>
 			</break>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="250" width="555" height="50"/>
+				<reportElement positionType="Float" x="0" y="400" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getMst())]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_phys.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="300" width="555" height="50"/>
+				<reportElement positionType="Float" x="0" y="450" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_chem.jasper"]]></subreportExpression>
 			</subreport>
@@ -88,9 +80,30 @@
 				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_bio.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="400" width="555" height="50"/>
+				<reportElement positionType="Float" x="0" y="300" width="555" height="50"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_hydro.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="250" width="555" height="50"/>
+				<subreportParameter name="lawa">
+					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.getLawa()]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getLawa())]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_lawa_detail.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="200" width="555" height="50"/>
+				<subreportParameter name="lawa">
+					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.getLawa()]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_lawa.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="500" width="555" height="50"/>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/custom/reports/wk_fg_ges_zustand.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkSgScriptlet">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkFgScriptlet">
 	<import value="de.cismet.cids.dynamics.CidsBean"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<style name="detail_style" isDefault="false" fill="Solid" hAlign="Center" vAlign="Middle" fontSize="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" isPdfEmbedded="true">
+		<box leftPadding="2">
+			<leftPen lineWidth="0.25"/>
+			<bottomPen lineWidth="0.25"/>
+			<rightPen lineWidth="0.25"/>
+		</box>
+	</style>
+	<style name="column_header_style" isDefault="false" mode="Opaque" fill="Solid" hAlign="Center" vAlign="Middle" fontSize="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true">
+		<box leftPadding="2">
+			<pen lineWidth="0.0"/>
+			<topPen lineWidth="0.25"/>
+			<leftPen lineWidth="0.25"/>
+			<bottomPen lineWidth="0.25"/>
+			<rightPen lineWidth="0.25"/>
+		</box>
+	</style>
+	<subDataset name="dataset1"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/jruiz/NetBeansProjects/svn/cids-custom-wrrl-db-mv/src/main/resources/de/cismet/cids/custom/reports/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="STATIONIERUNGEN" class="java.lang.String"/>
+	<parameter name="GEWAESSERKENNZAHLEN" class="java.lang.String"/>
+	<parameter name="LAWA-DETAILTYP" class="java.lang.String"/>
+	<parameter name="BEWIRTSCHAFTUNGSBEREICHE" class="java.lang.String"/>
 	<field name="massn_id" class="java.lang.String"/>
 	<field name="massnahme" class="java.lang.String"/>
 	<field name="prioritaet" class="de.cismet.cids.dynamics.CidsBean"/>
@@ -16,317 +37,320 @@
 	<field name="massn_typ" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="revital" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="realisierung" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="wk_fg.wk_n" class="java.lang.String"/>
+	<field name="wk_fg.wk_k" class="java.lang.String"/>
+	<field name="wk_fg.lawa_type.description" class="java.lang.String"/>
+	<field name="wk_fg.lawa_type.code" class="java.lang.Integer"/>
+	<field name="realisierung.name" class="java.lang.String"/>
+	<field name="stalu.value" class="java.lang.String"/>
+	<field name="wk_fg.bemerkung" class="java.lang.String"/>
+	<field name="wk_fg.evk.name" class="java.lang.String"/>
+	<field name="de_meas_cd" class="java.util.Collection"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band height="20">
+		<band height="70">
 			<staticText>
-				<reportElement x="0" y="0" width="802" height="20"/>
+				<reportElement x="0" y="0" width="802" height="14"/>
+				<box leftPadding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[Maßnahmen]]></text>
+				<text><![CDATA[Maßnahmentabelle des Wasserkörpers]]></text>
 			</staticText>
+			<staticText>
+				<reportElement style="column_header_style" x="0" y="14" width="200" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Gewässername:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="column_header_style" x="400" y="14" width="200" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Wasserkörpernummer:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="column_header_style" x="0" y="24" width="200" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Stationierung:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="column_header_style" x="200" y="14" width="200" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.wk_n}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="column_header_style" x="400" y="24" width="200" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Gewässerkennzahl:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="column_header_style" x="200" y="24" width="200" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{STATIONIERUNGEN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="column_header_style" x="600" y="24" width="202" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{GEWAESSERKENNZAHLEN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="34" width="200" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[aggregierter LAWA - Typ: 
+]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="34" width="200" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.lawa_type.description} != null ? $F{wk_fg.lawa_type.code} + " - " + $F{wk_fg.lawa_type.description} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="44" width="200" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bewirtschaftungsbereich des Wasserkörpers: 
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="44" width="602" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{BEWIRTSCHAFTUNGSBEREICHE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="54" width="200" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Einstufung des Wasserkörpers: 
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="54" width="200" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.evk.name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="34" width="200" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[LAWA - Detailtyp: 
+]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="600" y="34" width="202" height="10"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{LAWA-DETAILTYP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="column_header_style" x="600" y="14" width="202" height="10" backcolor="#FFCC00"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.wk_k}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band/>
 	</pageHeader>
 	<columnHeader>
-		<band height="32">
+		<band height="65">
 			<staticText>
-				<reportElement mode="Opaque" x="180" y="16" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[]]></text>
+				<reportElement style="column_header_style" mode="Opaque" x="0" y="0" width="68" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Maßnahmenummer
+und Karte]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="642" y="16" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[bis:]]></text>
+				<reportElement style="column_header_style" x="68" y="0" width="332" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Maßnahmenbeschreibung und bedientes
+Entwicklungsziel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="722" y="16" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[geschätzt:]]></text>
+				<reportElement style="column_header_style" x="400" y="0" width="62" height="20" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Stationierung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="642" y="0" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Realisierung]]></text>
+				<reportElement style="column_header_style" x="400" y="20" width="31" height="45" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[von]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="542" y="16" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Maßnahmentyp]]></text>
+				<reportElement style="column_header_style" x="431" y="20" width="31" height="45" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[bis]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="452" y="0" width="90" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Priorität BVP]]></text>
+				<reportElement style="column_header_style" mode="Opaque" x="696" y="0" width="47" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Kosten
+(€)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="722" y="0" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Kosten]]></text>
+				<reportElement style="column_header_style" mode="Opaque" x="743" y="0" width="59" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Termine
+Ausführung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Maßnahme]]></text>
+				<reportElement style="column_header_style" mode="Opaque" x="462" y="0" width="42" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Priorität]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="452" y="16" width="90" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="16" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Nummer:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="542" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[EU]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="180" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Beschreibung]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="80" y="0" width="50" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Station]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="80" y="16" width="50" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[von:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="130" y="16" width="50" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[bis:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="130" y="0" width="50" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Station]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="280" y="0" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Entwicklungs-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="280" y="16" width="80" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Ziel BVP:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="412" y="0" width="40" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Art]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="412" y="16" width="40" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[BVP:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="360" y="16" width="52" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineWidth="0.25" lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[BVP:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="360" y="0" width="52" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="0.25" lineColor="#000000"/>
-					<leftPen lineWidth="0.25" lineColor="#000000"/>
-					<bottomPen lineColor="#000000"/>
-					<rightPen lineWidth="0.25" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Umfang]]></text>
+				<reportElement style="column_header_style" mode="Opaque" x="504" y="0" width="192" height="65" backcolor="#FFCC00"/>
+				<textElement/>
+				<text><![CDATA[Measure
+Type
+Code]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="16">
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="360" y="0" width="52" height="16" isPrintWhenDetailOverflows="true"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="462" y="0" width="42" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -334,59 +358,25 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_typ}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="412" y="0" width="40" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{revital}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="722" y="0" width="80" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{kosten}.toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="642" y="0" width="80" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung}.toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="452" y="0" width="90" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{prioritaet}.getProperty("description").toString()]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="542" y="0" width="100" height="16" isPrintWhenDetailOverflows="true"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="0" y="0" width="68" height="16" isPrintWhenDetailOverflows="true"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_id}.substring($F{massn_id}.lastIndexOf("M"), $F{massn_id}.length())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="400" y="0" width="31" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -395,77 +385,267 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{suppl_cd}.getProperty("name").toString()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Number"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="431" y="0" width="31" height="16" isPrintWhenDetailOverflows="true"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.Number"><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="180" y="0" width="100" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="68" y="0" width="290" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{massnahme}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="358" y="0" width="42" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_id}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement stretchType="RelativeToBandHeight" x="80" y="0" width="50" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="130" y="0" width="50" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="280" y="0" width="80" height="16" isPrintWhenDetailOverflows="true"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ziele}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="696" y="0" width="47" height="16" isPrintWhenDetailOverflows="true"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.Number"><![CDATA[$F{kosten}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="743" y="0" width="59" height="16" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung.name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="504" y="0" width="192" height="16" isPrintWhenDetailOverflows="true"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_SCRIPTLET}.formatMeasureTypeCodes($F{de_meas_cd})]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band/>
 	</columnFooter>
-	<pageFooter>
-		<band/>
-	</pageFooter>
 	<summary>
-		<band/>
+		<band height="100">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Weitere Bemerkungen]]></text>
+			</staticText>
+			<elementGroup>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="14" width="200" height="14" isPrintWhenDetailOverflows="true"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="6" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Bemerkung]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="200" y="14" width="602" height="14" isPrintWhenDetailOverflows="true"/>
+					<box topPadding="2" bottomPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="6" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_fg.bemerkung}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="28" width="802" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Anmerkungen:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="42" width="68" height="14" backcolor="#FFCC9A"/>
+				<box leftPadding="2">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Z1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="42" width="734" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Zusatzmaßnahmen mit neuer Nummerierung, die nicht in die Bewirtschaftungsvorplanung (WRRL - GIS - Projekt - Datenbank) aufgenommen werden.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="56" width="802" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Abkürzungen:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="70" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[GM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="27" y="70" width="253" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Gewässermorphologie (Hydromorphologische Qualitätskomponente)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="280" y="70" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[PC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="307" y="70" width="170" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Physikalisch-Chemische Qualitätskomponente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="655" y="70" width="147" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Chemischer Zustand]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="477" y="70" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[AU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="628" y="70" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[CH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="504" y="70" width="124" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Gewässerumland]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="307" y="84" width="170" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Spezifisch-Chemische Qualitätskomponente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="84" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[BI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="280" y="84" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[SC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="27" y="84" width="253" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Biologische Qualitätskomponente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="504" y="84" width="124" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Gewässerunterhaltung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="477" y="84" width="27" height="14"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[GU]]></text>
+			</staticText>
+		</band>
 	</summary>
 </jasperReport>

@@ -18,6 +18,10 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 
+import com.drew.metadata.MetadataException;
+
+import com.vividsolutions.jts.geom.Point;
+
 import org.apache.commons.io.IOUtils;
 
 import org.jdesktop.beansbinding.Converter;
@@ -55,6 +59,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.lang.ref.SoftReference;
 
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import java.util.ArrayList;
@@ -97,8 +102,11 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.reports.FotodokumentationReport;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.ExifReader;
 import de.cismet.cids.custom.wrrl_db_mv.util.ImageUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
@@ -119,6 +127,11 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+
+import de.cismet.cismap.commons.CrsTransformer;
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.PureNewFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.netutil.Proxy;
 
@@ -155,6 +168,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/folder-image.png"));
     private static final ImageIcon FOLDER_ICON = new ImageIcon(FotodokumentationEditor.class.getResource(
                 "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/inode-directory.png"));
+    private static final String PROP_NAME = "name";
+    private static final String PROP_FILE = "file";
+    private static final String PROP_ANGLE = "angle";
     private static final String WEB_DAV_USER;
     private static final String WEB_DAV_PASSWORD;
     private static final String WEB_DAV_DIRECTORY;
@@ -194,8 +210,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
             @Override
             public int compare(final CidsBean o1, final CidsBean o2) {
-                Integer angle1 = (Integer)o1.getProperty("angle");
-                Integer angle2 = (Integer)o2.getProperty("angle");
+                Integer angle1 = (Integer)o1.getProperty(PROP_ANGLE);
+                Integer angle2 = (Integer)o2.getProperty(PROP_ANGLE);
                 if (angle1 == null) {
                     angle1 = -1;
                 }
@@ -204,8 +220,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                 }
                 int comp = angle1.compareTo(angle2);
                 if (comp == 0) {
-                    final Object name1 = o1.getProperty("name");
-                    final Object name2 = o2.getProperty("name");
+                    final Object name1 = o1.getProperty(PROP_NAME);
+                    final Object name2 = o2.getProperty(PROP_NAME);
                     comp = AlphanumComparator.getInstance().compare(name1, name2);
                 }
                 return comp;
@@ -405,6 +421,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                     try {
                         final Transferable tr = e.getTransferable();
                         final DataFlavor[] flavors = tr.getTransferDataFlavors();
+                        boolean isAccepted = false;
                         for (int i = 0; i < flavors.length; i++) {
                             if (flavors[i].isFlavorJavaFileListType()) {
                                 // zunaechst annehmen
@@ -417,18 +434,29 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                                 return;
                             } else if (flavors[i].isRepresentationClassInputStream()) {
                                 // this is used under linux
-                                e.acceptDrop(e.getDropAction());
+                                if (!isAccepted) {
+                                    e.acceptDrop(e.getDropAction());
+                                    isAccepted = true;
+                                }
                                 final BufferedReader br = new BufferedReader(new InputStreamReader(
                                             (InputStream)tr.getTransferData(flavors[i])));
                                 String tmp = null;
                                 final List<File> fileList = new ArrayList<File>();
                                 while ((tmp = br.readLine()) != null) {
                                     if (tmp.trim().startsWith(FILE_PROTOCOL_PREFIX)) {
-                                        final File f = new File(tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()));
+                                        File f = new File(tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()));
                                         if (f.exists()) {
                                             fileList.add(f);
                                         } else {
-                                            log.warn("File " + f.toString() + " does not exist.");
+                                            f = new File(URLDecoder.decode(
+                                                        tmp.trim().substring(FILE_PROTOCOL_PREFIX.length()),
+                                                        "UTF-8"));
+
+                                            if (f.exists()) {
+                                                fileList.add(f);
+                                            } else {
+                                                log.warn("File " + f.toString() + " does not exist.");
+                                            }
                                         }
                                     }
                                 }
@@ -436,9 +464,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
                                 if ((fileList != null) && (fileList.size() > 0)) {
                                     CismetThreadPool.execute(new ImageUploadWorker(fileList));
+                                    e.dropComplete(true);
+                                    return;
                                 }
-                                e.dropComplete(true);
-                                return;
                             }
                         }
                     } catch (Exception ex) {
@@ -1598,7 +1626,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         final Object selectionObj = lstFotos.getSelectedValue();
         if (selectionObj instanceof CidsBean) {
             final CidsBean selection = (CidsBean)selectionObj;
-            final Object fileProperty = selection.getProperty("file");
+            final Object fileProperty = selection.getProperty(PROP_FILE);
             if (fileProperty != null) {
                 try {
                     final String fileName = fileProperty.toString();
@@ -1650,7 +1678,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                     for (final Object toDeleteObj : removeList) {
                         if (toDeleteObj instanceof CidsBean) {
                             final CidsBean fotoToDelete = (CidsBean)toDeleteObj;
-                            final String file = String.valueOf(fotoToDelete.getProperty("file"));
+                            final String file = String.valueOf(fotoToDelete.getProperty(PROP_FILE));
                             IMAGE_CACHE.remove(file);
                             removedFotoBeans.add(fotoToDelete);
                         }
@@ -1683,7 +1711,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         if (fotoObj instanceof CidsBean) {
             fotoCidsBean = (CidsBean)fotoObj;
             fotoCidsBean.addPropertyChangeListener(listRepaintListener);
-            final Object fileObj = fotoCidsBean.getProperty("file");
+            final Object fileObj = fotoCidsBean.getProperty(PROP_FILE);
             boolean cacheHit = false;
             if (fileObj != null) {
                 final String file = fileObj.toString();
@@ -1760,7 +1788,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     public void editorClosed(final EditorClosedEvent event) {
         if (EditorSaveStatus.SAVE_SUCCESS == event.getStatus()) {
             for (final CidsBean deleteBean : removedFotoBeans) {
-                final String fileName = (String)deleteBean.getProperty("file");
+                final String fileName = (String)deleteBean.getProperty(PROP_FILE);
                 try {
                     WebDavHelper.deleteFileFromWebDAV(fileName, webDavClient, WEB_DAV_DIRECTORY);
                     deleteBean.delete();
@@ -1770,7 +1798,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             }
         } else {
             for (final CidsBean deleteBean : removeNewAddedFotoBean) {
-                final String fileName = (String)deleteBean.getProperty("file");
+                final String fileName = (String)deleteBean.getProperty(PROP_FILE);
                 WebDavHelper.deleteFileFromWebDAV(fileName, webDavClient, WEB_DAV_DIRECTORY);
             }
         }
@@ -1910,7 +1938,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      */
     final class ImageUploadWorker extends SwingWorker<Collection<CidsBean>, Void> {
 
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String PROP_POINT = "point";
+
         //~ Instance fields ----------------------------------------------------
+
+        private boolean exifInfosFound = false;
 
         private final Collection<File> fotos;
 
@@ -1942,9 +1976,38 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                     webDavClient,
                     FotodokumentationEditor.this);
                 final CidsBean newFotoBean = CidsBeanSupport.createNewCidsBeanFromTableName("FOTO");
-                newFotoBean.setProperty("name", imageFile.getName());
-                newFotoBean.setProperty("file", webFileName);
-                newFotoBean.setProperty("angle", 0);
+                newFotoBean.setProperty(PROP_NAME, imageFile.getName());
+                newFotoBean.setProperty(PROP_FILE, webFileName);
+                newFotoBean.setProperty(PROP_ANGLE, 0);
+                final ExifReader reader = new ExifReader(imageFile);
+
+                try {
+                    if (cidsBean.getProperty(PROP_POINT) == null) {
+                        // the coordinates of the image should be used
+                        Point point = reader.getGpsCoords();
+                        if (point != null) {
+                            final Collection<Feature> features = new ArrayList<Feature>();
+                            point = CrsTransformer.transformToDefaultCrs(point);
+                            point.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+                            final PureNewFeature feature = new PureNewFeature(point);
+                            // feature.setName(imageFile.getName());
+                            features.add(feature);
+                            //
+                            // CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(feature);
+                            final CidsBean geom = CidsBeanSupport.createNewCidsBeanFromTableName(
+                                    LinearReferencingConstants.CN_GEOM);
+                            MapUtil.zoomToFeatureCollection(features);
+
+                            geom.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, point);
+                            cidsBean.setProperty(PROP_POINT, geom);
+                            exifInfosFound = true;
+                        }
+                    }
+
+                    newFotoBean.setProperty(PROP_ANGLE, (int)reader.getGpsDirection());
+                } catch (Throwable ex) {
+                    log.error("Error while reading exif data.", ex);
+                }
                 newBeans.add(newFotoBean);
             }
             return newBeans;

@@ -14,7 +14,9 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
+import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -49,6 +51,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalToolTipUI;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
@@ -75,6 +79,9 @@ import de.cismet.cids.server.search.AbstractCidsServerSearch;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.CismetThreadPool;
+
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitingDialogThread;
 
 /**
  * DOCUMENT ME!
@@ -1520,11 +1527,50 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      * @param  evt  DOCUMENT ME!
      */
     private void txtMassnahmeMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_txtMassnahmeMouseClicked
-        if ((massnartList != null) && (txtMassnahme.getCursor().getType() == Cursor.HAND_CURSOR)) {
-            MethodManager.getManager().showSearchResults(massnartList.toArray(new Node[massnartList.size()]), false);
-            MethodManager.getManager().showSearchResults();
+        if ((txtMassnahme.getCursor().getType() == Cursor.HAND_CURSOR)) {
+            if (massnartList != null) {
+                MethodManager.getManager()
+                        .showSearchResults(massnartList.toArray(new Node[massnartList.size()]), false);
+                MethodManager.getManager().showSearchResults();
+            } else {
+                final WaitingDialogThread<List<Node>> t = new WaitingDialogThread<List<Node>>(StaticSwingTools
+                                .getParentFrame(this),
+                        true,
+                        "Lade Maßnahmen",
+                        null,
+                        100) {
+
+                        @Override
+                        protected List<Node> doInBackground() throws Exception {
+                            final MetaObject[] mo = getValidMassnahmenObjects();
+                            final List<Node> validMassnartList = new ArrayList<Node>();
+
+                            for (final MetaObject tmp : mo) {
+                                validMassnartList.add(new MetaObjectNode(tmp.getBean()));
+                            }
+
+                            return validMassnartList;
+                        }
+
+                        @Override
+                        protected void done() {
+                            try {
+                                final List<Node> validMassnartList = get();
+                                MethodManager.getManager()
+                                        .showSearchResults(validMassnartList.toArray(
+                                                new Node[validMassnartList.size()]),
+                                            false);
+                                MethodManager.getManager().showSearchResults();
+                            } catch (Exception e) {
+                                LOG.error("Error while retrieving Massnahmen objects.", e);
+                            }
+                        }
+                    };
+
+                t.start();
+            }
         }
-    }                                                                            //GEN-LAST:event_txtMassnahmeMouseClicked
+    } //GEN-LAST:event_txtMassnahmeMouseClicked
 
     /**
      * DOCUMENT ME!
@@ -1569,19 +1615,17 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
-            final List<CidsBean> linieBeans = new ArrayList<CidsBean>();
+            final List<CidsBean> linieBeans = getOtherLineBeansInNeighbourhood();
 
-            if (getMassnahmen() != null) {
-                for (final CidsBean b : getMassnahmen()) {
-                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
-
-                    if ((tmp != null) && (!tmp.getProperty("id").equals(cidsBean.getProperty("linie.id")))) {
-                        linieBeans.add(tmp);
-                    }
-                }
-            }
             linearReferencedLineEditor.setOtherLines(linieBeans);
-            linearReferencedLineEditor.setCidsBean(cidsBean);
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        linearReferencedLineEditor.setCidsBean(cidsBean);
+                    }
+                });
+
             final CidsBean line = (CidsBean)cidsBean.getProperty("linie");
 
             if (line != null) {
@@ -1614,6 +1658,66 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             refreshMassnahmenFields();
 //            validateMassnahme();
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public List<CidsBean> getOtherLineBeansInNeighbourhood() {
+        final List<CidsBean> linieBeans = new ArrayList<CidsBean>();
+
+        if (getMassnahmen() != null) {
+            CidsBean before = null;
+            CidsBean after = null;
+            final Double from = (Double)cidsBean.getProperty("linie.von.wert");
+            final Double until = (Double)cidsBean.getProperty("linie.bis.wert");
+
+            if ((from == null) || (until == null)) {
+                return linieBeans;
+            }
+
+            for (final CidsBean b : getMassnahmen()) {
+                final CidsBean tmp = (CidsBean)b.getProperty("linie");
+
+                if ((tmp != null) && (!tmp.getProperty("id").equals(cidsBean.getProperty("linie.id")))) {
+                    final Double tmpFrom = (Double)tmp.getProperty("von.wert");
+                    final Double tmpUntil = (Double)tmp.getProperty("bis.wert");
+
+                    if ((tmpFrom != null) && (tmpFrom >= until)) {
+                        if (after == null) {
+                            after = tmp;
+                        } else {
+                            if (((Double)after.getProperty("von.wert")) > tmpFrom) {
+                                after = tmp;
+                            }
+                        }
+                    }
+
+                    if ((tmpUntil != null) && (tmpUntil <= from)) {
+                        if (before == null) {
+                            before = tmp;
+                        } else {
+                            if (((Double)before.getProperty("bis.wert")) < tmpUntil) {
+                                before = tmp;
+                            }
+                        }
+                    }
+
+//                    linieBeans.add(tmp);
+                }
+            }
+
+            if (before != null) {
+                linieBeans.add(before);
+            }
+            if (after != null) {
+                linieBeans.add(after);
+            }
+        }
+
+        return linieBeans;
     }
 
     @Override
@@ -1747,7 +1851,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
                     @Override
                     public void run() {
-                        final long startTime = System.currentTimeMillis();
                         try {
                             MetaObject validMetaObject = null;
                             final List<Node> validMassnartList = new ArrayList<Node>();
@@ -1779,7 +1882,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                         } catch (Exception e) {
                             LOG.error("Cannot determine the valid objects of the type massnahmenart.", e);
                         }
-                        LOG.error("time: " + (System.currentTimeMillis() - startTime));
                     }
                 });
         } else {
@@ -1787,7 +1889,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
                     @Override
                     public void run() {
-                        final long startTime = System.currentTimeMillis();
                         try {
                             int validCount = 0;
                             final String intervall = ((cbIntervall.getSelectedItem() != null)
@@ -1834,85 +1935,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                             MetaObject validMetaObject = null;
 
                             if (validCount == 1) {
-                                String newQuery = "select " + MASSNAHMENART_MC.getID() + ","
-                                            + MASSNAHMENART_MC.getPrimaryKey()
-                                            + " from " + MASSNAHMENART_MC.getTableName();
-
-                                int conditions = 0;
-
-                                if ((intervall != null) && !intervall.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE intervall = " + intervall;
-                                    } else {
-                                        newQuery += " AND intervall = " + intervall;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if ((einsatzvariante != null) && !einsatzvariante.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE einsatzvariante = " + einsatzvariante;
-                                    } else {
-                                        newQuery += " AND einsatzvariante = " + einsatzvariante;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if ((geraet != null) && !geraet.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE geraet = " + geraet;
-                                    } else {
-                                        newQuery += " AND geraet = " + geraet;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if ((ausfuehrungszeitpunkt != null) && !ausfuehrungszeitpunkt.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE ausfuehrungszeitpunkt = " + ausfuehrungszeitpunkt;
-                                    } else {
-                                        newQuery += " AND ausfuehrungszeitpunkt = " + ausfuehrungszeitpunkt;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if ((zweiter_ausfuehrungszeitpunkt != null)
-                                            && !zweiter_ausfuehrungszeitpunkt.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE zweiter_ausfuehrungszeitpunkt = "
-                                                    + zweiter_ausfuehrungszeitpunkt;
-                                    } else {
-                                        newQuery += " AND zweiter_ausfuehrungszeitpunkt = "
-                                                    + zweiter_ausfuehrungszeitpunkt;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if ((gewerk != null) && !gewerk.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE gewerk = " + gewerk;
-                                    } else {
-                                        newQuery += " AND gewerk = " + gewerk;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if ((verbleib != null) && !verbleib.equals("null")) {
-                                    if (conditions == 0) {
-                                        newQuery += " WHERE verbleib = " + verbleib;
-                                    } else {
-                                        newQuery += " AND verbleib = " + verbleib;
-                                    }
-                                    ++conditions;
-                                }
-
-                                if (conditions == 0) {
-                                    newQuery += " WHERE kompartiment = " + kompartiment;
-                                } else {
-                                    newQuery += " AND kompartiment = " + kompartiment;
-                                }
-
-                                final MetaObject[] mo = MetaObjectCache.getInstance().getMetaObjectsByQuery(newQuery);
+                                final MetaObject[] mo = getValidMassnahmenObjects();
 
                                 if ((mo != null) && (mo.length == 1)) {
                                     validMetaObject = mo[0];
@@ -1932,10 +1955,120 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                         } catch (Exception e) {
                             LOG.error("Cannot determine the valid objects of the type massnahmenart.", e);
                         }
-                        LOG.error("time: " + (System.currentTimeMillis() - startTime));
                     }
                 });
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  CacheException  DOCUMENT ME!
+     */
+    private MetaObject[] getValidMassnahmenObjects() throws CacheException {
+        final String intervall = ((cbIntervall.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbIntervall.getSelectedItem()).getProperty("id")) : null);
+        final String einsatzvariante = ((cbEinsatz.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbEinsatz.getSelectedItem()).getProperty("id")) : null);
+        final String geraet = ((cbGeraet.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbGeraet.getSelectedItem()).getProperty("id")) : null);
+        final String ausfuehrungszeitpunkt = ((cbZeitpunkt.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbZeitpunkt.getSelectedItem()).getProperty("id")) : null);
+        final String zweiter_ausfuehrungszeitpunkt = ((cbZeitpunkt2.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbZeitpunkt2.getSelectedItem()).getProperty("id")) : null);
+        final String gewerk = ((cbGewerk.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbGewerk.getSelectedItem()).getProperty("id")) : null);
+        final String verbleib = ((cbVerbleib.getSelectedItem() != null)
+                ? String.valueOf(
+                    ((CidsBean)cbVerbleib.getSelectedItem()).getProperty("id")) : null);
+
+        String newQuery = "select " + MASSNAHMENART_MC.getID() + ","
+                    + MASSNAHMENART_MC.getPrimaryKey()
+                    + " from " + MASSNAHMENART_MC.getTableName();
+
+        int conditions = 0;
+
+        if ((intervall != null) && !intervall.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE intervall = " + intervall;
+            } else {
+                newQuery += " AND intervall = " + intervall;
+            }
+            ++conditions;
+        }
+
+        if ((einsatzvariante != null) && !einsatzvariante.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE einsatzvariante = " + einsatzvariante;
+            } else {
+                newQuery += " AND einsatzvariante = " + einsatzvariante;
+            }
+            ++conditions;
+        }
+
+        if ((geraet != null) && !geraet.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE geraet = " + geraet;
+            } else {
+                newQuery += " AND geraet = " + geraet;
+            }
+            ++conditions;
+        }
+
+        if ((ausfuehrungszeitpunkt != null) && !ausfuehrungszeitpunkt.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE ausfuehrungszeitpunkt = " + ausfuehrungszeitpunkt;
+            } else {
+                newQuery += " AND ausfuehrungszeitpunkt = " + ausfuehrungszeitpunkt;
+            }
+            ++conditions;
+        }
+
+        if ((zweiter_ausfuehrungszeitpunkt != null)
+                    && !zweiter_ausfuehrungszeitpunkt.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE zweiter_ausfuehrungszeitpunkt = "
+                            + zweiter_ausfuehrungszeitpunkt;
+            } else {
+                newQuery += " AND zweiter_ausfuehrungszeitpunkt = "
+                            + zweiter_ausfuehrungszeitpunkt;
+            }
+            ++conditions;
+        }
+
+        if ((gewerk != null) && !gewerk.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE gewerk = " + gewerk;
+            } else {
+                newQuery += " AND gewerk = " + gewerk;
+            }
+            ++conditions;
+        }
+
+        if ((verbleib != null) && !verbleib.equals("null")) {
+            if (conditions == 0) {
+                newQuery += " WHERE verbleib = " + verbleib;
+            } else {
+                newQuery += " AND verbleib = " + verbleib;
+            }
+            ++conditions;
+        }
+
+        if (conditions == 0) {
+            newQuery += " WHERE kompartiment = " + kompartiment;
+        } else {
+            newQuery += " AND kompartiment = " + kompartiment;
+        }
+
+        return MetaObjectCache.getInstance().getMetaObjectsByQuery(newQuery);
     }
 
     /**
@@ -2188,13 +2321,26 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         // Diese muessen also gesondert behandelt werden
         if (!readOnly && !evt.getPropertyName().equals("bearbeiter")
                     && !evt.getPropertyName().equals("intervall")
+                    && !evt.getPropertyName().equals("jahr")
                     && !evt.getPropertyName().equals("ausfuehrungszeitpunkt")
-                    && !evt.getPropertyName().equals("verbleib") && !evt.getPropertyName().equals("massnahme")) {
+                    && !evt.getPropertyName().equals("verbleib")
+                    && !evt.getPropertyName().equals("angenommen")
+                    && !evt.getPropertyName().equals("abgelehnt")
+                    && !evt.getPropertyName().equals("geaendert_nach_pruefung")
+                    && !evt.getPropertyName().equals("auflagen")
+                    && !evt.getPropertyName().equals("massnahme")) {
             changeBearbeiter();
 
             if (evt.getPropertyName().equals("von") || evt.getPropertyName().equals("bis")) {
-                ((CidsBean)evt.getOldValue()).removePropertyChangeListener(this);
-                ((CidsBean)evt.getNewValue()).addPropertyChangeListener(this);
+                final CidsBean oldVal = (CidsBean)evt.getOldValue();
+                final CidsBean newVal = (CidsBean)evt.getNewValue();
+
+                if (oldVal != null) {
+                    oldVal.removePropertyChangeListener(this);
+                }
+                if (newVal != null) {
+                    newVal.addPropertyChangeListener(this);
+                }
             }
         } else if (evt.getPropertyName().equals("massnahme")) {
             refreshMassnahmenFields();
@@ -2210,6 +2356,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             try {
                 final User user = SessionManager.getSession().getUser();
                 cidsBean.setProperty("bearbeiter", user.getName() + "@" + user.getDomain());
+                cidsBean.setProperty("geaendert_nach_pruefung", Boolean.TRUE);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }

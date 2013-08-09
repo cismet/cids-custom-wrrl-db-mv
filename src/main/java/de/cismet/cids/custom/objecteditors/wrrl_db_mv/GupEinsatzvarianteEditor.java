@@ -225,7 +225,7 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
 
     @Override
     public String getTitle() {
-        return "Entwicklungsziel: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
+        return "Einsatzvariante: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
     }
 
     @Override

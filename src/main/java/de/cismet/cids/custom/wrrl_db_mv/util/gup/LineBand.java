@@ -9,6 +9,7 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.apache.http.impl.conn.tsccm.WaitingThread;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.CismetThreadPool;
 
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitingDialogThread;
 import de.cismet.tools.gui.jbands.BandEvent;
 import de.cismet.tools.gui.jbands.BandMemberEvent;
 import de.cismet.tools.gui.jbands.DefaultBand;
@@ -174,11 +177,25 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             final Double minStart,
             final Double maxEnd,
             final List<BandMember> memberList) {
-        if (endStation == null) {
-            addUnspecifiedMember(startStation, minStart, maxEnd, memberList);
-        } else {
-            addSpecifiedMember(startStation, endStation);
-        }
+        final WaitingDialogThread<Void> wdt = new WaitingDialogThread<Void>(StaticSwingTools.getParentFrame(
+                    getPrefixComponent()),
+                true,
+                "Erstelle Abschnitt",
+                null,
+                100) {
+
+                @Override
+                protected Void doInBackground() throws Exception {
+                    if (endStation == null) {
+                        addUnspecifiedMember(startStation, minStart, maxEnd, memberList);
+                    } else {
+                        addSpecifiedMember(startStation, endStation);
+                    }
+
+                    return null;
+                }
+            };
+        wdt.start();
     }
 
     /**
