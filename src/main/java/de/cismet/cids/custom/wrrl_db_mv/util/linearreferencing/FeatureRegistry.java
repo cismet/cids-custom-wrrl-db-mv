@@ -7,7 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing;
 
+import Sirius.navigator.plugin.PluginRegistry;
+import Sirius.navigator.ui.ComponentRegistry;
+
 import com.vividsolutions.jts.geom.Geometry;
+
+import java.awt.EventQueue;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +30,8 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.DrawSelectionFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.cismap.navigatorplugin.CismapPlugin;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -291,11 +298,21 @@ public class FeatureRegistry implements LinearReferencingConstants, LinearRefere
      * @param  feature  DOCUMENT ME!
      */
     public static void addFeatureToMap(final Feature feature) {
+        final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
+        cismap.setFeatureCollectionEventBlocker(true);
         final FeatureCollection featureCollection = CismapBroker.getInstance()
                     .getMappingComponent()
                     .getFeatureCollection();
         featureCollection.addFeature(feature);
         featureCollection.holdFeature(feature);
+
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    cismap.setFeatureCollectionEventBlocker(false);
+                }
+            });
     }
 
     /**
@@ -304,6 +321,8 @@ public class FeatureRegistry implements LinearReferencingConstants, LinearRefere
      * @param  feature  DOCUMENT ME!
      */
     public static void removeFeatureFromMap(final Feature feature) {
+        final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
+        cismap.setFeatureCollectionEventBlocker(true);
         final FeatureCollection featureCollection = CismapBroker.getInstance()
                     .getMappingComponent()
                     .getFeatureCollection();
@@ -311,6 +330,14 @@ public class FeatureRegistry implements LinearReferencingConstants, LinearRefere
 // if (featureCollection.getAllFeatures().contains(feature)) {
         featureCollection.removeFeature(feature);
 //        }
+
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    cismap.setFeatureCollectionEventBlocker(false);
+                }
+            });
     }
 
     /**

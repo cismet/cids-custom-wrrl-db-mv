@@ -39,9 +39,11 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGruppe;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbKat;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblGruppe;
+    private javax.swing.JLabel lblKat;
     private javax.swing.JLabel lblLatName;
     private javax.swing.JLabel lblName;
     private javax.swing.JTextField txtLatName;
@@ -70,6 +72,7 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
             RendererTools.makeReadOnly(txtName);
             RendererTools.makeReadOnly(txtLatName);
             RendererTools.makeReadOnly(cbGruppe);
+            RendererTools.makeReadOnly(cbKat);
             RendererTools.makeReadOnly(dccColor);
         }
     }
@@ -94,6 +97,8 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         txtLatName = new javax.swing.JTextField();
         lblGruppe = new javax.swing.JLabel();
         cbGruppe = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        lblKat = new javax.swing.JLabel();
+        cbKat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -139,7 +144,7 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblColor, gridBagConstraints);
@@ -158,7 +163,7 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(dccColor, gridBagConstraints);
@@ -227,6 +232,39 @@ public class GeschuetzteArtEditor extends javax.swing.JPanel implements CidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(cbGruppe, gridBagConstraints);
+
+        lblKat.setText(org.openide.util.NbBundle.getMessage(
+                GeschuetzteArtEditor.class,
+                "GeschuetzteArtEditor.lblKat.text")); // NOI18N
+        lblKat.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblKat.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblKat.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblKat, gridBagConstraints);
+
+        cbKat.setMaximumSize(new java.awt.Dimension(450, 25));
+        cbKat.setMinimumSize(new java.awt.Dimension(450, 25));
+        cbKat.setPreferredSize(new java.awt.Dimension(450, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kategorie}"),
+                cbKat,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbKat, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

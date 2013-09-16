@@ -37,3 +37,8 @@ German Federal State Agency for the Envrionment, Nature Protection and Geology M
 
 
 Don't hesitate to contact us if you have any questions.
+
+License
+=======
+
+cids-custom-wrrl-db-mv is distributed under [LGPLv3](https://github.com/cismet/cids-custom-wrrl-db-mv/blob/dev/LICENSE)

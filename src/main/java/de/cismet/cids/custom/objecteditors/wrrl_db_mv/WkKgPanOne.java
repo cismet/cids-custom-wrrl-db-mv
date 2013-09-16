@@ -78,6 +78,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblPredecKey;
     private javax.swing.JLabel lblTheGeomKey;
     private javax.swing.JLabel lblTyCdCwKey;
+    private javax.swing.JLabel lblTyMvKey;
     private javax.swing.JLabel lblWhyHmwbCataloge;
     private javax.swing.JLabel lblWhyHmwbKey;
     private javax.swing.JList lstWbPredecs;
@@ -91,6 +92,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JScrollPane scpWbPredecs;
     private javax.swing.JScrollPane scpWhyHmwbs;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtTyMv;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -140,6 +142,8 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrWhyHmwb = new javax.swing.JPanel();
         btnAddWhyHmwb = new javax.swing.JButton();
         btnRemWhyHmwb = new javax.swing.JButton();
+        lblTyMvKey = new javax.swing.JLabel();
+        txtTyMv = new javax.swing.JTextField();
         panSpacerBottom = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
@@ -398,6 +402,35 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         jPanel2.add(panContrWhyHmwb, gridBagConstraints);
+
+        lblTyMvKey.setText(org.openide.util.NbBundle.getMessage(WkKgPanOne.class, "WkKgPanOne.lblTyMvKey.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblTyMvKey, gridBagConstraints);
+
+        txtTyMv.setMinimumSize(new java.awt.Dimension(250, 20));
+        txtTyMv.setPreferredSize(new java.awt.Dimension(250, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ty_mv}"),
+                txtTyMv,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtTyMv, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

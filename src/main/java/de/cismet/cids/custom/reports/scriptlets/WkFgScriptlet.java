@@ -22,30 +22,37 @@ import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fill.JRFillField;
 
+import org.openide.util.Exceptions;
+
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ListIterator;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.HeadlessMapProvider;
+import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
 import de.cismet.cismap.commons.retrieval.RetrievalListener;
 
 /**
- * DOCUMENT ME!
+ * The WkFgScriptlet contains the methods which are called from the WkFg reports.
  *
  * @author   jruiz
  * @version  $Revision$, $Date$
@@ -135,30 +142,108 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * DOCUMENT ME!
+     * fetches a list with lawa types, ordered by their "von"-Station,for the wk_fg report. adds "Kein Typ" and
+     * "Gewässerwechsel" elements to that list.
      *
      * @return  DOCUMENT ME!
      */
     public Collection<CidsBean> getLawa() {
         try {
             final MetaClass mcLawa = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "lawa");
+            final MetaClass mcStation_linie = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station_linie");
+            final MetaClass mcStation = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station");
 
-            final String query = "SELECT "
+            final String query = "SELECT"
                         + "   " + mcLawa.getID() + ", "
-                        + "   " + mcLawa.getPrimaryKey() + " "
-                        + "FROM "
-                        + "   " + mcLawa.getTableName() + " "
-                        + "WHERE "
-                        + "   wk_k = '" + getWkK() + "' "
-                        + ";";
+                        + "   l." + mcLawa.getPrimaryKey() + ", "
+                        + "       s.wert "
+                        + " FROM "
+                        + "   " + mcLawa.getTableName() + " l "
+                        + " JOIN "
+                        + "   " + mcStation_linie.getTableName() + " sl on l.linie = sl."
+                        + mcStation_linie.getPrimaryKey()
+                        + " JOIN "
+                        + "   " + mcStation.getTableName() + " s on sl.von = s." + mcStation.getPrimaryKey()
+                        + " WHERE "
+                        + "       wk_k = '" + getWkK() + "' "
+                        + " order by s.wert ;";
 
-            return getBeansFromQuery(query);
+            final ArrayList<CidsBean> lawa_types = getBeansFromQuery(query);
+
+            if (lawa_types.size() > 1) {
+                extendLawa_TypesWithNoTypeElements(lawa_types);
+            }
+
+            return lawa_types;
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
+                LOG.fatal("Problem in getLawa() in WkFgScriplet", ex);
             }
             return null;
         }
+    }
+
+    /**
+     * Adds "Kein Typ" and "Gewässerwechsel" elements to the Lawa_types list. These elements are added when the end
+     * station and the begin station of two successive Lawa types differ.
+     *
+     * @param   lawa_types  The list to modify with Lawa Types
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private void extendLawa_TypesWithNoTypeElements(final ArrayList<CidsBean> lawa_types) throws Exception {
+        // cursor position of ListIterator is always between the elements
+        // possible cursor positions (^):  ^ Element(0) ^ Element(1) ^ Element(2) ^ ... Element(n-1) ^
+        final ListIterator<CidsBean> iter = lawa_types.listIterator();
+        CidsBean lawa_type1 = iter.next();
+        while (iter.hasNext()) {
+            final CidsBean lawa_type2 = iter.next();
+            final Double lawa1_bis = ((Double)lawa_type1.getProperty("linie.bis.wert"));
+            final Double lawa2_von = ((Double)lawa_type2.getProperty("linie.von.wert"));
+
+            if (lawa1_bis < lawa2_von) {
+                final CidsBean newLawa = createNewLawaCidsBean();
+
+                final long cids1RouteGWK = ((Long)lawa_type1.getProperty("linie.von.route.gwk"));
+                final long cids2RouteGWK = ((Long)lawa_type2.getProperty("linie.von.route.gwk"));
+
+                if (cids1RouteGWK == cids2RouteGWK) {
+                    newLawa.setProperty("lawa_nr.description", "kein Typ");
+                    newLawa.setProperty("linie.von.wert", lawa1_bis);
+                    newLawa.setProperty("linie.bis.wert", lawa2_von);
+                } else {
+                    newLawa.setProperty("lawa_nr.description", "Gewässerwechsel");
+                }
+
+                // add newLawa before cids2
+                iter.previous();
+                iter.add(newLawa);
+                // set the iterator back to the old position (after cids2)
+                iter.next();
+            }
+            lawa_type1 = lawa_type2;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private CidsBean createNewLawaCidsBean() throws Exception {
+        final CidsBean newLawa = CidsBeanSupport.createNewCidsBeanFromTableName("LAWA");
+        final CidsBean newLawa_Nr = CidsBeanSupport.createNewCidsBeanFromTableName("LA_LAWA_NR");
+        final CidsBean newLinie = CidsBeanSupport.createNewCidsBeanFromTableName("Station_linie");
+        final CidsBean newVon = CidsBeanSupport.createNewCidsBeanFromTableName("Station");
+        final CidsBean newBis = CidsBeanSupport.createNewCidsBeanFromTableName("Station");
+
+        newLawa.setProperty("lawa_nr", newLawa_Nr);
+        newLawa.setProperty("linie", newLinie);
+        newLinie.setProperty("von", newVon);
+        newLinie.setProperty("bis", newBis);
+        return newLawa;
     }
 
     /**
@@ -216,7 +301,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      *
      * @return  DOCUMENT ME!
      */
-    private Collection<CidsBean> getBeansFromQuery(final String query) {
+    private ArrayList<CidsBean> getBeansFromQuery(final String query) {
         final ArrayList<CidsBean> collection = new ArrayList<CidsBean>();
         try {
             if (LOG.isDebugEnabled()) {
@@ -235,25 +320,30 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     }
 
     /**
-     * DOCUMENT ME!
+     * generates the map in the WkFg Report. The map consists of a background and some layers, which are merged.
      *
      * @return  DOCUMENT ME!
      */
     public Image generateMap() {
         try {
-            BufferedImage result = null;
-
-            final Lock lock = new ReentrantLock();
-            final Condition waitForImageRetrieval = lock.newCondition();
-
-            final String call = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
+            final String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
                         + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
                         + "&BBOX=<cismap:boundingBox>"
                         + "&SRS=EPSG:35833&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
                         + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
-
+            final String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
+                        + "&REQUEST=GetMap"
+                        + "&BBOX=<cismap:boundingBox>"
+                        + "&WIDTH=<cismap:width>"
+                        + "&HEIGHT=<cismap:height>"
+                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&TRANSPARENT=TRUE"
+                        + "&BGCOLOR=0xF0F0F0"
+                        + "&EXCEPTIONS=application/vnd.ogc.se_xml"
+                        + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
+                        + "&STYLES=default,default,default,default";
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
@@ -262,40 +352,47 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                 final LineString geom = (LineString)geomBean.getProperty("geo_field");
                 lineStrings.add(geom);
             }
-            final BoundingBox boundingBox = new BoundingBox(gf.createMultiLineString(
+            final XBoundingBox boundingBox = new XBoundingBox(gf.createMultiLineString(
                         lineStrings.toArray(new LineString[0])));
             boundingBox.setX1(boundingBox.getX1() - 50);
             boundingBox.setY1(boundingBox.getY1() - 50);
             boundingBox.setX2(boundingBox.getX2() + 50);
             boundingBox.setY2(boundingBox.getY2() + 50);
 
-            final SimpleWMS swms = new SimpleWMS(new SimpleWmsGetMapUrl(call));
-            swms.setName((String)((JRFillField)fieldsMap.get("wk_n")).getValue());
-            swms.setBoundingBox(boundingBox);
-            swms.setSize(375, 555);
+            final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            mapProvider.setBoundingBox(boundingBox);
+            SimpleWmsGetMapUrl getMapUrl = new SimpleWmsGetMapUrl(urlBackground);
+            SimpleWMS simpleWms = new SimpleWMS(getMapUrl);
+            mapProvider.addLayer(simpleWms);
+            getMapUrl = new SimpleWmsGetMapUrl(urlOverlay);
+            simpleWms = new SimpleWMS(getMapUrl);
+            mapProvider.addLayer(simpleWms);
 
-            final WkFgScriptlet.SignallingRetrievalListener listener = new WkFgScriptlet.SignallingRetrievalListener(
-                    lock,
-                    waitForImageRetrieval);
-            swms.addRetrievalListener(listener);
-
-            lock.lock();
-            try {
-                swms.retrieve(true);
-                waitForImageRetrieval.await();
-            } catch (Throwable t) {
-                LOG.error("Error occurred while retrieving WMS image", t);
-            } finally {
-                lock.unlock();
-            }
-
-            result = listener.getRetrievedImage();
-
-            return result;
-        } catch (Exception ex) {
-            LOG.fatal("error", ex);
+            return mapProvider.getImageAndWait(72, 130, 555, 375);
+        } catch (Exception e) {
+            LOG.error("Error while retrievin gmap.", e);
             return null;
         }
+    }
+
+    /**
+     * gets a collection of measure type codes and returns their names as String with the format: "code: measureType \n
+     * code: measureType \n ... code: measureType"
+     *
+     * @param   measureTypeCollection  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String formatMeasureTypeCodes(final Collection<CidsBean> measureTypeCollection) {
+        String measureTypeCodes = "";
+        for (final CidsBean measureTypeCode : measureTypeCollection) {
+            measureTypeCodes += measureTypeCode.getProperty("value") + ": " + measureTypeCode.getProperty("name")
+                        + "\n";
+        }
+        if (!measureTypeCodes.equals("")) {
+            measureTypeCodes = measureTypeCodes.substring(0, measureTypeCodes.length() - 1);
+        }
+        return measureTypeCodes;
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -343,7 +440,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                 image = new BufferedImage(
                         retrievedImage.getWidth(null),
                         retrievedImage.getHeight(null),
-                        BufferedImage.TYPE_INT_RGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 final Graphics2D g = (Graphics2D)image.getGraphics();
                 g.drawImage(retrievedImage, 0, 0, null);
                 g.dispose();

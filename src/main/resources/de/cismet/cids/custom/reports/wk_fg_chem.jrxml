@@ -88,10 +88,12 @@
 			<style isDefault="false" style="othCol" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
+	<style name="nonCompCol" isDefault="false" mode="Transparent" pattern=""/>
 	<field name="eqs_hm" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="eqs_pestic" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="eqs_indpol" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="eqs_othpl" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="non_comp" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -113,7 +115,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="65">
+		<band height="80">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
@@ -201,6 +203,28 @@
 				</box>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{eqs_othpl}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="64" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Einhaltung UQN]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="nonCompCol" x="130" y="64" width="425" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{non_comp}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

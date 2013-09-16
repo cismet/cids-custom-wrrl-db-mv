@@ -121,6 +121,9 @@
 	<field name="no3_n_owert_rakon" class="java.math.BigDecimal"/>
 	<field name="nh4_gk_lawa" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="nh4_owert_rakon" class="java.math.BigDecimal"/>
+	<field name="messjahr" class="java.lang.Integer"/>
+	<field name="cl_owert_rakon" class="java.math.BigDecimal"/>
+	<field name="cl_gk_lawa" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -142,9 +145,9 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="112">
+		<band height="145">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="64" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="64" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -154,7 +157,7 @@
 				<text><![CDATA[N-Gesamt]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="gesNCol" x="150" y="64" width="135" height="16"/>
+				<reportElement style="gesNCol" x="130" y="64" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -166,7 +169,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ges_n_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="32" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="32" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -176,7 +179,7 @@
 				<text><![CDATA[Phosphor ges.]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="gesPCol" x="150" y="32" width="135" height="16"/>
+				<reportElement style="gesPCol" x="130" y="32" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -188,7 +191,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ges_p_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="16" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -198,7 +201,7 @@
 				<text><![CDATA[Sauerstoff]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="48" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="48" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -208,7 +211,7 @@
 				<text><![CDATA[Orthophosphat]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="opo4Col" x="150" y="48" width="135" height="16"/>
+				<reportElement style="opo4Col" x="130" y="48" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -220,7 +223,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{opo4_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="150" y="0" width="135" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="130" y="0" width="141" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -230,7 +233,7 @@
 				<text><![CDATA[Güteklasse]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="150" y="16" width="135" height="16"/>
+				<reportElement x="130" y="16" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -241,7 +244,7 @@
 				<textElement/>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="285" y="32" width="135" height="16"/>
+				<reportElement x="271" y="32" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -253,7 +256,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ges_p_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="285" y="64" width="135" height="16"/>
+				<reportElement x="271" y="64" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -265,7 +268,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ges_n_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="285" y="16" width="135" height="16"/>
+				<reportElement x="271" y="16" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -277,7 +280,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{o2_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="285" y="48" width="135" height="16"/>
+				<reportElement x="271" y="48" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -289,7 +292,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{opo4_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="285" y="0" width="135" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="271" y="0" width="141" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -299,7 +302,7 @@
 				<text><![CDATA[RAKON]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="420" y="32" width="135" height="16"/>
+				<reportElement x="412" y="32" width="143" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -310,7 +313,7 @@
 				<textElement/>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="420" y="64" width="135" height="16"/>
+				<reportElement x="412" y="64" width="143" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -321,7 +324,7 @@
 				<textElement/>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="420" y="16" width="135" height="16"/>
+				<reportElement x="412" y="16" width="143" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -332,7 +335,7 @@
 				<textElement/>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="420" y="48" width="135" height="16"/>
+				<reportElement x="412" y="48" width="143" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -343,7 +346,7 @@
 				<textElement/>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="420" y="0" width="135" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="412" y="0" width="143" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -353,7 +356,7 @@
 				<text><![CDATA[Bemerkungen]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="80" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="80" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -363,7 +366,7 @@
 				<text><![CDATA[Nitrat]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="no3Col" x="150" y="80" width="135" height="16"/>
+				<reportElement style="no3Col" x="130" y="80" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -375,7 +378,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{no3_n_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="420" y="80" width="135" height="16"/>
+				<reportElement x="412" y="80" width="143" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -386,7 +389,7 @@
 				<textElement/>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="285" y="80" width="135" height="16"/>
+				<reportElement x="271" y="80" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -398,7 +401,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{no3_n_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="96" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="96" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -408,7 +411,7 @@
 				<text><![CDATA[Ammonium]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="nh4Col" x="150" y="96" width="135" height="16"/>
+				<reportElement style="nh4Col" x="130" y="96" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -420,7 +423,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nh4_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="420" y="96" width="135" height="16"/>
+				<reportElement x="412" y="96" width="143" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -431,7 +434,7 @@
 				<textElement/>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="285" y="96" width="135" height="16"/>
+				<reportElement x="271" y="96" width="141" height="16"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -441,6 +444,58 @@
 				</box>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nh4_owert_rakon}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="128" width="130" height="16" forecolor="#000000"/>
+				<textElement markup="none">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Messjahr: " + $F{messjahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="nh4Col" x="130" y="112" width="141" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cl_gk_lawa}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="112" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Chlorid]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="412" y="112" width="143" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="271" y="112" width="141" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cl_owert_rakon}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

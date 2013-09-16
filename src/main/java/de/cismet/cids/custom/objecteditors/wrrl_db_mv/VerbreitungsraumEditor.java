@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -22,7 +20,6 @@ import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -32,7 +29,6 @@ import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
@@ -40,8 +36,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -80,6 +74,12 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     private GeschuetzteArtRWBand ufer_rechts = new GeschuetzteArtRWBand(
             "Ufer rechts",
             GschuetzteArt_ABSCHNITT);
+    private GeschuetzteArtRWBand umfeld_links = new GeschuetzteArtRWBand(
+            "Umfeld links",
+            GschuetzteArt_ABSCHNITT);
+    private GeschuetzteArtRWBand umfeld_rechts = new GeschuetzteArtRWBand(
+            "Umfeld rechts",
+            GschuetzteArt_ABSCHNITT);
     private GeschuetzteArtRWBand sohle = new GeschuetzteArtRWBand(
             "Sohle",
             GschuetzteArt_ABSCHNITT);
@@ -89,9 +89,11 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     private final JBand jband;
     private final BandModelListener modelListener = new GupVerbreitungsraumBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
+    private List<CidsBean> rechtesUmfeldList = new ArrayList<CidsBean>();
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
     private List<CidsBean> sohleList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
+    private List<CidsBean> linkesUmfeldList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
     private GeschuetzteArtAbschnittEditor geschuetzteArtAbschnittEditor;
     private boolean readOnly = false;
@@ -153,6 +155,9 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         initComponents();
 
         geschuetzteArtAbschnittEditor = new GeschuetzteArtAbschnittEditor(readOnly);
+        umfeld_rechts.setReadOnly(readOnly);
+        umfeld_rechts.setType(GeschuetzteArtRWBand.UM_RIGHT);
+        sbm.addBand(umfeld_rechts);
         ufer_rechts.setReadOnly(readOnly);
         ufer_rechts.setType(GeschuetzteArtRWBand.RIGHT);
         sbm.addBand(ufer_rechts);
@@ -162,6 +167,9 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         ufer_links.setReadOnly(readOnly);
         ufer_links.setType(GeschuetzteArtRWBand.LEFT);
         sbm.addBand(ufer_links);
+        umfeld_links.setReadOnly(readOnly);
+        umfeld_links.setType(GeschuetzteArtRWBand.UM_LEFT);
+        sbm.addBand(umfeld_links);
         panVermessung.add(vermessungsEditor, BorderLayout.CENTER);
 
         jband.setModel(sbm);
@@ -252,9 +260,11 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         }
         jband.setMinValue(from);
         jband.setMaxValue(till);
+        umfeld_links.setRoute(route);
         ufer_links.setRoute(route);
         sohle.setRoute(route);
         ufer_rechts.setRoute(route);
+        umfeld_rechts.setRoute(route);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -263,8 +273,10 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         // extract geschuetzte Arten
         final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
         rechtesUferList = new ArrayList<CidsBean>();
+        rechtesUmfeldList = new ArrayList<CidsBean>();
         sohleList = new ArrayList<CidsBean>();
         linkesUferList = new ArrayList<CidsBean>();
+        linkesUmfeldList = new ArrayList<CidsBean>();
 
         for (final CidsBean tmp : all) {
             final Integer kind = (Integer)tmp.getProperty("wo.id");
@@ -282,15 +294,29 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
                     sohleList.add(tmp);
                     break;
                 }
+                case GupPlanungsabschnittEditor.GUP_UMFELD_LINKS: {
+                    linkesUmfeldList.add(tmp);
+                    break;
+                }
+                case GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS: {
+                    rechtesUmfeldList.add(tmp);
+                    break;
+                }
             }
         }
 
         rechtesUferList = ObservableCollections.observableList(rechtesUferList);
+        rechtesUmfeldList = ObservableCollections.observableList(rechtesUmfeldList);
         sohleList = ObservableCollections.observableList(sohleList);
+        linkesUmfeldList = ObservableCollections.observableList(linkesUmfeldList);
         linkesUferList = ObservableCollections.observableList(linkesUferList);
 
         ((ObservableList<CidsBean>)rechtesUferList).addObservableListListener(new MassnBezugListListener(
                 GupPlanungsabschnittEditor.GUP_UFER_RECHTS,
+                cidsBean,
+                COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)rechtesUmfeldList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS,
                 cidsBean,
                 COLLECTION_PROPERTY));
         ((ObservableList<CidsBean>)sohleList).addObservableListListener(new MassnBezugListListener(
@@ -301,9 +327,15 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
                 GupPlanungsabschnittEditor.GUP_UFER_LINKS,
                 cidsBean,
                 COLLECTION_PROPERTY));
+        ((ObservableList<CidsBean>)linkesUmfeldList).addObservableListListener(new MassnBezugListListener(
+                GupPlanungsabschnittEditor.GUP_UMFELD_LINKS,
+                cidsBean,
+                COLLECTION_PROPERTY));
 
         ufer_rechts.setCidsBeans(rechtesUferList);
         ufer_links.setCidsBeans(linkesUferList);
+        umfeld_rechts.setCidsBeans(rechtesUmfeldList);
+        umfeld_links.setCidsBeans(linkesUmfeldList);
         sohle.setCidsBeans(sohleList);
 
         wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband, vermessungsband);
@@ -731,10 +763,12 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
-        final GeschuetzteArtRWBand[] bands = new GeschuetzteArtRWBand[3];
+        final GeschuetzteArtRWBand[] bands = new GeschuetzteArtRWBand[5];
         bands[0] = ufer_links;
         bands[1] = ufer_rechts;
         bands[2] = sohle;
+        bands[3] = umfeld_links;
+        bands[4] = umfeld_rechts;
         vermessungsband.applyStats(this, bands, GschuetzteArt_ABSCHNITT);
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
@@ -866,6 +900,10 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
                         otherBeans = new ArrayList(rechtesUferList);
                     } else if (band.getType() == GeschuetzteArtRWBand.LEFT) {
                         otherBeans = new ArrayList(linkesUferList);
+                    } else if (band.getType() == GeschuetzteArtRWBand.UM_LEFT) {
+                        otherBeans = new ArrayList(linkesUmfeldList);
+                    } else if (band.getType() == GeschuetzteArtRWBand.UM_RIGHT) {
+                        otherBeans = new ArrayList(rechtesUmfeldList);
                     } else {
                         otherBeans = new ArrayList(sohleList);
                     }

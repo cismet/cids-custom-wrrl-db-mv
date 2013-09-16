@@ -15,6 +15,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,7 +144,16 @@ public class VermessungsbandHelper {
         this.cidsBean = cidsBean;
 
         togApplyStats.setEnabled(cidsBean.getProperty("linie") != null);
-        showRoute();
+
+        EventQueue.invokeLater(new Runnable() {
+
+                // setCidsBean() will not be invoked from the edt, so a java.util.ConcurrentModificationException can
+                // occur, if the showRoute method will be invoked without the invokeLater() method
+                @Override
+                public void run() {
+                    showRoute();
+                }
+            });
     }
 
     /**

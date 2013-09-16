@@ -77,6 +77,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     private static final transient Logger LOG = Logger.getLogger(FgskKartierabschnittEditor.class);
     private static FgskKartierabschnittEditor lastInstance = null;
+    private static CidsBean lastBean = null;
+    private static boolean open = false;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -174,6 +176,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
         if (!readOnly) {
             lastInstance = this;
+            lastBean = cidsBean;
+            open = true;
         }
 
         if (cidsBean != null) {
@@ -201,6 +205,19 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         }
 
         fillFooter();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean getCurrentlyOpenBean() {
+        if (open) {
+            return lastBean;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -323,7 +340,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @throws  IllegalArgumentException  DOCUMENT ME!
      */
-    private boolean isException(final CidsBean kaBean) {
+    public static boolean isException(final CidsBean kaBean) {
         if (kaBean == null) {
             throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
         }
@@ -557,6 +574,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         fgskKartierabschnittUferstruktur1.dispose();
         fgskKartierabschnittGewaesserumfeld1.dispose();
         fgskKartierabschnittErgebnisse1.dispose();
+        if (!readOnly) {
+            open = false;
+        }
     }
 
     @Override
@@ -599,7 +619,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             }
 
             try {
-                cidsBean.setProperty("wkk", wkk);
+                if (wkk != null) {
+                    cidsBean.setProperty("wkk", wkk);
+                }
             } catch (Exception ex) {
                 LOG.error("Cannot save the current gwk.", ex);
             }

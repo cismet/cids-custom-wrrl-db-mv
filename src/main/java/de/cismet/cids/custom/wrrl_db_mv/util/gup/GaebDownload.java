@@ -11,33 +11,23 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import org.openide.util.Cancellable;
+
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.InputStream;
 
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenGaebSearch;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.gaeb.types.GaebContainer;
 import de.cismet.cids.gaeb.types.GaebLvItem;
 
-import de.cismet.cids.server.search.CidsServerSearch;
-
-import de.cismet.cismap.commons.interaction.CismapBroker;
-
-import de.cismet.security.WebDavClient;
-
 import de.cismet.tools.gui.downloadmanager.AbstractDownload;
 import de.cismet.tools.gui.downloadmanager.Download;
-import de.cismet.tools.gui.downloadmanager.WebDavDownload;
 
 /**
  * DOCUMENT ME!
@@ -45,7 +35,7 @@ import de.cismet.tools.gui.downloadmanager.WebDavDownload;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GaebDownload extends AbstractDownload {
+public class GaebDownload extends AbstractDownload implements Cancellable {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -121,8 +111,14 @@ public class GaebDownload extends AbstractDownload {
             c.setBieterKommentar(true);
             final String result = ex.startExport(c);
 
-            bw = new BufferedWriter(new FileWriter(fileToSaveTo));
-            bw.write(result);
+            if (!Thread.interrupted()) {
+                bw = new BufferedWriter(new FileWriter(fileToSaveTo));
+                bw.write(result);
+            } else {
+                log.info("Download was interuppted");
+                deleteFile();
+                return;
+            }
         } catch (Exception e) {
             error(e);
         } finally {
@@ -171,5 +167,28 @@ public class GaebDownload extends AbstractDownload {
         hash = (43 * hash) + ((this.fileToSaveTo != null) ? this.fileToSaveTo.hashCode() : 0);
 
         return hash;
+    }
+
+    @Override
+    public boolean cancel() {
+        boolean cancelled = true;
+        if (downloadFuture != null) {
+            cancelled = downloadFuture.cancel(true);
+        }
+
+        if (cancelled) {
+            status = State.ABORTED;
+            stateChanged();
+        }
+        return cancelled;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void deleteFile() {
+        if (fileToSaveTo.exists() && fileToSaveTo.isFile()) {
+            fileToSaveTo.delete();
+        }
     }
 }

@@ -659,8 +659,10 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
         } else {
             if (c instanceof JTextField) {
                 final JTextField jtf = (JTextField)c;
-                final Double value = CidsBeanSupport.textToDouble(jtf, 0.0);
-                jtf.setText(String.valueOf(Math.round(value)));
+                if (!jtf.getText().isEmpty()) {
+                    final Double value = CidsBeanSupport.textToDouble(jtf, 0.0);
+                    jtf.setText(String.valueOf(Math.round(value)));
+                }
             } else {
                 LOG.warn("substate percentage round: component no JTextField, illegal listener registration?"); // NOI18N
             }

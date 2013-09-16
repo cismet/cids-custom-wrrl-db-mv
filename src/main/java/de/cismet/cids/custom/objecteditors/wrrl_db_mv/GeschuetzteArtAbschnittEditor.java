@@ -51,9 +51,13 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbName;
+    private de.cismet.cids.editors.DefaultBindableDateChooser dcDatenalter;
+    private javax.swing.JLabel lblAlter;
     private javax.swing.JLabel lblArt;
+    private javax.swing.JLabel lblHerkunft;
     private javax.swing.JLabel lblVermeidungsgruppe;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JTextField txtHerkunft;
     private javax.swing.JTextField txtVermeidungsgruppe;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -101,6 +105,8 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
         } else {
             RendererTools.makeReadOnly(cbName);
             RendererTools.makeReadOnly(txtVermeidungsgruppe);
+            RendererTools.makeReadOnly(txtHerkunft);
+            RendererTools.makeReadOnly(dcDatenalter);
         }
     }
 
@@ -121,6 +127,10 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
         linearReferencedLineEditor = linearReferencedLineEditor;
         lblVermeidungsgruppe = new javax.swing.JLabel();
         txtVermeidungsgruppe = new javax.swing.JTextField();
+        lblHerkunft = new javax.swing.JLabel();
+        txtHerkunft = new javax.swing.JTextField();
+        lblAlter = new javax.swing.JLabel();
+        dcDatenalter = new de.cismet.cids.editors.DefaultBindableDateChooser();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -139,11 +149,11 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblArt, gridBagConstraints);
 
-        cbName.setMaximumSize(new java.awt.Dimension(420, 20));
-        cbName.setMinimumSize(new java.awt.Dimension(420, 20));
-        cbName.setPreferredSize(new java.awt.Dimension(520, 20));
+        cbName.setMaximumSize(new java.awt.Dimension(550, 25));
+        cbName.setMinimumSize(new java.awt.Dimension(550, 25));
+        cbName.setPreferredSize(new java.awt.Dimension(550, 25));
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.art}"),
@@ -161,7 +171,7 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
         add(cbName, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 10);
@@ -190,6 +200,73 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 15);
         add(txtVermeidungsgruppe, gridBagConstraints);
+
+        lblHerkunft.setText(org.openide.util.NbBundle.getMessage(
+                GeschuetzteArtAbschnittEditor.class,
+                "GeschuetzteArtAbschnittEditor.lblHerkunft.text")); // NOI18N
+        lblHerkunft.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblHerkunft.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblHerkunft.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblHerkunft, gridBagConstraints);
+
+        txtHerkunft.setMinimumSize(new java.awt.Dimension(550, 25));
+        txtHerkunft.setPreferredSize(new java.awt.Dimension(550, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.datenherkunft}"),
+                txtHerkunft,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
+        add(txtHerkunft, gridBagConstraints);
+
+        lblAlter.setText(org.openide.util.NbBundle.getMessage(
+                GeschuetzteArtAbschnittEditor.class,
+                "GeschuetzteArtAbschnittEditor.lblAlter.text")); // NOI18N
+        lblAlter.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblAlter.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblAlter.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblAlter, gridBagConstraints);
+
+        dcDatenalter.setMinimumSize(new java.awt.Dimension(550, 25));
+        dcDatenalter.setPreferredSize(new java.awt.Dimension(550, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.datenalter}"),
+                dcDatenalter,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(dcDatenalter.getConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
+        add(dcDatenalter, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

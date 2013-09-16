@@ -652,12 +652,11 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValReal.setPreferredSize(new java.awt.Dimension(200, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.realisierung.name}"),
                 lblValReal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -673,13 +672,11 @@ public class MassnahmenRenderer extends JPanel implements CidsBeanRenderer, Foot
         lblValStalu.setPreferredSize(new java.awt.Dimension(200, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu.value}"),
                 lblValStalu,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
