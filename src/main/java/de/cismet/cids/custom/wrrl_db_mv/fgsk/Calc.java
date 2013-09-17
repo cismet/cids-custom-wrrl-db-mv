@@ -165,14 +165,13 @@ public final class Calc {
     public static final String PROP_WB_ENV_RATING_LE = "punktzahl_land_links";                            // NOI18N
     public static final String PROP_WB_ENV_RATING_RI = "punktzahl_land_rechts";                           // NOI18N
     public static final String PROP_EXCEPTION = "sonderfall_id";                                          // NOI18N
-    
-    //Variables used in Simulation
-    public static final String PROP_SIM_FLOW_DIV_RATING = "bewertung_stroemungsdiversitaet";              // NOI18N
-    public static final String PROP_SIM_SUBSTRAT_DEAD_WOOD_RATING = "bewertung_substratanteil_totholz";              // NOI18N
-    public static final String PROP_SIM_CROSS_BENCH_COUNT_RATING = "bewertung_anzahl_querbaenke";              // NOI18N
-    public static final String PROP_SIM_LONG_BENCH_COUNT_RATING = "bewertung_anzahl_laengsbaenke";              // NOI18N
-    public static final String PROP_SIM_BED_STRUCTURE_COUNT_RATING = "bewertung_anzahl_besondere_sohlstrukturen";              // NOI18N
-    
+
+    // Variables used in Simulation
+    public static final String PROP_SIM_FLOW_DIV_RATING = "bewertung_stroemungsdiversitaet";                      // NOI18N
+    public static final String PROP_SIM_CROSS_BENCH_COUNT_RATING = "bewertung_anzahl_querbaenke";                 // NOI18N
+    public static final String PROP_SIM_LONG_BENCH_COUNT_RATING = "bewertung_anzahl_laengsbaenke";                // NOI18N
+    public static final String PROP_SIM_BREADTH_VARIANCE_RATING = "bewertung_breitenvarianz";                     // NOI18N
+    public static final String PROP_SIM_BED_STRUCTURE_COUNT_RATING = "bewertung_anzahl_besondere_sohlstrukturen"; // NOI18N
 
     static final CalcCache cache = CalcCache.getInstance();
     private static final transient Logger LOG = Logger.getLogger(Calc.class);
@@ -414,7 +413,6 @@ public final class Calc {
             kaBean.setProperty(PROP_LONG_PROFILE_SUM_CRIT, rating.criteriaCount);
             kaBean.setProperty(PROP_SIM_FLOW_DIV_RATING, ratingFlowDiversity);
             kaBean.setProperty(PROP_SIM_CROSS_BENCH_COUNT_RATING, ratingCrossBench);
-            
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
             LOG.error(message, e);
@@ -778,7 +776,6 @@ public final class Calc {
             kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, finalRating);
             kaBean.setProperty(PROP_BED_STRUCTURE_SUM_CRIT, rating.criteriaCount);
             kaBean.setProperty(PROP_SIM_BED_STRUCTURE_COUNT_RATING, ratingBedStructure);
-            
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
             LOG.error(message, e);
