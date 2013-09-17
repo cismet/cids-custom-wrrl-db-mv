@@ -67,6 +67,7 @@ public class VermessungsbandHelper {
 
     //~ Instance fields --------------------------------------------------------
 
+    private String lineProperty = "linie";
     private CidsBean cidsBean;
     private final JToggleButton togApplyStats;
     private WKBand vwkband;
@@ -143,7 +144,7 @@ public class VermessungsbandHelper {
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
 
-        togApplyStats.setEnabled(cidsBean.getProperty("linie") != null);
+        togApplyStats.setEnabled(cidsBean.getProperty(getLineProperty()) != null);
 
         EventQueue.invokeLater(new Runnable() {
 
@@ -174,7 +175,7 @@ public class VermessungsbandHelper {
             FeatureRegistry.getInstance().removeRouteFeature(route);
         }
 
-        final CidsBean station = (CidsBean)cidsBean.getProperty("linie.von");
+        final CidsBean station = (CidsBean)cidsBean.getProperty(getLineProperty() + ".von");
 
         if ((station != null)) {
             final Geometry routeGeometry = LinearReferencingHelper.getRouteGeometryFromStationBean(station);
@@ -212,7 +213,7 @@ public class VermessungsbandHelper {
                         routeBean = cidsFeature.getMetaObject().getBean();
                     }
                 } else if ((feature != null) && (feature == routeFeature)) {
-                    routeBean = (CidsBean)cidsBean.getProperty("linie.von.route");
+                    routeBean = (CidsBean)cidsBean.getProperty(getLineProperty() + ".von.route");
                 }
             }
 
@@ -220,10 +221,12 @@ public class VermessungsbandHelper {
             if (routeBean != null) {
                 final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
                         cidsBean.getProperty(
-                            "linie.von"));
+                            getLineProperty()
+                                    + ".von"));
                 final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
                         cidsBean.getProperty(
-                            "linie.bis"));
+                            getLineProperty()
+                                    + ".bis"));
                 vermessungsBand.setRoute(routeBean);
                 vermessungsBand.removeAllMember();
                 Double fromPosition = null;
@@ -247,9 +250,11 @@ public class VermessungsbandHelper {
             }
 
             final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
-                        "linie.von"));
+                        getLineProperty()
+                                + ".von"));
             final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
-                        "linie.bis"));
+                        getLineProperty()
+                                + ".bis"));
             vBand.setMinValue(from);
             vBand.setMaxValue(till);
             panBand.removeAll();
@@ -295,8 +300,10 @@ public class VermessungsbandHelper {
                     for (int i = 0; i < vermessungsBand.getNumberOfMembers(); ++i) {
                         final CidsBean bean = ((VermessungsbandMember)vermessungsBand.getMember(i)).getCidsBean();
                         final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(cidsBeanTableName);
-                        final CidsBean von = getStationCopy((CidsBean)bean.getProperty("linie.von"), stations);
-                        final CidsBean bis = getStationCopy((CidsBean)bean.getProperty("linie.bis"), stations);
+                        final CidsBean von = getStationCopy((CidsBean)bean.getProperty(getLineProperty() + ".von"),
+                                stations);
+                        final CidsBean bis = getStationCopy((CidsBean)bean.getProperty(getLineProperty() + ".bis"),
+                                stations);
 
                         tmp.addMember(newBean, von, bis);
                     }
@@ -425,5 +432,23 @@ public class VermessungsbandHelper {
                 }
             }
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the lineProperty
+     */
+    public String getLineProperty() {
+        return lineProperty;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lineProperty  the lineProperty to set
+     */
+    public void setLineProperty(final String lineProperty) {
+        this.lineProperty = lineProperty;
     }
 }

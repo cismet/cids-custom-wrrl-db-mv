@@ -7,8 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util;
 
+import java.awt.Color;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -90,6 +93,16 @@ public class RendererTools {
      */
     public static void makeReadOnly(final DefaultBindableCheckboxField cc) {
         cc.setReadOnly(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  rb  cc DOCUMENT ME!
+     */
+    public static void makeReadOnly(final JRadioButton rb) {
+        rb.setEnabled(false);
+        rb.setForeground(new Color(76, 76, 76));
     }
 
     /**
