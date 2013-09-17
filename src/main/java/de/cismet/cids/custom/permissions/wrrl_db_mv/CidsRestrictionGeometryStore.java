@@ -53,7 +53,7 @@ public class CidsRestrictionGeometryStore implements StartupHook {
     public void applicationStarted() {
         try {
             if (log.isDebugEnabled()) {
-                log.fatal("CidsRestrictionGeometryStore initialization started");
+                log.debug("CidsRestrictionGeometryStore initialization started");
             }
             final MetaClass mc = ClassCacheMultiple.getMetaClass(DOMAIN, TABLE);
             final MetaObject[] metaObjects = SessionManager.getConnection()
@@ -115,34 +115,5 @@ public class CidsRestrictionGeometryStore implements StartupHook {
      */
     public static HashMap<String, ArrayList<String>> getRestrictionKeys() {
         return restrictionKeys;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   args  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    public static void main(final String[] args) throws Exception {
-        final CidsBean[] cbs = DevelopmentTools.createCidsBeansFromRMIConnectionOnLocalhost(
-                DOMAIN,
-                "Administratoren",
-                "admin",
-                "sb",
-                TABLE);
-        for (final CidsBean cb : cbs) {
-            log.fatal(cb.getMOString());
-            final CidsBean cbX = DevelopmentTools.createCidsBeanFromRMIConnectionOnLocalhost(
-                    DOMAIN,
-                    "Administratoren",
-                    "admin",
-                    "sb",
-                    "oeg_einzugsgebiet",
-                    1);
-            final CidsBean g = (CidsBean)cbX.getProperty("geom");
-            cb.setProperty("restrictiongeom", g);
-            log.fatal(cb.getMOString());
-        }
     }
 }
