@@ -27,8 +27,10 @@ import java.awt.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -62,7 +64,9 @@ import de.cismet.commons.concurrency.CismetConcurrency;
 
 import de.cismet.tools.Equals;
 
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.VerticalTextIcon;
+import de.cismet.tools.gui.WaitingDialogThread;
 
 /**
  * DOCUMENT ME!
@@ -85,6 +89,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     private List<CidsBean> massnahmen;
     private final int scale = 12;
     private boolean readOnly;
+    private Map<Integer, Integer> gewIdToLawaValueMapping = new HashMap<Integer, Integer>();
     private DefaultListModel<CidsBean> model = new DefaultListModel<CidsBean>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -201,6 +206,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         liMassn.setModel(model);
+        liMassn.setCellRenderer(new CustomListCellRenderer());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -1214,8 +1220,13 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorschlagActionPerformed
-        final SwingWorker<Collection<Node>, Void> worker = new SwingWorker<Collection<Node>, Void>() {
+    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorschlagActionPerformed
+        final WaitingDialogThread<Collection<Node>> worker = new WaitingDialogThread<Collection<Node>>(StaticSwingTools
+                        .getParentFrame(this),
+                true,
+                "Lade Vorschläge",
+                null,
+                100) {
 
                 @Override
                 protected Collection<Node> doInBackground() throws Exception {
@@ -1237,27 +1248,28 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                     }
                 }
             };
-        CismetConcurrency.getInstance("fgsk-sim").getDefaultExecutor().submit(worker);
-    }//GEN-LAST:event_jbVorschlagActionPerformed
+
+        worker.start();
+    } //GEN-LAST:event_jbVorschlagActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemActionPerformed
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
         final Object[] selectedElements = liMassn.getSelectedValues();
 
         for (final Object el : selectedElements) {
             model.removeElement(el);
-            model.addElement((CidsBean)el);
+            massnahmen.remove((CidsBean)el);
         }
         try {
             calc(cidsBean, massnahmen, true);
         } catch (Exception e) {
             LOG.error("Error during calculation.", e);
         }
-    }//GEN-LAST:event_jbRemActionPerformed
+    } //GEN-LAST:event_jbRemActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -1357,6 +1369,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             throw new IllegalStateException("kartierabschnitt bean without water body type: " + bean); // NOI18N
         }
         final int wbTypeId = wbTypeBean.getMetaObject().getId();
+        gewIdToLawaValueMapping.put(wbTypeId, (Integer)wbTypeBean.getProperty("value"));
         final double stationLength = Calc.getStationLength(bean);
         final CidsBean courseLoopBean = (CidsBean)bean.getProperty(Calc.PROP_COURSE_LOOP);
         final CidsBean loopErosionBean = (CidsBean)bean.getProperty(Calc.PROP_LOOP_EROSION);
@@ -1439,7 +1452,11 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, wbTypeId);
         ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, wbTypeId);
         ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, wbTypeId);
-        ratingCourseStructure = addProperty(ratingCourseStructure, "anzahl_besonderer_laufstrukturen", massnahmen, wbTypeId);
+        ratingCourseStructure = addProperty(
+                ratingCourseStructure,
+                "anzahl_besonderer_laufstrukturen",
+                massnahmen,
+                wbTypeId);
         ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, wbTypeId);
         ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, wbTypeId);
         ratingFlowVelocity = addProperty(ratingFlowVelocity, "fliessgeschwindigkeit", massnahmen, wbTypeId);
@@ -1454,8 +1471,13 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         ratingBankStructureRight = addProperty(
                 ratingBankStructureRight,
                 "anzahl_besonderer_uferstrukturen",
-                massnahmen, wbTypeId);
-        ratingBankStructureLeft = addProperty(ratingBankStructureLeft, "anzahl_besonderer_uferstrukturen", massnahmen, wbTypeId);
+                massnahmen,
+                wbTypeId);
+        ratingBankStructureLeft = addProperty(
+                ratingBankStructureLeft,
+                "anzahl_besonderer_uferstrukturen",
+                massnahmen,
+                wbTypeId);
         ratingBankVegetationRight = addProperty(ratingBankVegetationRight, "uferbewuchs", massnahmen, wbTypeId);
         ratingBankVegetationLeft = addProperty(ratingBankVegetationLeft, "uferbewuchs", massnahmen, wbTypeId);
         ratingBankFitmentRight = addProperty(ratingBankFitmentRight, "uferverbau", massnahmen, wbTypeId);
@@ -1467,12 +1489,14 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         ratingBadEnvRight = Calc.correctBadEnvRating(addProperty(
                     ratingBadEnvRight,
                     "sonstige_umfeldstrukturen",
-                    massnahmen, wbTypeId),
+                    massnahmen,
+                    wbTypeId),
                 wbTypeId);
         ratingBadEnvLeft = Calc.correctBadEnvRating(addProperty(
                     ratingBadEnvLeft,
                     "sonstige_umfeldstrukturen",
-                    massnahmen, wbTypeId),
+                    massnahmen,
+                    wbTypeId),
                 wbTypeId);
 
         // start overall rating calculation
@@ -1657,15 +1681,27 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param   massnahmen    DOCUMENT ME!
      * @param   propertyName  DOCUMENT ME!
+     * @param   wbTypeId      DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
     private int getMassnBonus(final List<CidsBean> massnahmen, final String propertyName, final int wbTypeId) {
         int bonus = 0;
+        final Integer lawaValue = gewIdToLawaValueMapping.get(wbTypeId);
 
         if (massnahmen != null) {
-            for (final CidsBean tmpMassn : massnahmen) {
-                bonus += (Integer)tmpMassn.getProperty(propertyName);
+            for (final CidsBean massnGroup : massnahmen) {
+                final List<CidsBean> massnList = massnGroup.getBeanCollectionProperty("massnahmen");
+
+                for (final CidsBean massn : massnList) {
+                    final List<CidsBean> wirkungList = massn.getBeanCollectionProperty("wirkungen");
+
+                    for (final CidsBean wirkung : wirkungList) {
+                        if (wirkung.getProperty("gewaessertyp.code").equals(lawaValue)) {
+                            bonus += (Integer)wirkung.getProperty(propertyName);
+                        }
+                    }
+                }
             }
         }
         return bonus;
@@ -1726,15 +1762,19 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param   value         DOCUMENT ME!
      * @param   propertyName  DOCUMENT ME!
      * @param   massnahmen    DOCUMENT ME!
+     * @param   wbTypeId      DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Double addProperty(final Double value, final String propertyName, final List<CidsBean> massnahmen, final int wbTypeId) {
+    private Double addProperty(final Double value,
+            final String propertyName,
+            final List<CidsBean> massnahmen,
+            final int wbTypeId) {
         if (value == null) {
             return null;
         }
 
-        return value + getMassnBonus(massnahmen, "laufkruemmung", wbTypeId);
+        return value + getMassnBonus(massnahmen, propertyName, wbTypeId);
     }
 
     /**
@@ -1743,15 +1783,19 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param   value         DOCUMENT ME!
      * @param   propertyName  DOCUMENT ME!
      * @param   massnahmen    DOCUMENT ME!
+     * @param   wbTypeId      DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Integer addProperty(final Integer value, final String propertyName, final List<CidsBean> massnahmen, final int wbTypeId) {
+    private Integer addProperty(final Integer value,
+            final String propertyName,
+            final List<CidsBean> massnahmen,
+            final int wbTypeId) {
         if (value == null) {
             return null;
         }
 
-        return value + getMassnBonus(massnahmen, "laufkruemmung", wbTypeId);
+        return value + getMassnBonus(massnahmen, propertyName, wbTypeId);
     }
 
     /**
@@ -2076,7 +2120,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             if (beans.size() > 0) {
                 final CidsBean tmpBean = beans.get(0);
 
-                if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Sim_massnahme")) {
+                if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Sim_massnahmen_gruppe")) {
                     try {
                         final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
                                 "sim_massnahmen_anwendungen");
@@ -2084,7 +2128,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                         newBean.setProperty("massnahme", tmpBean);
                         newBean.setProperty("simulation", simulation);
                         massnahmen.add(tmpBean);
-                        model.addElement(newBean);
+                        model.addElement(tmpBean);
                         calc(cidsBean, massnahmen, true);
 
                         simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen").add(newBean);
@@ -2112,7 +2156,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 final boolean isSelected,
                 final boolean cellHasFocus) {
             final CidsBean val = (CidsBean)value;
-            final String title = String.valueOf(val.getProperty("massnahme"));
+            final String title = String.valueOf(val);
             return super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
         }
     }
