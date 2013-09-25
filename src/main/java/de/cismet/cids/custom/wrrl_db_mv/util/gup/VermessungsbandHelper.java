@@ -300,9 +300,9 @@ public class VermessungsbandHelper {
                     for (int i = 0; i < vermessungsBand.getNumberOfMembers(); ++i) {
                         final CidsBean bean = ((VermessungsbandMember)vermessungsBand.getMember(i)).getCidsBean();
                         final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(cidsBeanTableName);
-                        final CidsBean von = getStationCopy((CidsBean)bean.getProperty(getLineProperty() + ".von"),
+                        final CidsBean von = getStationCopy((CidsBean)bean.getProperty("linie.von"),
                                 stations);
-                        final CidsBean bis = getStationCopy((CidsBean)bean.getProperty(getLineProperty() + ".bis"),
+                        final CidsBean bis = getStationCopy((CidsBean)bean.getProperty("linie.bis"),
                                 stations);
 
                         tmp.addMember(newBean, von, bis);

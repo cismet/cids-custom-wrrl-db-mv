@@ -13,6 +13,10 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
+import Sirius.navigator.types.treenode.ObjectTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -21,29 +25,35 @@ import org.apache.log4j.Logger;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.tree.TreeNode;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor.SimulationResultChangedEvent;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBandMember;
-import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -52,6 +62,11 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.commons.concurrency.CismetConcurrency;
+
+import de.cismet.tools.CalculationCache;
+import de.cismet.tools.Calculator;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
@@ -72,17 +87,29 @@ import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     FooterComponentProvider,
     TitleComponentProvider,
-    EditorSaveListener {
+    EditorSaveListener,
+    SimSimulationsabschnittEditor.SimulationResultChangedListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static Logger LOG = Logger.getLogger(SimulationEditor.class);
-//    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
-//    private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
-//            WRRLUtil.DOMAIN_NAME,
-//            "fgsk_kartierabschnitt");
+    private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "fgsk_kartierabschnitt");
+    private static final CalculationCache<List, MetaObject[]> fgskCache = new CalculationCache<List, MetaObject[]>(
+            new FgskCalculator());
+    private static final CalculationCache<List, MetaObject[]> wkfgCache = new CalculationCache<List, MetaObject[]>(
+            new WkfgCalculator());
+
+    static {
+        fgskCache.setTimeToCacheResults(30000);
+        wkfgCache.setTimeToCacheResults(30000);
+    }
 
     //~ Instance fields --------------------------------------------------------
+
+    private boolean warningAlreadyShown = false;
 
     private ReadOnlyFgskBand[] fgskBands;
     private WKBand wkband;
@@ -95,15 +122,24 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private boolean isNew = false;
     private CidsBean wkFg;
     private MetaObject[] fgsks;
+    private boolean cancel = false;
+    private boolean namePrompt = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgZiel;
     private javax.swing.ButtonGroup bgrpDetails;
+    private javax.swing.JButton butCancel;
+    private javax.swing.JButton butOK;
+    private javax.swing.JDialog diaName;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblMarker1;
@@ -111,9 +147,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblMarker3;
     private javax.swing.JLabel lblMarker4;
     private javax.swing.JLabel lblMarker5;
+    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblNeu;
     private javax.swing.JLabel lblSubTitle1;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblTitleName;
+    private javax.swing.JPanel panAllgemein;
     private javax.swing.JPanel panBand;
     private javax.swing.JPanel panClass1;
     private javax.swing.JPanel panClass2;
@@ -128,6 +167,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel panHeaderInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panLoading;
     private javax.swing.JPanel panMorphometer;
     private javax.swing.JPanel panNew;
     private javax.swing.JPanel panTitle;
@@ -135,6 +175,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JRadioButton rbOekPot;
     private javax.swing.JRadioButton rbZust;
     private javax.swing.JSlider sldZoom;
+    private javax.swing.JTextArea taBemerkungen;
+    private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -155,19 +197,20 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         this.readOnly = readOnly;
         initComponents();
 
+        panHeaderInfo.setVisible(false);
+        jPanel1.setVisible(false);
+
         if (!readOnly) {
             new CidsBeanDropTarget(panNew);
         }
         simulationsEditor = new SimSimulationsabschnittEditor(readOnly);
+        simulationsEditor.addSimulationResultChangedListener(this);
 
         switchToForm("empty");
         lblHeading.setText("FGSK Abschnitt");
         panFgsk.add(simulationsEditor, BorderLayout.CENTER);
 
         sldZoom.setPaintTrack(false);
-
-//        RendererTools.makeReadOnly(rbOekPot);
-//        RendererTools.makeReadOnly(rbZust);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -204,7 +247,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             }
             sbm[internIndex] = new SimpleBandModel();
             final String gwk = String.valueOf(teile.get(index).getProperty("linie.von.route.gwk"));
-            fgskBands[internIndex] = new ReadOnlyFgskBand(gwk);
+            fgskBands[internIndex] = new ReadOnlyFgskBand(gwk, simulationsEditor);
             jband[internIndex] = new JBand(true);
             modelListener[internIndex] = new RestriktionBandModelListener(jband[internIndex]);
 
@@ -239,6 +282,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+//        bindingGroup.unbind();
         this.cidsBean = cidsBean;
         this.wkFg = null;
 
@@ -246,12 +290,49 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblHeading.setText("");
 
         if (cidsBean != null) {
+//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+//                bindingGroup,
+//                cidsBean);
+//            bindingGroup.bind();
             isNew = cidsBean.getProperty("wk_key") == null;
+            warningAlreadyShown = false;
 
             if (isNew) {
                 panBand.removeAll();
                 panBand.add(panNew, BorderLayout.CENTER);
+                namePrompt = true;
+                try {
+                    cidsBean.setProperty("name", "Variante");
+                    fillDialog();
+                } catch (Exception e) {
+                    LOG.error("Error while setting the name", e);
+                }
+                final DefaultMetaTreeNode dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getCatalogueTree()
+                            .getSelectedNode();
+
+                if (dmtn != null) {
+                    final TreeNode nodeTmp = dmtn.getParent();
+                    if ((nodeTmp != null) && (nodeTmp instanceof ObjectTreeNode)) {
+                        final ObjectTreeNode node = (ObjectTreeNode)nodeTmp;
+                        final CidsBean tmpBean = node.getMetaObject().getBean();
+                        if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
+                            wkFg = tmpBean;
+                            panBand.removeAll();
+                            try {
+                                cidsBean.setProperty("wk_key", wkFg.getProperty("wk_k"));
+                                fillDialog();
+                                setNamesAndBands();
+                                isNew = false;
+                            } catch (Exception e) {
+                                LOG.error("error while setting the wk_key property", e);
+                            }
+                        }
+                    }
+                }
             } else {
+                lblTitle.setText(getTitle());
+                setName();
+                fillDialog();
                 setNamesAndBands();
             }
         }
@@ -260,34 +341,59 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     /**
      * DOCUMENT ME!
      */
+    private void fillDialog() {
+        String name = (String)cidsBean.getProperty("name");
+        String beschreibung = (String)cidsBean.getProperty("beschreibung");
+
+        if (name == null) {
+            name = "";
+        }
+        if (beschreibung == null) {
+            beschreibung = "";
+        }
+        txtName.setText(name);
+        taBemerkungen.setText(beschreibung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setName() {
+        final String name = (String)cidsBean.getProperty("name");
+
+        if (name != null) {
+            lblTitleName.setText("Name: " + cidsBean.getProperty("name"));
+            lblTitleName.setToolTipText("Beschreibung: " + cidsBean.getProperty("beschreibung"));
+        } else {
+            lblTitleName.setText("Name: ");
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     private void setNamesAndBands() {
-        final WaitingDialogThread<MetaObject[]> waitingDialog = new WaitingDialogThread<MetaObject[]>(StaticSwingTools
-                        .getParentFrame(this),
-                true,
-                "Lade Abschnitte",
-                null,
-                100) {
+        panBand.removeAll();
+        panBand.setLayout(new BorderLayout());
+        panBand.add(panLoading, BorderLayout.CENTER);
+        panBand.doLayout();
+        panBand.invalidate();
+        panBand.validate();
+        panBand.repaint();
+
+        final SwingWorker<MetaObject[], Void> waitingDialog = new SwingWorker<MetaObject[], Void>() {
 
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
-                    final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
-                    final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
-                            WRRLUtil.DOMAIN_NAME,
-                            "fgsk_kartierabschnitt");
-                    final String queryWkFg = "SELECT " + MC_WK_FG.getID() + ",  " + MC_WK_FG.getPrimaryKey() + " FROM "
-                                + MC_WK_FG.getTableName() + " WHERE wk_k = '"
-                                + cidsBean.getProperty("wk_key") + "';";
+                    final List wkfgIn = new ArrayList(1);
+                    wkfgIn.add(cidsBean.getProperty("wk_key"));
+                    final MetaObject[] mosWkFg = wkfgCache.calcValue(wkfgIn);
 
-                    final MetaObject[] mosWkFg = SessionManager.getProxy().getMetaObjectByQuery(queryWkFg, 0);
                     if ((mosWkFg != null) && (mosWkFg.length == 1)) {
                         wkFg = mosWkFg[0].getBean();
-
-                        final String queryfgsk = "SELECT " + MC_FGSK.getID() + ",  " + MC_FGSK.getPrimaryKey()
-                                    + " FROM "
-                                    + MC_FGSK.getTableName() + " WHERE wkk = '"
-                                    + cidsBean.getProperty("wk_key") + "';";
-
-                        return SessionManager.getProxy().getMetaObjectByQuery(queryfgsk, 0);
+                        final List in = new ArrayList(1);
+                        in.add(cidsBean.getProperty("wk_key"));
+                        return fgskCache.calcValue(in);
                     }
 
                     return null;
@@ -297,10 +403,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 protected void done() {
                     try {
                         fgsks = get();
+                        panBand.removeAll();
 
                         if (wkFg != null) {
                             addBands();
                             lblSubTitle1.setText(String.valueOf(wkFg.getProperty("wk_k")));
+                            lblTitle.setText(getTitle());
                             final List<CidsBean> teile = wkFg.getBeanCollectionProperty("teile");
                             int index = 0;
                             boolean firstBand = true;
@@ -342,62 +450,83 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
                                 if (fgsks != null) {
                                     final List<CidsBean> fgskList = new ArrayList<CidsBean>();
+                                    final Map<CidsBean, List<CidsBean>> massnahmenMap =
+                                        new HashMap<CidsBean, List<CidsBean>>();
 
                                     for (final MetaObject fgsk : fgsks) {
                                         if (fgsk.getBean().getProperty("linie.von.route.id").equals(rid)
-                                                    && ((Double)fgsk.getBean().getProperty("linie.von.wert") >= from)
-                                                    && ((Double)fgsk.getBean().getProperty("linie.bis.wert") <= till)) {
+                                                    && ((Double)fgsk.getBean().getProperty(
+                                                            "linie.von.wert") >= from)
+                                                    && ((Double)fgsk.getBean().getProperty(
+                                                            "linie.bis.wert") <= till)) {
                                             fgskList.add(fgsk.getBean());
+                                            massnahmenMap.put(
+                                                fgsk.getBean(),
+                                                getMassnahmenForFgsk(fgsk.getBean()));
                                         }
                                     }
-                                    fgskBands[index].setCidsBeans(fgskList);
+                                    fgskBands[index].setCidsBeans(fgskList, massnahmenMap);
                                     sbm[index].fireBandModelChanged();
                                 }
 
                                 ++index;
                             }
 
-                            if (wkFg.getProperty("evk.id").equals(1)) {
-                                rbZust.setSelected(true);
-                            } else {
-                                rbOekPot.setSelected(true);
-                            }
+                            setGewTyp();
 
                             refreshMorphometer();
+                            if (fgsks != null) {
+                                if (fgsks.length > 100) {
+                                    int zoomValue = 0;
+
+                                    if (fgsks.length < 150) {
+                                        zoomValue = 30;
+                                    } else {
+                                        zoomValue = 60;
+                                    }
+
+                                    sldZoom.setValue(zoomValue);
+
+                                    final double zoom = sldZoom.getValue() / 10d;
+                                    for (final JBand tmpBand : jband) {
+                                        tmpBand.setZoomFactor(zoom);
+                                    }
+                                }
+                            }
                         }
                     } catch (Exception e) {
                         LOG.error("Error while retrieving fgsk objects.", e);
                     }
+                    panHeaderInfo.setVisible(true);
                 }
             };
 
-        if (EventQueue.isDispatchThread()) {
-            waitingDialog.start();
-        } else {
-            EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        waitingDialog.start();
-                    }
-                });
-        }
+                @Override
+                public void run() {
+                    CismetConcurrency.getInstance("Fgsk_sim").getDefaultExecutor().submit(waitingDialog);
+                }
+            });
     }
 
     /**
      * DOCUMENT ME!
      */
     private void refreshMorphometer() {
+        jPanel1.setVisible(true);
         final double[] classInMeter = new double[5];
         final int HEIGHT = 28;
         final int maxWidth = panMorphometer.getWidth() - 2;
         final double totalLength = getWBLength();
+        double lengthFgsk = 0.0;
 
         for (final MetaObject fgsk : fgsks) {
             try {
                 final double length = Calc.getStationLength(fgsk.getBean());
                 final Double p = simulationsEditor.calc(fgsk.getBean(), getMassnahmenForFgsk(fgsk.getBean()), false);
                 final int cl = getGueteklasse(fgsk.getBean(), p);
+                lengthFgsk += length;
 
                 if (cl > 0) {
                     classInMeter[cl - 1] += length;
@@ -407,27 +536,32 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             }
         }
 
+        if ((lengthFgsk > totalLength) && !warningAlreadyShown && !readOnly) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die einzelnen Kartierabschnitte sind größer als der gesamte Wasserkörper.",
+                "Fehler",
+                JOptionPane.WARNING_MESSAGE);
+            warningAlreadyShown = true;
+        }
+
         panClass1.setSize((int)(classInMeter[0] * maxWidth / totalLength), HEIGHT);
         panClass2.setBounds((int)(panClass1.getBounds().getX() + panClass1.getBounds().getWidth()),
             1,
             (int)(classInMeter[1] * maxWidth / totalLength),
             HEIGHT);
-//        panClass2.setSize((int)(classInMeter[1] * maxWidth / totalLength), HEIGHT);
         panClass3.setBounds((int)(panClass2.getBounds().getX() + panClass2.getBounds().getWidth()),
             1,
             (int)(classInMeter[2] * maxWidth / totalLength),
             HEIGHT);
-//        panClass3.setSize((int)(classInMeter[2] * maxWidth / totalLength), HEIGHT);
         panClass4.setBounds((int)(panClass3.getBounds().getX() + panClass3.getBounds().getWidth()),
             1,
             (int)(classInMeter[3] * maxWidth / totalLength),
             HEIGHT);
-//        panClass4.setSize((int)(classInMeter[3] * maxWidth / totalLength), HEIGHT);
         panClass5.setBounds((int)(panClass4.getBounds().getX() + panClass4.getBounds().getWidth()),
             1,
             (int)(classInMeter[4] * maxWidth / totalLength),
             HEIGHT);
-//        panClass5.setSize((int)(classInMeter[4] * maxWidth / totalLength), HEIGHT);
         panClass1.setBackground(SimSimulationsabschnittEditor.getColor(1));
         panClass2.setBackground(SimSimulationsabschnittEditor.getColor(2));
         panClass3.setBackground(SimSimulationsabschnittEditor.getColor(3));
@@ -448,7 +582,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         final CidsBean exception = (CidsBean)bean.getProperty(Calc.PROP_EXCEPTION);
 
-        if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(Calc.PROP_VALUE))) {
+        if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
             gueteklasse = 5;
         } else {
             if (p != null) {
@@ -573,6 +707,19 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblMarker3 = new javax.swing.JLabel();
         lblMarker4 = new javax.swing.JLabel();
         lblMarker5 = new javax.swing.JLabel();
+        lblTitleName = new javax.swing.JLabel();
+        panLoading = new javax.swing.JPanel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
+        diaName = new javax.swing.JDialog();
+        panAllgemein = new javax.swing.JPanel();
+        lblName = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        lblBemerkungen = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taBemerkungen = new javax.swing.JTextArea();
+        butOK = new javax.swing.JButton();
+        butCancel = new javax.swing.JButton();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -620,6 +767,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         panTitle.add(lblTitle, gridBagConstraints);
 
         jPanel1.setOpaque(false);
@@ -729,22 +877,27 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         jPanel1.add(panMorphometer);
         panMorphometer.setBounds(5, 0, 625, 30);
 
+        lblMarker1.setForeground(java.awt.Color.white);
         lblMarker1.setText("0");
         jPanel1.add(lblMarker1);
         lblMarker1.setBounds(2, 30, 10, 17);
 
+        lblMarker2.setForeground(java.awt.Color.white);
         lblMarker2.setText("25");
         jPanel1.add(lblMarker2);
         lblMarker2.setBounds(158, 30, 20, 17);
 
+        lblMarker3.setForeground(java.awt.Color.white);
         lblMarker3.setText("50");
         jPanel1.add(lblMarker3);
         lblMarker3.setBounds(315, 30, 20, 17);
 
+        lblMarker4.setForeground(java.awt.Color.white);
         lblMarker4.setText("75");
         jPanel1.add(lblMarker4);
         lblMarker4.setBounds(471, 30, 20, 17);
 
+        lblMarker5.setForeground(java.awt.Color.white);
         lblMarker5.setText("100");
         jPanel1.add(lblMarker5);
         lblMarker5.setBounds(615, 30, 25, 17);
@@ -752,11 +905,145 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipady = 23;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         panTitle.add(jPanel1, gridBagConstraints);
+
+        lblTitleName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTitleName.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitleName.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblTitleNameMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        panTitle.add(lblTitleName, gridBagConstraints);
+
+        panLoading.setMinimumSize(new java.awt.Dimension(1050, 188));
+        panLoading.setOpaque(false);
+        panLoading.setPreferredSize(new java.awt.Dimension(1050, 188));
+        panLoading.setLayout(new java.awt.GridBagLayout());
+
+        jProgressBar1.setIndeterminate(true);
+        jProgressBar1.setPreferredSize(new java.awt.Dimension(250, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        panLoading.add(jProgressBar1, gridBagConstraints);
+
+        jLabel1.setText("Kartierabschnitte werden geladen");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        panLoading.add(jLabel1, gridBagConstraints);
+
+        diaName.setTitle("Allgemeine Informationen");
+        diaName.setMinimumSize(new java.awt.Dimension(590, 206));
+        diaName.setModal(true);
+        diaName.setResizable(false);
+        diaName.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        panAllgemein.setOpaque(false);
+        panAllgemein.setLayout(new java.awt.GridBagLayout());
+
+        lblName.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "GupGewaesserabschnittAllgemein.lblGewaessername.text")); // NOI18N
+        lblName.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblName.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblName.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
+        panAllgemein.add(lblName, gridBagConstraints);
+
+        txtName.setMaximumSize(new java.awt.Dimension(280, 20));
+        txtName.setMinimumSize(new java.awt.Dimension(280, 20));
+        txtName.setPreferredSize(new java.awt.Dimension(380, 20));
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    txtNameActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 15);
+        panAllgemein.add(txtName, gridBagConstraints);
+
+        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "GupGewaesserabschnittAllgemein.lblGwk.text")); // NOI18N
+        lblBemerkungen.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblBemerkungen.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblBemerkungen.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        panAllgemein.add(lblBemerkungen, gridBagConstraints);
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(262, 87));
+
+        taBemerkungen.setColumns(20);
+        taBemerkungen.setRows(5);
+        jScrollPane1.setViewportView(taBemerkungen);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
+        panAllgemein.add(jScrollPane1, gridBagConstraints);
+
+        butOK.setText("OK");
+        butOK.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butOKActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        panAllgemein.add(butOK, gridBagConstraints);
+
+        butCancel.setText("Abbrechen");
+        butCancel.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butCancelActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        panAllgemein.add(butCancel, gridBagConstraints);
+
+        diaName.getContentPane().add(panAllgemein, new java.awt.GridBagConstraints());
 
         setMinimumSize(new java.awt.Dimension(1050, 750));
         setOpaque(false);
@@ -838,17 +1125,31 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         lblSubTitle1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         panHeaderInfo.add(lblSubTitle1);
-        lblSubTitle1.setBounds(110, 0, 220, 0);
+        lblSubTitle1.setBounds(110, 0, 220, 20);
 
         bgZiel.add(rbOekPot);
-        rbOekPot.setText("gutes Ökologisches Potenzial");
+        rbOekPot.setText("gutes ökologisches Potenzial");
         rbOekPot.setContentAreaFilled(false);
+        rbOekPot.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    rbOekPotActionPerformed(evt);
+                }
+            });
         panHeaderInfo.add(rbOekPot);
         rbOekPot.setBounds(770, 0, 240, 24);
 
         bgZiel.add(rbZust);
         rbZust.setText("guter Zustand");
         rbZust.setContentAreaFilled(false);
+        rbZust.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    rbZustActionPerformed(evt);
+                }
+            });
         panHeaderInfo.add(rbZust);
         rbZust.setBounds(770, 20, 230, 24);
 
@@ -926,20 +1227,106 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         }
     }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rbOekPotActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_rbOekPotActionPerformed
+        setGewTyp();
+    }                                                                            //GEN-LAST:event_rbOekPotActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rbZustActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_rbZustActionPerformed
+        setGewTyp();
+    }                                                                          //GEN-LAST:event_rbZustActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtNameActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_txtNameActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butCancelActionPerformed
+        cancel = true;
+        namePrompt = false;
+        diaName.setVisible(false);
+        fillDialog();
+    }                                                                             //GEN-LAST:event_butCancelActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butOKActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butOKActionPerformed
+        cancel = false;
+        namePrompt = false;
+        diaName.setVisible(false);
+        try {
+            cidsBean.setProperty("name", txtName.getText());
+            cidsBean.setProperty("beschreibung", taBemerkungen.getText());
+        } catch (Exception e) {
+            LOG.error("Cannot set name", e);
+        }
+        setName();
+    }                                                                         //GEN-LAST:event_butOKActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblTitleNameMouseClicked
+        if (evt.getClickCount() == 2) {
+            diaName.setSize(590, 226);
+            StaticSwingTools.showDialog(diaName);
+        }
+    }                                                                            //GEN-LAST:event_lblTitleNameMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setGewTyp() {
+        if (wkFg.getProperty("evk.id").equals(1)) {
+            rbZust.setSelected(true);
+        } else {
+            rbOekPot.setSelected(true);
+        }
+    }
+
     @Override
     public void dispose() {
         simulationsEditor.dispose();
 
-        for (int index = 0; index < sbm.length; ++index) {
-            if (sbm[index] != null) {
-                sbm[index].removeBandModelListener(modelListener[index]);
+        if (sbm != null) {
+            for (int index = 0; index < sbm.length; ++index) {
+                if (sbm[index] != null) {
+                    sbm[index].removeBandModelListener(modelListener[index]);
+                }
             }
         }
     }
 
     @Override
     public String getTitle() {
-        return "WK: " + String.valueOf(cidsBean.getProperty("wk_k"));
+        if ((cidsBean != null) && (cidsBean.getProperty("wk_key") != null)) {
+            return "WK: " + String.valueOf(cidsBean.getProperty("wk_key"));
+        } else {
+            return "";
+        }
     }
 
     @Override
@@ -982,13 +1369,25 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        diaName.setSize(590, 156);
+        if (namePrompt) {
+            StaticSwingTools.showDialog(diaName);
+        }
+        return !cancel;
     }
 
     @Override
     public JComponent getTitleComponent() {
         lblTitle.setText(getTitle());
         return panTitle;
+    }
+
+    @Override
+    public void simulationResultChanged(final SimulationResultChangedEvent e) {
+        refreshMorphometer();
+        for (final ReadOnlyFgskBand band : fgskBands) {
+            band.refreshMembers(e.getChangedFgsk(), e.getMassnahmenList());
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -1080,6 +1479,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 //                    panBand.add(jband, BorderLayout.CENTER);
                     try {
                         cidsBean.setProperty("wk_key", wkFg.getProperty("wk_k"));
+//                        cidsBean.setProperty("name", "Variante");
                         setNamesAndBands();
                         isNew = false;
                     } catch (Exception e) {
@@ -1087,6 +1487,73 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class FgskCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  den wkk des Wasserkörpers
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "SELECT " + MC_FGSK.getID() + ",  " + MC_FGSK.getPrimaryKey()
+                        + " FROM "
+                        + MC_FGSK.getTableName() + " WHERE wkk = '"
+                        + String.valueOf(input.get(0)) + "';";
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for fgsk: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class WkfgCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  den wkk des Wasserkörpers
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            final String query = "SELECT " + MC_WK_FG.getID() + ",  " + MC_WK_FG.getPrimaryKey() + " FROM "
+                        + MC_WK_FG.getTableName() + " WHERE wk_k = '"
+                        + String.valueOf(input.get(0)) + "';";
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for wk-fg: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            return metaObjects;
         }
     }
 }

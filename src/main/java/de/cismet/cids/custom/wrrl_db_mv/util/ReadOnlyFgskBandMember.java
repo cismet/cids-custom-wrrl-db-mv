@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
+import org.jdesktop.swingx.painter.PinstripePainter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
 import java.awt.Color;
@@ -25,9 +26,12 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
+import java.util.List;
+
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.AbschnittsinfoMember;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.ExtendedMattePainter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -62,16 +66,23 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
     private Painter unselectedBackgroundPainter;
     private Painter selectedBackgroundPainter;
     private String lineFieldName = "linie";
+    private SimSimulationsabschnittEditor editor;
+    private List<CidsBean> massnahmen;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
+     *
+     * @param  editor      DOCUMENT ME!
+     * @param  massnahmen  DOCUMENT ME!
      */
-    public ReadOnlyFgskBandMember() {
+    public ReadOnlyFgskBandMember(final SimSimulationsabschnittEditor editor, final List<CidsBean> massnahmen) {
         setMinimumSize(new Dimension(1, 7));
         setPreferredSize(getMinimumSize());
         setMemberBorder(true);
+        this.editor = editor;
+        this.massnahmen = massnahmen;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -86,9 +97,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         super.setCidsBean(cidsBean);
         this.cidsBean = cidsBean;
 
-        determineBackgroundColour();
-
-        setBackgroundPainter(unselectedBackgroundPainter);
+        refresh(massnahmen);
     }
 
     /**
@@ -98,10 +107,17 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         Integer cl = null;
 
         if (cidsBean != null) {
-            final Double p = (Double)cidsBean.getProperty("punktzahl_gesamt");
+            Double p;
+
+            try {
+                p = editor.calc(cidsBean, massnahmen, false);
+            } catch (Exception e) {
+                p = (Double)cidsBean.getProperty("punktzahl_gesamt");
+            }
+
             final CidsBean exception = (CidsBean)cidsBean.getProperty(Calc.PROP_EXCEPTION);
 
-            if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(Calc.PROP_VALUE))) {
+            if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
                 cl = 5;
             } else if ((p != null) && (p > 0.0)) {
                 if (p != null) {
@@ -109,8 +125,8 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
                 }
             }
         }
-        unselectedBackgroundPainter = getBackgroundPainterForClass(cl);
 
+        unselectedBackgroundPainter = getBackgroundPainterForClass(cl);
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
@@ -156,25 +172,29 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
      * @return  DOCUMENT ME!
      */
     private MattePainter getBackgroundPainterForClass(final Integer cl) {
-        switch (cl) {
-            case 1: {
-                return (new MattePainter(new Color(10, 12, 149)));
+        if (cl != null) {
+            switch (cl) {
+                case 1: {
+                    return (new MattePainter(new Color(0, 0, 255)));
+                }
+                case 2: {
+                    return (new MattePainter(new Color(0, 153, 0)));
+                }
+                case 3: {
+                    return (new MattePainter(new Color(255, 255, 0)));
+                }
+                case 4: {
+                    return (new MattePainter(new Color(255, 153, 0)));
+                }
+                case 5: {
+                    return (new MattePainter(new Color(255, 0, 0)));
+                }
+                default: {
+                    return (new MattePainter(new Color(193, 193, 193)));
+                }
             }
-            case 2: {
-                return (new MattePainter(new Color(11, 142, 12)));
-            }
-            case 3: {
-                return (new MattePainter(new Color(253, 252, 4)));
-            }
-            case 4: {
-                return (new MattePainter(new Color(214, 162, 79)));
-            }
-            case 5: {
-                return (new MattePainter(new Color(165, 40, 34)));
-            }
-            default: {
-                return (new MattePainter(new Color(192, 192, 192)));
-            }
+        } else {
+            return (new MattePainter(new Color(193, 193, 193)));
         }
     }
 
@@ -273,5 +293,17 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         } else {
             JBandCursorManager.getInstance().setCursor(this);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  massnahmen  DOCUMENT ME!
+     */
+    public void refresh(final List<CidsBean> massnahmen) {
+        this.massnahmen = massnahmen;
+        determineBackgroundColour();
+        setBackgroundPainter(unselectedBackgroundPainter);
+        setSelected(selected);
     }
 }

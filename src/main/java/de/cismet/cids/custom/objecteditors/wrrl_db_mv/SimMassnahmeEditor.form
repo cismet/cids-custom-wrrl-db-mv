@@ -145,13 +145,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="taBemerkung">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="3"/>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung}" target="jTextArea1" targetPath="text" updateStrategy="0" immediately="false">
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung}" target="taBemerkung" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
               </BindingProperties>
@@ -305,13 +305,13 @@
 
                               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                               <SubComponents>
-                                <Component class="javax.swing.JTextArea" name="jTextArea2">
+                                <Component class="javax.swing.JTextArea" name="taPreis">
                                   <Properties>
                                     <Property name="columns" type="int" value="10"/>
                                     <Property name="rows" type="int" value="5"/>
                                   </Properties>
                                   <BindingProperties>
-                                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.kosten}" target="jTextArea2" targetPath="text" updateStrategy="0" immediately="false">
+                                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.kosten}" target="taPreis" targetPath="text" updateStrategy="0" immediately="false">
                                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                                     </BindingProperty>
                                   </BindingProperties>
@@ -356,13 +356,13 @@
 
                               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                               <SubComponents>
-                                <Component class="javax.swing.JTextArea" name="jTextArea3">
+                                <Component class="javax.swing.JTextArea" name="taBerechnung">
                                   <Properties>
                                     <Property name="columns" type="int" value="10"/>
                                     <Property name="rows" type="int" value="5"/>
                                   </Properties>
                                   <BindingProperties>
-                                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.kostenformel}" target="jTextArea3" targetPath="text" updateStrategy="0" immediately="false">
+                                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.kostenformel}" target="taBerechnung" targetPath="text" updateStrategy="0" immediately="false">
                                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                                     </BindingProperty>
                                   </BindingProperties>

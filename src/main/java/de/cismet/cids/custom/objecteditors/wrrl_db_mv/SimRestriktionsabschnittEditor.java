@@ -6,9 +6,8 @@
 *
 ****************************************************/
 /*
- * AltlastRenderer.java
+ * SimRestriktionsabschnittEditor.java
  *
- * Created on 07.12.2011, 10:28:41
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
@@ -49,23 +48,23 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel labBem;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JTextArea taBemerkung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form AltlastRenderer.
+     * Creates new form SimRestriktionsabschnittEditor.
      */
     public SimRestriktionsabschnittEditor() {
         this(false);
     }
 
     /**
-     * Creates new form AltlastRenderer.
+     * Creates new form SimRestriktionsabschnittEditor.
      *
      * @param  readOnly  DOCUMENT ME!
      */
@@ -77,6 +76,7 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
 
         if (readOnly) {
             RendererTools.makeReadOnly(cbRestriktion);
+            RendererTools.makeReadOnly(taBemerkung);
         } else {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
             linearReferencedLineEditor.setOtherLinesQueryAddition(
@@ -116,7 +116,7 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        taBemerkung = new javax.swing.JTextArea();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -143,7 +143,7 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
         cbRestriktion.setMinimumSize(new java.awt.Dimension(120, 20));
         cbRestriktion.setPreferredSize(new java.awt.Dimension(80, 20));
 
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.restriktion}"),
@@ -194,9 +194,18 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
         gridBagConstraints.weightx = 0.2;
         add(jPanel2, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        taBemerkung.setColumns(20);
+        taBemerkung.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                taBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jScrollPane1.setViewportView(taBemerkung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;

@@ -6,7 +6,7 @@
 *
 ****************************************************/
 /*
- * AltlastRenderer.java
+ * GupPoiEditor.java
  *
  * Created on 07.12.2011, 10:28:41
  */
@@ -64,14 +64,14 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form AltlastRenderer.
+     * Creates new form GupPoiEditor.
      */
     public GupPoiEditor() {
         this(false);
     }
 
     /**
-     * Creates new form AltlastRenderer.
+     * Creates new form GupPoiEditor.
      *
      * @param  readOnly  DOCUMENT ME!
      */
@@ -262,6 +262,7 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        linearReferencedLineEditor.dispose();
         this.cidsBean = cidsBean;
         bindingGroup.unbind();
 
@@ -291,6 +292,7 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public void dispose() {
+        linearReferencedLineEditor.dispose();
     }
 
     @Override

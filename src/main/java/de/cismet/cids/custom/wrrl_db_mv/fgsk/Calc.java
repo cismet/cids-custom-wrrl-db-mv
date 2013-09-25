@@ -366,6 +366,34 @@ public final class Calc {
      *
      * @return  DOCUMENT ME!
      */
+    public Double getBadEnvCount(final int wbTypeId, final CidsBean kaBean, final boolean left) {
+        double badEnvCount = 0.0;
+        for (final CalcCache.BadEnvStructureType type : CalcCache.BadEnvStructureType.values()) {
+            if (type.getId() != 7) {
+                // die sonstigen sollen ignoriert werden, da diese Teilparameter nicht in die Berechnung
+                // der Güteklassen eingehen (rein informativer Charakter)
+                final Double count = (Double)kaBean.getProperty(fieldFromCode(
+                            "PROP_BAD_ENV_STRUCT_", // NOI18N
+                            type.getCode(),
+                            left));
+                if ((count != null) && (count > 0)) {
+                    badEnvCount += count;
+                }
+            }
+        }
+
+        return badEnvCount;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getLandUseRating(final int wbTypeId, final CidsBean kaBean, final boolean left) {
         final CidsBean landUseBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_LAND_USE", "", left)); // NOI18N
 
@@ -838,6 +866,26 @@ public final class Calc {
 
         return ratingBedContamination;
     }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean    DOCUMENT ME!
+     * @param   wbTypeId  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public double calcBedContaminationCount(final CidsBean kaBean, final int wbTypeId) {
+        double bedContamination = 0.0;
+
+        for (final BedContaminationType type : BedContaminationType.values()) {
+            final Double count = (Double)kaBean.getProperty(fieldFromCode("PROP_BED_CONTAMINATION_", type.getCode())); // NOI18N
+            if ((count != null) && (count > 0)) {
+                bedContamination += count;
+            }
+        }
+
+        return bedContamination;
+    }
 
     /**
      * Calls {@link #calcBankStructureRating(de.cismet.cids.dynamics.CidsBean, boolean)} twice, for the left and the
@@ -970,6 +1018,33 @@ public final class Calc {
         }
 
         return ratingBankContamination;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getBankContaminationCount(final int wbTypeId,
+            final CidsBean kaBean,
+            final boolean left) {
+        double bankContamination = 0.0;
+
+        for (final BankContaminationType type : BankContaminationType.values()) {
+            final Double count = (Double)kaBean.getProperty(fieldFromCode(
+                        "PROP_BANK_CONTAMINATION_", // NOI18N
+                        type.getCode(),
+                        left));
+            if ((count != null) && (count > 0)) {
+                bankContamination += count;
+            }
+        }
+
+        return bankContamination;
     }
 
     /**

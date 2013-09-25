@@ -12,14 +12,10 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.observablecollections.ObservableList;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -38,9 +34,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -80,7 +73,6 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
     private final JBand jband;
     private final BandModelListener modelListener = new RestriktionBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private List<CidsBean> restriktionList = new ArrayList<CidsBean>();
     private CidsBean cidsBean;
     private SimRestriktionsabschnittEditor restriktionEditor;
     private boolean readOnly = false;
@@ -168,6 +160,7 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
             vermessungsband.setLineProperty("ausdehnung");
         } else {
             togApplyStats.setVisible(false);
+            butStationierung.setVisible(false);
         }
     }
 
@@ -242,11 +235,8 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
         lblSubTitle1.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
 
         final List<CidsBean> all = cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY);
-        restriktionList = new ArrayList<CidsBean>();
 
-        restriktionList.addAll(all);
-
-        restriktionBand.setCidsBeans(restriktionList);
+        restriktionBand.setCidsBeans(all);
         wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband, vermessungsband);
     }
 
@@ -798,7 +788,7 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
                     lblHeading.setText("Unterhaltungshinweise");
 
                     final RestriktionRWBand band = (RestriktionRWBand)((RestriktionRWBandMember)bm).getParentBand();
-                    restriktionEditor.setOthers(restriktionList);
+                    restriktionEditor.setOthers(cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY));
                     restriktionEditor.setCidsBean(((RestriktionRWBandMember)bm).getCidsBean());
                 } else if (bm instanceof VermessungsbandMember) {
                     switchToForm("vermessung");

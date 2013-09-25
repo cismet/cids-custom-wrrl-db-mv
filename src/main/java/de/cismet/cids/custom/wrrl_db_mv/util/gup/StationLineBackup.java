@@ -96,23 +96,23 @@ public class StationLineBackup {
         final List<CidsBean> massnToDelete = new ArrayList<CidsBean>();
 
         for (final CidsBean bean : all) {
-            if (!bean.getProperty("linie.von.route.id").equals(routeId)) {
+            if (!bean.getProperty(lineProperty + ".von.route.id").equals(routeId)) {
                 // the massnahmen object is on an other route
                 massnToDelete.add(bean);
             } else {
-                if ((((Double)bean.getProperty("linie.bis.wert")) < from)
-                            || (((Double)bean.getProperty("linie.von.wert")) > till)) {
+                if ((((Double)bean.getProperty(lineProperty + ".bis.wert")) < from)
+                            || (((Double)bean.getProperty(lineProperty + ".von.wert")) > till)) {
                     // the massnahmen object is before or  after the planungsabschnitt object
                     massnToDelete.add(bean);
                 } else {
                     try {
                         // the massnahmen object must be cut
-                        if (((Double)bean.getProperty("linie.von.wert")) < from) {
-                            bean.setProperty("linie.von.wert", from);
+                        if (((Double)bean.getProperty(lineProperty + ".von.wert")) < from) {
+                            bean.setProperty(lineProperty + ".von.wert", from);
                         }
 
-                        if (((Double)bean.getProperty("linie.bis.wert")) > till) {
-                            bean.setProperty("linie.bis.wert", till);
+                        if (((Double)bean.getProperty(lineProperty + ".bis.wert")) > till) {
+                            bean.setProperty(lineProperty + ".bis.wert", till);
                         }
                     } catch (Exception e) {
                         LOG.error("Error while setting the valid station value", e);

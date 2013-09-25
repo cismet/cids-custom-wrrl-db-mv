@@ -44,6 +44,7 @@ import javax.swing.table.TableModel;
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.fgsksimulation.FgskSimCalc;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -113,6 +114,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
 
     private String title;
     private CidsBean cidsBean;
+    private boolean readOnly;
     private JComboBox lawaCombo = new ScrollableComboBox(LAWA_TYPE);
     private JComboBox wirkungCombo = new ScrollableComboBox(WIRKUNG);
     private JComboBox kostenCombo = new ScrollableComboBox(KOSTEN);
@@ -133,9 +135,6 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JButton jbAdd;
     private javax.swing.JButton jbRemove;
     private javax.swing.JScrollPane jsTable;
@@ -155,7 +154,10 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
     private de.cismet.tools.gui.RoundedPanel panKosten;
+    private javax.swing.JTextArea taBemerkung;
+    private javax.swing.JTextArea taBerechnung;
     private javax.swing.JTextArea taHilfe;
+    private javax.swing.JTextArea taPreis;
     private javax.swing.JTable tabWirkung;
     private javax.swing.JTextField txtKurzbez;
     private javax.swing.JTextField txtMnt;
@@ -166,9 +168,18 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form SimMassnahmenEditor.
+     * Creates a new SimMassnahmeEditor object.
      */
     public SimMassnahmeEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form SimMassnahmenEditor.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public SimMassnahmeEditor(final boolean readOnly) {
         initComponents();
         RendererTools.makeReadOnly(taHilfe);
         jSplitPane1.setOpaque(false);
@@ -177,6 +188,16 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         jSplitPane1.setBorder(null);
         jSplitPane2.setBorder(null);
         jSplitPane3.setBorder(null);
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(cbRestriktion);
+            RendererTools.makeReadOnly(taBemerkung);
+            RendererTools.makeReadOnly(taPreis);
+            RendererTools.makeReadOnly(taBerechnung);
+            RendererTools.makeReadOnly(txtKurzbez);
+            RendererTools.makeReadOnly(txtMnt);
+            RendererTools.makeReadOnly(txtName);
+        }
 
         for (int i = 0; i < columnNames.length; ++i) {
             if (i == 3) {
@@ -209,7 +230,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         lawaCombo.setRenderer(new DefaultListCellRenderer() {
 
                 @Override
-                public Component getListCellRendererComponent(final JList<?> list,
+                public Component getListCellRendererComponent(final JList list,
                         final Object value,
                         final int index,
                         final boolean isSelected,
@@ -222,8 +243,6 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
                     return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
                 }
             });
-
-//        tabWirkung.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -248,7 +267,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         lblBemerkung = new javax.swing.JLabel();
         cbRestriktion = new ScrollableComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        taBemerkung = new javax.swing.JTextArea();
         lblMNT = new javax.swing.JLabel();
         jSplitPane3 = new javax.swing.JSplitPane();
         panKosten = new de.cismet.tools.gui.RoundedPanel();
@@ -260,11 +279,11 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel2 = new javax.swing.JPanel();
         lblPreis = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        taPreis = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         lblBerechnung = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        taBerechnung = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         lblHilfe = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -397,18 +416,18 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         jPanel1.add(cbRestriktion, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(3);
+        taBemerkung.setColumns(20);
+        taBemerkung.setRows(3);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
-                jTextArea1,
+                taBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPane1.setViewportView(taBemerkung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -478,18 +497,18 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblPreis, gridBagConstraints);
 
-        jTextArea2.setColumns(10);
-        jTextArea2.setRows(5);
+        taPreis.setColumns(10);
+        taPreis.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kosten}"),
-                jTextArea2,
+                taPreis,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane2.setViewportView(jTextArea2);
+        jScrollPane2.setViewportView(taPreis);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -517,18 +536,18 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblBerechnung, gridBagConstraints);
 
-        jTextArea3.setColumns(10);
-        jTextArea3.setRows(5);
+        taBerechnung.setColumns(10);
+        taBerechnung.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.kostenformel}"),
-                jTextArea3,
+                taBerechnung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane3.setViewportView(jTextArea3);
+        jScrollPane3.setViewportView(taBerechnung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -911,13 +930,21 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         @Override
         public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-            return true;
+            if ((columnIndex == 3) || (columnIndex == 4)) {
+                return false;
+            } else {
+                return !readOnly;
+            }
         }
 
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
             if (columnIndex == 0) {
                 return beans.get(rowIndex).getProperty("gewaessertyp");
+            } else if (columnIndex == 3) {
+                return FgskSimCalc.getInstance().calcFgskSum(beans.get(rowIndex));
+            } else if (columnIndex == 4) {
+                return FgskSimCalc.getInstance().calcBioSum(beans.get(rowIndex));
             } else {
                 return beans.get(rowIndex).getProperty(columnProperties[columnIndex]);
             }
@@ -925,6 +952,10 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         @Override
         public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+            if (readOnly) {
+                return;
+            }
+
             if (columnIndex <= 2) {
                 try {
                     beans.get(rowIndex).setProperty(columnProperties[columnIndex], aValue);
