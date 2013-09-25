@@ -126,7 +126,14 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
             }
         }
 
-        unselectedBackgroundPainter = getBackgroundPainterForClass(cl);
+        if ((massnahmen == null) || (massnahmen.isEmpty())) {
+            unselectedBackgroundPainter = getBackgroundPainterForClass(cl);
+        } else {
+            unselectedBackgroundPainter = new CompoundPainter(
+                    getBackgroundPainterForClass(cl),
+                    new PinstripePainter(new Color(255, 66, 66), 45, 2, 5));
+        }
+
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
