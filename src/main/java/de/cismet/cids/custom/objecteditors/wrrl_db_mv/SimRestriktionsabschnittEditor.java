@@ -226,6 +226,7 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        linearReferencedLineEditor.dispose();
         this.cidsBean = cidsBean;
         bindingGroup.unbind();
 
@@ -255,6 +256,7 @@ public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implement
 
     @Override
     public void dispose() {
+        linearReferencedLineEditor.dispose();
     }
 
     @Override
