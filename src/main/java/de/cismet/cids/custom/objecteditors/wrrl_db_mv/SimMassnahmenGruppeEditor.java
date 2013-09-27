@@ -6,29 +6,43 @@
 *
 ****************************************************/
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * SimMassnahmenGruppe2Editor.java
+ *
+ * Created on 25.09.2013, 15:45:02
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import org.apache.log4j.Logger;
+import Sirius.navigator.connection.SessionManager;
 
-import java.awt.GridLayout;
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import de.cismet.cids.client.tools.DevelopmentTools;
+import java.util.ArrayList;
 
-import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.SimMassnahmeRenderer;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
+import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.DefaultBindableColorChooser;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -36,59 +50,85 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class SimMassnahmenGruppeEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class SimMassnahmenGruppeEditor extends javax.swing.JPanel implements CidsBeanRenderer,
+    EditorSaveListener,
+    CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final Logger LOG = Logger.getLogger(SimMassnahmenGruppeEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            SimMassnahmenGruppeEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    private String title;
     private CidsBean cidsBean;
-    private boolean readOnly;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRemMassn;
+    private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JLabel lblBemerkung;
-    private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblKurzbez;
+    private javax.swing.JLabel lblBeschreibung;
+    private javax.swing.JLabel lblMassnahme;
     private javax.swing.JLabel lblName;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private javax.swing.JPanel panInfoContent;
-    private de.cismet.tools.gui.RoundedPanel panKosten;
-    private javax.swing.JPanel panMassn;
-    private javax.swing.JScrollPane scMassn;
-    private javax.swing.JTextArea taBemerkung;
-    private javax.swing.JTextArea taBemerkung1;
-    private javax.swing.JTextField txtKurzbez;
+    private javax.swing.JList lstMassnahmen;
+    private javax.swing.JPanel panWkGroupFgs;
+    private javax.swing.JScrollPane scpWkFgs;
+    private javax.swing.JTextArea taBeschreibung;
+    private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new SimMassnahmeEditor object.
+     * Creates new form WkGroupEditor.
      */
     public SimMassnahmenGruppeEditor() {
         this(false);
     }
 
     /**
-     * Creates new form SimMassnahmenEditor.
+     * Creates new form WkGroupEditor.
      *
      * @param  readOnly  DOCUMENT ME!
      */
     public SimMassnahmenGruppeEditor(final boolean readOnly) {
         initComponents();
-        RendererTools.makeReadOnly(taBemerkung);
-        RendererTools.makeReadOnly(taBemerkung1);
-        RendererTools.makeReadOnly(txtKurzbez);
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(taBeschreibung);
+            RendererTools.makeReadOnly(txtName);
+            btnRemMassn.setVisible(false);
+        } else {
+            try {
+                new CidsBeanDropTarget(this);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
+            }
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public CidsBean getCidsBean() {
+        return cidsBean;
+    }
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        bindingGroup.unbind();
+        this.cidsBean = cidsBean;
+
+        if (cidsBean != null) {
+            bindingGroup.bind();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -100,54 +140,53 @@ public class SimMassnahmenGruppeEditor extends javax.swing.JPanel implements Cid
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jPanel1 = new javax.swing.JPanel();
-        lblKurzbez = new javax.swing.JLabel();
+        jDialog1 = new JDialog(StaticSwingTools.getParentFrame(this));
+        jColorChooser1 = new javax.swing.JColorChooser();
+        jPanel2 = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
-        txtKurzbez = new javax.swing.JTextField();
-        lblBemerkung = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        scpWkFgs = new javax.swing.JScrollPane();
+        lstMassnahmen = new javax.swing.JList();
+        panWkGroupFgs = new javax.swing.JPanel();
+        btnRemMassn = new javax.swing.JButton();
+        lblMassnahme = new javax.swing.JLabel();
+        lblBeschreibung = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        taBemerkung = new javax.swing.JTextArea();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        taBemerkung1 = new javax.swing.JTextArea();
-        panKosten = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading = new javax.swing.JLabel();
-        panInfoContent = new javax.swing.JPanel();
-        scMassn = new javax.swing.JScrollPane();
-        panMassn = new javax.swing.JPanel();
+        taBeschreibung = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
 
-        setMinimumSize(new java.awt.Dimension(910, 800));
-        setPreferredSize(new java.awt.Dimension(910, 800));
-        setLayout(new java.awt.GridBagLayout());
-
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        lblKurzbez.setText(org.openide.util.NbBundle.getMessage(
-                SimMassnahmenGruppeEditor.class,
-                "SimMassnahmenGruppeEditor.lblKurzbez.text")); // NOI18N
+        jDialog1.getContentPane().setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        jPanel1.add(lblKurzbez, gridBagConstraints);
+        jDialog1.getContentPane().add(jColorChooser1, gridBagConstraints);
+
+        setOpaque(false);
+        setLayout(new java.awt.GridBagLayout());
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblName.setText(org.openide.util.NbBundle.getMessage(
                 SimMassnahmenGruppeEditor.class,
                 "SimMassnahmenGruppeEditor.lblName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(lblName, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblName, gridBagConstraints);
+
+        txtName.setMinimumSize(new java.awt.Dimension(400, 20));
+        txtName.setPreferredSize(new java.awt.Dimension(400, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
-                txtKurzbez,
+                txtName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -155,171 +194,167 @@ public class SimMassnahmenGruppeEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        jPanel1.add(txtKurzbez, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(txtName, gridBagConstraints);
 
-        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
-                SimMassnahmenGruppeEditor.class,
-                "SimMassnahmenGruppeEditor.lblBemerkung.text")); // NOI18N
+        scpWkFgs.setMinimumSize(new java.awt.Dimension(400, 200));
+        scpWkFgs.setPreferredSize(new java.awt.Dimension(400, 200));
+
+        lstMassnahmen.setModel(new DefaultListModel());
+        lstMassnahmen.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.massnahmen}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstMassnahmen);
+        bindingGroup.addBinding(jListBinding);
+
+        scpWkFgs.setViewportView(lstMassnahmen);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 20, 5, 5);
-        jPanel1.add(lblBemerkung, gridBagConstraints);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(scpWkFgs, gridBagConstraints);
 
-        taBemerkung.setColumns(20);
-        taBemerkung.setRows(3);
+        panWkGroupFgs.setOpaque(false);
+        panWkGroupFgs.setLayout(new java.awt.GridBagLayout());
+
+        btnRemMassn.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemMassn.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemMassnActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panWkGroupFgs.add(btnRemMassn, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        jPanel2.add(panWkGroupFgs, gridBagConstraints);
+
+        lblMassnahme.setText(org.openide.util.NbBundle.getMessage(
+                SimMassnahmenGruppeEditor.class,
+                "SimMassnahmenGruppeEditor.lblMassnahme.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblMassnahme, gridBagConstraints);
+
+        lblBeschreibung.setText(org.openide.util.NbBundle.getMessage(
+                SimMassnahmenGruppeEditor.class,
+                "SimMassnahmenGruppeEditor.lblBeschreibung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblBeschreibung, gridBagConstraints);
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(202, 100));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(262, 100));
+
+        taBeschreibung.setColumns(20);
+        taBeschreibung.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beschreibung}"),
-                taBemerkung,
+                taBeschreibung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane1.setViewportView(taBemerkung);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        jPanel1.add(jScrollPane1, gridBagConstraints);
-
-        jScrollPane5.setMinimumSize(new java.awt.Dimension(19, 50));
-        jScrollPane5.setPreferredSize(new java.awt.Dimension(19, 50));
-
-        taBemerkung1.setColumns(20);
-        taBemerkung1.setRows(2);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hinweis}"),
-                taBemerkung1,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jScrollPane5.setViewportView(taBemerkung1);
+        jScrollPane1.setViewportView(taBeschreibung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jScrollPane5, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jScrollPane1, gridBagConstraints);
 
-        panKosten.setMinimumSize(new java.awt.Dimension(880, 200));
-        panKosten.setPreferredSize(new java.awt.Dimension(880, 300));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jPanel2, gridBagConstraints);
 
-        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setLayout(new java.awt.FlowLayout());
+        jPanel1.setOpaque(false);
 
-        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(
-                SimMassnahmenGruppeEditor.class,
-                "SimMassnahmenGruppeEditor.lblHeading.text")); // NOI18N
-        panHeadInfo.add(lblHeading);
-
-        panKosten.add(panHeadInfo, java.awt.BorderLayout.NORTH);
-
-        panInfoContent.setOpaque(false);
-        panInfoContent.setLayout(new java.awt.GridBagLayout());
-
-        scMassn.setOpaque(false);
-        scMassn.setViewportView(panMassn);
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                620,
+                Short.MAX_VALUE));
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                78,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        panInfoContent.add(scMassn, gridBagConstraints);
-
-        panKosten.add(panInfoContent, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        jPanel1.add(panKosten, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 15);
         add(jPanel1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public CidsBean getCidsBean() {
-        return cidsBean;
-    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemMassnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemMassnActionPerformed
+        final Object selection = lstMassnahmen.getSelectedValue();
 
-    @Override
-    public void setCidsBean(final CidsBean cidsBean) {
-        this.cidsBean = cidsBean;
-        bindingGroup.unbind();
-
-        if (cidsBean != null) {
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-                bindingGroup,
-                cidsBean);
-            bindingGroup.bind();
-
-            final List<CidsBean> massn = cidsBean.getBeanCollectionProperty("massnahmen");
-            panMassn.removeAll();
-
-            for (final CidsBean tmp : massn) {
-                panMassn.setLayout(new GridLayout(massn.size(), 1));
-                final SimMassnahmeRenderer renderer = new SimMassnahmeRenderer();
-                renderer.setCidsBean(tmp);
-
-                panMassn.add(renderer);
+        if (selection != null) {
+            final int answer = JOptionPane.showConfirmDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Soll der Eintrag wirklich gelöscht werden?",
+                    "Eintrag entfernen",
+                    JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                cidsBean.getBeanCollectionProperty("massnahmen").remove((CidsBean)selection);
             }
         }
-    }
+    } //GEN-LAST:event_btnRemMassnActionPerformed
 
     @Override
     public void dispose() {
+        bindingGroup.unbind();
     }
 
     @Override
     public String getTitle() {
-        if (cidsBean != null) {
-            return
-                (((cidsBean.toString() == null) || cidsBean.toString().equals("") || cidsBean.toString().equals("null"))
-                    ? "unbenannt" : cidsBean.toString());
-        } else {
-            return "unbenannt";
-        }
+        return String.valueOf(cidsBean);
     }
 
     @Override
     public void setTitle(final String title) {
+        // NOP
     }
 
     @Override
@@ -331,22 +366,12 @@ public class SimMassnahmenGruppeEditor extends javax.swing.JPanel implements Cid
         return true;
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   args  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    public static void main(final String[] args) throws Exception {
-        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
-            "WRRL_DB_MV",
-            "Administratoren",
-            "admin",
-            "kif",
-            "sim_massnahmen_gruppe",
-            1,
-            1280,
-            1024);
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        for (final CidsBean bean : beans) {
+            if (bean.getMetaObject().getMetaClass().getTableName().equals("SIM_MASSNAHME")) {
+                cidsBean.getBeanCollectionProperty("massnahmen").add(bean);
+            }
+        }
     }
 }
