@@ -14,6 +14,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.painter.PinstripePainter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
@@ -225,6 +226,56 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    @Override
+    protected void setDefaultBackground() {
+        unselectedBackgroundPainter = new MattePainter(new Color(229, 0, 0));
+        selectedBackgroundPainter = new CompoundPainter(
+                unselectedBackgroundPainter,
+                new RectanglePainter(
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    true,
+                    new Color(100, 100, 100, 100),
+                    2f,
+                    new Color(50, 50, 50, 100)));
+
+        if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
+            setBackgroundPainter(unselectedBackgroundPainter);
+        } else {
+            setBackgroundPainter(new CompoundPainter(
+                    unselectedBackgroundPainter,
+                    new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+        }
+
+        unselectedBackgroundPainter = getBackgroundPainter();
+        selectedBackgroundPainter = new CompoundPainter(
+                unselectedBackgroundPainter,
+                new RectanglePainter(
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    true,
+                    new Color(100, 100, 100, 100),
+                    2f,
+                    new Color(50, 50, 50, 100)));
+
+        if (isSelected) {
+            setBackgroundPainter(selectedBackgroundPainter);
+        } else {
+            setBackgroundPainter(unselectedBackgroundPainter);
+        }
     }
 
     /**
