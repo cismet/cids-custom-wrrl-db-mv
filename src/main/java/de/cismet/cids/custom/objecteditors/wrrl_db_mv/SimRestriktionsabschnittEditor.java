@@ -6,15 +6,10 @@
 *
 ****************************************************/
 /*
- * GupPoiEditor.java
+ * SimRestriktionsabschnittEditor.java
  *
- * Created on 07.12.2011, 10:28:41
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
-
-import org.jfree.chart.renderer.RendererUtilities;
-
-import java.awt.event.ItemEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +34,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class SimRestriktionsabschnittEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -47,49 +42,46 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private CidsBean cidsBean;
     private List<CidsBean> others;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSw_cat;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRestriktion;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel labBem;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JTextArea taBemerkung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form GupPoiEditor.
+     * Creates new form SimRestriktionsabschnittEditor.
      */
-    public GupPoiEditor() {
+    public SimRestriktionsabschnittEditor() {
         this(false);
     }
 
     /**
-     * Creates new form GupPoiEditor.
+     * Creates new form SimRestriktionsabschnittEditor.
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupPoiEditor(final boolean readOnly) {
+    public SimRestriktionsabschnittEditor(final boolean readOnly) {
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
                                                 : new LinearReferencedLineEditor();
-        linearReferencedLineEditor.setLineField("linie");
+        linearReferencedLineEditor.setLineField("ausdehnung");
         initComponents();
 
         if (readOnly) {
-            RendererTools.makeReadOnly(jTextArea1);
-            RendererTools.makeReadOnly(jTextField1);
-            RendererTools.makeReadOnly(cbSw_cat);
+            RendererTools.makeReadOnly(cbRestriktion);
+            RendererTools.makeReadOnly(taBemerkung);
         } else {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
             linearReferencedLineEditor.setOtherLinesQueryAddition(
-                "gup_poi",
-                "gup_poi.linie = ");
+                "sim_restriktionsabschnitt",
+                "sim_restriktionsabschnitt.ausdehnung = ");
             linearReferencedLineEditor.setShowOtherInDialog(true);
             linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
         }
@@ -116,127 +108,77 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        cbSw_cat = new ScrollableComboBox();
+        cbRestriktion = new ScrollableComboBox();
+        labBem = new javax.swing.JLabel();
         linearReferencedLineEditor = linearReferencedLineEditor;
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taBemerkung = new javax.swing.JTextArea();
 
         setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel1.text")); // NOI18N
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(
+                SimRestriktionsabschnittEditor.class,
+                "SimRestriktionsabschnittEditor.jLabel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
-        add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
-        add(jLabel2, gridBagConstraints);
-
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel3.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
         add(jLabel3, gridBagConstraints);
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
-                jTextField1,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 49, 0, 15);
-        add(jTextField1, gridBagConstraints);
-
-        jLabel6.setText(org.openide.util.NbBundle.getMessage(GupPoiEditor.class, "GupPoiEditor.jLabel6.text")); // NOI18N
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(
+                SimRestriktionsabschnittEditor.class,
+                "SimRestriktionsabschnittEditor.jLabel6.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
         add(jLabel6, gridBagConstraints);
 
-        cbSw_cat.setMinimumSize(new java.awt.Dimension(120, 20));
-        cbSw_cat.setPreferredSize(new java.awt.Dimension(80, 20));
+        cbRestriktion.setMinimumSize(new java.awt.Dimension(120, 20));
+        cbRestriktion.setPreferredSize(new java.awt.Dimension(80, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.art}"),
-                cbSw_cat,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.restriktion}"),
+                cbRestriktion,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 49, 15, 15);
-        add(cbSw_cat, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 30, 15, 15);
+        add(cbRestriktion, gridBagConstraints);
+
+        labBem.setText(org.openide.util.NbBundle.getMessage(
+                SimRestriktionsabschnittEditor.class,
+                "SimRestriktionsabschnittEditor.labBem.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 10, 0);
+        add(labBem, gridBagConstraints);
 
         linearReferencedLineEditor.setPreferredSize(new java.awt.Dimension(420, 60));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 49, 0, 15);
         add(linearReferencedLineEditor, gridBagConstraints);
-
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(190, 20));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(190, 20));
-
-        jTextArea1.setColumns(10);
-        jTextArea1.setRows(2);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
-                jTextArea1,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jScrollPane1.setViewportView(jTextArea1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 49, 0, 15);
-        add(jScrollPane1, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -251,6 +193,28 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 0.2;
         add(jPanel2, gridBagConstraints);
+
+        taBemerkung.setColumns(20);
+        taBemerkung.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung}"),
+                taBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jScrollPane1.setViewportView(taBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 30, 10, 15);
+        add(jScrollPane1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -274,10 +238,10 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             if (this.others != null) {
                 final List<CidsBean> lineBeans = new ArrayList<CidsBean>();
-                final Object id = cidsBean.getProperty("linie.id");
+                final Object id = cidsBean.getProperty("ausdehnung.id");
 
                 for (final CidsBean b : this.others) {
-                    final CidsBean tmp = (CidsBean)b.getProperty("linie");
+                    final CidsBean tmp = (CidsBean)b.getProperty("ausdehnung");
 
                     if ((tmp != null) && (!tmp.getProperty("id").equals(id))) {
                         lineBeans.add(tmp);
@@ -334,7 +298,7 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
             "Administratoren",
             "admin",
             "x",
-            "gup_poi",
+            "sim_restriktion",
             479,
             1280,
             1024);

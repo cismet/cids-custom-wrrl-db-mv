@@ -357,8 +357,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @return  DOCUMENT ME!
      */
-    private boolean isPreFieldMapping(final CidsBean kaBean) {
-        final Boolean vorkartierung = (Boolean)cidsBean.getProperty("vorkatierung"); // NOI18N
+    public static boolean isPreFieldMapping(final CidsBean kaBean) {
+        final Boolean vorkartierung = (Boolean)kaBean.getProperty("vorkatierung"); // NOI18N
 
         return (vorkartierung != null) && vorkartierung;
     }
