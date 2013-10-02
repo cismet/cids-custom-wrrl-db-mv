@@ -159,6 +159,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel panClass3;
     private javax.swing.JPanel panClass4;
     private javax.swing.JPanel panClass5;
+    private javax.swing.JPanel panClass6;
     private javax.swing.JPanel panEmpty;
     private javax.swing.JPanel panFgsk;
     private javax.swing.JPanel panFooter;
@@ -433,9 +434,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                             "linie.bis"));
                                 sbm[index].setMin(from);
                                 sbm[index].setMax(till);
+                                fgskBands[index].setMin(from);
+                                fgskBands[index].setMax(till);
                                 jband[index].setMinValue(from);
                                 jband[index].setMaxValue(till);
-                                final String rname = String.valueOf(route.getProperty("routenname"));
                                 final Integer rid = (Integer)route.getProperty("id");
 
                                 if (firstBand) {
@@ -515,9 +517,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      */
     private void refreshMorphometer() {
         jPanel1.setVisible(true);
-        final double[] classInMeter = new double[5];
+        final double[] classInMeter = new double[6];
         final int HEIGHT = 28;
         final int maxWidth = panMorphometer.getWidth() - 2;
+        final int[] lengthClass = new int[6];
         final double totalLength = getWBLength();
         double lengthFgsk = 0.0;
 
@@ -525,11 +528,14 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             try {
                 final double length = Calc.getStationLength(fgsk.getBean());
                 final Double p = simulationsEditor.calc(fgsk.getBean(), getMassnahmenForFgsk(fgsk.getBean()), false);
-                final int cl = getGueteklasse(fgsk.getBean(), p);
+                final int cl = SimSimulationsabschnittEditor.getGueteklasse(fgsk.getBean(), p);
                 lengthFgsk += length;
 
                 if (cl > 0) {
                     classInMeter[cl - 1] += length;
+                } else {
+                    // Sonderfall: sonstige
+                    classInMeter[5] += length;
                 }
             } catch (final Exception e) {
                 LOG.error("Error while calculating class", e);
@@ -545,52 +551,59 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             warningAlreadyShown = true;
         }
 
-        panClass1.setSize((int)(classInMeter[0] * maxWidth / totalLength), HEIGHT);
+        lengthClass[0] = (int)(classInMeter[0] * maxWidth / totalLength);
+        lengthClass[1] = (int)(classInMeter[1] * maxWidth / totalLength);
+        lengthClass[2] = (int)(classInMeter[2] * maxWidth / totalLength);
+        lengthClass[3] = (int)(classInMeter[3] * maxWidth / totalLength);
+        lengthClass[4] = (int)(classInMeter[4] * maxWidth / totalLength);
+        lengthClass[5] = (int)(classInMeter[5] * maxWidth / totalLength);
+        int total = 0;
+
+        for (final int i : lengthClass) {
+            total += i;
+        }
+        int lostPrecionTotal = maxWidth - (int)(total * maxWidth / totalLength);
+
+        int i = 0;
+        while (lostPrecionTotal != 0) {
+            if (lengthClass[i] > 0) {
+                final int change = lostPrecionTotal / Math.abs(lostPrecionTotal);
+                lengthClass[i] += change;
+                lostPrecionTotal += change;
+            }
+            ++i;
+            if (i == lengthClass.length) {
+                break;
+            }
+        }
+
+        panClass1.setSize(lengthClass[0], HEIGHT);
         panClass2.setBounds((int)(panClass1.getBounds().getX() + panClass1.getBounds().getWidth()),
             1,
-            (int)(classInMeter[1] * maxWidth / totalLength),
+            lengthClass[1],
             HEIGHT);
         panClass3.setBounds((int)(panClass2.getBounds().getX() + panClass2.getBounds().getWidth()),
             1,
-            (int)(classInMeter[2] * maxWidth / totalLength),
+            lengthClass[2],
             HEIGHT);
         panClass4.setBounds((int)(panClass3.getBounds().getX() + panClass3.getBounds().getWidth()),
             1,
-            (int)(classInMeter[3] * maxWidth / totalLength),
+            lengthClass[3],
             HEIGHT);
         panClass5.setBounds((int)(panClass4.getBounds().getX() + panClass4.getBounds().getWidth()),
             1,
-            (int)(classInMeter[4] * maxWidth / totalLength),
+            lengthClass[4],
+            HEIGHT);
+        panClass6.setBounds((int)(panClass5.getBounds().getX() + panClass5.getBounds().getWidth()),
+            1,
+            lengthClass[5],
             HEIGHT);
         panClass1.setBackground(SimSimulationsabschnittEditor.getColor(1));
         panClass2.setBackground(SimSimulationsabschnittEditor.getColor(2));
         panClass3.setBackground(SimSimulationsabschnittEditor.getColor(3));
         panClass4.setBackground(SimSimulationsabschnittEditor.getColor(4));
         panClass5.setBackground(SimSimulationsabschnittEditor.getColor(5));
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   bean  DOCUMENT ME!
-     * @param   p     DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private int getGueteklasse(final CidsBean bean, final Double p) {
-        int gueteklasse = 0;
-
-        final CidsBean exception = (CidsBean)bean.getProperty(Calc.PROP_EXCEPTION);
-
-        if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
-            gueteklasse = 5;
-        } else {
-            if (p != null) {
-                gueteklasse = SimSimulationsabschnittEditor.convertPointsToClass(p);
-            }
-        }
-
-        return gueteklasse;
+        panClass6.setBackground(SimSimulationsabschnittEditor.getColor(0));
     }
 
     /**
@@ -702,6 +715,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass3 = new javax.swing.JPanel();
         panClass4 = new javax.swing.JPanel();
         panClass5 = new javax.swing.JPanel();
+        panClass6 = new javax.swing.JPanel();
         lblMarker1 = new javax.swing.JLabel();
         lblMarker2 = new javax.swing.JLabel();
         lblMarker3 = new javax.swing.JLabel();
@@ -873,6 +887,24 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         panMorphometer.add(panClass5);
         panClass5.setBounds(12, 1, 0, 26);
+
+        panClass6.setMinimumSize(new java.awt.Dimension(0, 26));
+
+        final javax.swing.GroupLayout panClass6Layout = new javax.swing.GroupLayout(panClass6);
+        panClass6.setLayout(panClass6Layout);
+        panClass6Layout.setHorizontalGroup(
+            panClass6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panClass6Layout.setVerticalGroup(
+            panClass6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                26,
+                Short.MAX_VALUE));
+
+        panMorphometer.add(panClass6);
+        panClass6.setBounds(12, 1, 0, 26);
 
         jPanel1.add(panMorphometer);
         panMorphometer.setBounds(5, 0, 625, 30);
@@ -1476,10 +1508,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
                     wkFg = tmpBean;
                     panBand.removeAll();
-//                    panBand.add(jband, BorderLayout.CENTER);
                     try {
                         cidsBean.setProperty("wk_key", wkFg.getProperty("wk_k"));
-//                        cidsBean.setProperty("name", "Variante");
                         setNamesAndBands();
                         isNew = false;
                     } catch (Exception e) {

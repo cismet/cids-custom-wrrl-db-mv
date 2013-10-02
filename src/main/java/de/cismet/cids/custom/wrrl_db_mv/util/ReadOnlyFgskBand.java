@@ -43,6 +43,8 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
 
     Collection<CidsBean> beans = new ArrayList<CidsBean>();
     SimSimulationsabschnittEditor editor;
+    private double min = Double.MAX_VALUE;
+    private double max = Double.MIN_VALUE;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -107,6 +109,42 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
                     ((ReadOnlyFgskBandMember)m).refresh(massnahmen);
                 }
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  min  DOCUMENT ME!
+     */
+    public void setMin(final double min) {
+        this.min = min;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  max  DOCUMENT ME!
+     */
+    public void setMax(final double max) {
+        this.max = max;
+    }
+
+    @Override
+    public double getMin() {
+        if (this.min == Double.MAX_VALUE) {
+            return super.getMin();
+        } else {
+            return this.min;
+        }
+    }
+
+    @Override
+    public double getMax() {
+        if (this.max == Double.MIN_VALUE) {
+            return super.getMax();
+        } else {
+            return this.max;
         }
     }
 }

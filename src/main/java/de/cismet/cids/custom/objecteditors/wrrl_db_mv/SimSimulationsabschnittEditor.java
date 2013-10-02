@@ -14,6 +14,10 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
+import Sirius.server.middleware.types.MetaClassNode;
+import Sirius.server.middleware.types.MetaNode;
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 import Sirius.server.middleware.types.Node;
 
 import org.apache.log4j.Logger;
@@ -1238,8 +1242,35 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                     try {
                         final Collection<Node> res = get();
 
+                        for (final Node n : res) {
+                            final MetaObjectNode mon = (MetaObjectNode)n;
+                            double costs = 0.0;
+                            try {
+                                costs = calcCostsForGroup(mon.getObject().getBean());
+                            } catch (Exception e) {
+                                LOG.error("Error while calculating the costs", e);
+                            }
+                            final List<CidsBean> allMassn = new ArrayList<CidsBean>();
+                            if (massnahmen != null) {
+                                allMassn.addAll(massnahmen);
+                            }
+                            allMassn.add(mon.getObject().getBean());
+                            final double points = calc(cidsBean, allMassn, false);
+                            final int cl = getGueteklasse(cidsBean, points);
+                            final String name = n.toString() + ", " + costs + "€" + ", GK: " + cl;
+                            n.setName(name);
+                        }
+
+                        final Collection<Node> newRes = new ArrayList<Node>();
+
+                        for (final Node n : res) {
+                            if (!isMassnGroupContained(((MetaObjectNode)n).getObject().getBean())) {
+                                newRes.add(n);
+                            }
+                        }
+
                         MethodManager.getManager()
-                                .showSearchResults(res.toArray(new Node[res.size()]), false, null, false, false);
+                                .showSearchResults(newRes.toArray(new Node[newRes.size()]), false, null, false, false);
                     } catch (Exception e) {
                         LOG.error("Error during server search", e);
                     }
@@ -1248,6 +1279,50 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
         worker.start();
     } //GEN-LAST:event_jbVorschlagActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isMassnGroupContained(final CidsBean bean) {
+        final List<CidsBean> simList = simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
+
+        for (final CidsBean simMassn : simList) {
+            if (simMassn.getProperty("fgsk_ka").equals(cidsBean)
+                        && simMassn.getProperty("massnahme").equals(bean)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     * @param   p     DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static int getGueteklasse(final CidsBean bean, final Double p) {
+        int gueteklasse = 0;
+
+        final CidsBean exception = (CidsBean)bean.getProperty(Calc.PROP_EXCEPTION);
+
+        if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
+            gueteklasse = 5;
+        } else {
+            if (p != null) {
+                gueteklasse = SimSimulationsabschnittEditor.convertPointsToClass(p);
+            }
+        }
+
+        return gueteklasse;
+    }
 
     /**
      * DOCUMENT ME!
@@ -1270,6 +1345,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         } catch (Exception e) {
             LOG.error("Error during calculation.", e);
         }
+
+        jbVorschlagActionPerformed(null);
     } //GEN-LAST:event_jbRemActionPerformed
 
     /**
@@ -2307,31 +2384,12 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                                 massnahmen);
 
                         fireSimulationResultChangedEvent(e);
+                        jbVorschlagActionPerformed(null);
                     } catch (Exception e) {
                         LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
                     }
                 }
             }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   bean  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        private boolean isMassnGroupContained(final CidsBean bean) {
-            final List<CidsBean> simList = simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
-
-            for (final CidsBean simMassn : simList) {
-                if (simMassn.getProperty("fgsk_ka").equals(cidsBean)
-                            && simMassn.getProperty("massnahme").equals(bean)) {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 
