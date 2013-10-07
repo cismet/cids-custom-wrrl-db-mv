@@ -1249,6 +1249,54 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
+     * @throws  IllegalStateException  DOCUMENT ME!
+     */
+    public void removeAllRatings(final CidsBean kaBean) {
+        try {
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_CRIT, null);
+
+            kaBean.setProperty(PROP_LONG_PROFILE_SUM_RATING, null);
+            kaBean.setProperty(PROP_LONG_PROFILE_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_FLOW_DIV_RATING, null);
+            kaBean.setProperty(PROP_SIM_CROSS_BENCH_COUNT_RATING, null);
+
+            kaBean.setProperty(PROP_COURSE_EVO_SUM_RATING, null);
+            kaBean.setProperty(PROP_COURSE_EVO_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_LONG_BENCH_COUNT_RATING, null);
+
+            kaBean.setProperty(PROP_CROSS_PROFILE_SUM_RATING, null);
+            kaBean.setProperty(PROP_CROSS_PROFILE_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_BREADTH_VARIANCE_RATING, null);
+
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, null);
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_BED_STRUCTURE_COUNT_RATING, null);
+
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT, null);
+
+            kaBean.setProperty(PROP_WB_BED_RATING, null);
+            kaBean.setProperty(PROP_WB_BANK_RATING, null);
+            kaBean.setProperty(PROP_WB_BANK_RATING_LE, null);
+            kaBean.setProperty(PROP_WB_BANK_RATING_RI, null);
+            kaBean.setProperty(PROP_WB_ENV_RATING, null);
+            kaBean.setProperty(PROP_WB_ENV_RATING_LE, null);
+            kaBean.setProperty(PROP_WB_ENV_RATING_RI, null);
+            kaBean.setProperty(PROP_WB_OVERALL_RATING, null);
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean; // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      *
      * @throws  IllegalStateException  DOCUMENT ME!
