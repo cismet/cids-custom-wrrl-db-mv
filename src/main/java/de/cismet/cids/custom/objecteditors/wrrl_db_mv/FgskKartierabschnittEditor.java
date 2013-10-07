@@ -683,6 +683,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void performCalculations(final Component leftC, final Component enteredC) {
         if (readOnly || isException(cidsBean) || isPreFieldMapping(cidsBean)) {
+            if (!readOnly && isException(cidsBean)) {
+                Calc.getInstance().removeAllRatings(cidsBean);
+            }
             return;
         }
 

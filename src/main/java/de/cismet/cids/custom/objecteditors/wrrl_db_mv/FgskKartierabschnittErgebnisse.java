@@ -1575,7 +1575,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         final Double p = (Double)cidsBean.getProperty("punktzahl_gesamt");
         final CidsBean exception = (CidsBean)cidsBean.getProperty(Calc.PROP_EXCEPTION);
 
-        if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(Calc.PROP_VALUE))) {
+        if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
             gueteklasse = "5";
         } else if ((p != null) && (p > 0.0)) {
             if (p <= 1.5) {
