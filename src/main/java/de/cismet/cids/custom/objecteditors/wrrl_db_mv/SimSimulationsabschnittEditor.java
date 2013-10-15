@@ -1221,7 +1221,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorschlagActionPerformed
+    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorschlagActionPerformed
         final WaitingDialogThread<Collection<Node>> worker = new WaitingDialogThread<Collection<Node>>(StaticSwingTools
                         .getParentFrame(this),
                 true,
@@ -1278,7 +1278,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             };
 
         worker.start();
-    } //GEN-LAST:event_jbVorschlagActionPerformed
+    }//GEN-LAST:event_jbVorschlagActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1329,7 +1329,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemActionPerformed
         final Object[] selectedElements = liMassn.getSelectedValues();
 
         for (final Object el : selectedElements) {
@@ -1347,7 +1347,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         jbVorschlagActionPerformed(null);
-    } //GEN-LAST:event_jbRemActionPerformed
+    }//GEN-LAST:event_jbRemActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1490,7 +1490,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         final CidsBean depthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_DEPTH_VARIANCE);
         final CidsBean flowVelocityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_VELOCITY);
 
-        Integer ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
+        Double ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
         Integer ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
         Integer ratingCrossBench = cache.getCrossBenchRating(absCrossBenchCount, wbTypeId);
         Integer ratingFlowDiversity = cache.getFlowDiversityRating(flowDiversityBean.getMetaObject().getId(),
@@ -1500,7 +1500,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         Integer ratingDepthVariance = cache.getDepthVarianceRating(depthVarianceBean.getMetaObject().getId(),
                 wbTypeId);
         Integer substrateDiversityRating = getSubstrateDiversity(bean, wbTypeId, stationLength);
-        Integer bedStructureRating = getBedStructureRating(bean, wbTypeId, stationLength);
+        Double bedStructureRating = getBedStructureRating(bean, wbTypeId, stationLength);
         final CidsBean bedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_BED_FITMENT);
         final CidsBean zBedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_Z_BED_FITMENT);
         Integer ratingBedFitment = cache.getBedFitmentRating(
@@ -1945,10 +1945,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    private Integer getBedStructureRating(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private Double getBedStructureRating(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
         final Double bedStructureSectionLength = cache.getBedStructureSectionLength(wbTypeId);
 
-        final Integer ratingBedStructure;
+        final Double ratingBedStructure;
         if ((bedStructureSectionLength != null) && (bedStructureSectionLength > 0)) {
             double bedStructureCount = 0;
             for (final CalcCache.BedStructureType type : CalcCache.BedStructureType.values()) {

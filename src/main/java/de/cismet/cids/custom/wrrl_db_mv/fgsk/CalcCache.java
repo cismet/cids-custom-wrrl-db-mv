@@ -493,14 +493,14 @@ public final class CalcCache {
     private final transient Map<Integer, Double> courseStructureSectionLength;
     private final transient Map<String, Integer> courseLoopRatings;
     private final transient Map<String, Integer> loopErosionRatings;
-    private final transient Map<Integer, Map<Range, Integer>> longBenchRatings;
+    private final transient Map<Integer, Map<Range, Double>> longBenchRatings;
     private final transient Map<Integer, Map<Range, Integer>> courseStructureRatings;
     private final transient Map<Integer, Map<Range, Integer>> profileDepthBreathRelationRatings;
     private final transient Map<String, Integer> profileTypeRatingsRatings;
     private final transient Map<String, Integer> breadthErosionRatings;
     private final transient Map<String, Integer> profileTypeRatings;
     private final transient Map<Integer, Double> bedStructureSectionLength;
-    private final transient Map<Integer, Map<Range, Integer>> bedStructureRatings;
+    private final transient Map<Integer, Map<Range, Double>> bedStructureRatings;
     private final transient Map<Integer, Double> maxBedContaminationRatings;
     private final transient Map<String, Map<Range, Integer>> naturalSubstrateRatings;
     private final transient Map<String, Map<Range, Integer>> artificialSubstrateRatings;
@@ -539,14 +539,14 @@ public final class CalcCache {
         this.courseStructureSectionLength = new HashMap<Integer, Double>();
         this.courseLoopRatings = new HashMap<String, Integer>();
         this.loopErosionRatings = new HashMap<String, Integer>();
-        this.longBenchRatings = new HashMap<Integer, Map<Range, Integer>>();
+        this.longBenchRatings = new HashMap<Integer, Map<Range, Double>>();
         this.courseStructureRatings = new HashMap<Integer, Map<Range, Integer>>();
         this.profileDepthBreathRelationRatings = new HashMap<Integer, Map<Range, Integer>>();
         this.profileTypeRatingsRatings = new HashMap<String, Integer>();
         this.breadthErosionRatings = new HashMap<String, Integer>();
         this.profileTypeRatings = new HashMap<String, Integer>();
         this.bedStructureSectionLength = new HashMap<Integer, Double>();
-        this.bedStructureRatings = new HashMap<Integer, Map<Range, Integer>>();
+        this.bedStructureRatings = new HashMap<Integer, Map<Range, Double>>();
         this.maxBedContaminationRatings = new HashMap<Integer, Double>();
         this.naturalSubstrateRatings = new HashMap<String, Map<Range, Integer>>();
         this.artificialSubstrateRatings = new HashMap<String, Map<Range, Integer>>();
@@ -926,14 +926,14 @@ public final class CalcCache {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getLongBenchRating(final Double longBenchCount, final int wbTypeId) {
+    public Double getLongBenchRating(final Double longBenchCount, final int wbTypeId) {
         if (longBenchCount == null) {
             return null;
         }
 
         check();
 
-        final Map<Range, Integer> ranges = longBenchRatings.get(wbTypeId);
+        final Map<Range, Double> ranges = longBenchRatings.get(wbTypeId);
 
         return getRangeRating(ranges, longBenchCount);
     }
@@ -1097,14 +1097,14 @@ public final class CalcCache {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getBedStructureRating(final Double absBedStructureCount, final int wbTypeId) {
+    public Double getBedStructureRating(final Double absBedStructureCount, final int wbTypeId) {
         if (absBedStructureCount == null) {
             return null;
         }
 
         check();
 
-        final Map<Range, Integer> ranges = bedStructureRatings.get(wbTypeId);
+        final Map<Range, Double> ranges = bedStructureRatings.get(wbTypeId);
 
         return getRangeRating(ranges, absBedStructureCount);
     }
@@ -1317,7 +1317,7 @@ public final class CalcCache {
      *
      * @return  DOCUMENT ME!
      */
-    private Integer getRangeRating(final Map<Range, Integer> ranges, final double length) {
+    private <T extends Number> T getRangeRating(final Map<Range, T> ranges, final double length) {
         if (ranges != null) {
             for (final Range range : ranges.keySet()) {
                 if (range.withinRange(length)) {
