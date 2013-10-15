@@ -1578,15 +1578,15 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
             gueteklasse = "5";
         } else if ((p != null) && (p > 0.0)) {
-            if (p <= 1.5) {
+            if (p <= 1.4) {
                 gueteklasse = "5";
-            } else if (p <= 2.5) {
+            } else if (p <= 2.3) {
                 gueteklasse = "4";
-            } else if (p <= 3.5) {
+            } else if (p <= 3.2) {
                 gueteklasse = "3";
-            } else if (p <= 4.5) {
+            } else if (p <= 4.1) {
                 gueteklasse = "2";
-            } else if (p > 4.5) {
+            } else if (p > 4.1) {
                 gueteklasse = "1";
             }
         }
