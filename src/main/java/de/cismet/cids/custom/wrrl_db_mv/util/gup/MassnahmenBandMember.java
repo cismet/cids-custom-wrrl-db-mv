@@ -226,6 +226,8 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+
+        setSelected(isSelected);
     }
 
     /**
