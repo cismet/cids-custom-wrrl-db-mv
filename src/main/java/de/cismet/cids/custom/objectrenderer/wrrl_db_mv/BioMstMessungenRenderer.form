@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
@@ -654,7 +654,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.perlodes_gesichert}" target="jcGesPerlodes" targetPath="selected" updateStrategy="1" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.perlodes_gesichert}" target="jcGesPerlodes" targetPath="selected" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -671,7 +674,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.perlodes_ad_gesichert}" target="jcGesPerlodesAd" targetPath="selected" updateStrategy="1" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.perlodes_ad_gesichert}" target="jcGesPerlodesAd" targetPath="selected" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -688,7 +694,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.perlodes_sl_gesichert}" target="jcGesSI" targetPath="selected" updateStrategy="1" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.perlodes_sl_gesichert}" target="jcGesSI" targetPath="selected" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -738,7 +747,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_gesichert}" target="jcGesPhylib" targetPath="selected" updateStrategy="1" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_gesichert}" target="jcGesPhylib" targetPath="selected" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -755,7 +767,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_phytobenthos_gesichert}" target="jcGesPhyto" targetPath="selected" updateStrategy="1" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_phytobenthos_gesichert}" target="jcGesPhyto" targetPath="selected" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -772,7 +787,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_makrophyten_gesichert}" target="jcGesMacPhyto" targetPath="selected" updateStrategy="1" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_makrophyten_gesichert}" target="jcGesMacPhyto" targetPath="selected" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -789,7 +807,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_diatomeen_gesichert}" target="jcGesDiatomeen" targetPath="selected" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.phylib_diatomeen_gesichert}" target="jcGesDiatomeen" targetPath="selected" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
