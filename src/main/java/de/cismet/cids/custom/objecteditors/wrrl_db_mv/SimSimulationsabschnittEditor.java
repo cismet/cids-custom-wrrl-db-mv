@@ -1221,7 +1221,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorschlagActionPerformed
+    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorschlagActionPerformed
         final WaitingDialogThread<Collection<Node>> worker = new WaitingDialogThread<Collection<Node>>(StaticSwingTools
                         .getParentFrame(this),
                 true,
@@ -1278,7 +1278,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             };
 
         worker.start();
-    }//GEN-LAST:event_jbVorschlagActionPerformed
+    } //GEN-LAST:event_jbVorschlagActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1317,7 +1317,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             gueteklasse = 5;
         } else {
             if (p != null) {
-                gueteklasse = SimSimulationsabschnittEditor.convertPointsToClass(p);
+                gueteklasse = CalcCache.getQualityClass(p);
             }
         }
 
@@ -1329,7 +1329,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemActionPerformed
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
         final Object[] selectedElements = liMassn.getSelectedValues();
 
         for (final Object el : selectedElements) {
@@ -1347,7 +1347,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         jbVorschlagActionPerformed(null);
-    }//GEN-LAST:event_jbRemActionPerformed
+    } //GEN-LAST:event_jbRemActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1676,6 +1676,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         final CidsBean dummyBean = CidsBeanSupport.createNewCidsBeanFromTableName("fgsk_kartierabschnitt");
+        dummyBean.setProperty(Calc.PROP_WB_TYPE, wbTypeBean);
         dummyBean.setProperty(Calc.PROP_COURSE_EVO_SUM_RATING, (Double)courseEvoRating.rating);
         dummyBean.setProperty(Calc.PROP_COURSE_EVO_SUM_CRIT, (Integer)courseEvoRating.criteriaCount);
         dummyBean.setProperty(Calc.PROP_LONG_PROFILE_SUM_RATING, (Double)wbLongProfileRating.rating);
@@ -1842,7 +1843,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             if (pointsAsDouble > 5) {
                 pointsAsDouble = 5;
             }
-            final int cl = convertPointsToClass(pointsAsDouble);
+            final int cl = CalcCache.getQualityClass(pointsAsDouble);
 
             lab.setText(String.valueOf(cl));
             lab.setBackground(getColor(cl));
@@ -1867,31 +1868,6 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             lab.setText("");
             lab.setOpaque(false);
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   p  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static int convertPointsToClass(final double p) {
-        int gueteklasse = 0;
-
-        if (p <= 1.5) {
-            gueteklasse = 5;
-        } else if (p <= 2.5) {
-            gueteklasse = 4;
-        } else if (p <= 3.5) {
-            gueteklasse = 3;
-        } else if (p <= 4.5) {
-            gueteklasse = 2;
-        } else if (p > 4.5) {
-            gueteklasse = 1;
-        }
-
-        return gueteklasse;
     }
 
     /**

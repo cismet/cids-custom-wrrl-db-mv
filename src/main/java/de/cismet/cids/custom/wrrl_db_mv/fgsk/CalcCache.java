@@ -1312,6 +1312,7 @@ public final class CalcCache {
     /**
      * DOCUMENT ME!
      *
+     * @param   <T>     DOCUMENT ME!
      * @param   ranges  DOCUMENT ME!
      * @param   length  DOCUMENT ME!
      *
@@ -1327,6 +1328,31 @@ public final class CalcCache {
         }
 
         return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   p  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static int getQualityClass(final double p) {
+        int qualityClass = 0;
+
+        if (p <= 1.4) {
+            qualityClass = 5;
+        } else if (p <= 2.3) {
+            qualityClass = 4;
+        } else if (p <= 3.2) {
+            qualityClass = 3;
+        } else if (p <= 4.1) {
+            qualityClass = 2;
+        } else if (p > 4.1) {
+            qualityClass = 1;
+        }
+
+        return qualityClass;
     }
 
     /**

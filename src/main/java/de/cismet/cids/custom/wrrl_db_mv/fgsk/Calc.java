@@ -1186,20 +1186,22 @@ public final class Calc {
             throw new IllegalStateException("kartierabschnitt bean without wb type");
         }
         final Integer wbType = (Integer)wbTypeBean.getProperty(PROP_VALUE);
-        if(wbType == null){
+        if (wbType == null) {
             throw new IllegalStateException("kartierabschnitt bean with illegal wb type");
         }
-        
+
         // they are allowed to be 0 if their wb type is 23
         if ((ratingLongProfile == 0) || (critCountLongProfile == 0)) {
-                if (wbType != 23) {
-                    throw new ValidationException(
-                        "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
-                }
+            if (wbType != 23) {
+                throw new ValidationException(
+                    "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
+            }
         }
 
-        final double ratingBed = (ratingCourseEvo + ratingLongProfile + ratingBedStructure)
-                    / (critCountCourseEvo + critCountLongProfile + critCountBedStructure);
+        // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
+        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure)
+                        / (critCountCourseEvo + critCountLongProfile + critCountBedStructure),
+                5.0);
 
         final double ratingCrossProfile = (Double)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_RATING);
         final int critCountCrossProfile = (Integer)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_CRIT);
@@ -1210,12 +1212,16 @@ public final class Calc {
         final double ratingBankStructureRi = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
-        final double ratingBank = (ratingCrossProfile + ratingBankStructure)
-                    / (critCountCrossProfile + critCountBankStructure);
-        final double ratingBankLe = (ratingCrossProfile + ratingBankStructureLe)
-                    / (critCountCrossProfile + critCountBankStructureLe);
-        final double ratingBankRi = (ratingCrossProfile + ratingBankStructureRi)
-                    / (critCountCrossProfile + critCountBankStructureRi);
+        // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
+        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure)
+                        / (critCountCrossProfile + critCountBankStructure),
+                5.0);
+        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe)
+                        / (critCountCrossProfile + critCountBankStructureLe),
+                5.0);
+        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi)
+                        / (critCountCrossProfile + critCountBankStructureRi),
+                5.0);
 
         final double ratingWBEnv = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING);
         final double ratingWBEnvLe = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_LE);
@@ -1224,13 +1230,13 @@ public final class Calc {
         final int critCountWBEnvLe = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_LE);
         final int critCountWBEnvRi = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_RI);
 
-        final double ratingEnv = ratingWBEnv / critCountWBEnv;
-        final double ratingEnvLe = ratingWBEnvLe / critCountWBEnvLe;
-        final double ratingEnvRi = ratingWBEnvRi / critCountWBEnvRi;
+        final double ratingEnv = Math.min(ratingWBEnv / critCountWBEnv, 5.0);
+        final double ratingEnvLe = Math.min(ratingWBEnvLe / critCountWBEnvLe, 5.0);
+        final double ratingEnvRi = Math.min(ratingWBEnvRi / critCountWBEnvRi, 5.0);
 
         final double ratingOverall;
-        if(wbType == 23){
-            ratingOverall = (ratingBed + 2*ratingBank + 2*ratingEnv) / 5.0d;
+        if (wbType == 23) {
+            ratingOverall = (ratingBed + (2 * ratingBank) + (2 * ratingEnv)) / 5.0d;
         } else {
             ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
         }
