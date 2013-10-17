@@ -30,6 +30,7 @@ import java.util.List;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.AbschnittsinfoMember;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.ExtendedMattePainter;
 
@@ -120,9 +121,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
             if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
                 cl = 5;
             } else if ((p != null) && (p > 0.0)) {
-                if (p != null) {
-                    cl = SimSimulationsabschnittEditor.convertPointsToClass(p);
-                }
+                cl = CalcCache.getQualityClass(p);
             }
         }
 

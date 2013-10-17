@@ -1317,7 +1317,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             gueteklasse = 5;
         } else {
             if (p != null) {
-                gueteklasse = SimSimulationsabschnittEditor.convertPointsToClass(p);
+                gueteklasse = CalcCache.getQualityClass(p);
             }
         }
 
@@ -1490,7 +1490,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         final CidsBean depthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_DEPTH_VARIANCE);
         final CidsBean flowVelocityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_VELOCITY);
 
-        Integer ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
+        Double ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
         Integer ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
         Integer ratingCrossBench = cache.getCrossBenchRating(absCrossBenchCount, wbTypeId);
         Integer ratingFlowDiversity = cache.getFlowDiversityRating(flowDiversityBean.getMetaObject().getId(),
@@ -1500,7 +1500,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         Integer ratingDepthVariance = cache.getDepthVarianceRating(depthVarianceBean.getMetaObject().getId(),
                 wbTypeId);
         Integer substrateDiversityRating = getSubstrateDiversity(bean, wbTypeId, stationLength);
-        Integer bedStructureRating = getBedStructureRating(bean, wbTypeId, stationLength);
+        Double bedStructureRating = getBedStructureRating(bean, wbTypeId, stationLength);
         final CidsBean bedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_BED_FITMENT);
         final CidsBean zBedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_Z_BED_FITMENT);
         Integer ratingBedFitment = cache.getBedFitmentRating(
@@ -1676,6 +1676,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         final CidsBean dummyBean = CidsBeanSupport.createNewCidsBeanFromTableName("fgsk_kartierabschnitt");
+        dummyBean.setProperty(Calc.PROP_WB_TYPE, wbTypeBean);
         dummyBean.setProperty(Calc.PROP_COURSE_EVO_SUM_RATING, (Double)courseEvoRating.rating);
         dummyBean.setProperty(Calc.PROP_COURSE_EVO_SUM_CRIT, (Integer)courseEvoRating.criteriaCount);
         dummyBean.setProperty(Calc.PROP_LONG_PROFILE_SUM_RATING, (Double)wbLongProfileRating.rating);
@@ -1842,7 +1843,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             if (pointsAsDouble > 5) {
                 pointsAsDouble = 5;
             }
-            final int cl = convertPointsToClass(pointsAsDouble);
+            final int cl = CalcCache.getQualityClass(pointsAsDouble);
 
             lab.setText(String.valueOf(cl));
             lab.setBackground(getColor(cl));
@@ -1867,31 +1868,6 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             lab.setText("");
             lab.setOpaque(false);
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   p  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static int convertPointsToClass(final double p) {
-        int gueteklasse = 0;
-
-        if (p <= 1.5) {
-            gueteklasse = 5;
-        } else if (p <= 2.5) {
-            gueteklasse = 4;
-        } else if (p <= 3.5) {
-            gueteklasse = 3;
-        } else if (p <= 4.5) {
-            gueteklasse = 2;
-        } else if (p > 4.5) {
-            gueteklasse = 1;
-        }
-
-        return gueteklasse;
     }
 
     /**
@@ -1945,10 +1921,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    private Integer getBedStructureRating(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private Double getBedStructureRating(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
         final Double bedStructureSectionLength = cache.getBedStructureSectionLength(wbTypeId);
 
-        final Integer ratingBedStructure;
+        final Double ratingBedStructure;
         if ((bedStructureSectionLength != null) && (bedStructureSectionLength > 0)) {
             double bedStructureCount = 0;
             for (final CalcCache.BedStructureType type : CalcCache.BedStructureType.values()) {

@@ -562,13 +562,14 @@ public final class Calc {
 
         final Integer ratingCourseLoop = cache.getCourseLoopRating(courseLoopBean.getMetaObject().getId(), wbTypeId);
         final Integer ratingLoopErosion = cache.getLoopErosionRating(loopErosionBean.getMetaObject().getId(), wbTypeId);
-        final Integer ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
         final Integer ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
+        final Double ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
 
         final RatingStruct rating = new RatingStruct();
 
         // this operation changes the given rating and count values directly
-        overallRating(rating, true, ratingCourseLoop, ratingLoopErosion, ratingLongBench, ratingCourseStructure);
+        overallRating(rating, true, ratingCourseLoop, ratingLoopErosion, ratingCourseStructure);
+        overallRating(rating, false, ratingLongBench);
 
         // set the final values
         try {
@@ -718,7 +719,7 @@ public final class Calc {
         final CidsBean bedFitmentBean = (CidsBean)kaBean.getProperty(PROP_BED_FITMENT);
         final CidsBean zBedFitmentBean = (CidsBean)kaBean.getProperty(PROP_Z_BED_FITMENT);
 
-        final Integer ratingBedStructure;
+        final Double ratingBedStructure;
         if ((bedStructureSectionLength != null) && (bedStructureSectionLength > 0)) {
             double bedStructureCount = 0;
             for (final BedStructureType type : BedStructureType.values()) {
@@ -813,8 +814,8 @@ public final class Calc {
         final RatingStruct rating = new RatingStruct();
 
         // this operation changes the given rating and count values directly
-        overallRating(rating, true, ratingSubstrates, ratingBedStructure, ratingBedFitment);
-        overallRating(rating, false, ratingBedContamination);
+        overallRating(rating, true, ratingSubstrates, ratingBedFitment);
+        overallRating(rating, false, ratingBedContamination, ratingBedStructure);
 
         double finalRating = rating.rating;
         // rating correction according to Kuechler, not present in original implementation
@@ -1180,22 +1181,27 @@ public final class Calc {
         final double ratingBedStructure = (Double)kaBean.getProperty(PROP_BED_STRUCTURE_SUM_RATING);
         final int critCountBedStructure = (Integer)kaBean.getProperty(PROP_BED_STRUCTURE_SUM_CRIT);
 
+        final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
+        if (wbTypeBean == null) {
+            throw new IllegalStateException("kartierabschnitt bean without wb type");
+        }
+        final Integer wbType = (Integer)wbTypeBean.getProperty(PROP_VALUE);
+        if (wbType == null) {
+            throw new IllegalStateException("kartierabschnitt bean with illegal wb type");
+        }
+
         // they are allowed to be 0 if their wb type is 23
         if ((ratingLongProfile == 0) || (critCountLongProfile == 0)) {
-            final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
-            if (wbTypeBean == null) {
-                throw new IllegalStateException("kartierabschnitt bean without wb type");
-            } else {
-                final Integer value = (Integer)wbTypeBean.getProperty(PROP_VALUE);
-                if ((value == null) || (value != 23)) {
-                    throw new ValidationException(
-                        "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
-                }
+            if (wbType != 23) {
+                throw new ValidationException(
+                    "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
             }
         }
 
-        final double ratingBed = (ratingCourseEvo + ratingLongProfile + ratingBedStructure)
-                    / (critCountCourseEvo + critCountLongProfile + critCountBedStructure);
+        // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
+        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure)
+                        / (critCountCourseEvo + critCountLongProfile + critCountBedStructure),
+                5.0);
 
         final double ratingCrossProfile = (Double)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_RATING);
         final int critCountCrossProfile = (Integer)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_CRIT);
@@ -1206,12 +1212,16 @@ public final class Calc {
         final double ratingBankStructureRi = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
-        final double ratingBank = (ratingCrossProfile + ratingBankStructure)
-                    / (critCountCrossProfile + critCountBankStructure);
-        final double ratingBankLe = (ratingCrossProfile + ratingBankStructureLe)
-                    / (critCountCrossProfile + critCountBankStructureLe);
-        final double ratingBankRi = (ratingCrossProfile + ratingBankStructureRi)
-                    / (critCountCrossProfile + critCountBankStructureRi);
+        // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
+        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure)
+                        / (critCountCrossProfile + critCountBankStructure),
+                5.0);
+        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe)
+                        / (critCountCrossProfile + critCountBankStructureLe),
+                5.0);
+        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi)
+                        / (critCountCrossProfile + critCountBankStructureRi),
+                5.0);
 
         final double ratingWBEnv = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING);
         final double ratingWBEnvLe = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_LE);
@@ -1220,11 +1230,16 @@ public final class Calc {
         final int critCountWBEnvLe = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_LE);
         final int critCountWBEnvRi = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_RI);
 
-        final double ratingEnv = ratingWBEnv / critCountWBEnv;
-        final double ratingEnvLe = ratingWBEnvLe / critCountWBEnvLe;
-        final double ratingEnvRi = ratingWBEnvRi / critCountWBEnvRi;
+        final double ratingEnv = Math.min(ratingWBEnv / critCountWBEnv, 5.0);
+        final double ratingEnvLe = Math.min(ratingWBEnvLe / critCountWBEnvLe, 5.0);
+        final double ratingEnvRi = Math.min(ratingWBEnvRi / critCountWBEnvRi, 5.0);
 
-        final double ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
+        final double ratingOverall;
+        if (wbType == 23) {
+            ratingOverall = (ratingBed + (2 * ratingBank) + (2 * ratingEnv)) / 5.0d;
+        } else {
+            ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
+        }
 
         // set the final values
         try {
