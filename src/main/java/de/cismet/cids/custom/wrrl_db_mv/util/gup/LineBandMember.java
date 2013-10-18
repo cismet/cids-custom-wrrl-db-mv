@@ -198,8 +198,7 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
      * DOCUMENT ME!
      */
     protected void setDefaultBackground() {
-        setBackgroundPainter(new MattePainter(new Color(229, 0, 0)));
-        unselectedBackgroundPainter = getBackgroundPainter();
+        unselectedBackgroundPainter = new MattePainter(new Color(229, 0, 0));
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
@@ -213,6 +212,11 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+        if (isSelected) {
+            setBackgroundPainter(selectedBackgroundPainter);
+        } else {
+            setBackgroundPainter(unselectedBackgroundPainter);
+        }
     }
 
     /**

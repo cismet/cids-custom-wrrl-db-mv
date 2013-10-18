@@ -28,6 +28,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -51,7 +52,9 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblGbPredecKey;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblInsByKey;
@@ -62,13 +65,10 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblNameValue;
     private javax.swing.JLabel lblStatDateKey1;
     private javax.swing.JLabel lblStatDateValue;
-    private javax.swing.JList lstPoorChems;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JPanel panSpacingBottom;
     private javax.swing.JPanel panSpacingBottom1;
-    private javax.swing.JScrollPane scpPoorChems;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -79,6 +79,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
      */
     public WkGwPanOne() {
         initComponents();
+        RendererTools.makeReadOnly(jTextArea1);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -99,11 +100,10 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panInfoContent = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblNameKey = new javax.swing.JLabel();
-        panSpacingBottom = new javax.swing.JPanel();
         lblNameValue = new javax.swing.JLabel();
         lblGbPredecKey = new javax.swing.JLabel();
-        scpPoorChems = new javax.swing.JScrollPane();
-        lstPoorChems = new javax.swing.JList();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         lblInsWhenKey = new javax.swing.JLabel();
@@ -141,15 +141,6 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblNameKey, gridBagConstraints);
 
-        panSpacingBottom.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        jPanel1.add(panSpacingBottom, gridBagConstraints);
-
         lblNameValue.setMinimumSize(new java.awt.Dimension(250, 20));
         lblNameValue.setPreferredSize(new java.awt.Dimension(250, 20));
 
@@ -180,19 +171,29 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblGbPredecKey, gridBagConstraints);
 
-        scpPoorChems.setMinimumSize(new java.awt.Dimension(250, 80));
-        scpPoorChems.setPreferredSize(new java.awt.Dimension(250, 80));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(250, 150));
 
-        lstPoorChems.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scpPoorChems.setViewportView(lstPoorChems);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gbn_predecs}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jScrollPane1.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(scpPoorChems, gridBagConstraints);
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

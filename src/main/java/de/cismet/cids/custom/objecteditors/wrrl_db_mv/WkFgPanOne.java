@@ -71,6 +71,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbKuestenWk;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPlanuCd;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRbdCd;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSchutzgut;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStalu;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypEvkK;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypK;
@@ -90,6 +91,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblKuestenWk;
     private javax.swing.JLabel lblPlanuCd;
     private javax.swing.JLabel lblRbdCd;
+    private javax.swing.JLabel lblSchutzgut;
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblTypEvkK;
@@ -211,6 +213,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         cbKuestenWk = new ScrollableComboBox();
         lblWkKPre = new javax.swing.JLabel();
         txtWkKPre = new javax.swing.JTextField();
+        cbSchutzgut = new ScrollableComboBox();
+        lblSchutzgut = new javax.swing.JLabel();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -397,7 +401,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 "WkFgPanOne.lblImpactSrc.toolTipText"));                                                              // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
@@ -420,7 +424,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 "WkFgPanOne.lblImpact.toolTipText"));                                                           // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
@@ -576,7 +580,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
@@ -692,7 +696,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -715,7 +719,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -754,7 +758,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridheight = 3;
         panInfoContent.add(panContrImpact, gridBagConstraints);
 
@@ -791,7 +795,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridheight = 3;
         panInfoContent.add(panContrImpactSrc, gridBagConstraints);
 
@@ -996,6 +1000,34 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtWkKPre, gridBagConstraints);
+
+        cbSchutzgut.setMinimumSize(new java.awt.Dimension(300, 20));
+        cbSchutzgut.setPreferredSize(new java.awt.Dimension(300, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.schutzgut}"),
+                cbSchutzgut,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(cbSchutzgut, gridBagConstraints);
+
+        lblSchutzgut.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
+        panInfoContent.add(lblSchutzgut, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 

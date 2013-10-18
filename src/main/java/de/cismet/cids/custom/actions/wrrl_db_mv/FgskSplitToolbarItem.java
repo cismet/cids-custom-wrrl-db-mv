@@ -117,7 +117,8 @@ public class FgskSplitToolbarItem extends AbstractAction implements CidsClientTo
                 } else {
                     final CidsBean openBean = FgskKartierabschnittEditor.getCurrentlyOpenBean();
                     final CidsBean cidsBean = cidsFeature.getMetaObject().getBean();
-                    if ((openBean != null) && (openBean.getMetaObject().getID() == cidsBean.getMetaObject().getID())) {
+                    if ((openBean != null)) { // && (openBean.getMetaObject().getID() ==
+                                              // cidsBean.getMetaObject().getID())) {
                         JOptionPane.showMessageDialog(
                             parentFrame,
                             "Der Editor des Kartierabschnitts muss vor dem Teilen geschlossen werden.",

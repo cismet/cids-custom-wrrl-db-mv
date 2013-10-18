@@ -32,6 +32,7 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
 import Sirius.server.middleware.types.Node;
 
@@ -55,7 +56,6 @@ import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanCache;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -787,9 +787,14 @@ public class FgskSplitDialog extends javax.swing.JDialog {
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private Collection<Node> splitFgskBean(final CidsBean oldBean, final boolean fromToSplit, final double splitValue)
+    private Collection<Node> splitFgskBean(CidsBean oldBean, final boolean fromToSplit, final double splitValue)
             throws Exception {
         jProgressBar1.setMaximum(3);
+        oldBean = SessionManager.getProxy()
+                    .getMetaObject(oldBean.getPrimaryKeyValue(),
+                            oldBean.getMetaObject().getClassID(),
+                            oldBean.getMetaObject().getDomain())
+                    .getBean();
 
         final String oldAbschnitt = (String)oldBean.getProperty("gewaesser_abschnitt");
         final String oldSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".2" : ".1");

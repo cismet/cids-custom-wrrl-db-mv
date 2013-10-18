@@ -166,7 +166,14 @@ public final class Calc {
     public static final String PROP_WB_ENV_RATING_RI = "punktzahl_land_rechts";                           // NOI18N
     public static final String PROP_EXCEPTION = "sonderfall_id";                                          // NOI18N
 
-    private static final CalcCache cache = CalcCache.getInstance();
+    // Variables used in Simulation
+    public static final String PROP_SIM_FLOW_DIV_RATING = "bewertung_stroemungsdiversitaet";                      // NOI18N
+    public static final String PROP_SIM_CROSS_BENCH_COUNT_RATING = "bewertung_anzahl_querbaenke";                 // NOI18N
+    public static final String PROP_SIM_LONG_BENCH_COUNT_RATING = "bewertung_anzahl_laengsbaenke";                // NOI18N
+    public static final String PROP_SIM_BREADTH_VARIANCE_RATING = "bewertung_breitenvarianz";                     // NOI18N
+    public static final String PROP_SIM_BED_STRUCTURE_COUNT_RATING = "bewertung_anzahl_besondere_sohlstrukturen"; // NOI18N
+
+    static final CalcCache cache = CalcCache.getInstance();
     private static final transient Logger LOG = Logger.getLogger(Calc.class);
 
     //~ Instance fields --------------------------------------------------------
@@ -295,13 +302,38 @@ public final class Calc {
             throw new IllegalStateException("kartierabschnitt bean without water body type: " + kaBean); // NOI18N
         }
 
-        final CidsBean landUseBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_LAND_USE", "", left));       // NOI18N
-        final CidsBean wbTrimmingBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_WB_TRIMMING", "", left)); // NOI18N
-
         final int wbTypeId = wbTypeBean.getMetaObject().getId();
-        final Integer ratingWBTriming = cache.getWBTrimmingRating(wbTrimmingBean.getMetaObject().getId(), wbTypeId);
-        final Integer ratingLandUse = cache.getWBLandUseRating(landUseBean.getMetaObject().getId(), wbTypeId);
+        final Integer ratingWBTriming = getWBTrimmingRating(wbTypeId, kaBean, left);
+        final Integer ratingLandUse = getLandUseRating(wbTypeId, kaBean, left);
+        final double badEnvRating = getBadEnvRating(wbTypeId, kaBean, left);
 
+        // this operation changes the given rating and count values directly
+        final RatingStruct rating = new RatingStruct();
+        overallRating(rating, true, ratingWBTriming, ratingLandUse);
+        overallRating(rating, false, badEnvRating);
+
+        // set the final values
+        try {
+            kaBean.setProperty(fieldFromCode("PROP_WB_ENV_SUM_RATING", "", left), rating.rating);      // NOI18N
+            kaBean.setProperty(fieldFromCode("PROP_WB_ENV_SUM_CRIT", "", left), rating.criteriaCount); // NOI18N
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean;                             // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getBadEnvRating(final int wbTypeId, final CidsBean kaBean, final boolean left) {
         double badEnvRating = 0;
         for (final CalcCache.BadEnvStructureType type : CalcCache.BadEnvStructureType.values()) {
             final Double count = (Double)kaBean.getProperty(fieldFromCode(
@@ -322,21 +354,65 @@ public final class Calc {
         }
         badEnvRating = correctBadEnvRating(badEnvRating, wbTypeId);
 
-        // this operation changes the given rating and count values directly
-        final RatingStruct rating = new RatingStruct();
-        overallRating(rating, true, ratingWBTriming, ratingLandUse);
-        overallRating(rating, false, badEnvRating);
+        return badEnvRating;
+    }
 
-        // set the final values
-        try {
-            kaBean.setProperty(fieldFromCode("PROP_WB_ENV_SUM_RATING", "", left), rating.rating);      // NOI18N
-            kaBean.setProperty(fieldFromCode("PROP_WB_ENV_SUM_CRIT", "", left), rating.criteriaCount); // NOI18N
-        } catch (final Exception e) {
-            final String message = "cannot update bean values: " + kaBean;                             // NOI18N
-            LOG.error(message, e);
-
-            throw new IllegalStateException(message, e);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getBadEnvCount(final int wbTypeId, final CidsBean kaBean, final boolean left) {
+        double badEnvCount = 0.0;
+        for (final CalcCache.BadEnvStructureType type : CalcCache.BadEnvStructureType.values()) {
+            if (type.getId() != 7) {
+                // die sonstigen sollen ignoriert werden, da diese Teilparameter nicht in die Berechnung
+                // der Güteklassen eingehen (rein informativer Charakter)
+                final Double count = (Double)kaBean.getProperty(fieldFromCode(
+                            "PROP_BAD_ENV_STRUCT_", // NOI18N
+                            type.getCode(),
+                            left));
+                if ((count != null) && (count > 0)) {
+                    badEnvCount += count;
+                }
+            }
         }
+
+        return badEnvCount;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getLandUseRating(final int wbTypeId, final CidsBean kaBean, final boolean left) {
+        final CidsBean landUseBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_LAND_USE", "", left)); // NOI18N
+
+        return cache.getWBLandUseRating(landUseBean.getMetaObject().getId(), wbTypeId);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getWBTrimmingRating(final int wbTypeId, final CidsBean kaBean, final boolean left) {
+        final CidsBean wbTrimmingBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_WB_TRIMMING", "", left)); // NOI18N
+
+        return cache.getWBTrimmingRating(wbTrimmingBean.getMetaObject().getId(), wbTypeId);
     }
 
     /**
@@ -404,6 +480,8 @@ public final class Calc {
         try {
             kaBean.setProperty(PROP_LONG_PROFILE_SUM_RATING, rating.rating);
             kaBean.setProperty(PROP_LONG_PROFILE_SUM_CRIT, rating.criteriaCount);
+            kaBean.setProperty(PROP_SIM_FLOW_DIV_RATING, ratingFlowDiversity);
+            kaBean.setProperty(PROP_SIM_CROSS_BENCH_COUNT_RATING, ratingCrossBench);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
             LOG.error(message, e);
@@ -484,18 +562,20 @@ public final class Calc {
 
         final Integer ratingCourseLoop = cache.getCourseLoopRating(courseLoopBean.getMetaObject().getId(), wbTypeId);
         final Integer ratingLoopErosion = cache.getLoopErosionRating(loopErosionBean.getMetaObject().getId(), wbTypeId);
-        final Integer ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
         final Integer ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
+        final Double ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
 
         final RatingStruct rating = new RatingStruct();
 
         // this operation changes the given rating and count values directly
-        overallRating(rating, true, ratingCourseLoop, ratingLoopErosion, ratingLongBench, ratingCourseStructure);
+        overallRating(rating, true, ratingCourseLoop, ratingLoopErosion, ratingCourseStructure);
+        overallRating(rating, false, ratingLongBench);
 
         // set the final values
         try {
             kaBean.setProperty(PROP_COURSE_EVO_SUM_RATING, rating.rating);
             kaBean.setProperty(PROP_COURSE_EVO_SUM_CRIT, rating.criteriaCount);
+            kaBean.setProperty(PROP_SIM_LONG_BENCH_COUNT_RATING, ratingLongBench);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
             LOG.error(message, e);
@@ -571,6 +651,7 @@ public final class Calc {
         try {
             kaBean.setProperty(PROP_CROSS_PROFILE_SUM_RATING, rating.rating);
             kaBean.setProperty(PROP_CROSS_PROFILE_SUM_CRIT, rating.criteriaCount);
+            kaBean.setProperty(PROP_SIM_BREADTH_VARIANCE_RATING, ratingBreadthVariance);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
             LOG.error(message, e);
@@ -634,12 +715,11 @@ public final class Calc {
 
         final Double bedStructureSectionLength = cache.getBedStructureSectionLength(wbTypeId);
         final double stationLength = getStationLength(kaBean);
-        final Double ratingMaxBedContamination = cache.getMaxBedContaminationRating(wbTypeId);
 
         final CidsBean bedFitmentBean = (CidsBean)kaBean.getProperty(PROP_BED_FITMENT);
         final CidsBean zBedFitmentBean = (CidsBean)kaBean.getProperty(PROP_Z_BED_FITMENT);
 
-        final Integer ratingBedStructure;
+        final Double ratingBedStructure;
         if ((bedStructureSectionLength != null) && (bedStructureSectionLength > 0)) {
             double bedStructureCount = 0;
             for (final BedStructureType type : BedStructureType.values()) {
@@ -729,7 +809,44 @@ public final class Calc {
                 zBedFitmentBean.getMetaObject().getId(),
                 wbTypeId);
 
+        final Double ratingBedContamination = calcBedContamination(kaBean, wbTypeId);
+
+        final RatingStruct rating = new RatingStruct();
+
+        // this operation changes the given rating and count values directly
+        overallRating(rating, true, ratingSubstrates, ratingBedFitment);
+        overallRating(rating, false, ratingBedContamination, ratingBedStructure);
+
+        double finalRating = rating.rating;
+        // rating correction according to Kuechler, not present in original implementation
+        if (finalRating < 1) {
+            finalRating = 1;
+        }
+
+        // set the final values
+        try {
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, finalRating);
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_CRIT, rating.criteriaCount);
+            kaBean.setProperty(PROP_SIM_BED_STRUCTURE_COUNT_RATING, ratingBedStructure);
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean; // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean    DOCUMENT ME!
+     * @param   wbTypeId  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double calcBedContamination(final CidsBean kaBean, final int wbTypeId) {
         Double ratingBedContamination = null;
+        final Double ratingMaxBedContamination = cache.getMaxBedContaminationRating(wbTypeId);
         for (final BedContaminationType type : BedContaminationType.values()) {
             final Double count = (Double)kaBean.getProperty(fieldFromCode("PROP_BED_CONTAMINATION_", type.getCode())); // NOI18N
             if ((count != null) && (count > 0)) {
@@ -748,28 +865,27 @@ public final class Calc {
             ratingBedContamination = ratingMaxBedContamination;
         }
 
-        final RatingStruct rating = new RatingStruct();
+        return ratingBedContamination;
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean    DOCUMENT ME!
+     * @param   wbTypeId  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public double calcBedContaminationCount(final CidsBean kaBean, final int wbTypeId) {
+        double bedContamination = 0.0;
 
-        // this operation changes the given rating and count values directly
-        overallRating(rating, true, ratingSubstrates, ratingBedStructure, ratingBedFitment);
-        overallRating(rating, false, ratingBedContamination);
-
-        double finalRating = rating.rating;
-        // rating correction according to Kuechler, not present in original implementation
-        if (finalRating < 1) {
-            finalRating = 1;
+        for (final BedContaminationType type : BedContaminationType.values()) {
+            final Double count = (Double)kaBean.getProperty(fieldFromCode("PROP_BED_CONTAMINATION_", type.getCode())); // NOI18N
+            if ((count != null) && (count > 0)) {
+                bedContamination += count;
+            }
         }
 
-        // set the final values
-        try {
-            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, finalRating);
-            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_CRIT, rating.criteriaCount);
-        } catch (final Exception e) {
-            final String message = "cannot update bean values: " + kaBean; // NOI18N
-            LOG.error(message, e);
-
-            throw new IllegalStateException(message, e);
-        }
+        return bedContamination;
     }
 
     /**
@@ -842,21 +958,164 @@ public final class Calc {
         final int wbTypeId = wbTypeBean.getMetaObject().getId();
 
         final double stationLength = getStationLength(kaBean);
-        final Double bankStructureSectionLength = cache.getBankStructureSectionLength(wbTypeId);
 
+        final Integer ratingBankVegetation = getBankVegetationRating(wbTypeId, stationLength, kaBean, left);
+        final Integer ratingBankStructure = getBankStructureRating(wbTypeId, stationLength, kaBean, left);
+        final Integer ratingBankFitment = getBankFitmentRating(wbTypeId, stationLength, kaBean, left);
+        final Double ratingBankContamination = getBankContaminationRating(wbTypeId, stationLength, kaBean, left);
+        final RatingStruct rating = new RatingStruct();
+
+        // this operation changes the given rating and count values directly
+        overallRating(rating, true, ratingBankStructure, ratingBankVegetation, ratingBankFitment);
+        overallRating(rating, false, ratingBankContamination);
+
+        // set the final values
+        try {
+            kaBean.setProperty(fieldFromCode("PROP_BANK_STRUCTURE_SUM_RATING", "", left), rating.rating);      // NOI18N
+            kaBean.setProperty(fieldFromCode("PROP_BANK_STRUCTURE_SUM_CRIT", "", left), rating.criteriaCount); // NOI18N
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean;                                     // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId       DOCUMENT ME!
+     * @param   stationLength  DOCUMENT ME!
+     * @param   kaBean         DOCUMENT ME!
+     * @param   left           DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getBankContaminationRating(final int wbTypeId,
+            final double stationLength,
+            final CidsBean kaBean,
+            final boolean left) {
+        Double ratingBankContamination = null;
+
+        for (final BankContaminationType type : BankContaminationType.values()) {
+            final Double count = (Double)kaBean.getProperty(fieldFromCode(
+                        "PROP_BANK_CONTAMINATION_", // NOI18N
+                        type.getCode(),
+                        left));
+            if ((count != null) && (count > 0)) {
+                final Double rating = cache.getBankContaminationRating(type.getId(), wbTypeId);
+                if (rating != null) {
+                    if (ratingBankContamination == null) {
+                        ratingBankContamination = 0d;
+                    }
+
+                    ratingBankContamination += rating;
+                }
+            }
+
+            if ((ratingBankContamination != null) && (ratingBankContamination < -2.5)) {
+                ratingBankContamination = -2.5;
+            }
+        }
+
+        return ratingBankContamination;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId  DOCUMENT ME!
+     * @param   kaBean    DOCUMENT ME!
+     * @param   left      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getBankContaminationCount(final int wbTypeId,
+            final CidsBean kaBean,
+            final boolean left) {
+        double bankContamination = 0.0;
+
+        for (final BankContaminationType type : BankContaminationType.values()) {
+            final Double count = (Double)kaBean.getProperty(fieldFromCode(
+                        "PROP_BANK_CONTAMINATION_", // NOI18N
+                        type.getCode(),
+                        left));
+            if ((count != null) && (count > 0)) {
+                bankContamination += count;
+            }
+        }
+
+        return bankContamination;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId       DOCUMENT ME!
+     * @param   stationLength  DOCUMENT ME!
+     * @param   kaBean         DOCUMENT ME!
+     * @param   left           DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getBankFitmentRating(final int wbTypeId,
+            final double stationLength,
+            final CidsBean kaBean,
+            final boolean left) {
         final CidsBean bankFitmentBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_BANK_FITMENT", "", left));    // NOI18N
         final CidsBean zBankFitmentBean = (CidsBean)kaBean.getProperty(fieldFromCode("PROP_Z_BANK_FITMENT", "", left)); // NOI18N
+
+        return cache.getBankFitmentRating(bankFitmentBean.getMetaObject().getId(),
+                zBankFitmentBean.getMetaObject().getId(),
+                wbTypeId);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId       DOCUMENT ME!
+     * @param   stationLength  DOCUMENT ME!
+     * @param   kaBean         DOCUMENT ME!
+     * @param   left           DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getBankVegetationRating(final int wbTypeId,
+            final double stationLength,
+            final CidsBean kaBean,
+            final boolean left) {
         final CidsBean bankVegetationBean = (CidsBean)kaBean.getProperty(fieldFromCode(
-                    "PROP_BANK_VEGETATION",                                                                             // NOI18N
-                    "",                                                                                                 // NOI18N
+                    "PROP_BANK_VEGETATION", // NOI18N
+                    "", // NOI18N
                     left));
         final Boolean typical = (Boolean)kaBean.getProperty(fieldFromCode(
-                    "PROP_BANK_VEGETATION_TYPICAL",                                                                     // NOI18N
-                    "",                                                                                                 // NOI18N
+                    "PROP_BANK_VEGETATION_TYPICAL", // NOI18N
+                    "", // NOI18N
                     left));
         final boolean bankVegetationTypical = (typical == null) ? false : typical;
 
+        return cache.getBankVegetationRating(bankVegetationBean.getMetaObject().getId(),
+                bankVegetationTypical,
+                wbTypeId);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   wbTypeId       DOCUMENT ME!
+     * @param   stationLength  DOCUMENT ME!
+     * @param   kaBean         DOCUMENT ME!
+     * @param   left           DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getBankStructureRating(final int wbTypeId,
+            final double stationLength,
+            final CidsBean kaBean,
+            final boolean left) {
         final Integer ratingBankStructure;
+        final Double bankStructureSectionLength = cache.getBankStructureSectionLength(wbTypeId);
+
         if ((stationLength > 0) && (bankStructureSectionLength != null)) {
             double bankStructureCount = 0;
             for (final BankStructureType type : BankStructureType.values()) {
@@ -885,51 +1144,7 @@ public final class Calc {
             ratingBankStructure = null;
         }
 
-        final Integer ratingBankVegetation = cache.getBankVegetationRating(bankVegetationBean.getMetaObject().getId(),
-                bankVegetationTypical,
-                wbTypeId);
-        final Integer ratingBankFitment = cache.getBankFitmentRating(bankFitmentBean.getMetaObject().getId(),
-                zBankFitmentBean.getMetaObject().getId(),
-                wbTypeId);
-
-        Double ratingBankContamination = null;
-        for (final BankContaminationType type : BankContaminationType.values()) {
-            final Double count = (Double)kaBean.getProperty(fieldFromCode(
-                        "PROP_BANK_CONTAMINATION_", // NOI18N
-                        type.getCode(),
-                        left));
-            if ((count != null) && (count > 0)) {
-                final Double rating = cache.getBankContaminationRating(type.getId(), wbTypeId);
-                if (rating != null) {
-                    if (ratingBankContamination == null) {
-                        ratingBankContamination = 0d;
-                    }
-
-                    ratingBankContamination += rating;
-                }
-            }
-
-            if ((ratingBankContamination != null) && (ratingBankContamination < -2.5)) {
-                ratingBankContamination = -2.5;
-            }
-        }
-
-        final RatingStruct rating = new RatingStruct();
-
-        // this operation changes the given rating and count values directly
-        overallRating(rating, true, ratingBankStructure, ratingBankVegetation, ratingBankFitment);
-        overallRating(rating, false, ratingBankContamination);
-
-        // set the final values
-        try {
-            kaBean.setProperty(fieldFromCode("PROP_BANK_STRUCTURE_SUM_RATING", "", left), rating.rating);      // NOI18N
-            kaBean.setProperty(fieldFromCode("PROP_BANK_STRUCTURE_SUM_CRIT", "", left), rating.criteriaCount); // NOI18N
-        } catch (final Exception e) {
-            final String message = "cannot update bean values: " + kaBean;                                     // NOI18N
-            LOG.error(message, e);
-
-            throw new IllegalStateException(message, e);
-        }
+        return ratingBankStructure;
     }
 
     /**
@@ -966,22 +1181,27 @@ public final class Calc {
         final double ratingBedStructure = (Double)kaBean.getProperty(PROP_BED_STRUCTURE_SUM_RATING);
         final int critCountBedStructure = (Integer)kaBean.getProperty(PROP_BED_STRUCTURE_SUM_CRIT);
 
+        final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
+        if (wbTypeBean == null) {
+            throw new IllegalStateException("kartierabschnitt bean without wb type");
+        }
+        final Integer wbType = (Integer)wbTypeBean.getProperty(PROP_VALUE);
+        if (wbType == null) {
+            throw new IllegalStateException("kartierabschnitt bean with illegal wb type");
+        }
+
         // they are allowed to be 0 if their wb type is 23
         if ((ratingLongProfile == 0) || (critCountLongProfile == 0)) {
-            final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
-            if (wbTypeBean == null) {
-                throw new IllegalStateException("kartierabschnitt bean without wb type");
-            } else {
-                final Integer value = (Integer)wbTypeBean.getProperty(PROP_VALUE);
-                if ((value == null) || (value != 23)) {
-                    throw new ValidationException(
-                        "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
-                }
+            if (wbType != 23) {
+                throw new ValidationException(
+                    "the longprofile rating or criteria count is 0 but the wb type is not 23"); // NOI18N
             }
         }
 
-        final double ratingBed = (ratingCourseEvo + ratingLongProfile + ratingBedStructure)
-                    / (critCountCourseEvo + critCountLongProfile + critCountBedStructure);
+        // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
+        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure)
+                        / (critCountCourseEvo + critCountLongProfile + critCountBedStructure),
+                5.0);
 
         final double ratingCrossProfile = (Double)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_RATING);
         final int critCountCrossProfile = (Integer)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_CRIT);
@@ -992,12 +1212,16 @@ public final class Calc {
         final double ratingBankStructureRi = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
-        final double ratingBank = (ratingCrossProfile + ratingBankStructure)
-                    / (critCountCrossProfile + critCountBankStructure);
-        final double ratingBankLe = (ratingCrossProfile + ratingBankStructureLe)
-                    / (critCountCrossProfile + critCountBankStructureLe);
-        final double ratingBankRi = (ratingCrossProfile + ratingBankStructureRi)
-                    / (critCountCrossProfile + critCountBankStructureRi);
+        // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
+        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure)
+                        / (critCountCrossProfile + critCountBankStructure),
+                5.0);
+        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe)
+                        / (critCountCrossProfile + critCountBankStructureLe),
+                5.0);
+        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi)
+                        / (critCountCrossProfile + critCountBankStructureRi),
+                5.0);
 
         final double ratingWBEnv = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING);
         final double ratingWBEnvLe = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_LE);
@@ -1006,11 +1230,16 @@ public final class Calc {
         final int critCountWBEnvLe = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_LE);
         final int critCountWBEnvRi = (Integer)kaBean.getProperty(PROP_WB_ENV_SUM_CRIT_RI);
 
-        final double ratingEnv = ratingWBEnv / critCountWBEnv;
-        final double ratingEnvLe = ratingWBEnvLe / critCountWBEnvLe;
-        final double ratingEnvRi = ratingWBEnvRi / critCountWBEnvRi;
+        final double ratingEnv = Math.min(ratingWBEnv / critCountWBEnv, 5.0);
+        final double ratingEnvLe = Math.min(ratingWBEnvLe / critCountWBEnvLe, 5.0);
+        final double ratingEnvRi = Math.min(ratingWBEnvRi / critCountWBEnvRi, 5.0);
 
-        final double ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
+        final double ratingOverall;
+        if (wbType == 23) {
+            ratingOverall = (ratingBed + (2 * ratingBank) + (2 * ratingEnv)) / 5.0d;
+        } else {
+            ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
+        }
 
         // set the final values
         try {
@@ -1035,11 +1264,59 @@ public final class Calc {
      *
      * @param   kaBean  DOCUMENT ME!
      *
+     * @throws  IllegalStateException  DOCUMENT ME!
+     */
+    public void removeAllRatings(final CidsBean kaBean) {
+        try {
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_CRIT, null);
+
+            kaBean.setProperty(PROP_LONG_PROFILE_SUM_RATING, null);
+            kaBean.setProperty(PROP_LONG_PROFILE_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_FLOW_DIV_RATING, null);
+            kaBean.setProperty(PROP_SIM_CROSS_BENCH_COUNT_RATING, null);
+
+            kaBean.setProperty(PROP_COURSE_EVO_SUM_RATING, null);
+            kaBean.setProperty(PROP_COURSE_EVO_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_LONG_BENCH_COUNT_RATING, null);
+
+            kaBean.setProperty(PROP_CROSS_PROFILE_SUM_RATING, null);
+            kaBean.setProperty(PROP_CROSS_PROFILE_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_BREADTH_VARIANCE_RATING, null);
+
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_RATING, null);
+            kaBean.setProperty(PROP_BED_STRUCTURE_SUM_CRIT, null);
+            kaBean.setProperty(PROP_SIM_BED_STRUCTURE_COUNT_RATING, null);
+
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT, null);
+
+            kaBean.setProperty(PROP_WB_BED_RATING, null);
+            kaBean.setProperty(PROP_WB_BANK_RATING, null);
+            kaBean.setProperty(PROP_WB_BANK_RATING_LE, null);
+            kaBean.setProperty(PROP_WB_BANK_RATING_RI, null);
+            kaBean.setProperty(PROP_WB_ENV_RATING, null);
+            kaBean.setProperty(PROP_WB_ENV_RATING_LE, null);
+            kaBean.setProperty(PROP_WB_ENV_RATING_RI, null);
+            kaBean.setProperty(PROP_WB_OVERALL_RATING, null);
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean; // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      *
      * @throws  IllegalStateException  DOCUMENT ME!
      */
-    private double getStationLength(final CidsBean kaBean) {
+    public static double getStationLength(final CidsBean kaBean) {
         try {
             final CidsBean stationBean = (CidsBean)kaBean.getProperty(PROP_LINE);
             final CidsBean toBean = (CidsBean)stationBean.getProperty(PROP_TO);
@@ -1062,7 +1339,7 @@ public final class Calc {
      *
      * @return  DOCUMENT ME!
      */
-    private int round(final double d) {
+    public static int round(final double d) {
         // mathematical rounding
         return (int)Math.floor(d + 0.5);
             // fgsk original rounding
@@ -1077,7 +1354,7 @@ public final class Calc {
      *
      * @return  DOCUMENT ME!
      */
-    private static double round(final double d, final int scale) {
+    public static double round(final double d, final int scale) {
         final long factor = Math.round(Math.pow(10, scale));
 
         final double rounded = Math.floor((d * factor) + 0.5d);
@@ -1092,7 +1369,7 @@ public final class Calc {
      * @param  count           whether the given ratings influence the criteria count
      * @param  criteraRatings  the ratings that are subject to influence the overall rating
      */
-    private void overallRating(final RatingStruct rs, final boolean count, final Number... criteraRatings) {
+    public static void overallRating(final RatingStruct rs, final boolean count, final Number... criteraRatings) {
         for (final Number rating : criteraRatings) {
             if (rating != null) {
                 rs.rating += rating.doubleValue();
@@ -1111,7 +1388,7 @@ public final class Calc {
      *
      * @return  DOCUMENT ME!
      */
-    private double correctBadEnvRating(final double badEnvRating, final int wbTypeId) {
+    public static double correctBadEnvRating(final double badEnvRating, final int wbTypeId) {
         // obey the given max malus defined by the scheme
         if (((wbTypeId == 11) || (wbTypeId == 12)) && (badEnvRating < -1)) {
             return -1;
@@ -1130,7 +1407,7 @@ public final class Calc {
      *
      * @return  DOCUMENT ME!
      */
-    private String fieldFromCode(final String prefix, final String code) {
+    public static String fieldFromCode(final String prefix, final String code) {
         return fieldFromCode(prefix, code, null);
     }
 
@@ -1145,10 +1422,10 @@ public final class Calc {
      *
      * @throws  IllegalStateException  DOCUMENT ME!
      */
-    private String fieldFromCode(final String prefix, final String code, final Boolean left) {
+    public static String fieldFromCode(final String prefix, final String code, final Boolean left) {
         final Field f;
         try {
-            f = getClass().getField(prefix + code.toUpperCase()
+            f = Calc.class.getField(prefix + code.toUpperCase()
                             + ((left == null) ? "" // NOI18N
                                               : ("_" + (left ? "LE" : "RI")))); // NOI18N
 
@@ -1264,12 +1541,12 @@ public final class Calc {
      *
      * @version  $Revision$, $Date$
      */
-    private static final class RatingStruct {
+    public static final class RatingStruct {
 
         //~ Instance fields ----------------------------------------------------
 
-        private double rating = 0d;
-        private int criteriaCount = 0;
+        public double rating = 0d;
+        public int criteriaCount = 0;
     }
 
     /**

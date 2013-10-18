@@ -229,6 +229,13 @@ public final class CompleteFgskCalc {
                 if (FgskKartierabschnittEditor.isException(mo.getBean())) {
                     ++exceptionCounter;
                     exceptionIds.add(idCids);
+                    try {
+                        Calc.getInstance().removeAllRatings(mo.getBean());
+                    } catch (final IllegalStateException ex) {
+                        System.err.println("cannot remove all ratings"); // NOI18N
+                        ex.printStackTrace();
+                    }
+                    saveBean(mo.getBean());
                     continue;
                 }
                 final Boolean vork = (Boolean)mo.getBean().getProperty("vorkatierung");
@@ -244,15 +251,7 @@ public final class CompleteFgskCalc {
                     noCalcIds.add(idCids);
                 }
 
-                try {
-                    mo.getBean().persist();
-                } catch (final Exception e) {
-                    System.out.println();
-                    System.out.println("COULD NOT STORE RATING DATA FOR BEAN: " + mo.getId());
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
-                    System.out.println();
-                }
+                saveBean(mo.getBean());
 
                 System.out.println();
                 System.out.println("---------------------------------------------------------------------------------");
@@ -294,6 +293,23 @@ public final class CompleteFgskCalc {
         System.out.println("=================================================================================");
 
         printIds();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bean  DOCUMENT ME!
+     */
+    private void saveBean(final CidsBean bean) {
+        try {
+            bean.persist();
+        } catch (final Exception e) {
+            System.out.println();
+            System.out.println("COULD NOT STORE RATING DATA FOR BEAN: " + bean.getProperty("id"));
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            System.out.println();
+        }
     }
 
     /**

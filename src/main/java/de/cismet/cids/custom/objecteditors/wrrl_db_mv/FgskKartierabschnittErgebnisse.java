@@ -23,6 +23,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.RoundedNumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -1544,12 +1545,28 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
      * @return  DOCUMENT ME!
      */
     private String getRatingString(final Object rating, final Object critCountO) {
+        return getRatingString(rating, critCountO, null);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   rating      DOCUMENT ME!
+     * @param   critCountO  DOCUMENT ME!
+     * @param   bonus       DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getRatingString(final Object rating, final Object critCountO, final Object bonus) {
         if (rating instanceof Double) {
             final StringBuilder sb = new StringBuilder();
             sb.append(rating);
 
             if (critCountO instanceof Integer) {
-                final double maxPoints = ((Integer)critCountO) * 5;
+                double maxPoints = ((Integer)critCountO) * 5;
+                if (bonus instanceof Number) {
+                    maxPoints += ((Number)bonus).doubleValue();
+                }
 
                 sb.append(" / ").append(maxPoints); // NOI18N
             }
@@ -1575,20 +1592,10 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         final Double p = (Double)cidsBean.getProperty("punktzahl_gesamt");
         final CidsBean exception = (CidsBean)cidsBean.getProperty(Calc.PROP_EXCEPTION);
 
-        if ((exception != null) && !Integer.valueOf(0).equals(exception.getProperty(Calc.PROP_VALUE))) {
+        if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
             gueteklasse = "5";
         } else if ((p != null) && (p > 0.0)) {
-            if (p <= 1.5) {
-                gueteklasse = "5";
-            } else if (p <= 2.5) {
-                gueteklasse = "4";
-            } else if (p <= 3.5) {
-                gueteklasse = "3";
-            } else if (p <= 4.5) {
-                gueteklasse = "2";
-            } else if (p > 4.5) {
-                gueteklasse = "1";
-            }
+            gueteklasse = String.valueOf(CalcCache.getQualityClass(p));
         }
 
         txtGueteklasse.setText(gueteklasse);
@@ -1610,8 +1617,10 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
             final Object value = evt.getNewValue();
             if (value instanceof Integer) {
                 if (Calc.PROP_COURSE_EVO_SUM_CRIT.equals(evt.getPropertyName())) {
+                    // NOTE: this is not especially good design, you have to know that bonuses may be applied
                     final String ratingString = getRatingString(cidsBean.getProperty(Calc.PROP_COURSE_EVO_SUM_RATING),
-                            value);
+                            value,
+                            2.0);
 
                     assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
 
@@ -1624,9 +1633,11 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
 
                     txtLongProfileRating.setText(ratingString);
                 } else if (Calc.PROP_BED_STRUCTURE_SUM_CRIT.equals(evt.getPropertyName())) {
+                    // NOTE: this is not especially good design, you have to know that bonuses may be applied
                     final String ratingString = getRatingString(cidsBean.getProperty(
                                 Calc.PROP_BED_STRUCTURE_SUM_RATING),
-                            value);
+                            value,
+                            2.0);
 
                     assert ratingString != null : "illegal bind: rating string is null"; // NOI18N
 
