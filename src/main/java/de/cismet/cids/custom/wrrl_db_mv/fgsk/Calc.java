@@ -818,8 +818,9 @@ public final class Calc {
         overallRating(rating, false, ratingBedContamination, ratingBedStructure);
 
         double finalRating = rating.rating;
-        // rating correction according to Kuechler, not present in original implementation
-        if (finalRating < 1) {
+        // NOTE: rating correction according to Kuechler, not present in original implementation
+        // NOTE: new desired behaviour according to github/lung-mv #78
+        if ((finalRating < 1) && (rating.criteriaCount > 0)) {
             finalRating = 1;
         }
 
