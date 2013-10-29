@@ -113,7 +113,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
             try {
                 p = editor.calc(cidsBean, massnahmen, false);
             } catch (Exception e) {
-                p = (Double)cidsBean.getProperty("punktzahl_gesamt");
+                LOG.warn("FGSK calculation error", e);
             }
 
             final CidsBean exception = (CidsBean)cidsBean.getProperty(Calc.PROP_EXCEPTION);
