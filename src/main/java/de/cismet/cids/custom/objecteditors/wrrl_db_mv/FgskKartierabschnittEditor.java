@@ -205,6 +205,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         }
 
         fillFooter();
+
+        // ensure no wrong values will remain if there are rating errors due to changes
+        Calc.getInstance().removeAllRatings(this.cidsBean);
     }
 
     /**
@@ -815,6 +818,31 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                         JOptionPane.INFORMATION_MESSAGE);
 
                     return;
+                }
+
+                // NOTE: we run the separated topic ratings before the overall rating because this is the required input
+                // to this. However, we do not care about errors as the overall rating error handling will take care of
+                // this as well. This has to be kept in mind when changing the calculation procedure.
+                try {
+                    Calc.getInstance().calcBedRating(cidsBean);
+                } catch (final ValidationException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate bed rating", e);
+                    }
+                }
+                try {
+                    Calc.getInstance().calcBankRating(cidsBean);
+                } catch (final ValidationException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate bank rating", e);
+                    }
+                }
+                try {
+                    Calc.getInstance().calcEnvRating(cidsBean);
+                } catch (final ValidationException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate env rating", e);
+                    }
                 }
 
                 try {
