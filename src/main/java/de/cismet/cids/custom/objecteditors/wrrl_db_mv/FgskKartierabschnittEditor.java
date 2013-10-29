@@ -203,8 +203,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                 }).start();
             this.cidsBean.addPropertyChangeListener(WeakListeners.propertyChange(excL, cidsBean));
         }
-
+        
         fillFooter();
+        
+        // ensure no wrong values will remain if there are rating errors due to changes
+        Calc.getInstance().removeAllRatings(this.cidsBean);
     }
 
     /**
