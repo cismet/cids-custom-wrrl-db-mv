@@ -108,7 +108,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         Integer cl = null;
 
         if (cidsBean != null) {
-            Double p;
+            Double p = null;
 
             try {
                 p = editor.calc(cidsBean, massnahmen, false);
