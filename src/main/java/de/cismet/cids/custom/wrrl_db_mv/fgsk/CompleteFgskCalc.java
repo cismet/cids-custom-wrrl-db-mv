@@ -225,16 +225,16 @@ public final class CompleteFgskCalc {
                 System.out.println();
                 System.out.println("Kartierabschnitt: " + cidsCounter + " mit id " + idCids);
                 System.out.println();
+                try {
+                    Calc.getInstance().removeAllRatings(mo.getBean());
+                } catch (final IllegalStateException ex) {
+                    System.err.println("cannot remove all ratings"); // NOI18N
+                    ex.printStackTrace();
+                }
 
                 if (FgskKartierabschnittEditor.isException(mo.getBean())) {
                     ++exceptionCounter;
                     exceptionIds.add(idCids);
-                    try {
-                        Calc.getInstance().removeAllRatings(mo.getBean());
-                    } catch (final IllegalStateException ex) {
-                        System.err.println("cannot remove all ratings"); // NOI18N
-                        ex.printStackTrace();
-                    }
                     saveBean(mo.getBean());
                     continue;
                 }
@@ -243,6 +243,7 @@ public final class CompleteFgskCalc {
                 if ((vork != null) && vork.booleanValue()) {
                     ++vorkCounter;
                     vorkartIds.add(idCids);
+                    saveBean(mo.getBean());
                     continue;
                 }
 
