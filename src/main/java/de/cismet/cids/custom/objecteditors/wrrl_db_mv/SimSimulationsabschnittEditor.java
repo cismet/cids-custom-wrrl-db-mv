@@ -1717,6 +1717,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         dummyBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT_LE, wbEnvSumRatingLeft.criteriaCount);
         dummyBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT_RI, wbEnvSumRatingRight.criteriaCount);
 
+        Calc.getInstance().calcEnvRating(dummyBean);
+        Calc.getInstance().calcBankRating(dummyBean);
+        Calc.getInstance().calcBedRating(dummyBean);
         Calc.getInstance().calcOverallRating(dummyBean);
         // end overall rating calculation
 
