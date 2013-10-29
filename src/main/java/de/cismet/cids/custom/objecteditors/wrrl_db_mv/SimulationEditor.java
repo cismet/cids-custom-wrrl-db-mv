@@ -457,10 +457,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
                                     for (final MetaObject fgsk : fgsks) {
                                         if (fgsk.getBean().getProperty("linie.von.route.id").equals(rid)
-                                                    && ((Double)fgsk.getBean().getProperty(
-                                                            "linie.von.wert") >= from)
-                                                    && ((Double)fgsk.getBean().getProperty(
-                                                            "linie.bis.wert") <= till)) {
+                                                    && (((Double)fgsk.getBean().getProperty(
+                                                                "linie.bis.wert") - 1) >= from)
+                                                    && (((Double)fgsk.getBean().getProperty(
+                                                                "linie.von.wert") + 1) <= till)) {
                                             fgskList.add(fgsk.getBean());
                                             massnahmenMap.put(
                                                 fgsk.getBean(),
@@ -525,20 +525,25 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         double lengthFgsk = 0.0;
 
         for (final MetaObject fgsk : fgsks) {
+            double length = 0;
+            int cl = 0;
             try {
-                final double length = Calc.getStationLength(fgsk.getBean());
+                length = Calc.getStationLength(fgsk.getBean());
                 final Double p = simulationsEditor.calc(fgsk.getBean(), getMassnahmenForFgsk(fgsk.getBean()), false);
-                final int cl = SimSimulationsabschnittEditor.getGueteklasse(fgsk.getBean(), p);
-                lengthFgsk += length;
-
-                if (cl > 0) {
-                    classInMeter[cl - 1] += length;
-                } else {
-                    // Sonderfall: sonstige
-                    classInMeter[5] += length;
-                }
+                cl = SimSimulationsabschnittEditor.getGueteklasse(fgsk.getBean(), p);
             } catch (final Exception e) {
                 LOG.error("Error while calculating class", e);
+                lengthFgsk += length;
+                classInMeter[5] += length;
+                continue;
+            }
+            lengthFgsk += length;
+
+            if (cl > 0) {
+                classInMeter[cl - 1] += length;
+            } else {
+                // Sonderfall: sonstige
+                classInMeter[5] += length;
             }
         }
 
