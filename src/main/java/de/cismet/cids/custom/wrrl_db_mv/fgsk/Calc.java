@@ -34,7 +34,7 @@ public final class Calc {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String PROP_BED_SUBSTRATE_PREFIX = "PROP_BED_SUBSTRATE_";
+    public static final String PROP_BED_SUBSTRATE_PREFIX = "PROP_BED_SUBSTRATE_";                         // NOI18N
     public static final String PROP_LAND_USE_RI = "flaechennutzung_rechts_id";                            // NOI18N
     public static final String PROP_LAND_USE_LE = "flaechennutzung_links_id";                             // NOI18N
     public static final String PROP_LINE = "linie";                                                       // NOI18N
@@ -310,7 +310,10 @@ public final class Calc {
         // this operation changes the given rating and count values directly
         final RatingStruct rating = new RatingStruct();
         overallRating(rating, true, ratingWBTriming, ratingLandUse);
-        overallRating(rating, false, badEnvRating);
+        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
+        if (rating.criteriaCount > 0) {
+            overallRating(rating, false, badEnvRating);
+        }
 
         // set the final values
         try {
@@ -569,7 +572,10 @@ public final class Calc {
 
         // this operation changes the given rating and count values directly
         overallRating(rating, true, ratingCourseLoop, ratingLoopErosion, ratingCourseStructure);
-        overallRating(rating, false, ratingLongBench);
+        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
+        if (rating.criteriaCount > 0) {
+            overallRating(rating, false, ratingLongBench);
+        }
 
         // set the final values
         try {
@@ -815,7 +821,10 @@ public final class Calc {
 
         // this operation changes the given rating and count values directly
         overallRating(rating, true, ratingSubstrates, ratingBedFitment);
-        overallRating(rating, false, ratingBedContamination, ratingBedStructure);
+        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
+        if (rating.criteriaCount > 0) {
+            overallRating(rating, false, ratingBedContamination, ratingBedStructure);
+        }
 
         double finalRating = rating.rating;
         // NOTE: rating correction according to Kuechler, not present in original implementation
@@ -968,7 +977,10 @@ public final class Calc {
 
         // this operation changes the given rating and count values directly
         overallRating(rating, true, ratingBankStructure, ratingBankVegetation, ratingBankFitment);
-        overallRating(rating, false, ratingBankContamination);
+        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
+        if (rating.criteriaCount > 0) {
+            overallRating(rating, false, ratingBankContamination);
+        }
 
         // set the final values
         try {
@@ -1212,14 +1224,15 @@ public final class Calc {
         }
 
         if (
-            !propsNotNullOrZero(
+            !propsNotNull(
                         kaBean,
                         PROP_COURSE_EVO_SUM_RATING,
                         PROP_COURSE_EVO_SUM_CRIT,
                         PROP_BED_STRUCTURE_SUM_RATING,
-                        PROP_BED_STRUCTURE_SUM_CRIT)
-                    || !propsNotNull(kaBean, PROP_LONG_PROFILE_SUM_RATING, PROP_LONG_PROFILE_SUM_CRIT)) {
-            throw new ValidationException("the waterbody rating properties contain null or zero values"); // NOI18N
+                        PROP_BED_STRUCTURE_SUM_CRIT,
+                        PROP_LONG_PROFILE_SUM_RATING,
+                        PROP_LONG_PROFILE_SUM_CRIT)) {
+            throw new ValidationException("the bed rating properties contain null values"); // NOI18N
         }
 
         final double ratingCourseEvo = (Double)kaBean.getProperty(PROP_COURSE_EVO_SUM_RATING);
@@ -1246,9 +1259,14 @@ public final class Calc {
             }
         }
 
+        // NOTE: rating is now possible if at least one criteria is available (lung-mv #78)
+        final int critCount = critCountCourseEvo + critCountLongProfile + critCountBedStructure;
+        if (critCount <= 0) {
+            throw new ValidationException("the bed rating does not contain at least one criteria"); // NOI18N
+        }
+
         // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
-        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure)
-                        / (critCountCourseEvo + critCountLongProfile + critCountBedStructure),
+        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure) / (critCount),
                 5.0);
 
         // set the final values
@@ -1275,7 +1293,7 @@ public final class Calc {
         }
 
         if (
-            !propsNotNullOrZero(
+            !propsNotNull(
                         kaBean,
                         PROP_CROSS_PROFILE_SUM_RATING,
                         PROP_CROSS_PROFILE_SUM_CRIT,
@@ -1284,8 +1302,7 @@ public final class Calc {
                         PROP_BANK_STRUCTURE_SUM_RATING_LE,
                         PROP_BANK_STRUCTURE_SUM_CRIT_LE,
                         PROP_BANK_STRUCTURE_SUM_RATING_RI,
-                        PROP_BANK_STRUCTURE_SUM_CRIT_RI)
-                    || !propsNotNull(kaBean, PROP_LONG_PROFILE_SUM_RATING, PROP_LONG_PROFILE_SUM_CRIT)) {
+                        PROP_BANK_STRUCTURE_SUM_CRIT_RI)) {
             throw new ValidationException("the bank rating properties contain null or zero values"); // NOI18N
         }
 
@@ -1298,16 +1315,19 @@ public final class Calc {
         final double ratingBankStructureRi = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
+        final int critCount = critCountCrossProfile + critCountBankStructure;
+        final int critCountLe = critCountCrossProfile + critCountBankStructureLe;
+        final int critCountRi = critCountCrossProfile + critCountBankStructureRi;
+
+        // NOTE: rating is now possible if at least one criteria is available (lung-mv #78)
+        if ((critCount <= 0) || (critCountLe <= 0) || (critCountRi <= 0)) {
+            throw new ValidationException("the bank rating does not contain at least one criteria"); // NOI18N
+        }
+
         // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
-        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure)
-                        / (critCountCrossProfile + critCountBankStructure),
-                5.0);
-        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe)
-                        / (critCountCrossProfile + critCountBankStructureLe),
-                5.0);
-        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi)
-                        / (critCountCrossProfile + critCountBankStructureRi),
-                5.0);
+        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure) / (critCount), 5.0);
+        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe) / (critCountLe), 5.0);
+        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi) / (critCountRi), 5.0);
 
         try {
             kaBean.setProperty(PROP_WB_BANK_RATING, ratingBank);
