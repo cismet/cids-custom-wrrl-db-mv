@@ -310,10 +310,7 @@ public final class Calc {
         // this operation changes the given rating and count values directly
         final RatingStruct rating = new RatingStruct();
         overallRating(rating, true, ratingWBTriming, ratingLandUse);
-        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
-        if (rating.criteriaCount > 0) {
-            overallRating(rating, false, badEnvRating);
-        }
+        overallRating(rating, false, badEnvRating);
 
         // set the final values
         try {
@@ -572,10 +569,7 @@ public final class Calc {
 
         // this operation changes the given rating and count values directly
         overallRating(rating, true, ratingCourseLoop, ratingLoopErosion, ratingCourseStructure);
-        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
-        if (rating.criteriaCount > 0) {
-            overallRating(rating, false, ratingLongBench);
-        }
+        overallRating(rating, false, ratingLongBench);
 
         // set the final values
         try {
@@ -821,10 +815,7 @@ public final class Calc {
 
         // this operation changes the given rating and count values directly
         overallRating(rating, true, ratingSubstrates, ratingBedFitment);
-        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
-        if (rating.criteriaCount > 0) {
-            overallRating(rating, false, ratingBedContamination, ratingBedStructure);
-        }
+        overallRating(rating, false, ratingBedContamination, ratingBedStructure);
 
         double finalRating = rating.rating;
         // NOTE: rating correction according to Kuechler, not present in original implementation
@@ -977,10 +968,7 @@ public final class Calc {
 
         // this operation changes the given rating and count values directly
         overallRating(rating, true, ratingBankStructure, ratingBankVegetation, ratingBankFitment);
-        // bonus / malus only applied if there is any criteria at all (lung-mv #78)
-        if (rating.criteriaCount > 0) {
-            overallRating(rating, false, ratingBankContamination);
-        }
+        overallRating(rating, false, ratingBankContamination);
 
         // set the final values
         try {
