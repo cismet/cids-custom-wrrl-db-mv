@@ -373,6 +373,30 @@ public final class CompleteFgskCalc {
         }
 
         try {
+            Calc.getInstance().calcBedRating(cidsBean);
+        } catch (final ValidationException ex) {
+            System.err.println("cannot calculate bed rating"); // NOI18N
+            ex.printStackTrace();
+            calcError = true;
+        }
+
+        try {
+            Calc.getInstance().calcBankRating(cidsBean);
+        } catch (final ValidationException ex) {
+            System.err.println("cannot calculate bank rating"); // NOI18N
+            ex.printStackTrace();
+            calcError = true;
+        }
+
+        try {
+            Calc.getInstance().calcEnvRating(cidsBean);
+        } catch (final ValidationException ex) {
+            System.err.println("cannot calculate env rating"); // NOI18N
+            ex.printStackTrace();
+            calcError = true;
+        }
+
+        try {
             Calc.getInstance().calcOverallRating(cidsBean);
         } catch (final ValidationException ex) {
             System.err.println("cannot calculate overall rating"); // NOI18N
