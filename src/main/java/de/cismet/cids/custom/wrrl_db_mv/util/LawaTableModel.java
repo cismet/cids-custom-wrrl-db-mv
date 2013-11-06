@@ -43,6 +43,8 @@ public class LawaTableModel extends AbstractTableModel {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    public static final String NO_TYPE = "kein Typ";
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LawaTableModel.class);
 
     //~ Instance fields --------------------------------------------------------
@@ -280,7 +282,7 @@ public class LawaTableModel extends AbstractTableModel {
             lengthTotal += noType.getTotalLength();
             counterTotal += noType.getCount();
         }
-        data[counter][0] = "kein Typ";
+        data[counter][0] = NO_TYPE;
         if (noType != null) {
             data[counter][1] = String.valueOf(round(noType.getTotalLength() * 100 / wkFgTotalLength, 1));
             data[counter][2] = String.valueOf(round(noType.getTotalLength(), 0));
