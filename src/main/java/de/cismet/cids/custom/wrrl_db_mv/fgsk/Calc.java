@@ -1408,6 +1408,15 @@ public final class Calc {
             kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING, null);
             kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT, null);
 
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING_LE, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT_LE, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING_LE, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING_RI, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_CRIT_LE, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_CRIT_RI, null);
+
             kaBean.setProperty(PROP_WB_BED_RATING, null);
             kaBean.setProperty(PROP_WB_BANK_RATING, null);
             kaBean.setProperty(PROP_WB_BANK_RATING_LE, null);
