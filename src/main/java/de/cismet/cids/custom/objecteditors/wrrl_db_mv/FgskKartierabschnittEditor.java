@@ -206,8 +206,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
         fillFooter();
 
-        // ensure no wrong values will remain if there are rating errors due to changes
-        Calc.getInstance().removeAllRatings(this.cidsBean);
+        if (!readOnly) {
+            // ensure no wrong values will remain if there are rating errors due to changes
+            // this should only be done in the editor and not in the renderer
+            Calc.getInstance().removeAllRatings(this.cidsBean);
+        }
     }
 
     /**
