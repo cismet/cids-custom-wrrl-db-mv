@@ -362,16 +362,24 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                     double max = 0.0;
                     int code = -1;
 
-                    for (int i = 0; i < (model.getRowCount() - 2); ++i) {
-                        final String percVal = (String)model.getValueAt(i, 1);
-                        final double val = Double.parseDouble(percVal);
-                        final int codeTmp = Integer.parseInt(((String)model.getValueAt(i, 0)).substring(0, 2));
-
-                        if ((val > max) || ((val == max) && (codeTmp > code))) {
-                            if (((codeTmp != 11) && (codeTmp != 12)) || (val > 50)) {
-                                max = val;
-                                code = codeTmp;
+                    for (int i = 0; i < (model.getRowCount() - 1); ++i) {
+                        try {
+                            if (((String)model.getValueAt(i, 0)).equals(LawaTableModel.NO_TYPE)) {
+                                // no type cannot be the preferred type
+                                continue;
                             }
+                            final String percVal = (String)model.getValueAt(i, 1);
+                            final double val = Double.parseDouble(percVal);
+                            final int codeTmp = Integer.parseInt(((String)model.getValueAt(i, 0)).substring(0, 2));
+
+                            if ((val > max) || ((val == max) && (codeTmp > code))) {
+                                if (((codeTmp != 11) && (codeTmp != 12)) || (val > 50)) {
+                                    max = val;
+                                    code = codeTmp;
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            LOG.warn("Lawa type with invalid number found.", e);
                         }
                     }
 
