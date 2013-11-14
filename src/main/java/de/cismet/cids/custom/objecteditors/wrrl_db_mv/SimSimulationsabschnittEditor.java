@@ -1633,8 +1633,11 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             true,
             ratingCourseLoop,
             ratingLoopErosion,
-            ratingLongBench,
             ratingCourseStructure);
+        Calc.overallRating(
+            courseEvoRating,
+            false,
+            ratingLongBench);
         Calc.overallRating(
             wbCrossProfileRating,
             true,
@@ -1642,14 +1645,16 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             ratingProfileType,
             ratingBreadthErosion,
             ratingBreadthVariance);
-        Calc.overallRating(
-            finalBedStructureRating,
-            true,
-            substrateDiversityRating,
-            bedStructureRating,
-            ratingBedFitment);
-
-        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination);
+        Calc.overallRating(finalBedStructureRating, true, substrateDiversityRating, ratingBedFitment);
+        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination, bedStructureRating);
+//        Calc.overallRating(
+//            finalBedStructureRating,
+//            true,
+//            substrateDiversityRating,
+//            bedStructureRating,
+//            ratingBedFitment);
+//
+//        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination, bedStructureRating);
 
         Calc.overallRating(
             bankStructureRatingLeft,
@@ -1671,7 +1676,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         Calc.overallRating(wbEnvSumRatingLeft, false, ratingBadEnvLeft);
         double finalRating = finalBedStructureRating.rating;
 
-        if (finalRating < 1) {
+        if ((finalRating < 1) && (finalBedStructureRating.criteriaCount > 0)) {
             finalRating = 1;
         }
 
