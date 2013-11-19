@@ -90,12 +90,12 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
 
     @Override
     public double getMax() {
-        return to;
+        return ((to > from) ? to : from);
     }
 
     @Override
     public double getMin() {
-        return from;
+        return ((to > from) ? from : to);
     }
 
     @Override
