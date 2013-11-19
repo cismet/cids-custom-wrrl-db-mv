@@ -456,11 +456,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                         new HashMap<CidsBean, List<CidsBean>>();
 
                                     for (final MetaObject fgsk : fgsks) {
+                                        Double bis = (Double)fgsk.getBean().getProperty(
+                                                "linie.bis.wert");
+                                        Double von = (Double)fgsk.getBean().getProperty(
+                                                "linie.von.wert");
+                                        if (von.doubleValue() > bis.doubleValue()) {
+                                            final Double tmp = von;
+                                            von = bis;
+                                            bis = tmp;
+                                        }
                                         if (fgsk.getBean().getProperty("linie.von.route.id").equals(rid)
-                                                    && (((Double)fgsk.getBean().getProperty(
-                                                                "linie.bis.wert") - 1) >= from)
-                                                    && (((Double)fgsk.getBean().getProperty(
-                                                                "linie.von.wert") + 1) <= till)) {
+                                                    && ((bis - 1) >= from)
+                                                    && ((von + 1) <= till)) {
                                             fgskList.add(fgsk.getBean());
                                             massnahmenMap.put(
                                                 fgsk.getBean(),
