@@ -1759,9 +1759,21 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             fillLabel(lblFlaechennutzungLiVal, ratingLandUseLeft);
             fillLabelWithPoints(lblSchaedlicheUmfeldstrukturenReVal, badEnvRight);
             fillLabelWithPoints(lblSchaedlicheUmfeldstrukturenLiVal, badEnvLeft);
-            txtFische.setText(String.valueOf(getMassnBonus(massnahmen, "fische", wbTypeId)));
-            txtMkP.setText(String.valueOf(getMassnBonus(massnahmen, "makrophyten", wbTypeId)));
-            txtMzb.setText(String.valueOf(getMassnBonus(massnahmen, "makrozoobenthos", wbTypeId)));
+            int indFische = getMassnBonus(massnahmen, "fische", wbTypeId);
+            int indMp = getMassnBonus(massnahmen, "makrophyten", wbTypeId);
+            int indMzb = getMassnBonus(massnahmen, "makrozoobenthos", wbTypeId);
+            if (indFische > 2) {
+                indFische = 2;
+            }
+            if (indMp > 2) {
+                indMp = 2;
+            }
+            if (indMzb > 2) {
+                indMzb = 2;
+            }
+            txtFische.setText(String.valueOf(indFische));
+            txtMkP.setText(String.valueOf(indMp));
+            txtMzb.setText(String.valueOf(indMzb));
         }
         return (Double)dummyBean.getProperty(Calc.PROP_WB_OVERALL_RATING);
     }
