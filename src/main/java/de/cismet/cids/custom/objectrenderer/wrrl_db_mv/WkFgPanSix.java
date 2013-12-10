@@ -12,6 +12,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -972,8 +973,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            if (e.getFirstIndex() > -1) {
-                final CidsBean sbean = model.getData().get(e.getFirstIndex());
+            if (jtMstTab1.getSelectedRow() > -1) {
+                final CidsBean sbean = model.getData().get(jtMstTab1.getSelectedRow());
                 setField(sbean, lblGkPcMst, "gk_pc_mst");
                 setField(sbean, lblBemerkungPc, "bemerkung_pc");
                 setField(sbean, lblJahr, "messjahr");
