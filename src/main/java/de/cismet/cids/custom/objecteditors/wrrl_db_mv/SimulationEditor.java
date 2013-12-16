@@ -857,16 +857,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass1.setMinimumSize(new java.awt.Dimension(0, 28));
         panClass1.setPreferredSize(new java.awt.Dimension(0, 28));
 
-        javax.swing.GroupLayout panClass1Layout = new javax.swing.GroupLayout(panClass1);
+        final javax.swing.GroupLayout panClass1Layout = new javax.swing.GroupLayout(panClass1);
         panClass1.setLayout(panClass1Layout);
         panClass1Layout.setHorizontalGroup(
-            panClass1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            panClass1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
         panClass1Layout.setVerticalGroup(
-            panClass1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 28, Short.MAX_VALUE)
-        );
+            panClass1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                28,
+                Short.MAX_VALUE));
 
         panMorphometer.add(panClass1);
         panClass1.setBounds(1, 1, 0, 28);
@@ -874,16 +876,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass2.setMinimumSize(new java.awt.Dimension(0, 26));
         panClass2.setPreferredSize(new java.awt.Dimension(0, 26));
 
-        javax.swing.GroupLayout panClass2Layout = new javax.swing.GroupLayout(panClass2);
+        final javax.swing.GroupLayout panClass2Layout = new javax.swing.GroupLayout(panClass2);
         panClass2.setLayout(panClass2Layout);
         panClass2Layout.setHorizontalGroup(
-            panClass2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            panClass2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
         panClass2Layout.setVerticalGroup(
-            panClass2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
+            panClass2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                26,
+                Short.MAX_VALUE));
 
         panMorphometer.add(panClass2);
         panClass2.setBounds(12, 1, 0, 26);
@@ -891,16 +895,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass3.setMinimumSize(new java.awt.Dimension(0, 26));
         panClass3.setPreferredSize(new java.awt.Dimension(0, 26));
 
-        javax.swing.GroupLayout panClass3Layout = new javax.swing.GroupLayout(panClass3);
+        final javax.swing.GroupLayout panClass3Layout = new javax.swing.GroupLayout(panClass3);
         panClass3.setLayout(panClass3Layout);
         panClass3Layout.setHorizontalGroup(
-            panClass3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            panClass3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
         panClass3Layout.setVerticalGroup(
-            panClass3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
+            panClass3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                26,
+                Short.MAX_VALUE));
 
         panMorphometer.add(panClass3);
         panClass3.setBounds(12, 1, 0, 26);
@@ -908,16 +914,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass4.setMinimumSize(new java.awt.Dimension(0, 26));
         panClass4.setPreferredSize(new java.awt.Dimension(0, 26));
 
-        javax.swing.GroupLayout panClass4Layout = new javax.swing.GroupLayout(panClass4);
+        final javax.swing.GroupLayout panClass4Layout = new javax.swing.GroupLayout(panClass4);
         panClass4.setLayout(panClass4Layout);
         panClass4Layout.setHorizontalGroup(
-            panClass4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            panClass4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
         panClass4Layout.setVerticalGroup(
-            panClass4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
+            panClass4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                26,
+                Short.MAX_VALUE));
 
         panMorphometer.add(panClass4);
         panClass4.setBounds(12, 1, 0, 26);
@@ -925,32 +933,36 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass5.setMinimumSize(new java.awt.Dimension(0, 26));
         panClass5.setPreferredSize(new java.awt.Dimension(0, 26));
 
-        javax.swing.GroupLayout panClass5Layout = new javax.swing.GroupLayout(panClass5);
+        final javax.swing.GroupLayout panClass5Layout = new javax.swing.GroupLayout(panClass5);
         panClass5.setLayout(panClass5Layout);
         panClass5Layout.setHorizontalGroup(
-            panClass5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            panClass5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
         panClass5Layout.setVerticalGroup(
-            panClass5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
+            panClass5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                26,
+                Short.MAX_VALUE));
 
         panMorphometer.add(panClass5);
         panClass5.setBounds(12, 1, 0, 26);
 
         panClass6.setMinimumSize(new java.awt.Dimension(0, 26));
 
-        javax.swing.GroupLayout panClass6Layout = new javax.swing.GroupLayout(panClass6);
+        final javax.swing.GroupLayout panClass6Layout = new javax.swing.GroupLayout(panClass6);
         panClass6.setLayout(panClass6Layout);
         panClass6Layout.setHorizontalGroup(
-            panClass6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+            panClass6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
         panClass6Layout.setVerticalGroup(
-            panClass6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
-        );
+            panClass6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                26,
+                Short.MAX_VALUE));
 
         panMorphometer.add(panClass6);
         panClass6.setBounds(12, 1, 0, 26);
@@ -996,10 +1008,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblTitleName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitleName.setForeground(new java.awt.Color(255, 255, 255));
         lblTitleName.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblTitleNameMouseClicked(evt);
-            }
-        });
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblTitleNameMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1034,7 +1048,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panAllgemein.setOpaque(false);
         panAllgemein.setLayout(new java.awt.GridBagLayout());
 
-        lblName.setText(org.openide.util.NbBundle.getMessage(SimulationEditor.class, "GupGewaesserabschnittAllgemein.lblGewaessername.text")); // NOI18N
+        lblName.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "GupGewaesserabschnittAllgemein.lblGewaessername.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(170, 17));
         lblName.setMinimumSize(new java.awt.Dimension(170, 17));
         lblName.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -1049,10 +1065,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         txtName.setMinimumSize(new java.awt.Dimension(280, 20));
         txtName.setPreferredSize(new java.awt.Dimension(380, 20));
         txtName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    txtNameActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -1061,7 +1079,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 15);
         panAllgemein.add(txtName, gridBagConstraints);
 
-        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(SimulationEditor.class, "GupGewaesserabschnittAllgemein.lblGwk.text")); // NOI18N
+        lblBemerkungen.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "GupGewaesserabschnittAllgemein.lblGwk.text")); // NOI18N
         lblBemerkungen.setMaximumSize(new java.awt.Dimension(170, 17));
         lblBemerkungen.setMinimumSize(new java.awt.Dimension(170, 17));
         lblBemerkungen.setPreferredSize(new java.awt.Dimension(170, 17));
@@ -1088,10 +1108,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         butOK.setText("OK");
         butOK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butOKActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butOKActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -1101,10 +1123,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         butCancel.setText("Abbrechen");
         butCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butCancelActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butCancelActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -1177,10 +1201,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         sldZoom.setMaximum(200);
         sldZoom.setValue(0);
         sldZoom.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sldZoomStateChanged(evt);
-            }
-        });
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    sldZoomStateChanged(evt);
+                }
+            });
         panHeaderInfo.add(sldZoom);
         sldZoom.setBounds(390, 4, 350, 16);
 
@@ -1198,10 +1224,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         rbOekPot.setText("gutes ökologisches Potenzial");
         rbOekPot.setContentAreaFilled(false);
         rbOekPot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbOekPotActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    rbOekPotActionPerformed(evt);
+                }
+            });
         panHeaderInfo.add(rbOekPot);
         rbOekPot.setBounds(770, 0, 240, 24);
 
@@ -1209,10 +1237,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         rbZust.setText("guter Zustand");
         rbZust.setContentAreaFilled(false);
         rbZust.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbZustActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    rbZustActionPerformed(evt);
+                }
+            });
         panHeaderInfo.add(rbZust);
         rbZust.setBounds(770, 20, 230, 24);
 
@@ -1257,90 +1287,92 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         jLabel4.setMinimumSize(new java.awt.Dimension(1050, 1));
         jLabel4.setPreferredSize(new java.awt.Dimension(1050, 1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        final javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1050, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 5, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 5, Short.MAX_VALUE)))
-        );
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1050,
+                Short.MAX_VALUE).addGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                    jPanel3Layout.createSequentialGroup().addGap(0, 5, Short.MAX_VALUE).addComponent(
+                        jLabel4,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        1040,
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 5, Short.MAX_VALUE))));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1, Short.MAX_VALUE)
+                        .addGroup(
+                            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                                jPanel3Layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE).addComponent(
+                                    jLabel4,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 0, Short.MAX_VALUE))));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         add(jPanel3, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         for (final JBand tmpBand : jband) {
             tmpBand.setZoomFactor(zoom);
         }
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rbOekPotActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbOekPotActionPerformed
+    private void rbOekPotActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_rbOekPotActionPerformed
         setGewTyp();
-    }//GEN-LAST:event_rbOekPotActionPerformed
+    }                                                                            //GEN-LAST:event_rbOekPotActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rbZustActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbZustActionPerformed
+    private void rbZustActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_rbZustActionPerformed
         setGewTyp();
-    }//GEN-LAST:event_rbZustActionPerformed
+    }                                                                          //GEN-LAST:event_rbZustActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtNameActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+    private void txtNameActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
+    } //GEN-LAST:event_txtNameActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+    private void butCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butCancelActionPerformed
         cancel = true;
         namePrompt = false;
         diaName.setVisible(false);
         fillDialog();
-    }//GEN-LAST:event_butCancelActionPerformed
+    }                                                                             //GEN-LAST:event_butCancelActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butOKActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butOKActionPerformed
+    private void butOKActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butOKActionPerformed
         cancel = false;
         namePrompt = false;
         diaName.setVisible(false);
@@ -1351,19 +1383,19 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             LOG.error("Cannot set name", e);
         }
         setName();
-    }//GEN-LAST:event_butOKActionPerformed
+    }                                                                         //GEN-LAST:event_butOKActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTitleNameMouseClicked
+    private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblTitleNameMouseClicked
         if (evt.getClickCount() == 2) {
             diaName.setSize(590, 226);
             StaticSwingTools.showDialog(diaName);
         }
-    }//GEN-LAST:event_lblTitleNameMouseClicked
+    }                                                                            //GEN-LAST:event_lblTitleNameMouseClicked
 
     /**
      * DOCUMENT ME!
