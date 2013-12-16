@@ -1255,7 +1255,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                                 allMassn.addAll(massnahmen);
                             }
                             allMassn.add(mon.getObject().getBean());
-                            final double points = calc(cidsBean, allMassn, false);
+                            Double points = calc(cidsBean, allMassn, false);
+                            if (points == null) {
+                                points = 0.0;
+                            }
                             final int cl = getGueteklasse(cidsBean, points);
                             final String name = n.toString() + ", " + costs + "€" + ", GK: " + cl;
                             n.setName(name);
