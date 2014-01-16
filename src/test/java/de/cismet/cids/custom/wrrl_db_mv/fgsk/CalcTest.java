@@ -2639,7 +2639,7 @@ public class CalcTest {
             }
 
             @Override
-            public Sirius.server.localserver.object.Object filter(final UserGroup ug) {
+            public Sirius.server.localserver.object.Object filter(final User u) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 

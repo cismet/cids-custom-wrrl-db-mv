@@ -34,7 +34,7 @@ public final class Calc {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String PROP_BED_SUBSTRATE_PREFIX = "PROP_BED_SUBSTRATE_";
+    public static final String PROP_BED_SUBSTRATE_PREFIX = "PROP_BED_SUBSTRATE_";                         // NOI18N
     public static final String PROP_LAND_USE_RI = "flaechennutzung_rechts_id";                            // NOI18N
     public static final String PROP_LAND_USE_LE = "flaechennutzung_links_id";                             // NOI18N
     public static final String PROP_LINE = "linie";                                                       // NOI18N
@@ -818,8 +818,9 @@ public final class Calc {
         overallRating(rating, false, ratingBedContamination, ratingBedStructure);
 
         double finalRating = rating.rating;
-        // rating correction according to Kuechler, not present in original implementation
-        if (finalRating < 1) {
+        // NOTE: rating correction according to Kuechler, not present in original implementation
+        // NOTE: new desired behaviour according to github/lung-mv #78
+        if ((finalRating < 1) && (rating.criteriaCount > 0)) {
             finalRating = 1;
         }
 
@@ -1159,19 +1160,67 @@ public final class Calc {
             return;
         }
 
+        if (!propsNotNullOrZero(
+                        kaBean,
+                        PROP_WB_BED_RATING,
+                        PROP_WB_BANK_RATING,
+                        PROP_WB_ENV_RATING)) {
+            throw new ValidationException("the waterbody rating properties contain null or zero values"); // NOI18N
+        }
+
+        final CidsBean wbTypeBean = (CidsBean)kaBean.getProperty(PROP_WB_TYPE);
+        if (wbTypeBean == null) {
+            throw new IllegalStateException("kartierabschnitt bean without wb type");
+        }
+        final Integer wbType = (Integer)wbTypeBean.getProperty(PROP_VALUE);
+        if (wbType == null) {
+            throw new IllegalStateException("kartierabschnitt bean with illegal wb type");
+        }
+
+        final double ratingBed = (Double)kaBean.getProperty(PROP_WB_BED_RATING);
+        final double ratingBank = (Double)kaBean.getProperty(PROP_WB_BANK_RATING);
+        final double ratingEnv = (Double)kaBean.getProperty(PROP_WB_ENV_RATING);
+
+        final double ratingOverall;
+        if (wbType == 23) {
+            ratingOverall = (ratingBed + (2 * ratingBank) + (2 * ratingEnv)) / 5.0d;
+        } else {
+            ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
+        }
+
+        // set the final values
+        try {
+            kaBean.setProperty(PROP_WB_OVERALL_RATING, ratingOverall);
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean; // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @throws  ValidationException  DOCUMENT ME!
+     */
+    public void calcBedRating(final CidsBean kaBean) throws ValidationException {
+        if (isException(kaBean)) {
+            return;
+        }
+
         if (
-            !propsNotNullOrZero(
+            !propsNotNull(
                         kaBean,
                         PROP_COURSE_EVO_SUM_RATING,
                         PROP_COURSE_EVO_SUM_CRIT,
                         PROP_BED_STRUCTURE_SUM_RATING,
                         PROP_BED_STRUCTURE_SUM_CRIT,
-                        PROP_CROSS_PROFILE_SUM_RATING,
-                        PROP_CROSS_PROFILE_SUM_CRIT,
-                        PROP_BANK_STRUCTURE_SUM_RATING,
-                        PROP_BANK_STRUCTURE_SUM_CRIT)
-                    || !propsNotNull(kaBean, PROP_LONG_PROFILE_SUM_RATING, PROP_LONG_PROFILE_SUM_CRIT)) {
-            throw new ValidationException("the waterbody rating properties contain null or zero values"); // NOI18N
+                        PROP_LONG_PROFILE_SUM_RATING,
+                        PROP_LONG_PROFILE_SUM_CRIT)) {
+            throw new ValidationException("the bed rating properties contain null values"); // NOI18N
         }
 
         final double ratingCourseEvo = (Double)kaBean.getProperty(PROP_COURSE_EVO_SUM_RATING);
@@ -1198,10 +1247,52 @@ public final class Calc {
             }
         }
 
+        // NOTE: rating is now possible if at least one criteria is available (lung-mv #78)
+        final int critCount = critCountCourseEvo + critCountLongProfile + critCountBedStructure;
+        if (critCount <= 0) {
+            throw new ValidationException("the bed rating does not contain at least one criteria"); // NOI18N
+        }
+
         // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
-        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure)
-                        / (critCountCourseEvo + critCountLongProfile + critCountBedStructure),
+        final double ratingBed = Math.min((ratingCourseEvo + ratingLongProfile + ratingBedStructure) / (critCount),
                 5.0);
+
+        // set the final values
+        try {
+            kaBean.setProperty(PROP_WB_BED_RATING, ratingBed);
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean; // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @throws  ValidationException  DOCUMENT ME!
+     */
+    public void calcBankRating(final CidsBean kaBean) throws ValidationException {
+        if (isException(kaBean)) {
+            return;
+        }
+
+        if (
+            !propsNotNull(
+                        kaBean,
+                        PROP_CROSS_PROFILE_SUM_RATING,
+                        PROP_CROSS_PROFILE_SUM_CRIT,
+                        PROP_BANK_STRUCTURE_SUM_RATING,
+                        PROP_BANK_STRUCTURE_SUM_CRIT,
+                        PROP_BANK_STRUCTURE_SUM_RATING_LE,
+                        PROP_BANK_STRUCTURE_SUM_CRIT_LE,
+                        PROP_BANK_STRUCTURE_SUM_RATING_RI,
+                        PROP_BANK_STRUCTURE_SUM_CRIT_RI)) {
+            throw new ValidationException("the bank rating properties contain null or zero values"); // NOI18N
+        }
 
         final double ratingCrossProfile = (Double)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_RATING);
         final int critCountCrossProfile = (Integer)kaBean.getProperty(PROP_CROSS_PROFILE_SUM_CRIT);
@@ -1212,16 +1303,55 @@ public final class Calc {
         final double ratingBankStructureRi = (Double)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI);
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
+        final int critCount = critCountCrossProfile + critCountBankStructure;
+        final int critCountLe = critCountCrossProfile + critCountBankStructureLe;
+        final int critCountRi = critCountCrossProfile + critCountBankStructureRi;
+
+        // NOTE: rating is now possible if at least one criteria is available (lung-mv #78)
+        if ((critCount <= 0) || (critCountLe <= 0) || (critCountRi <= 0)) {
+            throw new ValidationException("the bank rating does not contain at least one criteria"); // NOI18N
+        }
+
         // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
-        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure)
-                        / (critCountCrossProfile + critCountBankStructure),
-                5.0);
-        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe)
-                        / (critCountCrossProfile + critCountBankStructureLe),
-                5.0);
-        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi)
-                        / (critCountCrossProfile + critCountBankStructureRi),
-                5.0);
+        final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure) / (critCount), 5.0);
+        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe) / (critCountLe), 5.0);
+        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi) / (critCountRi), 5.0);
+
+        try {
+            kaBean.setProperty(PROP_WB_BANK_RATING, ratingBank);
+            kaBean.setProperty(PROP_WB_BANK_RATING_LE, ratingBankLe);
+            kaBean.setProperty(PROP_WB_BANK_RATING_RI, ratingBankRi);
+        } catch (final Exception e) {
+            final String message = "cannot update bean values: " + kaBean; // NOI18N
+            LOG.error(message, e);
+
+            throw new IllegalStateException(message, e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @throws  ValidationException  DOCUMENT ME!
+     */
+    public void calcEnvRating(final CidsBean kaBean) throws ValidationException {
+        if (isException(kaBean)) {
+            return;
+        }
+
+        if (
+            !propsNotNullOrZero(
+                        kaBean,
+                        PROP_WB_ENV_SUM_RATING,
+                        PROP_WB_ENV_SUM_RATING_LE,
+                        PROP_WB_ENV_SUM_RATING_RI,
+                        PROP_WB_ENV_SUM_CRIT,
+                        PROP_WB_ENV_SUM_CRIT_LE,
+                        PROP_WB_ENV_SUM_CRIT_RI)) {
+            throw new ValidationException("the env rating properties contain null or zero values"); // NOI18N
+        }
 
         final double ratingWBEnv = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING);
         final double ratingWBEnvLe = (Double)kaBean.getProperty(PROP_WB_ENV_SUM_RATING_LE);
@@ -1234,23 +1364,10 @@ public final class Calc {
         final double ratingEnvLe = Math.min(ratingWBEnvLe / critCountWBEnvLe, 5.0);
         final double ratingEnvRi = Math.min(ratingWBEnvRi / critCountWBEnvRi, 5.0);
 
-        final double ratingOverall;
-        if (wbType == 23) {
-            ratingOverall = (ratingBed + (2 * ratingBank) + (2 * ratingEnv)) / 5.0d;
-        } else {
-            ratingOverall = (ratingBed + ratingBank + ratingEnv) / 3.0d;
-        }
-
-        // set the final values
         try {
-            kaBean.setProperty(PROP_WB_BED_RATING, ratingBed);
-            kaBean.setProperty(PROP_WB_BANK_RATING, ratingBank);
-            kaBean.setProperty(PROP_WB_BANK_RATING_LE, ratingBankLe);
-            kaBean.setProperty(PROP_WB_BANK_RATING_RI, ratingBankRi);
             kaBean.setProperty(PROP_WB_ENV_RATING, ratingEnv);
             kaBean.setProperty(PROP_WB_ENV_RATING_LE, ratingEnvLe);
             kaBean.setProperty(PROP_WB_ENV_RATING_RI, ratingEnvRi);
-            kaBean.setProperty(PROP_WB_OVERALL_RATING, ratingOverall);
         } catch (final Exception e) {
             final String message = "cannot update bean values: " + kaBean; // NOI18N
             LOG.error(message, e);
@@ -1290,6 +1407,15 @@ public final class Calc {
 
             kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING, null);
             kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT, null);
+
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING_LE, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_RATING_RI, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT_LE, null);
+            kaBean.setProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING_LE, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_RATING_RI, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_CRIT_LE, null);
+            kaBean.setProperty(PROP_WB_ENV_SUM_CRIT_RI, null);
 
             kaBean.setProperty(PROP_WB_BED_RATING, null);
             kaBean.setProperty(PROP_WB_BANK_RATING, null);

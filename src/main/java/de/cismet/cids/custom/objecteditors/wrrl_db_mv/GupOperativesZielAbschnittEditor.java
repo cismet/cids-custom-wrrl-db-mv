@@ -81,8 +81,8 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
         if (!readOnly) {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
             linearReferencedLineEditor.setOtherLinesQueryAddition(
-                "gup_operatives_ziel",
-                "gup_operatives_ziel.linie = ");
+                "gup_operatives_ziel_abschnitt",
+                "gup_operatives_ziel_abschnitt.linie = ");
             linearReferencedLineEditor.setShowOtherInDialog(true);
         } else {
             RendererTools.makeReadOnly(cbName);

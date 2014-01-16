@@ -1103,8 +1103,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            if (e.getFirstIndex() > -1) {
-                final CidsBean sbean = model.getData().get(e.getFirstIndex());
+            if (jtMstTab1.getSelectedRow() > -1) {
+                final CidsBean sbean = model.getData().get(jtMstTab1.getSelectedRow());
                 setField(sbean, lblGkPcMst, "gk_pc_mst");
                 setField(sbean, lblBemerkungPc, "bemerkung_pc");
                 setField(sbean, lblJahr, "messjahr");
@@ -1175,7 +1175,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
                 { "Jahr", "messjahr" },                // NOI18N
                 { "GK PC MST", "gk_pc_mst" },          // NOI18N
-                { "GK GW-Überschreitung?", "" },       // NOI18N
+                { "OW-Überschreitung?", "" },          // NOI18N
                 { "Bemerkung PC Mst", "bemerkung_pc" } // NOI18N
             };
         private List<CidsBean> data = new Vector<CidsBean>();
@@ -1262,8 +1262,14 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
             for (int i = 0; i < OW.length; ++i) {
                 final BigDecimal ow = (BigDecimal)cbean.getProperty(OW[i][0]);
                 final BigDecimal val = (BigDecimal)cbean.getProperty(OW[i][1]);
-                if ((ow != null) && (val != null) && (ow.compareTo(val) == -1)) {
-                    return true;
+                if (OW[i][0].equals("o2_owert_rakon")) {
+                    if ((ow != null) && (val != null) && (ow.compareTo(val) == 1)) {
+                        return true;
+                    }
+                } else {
+                    if ((ow != null) && (val != null) && (ow.compareTo(val) == -1)) {
+                        return true;
+                    }
                 }
             }
 

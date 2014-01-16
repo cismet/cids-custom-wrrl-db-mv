@@ -140,7 +140,7 @@ public class FgskSplitToolbarItem extends AbstractAction implements CidsClientTo
 
     @Override
     public boolean isVisible() {
-        return MC_FGSK.getPermissions().hasWritePermission(SessionManager.getSession().getUser().getUserGroup());
+        return MC_FGSK.getPermissions().hasWritePermission(SessionManager.getSession().getUser());
     }
 
     /**

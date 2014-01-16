@@ -102,7 +102,7 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             final MetaClassCacheService classcache = Lookup.getDefault().lookup(MetaClassCacheService.class);
             geoHintMetaClass = classcache.getMetaClass(SessionManager.getSession().getUser().getDomain(), "geo_hint");
             isCurrentUserAllowedToSetHint = geoHintMetaClass.getPermissions()
-                        .hasWritePermission(SessionManager.getSession().getUser().getUserGroup());
+                        .hasWritePermission(SessionManager.getSession().getUser());
         } catch (Exception e) {
             LOG.error(
                 "An error occurred while trying to set up SetHintAction. There was a problem with the lookup mechanism or session handling.",

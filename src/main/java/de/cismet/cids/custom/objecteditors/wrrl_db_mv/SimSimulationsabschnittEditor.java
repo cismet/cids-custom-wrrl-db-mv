@@ -1255,7 +1255,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                                 allMassn.addAll(massnahmen);
                             }
                             allMassn.add(mon.getObject().getBean());
-                            final double points = calc(cidsBean, allMassn, false);
+                            Double points = calc(cidsBean, allMassn, false);
+                            if (points == null) {
+                                points = 0.0;
+                            }
                             final int cl = getGueteklasse(cidsBean, points);
                             final String name = n.toString() + ", " + costs + "€" + ", GK: " + cl;
                             n.setName(name);
@@ -1633,8 +1636,11 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             true,
             ratingCourseLoop,
             ratingLoopErosion,
-            ratingLongBench,
             ratingCourseStructure);
+        Calc.overallRating(
+            courseEvoRating,
+            false,
+            ratingLongBench);
         Calc.overallRating(
             wbCrossProfileRating,
             true,
@@ -1642,14 +1648,16 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             ratingProfileType,
             ratingBreadthErosion,
             ratingBreadthVariance);
-        Calc.overallRating(
-            finalBedStructureRating,
-            true,
-            substrateDiversityRating,
-            bedStructureRating,
-            ratingBedFitment);
-
-        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination);
+        Calc.overallRating(finalBedStructureRating, true, substrateDiversityRating, ratingBedFitment);
+        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination, bedStructureRating);
+//        Calc.overallRating(
+//            finalBedStructureRating,
+//            true,
+//            substrateDiversityRating,
+//            bedStructureRating,
+//            ratingBedFitment);
+//
+//        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination, bedStructureRating);
 
         Calc.overallRating(
             bankStructureRatingLeft,
@@ -1671,7 +1679,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         Calc.overallRating(wbEnvSumRatingLeft, false, ratingBadEnvLeft);
         double finalRating = finalBedStructureRating.rating;
 
-        if (finalRating < 1) {
+        if ((finalRating < 1) && (finalBedStructureRating.criteriaCount > 0)) {
             finalRating = 1;
         }
 
@@ -1717,6 +1725,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         dummyBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT_LE, wbEnvSumRatingLeft.criteriaCount);
         dummyBean.setProperty(Calc.PROP_WB_ENV_SUM_CRIT_RI, wbEnvSumRatingRight.criteriaCount);
 
+        Calc.getInstance().calcEnvRating(dummyBean);
+        Calc.getInstance().calcBankRating(dummyBean);
+        Calc.getInstance().calcBedRating(dummyBean);
         Calc.getInstance().calcOverallRating(dummyBean);
         // end overall rating calculation
 
@@ -1751,9 +1762,21 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             fillLabel(lblFlaechennutzungLiVal, ratingLandUseLeft);
             fillLabelWithPoints(lblSchaedlicheUmfeldstrukturenReVal, badEnvRight);
             fillLabelWithPoints(lblSchaedlicheUmfeldstrukturenLiVal, badEnvLeft);
-            txtFische.setText(String.valueOf(getMassnBonus(massnahmen, "fische", wbTypeId)));
-            txtMkP.setText(String.valueOf(getMassnBonus(massnahmen, "makrophyten", wbTypeId)));
-            txtMzb.setText(String.valueOf(getMassnBonus(massnahmen, "makrozoobenthos", wbTypeId)));
+            int indFische = getMassnBonus(massnahmen, "fische", wbTypeId);
+            int indMp = getMassnBonus(massnahmen, "makrophyten", wbTypeId);
+            int indMzb = getMassnBonus(massnahmen, "makrozoobenthos", wbTypeId);
+            if (indFische > 2) {
+                indFische = 2;
+            }
+            if (indMp > 2) {
+                indMp = 2;
+            }
+            if (indMzb > 2) {
+                indMzb = 2;
+            }
+            txtFische.setText(String.valueOf(indFische));
+            txtMkP.setText(String.valueOf(indMp));
+            txtMzb.setText(String.valueOf(indMzb));
         }
         return (Double)dummyBean.getProperty(Calc.PROP_WB_OVERALL_RATING);
     }

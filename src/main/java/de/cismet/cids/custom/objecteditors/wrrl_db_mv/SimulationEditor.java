@@ -46,6 +46,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor.SimulationResultChangedEvent;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
+import de.cismet.cids.custom.wrrl_db_mv.fgsksimulation.FgskSimCalc;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBandMember;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
@@ -132,6 +133,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JButton butOK;
     private javax.swing.JDialog diaName;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -142,6 +144,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblKostenGes;
     private javax.swing.JLabel lblMarker1;
     private javax.swing.JLabel lblMarker2;
     private javax.swing.JLabel lblMarker3;
@@ -456,11 +459,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                         new HashMap<CidsBean, List<CidsBean>>();
 
                                     for (final MetaObject fgsk : fgsks) {
+                                        Double bis = (Double)fgsk.getBean().getProperty(
+                                                "linie.bis.wert");
+                                        Double von = (Double)fgsk.getBean().getProperty(
+                                                "linie.von.wert");
+                                        if (von.doubleValue() > bis.doubleValue()) {
+                                            final Double tmp = von;
+                                            von = bis;
+                                            bis = tmp;
+                                        }
                                         if (fgsk.getBean().getProperty("linie.von.route.id").equals(rid)
-                                                    && ((Double)fgsk.getBean().getProperty(
-                                                            "linie.von.wert") >= from)
-                                                    && ((Double)fgsk.getBean().getProperty(
-                                                            "linie.bis.wert") <= till)) {
+                                                    && ((bis - 1) >= from)
+                                                    && ((von + 1) <= till)) {
                                             fgskList.add(fgsk.getBean());
                                             massnahmenMap.put(
                                                 fgsk.getBean(),
@@ -525,20 +535,25 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         double lengthFgsk = 0.0;
 
         for (final MetaObject fgsk : fgsks) {
+            double length = 0;
+            int cl = 0;
             try {
-                final double length = Calc.getStationLength(fgsk.getBean());
+                length = Calc.getStationLength(fgsk.getBean());
                 final Double p = simulationsEditor.calc(fgsk.getBean(), getMassnahmenForFgsk(fgsk.getBean()), false);
-                final int cl = SimSimulationsabschnittEditor.getGueteklasse(fgsk.getBean(), p);
-                lengthFgsk += length;
-
-                if (cl > 0) {
-                    classInMeter[cl - 1] += length;
-                } else {
-                    // Sonderfall: sonstige
-                    classInMeter[5] += length;
-                }
+                cl = SimSimulationsabschnittEditor.getGueteklasse(fgsk.getBean(), p);
             } catch (final Exception e) {
                 LOG.error("Error while calculating class", e);
+                lengthFgsk += length;
+                classInMeter[5] += length;
+                continue;
+            }
+            lengthFgsk += length;
+
+            if (cl > 0) {
+                classInMeter[cl - 1] += length;
+            } else {
+                // Sonderfall: sonstige
+                classInMeter[5] += length;
             }
         }
 
@@ -604,6 +619,50 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panClass4.setBackground(SimSimulationsabschnittEditor.getColor(4));
         panClass5.setBackground(SimSimulationsabschnittEditor.getColor(5));
         panClass6.setBackground(SimSimulationsabschnittEditor.getColor(0));
+
+        refreshKosten();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshKosten() {
+        final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
+        double costs = 0.0;
+
+        for (final CidsBean massn : angMassn) {
+            try {
+                final CidsBean fgsk = getFgskById((Integer)massn.getProperty("fgsk_ka.id"));
+                final CidsBean mass = (CidsBean)massn.getProperty("massnahme");
+
+                if ((fgsk != null) && (mass != null)) {
+                    for (final CidsBean m : mass.getBeanCollectionProperty("massnahmen")) {
+                        costs += FgskSimCalc.getInstance().calcCosts(fgsk, m);
+                    }
+                }
+            } catch (Exception e) {
+                LOG.error("Cannot calculate the costs", e);
+            }
+        }
+
+        lblKostenGes.setText(costs + " €");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   id  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private CidsBean getFgskById(final int id) {
+        for (final MetaObject mo : fgsks) {
+            if (mo.getID() == id) {
+                return mo.getBean();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -749,6 +808,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblSubTitle1 = new javax.swing.JLabel();
         rbOekPot = new javax.swing.JRadioButton();
         rbZust = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
+        lblKostenGes = new javax.swing.JLabel();
         panBand = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -1184,6 +1245,14 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             });
         panHeaderInfo.add(rbZust);
         rbZust.setBounds(770, 20, 230, 24);
+
+        jLabel2.setText("Gesamtkosten:");
+        panHeaderInfo.add(jLabel2);
+        jLabel2.setBounds(280, 30, 110, 17);
+
+        lblKostenGes.setText("0 €");
+        panHeaderInfo.add(lblKostenGes);
+        lblKostenGes.setBounds(390, 30, 140, 17);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
