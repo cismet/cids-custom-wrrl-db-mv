@@ -1063,7 +1063,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         lblMittelO2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
+                "WkFgPanSix.lblMin.toolTipText")); // NOI18N
         lblMittelO2.setMinimumSize(new java.awt.Dimension(110, 20));
         lblMittelO2.setPreferredSize(new java.awt.Dimension(110, 20));
 

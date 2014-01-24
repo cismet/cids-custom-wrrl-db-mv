@@ -896,7 +896,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
                 WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
+                "WkFgPanSix.lblMin.toolTipText")); // NOI18N
         lblMittelO2.setMinimumSize(new java.awt.Dimension(110, 20));
         lblMittelO2.setPreferredSize(new java.awt.Dimension(110, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
