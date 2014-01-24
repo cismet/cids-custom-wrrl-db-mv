@@ -127,6 +127,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      */
     public WkFgPanOne() {
         initComponents();
+        lblDatenquelle.setVisible(false);
+        lblValDatenquelle.setVisible(false);
     }
 
     //~ Methods ----------------------------------------------------------------

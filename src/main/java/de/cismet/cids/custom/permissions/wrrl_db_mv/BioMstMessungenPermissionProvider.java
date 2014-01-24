@@ -31,12 +31,17 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class BioMstMessungenPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class BioMstMessungenPermissionProvider extends BasicGeometryFromCidsObjectPermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
         return (Geometry)cidsBean.getProperty("messstelle.geom.geo_field");
+    }
+
+    @Override
+    public String getKey() {
+        return "bio_mst";
     }
 }
