@@ -606,8 +606,15 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
                 @Override
                 public void run() {
                     synchronized (BioMstStammdatenEditor.this) {
-                        final CidsBean measure = getDataForYear(newYear, measureNumber);
-                        showNewMeasure(measure);
+                        CidsBean measure = null;
+                        int measureYear = newYear;
+
+                        do {
+                            txtJahr.setText(String.valueOf(measureYear));
+                            measure = getDataForYear(measureYear, measureNumber);
+                            showNewMeasure(measure);
+                            --measureYear;
+                        } while ((measure == null) && (measureYear > 2006));
                     }
                 }
             }).start();
@@ -636,8 +643,16 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
                     @Override
                     public void run() {
                         synchronized (BioMstStammdatenEditor.this) {
-                            final CidsBean measure = getDataForYear(newYear, measureNumber);
-                            showNewMeasure(measure);
+                            CidsBean measure = null;
+                            int measureYear = newYear;
+                            final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
+
+                            do {
+                                txtJahr.setText(String.valueOf(measureYear));
+                                measure = getDataForYear(measureYear, measureNumber);
+                                showNewMeasure(measure);
+                                ++measureYear;
+                            } while ((measure == null) && (measureYear <= currentYear));
                         }
                     }
                 }).start();
