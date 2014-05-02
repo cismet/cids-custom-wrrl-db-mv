@@ -140,6 +140,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         lblSTIMPVal.setText("");
         lblSTIMVal.setText("");
         lblSTITVal.setText("");
+        lblPerlodesValAd.setText("");
+        lblDiatTrophieVal.setText("");
         lblFischeBem.setText("");
         lblMacPhytBem.setText("");
         lblMZBBem.setText("");
@@ -148,6 +150,13 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         lblGkMacPhyt.setText("");
         lblGkMzb.setText("");
         lblGkPhyt.setText("");
+        jcGesDiatomeen.setSelected(false);
+        jcGesMacPhyto.setSelected(false);
+        jcGesPerlodes.setSelected(false);
+        jcGesPerlodesAd.setSelected(false);
+        jcGesPhylib.setSelected(false);
+        jcGesPhyto.setSelected(false);
+        jcGesSI.setSelected(false);
     }
 
     /**
