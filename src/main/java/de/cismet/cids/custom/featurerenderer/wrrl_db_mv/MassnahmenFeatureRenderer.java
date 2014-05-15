@@ -79,32 +79,32 @@ public class MassnahmenFeatureRenderer extends CustomCidsFeatureRenderer {
 
     @Override
     public void assign() {
-        final CidsBean lineBean = (CidsBean)cidsBean.getProperty("linie");
-        CidsBean vonBean = null;
-        CidsBean bisBean = null;
-
-        if (lineBean != null) {
-            vonBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
-            bisBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
-        }
-
-        if ((vonBean != null) && (bisBean != null)) {
-            final CidsBean route = (CidsBean)vonBean.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
-            final Geometry routeGeometry = (Geometry)
-                ((CidsBean)route.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
-                    LinearReferencingConstants.PROP_GEOM_GEOFIELD);
-
-            final LinearReferencedPointFeature vonFeature = new LinearReferencedPointFeature((Double)
-                    vonBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
-                    routeGeometry);
-            final LinearReferencedPointFeature bisFeature = new LinearReferencedPointFeature((Double)
-                    bisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
-                    routeGeometry);
-            final LinearReferencedLineFeature f = new LinearReferencedLineFeature(vonFeature, bisFeature);
-            if (!CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures().contains(f)) {
-                add(f);
-            }
-        }
+//        final CidsBean lineBean = (CidsBean)cidsBean.getProperty("linie");
+//        CidsBean vonBean = null;
+//        CidsBean bisBean = null;
+//
+//        if (lineBean != null) {
+//            vonBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+//            bisBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+//        }
+//
+//        if ((vonBean != null) && (bisBean != null)) {
+//            final CidsBean route = (CidsBean)vonBean.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+//            final Geometry routeGeometry = (Geometry)
+//                ((CidsBean)route.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
+//                    LinearReferencingConstants.PROP_GEOM_GEOFIELD);
+//
+//            final LinearReferencedPointFeature vonFeature = new LinearReferencedPointFeature((Double)
+//                    vonBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
+//                    routeGeometry);
+//            final LinearReferencedPointFeature bisFeature = new LinearReferencedPointFeature((Double)
+//                    bisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
+//                    routeGeometry);
+//            final LinearReferencedLineFeature f = new LinearReferencedLineFeature(vonFeature, bisFeature);
+//            if (!CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures().contains(f)) {
+//                add(f);
+//            }
+//        }
     }
 
     //~ Inner Classes ----------------------------------------------------------

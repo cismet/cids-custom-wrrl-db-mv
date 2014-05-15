@@ -1067,7 +1067,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 ChemieMstMessungenEditor.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
         lblMittelChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelChlor.setPreferredSize(new java.awt.Dimension(110, 20));
+        lblMittelChlor.setPreferredSize(new java.awt.Dimension(120, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -1133,7 +1133,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         lblMittelO2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
+                "WkFgPanSix.lblMin.toolTipText")); // NOI18N
         lblMittelO2.setMinimumSize(new java.awt.Dimension(110, 20));
         lblMittelO2.setPreferredSize(new java.awt.Dimension(110, 20));
 
