@@ -1710,12 +1710,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                     dropBehaviorListener.setWkFg(bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) { // NOI18N
                     bindToWb(WB_PROPERTIES[1], bean);
-                }
-                // Massnahmen beziehen sich ausschliesslich auf Fliessgewaesser und Seegewaesser
-                else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) { // NOI18N
-                    // bindToWb(WB_PROPERTIES[2], bean);
+                } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_kg")) { // NOI18N
+                    bindToWb(WB_PROPERTIES[2], bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_gw")) { // NOI18N
-                    // bindToWb(WB_PROPERTIES[3], bean);
+                    bindToWb(WB_PROPERTIES[3], bean);
                 }
             }
             bindReadOnlyFields();
@@ -1739,7 +1737,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
 
-            if (!propertyName.equals(WB_PROPERTIES[1]) || (cidsBean.getProperty("linie") == null)) {
+            if (propertyName.equals(WB_PROPERTIES[0]) || (cidsBean.getProperty("linie") == null)) {
                 copyGeometries(String.valueOf(propertyEntry.getProperty("id"))); // NOI18N
             } else {
                 setWBValues(String.valueOf(propertyEntry.getProperty("id")));
@@ -1776,14 +1774,25 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         setWBValues(wkId);
 
         // copy new geometries
-        if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[1]) != null)) {
-            final CidsBean wk_sg = (CidsBean)cidsBean.getProperty(WB_PROPERTIES[1]);
+        if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[0]) == null)) {
+            CidsBean wk_sg = null;
+
+            for (final String propName : WB_PROPERTIES) {
+                if (cidsBean.getProperty(propName) != null) {
+                    wk_sg = (CidsBean)cidsBean.getProperty(propName);
+                }
+            }
 
             try {
-                final CidsBean geom = CidsBeanSupport.cloneCidsBean((CidsBean)wk_sg.getProperty("geom")); // NOI18N
-                cidsBean.setProperty("additional_geom", geom);                                            // NOI18N
+                CidsBean geoBean = (CidsBean)wk_sg.getProperty("geom");
+                if (geoBean == null) {
+                    geoBean = (CidsBean)wk_sg.getProperty("the_geom");
+                }
+
+                final CidsBean geom = CidsBeanSupport.cloneCidsBean(geoBean); // NOI18N
+                cidsBean.setProperty("additional_geom", geom);                // NOI18N
             } catch (final Exception e) {
-                LOG.error("Cannot copy the new geometry.", e);                                            // NOI18N
+                LOG.error("Cannot copy the new geometry.", e);                // NOI18N
             }
         } else if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[0]) != null)) {
             // wk_fg
@@ -1818,6 +1827,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[1]) != null)) {
                 wkTable = "wk_sg";             // NOI18N
                 massReferencedField = "wk_sg"; // NOI18N
+            } else if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[2]) != null)) {
+                wkTable = "wk_kg";             // NOI18N
+                massReferencedField = "wk_kg"; // NOI18N
+            } else if ((cidsBean != null) && (cidsBean.getProperty(WB_PROPERTIES[3]) != null)) {
+                wkTable = "wk_gw";             // NOI18N
+                massReferencedField = "wk_gw"; // NOI18N
             } else {
                 wkTable = "wk_fg";             // NOI18N
                 massReferencedField = "wk_fg"; // NOI18N
