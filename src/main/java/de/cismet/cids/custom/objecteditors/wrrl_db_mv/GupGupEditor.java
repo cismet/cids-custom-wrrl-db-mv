@@ -527,6 +527,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 15);
         panInfoContent.add(lblErlaeuterungsberichte, gridBagConstraints);
 
+        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.dokumente}");
+        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jlObjectList);
+        bindingGroup.addBinding(jListBinding);
+
         jsObjectList.setViewportView(jlObjectList);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -663,7 +673,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.add(jbAdd, gridBagConstraints);
 
         panState.setOpaque(false);
-        panState.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        panState.setLayout(new java.awt.FlowLayout(0));
 
         jbPlanung.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Draft.png"))); // NOI18N
