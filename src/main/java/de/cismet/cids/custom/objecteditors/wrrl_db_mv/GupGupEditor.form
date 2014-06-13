@@ -344,6 +344,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JList" name="jlObjectList">
+                  <BindingProperties>
+                    <BindingProperty name="elements" source="Form" sourcePath="${cidsBean.dokumente}" target="jlObjectList" targetPath="elements" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DocumentDropList(readOnly, &quot;dokumente&quot;)"/>
                   </AuxValues>
