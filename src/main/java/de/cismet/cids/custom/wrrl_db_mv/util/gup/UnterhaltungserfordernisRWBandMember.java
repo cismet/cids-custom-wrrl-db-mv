@@ -84,54 +84,22 @@ public class UnterhaltungserfordernisRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("name_beschreibung") == null) {
+        if ((bean.getProperty("name_beschreibung") == null) || (bean.getProperty("name_beschreibung.color") == null)) {
+            setDefaultBackground();
             return;
         }
-        final int art = (Integer)bean.getProperty("name_beschreibung.id");
+        final String color = (String)bean.getProperty("name_beschreibung.color");
 
-        switch (art) {
-            case 1: {
-                // hydraulischen Querschnitt des Gewässerprofils erhalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
-                break;
-            }
-            case 2: {
-                // Wasserspiegellage erhalten (Entwässerung anliegender Flächen)
-                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
-                break;
-            }
-            case 3: {
-                // Anlage im/am Gewässer (Stau/Wehr/Durchlass/Sandfang) freihalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
-                break;
-            }
-            case 4: {
-                // Sohl-, Ufer- oder Deichsicherung
-                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
-
-                break;
-            }
-            case 5: {
-                // Sedimentationsabschnitt
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
-            }
-            case 6: {
-                // Krautaufwuchs Sohle > 80%
-                unselectedBackgroundPainter = (new MattePainter(new Color(0, 255, 0)));
-                break;
-            }
-            case 7: {
-                // Verkehrssicherung für Gehölze
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
-            }
-            case 8: {
-                // andere Erfordernisse - bitte erläutern
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackground();
             }
         }
+
+        unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
