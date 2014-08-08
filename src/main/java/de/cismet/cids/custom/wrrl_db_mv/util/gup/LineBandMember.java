@@ -380,14 +380,18 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         }
 
         if (!dragStart) {
-            if (e.getX() < 5) {
+//            if (e.getX() <= (getWidth() / 2)) {
+            if (JBandCursorManager.getInstance().getCursor().equals(
+                            Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR))) {
                 dragSide = 1;
                 dragStart = true;
                 oldStationValue = (Double)stationFrom.getProperty("wert");
                 JBandCursorManager.getInstance().setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
                 JBandCursorManager.getInstance().setLocked(true);
                 JBandCursorManager.getInstance().setCursor(this);
-            } else if (e.getX() > (getWidth() - 5)) {
+            } else if (JBandCursorManager.getInstance().getCursor().equals(
+                            Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR))) {
+//            } else if (e.getX() > (getWidth() / 2)) {
                 dragSide = 2;
                 dragStart = true;
                 oldStationValue = (Double)stationTill.getProperty("wert");
