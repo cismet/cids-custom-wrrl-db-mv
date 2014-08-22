@@ -133,9 +133,9 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
-import de.cismet.netutil.Proxy;
+import de.cismet.commons.security.WebDavClient;
 
-import de.cismet.security.WebDavClient;
+import de.cismet.netutil.Proxy;
 
 import de.cismet.tools.BrowserLauncher;
 import de.cismet.tools.CismetThreadPool;
