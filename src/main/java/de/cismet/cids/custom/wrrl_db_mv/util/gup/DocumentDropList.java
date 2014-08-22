@@ -31,8 +31,6 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JList;
 import javax.swing.SwingWorker;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGewaesserabschnittAllgemein;
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupLosEditor;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 
@@ -41,9 +39,9 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.netutil.Proxy;
+import de.cismet.commons.security.WebDavClient;
 
-import de.cismet.security.WebDavClient;
+import de.cismet.netutil.Proxy;
 
 import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.PasswordEncrypter;

@@ -53,9 +53,9 @@ import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
 import de.cismet.cismap.commons.retrieval.RetrievalListener;
 
-import de.cismet.netutil.Proxy;
+import de.cismet.commons.security.WebDavClient;
 
-import de.cismet.security.WebDavClient;
+import de.cismet.netutil.Proxy;
 
 import de.cismet.tools.PasswordEncrypter;
 

@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 
 import javax.swing.ProgressMonitorInputStream;
 
-import de.cismet.security.WebDavClient;
+import de.cismet.commons.security.WebDavClient;
 
 /**
  * DOCUMENT ME!
