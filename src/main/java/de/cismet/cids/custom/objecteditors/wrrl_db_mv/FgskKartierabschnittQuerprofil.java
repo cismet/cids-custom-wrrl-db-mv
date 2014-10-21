@@ -348,7 +348,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einschnitttiefe}"),
                 tfEinschnitttiefe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
+        binding.setSourceNullValue("0.0");
         binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -369,7 +369,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wassertiefe}"),
                 tfWassertiefe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
+        binding.setSourceNullValue("0.0");
         binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -390,7 +390,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wasserspiegelbreite}"),
                 tfWasserspiegelbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
+        binding.setSourceNullValue("0.0");
         binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -411,7 +411,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenbreite}"),
                 tfSohlenbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
+        binding.setSourceNullValue("0.0");
         binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -432,7 +432,7 @@ public class FgskKartierabschnittQuerprofil extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.obere_profilbreite}"),
                 tfObereProfilbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("0");
+        binding.setSourceNullValue("0.0");
         binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 

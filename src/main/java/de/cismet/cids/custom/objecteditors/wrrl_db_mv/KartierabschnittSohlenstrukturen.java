@@ -305,10 +305,10 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
             nothing &= (CidsBeanSupport.textToDouble(tfWurzelflaechen, 0.0) == 0.0);
 
             if (nothing) {
-                tfKolke.setText("0");
-                tfRiffle.setText("0");
-                tfTotholz.setText("0");
-                tfWurzelflaechen.setText("0");
+                tfKolke.setText("0.0");
+                tfRiffle.setText("0.0");
+                tfTotholz.setText("0.0");
+                tfWurzelflaechen.setText("0.0");
             } else {
                 JOptionPane.showMessageDialog(
                     StaticSwingTools.getParentFrame(this),

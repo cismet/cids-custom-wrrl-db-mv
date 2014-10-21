@@ -565,6 +565,19 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
         nothing &= CidsBeanSupport.textToDouble(tfWurzeln, 0.0) == 0.0;
 
         cbNe.setSelected(nothing);
+
+        if (nothing) {
+            tfBloecke.setText("0");
+            tfKies.setText("0");
+            tfKuenSub.setText("0");
+            tfSand.setText("0");
+            tfSchlamm.setText("0");
+            tfSteine.setText("0");
+            tfTon.setText("0");
+            tfTorf.setText("0");
+            tfTotholz.setText("0");
+            tfWurzeln.setText("0");
+        }
     } //GEN-LAST:event_cbNeStateChanged
 
     /**

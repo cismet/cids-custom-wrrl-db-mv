@@ -828,9 +828,9 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
             nothing &= (CidsBeanSupport.textToDouble(tfMb, 0.0) == 0.0);
 
             if (nothing) {
-                tfUfkg.setText("0");
-                tfIb.setText("0");
-                tfMb.setText("0");
+                tfUfkg.setText("0.0");
+                tfIb.setText("0.0");
+                tfMb.setText("0.0");
             } else {
                 JOptionPane.showMessageDialog(
                     StaticSwingTools.getParentFrame(this),
@@ -858,12 +858,12 @@ public class FgskKartierabschnittLaufentwicklung extends javax.swing.JPanel impl
             nothing &= (CidsBeanSupport.textToDouble(tfLg, 0.0) == 0.0);
 
             if (nothing) {
-                tfTv.setText("0");
-                tfSb.setText("0");
-                tfIbi.setText("0");
-                tfLw.setText("0");
-                tfLv.setText("0");
-                tfLg.setText("0");
+                tfTv.setText("0.0");
+                tfSb.setText("0.0");
+                tfIbi.setText("0.0");
+                tfLw.setText("0.0");
+                tfLv.setText("0.0");
+                tfLg.setText("0.0");
             } else {
                 JOptionPane.showMessageDialog(
                     StaticSwingTools.getParentFrame(this),

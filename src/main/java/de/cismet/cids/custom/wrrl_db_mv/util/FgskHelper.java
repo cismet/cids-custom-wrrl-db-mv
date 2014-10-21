@@ -69,7 +69,7 @@ public class FgskHelper {
 
             if (nothing) {
                 for (final JTextField tmp : fields) {
-                    tmp.setText("0");
+                    tmp.setText("0.0");
                 }
             } else {
                 JOptionPane.showMessageDialog(
