@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import org.openide.util.NbBundle;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -39,7 +41,7 @@ public class UnterhaltungserfordernisBand extends MinimumHeightBand implements C
      * Creates a new UmlandnutzungsBand object.
      */
     public UnterhaltungserfordernisBand() {
-        super("Unterhaltungserfordernis");
+        super(NbBundle.getMessage(UnterhaltungserfordernisBand.class, "UnterhaltungserfordernisBand.title"));
     }
 
     //~ Methods ----------------------------------------------------------------

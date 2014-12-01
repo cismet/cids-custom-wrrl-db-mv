@@ -16,6 +16,7 @@ import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.server.middleware.types.MetaObject;
 
 import org.openide.util.Exceptions;
+import org.openide.util.NbBundle;
 
 import java.util.Collection;
 import java.util.List;
@@ -183,9 +184,14 @@ public class UnterhaltungsmassnahmeValidator {
                 if ((opBeans == null) || !opBeans.contains((CidsBean)mo.getProperty("operatives_ziel"))) {
                     final CidsBean oz = (CidsBean)mo.getProperty("operatives_ziel");
                     if (oz != null) {
-                        errors.add("Das operative Ziel \"" + oz + "\" ist nicht kompatibel mit der Maßnahme.");
+                        errors.add(NbBundle.getMessage(
+                                UnterhaltungsmassnahmeValidator.class,
+                                "UnterhaltungsmassnahmeValidator.validate.invalidCareTarget",
+                                oz));
                     } else {
-                        errors.add("Ein operatives Ziel ohne Wert entdeckt.");
+                        errors.add(NbBundle.getMessage(
+                                UnterhaltungsmassnahmeValidator.class,
+                                "UnterhaltungsmassnahmeValidator.validate.careTargetWithoutValue"));
                     }
                     res = ValidationResult.error;
                 }
@@ -199,9 +205,14 @@ public class UnterhaltungsmassnahmeValidator {
                 if ((vrBeans == null) || !vrBeans.contains((CidsBean)vg.getVermeidungsgruppe())) {
                     final CidsBean v = (CidsBean)vg.getVermeidungsgruppe();
                     if (v != null) {
-                        errors.add("Die Vermeidungsgruppe \"" + v + "\" ist nicht kompatibel mit der Maßnahme.");
+                        errors.add(NbBundle.getMessage(
+                                UnterhaltungsmassnahmeValidator.class,
+                                "UnterhaltungsmassnahmeValidator.validate.invalidPreventionGroup",
+                                v));
                     } else {
-                        errors.add("Ein operatives Ziel ohne Wert entdeckt.");
+                        errors.add(NbBundle.getMessage(
+                                UnterhaltungsmassnahmeValidator.class,
+                                "UnterhaltungsmassnahmeValidator.validate.preventionGroupWithoutValue"));
                     }
                     res = ValidationResult.error;
                 }
@@ -218,7 +229,9 @@ public class UnterhaltungsmassnahmeValidator {
 
         for (final CidsBean mo : schutzgebiete) {
             if (isLineInsideBean(mo, von, bis, schuWo)) {
-                errors.add("Maßnahme liegt in einem Schutzgebiet.");
+                errors.add(NbBundle.getMessage(
+                        UnterhaltungsmassnahmeValidator.class,
+                        "UnterhaltungsmassnahmeValidator.validate.measureInNatureReserve"));
                 res = ValidationResult.error;
             }
         }

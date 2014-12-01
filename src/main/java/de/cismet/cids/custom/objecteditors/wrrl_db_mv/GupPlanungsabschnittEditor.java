@@ -1515,7 +1515,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         chkUnterhaltungserfordernis.setEnabled(true);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Unterhaltungserfordernisse", e);
+                        LOG.error("Problem beim Suchen der Situationstypen", e);
                     }
                 }
             });
@@ -1698,7 +1698,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitle.setText("GUP Planungsabschnitt");
+        lblTitle.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.lblTitle.text",
+                new Object[] {}));                            // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1717,7 +1720,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panTitle.add(lblStatus, gridBagConstraints);
 
         bgrpDetails.add(togAllgemeinInfo);
-        togAllgemeinInfo.setText("Allgemeine Infos");
+        togAllgemeinInfo.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.togAllgemeinInfo.text",
+                new Object[] {})); // NOI18N
         togAllgemeinInfo.setPreferredSize(new java.awt.Dimension(117, 44));
         togAllgemeinInfo.addActionListener(new java.awt.event.ActionListener() {
 
@@ -1733,7 +1739,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
         panTitle.add(togAllgemeinInfo, gridBagConstraints);
 
-        togApplyStats.setText("Vermessen");
+        togApplyStats.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.togApplyStats.text",
+                new Object[] {})); // NOI18N
         togApplyStats.setPreferredSize(new java.awt.Dimension(117, 44));
         togApplyStats.addActionListener(new java.awt.event.ActionListener() {
 
@@ -1749,7 +1758,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 7);
         panTitle.add(togApplyStats, gridBagConstraints);
 
-        butStationierung.setText("Stationierung");
+        butStationierung.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.butStationierung.text",
+                new Object[] {})); // NOI18N
         butStationierung.setPreferredSize(new java.awt.Dimension(117, 44));
         butStationierung.addActionListener(new java.awt.event.ActionListener() {
 
@@ -1875,7 +1887,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Informationen");
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.lblHeading.text",
+                new Object[] {})); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -1966,10 +1981,13 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panHeaderInfo.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel1.setText("GUP:");
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.jLabel1.text",
+                new Object[] {}));                                  // NOI18N
         jLabel1.setMinimumSize(new java.awt.Dimension(91, 22));
         panHeaderInfo.add(jLabel1);
-        jLabel1.setBounds(12, 23, 39, 17);
+        jLabel1.setBounds(12, 23, 50, 17);
 
         lblGup.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
 
@@ -1985,7 +2003,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         lblGup.setBounds(110, 23, 290, 20);
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel3.setText("Gewässer:");
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.jLabel3.text",
+                new Object[] {}));                                  // NOI18N
         jLabel3.setMinimumSize(new java.awt.Dimension(91, 22));
         panHeaderInfo.add(jLabel3);
         jLabel3.setBounds(12, 46, 86, 17);
@@ -1995,7 +2016,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         lblSubTitle.setBounds(110, 46, 290, 20);
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel5.setText("Zoom:");
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.jLabel5.text",
+                new Object[] {}));                                // NOI18N
         jLabel5.setMaximumSize(new java.awt.Dimension(92, 22));
         jLabel5.setMinimumSize(new java.awt.Dimension(92, 22));
         jLabel5.setPreferredSize(new java.awt.Dimension(92, 22));
@@ -2015,7 +2039,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         sldZoom.setBounds(110, 72, 290, 16);
 
         lblLos.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        lblLos.setText("LOS:");
+        lblLos.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.lblLos.text",
+                new Object[] {}));                                 // NOI18N
         lblLos.setMinimumSize(new java.awt.Dimension(91, 22));
         panHeaderInfo.add(lblLos);
         lblLos.setBounds(12, 0, 37, 17);
@@ -2062,7 +2089,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panBandControl.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 2));
 
         chkMassnahmen.setSelected(true);
-        chkMassnahmen.setText("Maßnahmen (Ufer, Sohle)");
+        chkMassnahmen.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkMassnahmen.text",
+                new Object[] {})); // NOI18N
         chkMassnahmen.setContentAreaFilled(false);
         chkMassnahmen.setPreferredSize(new java.awt.Dimension(180, 18));
         chkMassnahmen.addActionListener(new java.awt.event.ActionListener() {
@@ -2074,7 +2104,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkMassnahmen);
 
-        chkSonstigeMassnahmen.setText("Umfeld Maßnahmen");
+        chkSonstigeMassnahmen.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkSonstigeMassnahmen.text",
+                new Object[] {})); // NOI18N
         chkSonstigeMassnahmen.setContentAreaFilled(false);
         chkSonstigeMassnahmen.setPreferredSize(new java.awt.Dimension(180, 18));
         chkSonstigeMassnahmen.addActionListener(new java.awt.event.ActionListener() {
@@ -2087,7 +2120,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panBandControl.add(chkSonstigeMassnahmen);
 
         chkWasserkoerper.setSelected(true);
-        chkWasserkoerper.setText("Wasserkörper");
+        chkWasserkoerper.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkWasserkoerper.text",
+                new Object[] {})); // NOI18N
         chkWasserkoerper.setContentAreaFilled(false);
         chkWasserkoerper.setPreferredSize(new java.awt.Dimension(180, 18));
         chkWasserkoerper.addActionListener(new java.awt.event.ActionListener() {
@@ -2099,7 +2135,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkWasserkoerper);
 
-        chkUmlandnutzung.setText("Umlandnutzung");
+        chkUmlandnutzung.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkUmlandnutzung.text",
+                new Object[] {})); // NOI18N
         chkUmlandnutzung.setContentAreaFilled(false);
         chkUmlandnutzung.setEnabled(false);
         chkUmlandnutzung.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2112,7 +2151,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkUmlandnutzung);
 
-        chkQuerbauwerke.setText("Querbauwerke");
+        chkQuerbauwerke.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkQuerbauwerke.text",
+                new Object[] {})); // NOI18N
         chkQuerbauwerke.setContentAreaFilled(false);
         chkQuerbauwerke.setEnabled(false);
         chkQuerbauwerke.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2125,7 +2167,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkQuerbauwerke);
 
-        chkNaturschutz.setText("Schutzgebiete");
+        chkNaturschutz.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkNaturschutz.text",
+                new Object[] {})); // NOI18N
         chkNaturschutz.setContentAreaFilled(false);
         chkNaturschutz.setEnabled(false);
         chkNaturschutz.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2138,7 +2183,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkNaturschutz);
 
-        chkUnterhaltungserfordernis.setText("Unterhaltungserfordernis");
+        chkUnterhaltungserfordernis.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkUnterhaltungserfordernis.text",
+                new Object[] {})); // NOI18N
         chkUnterhaltungserfordernis.setContentAreaFilled(false);
         chkUnterhaltungserfordernis.setEnabled(false);
         chkUnterhaltungserfordernis.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2151,7 +2199,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkUnterhaltungserfordernis);
 
-        chkEntwicklungsziel.setText("Entwicklungsziel");
+        chkEntwicklungsziel.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkEntwicklungsziel.text",
+                new Object[] {})); // NOI18N
         chkEntwicklungsziel.setContentAreaFilled(false);
         chkEntwicklungsziel.setEnabled(false);
         chkEntwicklungsziel.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2164,7 +2215,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkEntwicklungsziel);
 
-        chkVerbreitungsraum.setText("Verbreitungsraum");
+        chkVerbreitungsraum.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkVerbreitungsraum.text",
+                new Object[] {})); // NOI18N
         chkVerbreitungsraum.setContentAreaFilled(false);
         chkVerbreitungsraum.setEnabled(false);
         chkVerbreitungsraum.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2177,7 +2231,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkVerbreitungsraum);
 
-        chkOperativeZiele.setText("Operative Ziele");
+        chkOperativeZiele.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkOperativeZiele.text",
+                new Object[] {})); // NOI18N
         chkOperativeZiele.setContentAreaFilled(false);
         chkOperativeZiele.setEnabled(false);
         chkOperativeZiele.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2190,7 +2247,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkOperativeZiele);
 
-        chkUnterhaltungshinweise.setText("Unterhaltungshinweise");
+        chkUnterhaltungshinweise.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkUnterhaltungshinweise.text",
+                new Object[] {})); // NOI18N
         chkUnterhaltungshinweise.setContentAreaFilled(false);
         chkUnterhaltungshinweise.setEnabled(false);
         chkUnterhaltungshinweise.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2203,7 +2263,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkUnterhaltungshinweise);
 
-        chkUmlandnutzer.setText("Umlandnutzer");
+        chkUmlandnutzer.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkUmlandnutzer.text",
+                new Object[] {})); // NOI18N
         chkUmlandnutzer.setContentAreaFilled(false);
         chkUmlandnutzer.setEnabled(false);
         chkUmlandnutzer.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -2216,7 +2279,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             });
         panBandControl.add(chkUmlandnutzer);
 
-        chkHydrologie.setText("Hydrologie");
+        chkHydrologie.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkHydrologie.text",
+                new Object[] {})); // NOI18N
         chkHydrologie.setContentAreaFilled(false);
         chkHydrologie.setEnabled(false);
         chkHydrologie.setPreferredSize(new java.awt.Dimension(180, 18));
@@ -3543,7 +3609,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
                         + "))"; // NOI18N
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Unterhaltungserfordernisse: " + query);
+                LOG.debug("Request for Situationstypen: " + query);
             }
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
             adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));

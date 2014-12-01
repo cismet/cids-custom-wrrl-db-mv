@@ -11,6 +11,7 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -46,6 +47,8 @@ public class GupUnterhaltungserfordernisRouteToolbarAction extends AbstractNewOb
 
     @Override
     public String getTooltipString() {
-        return "neue Unterhaltungserfordernisse anlegen";
+        return NbBundle.getMessage(
+                GupUnterhaltungserfordernisRouteToolbarAction.class,
+                "GupUnterhaltungserfordernisRouteToolbarAction.getTooltipString");
     }
 }

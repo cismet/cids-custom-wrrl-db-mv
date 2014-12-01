@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -244,7 +246,9 @@ public class GupUnterhaltungserfordernisEditor extends javax.swing.JPanel implem
 
     @Override
     public String getTitle() {
-        return "Unterhaltungserfordernis";
+        return NbBundle.getMessage(
+                GupUnterhaltungserfordernisEditor.class,
+                "GupUnterhaltungserfordernisEditor.getTitle");
     }
 
     @Override

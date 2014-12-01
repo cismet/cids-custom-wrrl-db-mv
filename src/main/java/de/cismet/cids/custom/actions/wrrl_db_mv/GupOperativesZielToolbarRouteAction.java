@@ -11,6 +11,7 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -46,6 +47,8 @@ public class GupOperativesZielToolbarRouteAction extends AbstractNewObjectToolba
 
     @Override
     public String getTooltipString() {
-        return "neue operativen Ziele anlegen";
+        return NbBundle.getMessage(
+                GupOperativesZielToolbarRouteAction.class,
+                "GupOperativesZielToolbarRouteAction.getTooltipString");
     }
 }

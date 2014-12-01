@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
+
 import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
@@ -288,7 +290,10 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
 
     @Override
     public String getTitle() {
-        return "Operatives Ziel: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
+        return NbBundle.getMessage(
+                GupOperativesZielEditor.class,
+                "GupOperativesZielEditor.getTitle",
+                ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : ""));
     }
 
     @Override
