@@ -1,4 +1,4 @@
-cids-custom-wrrl-db-mv
+cids-custom-wrrl-db-mv [![Build Status](http://ci.cismet.de/buildStatus/icon?job=cids-custom-wrrl-db-mv)](https://ci.cismet.de/job/cids-custom-wrrl-db-mv/)
 ======================
 
 Customizations of the cids system for the FIS Wasser System, FGSK Topic and GUP-MV.
