@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -66,7 +68,9 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     //~ Instance fields --------------------------------------------------------
 
     private UnterhaltungserfordernisRWBand unterhaltungsband = new UnterhaltungserfordernisRWBand(
-            "Unterhaltungserfordernis",
+            NbBundle.getMessage(
+                GupUnterhaltungserfordernisRouteEditor.class,
+                "GupUnterhaltungserfordernisRouteEditor.unterhaltungsband.title"),
             GUP_UNTERHALTUNGSERFORDERNIS);
     private WKBand wkband;
     private VermessungsbandHelper vermessungsband;

@@ -15,6 +15,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
+import org.openide.util.NbBundle;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -816,7 +818,10 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
 
     @Override
     public String getTitle() {
-        return "Operative Ziele: " + cidsBean.toString();
+        return NbBundle.getMessage(
+                GupOperativesZielRouteEditor.class,
+                "GupOperativesZielRouteEditor.getTitle",
+                cidsBean.toString());
     }
 
     @Override

@@ -1552,7 +1552,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                         pl.setProperty("eingefrorene_operative_ziele", opZiele);
                     } catch (Exception e) {
-                        LOG.error("Problem beim Einfrieren der operativen Ziele", e);
+                        LOG.error("Problem beim Einfrieren der PflegezielenZiele", e);
                     }
                 }
             });

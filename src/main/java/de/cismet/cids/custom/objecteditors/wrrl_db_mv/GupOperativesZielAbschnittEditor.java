@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -225,7 +227,7 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
 
     @Override
     public String getTitle() {
-        return "Operatives Ziel";
+        return NbBundle.getMessage(GupOperativesZielAbschnittEditor.class, "GupOperativesZielAbschnittEditor.getTitle");
     }
 
     @Override
