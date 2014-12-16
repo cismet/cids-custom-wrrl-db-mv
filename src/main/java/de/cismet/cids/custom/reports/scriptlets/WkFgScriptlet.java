@@ -13,6 +13,7 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
@@ -22,30 +23,33 @@ import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fill.JRFillField;
 
-import org.openide.util.Exceptions;
-
-import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.TeilgebieteSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
-import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cismap.commons.HeadlessMapProvider;
 import de.cismet.cismap.commons.XBoundingBox;
+import de.cismet.cismap.commons.features.DefaultStyledFeature;
+import de.cismet.cismap.commons.features.FeatureGroups;
+import de.cismet.cismap.commons.features.PureFeatureGroup;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
@@ -107,9 +111,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + ";";
             return getBeansFromQuery(query);
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
-            }
+            LOG.error("Error while getting self for wk-fg with id " + String.valueOf(getId()), ex);
+
             return null;
         }
     }
@@ -134,11 +137,75 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
 
             return getBeansFromQuery(query);
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
-            }
+            LOG.error("Error while getting massnahmen for wk-fg with id " + String.valueOf(getId()), ex);
+
             return null;
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getTeilgebiet() {
+        final GeometryFactory gf = new GeometryFactory();
+        final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
+        final Collection<LineString> lineStrings = new ArrayList<LineString>();
+        for (final CidsBean wkTeilBean : wkTeile) {
+            final CidsBean geomBean = (CidsBean)wkTeilBean.getProperty("linie.geom");
+            final LineString geom = (LineString)geomBean.getProperty("geo_field");
+            lineStrings.add(geom);
+        }
+        final Geometry wkGeom = gf.createMultiLineString(
+                lineStrings.toArray(new LineString[0]));
+
+        try {
+            final CidsServerSearch search = new TeilgebieteSearch(wkGeom.toText());
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                final Object o = resArray.get(0).get(0);
+
+                if (o instanceof String) {
+                    return o.toString();
+                }
+            }
+        } catch (ConnectionException e) {
+            LOG.error("Exception during a cids server search.", e); // NOI18N
+        }
+
+        return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getGewName() {
+        final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
+        final List<String> gewNames = new ArrayList();
+        String allNames = null;
+
+        for (final CidsBean wkTeilBean : wkTeile) {
+            final String gewName = (String)wkTeilBean.getProperty("linie.von.route.routenname");
+            if (!gewNames.contains(gewName)) {
+                gewNames.add(gewName);
+            }
+        }
+
+        for (final String name : gewNames) {
+            if (allNames == null) {
+                allNames = name;
+            } else {
+                allNames += ", " + name;
+            }
+        }
+
+        return allNames;
     }
 
     /**
@@ -176,9 +243,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
 
             return lawa_types;
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.fatal("Problem in getLawa() in WkFgScriplet", ex);
-            }
+            LOG.error("Error while getting lawa types for wk-fg with id " + String.valueOf(getId()), ex);
+
             return null;
         }
     }
@@ -264,14 +330,12 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "   m.messstelle = s.id AND "
                         + "   s.wk_fg = " + getId() + " "
                         + "ORDER BY "
-                        + "   messjahr DESC "
-                        + "LIMIT 1;"; // NOI18N
+                        + "   messjahr DESC ";
 
             return getBeansFromQuery(query);
         } catch (final Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
-            }
+            LOG.error("Error while getting mst for wk-fg with id " + String.valueOf(getId()), ex);
+
             return null;
         }
     }
@@ -342,8 +406,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "&TRANSPARENT=TRUE"
                         + "&BGCOLOR=0xF0F0F0"
                         + "&EXCEPTIONS=application/vnd.ogc.se_xml"
-                        + "&LAYERS=route_stat,biomst,chemmst,wk_fg"
-                        + "&STYLES=default,default,default,default";
+                        + "&LAYERS=wk_fg,report_route_stat"
+                        + "&STYLES=default,default";
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
@@ -367,6 +431,84 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             getMapUrl = new SimpleWmsGetMapUrl(urlOverlay);
             simpleWms = new SimpleWMS(getMapUrl);
             mapProvider.addLayer(simpleWms);
+            final DefaultStyledFeature f = new DefaultStyledFeature();
+            f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
+            f.setHighlightingEnabled(true);
+            f.setPrimaryAnnotation("WANE-0300");
+            f.setPrimaryAnnotationVisible(true);
+            f.setPrimaryAnnotationPaint(Color.BLACK);
+            f.setPrimaryAnnotationHalo(Color.WHITE);
+            f.setAutoScale(true);
+            f.setLinePaint(Color.RED);
+            f.setLineWidth(3);
+            mapProvider.addFeature(f);
+
+            return mapProvider.getImageAndWait(72, 130, 555, 375);
+        } catch (Exception e) {
+            LOG.error("Error while retrievin gmap.", e);
+            return null;
+        }
+    }
+
+    /**
+     * generates the map in the WkFg Report. The map consists of a background and some layers, which are merged.
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Image generateOverviewMap() {
+        try {
+            final String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+                        + "&BBOX=<cismap:boundingBox>"
+                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&WIDTH=<cismap:width>"
+                        + "&HEIGHT=<cismap:height>"
+                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+//            final String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
+//                        + "&REQUEST=GetMap"
+//                        + "&BBOX=<cismap:boundingBox>"
+//                        + "&WIDTH=<cismap:width>"
+//                        + "&HEIGHT=<cismap:height>"
+//                        + "&SRS=EPSG:35833&FORMAT=image/png"
+//                        + "&TRANSPARENT=TRUE"
+//                        + "&BGCOLOR=0xF0F0F0"
+//                        + "&EXCEPTIONS=application/vnd.ogc.se_xml"
+//                        + "&LAYERS=wk_fg,report_route_stat"
+//                        + "&STYLES=default,default";
+            final GeometryFactory gf = new GeometryFactory();
+            final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
+            final Collection<LineString> lineStrings = new ArrayList<LineString>();
+            for (final CidsBean wkTeilBean : wkTeile) {
+                final CidsBean geomBean = (CidsBean)wkTeilBean.getProperty("linie.geom");
+                final LineString geom = (LineString)geomBean.getProperty("geo_field");
+                lineStrings.add(geom);
+            }
+            final XBoundingBox boundingBox = new XBoundingBox(gf.createMultiLineString(
+                        lineStrings.toArray(new LineString[0])));
+            boundingBox.setX1(boundingBox.getX1() - 50);
+            boundingBox.setY1(boundingBox.getY1() - 50);
+            boundingBox.setX2(boundingBox.getX2() + 50);
+            boundingBox.setY2(boundingBox.getY2() + 50);
+
+            final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            mapProvider.setBoundingBox(boundingBox);
+            final SimpleWmsGetMapUrl getMapUrl = new SimpleWmsGetMapUrl(urlBackground);
+            final SimpleWMS simpleWms = new SimpleWMS(getMapUrl);
+            mapProvider.addLayer(simpleWms);
+//            getMapUrl = new SimpleWmsGetMapUrl(urlOverlay);
+//            simpleWms = new SimpleWMS(getMapUrl);
+//            mapProvider.addLayer(simpleWms);
+            final DefaultStyledFeature f = new DefaultStyledFeature();
+            f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
+            f.setHighlightingEnabled(true);
+            f.setPrimaryAnnotation("WANE-0300");
+            f.setPrimaryAnnotationVisible(true);
+            f.setPrimaryAnnotationPaint(Color.BLACK);
+            f.setPrimaryAnnotationHalo(Color.WHITE);
+            f.setAutoScale(true);
+            f.setLinePaint(Color.RED);
+            f.setLineWidth(3);
+            mapProvider.addFeature(f);
 
             return mapProvider.getImageAndWait(72, 130, 555, 375);
         } catch (Exception e) {

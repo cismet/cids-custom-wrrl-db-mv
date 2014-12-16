@@ -51,9 +51,9 @@
 		<band/>
 	</background>
 	<title>
-		<band height="70">
+		<band height="42">
 			<textField>
-				<reportElement style="column_header_style" mode="Transparent" x="0" y="60" width="400" height="10" backcolor="#DADADA"/>
+				<reportElement style="column_header_style" mode="Transparent" x="0" y="32" width="400" height="10" backcolor="#DADADA"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -64,10 +64,10 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Wasserkörpername: " + $F{wk_fg.wk_n}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Wasserkörpername:" + $F{wk_fg.wk_n}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="column_header_style" mode="Transparent" x="400" y="60" width="402" height="10" backcolor="#DADADA"/>
+				<reportElement style="column_header_style" mode="Transparent" x="400" y="32" width="402" height="10" backcolor="#DADADA"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -78,24 +78,10 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Wasserkörperkürzel: " + $F{wk_fg.wk_k}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Wasserkörperkürzel:" + $F{wk_fg.wk_k}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="0" width="802" height="28" forecolor="#000000"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
-					<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
-				</box>
-				<textElement>
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[5. Maßnahmen]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="0" y="31" width="802" height="19" forecolor="#000000"/>
+				<reportElement mode="Transparent" x="0" y="0" width="802" height="19" forecolor="#000000"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
 					<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
@@ -106,7 +92,7 @@
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[5.1 Geplante Maßnahmen/Maßnahmen in Umsetzung]]></text>
+				<text><![CDATA[5.2 Umgesetzte Maßnahmen]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -183,7 +169,7 @@
 				<textElement markup="html">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Länge<br />(m)]]></text>
+				<text><![CDATA[Länge <br /> (m)]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
