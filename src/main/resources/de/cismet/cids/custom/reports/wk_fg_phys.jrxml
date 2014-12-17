@@ -11,7 +11,7 @@ $F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) <= 0
 			<conditionExpression><![CDATA[new Boolean(
 $F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) > 0
 )]]></conditionExpression>
-			<style isDefault="false" style="O2Col" mode="Opaque" backcolor="#009900"/>
+			<style isDefault="false" style="O2Col" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<style name="phosCol" isDefault="false" mode="Transparent" pattern="">
@@ -25,7 +25,7 @@ $F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) >= 0
 			<conditionExpression><![CDATA[new Boolean(
 $F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="phosCol" mode="Opaque" backcolor="#009900"/>
+			<style isDefault="false" style="phosCol" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<style name="orthoCol" isDefault="false" mode="Transparent" pattern="">
@@ -39,7 +39,7 @@ $F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) >= 0
 			<conditionExpression><![CDATA[new Boolean(
 $F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="orthoCol" mode="Opaque" backcolor="#009900"/>
+			<style isDefault="false" style="orthoCol" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<style name="ammoCol" isDefault="false" mode="Transparent" pattern="">
@@ -53,7 +53,7 @@ $F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) >= 0
 			<conditionExpression><![CDATA[new Boolean(
 $F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="ammoCol" mode="Opaque" backcolor="#009900"/>
+			<style isDefault="false" style="ammoCol" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<style name="chloridCol" isDefault="false" mode="Transparent" pattern="">
@@ -67,7 +67,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) >= 0
 			<conditionExpression><![CDATA[new Boolean(
 $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="chloridCol" mode="Opaque" backcolor="#009900"/>
+			<style isDefault="false" style="chloridCol" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<style name="umweltCol" isDefault="false" mode="Transparent" pattern="">
@@ -77,7 +77,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{u_eco_stoffe}]]></conditionExpression>
-			<style isDefault="false" style="umweltCol" mode="Opaque" backcolor="#009900"/>
+			<style isDefault="false" style="umweltCol" mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<field name="o2_owert_rakon" class="java.math.BigDecimal"/>
@@ -119,7 +119,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="7" isBold="false"/>
 				</textElement>
 				<text><![CDATA[nein]]></text>
@@ -139,7 +139,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="7" isBold="false"/>
 				</textElement>
 				<text><![CDATA[RAKON-Orientierungswert eingehalten]]></text>
@@ -149,7 +149,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="7" isBold="false"/>
 				</textElement>
 				<text><![CDATA[ja]]></text>
@@ -196,7 +196,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
+				<textElement textAlignment="Center">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[RAKON-Orientierungswert eingehalten
@@ -267,41 +267,41 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 	<detail>
 		<band height="14">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="phosCol" stretchType="RelativeToBandHeight" x="182" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="phosCol" x="182" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="O2Col" stretchType="RelativeToBandHeight" x="114" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="O2Col" x="114" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) <= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="orthoCol" stretchType="RelativeToBandHeight" x="250" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="orthoCol" x="250" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement x="0" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{messstelle}.getProperty( "messstelle" ).toString() + "\n" + 
@@ -309,41 +309,41 @@ $F{messstelle}.getProperty( "gewaesser" ).toString() + "\n" +
 $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="ammoCol" stretchType="RelativeToBandHeight" x="333" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="ammoCol" x="333" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="chloridCol" stretchType="RelativeToBandHeight" x="401" y="0" width="65" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="chloridCol" x="401" y="0" width="65" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="83" y="0" width="31" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement x="83" y="0" width="31" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{messjahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="umweltCol" stretchType="RelativeToBandHeight" x="466" y="0" width="89" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="umweltCol" x="466" y="0" width="89" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{u_eco_stoffe}.booleanValue() ? "ja" : "nein"]]></textFieldExpression>
