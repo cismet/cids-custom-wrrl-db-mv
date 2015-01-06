@@ -7,11 +7,25 @@
 		<band/>
 	</background>
 	<title>
-		<band height="352">
+		<band height="387">
 			<image scaleImage="RealSize">
-				<reportElement x="0" y="0" width="555" height="350"/>
+				<reportElement x="0" y="35" width="555" height="350"/>
 				<imageExpression class="java.awt.Image"><![CDATA[$P{map}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="555" height="28" forecolor="#000000"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
+				</box>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Karte]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

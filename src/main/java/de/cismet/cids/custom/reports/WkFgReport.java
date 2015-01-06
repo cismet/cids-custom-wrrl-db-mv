@@ -120,14 +120,19 @@ public class WkFgReport {
         coll.add(cidsBean);
 
         final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
+        final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
         beans.add(coll);
         beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
-        beans.add(getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            beans.add(massnahmenUmgesetzt);
+        }
 
         final ArrayList<String> reports = new ArrayList<String>();
         reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
-        reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
+        }
 
         final HashMap parameters = new HashMap();
         parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
@@ -480,7 +485,9 @@ public class WkFgReport {
             connectionInfo.setUsername(properties.getProperty("username"));
 
             final Connection connection = ConnectionFactory.getFactory()
-                        .createConnection(properties.getProperty("connectionClass"),
+                        .createConnection(
+                            false,
+                            properties.getProperty("connectionClass"),
                             properties.getProperty("callserver"),
                             null);
             final ConnectionSession session;

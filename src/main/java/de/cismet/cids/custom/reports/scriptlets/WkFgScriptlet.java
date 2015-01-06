@@ -424,6 +424,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             boundingBox.setY2(boundingBox.getY2() + 50);
 
             final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            mapProvider.setCenterMapOnResize(true);
             mapProvider.setBoundingBox(boundingBox);
             SimpleWmsGetMapUrl getMapUrl = new SimpleWmsGetMapUrl(urlBackground);
             SimpleWMS simpleWms = new SimpleWMS(getMapUrl);
@@ -434,7 +435,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             final DefaultStyledFeature f = new DefaultStyledFeature();
             f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
             f.setHighlightingEnabled(true);
-            f.setPrimaryAnnotation("WANE-0300");
+            f.setPrimaryAnnotation((String)((JRFillField)fieldsMap.get("wk_k")).getValue());
             f.setPrimaryAnnotationVisible(true);
             f.setPrimaryAnnotationPaint(Color.BLACK);
             f.setPrimaryAnnotationHalo(Color.WHITE);
@@ -491,6 +492,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             boundingBox.setY2(boundingBox.getY2() + 50);
 
             final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            mapProvider.setCenterMapOnResize(true);
             mapProvider.setBoundingBox(boundingBox);
             final SimpleWmsGetMapUrl getMapUrl = new SimpleWmsGetMapUrl(urlBackground);
             final SimpleWMS simpleWms = new SimpleWMS(getMapUrl);
@@ -501,7 +503,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             final DefaultStyledFeature f = new DefaultStyledFeature();
             f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
             f.setHighlightingEnabled(true);
-            f.setPrimaryAnnotation("WANE-0300");
+            f.setPrimaryAnnotation((String)((JRFillField)fieldsMap.get("wk_k")).getValue());
             f.setPrimaryAnnotationVisible(true);
             f.setPrimaryAnnotationPaint(Color.BLACK);
             f.setPrimaryAnnotationHalo(Color.WHITE);

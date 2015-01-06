@@ -267,7 +267,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 	<detail>
 		<band height="14">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="phosCol" x="182" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="phosCol" stretchType="RelativeToBandHeight" x="182" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -277,7 +277,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="O2Col" x="114" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="O2Col" stretchType="RelativeToBandHeight" x="114" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -287,7 +287,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) <= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="orthoCol" x="250" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="orthoCol" stretchType="RelativeToBandHeight" x="250" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -297,7 +297,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="83" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -309,7 +309,7 @@ $F{messstelle}.getProperty( "gewaesser" ).toString() + "\n" +
 $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="ammoCol" x="333" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="ammoCol" stretchType="RelativeToBandHeight" x="333" y="0" width="68" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -319,7 +319,7 @@ $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="chloridCol" x="401" y="0" width="65" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="chloridCol" stretchType="RelativeToBandHeight" x="401" y="0" width="65" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -329,7 +329,7 @@ $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="83" y="0" width="31" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="83" y="0" width="31" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -339,7 +339,7 @@ $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{messjahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="umweltCol" x="466" y="0" width="89" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="umweltCol" stretchType="RelativeToBandHeight" x="466" y="0" width="89" height="14" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>

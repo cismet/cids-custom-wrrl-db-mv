@@ -51,7 +51,7 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="132">
+		<band height="130">
 			<staticText>
 				<reportElement style="tableTitle" mode="Opaque" x="277" y="0" width="115" height="16"/>
 				<box leftPadding="5">
@@ -173,7 +173,7 @@
 				<text><![CDATA[Status Wasserkörper]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="64" width="439" height="16"/>
+				<reportElement x="115" y="62" width="439" height="16"/>
 				<box leftPadding="10">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -182,7 +182,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{lawa_type}.getProperty( "description" ) + "(" + $F{lawa_type}.getProperty( "code" ) + ")"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="tableTitle" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="48" width="115" height="64" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="tableTitle" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="48" width="115" height="62" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="5">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -194,7 +194,7 @@
 				<text><![CDATA[Fließgewässertyp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="0" y="112" width="115" height="16"/>
+				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="0" y="110" width="115" height="16"/>
 				<box leftPadding="5">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -206,7 +206,7 @@
 				<text><![CDATA[Stand der Daten]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="277" y="112" width="115" height="16"/>
+				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="277" y="110" width="115" height="16"/>
 				<box leftPadding="5">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -218,7 +218,7 @@
 				<text><![CDATA[Druckdatum]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="115" y="112" width="162" height="16"/>
+				<reportElement positionType="Float" x="115" y="110" width="162" height="16"/>
 				<box leftPadding="5">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -230,7 +230,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{av_time}.getDay() + "." + ($F{av_time}.getMonth() + 1) + "." + ($F{av_time}.getYear() + 1900)]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="392" y="112" width="162" height="16"/>
+				<reportElement positionType="Float" x="392" y="110" width="162" height="16"/>
 				<box leftPadding="5">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -242,7 +242,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[(new Date()).getDay() + "." + ((new Date()).getMonth() + 1) + "." + ($F{av_time}.getYear() + 1900)]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="tableTitle" mode="Opaque" x="115" y="48" width="439" height="16" backcolor="#FFFFFF"/>
+				<reportElement style="tableTitle" mode="Opaque" x="115" y="48" width="439" height="14" backcolor="#FFFFFF"/>
 				<box leftPadding="5">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -252,7 +252,7 @@
 				<text><![CDATA[- Wasserkörpertyp:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="tableTitle" mode="Opaque" x="115" y="80" width="439" height="16" backcolor="#FFFFFF"/>
+				<reportElement style="tableTitle" mode="Opaque" x="115" y="78" width="439" height="16" backcolor="#FFFFFF"/>
 				<box leftPadding="5">
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -261,7 +261,7 @@
 				<text><![CDATA[- LAWA-Detailtyp:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="115" y="96" width="439" height="16" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="115" y="94" width="439" height="16" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="10">
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -282,7 +282,7 @@
 				<textElement verticalAlignment="Bottom"/>
 				<text><![CDATA[Gewässername]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="392" y="32" width="162" height="16"/>
 				<box leftPadding="5">
 					<pen lineWidth="1.0"/>
