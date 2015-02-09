@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -38,7 +39,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.TeilgebieteSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgIdSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.LawaTableModel;
@@ -85,12 +85,19 @@ public class WkFgReport {
         coll.add(cidsBean);
 
         final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
+        final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
         beans.add(coll);
         beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            beans.add(massnahmenUmgesetzt);
+        }
 
         final ArrayList<String> reports = new ArrayList<String>();
         reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
+        }
 
         final HashMap parameters = new HashMap();
         parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
@@ -226,13 +233,14 @@ public class WkFgReport {
 
             final String query = "SELECT "
                         + "   " + mcMassnahmen.getID() + ", "
-                        + "   " + mcMassnahmen.getPrimaryKey() + " "
+                        + "   m." + mcMassnahmen.getPrimaryKey() + " "
                         + "FROM "
-                        + "   " + mcMassnahmen.getTableName() + " "
+                        + "   " + mcMassnahmen.getTableName() + " m left join "
+                        + " massnahmen_realisierung mr on (realisierung = mr.id) "
                         + "WHERE "
                         + "   wk_fg = " + String.valueOf(id)
-                        + " and massn_fin = false "
-                        + "ORDER BY massn_id"
+                        + " and (massn_fin is null or massn_fin = false) "
+                        + "ORDER BY mr.name, massn_id"
                         + ";";
 
             return getBeansFromQuery(query);
@@ -255,13 +263,14 @@ public class WkFgReport {
 
             final String query = "SELECT "
                         + "   " + mcMassnahmen.getID() + ", "
-                        + "   " + mcMassnahmen.getPrimaryKey() + " "
+                        + "   m ." + mcMassnahmen.getPrimaryKey() + " "
                         + "FROM "
-                        + "   " + mcMassnahmen.getTableName() + " "
+                        + "   " + mcMassnahmen.getTableName() + " m left join "
+                        + " massnahmen_realisierung mr on (realisierung = mr.id) "
                         + "WHERE "
                         + "   wk_fg = " + String.valueOf(id)
                         + " and massn_fin = true "
-                        + "ORDER BY massn_id"
+                        + "ORDER BY mr.name, massn_id"
                         + ";";
 
             return getBeansFromQuery(query);
@@ -341,17 +350,41 @@ public class WkFgReport {
         final int amountDifferentTypes = model.getRowCount();
 
         String lawaDetailTyp = null;
+        // create a map, that contains a mapping between the index of a lawa type in the model and its position, when
+        // it is ordered by the part of the total length
+        final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
+        final List<Pair<Integer, Double>> percentageIndexList = new ArrayList<Pair<Integer, Double>>();
 
         for (int i = 0; i < (amountDifferentTypes - 1); i++) {
-            final String typ = (String)model.getValueAt(i, typIndex);
+            final String percentageString = (String)model.getValueAt(i, anteilIndex);
+            double perc = 0.0;
+
+            try {
+                perc = Double.parseDouble(percentageString);
+            } catch (NumberFormatException n) {
+                // nothing to do
+            }
+
+            percentageIndexList.add(new Pair<Integer, Double>(i, perc));
+        }
+
+        Collections.sort(percentageIndexList);
+
+        for (int i = 0; i < percentageIndexList.size(); i++) {
+            indexMap.put(i, percentageIndexList.get(i).getFirstValue());
+        }
+
+        for (int i = 0; i < (amountDifferentTypes - 1); i++) {
+            final String typ = (String)model.getValueAt(indexMap.get(i), typIndex);
             final String typ_number = typ.split("-")[0];
             final String typ_name = typ.substring(typ.indexOf("-") + 1);
-            final String anteil = (String)model.getValueAt(i, anteilIndex);
+            String anteil = (String)model.getValueAt(indexMap.get(i), anteilIndex);
+            anteil = anteil.replace('.', ',');
 
             if (lawaDetailTyp == null) {
-                lawaDetailTyp = typ_name + " (Typ " + typ_number + ", " + anteil + "% der Länge), ";
+                lawaDetailTyp = typ_name + " (Typ " + typ_number + ": " + anteil + " % der Länge), ";
             } else {
-                lawaDetailTyp += "<br />" + typ_name + " (Typ " + typ_number + ", " + anteil + "% der Länge), ";
+                lawaDetailTyp += "<br />" + typ_name + " (Typ " + typ_number + ": " + anteil + " % der Länge), ";
             }
         }
         if ((lawaDetailTyp != null) && !lawaDetailTyp.equals("")) {
@@ -539,5 +572,76 @@ public class WkFgReport {
         mappingComponent.setMappingModel(mappingModel);
 
         CismapBroker.getInstance().setMappingComponent(mappingComponent);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class Pair<F extends Comparable, S extends Comparable> implements Comparable<Pair> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private F firstValue;
+        private S secondValue;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new Pair object.
+         *
+         * @param  firstValue   DOCUMENT ME!
+         * @param  secondValue  DOCUMENT ME!
+         */
+        public Pair(final F firstValue, final S secondValue) {
+            this.firstValue = firstValue;
+            this.secondValue = secondValue;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the firstValue
+         */
+        public F getFirstValue() {
+            return firstValue;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  firstValue  the firstValue to set
+         */
+        public void setFirstValue(final F firstValue) {
+            this.firstValue = firstValue;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the secondValue
+         */
+        public S getSecondValue() {
+            return secondValue;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  secondValue  the secondValue to set
+         */
+        public void setSecondValue(final S secondValue) {
+            this.secondValue = secondValue;
+        }
+
+        @Override
+        public int compareTo(final Pair o) {
+            return -1 * secondValue.compareTo(o.getSecondValue());
+        }
     }
 }

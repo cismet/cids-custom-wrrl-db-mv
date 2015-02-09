@@ -75,6 +75,13 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
     private final MetaClass MC_MST_STAMM = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "chemie_mst_stammdaten");
+    private final Color[] colors = {
+            new Color(128, 96, 0),
+            new Color(230, 110, 46),
+            new Color(114, 61, 170),
+            new Color(255, 86, 86),
+            new Color(255, 204, 201)
+        };
 
     //~ Methods ----------------------------------------------------------------
 
@@ -329,6 +336,13 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "WHERE "
                         + "   m.messstelle = s.id AND "
                         + "   s.wk_fg = " + getId() + " "
+                        + "and ("
+                        + "    (o2_owert_rakon is not null and o2_mittelwert is not null) or "
+                        + "    (ges_p_owert_rakon is not null and ges_p_mittelwert is not null ) or "
+                        + "    (opo4_owert_rakon is not null and opo4_mittelwert is not null ) or "
+                        + "    (nh4_owert_rakon is not null and nh4_mittelwert is not null ) or "
+                        + "    (cl_owert_rakon is not null and cl_mittelwert is not null ) or u_eco_stoffe is not null"
+                        + "    )"
                         + "ORDER BY "
                         + "   messjahr DESC ";
 
@@ -407,7 +421,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "&BGCOLOR=0xF0F0F0"
                         + "&EXCEPTIONS=application/vnd.ogc.se_xml"
                         + "&LAYERS=wk_fg,report_route_stat"
-                        + "&STYLES=default,default";
+                        + "&STYLES=wkk:wk_fg,default";
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
@@ -432,17 +446,31 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             getMapUrl = new SimpleWmsGetMapUrl(urlOverlay);
             simpleWms = new SimpleWMS(getMapUrl);
             mapProvider.addLayer(simpleWms);
-            final DefaultStyledFeature f = new DefaultStyledFeature();
-            f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
-            f.setHighlightingEnabled(true);
-            f.setPrimaryAnnotation((String)((JRFillField)fieldsMap.get("wk_k")).getValue());
-            f.setPrimaryAnnotationVisible(true);
-            f.setPrimaryAnnotationPaint(Color.BLACK);
-            f.setPrimaryAnnotationHalo(Color.WHITE);
-            f.setAutoScale(true);
-            f.setLinePaint(Color.RED);
-            f.setLineWidth(3);
-            mapProvider.addFeature(f);
+//            final DefaultStyledFeature f = new DefaultStyledFeature();
+//            f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
+//            f.setHighlightingEnabled(true);
+//            f.setPrimaryAnnotation((String)((JRFillField)fieldsMap.get("wk_k")).getValue());
+//            f.setPrimaryAnnotationVisible(true);
+//            f.setPrimaryAnnotationPaint(Color.BLACK);
+//            f.setPrimaryAnnotationHalo(Color.WHITE);
+//            f.setAutoScale(true);
+//            f.setLinePaint(Color.RED);
+//            f.setLineWidth(3);
+//            mapProvider.addFeature(f);
+            int teilNo = 0;
+
+            for (final CidsBean wkTeilBean : wkTeile) {
+                final DefaultStyledFeature part = new DefaultStyledFeature();
+                part.setGeometry((Geometry)wkTeilBean.getProperty("linie.geom.geo_field"));
+                part.setPrimaryAnnotation(wkTeilBean.getProperty("linie.von.route.gwk").toString());
+                part.setPrimaryAnnotationVisible(true);
+                part.setPrimaryAnnotationPaint(Color.BLACK);
+                part.setPrimaryAnnotationHalo(Color.WHITE);
+                part.setAutoScale(true);
+                part.setLinePaint(colors[teilNo++ % colors.length]);
+                part.setLineWidth(3);
+                mapProvider.addFeature(part);
+            }
 
             return mapProvider.getImageAndWait(72, 130, 555, 375);
         } catch (Exception e) {
@@ -486,6 +514,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             }
             final XBoundingBox boundingBox = new XBoundingBox(gf.createMultiLineString(
                         lineStrings.toArray(new LineString[0])));
+            boundingBox.increase(100);
             boundingBox.setX1(boundingBox.getX1() - 50);
             boundingBox.setY1(boundingBox.getY1() - 50);
             boundingBox.setX2(boundingBox.getX2() + 50);
