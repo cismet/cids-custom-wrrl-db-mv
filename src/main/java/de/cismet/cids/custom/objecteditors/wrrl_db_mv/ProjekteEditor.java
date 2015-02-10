@@ -1697,11 +1697,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("umsetzung");
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
                         CidsBeanSupport.deleteStationlineIfExists(beanToDelete, "linie", beansToDelete);
                         CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete); // NOI18N
                         beanToDelete.delete();
+                        beansToDelete.add(beanToDelete);
                         massnahmenUmsetzungEditor.setCidsBean(null);
+                        ((Collection)beanColl).remove(beanToDelete);
                     }
                 } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
@@ -1796,8 +1797,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("indikator");          // NOI18N
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
                         beanToDelete.delete();
+                        ((Collection)beanColl).remove(beanToDelete);
                     }
                 } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
@@ -1903,8 +1904,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("aggregierte_massnahmen_typen"); // NOI18N
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
                         beanToDelete.delete();
+                        ((Collection)beanColl).remove(beanToDelete);
                     }
                     measureModel.fireContentsChanged();
                 } catch (final Exception e) {
@@ -2128,8 +2129,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             }
         }
 
-        final Date end = (Date)cidsBean.getProperty("m_ende");
-        if (end != null) {
+        final CidsBean status = (CidsBean)cidsBean.getProperty("status");
+        if ((status != null) && status.getProperty("name").equals("abgeschlossen")) {
             final List<CidsBean> implementations = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");
 
             if (implementations != null) {

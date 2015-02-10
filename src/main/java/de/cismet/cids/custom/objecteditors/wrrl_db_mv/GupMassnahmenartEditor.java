@@ -185,6 +185,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(ccVermeidungsgruppen);
             RendererTools.makeReadOnly(txtRegel);
             RendererTools.makeReadOnly(txtEinheit);
+            RendererTools.makeReadOnly(cbStunden);
+            RendererTools.makeReadOnly(cbSchnitttiefe);
+            RendererTools.makeReadOnly(txtUrl);
+            RendererTools.makeReadOnly(txtUrlSmall);
         }
     }
 
@@ -1391,8 +1395,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 final CidsBean bean = (CidsBean)evt.getItem();
-                cbZweiterAusfuehrungszeitraum.setEnabled((bean != null)
-                            && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
+                if (!readOnly) {
+                    cbZweiterAusfuehrungszeitraum.setEnabled((bean != null)
+                                && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
+                }
             }
         }
     }                                                                             //GEN-LAST:event_cbIntervalItemStateChanged
@@ -1419,8 +1425,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             bindingGroup.bind();
 
             final CidsBean bean = (CidsBean)cidsBean.getProperty("intervall");
-            cbZweiterAusfuehrungszeitraum.setEnabled((bean != null)
-                        && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
+            if (!readOnly) {
+                cbZweiterAusfuehrungszeitraum.setEnabled((bean != null)
+                            && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
+            }
             ccOperativeZiele.refreshCheckboxState(decider, true, false);
             ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, false);
         }
