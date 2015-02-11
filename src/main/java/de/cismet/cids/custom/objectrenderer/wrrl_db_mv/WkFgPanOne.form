@@ -731,7 +731,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.planu_cd.name}" target="lblValStaeun1" targetPath="text" updateStrategy="1" immediately="false">
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.planu_cd.planu_name}" target="lblValStaeun1" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>
@@ -752,7 +752,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.wa_cd.name}" target="lblValStaeun2" targetPath="text" updateStrategy="1" immediately="false">
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.planu_cd.wa_cd}" target="lblValStaeun2" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                 </BindingProperty>

@@ -712,7 +712,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.planu_cd.name}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.planu_cd.planu_name}"),
                 lblValStaeun1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -732,7 +732,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wa_cd.name}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.planu_cd.wa_cd}"),
                 lblValStaeun2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
