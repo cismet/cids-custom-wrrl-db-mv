@@ -19,6 +19,7 @@ import Sirius.server.middleware.types.MetaClass;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.swing.DefaultComboBoxModel;
@@ -82,6 +83,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             } else {
                 wkk = new String[0];
             }
+            Arrays.sort(wkk, 1, wkk.length);
         } catch (Exception e) {
             LOG.error("Error while retrieving wkk", e);
         }
@@ -997,7 +999,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
                     StaticSwingTools.getParentFrame(this),
-                    "Soll die Beslastungswuelle '"
+                    "Soll die Beslastungsquelle '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
                     "Belastungsquelle entfernen",
