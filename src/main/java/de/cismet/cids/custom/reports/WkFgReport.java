@@ -519,7 +519,6 @@ public class WkFgReport {
 
             final Connection connection = ConnectionFactory.getFactory()
                         .createConnection(
-                            false,
                             properties.getProperty("connectionClass"),
                             properties.getProperty("callserver"),
                             null);

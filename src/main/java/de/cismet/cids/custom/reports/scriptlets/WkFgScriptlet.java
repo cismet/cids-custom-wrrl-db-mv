@@ -446,17 +446,6 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             getMapUrl = new SimpleWmsGetMapUrl(urlOverlay);
             simpleWms = new SimpleWMS(getMapUrl);
             mapProvider.addLayer(simpleWms);
-//            final DefaultStyledFeature f = new DefaultStyledFeature();
-//            f.setGeometry(gf.createMultiLineString(lineStrings.toArray(new LineString[0])));
-//            f.setHighlightingEnabled(true);
-//            f.setPrimaryAnnotation((String)((JRFillField)fieldsMap.get("wk_k")).getValue());
-//            f.setPrimaryAnnotationVisible(true);
-//            f.setPrimaryAnnotationPaint(Color.BLACK);
-//            f.setPrimaryAnnotationHalo(Color.WHITE);
-//            f.setAutoScale(true);
-//            f.setLinePaint(Color.RED);
-//            f.setLineWidth(3);
-//            mapProvider.addFeature(f);
             int teilNo = 0;
 
             for (final CidsBean wkTeilBean : wkTeile) {
@@ -493,17 +482,6 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
                         + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
-//            final String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
-//                        + "&REQUEST=GetMap"
-//                        + "&BBOX=<cismap:boundingBox>"
-//                        + "&WIDTH=<cismap:width>"
-//                        + "&HEIGHT=<cismap:height>"
-//                        + "&SRS=EPSG:35833&FORMAT=image/png"
-//                        + "&TRANSPARENT=TRUE"
-//                        + "&BGCOLOR=0xF0F0F0"
-//                        + "&EXCEPTIONS=application/vnd.ogc.se_xml"
-//                        + "&LAYERS=wk_fg,report_route_stat"
-//                        + "&STYLES=default,default";
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
