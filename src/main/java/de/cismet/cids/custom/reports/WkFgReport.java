@@ -7,13 +7,22 @@
 ****************************************************/
 package de.cismet.cids.custom.reports;
 
+import Sirius.navigator.connection.Connection;
+import Sirius.navigator.connection.ConnectionFactory;
+import Sirius.navigator.connection.ConnectionInfo;
+import Sirius.navigator.connection.ConnectionSession;
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.newuser.UserException;
 
 import org.mortbay.log.Log;
+
+import java.io.FileReader;
+import java.io.Reader;
 
 import java.text.DecimalFormat;
 
@@ -22,10 +31,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import de.cismet.cids.client.tools.DevelopmentTools;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgIdSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.LawaTableModel;
 import de.cismet.cids.custom.wrrl_db_mv.util.TeileComparator;
@@ -34,9 +48,15 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cids.utils.jasperreports.ReportSwingWorker;
 
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.tools.configuration.ConfigurationManager;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -51,6 +71,7 @@ public class WkFgReport {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgReport.class);
+    private static ConfigurationManager configManager = new ConfigurationManager();
 
     //~ Methods ----------------------------------------------------------------
 
@@ -64,12 +85,19 @@ public class WkFgReport {
         coll.add(cidsBean);
 
         final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
+        final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
         beans.add(coll);
         beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            beans.add(massnahmenUmgesetzt);
+        }
 
         final ArrayList<String> reports = new ArrayList<String>();
         reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
+        }
 
         final HashMap parameters = new HashMap();
         parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
@@ -88,6 +116,111 @@ public class WkFgReport {
     }
 
     /**
+     * Creates the report for the given cids bean and saves the file in the given directory.
+     *
+     * @param  directory  the directory to save the reports
+     * @param  cidsBean   the report will be created for this wk_fg bean
+     * @param  executor   the report thread will be executed with this executor, if it is not null
+     */
+    public static void createReport(final String directory, final CidsBean cidsBean, final Executor executor) {
+        final Collection<CidsBean> coll = new ArrayList<CidsBean>();
+        coll.add(cidsBean);
+
+        final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
+        final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
+        beans.add(coll);
+        beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            beans.add(massnahmenUmgesetzt);
+        }
+
+        final ArrayList<String> reports = new ArrayList<String>();
+        reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
+        reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
+        }
+
+        final HashMap parameters = new HashMap();
+        parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
+        parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
+        parameters.put("LAWA-DETAILTYP", getLawaDetailTyp(cidsBean));
+        parameters.put("BEWIRTSCHAFTUNGSBEREICHE", getBewirtschaftungsbereiche(cidsBean));
+
+        final String reportName = String.valueOf(cidsBean.getProperty("wk_k"));
+
+        final ReportSwingWorker worker = new ReportSwingWorker(
+                beans,
+                reports,
+                false,
+                null,
+                directory,
+                parameters,
+                reportName);
+
+        if (executor == null) {
+            worker.execute();
+        } else {
+            executor.execute(worker);
+        }
+    }
+
+    /**
+     * Creates all wk_fg reports and saves the files in the given directory.
+     *
+     * @param  directory   the directory to save the reports
+     * @param  expression  DOCUMENT ME!
+     */
+    public static void createAllReports(final String directory, final String expression) {
+        final MetaClass wkFgMc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+        final String query = "SELECT " + wkFgMc.getID() + ", " + wkFgMc.getPrimaryKey() + " FROM "
+                    + wkFgMc.getTableName();
+        final ArrayList ids = new ArrayList();
+
+        try {
+            final CidsServerSearch search = new WkFgIdSearch(expression);
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                for (final ArrayList l : resArray) {
+                    ids.add(l.get(0));
+                }
+            }
+        } catch (ConnectionException e) {
+        }
+
+        final ExecutorService executor = Executors.newFixedThreadPool(5);
+//        final ExecutorService executor = CismetExecutors.newCachedThreadPool();
+
+//        if (expression != null) {
+//            query += " WHERE wk_k ilike '" + expression + "'";
+//        }
+
+        try {
+            for (final Object id : ids) {
+                final Integer oId = (Integer)id;
+                final MetaObject wkFgObject = SessionManager.getProxy()
+                            .getMetaObject(oId.intValue(), wkFgMc.getID(), WRRLUtil.DOMAIN_NAME);
+                createReport(directory, wkFgObject.getBean(), executor);
+            }
+        } catch (Exception e) {
+            LOG.error("Error while creating all wk_fg reports", e);
+            System.exit(1);
+        }
+
+        try {
+            executor.shutdown();
+            executor.awaitTermination(10, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            // nothing to do
+        }
+
+        System.exit(0);
+    }
+
+    /**
      * DOCUMENT ME!
      *
      * @param   id  DOCUMENT ME!
@@ -100,19 +233,49 @@ public class WkFgReport {
 
             final String query = "SELECT "
                         + "   " + mcMassnahmen.getID() + ", "
-                        + "   " + mcMassnahmen.getPrimaryKey() + " "
+                        + "   m." + mcMassnahmen.getPrimaryKey() + " "
                         + "FROM "
-                        + "   " + mcMassnahmen.getTableName() + " "
+                        + "   " + mcMassnahmen.getTableName() + " m left join "
+                        + " massnahmen_realisierung mr on (realisierung = mr.id) "
                         + "WHERE "
                         + "   wk_fg = " + String.valueOf(id)
-                        + "ORDER BY massn_id"
+                        + " and (massn_fin is null or massn_fin = false) "
+                        + "ORDER BY mr.name, massn_id"
                         + ";";
 
             return getBeansFromQuery(query);
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
-            }
+            LOG.error("Error while getting massnahmen for wk-fg with id " + String.valueOf(id), ex);
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   id  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Collection<CidsBean> getMassnahmenUmgesetzt(final int id) {
+        try {
+            final MetaClass mcMassnahmen = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "massnahmen");
+
+            final String query = "SELECT "
+                        + "   " + mcMassnahmen.getID() + ", "
+                        + "   m ." + mcMassnahmen.getPrimaryKey() + " "
+                        + "FROM "
+                        + "   " + mcMassnahmen.getTableName() + " m left join "
+                        + " massnahmen_realisierung mr on (realisierung = mr.id) "
+                        + "WHERE "
+                        + "   wk_fg = " + String.valueOf(id)
+                        + " and massn_fin = true "
+                        + "ORDER BY mr.name, massn_id"
+                        + ";";
+
+            return getBeansFromQuery(query);
+        } catch (Exception ex) {
+            LOG.error("Error while getting massnahmen umgesetzt for wk-fg with id " + String.valueOf(id), ex);
             return null;
         }
     }
@@ -186,15 +349,45 @@ public class WkFgReport {
         final int anteilIndex = 1;
         final int amountDifferentTypes = model.getRowCount();
 
-        String lawaDetailTyp = "";
+        String lawaDetailTyp = null;
+        // create a map, that contains a mapping between the index of a lawa type in the model and its position, when
+        // it is ordered by the part of the total length
+        final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
+        final List<Pair<Integer, Double>> percentageIndexList = new ArrayList<Pair<Integer, Double>>();
 
         for (int i = 0; i < (amountDifferentTypes - 1); i++) {
-            final String typ = (String)model.getValueAt(i, typIndex);
-            final String typ_number = typ.split("-")[0];
-            final String anteil = (String)model.getValueAt(i, anteilIndex);
-            lawaDetailTyp += typ_number + " (" + anteil + "%), ";
+            final String percentageString = (String)model.getValueAt(i, anteilIndex);
+            double perc = 0.0;
+
+            try {
+                perc = Double.parseDouble(percentageString);
+            } catch (NumberFormatException n) {
+                // nothing to do
+            }
+
+            percentageIndexList.add(new Pair<Integer, Double>(i, perc));
         }
-        if (!lawaDetailTyp.equals("")) {
+
+        Collections.sort(percentageIndexList);
+
+        for (int i = 0; i < percentageIndexList.size(); i++) {
+            indexMap.put(i, percentageIndexList.get(i).getFirstValue());
+        }
+
+        for (int i = 0; i < (amountDifferentTypes - 1); i++) {
+            final String typ = (String)model.getValueAt(indexMap.get(i), typIndex);
+            final String typ_number = typ.split("-")[0];
+            final String typ_name = typ.substring(typ.indexOf("-") + 1);
+            String anteil = (String)model.getValueAt(indexMap.get(i), anteilIndex);
+            anteil = anteil.replace('.', ',');
+
+            if (lawaDetailTyp == null) {
+                lawaDetailTyp = typ_name + " (Typ " + typ_number + ": " + anteil + " % der Länge), ";
+            } else {
+                lawaDetailTyp += "<br />" + typ_name + " (Typ " + typ_number + ": " + anteil + " % der Länge), ";
+            }
+        }
+        if ((lawaDetailTyp != null) && !lawaDetailTyp.equals("")) {
             lawaDetailTyp = lawaDetailTyp.substring(0, lawaDetailTyp.length() - 2);
         }
 
@@ -282,9 +475,8 @@ public class WkFgReport {
 
             return getBeansFromQuery(query);
         } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.fatal("", ex);
-            }
+            LOG.error("Error while getting bewirtschaftungsende for wk-fg teil: " + String.valueOf(teilBean), ex);
+
             return null;
         }
     }
@@ -296,18 +488,159 @@ public class WkFgReport {
      */
     public static void main(final String[] args) {
         try {
-            DevelopmentTools.createRendererInFrameFromRMIConnectionOnLocalhost(
-                "WRRL_DB_MV",
-                "Administratoren",
-                "admin",
-                "kif",
-                "wk_fg",
-                23,
-                "Test",
-                1280,
-                1024);
+            String expression = null;
+
+            if (args.length == 0) {
+                System.out.println("Als Parameter muss der Pfad zur Konfigurationsdatei angegeben werden");
+                System.exit(1);
+            }
+
+            if (args.length == 2) {
+                expression = args[1];
+            }
+
+//            expression = "WANE-0300";
+
+            // read the properties
+            final Properties properties = new Properties();
+//            final Reader propertiesReader = new FileReader(
+//                    "/home/therter/ApplicationData/flexDist/client/wrrl-db-mvLocalMv/config/wkReports.properties");
+            final Reader propertiesReader = new FileReader(args[0]);
+            properties.load(propertiesReader);
+
+            // login
+            final ConnectionInfo connectionInfo = new ConnectionInfo();
+            connectionInfo.setCallserverURL(properties.getProperty("callserver"));
+            connectionInfo.setPassword(properties.getProperty("password"));
+            connectionInfo.setUserDomain(properties.getProperty("userDomain"));
+            connectionInfo.setUsergroup(properties.getProperty("userGroup"));
+            connectionInfo.setUsergroupDomain(properties.getProperty("userGroupDomain"));
+            connectionInfo.setUsername(properties.getProperty("username"));
+
+            final Connection connection = ConnectionFactory.getFactory()
+                        .createConnection(
+                            properties.getProperty("connectionClass"),
+                            properties.getProperty("callserver"),
+                            null);
+            final ConnectionSession session;
+            final ConnectionProxy proxy;
+
+            try {
+                session = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
+                proxy = ConnectionFactory.getFactory()
+                            .createProxy("Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler", session);
+                SessionManager.init(proxy);
+            } catch (UserException uexp) {
+                LOG.error("autologin failed", uexp); // NOI18N
+                System.exit(1);
+            }
+
+            initCismap();
+
+            // init log4J
+            final Properties p = new Properties();
+            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
+            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
+            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
+            org.apache.log4j.PropertyConfigurator.configure(p);
+
+            // create the reports
+            createAllReports(properties.getProperty("report_directory"), expression);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Initialises the MappingComponent.
+     */
+    private static void initCismap() {
+        final MappingComponent mappingComponent = new MappingComponent();
+
+        configManager.setDefaultFileName("de/cismet/cids/custom/reports/defaultCismapProperties.xml");
+        configManager.setFallBackFileName("de/cismet/cids/custom/reports/defaultCismapProperties.xml");
+
+        final ActiveLayerModel mappingModel = new ActiveLayerModel();
+        configManager.addConfigurable((ActiveLayerModel)mappingModel);
+        configManager.addConfigurable(mappingComponent);
+
+        configManager.configure(mappingModel);
+        mappingComponent.preparationSetMappingModel(mappingModel);
+        configManager.configure(mappingComponent);
+
+        mappingComponent.setMappingModel(mappingModel);
+
+        CismapBroker.getInstance().setMappingComponent(mappingComponent);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class Pair<F extends Comparable, S extends Comparable> implements Comparable<Pair> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private F firstValue;
+        private S secondValue;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new Pair object.
+         *
+         * @param  firstValue   DOCUMENT ME!
+         * @param  secondValue  DOCUMENT ME!
+         */
+        public Pair(final F firstValue, final S secondValue) {
+            this.firstValue = firstValue;
+            this.secondValue = secondValue;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the firstValue
+         */
+        public F getFirstValue() {
+            return firstValue;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  firstValue  the firstValue to set
+         */
+        public void setFirstValue(final F firstValue) {
+            this.firstValue = firstValue;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the secondValue
+         */
+        public S getSecondValue() {
+            return secondValue;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  secondValue  the secondValue to set
+         */
+        public void setSecondValue(final S secondValue) {
+            this.secondValue = secondValue;
+        }
+
+        @Override
+        public int compareTo(final Pair o) {
+            return -1 * secondValue.compareTo(o.getSecondValue());
         }
     }
 }

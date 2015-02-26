@@ -1,119 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="5">
 	<import value="de.cismet.cids.dynamics.CidsBean"/>
+	<parameter name="map" class="java.awt.Image" isForPrompting="false"/>
 	<field name="linie" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band/>
+		<band height="227">
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="555" height="28" forecolor="#000000"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. Übersichtskarte]]></text>
+			</staticText>
+			<image scaleImage="RealSize">
+				<reportElement x="0" y="39" width="555" height="180"/>
+				<imageExpression class="java.awt.Image"><![CDATA[$P{map}]]></imageExpression>
+			</image>
+		</band>
 	</title>
 	<pageHeader>
 		<band/>
 	</pageHeader>
 	<columnHeader>
-		<band height="16">
+		<band height="14">
 			<staticText>
-				<reportElement mode="Opaque" x="355" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="0" width="225" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Station von]]></text>
+				<text><![CDATA[Gewässer-Kennzahl]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="455" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="225" y="0" width="110" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Station bis]]></text>
+				<text><![CDATA[Station von (m)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="205" y="0" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="445" y="0" width="110" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Gewässer-Kennung]]></text>
+				<text><![CDATA[Länge (m)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="205" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="335" y="0" width="110" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Gewässer-Name]]></text>
+				<text><![CDATA[Station bis (m)]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16">
-			<textField isBlankWhenNull="true">
-				<reportElement x="355" y="0" width="100" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+		<band height="14">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="335" y="0" width="110" height="14"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert").toString()]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(((Double)((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert")).doubleValue())]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="445" y="0" width="110" height="14"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(((Double)((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert")).doubleValue() - ((Double)((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert")).doubleValue() )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="225" y="0" width="110" height="14"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(((Double)((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert")).doubleValue())]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="455" y="0" width="100" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+				<reportElement x="0" y="0" width="225" height="14"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="205" y="0" width="150" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ((CidsBean) ($F{linie}.getProperty("von"))).getProperty("route")).getProperty("gwk").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="205" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ((CidsBean) ($F{linie}.getProperty("von"))).getProperty("route")).getProperty("routenname")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band/>
-	</columnFooter>
-	<pageFooter>
-		<band/>
-	</pageFooter>
-	<summary>
-		<band/>
-	</summary>
 </jasperReport>

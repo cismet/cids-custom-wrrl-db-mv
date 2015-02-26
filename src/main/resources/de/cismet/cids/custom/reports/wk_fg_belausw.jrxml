@@ -1,42 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_sg_belausw" pageWidth="275" pageHeight="802" columnWidth="275" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_sg_belausw" pageWidth="350" pageHeight="802" columnWidth="350" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="5">
 	<field name="name" class="java.lang.String"/>
+	<field name="value" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band/>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="275" height="22"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Belastungen]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
 		<band/>
 	</pageHeader>
 	<columnHeader>
-		<band height="16">
+		<band height="14">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="275" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="0" width="255" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Auswirkungen]]></text>
+				<text><![CDATA[Signifikante Belastungsquellen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="255" y="0" width="95" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Code]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16">
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="275" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+		<band height="14">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="255" y="0" width="95" height="14"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="255" height="14"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>

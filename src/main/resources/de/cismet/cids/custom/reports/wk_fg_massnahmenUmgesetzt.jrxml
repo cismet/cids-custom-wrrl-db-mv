@@ -55,9 +55,9 @@
 		<band/>
 	</background>
 	<title>
-		<band height="70">
+		<band height="40">
 			<textField>
-				<reportElement style="column_header_style" x="0" y="60" width="329" height="10" backcolor="#DADADA"/>
+				<reportElement style="column_header_style" x="0" y="30" width="329" height="10" backcolor="#DADADA"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -71,7 +71,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["Wasserkörpername: " + $F{wk_fg.wk_n}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="column_header_style" x="329" y="60" width="473" height="10" backcolor="#DADADA"/>
+				<reportElement style="column_header_style" x="329" y="30" width="473" height="10" backcolor="#DADADA"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -85,7 +85,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["Wasserkörperkürzel: " + $F{wk_fg.wk_k}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="31" width="802" height="22" forecolor="#000000"/>
+				<reportElement x="0" y="0" width="802" height="22" forecolor="#000000"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.0" lineColor="#FFFFFF"/>
 					<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
@@ -96,21 +96,7 @@
 				<textElement>
 					<font fontName="Arial" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[5.1 Geplante Maßnahmen/Maßnahmen in Umsetzung]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="498" height="28" forecolor="#000000"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<leftPen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
-					<rightPen lineWidth="0.0" lineColor="#FFFFFF"/>
-				</box>
-				<textElement>
-					<font fontName="Arial" size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[5. Maßnahmen]]></text>
+				<text><![CDATA[5.2 Umgesetzte Maßnahmen]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -214,7 +200,7 @@
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="402" y="0" width="35" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Left">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Number"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert")]]></textFieldExpression>
@@ -230,7 +216,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="680" y="0" width="40" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Left">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung.name}]]></textFieldExpression>
@@ -238,7 +224,7 @@
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="507" y="0" width="173" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_SCRIPTLET}.formatMeasureTypeCodes($F{de_meas_cd})]]></textFieldExpression>
@@ -254,7 +240,7 @@
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
 				<reportElement style="detail_style" stretchType="RelativeToBandHeight" x="472" y="0" width="35" height="16" isPrintWhenDetailOverflows="true"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Left">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Number"><![CDATA[new Double(Math.abs(((Double)((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert")).doubleValue() - ((Double)((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert")).doubleValue()))]]></textFieldExpression>
@@ -276,8 +262,8 @@
 					<bottomPen lineColor="#000000"/>
 					<rightPen lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="8" isUnderline="true" isPdfEmbedded="false"/>
+				<textElement textAlignment="Left" markup="styled">
+					<font fontName="Arial" size="8" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["WK-Link"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA[$F{fislightlink}.toString()]]></hyperlinkReferenceExpression>
