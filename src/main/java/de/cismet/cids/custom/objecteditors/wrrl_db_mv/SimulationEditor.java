@@ -901,32 +901,35 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      * @param  massn  DOCUMENT ME!
      */
     private void removeMassnahme(final CidsBean fgsk, final CidsBean massn) {
-        if (FgskSimulationHelper.isMassnGroupContained(massn, cidsBean, fgsk)) {
-            return;
-        }
         try {
             final List<CidsBean> simMassnList = cidsBean.getBeanCollectionProperty(
                     FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
             CidsBean massnToRemove = null;
+            final Integer targetId = (Integer)massn.getProperty("id");
+            final Integer fgskId = (Integer)fgsk.getProperty("id");
 
             for (final CidsBean simMassn : simMassnList) {
-                if (simMassn.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
-                    if (simMassn.equals(massn)) {
-                        massnToRemove = simMassn;
-                        break;
+                if (simMassn.getProperty(FgskSimulationHelper.FGSK_KA_PROPERTY).equals(fgskId)) {
+                    final Integer massnId = (Integer)simMassn.getProperty(
+                            FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY);
+
+                    if (massnId != null) {
+                        if (massnId.equals(targetId)) {
+                            massnToRemove = simMassn;
+                            break;
+                        }
                     }
                 }
             }
             if (massnToRemove != null) {
                 simMassnList.remove(massnToRemove);
+                final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
+                        this,
+                        fgsk,
+                        getMassnahmenForFgsk(fgsk));
+
+                simulationResultChanged(e);
             }
-
-            final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
-                    this,
-                    fgsk,
-                    getMassnahmenForFgsk(fgsk));
-
-            simulationResultChanged(e);
         } catch (Exception e) {
             LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
         }
