@@ -14,9 +14,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
-import Sirius.server.middleware.types.MetaClassNode;
-import Sirius.server.middleware.types.MetaNode;
-import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
 import Sirius.server.middleware.types.Node;
 
@@ -25,12 +22,13 @@ import org.apache.log4j.Logger;
 import java.awt.Color;
 import java.awt.Component;
 
+import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -42,6 +40,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.fgsksimulation.FgskSimCalc;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenvorschlagSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
@@ -76,6 +75,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
     private static final CalcCache cache = CalcCache.getInstance();
     private static final Logger LOG = Logger.getLogger(SimSimulationsabschnittEditor.class);
+    private static final int SCALE = 12;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -83,11 +83,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     private CidsBean simulation;
     private CidsBean cidsBean;
     private List<CidsBean> massnahmen;
-    private final int scale = 12;
     private boolean readOnly;
-    private Map<Integer, Integer> gewIdToLawaValueMapping = new HashMap<Integer, Integer>();
-    private DefaultListModel model = new DefaultListModel();
-    private List<SimulationResultChangedListener> listener = new ArrayList<SimulationResultChangedListener>();
+    private final DefaultListModel model = new DefaultListModel();
+    private final List<SimulationResultChangedListener> listener = new ArrayList<SimulationResultChangedListener>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -332,7 +330,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblLaufkr, gridBagConstraints);
 
         lblLaufkrVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -352,7 +350,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblAnzLa, gridBagConstraints);
 
         lblAnzLaVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -372,7 +370,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblAnzLauf, gridBagConstraints);
 
         lblAnzLaufVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -392,7 +390,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblKruemmungserosion, gridBagConstraints);
 
         lblKruemmungserosionVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -412,7 +410,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblAnzQuerbaenke, gridBagConstraints);
 
         lblAnzQuerbaenkeVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -432,7 +430,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblStroemngsdiversitaet, gridBagConstraints);
 
         lblStroemngsdiversitaetVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -452,7 +450,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblTiefenvarianz, gridBagConstraints);
 
         lblTiefenvarianzVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -472,7 +470,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblTiefenerosion, gridBagConstraints);
 
         lblTiefenerosionVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -492,7 +490,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblFliessgeschwindigkeit, gridBagConstraints);
 
         lblFliessgeschwindigkeitVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -512,7 +510,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblSubstratdiversitaet, gridBagConstraints);
 
         lblSubstratdiversitaetVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -532,7 +530,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblAnzBesSohlstrukturen, gridBagConstraints);
 
         lblAnzBesSohlstrukturenVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -552,7 +550,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblSohlverbau, gridBagConstraints);
 
         lblSohlverbauVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -573,7 +571,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblBelastungenSohle, gridBagConstraints);
 
         lblBelastungenSohleVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -629,8 +627,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblUfer, gridBagConstraints);
 
         lblSohltiefe.setText(org.openide.util.NbBundle.getMessage(
@@ -640,7 +639,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblSohltiefe, gridBagConstraints);
 
         lblSohltiefeVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -660,7 +659,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblBreitenerosion, gridBagConstraints);
 
         lblBreitenerosionVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -680,7 +679,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblBreitenvarianz, gridBagConstraints);
 
         lblBreitenvarianzVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -700,7 +699,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblProfiltyp, gridBagConstraints);
 
         lblProfiltypVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -720,7 +719,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblAnzBesUferstrukturenRe, gridBagConstraints);
 
         lblAnzBesUferstrukturenReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -740,7 +739,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblAnzBesUferstrukturenLi, gridBagConstraints);
 
         lblAnzBesUferstrukturenLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -760,7 +759,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblUferbewuchsRe, gridBagConstraints);
 
         lblUferbewuchsReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -780,7 +779,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblUferbewuchsLi, gridBagConstraints);
 
         lblUferbewuchsLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -800,7 +799,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblUferverbauRe, gridBagConstraints);
 
         lblUferverbauReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -820,7 +819,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblUferverbauLi, gridBagConstraints);
 
         lblUferverbauLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -840,7 +839,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblBesondereUferbelastungenRe, gridBagConstraints);
 
         lblBesondereUferbelastungenReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -861,7 +860,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblBesondereUferbelastungenLi, gridBagConstraints);
 
         lblBesondereUferbelastungenLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -880,7 +879,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblQuerprofil, gridBagConstraints);
 
         lblUferstruktur.setIcon(new VerticalTextIcon("Uferstruktur", false));
@@ -889,7 +888,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblUferstruktur, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -908,8 +907,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblLand, gridBagConstraints);
 
         lblGewaesserrandstreifenRe.setText(org.openide.util.NbBundle.getMessage(
@@ -919,7 +919,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblGewaesserrandstreifenRe, gridBagConstraints);
 
         lblGewaesserrandstreifenReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -939,7 +939,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblGewaesserrandstreifenLi, gridBagConstraints);
 
         lblGewaesserrandstreifenLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -959,7 +959,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblFlaechennutzungRe, gridBagConstraints);
 
         lblFlaechennutzungReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -979,7 +979,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblFlaechennutzungLi, gridBagConstraints);
 
         lblFlaechennutzungLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -999,7 +999,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblSchaedlicheUmfeldstrukturenRe, gridBagConstraints);
 
         lblSchaedlicheUmfeldstrukturenReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1019,7 +1019,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblSchaedlicheUmfeldstrukturenLi, gridBagConstraints);
 
         lblSchaedlicheUmfeldstrukturenLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1038,7 +1038,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblGewaesserumfeld, gridBagConstraints);
 
         jbVorschlag.setText(org.openide.util.NbBundle.getMessage(
@@ -1052,9 +1052,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -1068,7 +1068,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
         panLand.add(lblMassn, gridBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -1082,7 +1082,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 15, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 10, 0);
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
         jbRem.setIcon(new javax.swing.ImageIcon(
@@ -1130,9 +1130,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 30, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 20, 0, 0);
         jPanel2.add(lblIndFische, gridBagConstraints);
 
         txtFische.setEditable(false);
@@ -1141,7 +1142,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 15);
         jPanel2.add(txtFische, gridBagConstraints);
 
@@ -1151,8 +1153,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 0);
         jPanel2.add(lblIndMzb, gridBagConstraints);
 
         txtMzb.setEditable(false);
@@ -1161,7 +1164,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 15);
         jPanel2.add(txtMzb, gridBagConstraints);
 
@@ -1171,8 +1175,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 0);
         jPanel2.add(lblIndMkPhy, gridBagConstraints);
 
         txtMkP.setEditable(false);
@@ -1181,19 +1186,22 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 15);
         jPanel2.add(txtMkP, gridBagConstraints);
 
+        lblIndOMKosten.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblIndOMKosten.setText(org.openide.util.NbBundle.getMessage(
                 SimSimulationsabschnittEditor.class,
                 "SimSimulationsabschnittEditor.lblIndOMKosten.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
         jPanel2.add(lblIndOMKosten, gridBagConstraints);
 
         txtCosts.setEditable(false);
@@ -1222,6 +1230,13 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param  evt  DOCUMENT ME!
      */
     private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorschlagActionPerformed
+        generateMassnahmenvorschlag();
+    }                                                                               //GEN-LAST:event_jbVorschlagActionPerformed
+
+    /**
+     * Determines the preferred massnahmen for the currently fgsk.
+     */
+    public void generateMassnahmenvorschlag() {
         final WaitingDialogThread<Collection<Node>> worker = new WaitingDialogThread<Collection<Node>>(StaticSwingTools
                         .getParentFrame(this),
                 true,
@@ -1255,7 +1270,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                                 allMassn.addAll(massnahmen);
                             }
                             allMassn.add(mon.getObject().getBean());
-                            Double points = calc(cidsBean, allMassn, false);
+                            Double points = calc(cidsBean, allMassn, false, null);
                             if (points == null) {
                                 points = 0.0;
                             }
@@ -1267,7 +1282,11 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                         final Collection<Node> newRes = new ArrayList<Node>();
 
                         for (final Node n : res) {
-                            if (!isMassnGroupContained(((MetaObjectNode)n).getObject().getBean())) {
+                            if (
+                                !FgskSimulationHelper.isMassnGroupContained(
+                                            ((MetaObjectNode)n).getObject().getBean(),
+                                            simulation,
+                                            cidsBean)) {
                                 newRes.add(n);
                             }
                         }
@@ -1281,26 +1300,13 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             };
 
         worker.start();
-    } //GEN-LAST:event_jbVorschlagActionPerformed
+    }
 
     /**
-     * DOCUMENT ME!
-     *
-     * @param   bean  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
+     * hides the proposal button.
      */
-    private boolean isMassnGroupContained(final CidsBean bean) {
-        final List<CidsBean> simList = simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
-
-        for (final CidsBean simMassn : simList) {
-            if (simMassn.getProperty("fgsk_ka").equals(cidsBean)
-                        && simMassn.getProperty("massnahme").equals(bean)) {
-                return true;
-            }
-        }
-
-        return false;
+    public void hideProposalButton() {
+        jbVorschlag.setVisible(false);
     }
 
     /**
@@ -1341,7 +1347,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             removeMassnGroupFromSimulation((CidsBean)el);
         }
         try {
-            calc(cidsBean, massnahmen, true);
+            calc(cidsBean, massnahmen, true, this);
             fillCosts();
             final SimulationResultChangedEvent e = new SimulationResultChangedEvent(this, cidsBean, massnahmen);
             fireSimulationResultChangedEvent(e);
@@ -1355,15 +1361,38 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     /**
      * DOCUMENT ME!
      *
-     * @param  bean  DOCUMENT ME!
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public void setReadOnly(final boolean readOnly) {
+        this.readOnly = readOnly;
+        jbRem.setVisible(!readOnly);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bean  this can be a massnahmen_gruppe object or a massnahmen object
      */
     private void removeMassnGroupFromSimulation(final CidsBean bean) {
         final List<CidsBean> simList = simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
 
         for (final CidsBean simMassn : simList) {
-            if (simMassn.getProperty("fgsk_ka").equals(cidsBean) && simMassn.getProperty("massnahme").equals(bean)) {
-                simList.remove(simMassn);
-                break;
+            if (simMassn.getProperty("fgsk_ka").equals(cidsBean.getProperty("id"))) {
+                if (bean.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)) {
+                    if ((simMassn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY) != null)
+                                && simMassn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY).equals(
+                                    bean.getProperty("id"))) {
+                        simList.remove(simMassn);
+                        break;
+                    }
+                } else if (bean.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
+                    if ((simMassn.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY) != null)
+                                && simMassn.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY).equals(
+                                    bean.getProperty("id"))) {
+                        simList.remove(simMassn);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -1403,18 +1432,18 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  a Fgsk_Kartierabschnitt bean
+     */
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
-//        bindingGroup.unbind();
 
         if (cidsBean != null) {
-//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-//                bindingGroup,
-//                cidsBean);
-//            bindingGroup.bind();
             try {
-                calc(cidsBean, massnahmen, true);
+                calc(cidsBean, massnahmen, true, this);
                 fillCosts();
             } catch (Exception e) {
                 LOG.error("Error while calculating the simulation results", e);
@@ -1450,19 +1479,22 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param   bean        DOCUMENT ME!
      * @param   massnahmen  DOCUMENT ME!
      * @param   fillFields  DOCUMENT ME!
+     * @param   simEditor   Must be set, if fillFields is true
      *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception              DOCUMENT ME!
      * @throws  IllegalStateException  DOCUMENT ME!
      */
-    public Double calc(final CidsBean bean, final List<CidsBean> massnahmen, final boolean fillFields)
-            throws Exception {
+    public static Double calc(final CidsBean bean,
+            final List<CidsBean> massnahmen,
+            final boolean fillFields,
+            final SimSimulationsabschnittEditor simEditor) throws Exception {
         final CidsBean wbTypeBean = (CidsBean)bean.getProperty(Calc.PROP_WB_TYPE);
 
         if (FgskKartierabschnittEditor.isPreFieldMapping(bean) || FgskKartierabschnittEditor.isException(bean)) {
             if (fillFields) {
-                clearAll();
+                simEditor.clearAll();
             }
             if (FgskKartierabschnittEditor.isException(bean)) {
                 return null;
@@ -1473,12 +1505,12 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
         if (wbTypeBean == null) {
             if (fillFields) {
-                clearAll();
+                simEditor.clearAll();
             }
             throw new IllegalStateException("kartierabschnitt bean without water body type: " + bean); // NOI18N
         }
         final int wbTypeId = wbTypeBean.getMetaObject().getId();
-        gewIdToLawaValueMapping.put(wbTypeId, (Integer)wbTypeBean.getProperty("value"));
+        final Integer lawaValue = (Integer)wbTypeBean.getProperty("value");
         final double stationLength = Calc.getStationLength(bean);
         final CidsBean courseLoopBean = (CidsBean)bean.getProperty(Calc.PROP_COURSE_LOOP);
         final CidsBean loopErosionBean = (CidsBean)bean.getProperty(Calc.PROP_LOOP_EROSION);
@@ -1515,7 +1547,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         final double waterDepth = (Double)bean.getProperty(Calc.PROP_WATER_DEPTH);
         final double profileDepth = incisionDepth + waterDepth;
 
-        final double breadthDepthRelation = Calc.round(Calc.round(upperProfileBreadth / profileDepth, scale));
+        final double breadthDepthRelation = Calc.round(Calc.round(upperProfileBreadth / profileDepth, SCALE));
 
         final CidsBean profileTypeBean = (CidsBean)bean.getProperty(Calc.PROP_PROFILE_TYPE);
         final CidsBean breadthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_BREADTH_VARIANCE);
@@ -1563,56 +1595,56 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         Double ratingBadEnvLeft = Calc.getInstance().getBadEnvRating(wbTypeId, bean, true);
         final Double ratingBedContamination = Calc.getInstance().calcBedContamination(bean, wbTypeId);
 
-        ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, wbTypeId);
-        ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, wbTypeId);
-        ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, wbTypeId);
+        ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, lawaValue);
+        ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, lawaValue);
+        ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
         ratingCourseStructure = addProperty(
                 ratingCourseStructure,
                 "anzahl_besonderer_laufstrukturen",
                 massnahmen,
-                wbTypeId);
-        ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, wbTypeId);
-        ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, wbTypeId);
+                lawaValue);
+        ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
+        ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, lawaValue);
         // Fliessgeschwindigkeit gibt es als Wirkung auf den FGSK Abschnitt nicht
 // ratingFlowVelocity = addProperty(ratingFlowVelocity, "fliessgeschwindigkeit", massnahmen, wbTypeId);
-        ratingDepthVariance = addProperty(ratingDepthVariance, "tiefenvarianz", massnahmen, wbTypeId);
-        substrateDiversityRating = addProperty(substrateDiversityRating, "substratdiversitaet", massnahmen, wbTypeId);
-        bedStructureRating = addProperty(bedStructureRating, "anzahl_besonderer_sohlstrukturen", massnahmen, wbTypeId);
-        ratingBedFitment = addProperty(ratingBedFitment, "sohlverbau", massnahmen, wbTypeId);
-        ratingDepthBreadth = addProperty(ratingDepthBreadth, "sohltiefe_obere_profilbreite", massnahmen, wbTypeId);
-        ratingBreadthErosion = addProperty(ratingBreadthErosion, "breitenerosion", massnahmen, wbTypeId);
-        ratingBreadthVariance = addProperty(ratingBreadthVariance, "breitenvarianz", massnahmen, wbTypeId);
-        ratingProfileType = addProperty(ratingProfileType, "profiltyp", massnahmen, wbTypeId);
+        ratingDepthVariance = addProperty(ratingDepthVariance, "tiefenvarianz", massnahmen, lawaValue);
+        substrateDiversityRating = addProperty(substrateDiversityRating, "substratdiversitaet", massnahmen, lawaValue);
+        bedStructureRating = addProperty(bedStructureRating, "anzahl_besonderer_sohlstrukturen", massnahmen, lawaValue);
+        ratingBedFitment = addProperty(ratingBedFitment, "sohlverbau", massnahmen, lawaValue);
+        ratingDepthBreadth = addProperty(ratingDepthBreadth, "sohltiefe_obere_profilbreite", massnahmen, lawaValue);
+        ratingBreadthErosion = addProperty(ratingBreadthErosion, "breitenerosion", massnahmen, lawaValue);
+        ratingBreadthVariance = addProperty(ratingBreadthVariance, "breitenvarianz", massnahmen, lawaValue);
+        ratingProfileType = addProperty(ratingProfileType, "profiltyp", massnahmen, lawaValue);
         ratingBankStructureRight = addProperty(
                 ratingBankStructureRight,
                 "anzahl_besonderer_uferstrukturen",
                 massnahmen,
-                wbTypeId);
+                lawaValue);
         ratingBankStructureLeft = addProperty(
                 ratingBankStructureLeft,
                 "anzahl_besonderer_uferstrukturen",
                 massnahmen,
-                wbTypeId);
-        ratingBankVegetationRight = addProperty(ratingBankVegetationRight, "uferbewuchs", massnahmen, wbTypeId);
-        ratingBankVegetationLeft = addProperty(ratingBankVegetationLeft, "uferbewuchs", massnahmen, wbTypeId);
-        ratingBankFitmentRight = addProperty(ratingBankFitmentRight, "uferverbau", massnahmen, wbTypeId);
-        ratingBankFitmentLeft = addProperty(ratingBankFitmentLeft, "uferverbau", massnahmen, wbTypeId);
-        ratingWBTrimmingRight = addProperty(ratingWBTrimmingRight, "gewaesserrandstreifen", massnahmen, wbTypeId);
-        ratingWBTrimmingLeft = addProperty(ratingWBTrimmingLeft, "gewaesserrandstreifen", massnahmen, wbTypeId);
-        ratingLandUseRight = addProperty(ratingLandUseRight, "flaechennutzung", massnahmen, wbTypeId);
-        ratingLandUseLeft = addProperty(ratingLandUseLeft, "flaechennutzung", massnahmen, wbTypeId);
+                lawaValue);
+        ratingBankVegetationRight = addProperty(ratingBankVegetationRight, "uferbewuchs", massnahmen, lawaValue);
+        ratingBankVegetationLeft = addProperty(ratingBankVegetationLeft, "uferbewuchs", massnahmen, lawaValue);
+        ratingBankFitmentRight = addProperty(ratingBankFitmentRight, "uferverbau", massnahmen, lawaValue);
+        ratingBankFitmentLeft = addProperty(ratingBankFitmentLeft, "uferverbau", massnahmen, lawaValue);
+        ratingWBTrimmingRight = addProperty(ratingWBTrimmingRight, "gewaesserrandstreifen", massnahmen, lawaValue);
+        ratingWBTrimmingLeft = addProperty(ratingWBTrimmingLeft, "gewaesserrandstreifen", massnahmen, lawaValue);
+        ratingLandUseRight = addProperty(ratingLandUseRight, "flaechennutzung", massnahmen, lawaValue);
+        ratingLandUseLeft = addProperty(ratingLandUseLeft, "flaechennutzung", massnahmen, lawaValue);
         ratingBadEnvRight = Calc.correctBadEnvRating(addProperty(
                     ratingBadEnvRight,
                     "sonstige_umfeldstrukturen",
                     massnahmen,
                     wbTypeId),
-                wbTypeId);
+                lawaValue);
         ratingBadEnvLeft = Calc.correctBadEnvRating(addProperty(
                     ratingBadEnvLeft,
                     "sonstige_umfeldstrukturen",
                     massnahmen,
                     wbTypeId),
-                wbTypeId);
+                lawaValue);
 
         // start overall rating calculation
         final Calc.RatingStruct wbLongProfileRating = new Calc.RatingStruct();
@@ -1732,39 +1764,39 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         // end overall rating calculation
 
         if (fillFields) {
-            fillLabel(lblLaufkrVal, ratingCourseLoop);
-            fillLabel(lblKruemmungserosionVal, ratingLoopErosion);
-            fillLabel(lblAnzLaVal, ratingLongBench);
-            fillLabel(lblAnzLaufVal, ratingCourseStructure);
-            fillLabel(lblAnzQuerbaenkeVal, ratingCrossBench);
-            fillLabel(lblStroemngsdiversitaetVal, ratingFlowDiversity);
-            fillLabel(lblFliessgeschwindigkeitVal, ratingFlowVelocity);
-            fillLabel(lblTiefenvarianzVal, ratingDepthVariance);
-            fillLabel(lblSubstratdiversitaetVal, substrateDiversityRating);
-            fillLabel(lblAnzBesSohlstrukturenVal, bedStructureRating);
-            fillLabel(lblSohlverbauVal, ratingBedFitment);
-            fillLabel(lblSohltiefeVal, ratingDepthBreadth);
-            fillLabel(lblBreitenerosionVal, ratingBreadthErosion);
-            fillLabel(lblBreitenvarianzVal, ratingBreadthVariance);
-            fillLabel(lblProfiltypVal, ratingProfileType);
-            fillLabel(lblAnzBesUferstrukturenReVal, ratingBankStructureRight);
-            fillLabel(lblAnzBesUferstrukturenLiVal, ratingBankStructureLeft);
-            fillLabel(lblUferbewuchsReVal, ratingBankVegetationRight);
-            fillLabel(lblUferbewuchsLiVal, ratingBankVegetationLeft);
-            fillLabel(lblUferverbauReVal, ratingBankFitmentRight);
-            fillLabel(lblUferverbauLiVal, ratingBankFitmentLeft);
-            fillLabelWithPoints(lblBesondereUferbelastungenReVal, bankContaminationRight);
-            fillLabelWithPoints(lblBesondereUferbelastungenLiVal, bankContaminationLeft);
-            fillLabelWithPoints(lblBelastungenSohleVal, bedContamination);
-            fillLabel(lblGewaesserrandstreifenReVal, ratingWBTrimmingRight);
-            fillLabel(lblGewaesserrandstreifenLiVal, ratingWBTrimmingLeft);
-            fillLabel(lblFlaechennutzungReVal, ratingLandUseRight);
-            fillLabel(lblFlaechennutzungLiVal, ratingLandUseLeft);
-            fillLabelWithPoints(lblSchaedlicheUmfeldstrukturenReVal, badEnvRight);
-            fillLabelWithPoints(lblSchaedlicheUmfeldstrukturenLiVal, badEnvLeft);
-            int indFische = getMassnBonus(massnahmen, "fische", wbTypeId);
-            int indMp = getMassnBonus(massnahmen, "makrophyten", wbTypeId);
-            int indMzb = getMassnBonus(massnahmen, "makrozoobenthos", wbTypeId);
+            fillLabel(simEditor.lblLaufkrVal, ratingCourseLoop);
+            fillLabel(simEditor.lblKruemmungserosionVal, ratingLoopErosion);
+            fillLabel(simEditor.lblAnzLaVal, ratingLongBench);
+            fillLabel(simEditor.lblAnzLaufVal, ratingCourseStructure);
+            fillLabel(simEditor.lblAnzQuerbaenkeVal, ratingCrossBench);
+            fillLabel(simEditor.lblStroemngsdiversitaetVal, ratingFlowDiversity);
+            fillLabel(simEditor.lblFliessgeschwindigkeitVal, ratingFlowVelocity);
+            fillLabel(simEditor.lblTiefenvarianzVal, ratingDepthVariance);
+            fillLabel(simEditor.lblSubstratdiversitaetVal, substrateDiversityRating);
+            fillLabel(simEditor.lblAnzBesSohlstrukturenVal, bedStructureRating);
+            fillLabel(simEditor.lblSohlverbauVal, ratingBedFitment);
+            fillLabel(simEditor.lblSohltiefeVal, ratingDepthBreadth);
+            fillLabel(simEditor.lblBreitenerosionVal, ratingBreadthErosion);
+            fillLabel(simEditor.lblBreitenvarianzVal, ratingBreadthVariance);
+            fillLabel(simEditor.lblProfiltypVal, ratingProfileType);
+            fillLabel(simEditor.lblAnzBesUferstrukturenReVal, ratingBankStructureRight);
+            fillLabel(simEditor.lblAnzBesUferstrukturenLiVal, ratingBankStructureLeft);
+            fillLabel(simEditor.lblUferbewuchsReVal, ratingBankVegetationRight);
+            fillLabel(simEditor.lblUferbewuchsLiVal, ratingBankVegetationLeft);
+            fillLabel(simEditor.lblUferverbauReVal, ratingBankFitmentRight);
+            fillLabel(simEditor.lblUferverbauLiVal, ratingBankFitmentLeft);
+            fillLabelWithPoints(simEditor.lblBesondereUferbelastungenReVal, bankContaminationRight);
+            fillLabelWithPoints(simEditor.lblBesondereUferbelastungenLiVal, bankContaminationLeft);
+            fillLabelWithPoints(simEditor.lblBelastungenSohleVal, bedContamination);
+            fillLabel(simEditor.lblGewaesserrandstreifenReVal, ratingWBTrimmingRight);
+            fillLabel(simEditor.lblGewaesserrandstreifenLiVal, ratingWBTrimmingLeft);
+            fillLabel(simEditor.lblFlaechennutzungReVal, ratingLandUseRight);
+            fillLabel(simEditor.lblFlaechennutzungLiVal, ratingLandUseLeft);
+            fillLabelWithPoints(simEditor.lblSchaedlicheUmfeldstrukturenReVal, badEnvRight);
+            fillLabelWithPoints(simEditor.lblSchaedlicheUmfeldstrukturenLiVal, badEnvLeft);
+            int indFische = getMassnBonus(massnahmen, "fische", lawaValue);
+            int indMp = getMassnBonus(massnahmen, "makrophyten", lawaValue);
+            int indMzb = getMassnBonus(massnahmen, "makrozoobenthos", lawaValue);
             if (indFische > 2) {
                 indFische = 2;
             }
@@ -1774,9 +1806,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             if (indMzb > 2) {
                 indMzb = 2;
             }
-            txtFische.setText(String.valueOf(indFische));
-            txtMkP.setText(String.valueOf(indMp));
-            txtMzb.setText(String.valueOf(indMzb));
+            simEditor.txtFische.setText(String.valueOf(indFische));
+            simEditor.txtMkP.setText(String.valueOf(indMp));
+            simEditor.txtMzb.setText(String.valueOf(indMzb));
         }
         return (Double)dummyBean.getProperty(Calc.PROP_WB_OVERALL_RATING);
     }
@@ -1822,34 +1854,34 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     /**
      * DOCUMENT ME!
      *
-     * @param   massnahmen    DOCUMENT ME!
+     * @param   massnahmen    The massnahmen list can contain massnahmen_gruppen and massnahmen
      * @param   propertyName  DOCUMENT ME!
-     * @param   wbTypeId      DOCUMENT ME!
+     * @param   lawaValue     wbTypeId DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private int getMassnBonus(final List<CidsBean> massnahmen, final String propertyName, final int wbTypeId) {
+    private static int getMassnBonus(final List<CidsBean> massnahmen,
+            final String propertyName,
+            final Integer lawaValue) {
         int bonus = 0;
-        final Integer lawaValue = gewIdToLawaValueMapping.get(wbTypeId);
 
         if (massnahmen != null) {
-            for (final CidsBean massnGroup : massnahmen) {
-                final List<CidsBean> massnList = massnGroup.getBeanCollectionProperty("massnahmen");
+            final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(massnahmen);
 
-                for (final CidsBean massn : massnList) {
-                    final List<CidsBean> wirkungList = massn.getBeanCollectionProperty("wirkungen");
+            for (final CidsBean massn : massnList) {
+                final List<CidsBean> wirkungList = massn.getBeanCollectionProperty("wirkungen");
 
-                    for (final CidsBean wirkung : wirkungList) {
-                        if (wirkung.getProperty("gewaessertyp.code").equals(lawaValue)) {
-                            final Integer tmp = (Integer)wirkung.getProperty(propertyName);
-                            if (tmp != null) {
-                                bonus += tmp;
-                            }
+                for (final CidsBean wirkung : wirkungList) {
+                    if (wirkung.getProperty("gewaessertyp.code").equals(lawaValue)) {
+                        final Integer tmp = (Integer)wirkung.getProperty(propertyName);
+                        if (tmp != null) {
+                            bonus += tmp;
                         }
                     }
                 }
             }
         }
+
         return bonus;
     }
 
@@ -1859,7 +1891,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param  lab     DOCUMENT ME!
      * @param  points  DOCUMENT ME!
      */
-    private void fillLabel(final JLabel lab, final Number points) {
+    private static void fillLabel(final JLabel lab, final Number points) {
         if (points != null) {
             double pointsAsDouble = points.doubleValue();
 
@@ -1883,7 +1915,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param  lab     DOCUMENT ME!
      * @param  points  DOCUMENT ME!
      */
-    private void fillLabelWithPoints(final JLabel lab, final Number points) {
+    private static void fillLabelWithPoints(final JLabel lab, final Number points) {
         if (points != null) {
             lab.setText(String.valueOf(points));
             lab.setOpaque(false);
@@ -1899,19 +1931,19 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param   value         DOCUMENT ME!
      * @param   propertyName  DOCUMENT ME!
      * @param   massnahmen    DOCUMENT ME!
-     * @param   wbTypeId      DOCUMENT ME!
+     * @param   LawaValue     wbTypeId DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Double addProperty(final Double value,
+    private static Double addProperty(final Double value,
             final String propertyName,
             final List<CidsBean> massnahmen,
-            final int wbTypeId) {
+            final Integer LawaValue) {
         if (value == null) {
             return null;
         }
 
-        return value + getMassnBonus(massnahmen, propertyName, wbTypeId);
+        return value + getMassnBonus(massnahmen, propertyName, LawaValue);
     }
 
     /**
@@ -1920,19 +1952,19 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param   value         DOCUMENT ME!
      * @param   propertyName  DOCUMENT ME!
      * @param   massnahmen    DOCUMENT ME!
-     * @param   wbTypeId      DOCUMENT ME!
+     * @param   lawaValue     wbTypeId DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Integer addProperty(final Integer value,
+    private static Integer addProperty(final Integer value,
             final String propertyName,
             final List<CidsBean> massnahmen,
-            final int wbTypeId) {
+            final Integer lawaValue) {
         if (value == null) {
             return null;
         }
 
-        return value + getMassnBonus(massnahmen, propertyName, wbTypeId);
+        return value + getMassnBonus(massnahmen, propertyName, lawaValue);
     }
 
     /**
@@ -1944,7 +1976,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    private Double getBedStructureRating(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private static Double getBedStructureRating(final CidsBean cidsBean,
+            final int wbTypeId,
+            final double stationLength) {
         final Double bedStructureSectionLength = cache.getBedStructureSectionLength(wbTypeId);
 
         final Double ratingBedStructure;
@@ -1963,7 +1997,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             final double absBedStructureCount = Calc.round(Calc.round(
                         bedStructureCount
                                 / (stationLength / bedStructureSectionLength),
-                        scale));
+                        SCALE));
 
             ratingBedStructure = cache.getBedStructureRating(absBedStructureCount, wbTypeId);
         } else {
@@ -1984,7 +2018,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @throws  IllegalStateException  DOCUMENT ME!
      */
-    private Integer getSubstrateDiversity(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private static Integer getSubstrateDiversity(final CidsBean cidsBean,
+            final int wbTypeId,
+            final double stationLength) {
         int naturalSubstratesCount = 0;
         for (final CalcCache.BedSubtrateType type : CalcCache.BedSubtrateType.getNaturalBedSubstrateTypes()) {
             final Double percentage = (Double)cidsBean.getProperty(
@@ -2072,7 +2108,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             ratingSubstrates = Calc.round(Calc.round(
                         (ratingNaturalSubstrates + ratingArtificialSubstrates + ratingHardSubstrates)
                                 / 3.0,
-                        scale));
+                        SCALE));
         } else {
             ratingSubstrates = null;
         }
@@ -2089,7 +2125,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    private Double getCourseStructureSum(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private static Double getCourseStructureSum(final CidsBean cidsBean,
+            final int wbTypeId,
+            final double stationLength) {
         // Anz.besonderer Laufstrukturen
         double courseStructureSum = 0;
         for (final CalcCache.CourseStructureType type : CalcCache.CourseStructureType.values()) {
@@ -2112,7 +2150,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             absCourseStructureSum = (double)Calc.round(Calc.round(
                         courseStructureSum
                                 / (stationLength / courseStructureSectionLength),
-                        scale));
+                        SCALE));
         }
 
         return absCourseStructureSum;
@@ -2127,7 +2165,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    private Double getLongBenchSum(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private static Double getLongBenchSum(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
         // Laengsbaenke
         double longBenchSum = 0;
         for (final CalcCache.LongBenchType type : CalcCache.LongBenchType.values()) {
@@ -2149,7 +2187,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             absLongBenchSum = (double)Calc.round(Calc.round(
                         longBenchSum
                                 / (stationLength / longBenchSectionLength),
-                        scale));
+                        SCALE));
         }
 
         return absLongBenchSum;
@@ -2164,7 +2202,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  DOCUMENT ME!
      */
-    private Double getCrossBenchCount(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
+    private static Double getCrossBenchCount(final CidsBean cidsBean, final int wbTypeId, final double stationLength) {
         final double crossBenchCount = (Double)cidsBean.getProperty(Calc.PROP_CROSS_BENCH_COUNT); // NOI18N
         final Double sectionLength = cache.getCrossBenchSectionLength(wbTypeId);
 
@@ -2179,7 +2217,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             absCrossBenchCount = (double)Calc.round(Calc.round(
                         crossBenchCount
                                 / (stationLength / sectionLength),
-                        scale));
+                        SCALE));
         }
 
         return absCrossBenchCount;
@@ -2226,7 +2264,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 }
             }
 
-            txtCosts.setText(String.valueOf(costs));
+            final DecimalFormat format = new DecimalFormat();
+            txtCosts.setText(format.format(costs));
         } catch (Exception e) {
             LOG.error("Error while calculating the costs.", e);
         }
@@ -2235,7 +2274,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     /**
      * DOCUMENT ME!
      *
-     * @param   massnGroup  DOCUMENT ME!
+     * @param   massnGroup  this can be a massnahmen_gruppe object or a massnahme object
      *
      * @return  DOCUMENT ME!
      */
@@ -2243,7 +2282,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         double costs = 0.0;
 
         try {
-            final List<CidsBean> massnList = massnGroup.getBeanCollectionProperty("massnahmen");
+            final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(Collections.nCopies(
+                        1,
+                        massnGroup));
 
             for (final CidsBean massn : massnList) {
                 costs += FgskSimCalc.getInstance().calcCosts(cidsBean, massn);
@@ -2344,56 +2385,67 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             if (readOnly) {
                 return;
             }
-            if (beans.size() > 0) {
-                final CidsBean tmpBean = beans.get(0);
+            for (final CidsBean tmpBean : beans) {
+                if (!(tmpBean.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)
+                                || tmpBean.getClass().getName().equals(
+                                    FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME))) {
+                    // not supported bean type
+                    return;
+                }
 
-                if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Sim_massnahmen_gruppe")) {
-                    try {
-                        if (isMassnGroupContained(tmpBean)) {
-                            JOptionPane.showMessageDialog(
-                                SimSimulationsabschnittEditor.this,
-                                "Die Maßnahmengruppe ist bereits vorhanden.",
-                                "Maßnahmengruppe ist bereits vorhanden",
-                                JOptionPane.WARNING_MESSAGE);
-                            return;
-                        }
-
-                        final String hinweis = (String)tmpBean.getProperty("hinweis");
-                        if ((hinweis != null) && !hinweis.equals("")) {
-                            JOptionPane.showMessageDialog(
-                                SimSimulationsabschnittEditor.this,
-                                hinweis,
-                                "Hinweis",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        }
-                        final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
-                                "sim_massnahmen_anwendungen");
-                        newBean.setProperty("fgsk_ka", cidsBean);
-                        newBean.setProperty("massnahme", tmpBean);
-//                        newBean.setProperty("simulation", simulation);
-                        massnahmen.add(tmpBean);
-                        model.addElement(tmpBean);
-                        calc(cidsBean, massnahmen, true);
-                        fillCosts();
-
-                        simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen").add(newBean);
-                        final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
-                                this,
-                                cidsBean,
-                                massnahmen);
-
-                        fireSimulationResultChangedEvent(e);
-                        jbVorschlagActionPerformed(null);
-                    } catch (Exception e) {
-                        LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
+                try {
+                    if (FgskSimulationHelper.isMassnGroupContained(tmpBean, simulation, cidsBean)) {
+                        JOptionPane.showMessageDialog(
+                            SimSimulationsabschnittEditor.this,
+                            "Die Maßnahmengruppe ist bereits vorhanden.",
+                            "Maßnahmengruppe ist bereits vorhanden",
+                            JOptionPane.WARNING_MESSAGE);
+                        return;
                     }
+
+                    final String hinweis = (String)tmpBean.getProperty("hinweis");
+                    if ((hinweis != null) && !hinweis.equals("")) {
+                        JOptionPane.showMessageDialog(
+                            SimSimulationsabschnittEditor.this,
+                            hinweis,
+                            "Hinweis",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName(
+                            "sim_massnahmen_anwendungen");
+                    newBean.setProperty("fgsk_ka", cidsBean.getProperty("id"));
+
+                    if (tmpBean.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)) {
+                        newBean.setProperty(FgskSimulationHelper.MASSNAHME_PROPERTY, tmpBean.getProperty("id"));
+                    } else if (tmpBean.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
+                        newBean.setProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY, tmpBean.getProperty("id"));
+                    }
+
+                    massnahmen.add(tmpBean);
+                    model.addElement(tmpBean);
+                    calc(cidsBean, massnahmen, true, SimSimulationsabschnittEditor.this);
+                    fillCosts();
+
+                    simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen").add(newBean);
+                    final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
+                            this,
+                            cidsBean,
+                            massnahmen);
+
+                    fireSimulationResultChangedEvent(e);
+                    if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Sim_massnahmen_gruppe")) {
+                        jbVorschlagActionPerformed(null);
+                    }
+                } catch (Exception e) {
+                    LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
                 }
             }
         }
     }
 
     /**
-     * DOCUMENT ME!
+     * This renderer can handle massnahmen_gruppe and massnahme objects.
      *
      * @version  $Revision$, $Date$
      */
@@ -2414,8 +2466,22 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             } catch (Exception e) {
             }
 
-            final List<CidsBean> einzelmassnahmen = new ArrayList<CidsBean>(
-                    val.getBeanCollectionProperty("massnahmen"));
+            List<CidsBean> einzelmassnahmen = null;
+            String name = "";
+
+            if (value == null) {
+                return super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
+            }
+
+            if (value.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)) {
+                name = String.valueOf(val.getProperty("name"));
+                einzelmassnahmen = new ArrayList<CidsBean>(
+                        val.getBeanCollectionProperty("massnahmen"));
+            } else if (value.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
+                name = String.valueOf(val.getProperty("key")) + " - " + String.valueOf(val.getProperty("name"));
+                einzelmassnahmen = Collections.nCopies(1, val);
+            }
+
             int wirkung = 0;
             final Object gewTyp = cidsBean.getProperty(Calc.PROP_WB_TYPE + ".value");
 
@@ -2433,7 +2499,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 }
             }
 
-            final String title = String.valueOf(val.getProperty("name")) + " (" + costs + " €, +" + wirkung + ")";
+            final String title = name + " (" + costs + " €, +" + wirkung + ")";
             final Component o = super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
 
             if (o instanceof JLabel) {
@@ -2455,7 +2521,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
             if (value instanceof CidsBean) {
                 final CidsBean bean = (CidsBean)value;
-                final List<CidsBean> massnList = bean.getBeanCollectionProperty("massnahmen");
+                final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(Collections.nCopies(1, bean));
 
                 for (final CidsBean massn : massnList) {
                     toolTip += " " + String.valueOf(massn.getProperty("name"));

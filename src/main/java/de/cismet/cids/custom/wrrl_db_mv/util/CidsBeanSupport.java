@@ -285,7 +285,7 @@ public final class CidsBeanSupport {
      * DOCUMENT ME!
      *
      * @param   bean        DOCUMENT ME!
-     * @param   cloneBeans  DOCUMENT ME!
+     * @param   cloneBeans  true, iff a deep copy of the sub beans should be created
      *
      * @return  DOCUMENT ME!
      *

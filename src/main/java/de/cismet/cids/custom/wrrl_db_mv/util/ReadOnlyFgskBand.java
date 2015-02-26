@@ -41,8 +41,7 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
      * @version  $Revision$, $Date$
      */
 
-    Collection<CidsBean> beans = new ArrayList<CidsBean>();
-    SimSimulationsabschnittEditor editor;
+    private Collection<CidsBean> beans = new ArrayList<CidsBean>();
     private double min = Double.MAX_VALUE;
     private double max = Double.MIN_VALUE;
 
@@ -51,12 +50,10 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
     /**
      * Creates a new UmlandnutzungsBand object.
      *
-     * @param  name    the name of the band (The name will be shown on the left side)
-     * @param  editor  DOCUMENT ME!
+     * @param  name  the name of the band (The name will be shown on the left side)
      */
-    public ReadOnlyFgskBand(final String name, final SimSimulationsabschnittEditor editor) {
+    public ReadOnlyFgskBand(final String name) {
         super(name);
-        this.editor = editor;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -74,20 +71,24 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
      */
     @Override
     public void setCidsBeans(final Collection<CidsBean> beans) {
-        setCidsBeans(beans, new HashMap<CidsBean, List<CidsBean>>());
+        setCidsBeans(beans, new HashMap<CidsBean, List<CidsBean>>(), new HashMap<CidsBean, Boolean>());
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  beans          DOCUMENT ME!
-     * @param  massnahmenMap  DOCUMENT ME!
+     * @param  beans                  DOCUMENT ME!
+     * @param  massnahmenMap          DOCUMENT ME!
+     * @param  massnahmenCompleteMap  DOCUMENT ME!
      */
-    public void setCidsBeans(final Collection<CidsBean> beans, final Map<CidsBean, List<CidsBean>> massnahmenMap) {
+    public void setCidsBeans(final Collection<CidsBean> beans,
+            final Map<CidsBean, List<CidsBean>> massnahmenMap,
+            final Map<CidsBean, Boolean> massnahmenCompleteMap) {
         this.beans = beans;
         if (beans != null) {
             for (final CidsBean b : beans) {
-                final ReadOnlyFgskBandMember unrm = new ReadOnlyFgskBandMember(editor, massnahmenMap.get(b));
+                final ReadOnlyFgskBandMember unrm = new ReadOnlyFgskBandMember(massnahmenMap.get(b),
+                        massnahmenCompleteMap.get(b));
                 unrm.setCidsBean(b);
                 addMember(unrm);
             }

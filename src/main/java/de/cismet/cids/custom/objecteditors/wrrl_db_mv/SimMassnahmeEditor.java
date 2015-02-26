@@ -930,10 +930,14 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         @Override
         public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-            if ((columnIndex == 3) || (columnIndex == 4)) {
+            if (readOnly) {
                 return false;
             } else {
-                return !readOnly;
+                if ((columnIndex == 3) || (columnIndex == 4)) {
+                    return false;
+                } else {
+                    return !readOnly;
+                }
             }
         }
 
