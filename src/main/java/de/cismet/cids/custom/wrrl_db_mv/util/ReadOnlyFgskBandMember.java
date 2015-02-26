@@ -24,20 +24,24 @@ import org.jdesktop.swingx.painter.RectanglePainter;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 
+import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.border.MatteBorder;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.AbschnittsinfoMember;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.ExtendedMattePainter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
+import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
@@ -66,24 +70,30 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
     private boolean selected;
     private Painter unselectedBackgroundPainter;
     private Painter selectedBackgroundPainter;
-    private String lineFieldName = "linie";
-    private SimSimulationsabschnittEditor editor;
+    private final String lineFieldName = "linie";
     private List<CidsBean> massnahmen;
+    private Color backgroundColor = null;
+    private DefaultStyledFeature fgskFeature = null;
+    private int bottomBorder = 1;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
      *
-     * @param  editor      DOCUMENT ME!
      * @param  massnahmen  DOCUMENT ME!
+     * @param  complete    DOCUMENT ME!
      */
-    public ReadOnlyFgskBandMember(final SimSimulationsabschnittEditor editor, final List<CidsBean> massnahmen) {
+    public ReadOnlyFgskBandMember(final List<CidsBean> massnahmen, final Boolean complete) {
         setMinimumSize(new Dimension(1, 7));
         setPreferredSize(getMinimumSize());
-        setMemberBorder(true);
-        this.editor = editor;
         this.massnahmen = massnahmen;
+        if ((complete == null) || complete) {
+            bottomBorder = 1;
+        } else {
+            bottomBorder = 5;
+        }
+        setBorder(new MatteBorder(new Insets(1, 1, 1, bottomBorder), Color.BLACK));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -98,7 +108,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         super.setCidsBean(cidsBean);
         this.cidsBean = cidsBean;
 
-        refresh(massnahmen);
+        refresh(getMassnahmen());
     }
 
     /**
@@ -111,7 +121,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
             Double p = null;
 
             try {
-                p = editor.calc(cidsBean, massnahmen, false);
+                p = SimSimulationsabschnittEditor.calc(cidsBean, getMassnahmen(), false, null);
             } catch (Exception e) {
                 LOG.warn("FGSK calculation error", e);
             }
@@ -125,7 +135,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
             }
         }
 
-        if ((massnahmen == null) || (massnahmen.isEmpty())) {
+        if ((getMassnahmen() == null) || (getMassnahmen().isEmpty())) {
             unselectedBackgroundPainter = getBackgroundPainterForClass(cl);
         } else {
             unselectedBackgroundPainter = new CompoundPainter(
@@ -181,27 +191,35 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         if (cl != null) {
             switch (cl) {
                 case 1: {
-                    return (new MattePainter(new Color(0, 0, 255)));
+                    backgroundColor = new Color(0, 0, 255);
+                    break;
                 }
                 case 2: {
-                    return (new MattePainter(new Color(0, 153, 0)));
+                    backgroundColor = new Color(0, 153, 0);
+                    break;
                 }
                 case 3: {
-                    return (new MattePainter(new Color(255, 255, 0)));
+                    backgroundColor = new Color(255, 255, 0);
+                    break;
                 }
                 case 4: {
-                    return (new MattePainter(new Color(255, 153, 0)));
+                    backgroundColor = new Color(255, 153, 0);
+                    break;
                 }
                 case 5: {
-                    return (new MattePainter(new Color(255, 0, 0)));
+                    backgroundColor = new Color(255, 0, 0);
+                    break;
                 }
                 default: {
-                    return (new MattePainter(new Color(193, 193, 193)));
+                    backgroundColor = new Color(193, 193, 193);
+                    break;
                 }
             }
         } else {
-            return (new MattePainter(new Color(193, 193, 193)));
+            backgroundColor = new Color(193, 193, 193);
         }
+
+        return (new MattePainter(backgroundColor));
     }
 
     @Override
@@ -214,9 +232,23 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         this.selected = selection;
 
         if (selected) {
+            fgskFeature = new DefaultStyledFeature();
+            fgskFeature.setGeometry((Geometry)cidsBean.getProperty(lineFieldName + ".geom.geo_field"));
+            fgskFeature.setLinePaint(backgroundColor);
+            fgskFeature.setLineWidth(4);
+            CismapBroker.getInstance().getMappingComponent().addFeaturesToMap(new Feature[] { fgskFeature });
+
             setBackgroundPainter(selectedBackgroundPainter);
+            setBorder(new MatteBorder(new Insets(3, 1, 1, bottomBorder), Color.BLACK));
         } else {
+            if (fgskFeature != null) {
+                CismapBroker.getInstance()
+                        .getMappingComponent()
+                        .removeFeatures(Arrays.asList(new Feature[] { fgskFeature }));
+                fgskFeature = null;
+            }
             setBackgroundPainter(unselectedBackgroundPainter);
+            setBorder(new MatteBorder(new Insets(1, 1, 1, bottomBorder), Color.BLACK));
         }
     }
 
@@ -311,5 +343,14 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         determineBackgroundColour();
         setBackgroundPainter(unselectedBackgroundPainter);
         setSelected(selected);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the massnahmen
+     */
+    public List<CidsBean> getMassnahmen() {
+        return massnahmen;
     }
 }

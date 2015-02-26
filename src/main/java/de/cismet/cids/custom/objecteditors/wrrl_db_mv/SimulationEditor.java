@@ -12,32 +12,59 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.Navigator;
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.plugin.PluginDescriptor;
+import Sirius.navigator.plugin.PluginRegistry;
+import Sirius.navigator.plugin.PluginUIDescriptor;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
+import Sirius.navigator.ui.LayoutedContainer;
+import Sirius.navigator.ui.MutableConstraints;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.PrecisionModel;
+
 import org.apache.log4j.Logger;
+
+import org.openide.util.NbBundle;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+
+import java.io.File;
+import java.io.InputStream;
+
+import java.text.DecimalFormat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.tree.TreeNode;
 
@@ -46,15 +73,18 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor.SimulationResultChangedEvent;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.fgsksimulation.FgskSimCalc;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.ComparableCidsBean;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBandMember;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -64,6 +94,11 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.cismap.commons.XBoundingBox;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.cismap.navigatorplugin.CismapPlugin;
+
 import de.cismet.commons.concurrency.CismetConcurrency;
 
 import de.cismet.tools.CalculationCache;
@@ -72,11 +107,11 @@ import de.cismet.tools.Calculator;
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
-import de.cismet.tools.gui.WaitingDialogThread;
 import de.cismet.tools.gui.jbands.BandModelEvent;
 import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
+import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
 import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 
 /**
@@ -93,8 +128,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static Logger LOG = Logger.getLogger(SimulationEditor.class);
+    private static final String WK_FG_CLASS_NAME = "de.cismet.cids.dynamics.Wk_fg";
+    private static final Logger LOG = Logger.getLogger(SimulationEditor.class);
     private static final MetaClass MC_WK_FG = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+    private static final MetaClass MC_MASSNAHMEN = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "massnahmen");
     private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "fgsk_kartierabschnitt");
@@ -102,6 +139,13 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             new FgskCalculator());
     private static final CalculationCache<List, MetaObject[]> wkfgCache = new CalculationCache<List, MetaObject[]>(
             new WkfgCalculator());
+    private static final CalculationCache<List, MetaObject[]> massnahmenCache =
+        new CalculationCache<List, MetaObject[]>(
+            new MassnBvpCalculator());
+    private static final String home = System.getProperty("user.home");    // NOI18N
+    private static final String fs = System.getProperty("file.separator"); // NOI18N
+    private static final String cismapBackupLayout = home + fs + ".cismap" + fs + "backup.layout";
+    private static final String navigatorBackupLayout = Navigator.NAVIGATOR_HOME + fs + "navigatorBackup.layout";
 
     static {
         fgskCache.setTimeToCacheResults(30000);
@@ -119,12 +163,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private SimpleBandModel[] sbm;
     private CidsBean cidsBean;
     private SimSimulationsabschnittEditor simulationsEditor;
+    private boolean initialReadOnly = false;
     private boolean readOnly = false;
     private boolean isNew = false;
     private CidsBean wkFg;
     private MetaObject[] fgsks;
     private boolean cancel = false;
     private boolean namePrompt = false;
+    private boolean selectionChangedHandlingInProgress = false;
+    private boolean wkMassnListChangedByUser = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgZiel;
@@ -137,13 +184,23 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JButton jbRem;
+    private javax.swing.JList jlMultiSimList;
+    private javax.swing.JList jlWKMassnList;
+    private javax.swing.JLabel labInfo;
+    private javax.swing.JLabel labMassnProp;
+    private javax.swing.JLabel labMultiSim;
     private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblKostenGes;
     private javax.swing.JLabel lblMarker1;
     private javax.swing.JLabel lblMarker2;
@@ -163,23 +220,33 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel panClass4;
     private javax.swing.JPanel panClass5;
     private javax.swing.JPanel panClass6;
+    private javax.swing.JPanel panEditorPanel;
     private javax.swing.JPanel panEmpty;
     private javax.swing.JPanel panFgsk;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private javax.swing.JPanel panHeader;
     private javax.swing.JPanel panHeaderInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panLoading;
+    private javax.swing.JPanel panMain;
     private javax.swing.JPanel panMorphometer;
+    private javax.swing.JPanel panMultiSim;
     private javax.swing.JPanel panNew;
+    private javax.swing.JPanel panSim;
+    private javax.swing.JPanel panSimCard;
     private javax.swing.JPanel panTitle;
+    private javax.swing.JPanel panTotal1;
     private javax.swing.JPanel panVermessung;
+    private de.cismet.tools.gui.RoundedPanel panWkInfo;
     private javax.swing.JRadioButton rbOekPot;
     private javax.swing.JRadioButton rbZust;
     private javax.swing.JSlider sldZoom;
     private javax.swing.JTextArea taBemerkungen;
+    private javax.swing.JToggleButton togZoomToParts;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
@@ -198,6 +265,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      * @param  readOnly  DOCUMENT ME!
      */
     public SimulationEditor(final boolean readOnly) {
+        this.initialReadOnly = readOnly;
         this.readOnly = readOnly;
         initComponents();
 
@@ -206,18 +274,41 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         if (!readOnly) {
             new CidsBeanDropTarget(panNew);
+            new CidsBeanDropTarget(jlMultiSimList);
         }
         simulationsEditor = new SimSimulationsabschnittEditor(readOnly);
+        simulationsEditor.hideProposalButton();
         simulationsEditor.addSimulationResultChangedListener(this);
 
         switchToForm("empty");
         lblHeading.setText("FGSK Abschnitt");
-        panFgsk.add(simulationsEditor, BorderLayout.CENTER);
+        panSim.add(simulationsEditor, BorderLayout.CENTER);
+        jlMultiSimList.setCellRenderer(new MultiMassnahmenConainerCellRenderer());
 
         sldZoom.setPaintTrack(false);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    private void setReadOnly(final boolean readOnly) {
+        if (this.readOnly != readOnly) {
+            this.readOnly = readOnly;
+            simulationsEditor.setReadOnly(readOnly);
+
+            if (readOnly) {
+                RendererTools.makeReadOnly(txtName);
+                RendererTools.makeReadOnly(taBemerkungen);
+            } else {
+                RendererTools.makeWritable(txtName);
+                RendererTools.makeWritable(taBemerkungen);
+            }
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -251,8 +342,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             }
             sbm[internIndex] = new SimpleBandModel();
             final String gwk = String.valueOf(teile.get(index).getProperty("linie.von.route.gwk"));
-            fgskBands[internIndex] = new ReadOnlyFgskBand(gwk, simulationsEditor);
+            fgskBands[internIndex] = new ReadOnlyFgskBand(gwk);
             jband[internIndex] = new JBand(true);
+            jband[internIndex].setSelectionMode(JBand.SelectionMode.MULTIPLE_INTERVAL_SELECTION);
             modelListener[internIndex] = new RestriktionBandModelListener(jband[internIndex]);
 
             sbm[internIndex].addBand(fgskBands[internIndex]);
@@ -274,7 +366,20 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
                 @Override
                 public void run() {
-                    ((CardLayout)panInfoContent.getLayout()).show(panInfoContent, id);
+                    final StringTokenizer st = new StringTokenizer(id, ">");
+
+                    if (st.hasMoreTokens()) {
+                        ((CardLayout)panEditorPanel.getLayout()).show(panEditorPanel, st.nextToken());
+                    }
+
+                    String secondToken = null;
+
+                    if (st.hasMoreTokens()) {
+                        secondToken = st.nextToken();
+                        ((CardLayout)panSimCard.getLayout()).show(panSimCard, secondToken);
+                    }
+
+                    labMassnProp.setVisible((secondToken != null) && secondToken.equals("sim") && !readOnly);
                 }
             };
         if (EventQueue.isDispatchThread()) {
@@ -301,8 +406,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             isNew = cidsBean.getProperty("wk_key") == null;
             warningAlreadyShown = false;
 
+            if (!initialReadOnly && (cidsBean.getProperty("read_only") != null)
+                        && ((Boolean)cidsBean.getProperty("read_only"))) {
+                setReadOnly(true);
+            } else {
+                setReadOnly(false);
+            }
+
             if (isNew) {
-                panBand.removeAll();
+                ((CardLayout)panMain.getLayout()).show(panMain, "band");
                 panBand.add(panNew, BorderLayout.CENTER);
                 namePrompt = true;
                 try {
@@ -319,9 +431,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     if ((nodeTmp != null) && (nodeTmp instanceof ObjectTreeNode)) {
                         final ObjectTreeNode node = (ObjectTreeNode)nodeTmp;
                         final CidsBean tmpBean = node.getMetaObject().getBean();
-                        if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
+                        if (tmpBean.getClass().getName().equals(WK_FG_CLASS_NAME)) {
                             wkFg = tmpBean;
-                            panBand.removeAll();
+                            ((CardLayout)panMain.getLayout()).show(panMain, "band");
                             try {
                                 cidsBean.setProperty("wk_key", wkFg.getProperty("wk_k"));
                                 fillDialog();
@@ -338,8 +450,137 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 setName();
                 fillDialog();
                 setNamesAndBands();
+                refreshWkFgMassnList();
             }
         }
+
+        if (!initialReadOnly) {
+            changeLayout();
+        }
+    }
+
+    /**
+     * Saves the current layout and move the map window to the left corner.
+     */
+    private void changeLayout() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
+                        cismap.saveLayout(cismapBackupLayout);
+                        final InputStream is = this.getClass()
+                                    .getClassLoader()
+                                    .getResourceAsStream(
+                                        "de/cismet/cids/custom/objecteditors/wrrl_db_mv/fullscreenmap.layout");
+
+                        cismap.loadLayout(is);
+
+                        final LayoutedContainer container = (LayoutedContainer)ComponentRegistry.getRegistry()
+                                    .getGUIContainer();
+                        container.saveLayout(navigatorBackupLayout, ComponentRegistry.getRegistry().getMainWindow());
+
+                        final PluginDescriptor cismapDescriptor = PluginRegistry.getRegistry()
+                                    .getPluginDescriptor("cismap");
+                        final PluginUIDescriptor uiDescriptor = cismapDescriptor.getUIDescriptor("cismap");
+
+                        container.remove("cismap");
+                        uiDescriptor.setPosition(MutableConstraints.P2);
+                        container.add(uiDescriptor);
+
+                        ComponentRegistry.getRegistry().showComponent(ComponentRegistry.ATTRIBUTE_EDITOR);
+                    } catch (Exception e) {
+                        LOG.error("Cannot cahnge the layout.", e);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Restores the layout.
+     */
+    private void restoreLayout() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        if (new File(cismapBackupLayout).exists()) {
+                            final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
+                            cismap.loadLayout(cismapBackupLayout);
+                        }
+
+                        if (new File(navigatorBackupLayout).exists()) {
+                            final LayoutedContainer container = (LayoutedContainer)ComponentRegistry.getRegistry()
+                                        .getGUIContainer();
+                            container.loadLayout(
+                                navigatorBackupLayout,
+                                false,
+                                ComponentRegistry.getRegistry().getMainWindow());
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Cannot cahnge the layout.", e);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Refreshs the massnahmen list of the water body.
+     */
+    private void refreshWkFgMassnList() {
+        final TreeSet<ComparableCidsBean> massnSet = new TreeSet<ComparableCidsBean>();
+
+        final List<CidsBean> massnAnwendungen = cidsBean.getBeanCollectionProperty(
+                FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
+
+        if (massnAnwendungen != null) {
+            for (final CidsBean massnAnwendung : massnAnwendungen) {
+                final CidsBean massnGruppe = FgskSimulationHelper.getSimMassnahmeGruppeById((Integer)
+                        massnAnwendung.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY));
+                final CidsBean einzelMassn = FgskSimulationHelper.getSimMassnahmeById((Integer)
+                        massnAnwendung.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY));
+
+                if (massnGruppe != null) {
+                    final List<CidsBean> massnList = massnGruppe.getBeanCollectionProperty("massnahmen");
+
+                    if (massnList != null) {
+                        for (final CidsBean massn : massnList) {
+                            massnSet.add(new ComparableCidsBean(massn));
+                        }
+                    }
+                } else if (einzelMassn != null) {
+                    massnSet.add(new ComparableCidsBean(einzelMassn));
+                }
+            }
+        }
+
+        final DefaultListModel<CidsBean> listModel = new DefaultListModel<CidsBean>();
+
+        for (final ComparableCidsBean massn : massnSet) {
+            listModel.addElement(massn.getBean());
+        }
+        jlWKMassnList.setModel(listModel);
+
+        jlWKMassnList.setCellRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    String name = String.valueOf(value);
+
+                    if ((value != null)
+                                && value.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
+                        final CidsBean bean = (CidsBean)value;
+                        name = bean.getProperty("key") + " - " + bean.toString();
+                    }
+                    return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
+                }
+            });
     }
 
     /**
@@ -377,13 +618,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      * DOCUMENT ME!
      */
     private void setNamesAndBands() {
-        panBand.removeAll();
-        panBand.setLayout(new BorderLayout());
-        panBand.add(panLoading, BorderLayout.CENTER);
-        panBand.doLayout();
-        panBand.invalidate();
-        panBand.validate();
-        panBand.repaint();
+        final boolean checkForMassnahmen = isNew;
+        ((CardLayout)panMain.getLayout()).show(panMain, "loading");
 
         final SwingWorker<MetaObject[], Void> waitingDialog = new SwingWorker<MetaObject[], Void>() {
 
@@ -457,13 +693,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                     final List<CidsBean> fgskList = new ArrayList<CidsBean>();
                                     final Map<CidsBean, List<CidsBean>> massnahmenMap =
                                         new HashMap<CidsBean, List<CidsBean>>();
+                                    final Map<CidsBean, Boolean> massnahmenCompleteMap =
+                                        new HashMap<CidsBean, Boolean>();
 
                                     for (final MetaObject fgsk : fgsks) {
                                         Double bis = (Double)fgsk.getBean().getProperty(
                                                 "linie.bis.wert");
                                         Double von = (Double)fgsk.getBean().getProperty(
                                                 "linie.von.wert");
-                                        if (von.doubleValue() > bis.doubleValue()) {
+                                        if (von > bis) {
                                             final Double tmp = von;
                                             von = bis;
                                             bis = tmp;
@@ -471,13 +709,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                         if (fgsk.getBean().getProperty("linie.von.route.id").equals(rid)
                                                     && ((bis - 1) >= from)
                                                     && ((von + 1) <= till)) {
-                                            fgskList.add(fgsk.getBean());
-                                            massnahmenMap.put(
-                                                fgsk.getBean(),
-                                                getMassnahmenForFgsk(fgsk.getBean()));
+                                            final CidsBean fgskBean = fgsk.getBean();
+                                            fgskList.add(fgskBean);
+                                            massnahmenMap.put(fgskBean, getMassnahmenForFgsk(fgskBean));
+                                            massnahmenCompleteMap.put(
+                                                fgskBean,
+                                                getMassnahmenFragmentForFgsk(fgskBean).isEmpty());
                                         }
                                     }
-                                    fgskBands[index].setCidsBeans(fgskList, massnahmenMap);
+                                    fgskBands[index].setCidsBeans(fgskList, massnahmenMap, massnahmenCompleteMap);
                                     sbm[index].fireBandModelChanged();
                                 }
 
@@ -486,10 +726,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
                             setGewTyp();
 
-                            refreshMorphometer();
                             if (fgsks != null) {
                                 if (fgsks.length > 100) {
-                                    int zoomValue = 0;
+                                    int zoomValue;
 
                                     if (fgsks.length < 150) {
                                         zoomValue = 30;
@@ -505,11 +744,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                     }
                                 }
                             }
+
+                            if (checkForMassnahmen) {
+                                checkForMassnahmenBvp();
+                            } else {
+                                refreshMorphometer();
+                                ((CardLayout)panMain.getLayout()).show(panMain, "band");
+                                panHeaderInfo.setVisible(true);
+                            }
                         }
                     } catch (Exception e) {
                         LOG.error("Error while retrieving fgsk objects.", e);
                     }
-                    panHeaderInfo.setVisible(true);
                 }
             };
 
@@ -520,6 +766,170 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     CismetConcurrency.getInstance("Fgsk_sim").getDefaultExecutor().submit(waitingDialog);
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void checkForMassnahmenBvp() {
+        final SwingWorker<MetaObject[], Void> waitingDialog = new SwingWorker<MetaObject[], Void>() {
+
+                @Override
+                protected MetaObject[] doInBackground() throws Exception {
+                    final List in = new ArrayList(1);
+                    in.add(cidsBean.getProperty("wk_key"));
+                    return massnahmenCache.calcValue(in);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final MetaObject[] mos = get();
+
+                        if ((mos != null) && (mos.length > 0)) {
+                            final int userAnswer = JOptionPane.showConfirmDialog(
+                                    SimulationEditor.this,
+                                    NbBundle.getMessage(
+                                        SimulationEditor.class,
+                                        "SimulationEditor.checkForMassnahmenBvp().message"),
+                                    NbBundle.getMessage(
+                                        SimulationEditor.class,
+                                        "SimulationEditor.checkForMassnahmenBvp().title"),
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE);
+
+                            if (userAnswer == JOptionPane.YES_OPTION) {
+                                for (final MetaObject mo : mos) {
+                                    final CidsBean maBean = mo.getBean();
+                                    final List<CidsBean> MassnBeans = FgskSimulationHelper.getSimMassnBeanFromMassnBvp(
+                                            maBean);
+
+                                    if ((MassnBeans != null) && !MassnBeans.isEmpty()) {
+                                        final CidsBean stationLine = (CidsBean)maBean.getProperty("linie");
+                                        final double from = Math.min((Double)stationLine.getProperty("von.wert"),
+                                                (Double)stationLine.getProperty("bis.wert"));
+                                        final double to = Math.max((Double)stationLine.getProperty("von.wert"),
+                                                (Double)stationLine.getProperty("bis.wert"));
+                                        final Long gwk = (Long)stationLine.getProperty("von.route.gwk");
+
+                                        final List<CidsBean> fgskList = FgskSimulationHelper.getAllCorrespondingFgsk(
+                                                from,
+                                                to,
+                                                gwk,
+                                                fgsks);
+
+                                        for (final CidsBean fgsk : fgskList) {
+                                            for (final CidsBean massn : MassnBeans) {
+                                                final double percentage = FgskSimulationHelper
+                                                            .determineFgskIntersectionPercentage(fgsk, from, to, gwk);
+                                                final boolean complete = percentage == 100.0;
+                                                addMassnahme(fgsk, massn, complete);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error while retrieving massnahmen BVP objects", e);
+                    }
+                    refreshMorphometer();
+                    ((CardLayout)panMain.getLayout()).show(panMain, "band");
+                    panHeaderInfo.setVisible(true);
+                }
+            };
+
+        CismetConcurrency.getInstance("Fgsk_sim").getDefaultExecutor().submit(waitingDialog);
+    }
+
+    /**
+     * Adds the given massnahmen object for the given fgsk to the simulation. If the massnahmen object is already
+     * assigned to the fgsk object, nothing will happen.
+     *
+     * @param  fgsk   DOCUMENT ME!
+     * @param  massn  DOCUMENT ME!
+     */
+    private void addMassnahme(final CidsBean fgsk, final CidsBean massn) {
+        addMassnahme(fgsk, massn, null);
+    }
+
+    /**
+     * Adds the given massnahmen object for the given fgsk to the simulation. If the massnahmen object is already
+     * assigned to the fgsk object, nothing will happen.
+     *
+     * @param  fgsk      DOCUMENT ME!
+     * @param  massn     DOCUMENT ME!
+     * @param  complete  DOCUMENT ME!
+     */
+    private void addMassnahme(final CidsBean fgsk, final CidsBean massn, final Boolean complete) {
+        if (FgskSimulationHelper.isMassnGroupContained(massn, cidsBean, fgsk)) {
+            return;
+        }
+        try {
+            final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("sim_massnahmen_anwendungen");
+            newBean.setProperty(FgskSimulationHelper.FGSK_KA_PROPERTY, fgsk.getProperty("id"));
+
+            if (massn.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)) {
+                newBean.setProperty(FgskSimulationHelper.MASSNAHME_PROPERTY, massn.getProperty("id"));
+            } else if (massn.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
+                newBean.setProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY, massn.getProperty("id"));
+            }
+
+            if ((complete != null) && complete) {
+                newBean.setProperty("complete", true);
+            } else {
+                newBean.setProperty("complete", false);
+            }
+
+            cidsBean.getBeanCollectionProperty(FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY).add(newBean);
+            final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
+                    this,
+                    fgsk,
+                    getMassnahmenForFgsk(fgsk));
+
+            simulationResultChanged(e);
+        } catch (Exception e) {
+            LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
+        }
+    }
+
+    /**
+     * Removes the given massnahmen object from the given simulation. If the massnahmen object is only assigned within a
+     * group to the fgsk object, nothing will happen.
+     *
+     * @param  fgsk   DOCUMENT ME!
+     * @param  massn  DOCUMENT ME!
+     */
+    private void removeMassnahme(final CidsBean fgsk, final CidsBean massn) {
+        if (FgskSimulationHelper.isMassnGroupContained(massn, cidsBean, fgsk)) {
+            return;
+        }
+        try {
+            final List<CidsBean> simMassnList = cidsBean.getBeanCollectionProperty(
+                    FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
+            CidsBean massnToRemove = null;
+
+            for (final CidsBean simMassn : simMassnList) {
+                if (simMassn.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME)) {
+                    if (simMassn.equals(massn)) {
+                        massnToRemove = simMassn;
+                        break;
+                    }
+                }
+            }
+            if (massnToRemove != null) {
+                simMassnList.remove(massnToRemove);
+            }
+
+            final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
+                    this,
+                    fgsk,
+                    getMassnahmenForFgsk(fgsk));
+
+            simulationResultChanged(e);
+        } catch (Exception e) {
+            LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
+        }
     }
 
     /**
@@ -539,7 +949,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             int cl = 0;
             try {
                 length = Calc.getStationLength(fgsk.getBean());
-                final Double p = simulationsEditor.calc(fgsk.getBean(), getMassnahmenForFgsk(fgsk.getBean()), false);
+                final Double p = SimSimulationsabschnittEditor.calc(fgsk.getBean(),
+                        getMassnahmenForFgsk(fgsk.getBean()),
+                        false,
+                        null);
                 cl = SimSimulationsabschnittEditor.getGueteklasse(fgsk.getBean(), p);
             } catch (final Exception e) {
                 LOG.error("Error while calculating class", e);
@@ -624,20 +1037,28 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     }
 
     /**
-     * DOCUMENT ME!
+     * calculates the costs from the assigned massnahmen_gruppen and massnahmen objects.
      */
     private void refreshKosten() {
-        final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
+        final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty(
+                FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
         double costs = 0.0;
 
         for (final CidsBean massn : angMassn) {
             try {
-                final CidsBean fgsk = getFgskById((Integer)massn.getProperty("fgsk_ka.id"));
-                final CidsBean mass = (CidsBean)massn.getProperty("massnahme");
+                final CidsBean fgsk = getFgskById((Integer)massn.getProperty(FgskSimulationHelper.FGSK_KA_PROPERTY));
+                final CidsBean mass = FgskSimulationHelper.getSimMassnahmeGruppeById((Integer)massn.getProperty(
+                            FgskSimulationHelper.MASSNAHME_PROPERTY));
+                final CidsBean einzelMass = FgskSimulationHelper.getSimMassnahmeById((Integer)massn.getProperty(
+                            FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY));
 
-                if ((fgsk != null) && (mass != null)) {
-                    for (final CidsBean m : mass.getBeanCollectionProperty("massnahmen")) {
-                        costs += FgskSimCalc.getInstance().calcCosts(fgsk, m);
+                if (fgsk != null) {
+                    if ((mass != null)) {
+                        for (final CidsBean m : mass.getBeanCollectionProperty("massnahmen")) {
+                            costs += FgskSimCalc.getInstance().calcCosts(fgsk, m);
+                        }
+                    } else if (einzelMass != null) {
+                        costs += FgskSimCalc.getInstance().calcCosts(fgsk, einzelMass);
                     }
                 }
             } catch (Exception e) {
@@ -645,7 +1066,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             }
         }
 
-        lblKostenGes.setText(costs + " €");
+        final DecimalFormat format = new DecimalFormat();
+        lblKostenGes.setText(format.format(costs) + " €");
     }
 
     /**
@@ -704,20 +1126,62 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     }
 
     /**
-     * DOCUMENT ME!
+     * Determines all massnahmengruppen and massnahmen objects of the given fgsk object.
      *
      * @param   fgsk  DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @return  a list with all massnahmengruppen and massnahmen objects of the given fgsk object.
      */
     private List<CidsBean> getMassnahmenForFgsk(final CidsBean fgsk) {
         final List<CidsBean> massnahmen = new ArrayList<CidsBean>();
         final Integer fgskId = (Integer)fgsk.getProperty("id");
-        final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
+        final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty(
+                FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
 
         for (final CidsBean massn : angMassn) {
-            if (massn.getProperty("fgsk_ka.id").equals(fgskId)) {
-                massnahmen.add((CidsBean)massn.getProperty("massnahme"));
+            if (massn.getProperty(FgskSimulationHelper.FGSK_KA_PROPERTY).equals(fgskId)) {
+                if (massn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY) != null) {
+                    final Integer massnId = (Integer)massn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY);
+                    final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeGruppeById(massnId);
+                    massnahmen.add(simMassBean);
+                } else {
+                    final Integer massnId = (Integer)massn.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY);
+                    final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeById(massnId);
+                    massnahmen.add(simMassBean);
+                }
+            }
+        }
+
+        return massnahmen;
+    }
+
+    /**
+     * Determines all massnahmengruppen and massnahmen objects of the given fgsk object.
+     *
+     * @param   fgsk  DOCUMENT ME!
+     *
+     * @return  a list with all massnahmengruppen and massnahmen objects of the given fgsk object.
+     */
+    private List<CidsBean> getMassnahmenFragmentForFgsk(final CidsBean fgsk) {
+        final List<CidsBean> massnahmen = new ArrayList<CidsBean>();
+        final Integer fgskId = (Integer)fgsk.getProperty("id");
+        final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty(
+                FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
+
+        for (final CidsBean massn : angMassn) {
+            if (massn.getProperty(FgskSimulationHelper.FGSK_KA_PROPERTY).equals(fgskId)) {
+                if ((massn.getProperty("complete") != null) && !((Boolean)massn.getProperty("complete"))) {
+                    if (massn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY) != null) {
+                        final Integer massnId = (Integer)massn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY);
+                        final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeGruppeById(massnId);
+                        massnahmen.add(simMassBean);
+                    } else {
+                        final Integer massnId = (Integer)massn.getProperty(
+                                FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY);
+                        final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeById(massnId);
+                        massnahmen.add(simMassBean);
+                    }
+                }
             }
         }
 
@@ -781,9 +1245,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblMarker4 = new javax.swing.JLabel();
         lblMarker5 = new javax.swing.JLabel();
         lblTitleName = new javax.swing.JLabel();
-        panLoading = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel1 = new javax.swing.JLabel();
+        labInfo = new javax.swing.JLabel();
         diaName = new javax.swing.JDialog();
         panAllgemein = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
@@ -793,13 +1255,30 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         taBemerkungen = new javax.swing.JTextArea();
         butOK = new javax.swing.JButton();
         butCancel = new javax.swing.JButton();
+        jMenu1 = new javax.swing.JMenu();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
+        labMassnProp = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
+        panEditorPanel = new javax.swing.JPanel();
         panFgsk = new javax.swing.JPanel();
+        panSimCard = new javax.swing.JPanel();
+        panSim = new javax.swing.JPanel();
+        panMultiSim = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jlMultiSimList = new MultiFgskCidsBeanDropList();
+        labMultiSim = new javax.swing.JLabel();
+        jbRem = new javax.swing.JButton();
         panEmpty = new javax.swing.JPanel();
         panVermessung = new javax.swing.JPanel();
+        panWkInfo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        panTotal1 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jlWKMassnList = new javax.swing.JList();
         panHeader = new javax.swing.JPanel();
         panHeaderInfo = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -810,13 +1289,18 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         rbZust = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         lblKostenGes = new javax.swing.JLabel();
+        togZoomToParts = new javax.swing.JToggleButton();
+        panMain = new javax.swing.JPanel();
+        panLoading = new javax.swing.JPanel();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
         panBand = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
-        panFooter.setMinimumSize(new java.awt.Dimension(1050, 48));
+        panFooter.setMinimumSize(new java.awt.Dimension(1050, 16));
         panFooter.setOpaque(false);
-        panFooter.setPreferredSize(new java.awt.Dimension(1050, 48));
+        panFooter.setPreferredSize(new java.awt.Dimension(1050, 16));
         panFooter.setLayout(new java.awt.GridBagLayout());
 
         lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -830,7 +1314,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panNew.setOpaque(false);
         panNew.setLayout(new java.awt.GridBagLayout());
 
-        lblNeu.setText("Bitte den gewünschten Wasserkörper in dieses Fenster ziehen");
+        lblNeu.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblNeu.text",
+                new Object[] {})); // NOI18N
         panNew.add(lblNeu, new java.awt.GridBagConstraints());
 
         panTitle.setOpaque(false);
@@ -839,7 +1326,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -971,32 +1458,47 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panMorphometer.setBounds(5, 0, 625, 30);
 
         lblMarker1.setForeground(java.awt.Color.white);
-        lblMarker1.setText("0");
+        lblMarker1.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblMarker1.text",
+                new Object[] {})); // NOI18N
         jPanel1.add(lblMarker1);
         lblMarker1.setBounds(2, 30, 10, 17);
 
         lblMarker2.setForeground(java.awt.Color.white);
-        lblMarker2.setText("25");
+        lblMarker2.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblMarker2.text",
+                new Object[] {})); // NOI18N
         jPanel1.add(lblMarker2);
         lblMarker2.setBounds(158, 30, 20, 17);
 
         lblMarker3.setForeground(java.awt.Color.white);
-        lblMarker3.setText("50");
+        lblMarker3.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblMarker3.text",
+                new Object[] {})); // NOI18N
         jPanel1.add(lblMarker3);
         lblMarker3.setBounds(315, 30, 20, 17);
 
         lblMarker4.setForeground(java.awt.Color.white);
-        lblMarker4.setText("75");
+        lblMarker4.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblMarker4.text",
+                new Object[] {})); // NOI18N
         jPanel1.add(lblMarker4);
         lblMarker4.setBounds(471, 30, 20, 17);
 
         lblMarker5.setForeground(java.awt.Color.white);
-        lblMarker5.setText("100");
+        lblMarker5.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblMarker5.text",
+                new Object[] {})); // NOI18N
         jPanel1.add(lblMarker5);
         lblMarker5.setBounds(615, 30, 25, 17);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipady = 23;
@@ -1015,31 +1517,40 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         panTitle.add(lblTitleName, gridBagConstraints);
 
-        panLoading.setMinimumSize(new java.awt.Dimension(1050, 188));
-        panLoading.setOpaque(false);
-        panLoading.setPreferredSize(new java.awt.Dimension(1050, 188));
-        panLoading.setLayout(new java.awt.GridBagLayout());
+        labInfo.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/icon-info-sign-white.png"))); // NOI18N
+        labInfo.setToolTipText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.labInfo.toolTipText",
+                new Object[] {}));                                                                                    // NOI18N
+        labInfo.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        labInfo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labInfo.setRequestFocusEnabled(false);
+        labInfo.addMouseListener(new java.awt.event.MouseAdapter() {
 
-        jProgressBar1.setIndeterminate(true);
-        jProgressBar1.setPreferredSize(new java.awt.Dimension(250, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        panLoading.add(jProgressBar1, gridBagConstraints);
-
-        jLabel1.setText("Kartierabschnitte werden geladen");
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    labInfoMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        panLoading.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        panTitle.add(labInfo, gridBagConstraints);
 
-        diaName.setTitle("Allgemeine Informationen");
+        diaName.setTitle(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.diaName.title",
+                new Object[] {})); // NOI18N
         diaName.setMinimumSize(new java.awt.Dimension(590, 206));
         diaName.setModal(true);
         diaName.setResizable(false);
@@ -1106,7 +1617,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 15);
         panAllgemein.add(jScrollPane1, gridBagConstraints);
 
-        butOK.setText("OK");
+        butOK.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.butOK.text",
+                new Object[] {})); // NOI18N
         butOK.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1121,7 +1635,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         panAllgemein.add(butOK, gridBagConstraints);
 
-        butCancel.setText("Abbrechen");
+        butCancel.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.butCancel.text",
+                new Object[] {})); // NOI18N
         butCancel.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -1138,39 +1655,148 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         diaName.getContentPane().add(panAllgemein, new java.awt.GridBagConstraints());
 
-        setMinimumSize(new java.awt.Dimension(1050, 750));
+        jMenu1.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.jMenu1.text",
+                new Object[] {})); // NOI18N
+
+        setMinimumSize(new java.awt.Dimension(1150, 750));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1050, 750));
+        setPreferredSize(new java.awt.Dimension(1150, 750));
+        addKeyListener(new java.awt.event.KeyAdapter() {
+
+                @Override
+                public void keyPressed(final java.awt.event.KeyEvent evt) {
+                    formKeyPressed(evt);
+                }
+            });
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 420));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 420));
+        panInfo.setMinimumSize(new java.awt.Dimension(830, 436));
+        panInfo.setPreferredSize(new java.awt.Dimension(830, 436));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo.setLayout(new java.awt.FlowLayout());
+        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 50));
+        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 40));
+        panHeadInfo.setLayout(new java.awt.GridBagLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Informationen");
-        panHeadInfo.add(lblHeading);
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblHeading.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        panHeadInfo.add(lblHeading, gridBagConstraints);
+
+        labMassnProp.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/icon-searchfolder_w.png"))); // NOI18N
+        labMassnProp.setToolTipText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.labMassnProp.toolTipText",
+                new Object[] {}));                                                                                   // NOI18N
+        labMassnProp.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        labMassnProp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labMassnProp.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    labMassnPropMouseClicked(evt);
+                }
+            });
+        panHeadInfo.add(labMassnProp, new java.awt.GridBagConstraints());
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
 
         panInfoContent.setOpaque(false);
-        panInfoContent.setLayout(new java.awt.CardLayout());
+        panInfoContent.setLayout(new java.awt.GridBagLayout());
+
+        panEditorPanel.setLayout(new java.awt.CardLayout());
 
         panFgsk.setOpaque(false);
-        panFgsk.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panFgsk, "fgsk");
+        panFgsk.setLayout(new java.awt.GridBagLayout());
+
+        panSimCard.setLayout(new java.awt.CardLayout());
+
+        panSim.setLayout(new java.awt.BorderLayout());
+        panSimCard.add(panSim, "sim");
+
+        panMultiSim.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(280, 130));
+
+        jScrollPane3.setViewportView(jlMultiSimList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 15, 10);
+        panMultiSim.add(jScrollPane3, gridBagConstraints);
+
+        labMultiSim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labMultiSim.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.labMultiSim.text",
+                new Object[] {})); // NOI18N
+        labMultiSim.setPreferredSize(new java.awt.Dimension(480, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 15);
+        panMultiSim.add(labMultiSim, gridBagConstraints);
+
+        jbRem.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_16.png"))); // NOI18N
+        jbRem.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbRemActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 15);
+        panMultiSim.add(jbRem, gridBagConstraints);
+
+        panSimCard.add(panMultiSim, "multiSim");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panFgsk.add(panSimCard, gridBagConstraints);
+
+        panEditorPanel.add(panFgsk, "fgsk");
 
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panEmpty, "empty");
+        panEditorPanel.add(panEmpty, "empty");
 
         panVermessung.setOpaque(false);
         panVermessung.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panVermessung, "vermessung");
+        panEditorPanel.add(panVermessung, "vermessung");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent.add(panEditorPanel, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -1178,9 +1804,71 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         add(panInfo, gridBagConstraints);
+
+        panWkInfo.setMinimumSize(new java.awt.Dimension(640, 436));
+        panWkInfo.setPreferredSize(new java.awt.Dimension(270, 436));
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 40));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 40));
+        panHeadInfo1.setLayout(new java.awt.GridBagLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblHeading1.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        panHeadInfo1.add(lblHeading1, gridBagConstraints);
+
+        panWkInfo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+
+        panTotal1.setPreferredSize(new java.awt.Dimension(315, 200));
+        panTotal1.setLayout(new java.awt.GridBagLayout());
+
+        jlWKMassnList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+
+                @Override
+                public void valueChanged(final javax.swing.event.ListSelectionEvent evt) {
+                    jlWKMassnListValueChanged(evt);
+                }
+            });
+        jScrollPane5.setViewportView(jlWKMassnList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 15);
+        panTotal1.add(jScrollPane5, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(panTotal1, gridBagConstraints);
+
+        panWkInfo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        add(panWkInfo, gridBagConstraints);
 
         panHeader.setOpaque(false);
         panHeader.setLayout(new java.awt.GridBagLayout());
@@ -1191,7 +1879,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panHeaderInfo.setLayout(null);
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
-        jLabel5.setText("Zoom:");
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.jLabel5.text",
+                new Object[] {}));                                // NOI18N
         jLabel5.setMaximumSize(new java.awt.Dimension(92, 22));
         jLabel5.setMinimumSize(new java.awt.Dimension(92, 22));
         jLabel5.setPreferredSize(new java.awt.Dimension(92, 22));
@@ -1211,7 +1902,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         sldZoom.setBounds(390, 4, 350, 16);
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel6.setText("Gewässer:");
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.jLabel6.text",
+                new Object[] {}));                                  // NOI18N
         jLabel6.setMinimumSize(new java.awt.Dimension(91, 22));
         panHeaderInfo.add(jLabel6);
         jLabel6.setBounds(12, 0, 92, 22);
@@ -1221,7 +1915,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblSubTitle1.setBounds(110, 0, 220, 20);
 
         bgZiel.add(rbOekPot);
-        rbOekPot.setText("gutes ökologisches Potenzial");
+        rbOekPot.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.rbOekPot.text",
+                new Object[] {})); // NOI18N
         rbOekPot.setContentAreaFilled(false);
         rbOekPot.addActionListener(new java.awt.event.ActionListener() {
 
@@ -1234,7 +1931,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         rbOekPot.setBounds(770, 0, 240, 24);
 
         bgZiel.add(rbZust);
-        rbZust.setText("guter Zustand");
+        rbZust.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.rbZust.text",
+                new Object[] {})); // NOI18N
         rbZust.setContentAreaFilled(false);
         rbZust.addActionListener(new java.awt.event.ActionListener() {
 
@@ -1246,13 +1946,28 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panHeaderInfo.add(rbZust);
         rbZust.setBounds(770, 20, 230, 24);
 
-        jLabel2.setText("Gesamtkosten:");
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.jLabel2.text",
+                new Object[] {})); // NOI18N
         panHeaderInfo.add(jLabel2);
         jLabel2.setBounds(280, 30, 110, 17);
 
-        lblKostenGes.setText("0 €");
+        lblKostenGes.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblKostenGes.text",
+                new Object[] {})); // NOI18N
         panHeaderInfo.add(lblKostenGes);
         lblKostenGes.setBounds(390, 30, 140, 17);
+
+        togZoomToParts.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/icon-zoom-in.png"))); // NOI18N
+        togZoomToParts.setToolTipText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.togZoomToParts.toolTipText",
+                new Object[] {}));                                                                            // NOI18N
+        panHeaderInfo.add(togZoomToParts);
+        togZoomToParts.setBounds(711, 25, 30, 28);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -1260,8 +1975,49 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weightx = 1.0;
         panHeader.add(panHeaderInfo, gridBagConstraints);
 
+        panMain.setOpaque(false);
+        panMain.setLayout(new java.awt.CardLayout());
+
+        panLoading.setMinimumSize(new java.awt.Dimension(1050, 188));
+        panLoading.setOpaque(false);
+        panLoading.setPreferredSize(new java.awt.Dimension(1050, 188));
+        panLoading.setLayout(new java.awt.GridBagLayout());
+
+        jProgressBar1.setIndeterminate(true);
+        jProgressBar1.setPreferredSize(new java.awt.Dimension(250, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        panLoading.add(jProgressBar1, gridBagConstraints);
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.jLabel1.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        panLoading.add(jLabel1, gridBagConstraints);
+
+        panMain.add(panLoading, "loading");
+
         panBand.setOpaque(false);
-        panBand.setLayout(new java.awt.GridLayout(1, 0));
+
+        final javax.swing.GroupLayout panBandLayout = new javax.swing.GroupLayout(panBand);
+        panBand.setLayout(panBandLayout);
+        panBandLayout.setHorizontalGroup(
+            panBandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1150,
+                Short.MAX_VALUE));
+        panBandLayout.setVerticalGroup(
+            panBandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                291,
+                Short.MAX_VALUE));
+
+        panMain.add(panBand, "band");
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -1269,11 +2025,12 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        panHeader.add(panBand, gridBagConstraints);
+        panHeader.add(panMain, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -1295,11 +2052,11 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 1050,
                 Short.MAX_VALUE).addGroup(
                 jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                    jPanel3Layout.createSequentialGroup().addGap(0, 5, Short.MAX_VALUE).addComponent(
+                    jPanel3Layout.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE).addComponent(
                         jLabel4,
                         javax.swing.GroupLayout.PREFERRED_SIZE,
                         1040,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 5, Short.MAX_VALUE))));
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0, 10, Short.MAX_VALUE))));
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1, Short.MAX_VALUE)
                         .addGroup(
@@ -1313,6 +2070,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         add(jPanel3, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
@@ -1392,10 +2150,158 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      */
     private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblTitleNameMouseClicked
         if (evt.getClickCount() == 2) {
+            FgskSimulationHelper.createAllSimulations();
             diaName.setSize(590, 226);
+            diaName.pack();
             StaticSwingTools.showDialog(diaName);
         }
     }                                                                            //GEN-LAST:event_lblTitleNameMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jlWKMassnListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlWKMassnListValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            final int[] selectedIndices = jlWKMassnList.getSelectedIndices();
+
+            wkMassnListChangedByUser = true;
+            try {
+                if ((selectedIndices != null) && (selectedIndices.length > 0)) {
+                    final List<CidsBean> beans = new ArrayList<CidsBean>();
+                    final ListModel<CidsBean> model = jlWKMassnList.getModel();
+
+                    for (final int index : selectedIndices) {
+                        beans.add(model.getElementAt(index));
+                    }
+
+                    for (int bandIndex = 0; bandIndex < fgskBands.length; ++bandIndex) {
+                        final ReadOnlyFgskBand fgskBand = fgskBands[bandIndex];
+                        final List<BandMemberSelectable> validMembers = new ArrayList<BandMemberSelectable>();
+
+                        for (int i = 0; i < fgskBand.getNumberOfMembers(); ++i) {
+                            final BandMember member = fgskBand.getMember(i);
+                            final ReadOnlyFgskBandMember fgskMember = (ReadOnlyFgskBandMember)member;
+
+                            if (containsAllMassnahmen(fgskMember.getMassnahmen(), beans)) {
+                                validMembers.add(fgskMember);
+                            }
+                        }
+
+                        jband[bandIndex].setSelectedMember(validMembers);
+                    }
+                }
+            } finally {
+                wkMassnListChangedByUser = false;
+            }
+        }
+    } //GEN-LAST:event_jlWKMassnListValueChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void labMassnPropMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labMassnPropMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            simulationsEditor.generateMassnahmenvorschlag();
+        }
+    }                                                                            //GEN-LAST:event_labMassnPropMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_formKeyPressed
+        System.out.println("drin");
+    }                                                                //GEN-LAST:event_formKeyPressed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void labInfoMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labInfoMouseClicked
+        diaName.setSize(590, 226);
+        diaName.pack();
+        StaticSwingTools.showDialog(diaName);
+    }                                                                       //GEN-LAST:event_labInfoMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
+        if (readOnly) {
+            return;
+        }
+
+        final int[] selectedIndices = jlMultiSimList.getSelectedIndices();
+
+        if (selectedIndices != null) {
+            for (final int index : selectedIndices) {
+                final MultiMassnahmenContainer container = (MultiMassnahmenContainer)jlMultiSimList
+                            .getModel().getElementAt(index);
+                final CidsBean massn = container.massnBean;
+
+                for (final CidsBean fgsk : getAllSelectedFgsk()) {
+                    try {
+                        if (FgskSimulationHelper.isMassnGroupContained(massn, cidsBean, fgsk)) {
+                            removeMassnahme(fgsk, massn);
+                        }
+                    } catch (Exception e) {
+                        LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
+                    }
+                }
+            }
+        }
+
+        refreshMultiFgskListModel(getAllSelectedFgsk());
+        refreshWkFgMassnList();
+    } //GEN-LAST:event_jbRemActionPerformed
+
+    /**
+     * Checks, if all elements of the containedList are contained in the reference list. The containedList should
+     * contains massnahmen objects and the referenceList can contain massnahmengruppen and massnahmen.
+     *
+     * @param   referenceList  DOCUMENT ME!
+     * @param   containedList  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean containsAllMassnahmen(final List<CidsBean> referenceList, final List<CidsBean> containedList) {
+        final List<CidsBean> massnReferenceList = FgskSimulationHelper.getMassnahmenBeans(referenceList);
+
+        for (final CidsBean bean : containedList) {
+            if (!massnReferenceList.contains(bean)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private List<CidsBean> getAllSelectedFgsk() {
+        final List<CidsBean> selectedFgsk = new ArrayList<CidsBean>();
+
+        for (final JBand tmp : jband) {
+            for (final BandMemberSelectable bm : tmp.getSelectedBandMemberList()) {
+                if (bm instanceof ReadOnlyFgskBandMember) {
+                    selectedFgsk.add(((ReadOnlyFgskBandMember)bm).getCidsBean());
+                }
+            }
+        }
+
+        return selectedFgsk;
+    }
 
     /**
      * DOCUMENT ME!
@@ -1459,13 +2365,14 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             "admin",
             "kif",
             "simulation",
-            2,
+            9,
             1280,
             1024);
     }
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
+        restoreLayout();
     }
 
     @Override
@@ -1491,6 +2398,52 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  selectedFgsk  DOCUMENT ME!
+     */
+    private void refreshMultiFgskListModel(final List<CidsBean> selectedFgsk) {
+        final Map<CidsBean, MultiMassnahmenContainer> totalMassnMap = new HashMap<CidsBean, MultiMassnahmenContainer>();
+
+        for (final CidsBean bean : selectedFgsk) {
+            final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(getMassnahmenForFgsk(
+                        bean));
+            final TreeSet<ComparableCidsBean> beansOfCurrentBandMember = new TreeSet<ComparableCidsBean>();
+
+            for (final CidsBean massn : massnList) {
+                final ComparableCidsBean massnWrapper = new ComparableCidsBean(massn);
+
+                if (beansOfCurrentBandMember.contains(massnWrapper)) {
+                    // If a fgsk part contains the same massnahme twice, it should only be
+                    // considered once in the massnahmen list.
+                    continue;
+                } else {
+                    beansOfCurrentBandMember.add(massnWrapper);
+                }
+
+                MultiMassnahmenContainer container = totalMassnMap.get(massn);
+
+                if (container == null) {
+                    container = new MultiMassnahmenContainer(massn, selectedFgsk.size());
+                    totalMassnMap.put(massn, container);
+                } else {
+                    container.increaseCounter();
+                }
+            }
+        }
+
+        final List<MultiMassnahmenContainer> allContainer = new ArrayList<MultiMassnahmenContainer>(
+                totalMassnMap.values());
+        Collections.sort(allContainer);
+
+        final DefaultListModel<MultiMassnahmenContainer> listModel = new DefaultListModel<MultiMassnahmenContainer>();
+        for (final MultiMassnahmenContainer container : allContainer) {
+            listModel.addElement(container);
+        }
+        jlMultiSimList.setModel(listModel);
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -1502,7 +2455,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         //~ Instance fields ----------------------------------------------------
 
-        private JBand band;
+        private final JBand band;
 
         //~ Constructors -------------------------------------------------------
 
@@ -1523,20 +2476,42 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         @Override
         public void bandModelSelectionChanged(final BandModelEvent e) {
-            final BandMember bm;
+            final List<BandMemberSelectable> selectedMembers = new ArrayList<BandMemberSelectable>();
+            if (!selectionChangedHandlingInProgress) {
+                selectionChangedHandlingInProgress = true;
+            } else {
+                return;
+            }
 
-            bm = band.getSelectedBandMember();
+            if (e.isSelectionLost() && !wkMassnListChangedByUser) {
+                for (final JBand tmp : jband) {
+                    if (!tmp.equals(band)) {
+                        tmp.setSelectedMember(new ArrayList<BandMemberSelectable>());
+                    }
+                }
+
+                selectedMembers.addAll(band.getSelectedBandMemberList());
+            } else {
+                for (final JBand tmp : jband) {
+                    selectedMembers.addAll(tmp.getSelectedBandMemberList());
+                }
+            }
+
             band.setRefreshAvoided(true);
             simulationsEditor.dispose();
 
-            if (bm != null) {
+            if (selectedMembers.isEmpty()) {
+                switchToForm("empty");
+                lblHeading.setText("");
+            } else if (selectedMembers.size() == 1) {
                 bgrpDetails.clearSelection();
                 switchToForm("empty");
                 lblHeading.setText("");
 
-                if (bm instanceof ReadOnlyFgskBandMember) {
-                    switchToForm("fgsk");
-                    final CidsBean bean = ((ReadOnlyFgskBandMember)bm).getCidsBean();
+                if (selectedMembers.get(0).getBandMember() instanceof ReadOnlyFgskBandMember) {
+                    switchToForm("fgsk>sim");
+                    final CidsBean bean = ((ReadOnlyFgskBandMember)selectedMembers.get(0).getBandMember())
+                                .getCidsBean();
                     lblHeading.setText("FGSK-Abschnitt: " + bean.toString());
 
                     simulationsEditor.setSimulation(cidsBean);
@@ -1544,12 +2519,65 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     simulationsEditor.setCidsBean(bean);
                 }
             } else {
-                switchToForm("empty");
-                lblHeading.setText("");
+                switchToForm("fgsk>multiSim");
+                final List<CidsBean> selectedFgsk = new ArrayList<CidsBean>();
+
+                for (final BandMemberSelectable tmp : selectedMembers) {
+                    final BandMember bm = tmp.getBandMember();
+
+                    if (bm instanceof ReadOnlyFgskBandMember) {
+                        selectedFgsk.add(((ReadOnlyFgskBandMember)bm).getCidsBean());
+                    }
+                }
+
+                refreshMultiFgskListModel(selectedFgsk);
             }
 
             band.setRefreshAvoided(false);
             band.bandModelChanged(null);
+            selectionChangedHandlingInProgress = false;
+
+            if (!wkMassnListChangedByUser) {
+                jlWKMassnList.getSelectionModel().clearSelection();
+            }
+
+            if (togZoomToParts.isSelected() && !CismapBroker.getInstance().getMappingComponent().isFixedMapExtent()) {
+                // zoom to the selected features
+                final List<Geometry> geomList = new ArrayList<Geometry>();
+
+                for (final BandMemberSelectable tmp : selectedMembers) {
+                    final BandMember bm = tmp.getBandMember();
+
+                    if (bm instanceof ReadOnlyFgskBandMember) {
+                        final Geometry tmpGeom = (Geometry)((ReadOnlyFgskBandMember)bm).getCidsBean()
+                                    .getProperty("linie.geom.geo_field");
+
+                        if (tmpGeom != null) {
+                            geomList.add(tmpGeom.getEnvelope());
+                        }
+                    }
+                }
+
+                if (geomList.size() > 0) {
+                    Geometry geom;
+                    final GeometryFactory factory = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING),
+                            geomList.get(0).getSRID());
+                    geom = factory.buildGeometry(geomList);
+
+                    if (geom instanceof GeometryCollection) {
+                        geom = ((GeometryCollection)geom).union();
+                    }
+
+                    if (geom != null) {
+                        CismapBroker.getInstance()
+                                .getMappingComponent()
+                                .gotoBoundingBox(new XBoundingBox(geom),
+                                    true,
+                                    !CismapBroker.getInstance().getMappingComponent().isFixedMapScale(),
+                                    500);
+                    }
+                }
+            }
         }
 
         @Override
@@ -1568,15 +2596,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         @Override
         public void beansDropped(final ArrayList<CidsBean> beans) {
-            if (!isNew) {
+            if (!isNew || readOnly) {
                 return;
             }
             if (beans.size() > 0) {
                 final CidsBean tmpBean = beans.get(0);
 
-                if (tmpBean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {
+                if (tmpBean.getClass().getName().equals(WK_FG_CLASS_NAME)) {
                     wkFg = tmpBean;
-                    panBand.removeAll();
+                    ((CardLayout)panMain.getLayout()).show(panMain, "band");
                     try {
                         cidsBean.setProperty("wk_key", wkFg.getProperty("wk_k"));
                         setNamesAndBands();
@@ -1590,11 +2618,55 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     }
 
     /**
+     * This list can handle massnahmen_gruppe objects and massnahmen objects.
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class MultiFgskCidsBeanDropList extends JList implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> beans) {
+            if (readOnly) {
+                return;
+            }
+            for (final CidsBean massn : beans) {
+                if (!(massn.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)
+                                || massn.getClass().getName().equals(FgskSimulationHelper.SIM_MASSNAHME_CLASS_NAME))) {
+                    // not supported bean type
+                    continue;
+                }
+                final String hinweis = (String)massn.getProperty("hinweis");
+
+                if ((hinweis != null) && !hinweis.equals("")) {
+                    JOptionPane.showMessageDialog(
+                        SimulationEditor.this,
+                        hinweis,
+                        "Hinweis",
+                        JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                for (final CidsBean fgsk : getAllSelectedFgsk()) {
+                    try {
+                        addMassnahme(fgsk, massn);
+                    } catch (Exception e) {
+                        LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
+                    }
+                }
+            }
+
+            refreshMultiFgskListModel(getAllSelectedFgsk());
+            refreshWkFgMassnList();
+        }
+    }
+
+    /**
      * DOCUMENT ME!
      *
      * @version  $Revision$, $Date$
      */
-    private static class FgskCalculator implements Calculator<List, MetaObject[]> {
+    public static class FgskCalculator implements Calculator<List, MetaObject[]> {
 
         //~ Methods ------------------------------------------------------------
 
@@ -1653,6 +2725,149 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
             return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public static class MassnBvpCalculator implements Calculator<List, MetaObject[]> {
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   input  den wkk des Wasserkörpers
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public MetaObject[] calculate(final List input) throws Exception {
+            String query = "SELECT " + MC_MASSNAHMEN.getID() + ",  m." + MC_MASSNAHMEN.getPrimaryKey() + " FROM "
+                        + MC_MASSNAHMEN.getTableName() + " m, " + MC_WK_FG.getTableName() + " f ";
+
+            if (input.size() > 1) {
+                query += ", massnahmen_realisierung mr ";
+            }
+
+            query += " WHERE m.wk_fg = f.id and f.wk_k = '"
+                        + String.valueOf(input.get(0)) + "' and not massn_fin";
+
+            if (input.size() > 1) {
+                query += " and m.realisierung = mr.id and m.realisierung <= " + input
+                            .get(1).toString();
+            }
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Request for massnahmen: " + query);
+            }
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+
+            return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class MultiMassnahmenContainer implements Comparable<MultiMassnahmenContainer> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private int count = 1;
+        private final CidsBean massnBean;
+        private final int totalCount;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new MultiMassnahmenConainer object.
+         *
+         * @param  massnBean   DOCUMENT ME!
+         * @param  totalCount  DOCUMENT ME!
+         */
+        public MultiMassnahmenContainer(final CidsBean massnBean, final int totalCount) {
+            this.massnBean = massnBean;
+            this.totalCount = totalCount;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void increaseCounter() {
+            ++count;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public boolean isUsedByAll() {
+            return count == totalCount;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public int getCount() {
+            return count;
+        }
+
+        @Override
+        public String toString() {
+            return massnBean.getProperty("key") + " - " + massnBean.toString();
+        }
+
+        @Override
+        public int compareTo(final MultiMassnahmenContainer o) {
+            if (count != o.count) {
+                return o.count - count;
+            } else {
+                return toString().compareTo(o.toString());
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class MultiMassnahmenConainerCellRenderer extends DefaultListCellRenderer {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public Component getListCellRendererComponent(final JList<?> list,
+                final Object value,
+                final int index,
+                final boolean isSelected,
+                final boolean cellHasFocus) {
+            final Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+            if ((value instanceof MultiMassnahmenContainer) && (c instanceof JLabel)) {
+                final MultiMassnahmenContainer container = (MultiMassnahmenContainer)value;
+                final JLabel lab = (JLabel)c;
+
+                if (!container.isUsedByAll()) {
+                    lab.setForeground(Color.LIGHT_GRAY);
+                    lab.setText(value + " (" + container.getCount() + " Vorkommen)");
+                }
+            }
+
+            return c;
         }
     }
 }

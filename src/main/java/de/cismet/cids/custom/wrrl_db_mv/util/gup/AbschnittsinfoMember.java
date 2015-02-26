@@ -16,7 +16,6 @@ import org.jdesktop.swingx.JXPanel;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 import javax.swing.border.LineBorder;
@@ -25,8 +24,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberMouseListeningComponent;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
 import de.cismet.tools.gui.jbands.interfaces.Section;
 
 /**

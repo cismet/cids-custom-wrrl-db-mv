@@ -47,7 +47,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MaxWBNumberSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.StaluSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.*;
@@ -73,6 +73,7 @@ import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitingDialogThread;
 
 /**
  * Massnahmen koennen sich auf Fliessgewaesser und Seegewaesser beziehen. Massnahmen, die sich auf Seegewaesser beziehen
@@ -116,6 +117,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private RouteWBDropBehavior dropBehaviorListener;
     private DefaultListModel pressuresModel;
     private boolean readOnly;
+    private String oldWkFg = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blbSpace;
@@ -1735,6 +1737,34 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             } catch (final Exception ex) {
                 LOG.error("Error in prepareForSave.", ex); // NOI18N
             }
+
+            final WaitingDialogThread wdt = new WaitingDialogThread(StaticSwingTools.getParentFrame(this),
+                    false,
+                    "Aktualisiere Simulationen",
+                    null,
+                    0) {
+
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        final String wkk = (String)cidsBean.getProperty("wk_fg.wk_k");
+
+                        if ((oldWkFg != null)
+                                    && ((wkk == null)
+                                        || !oldWkFg.equals(wkk))) {
+                            FgskSimulationHelper.reCreateSimulation(oldWkFg, true);
+                            FgskSimulationHelper.reCreateSimulation(oldWkFg, false);
+                        }
+
+                        if (wkk != null) {
+                            FgskSimulationHelper.reCreateSimulation(wkk, true);
+                            FgskSimulationHelper.reCreateSimulation(wkk, false);
+                        }
+
+                        return null;
+                    }
+                };
+
+            wdt.start();
         }
 
         boolean save = true;
@@ -1783,6 +1813,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         if ((cidsBean != null) && !readOnly) {
             for (final CidsBean bean : beans) {
                 if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_fg")) {        // NOI18N
+                    if (oldWkFg == null) {
+                        oldWkFg = (String)bean.getProperty("wk_fg.wk_k");
+                    }
                     bindToWb(WB_PROPERTIES[0], bean);
                     dropBehaviorListener.setWkFg(bean);
                 } else if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Wk_sg")) { // NOI18N
