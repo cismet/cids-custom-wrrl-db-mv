@@ -145,7 +145,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private static final String home = System.getProperty("user.home");    // NOI18N
     private static final String fs = System.getProperty("file.separator"); // NOI18N
     private static final String cismapBackupLayout = home + fs + ".cismap" + fs + "backup.layout";
-    private static final String navigatorBackupLayout = Navigator.NAVIGATOR_HOME + fs + "navigatorBackup.layout";
+    private static final String navigatorBackupLayout = Navigator.NAVIGATOR_HOME + "navigatorBackup.layout";
+    private static boolean layoutRestored = true;
 
     static {
         fgskCache.setTimeToCacheResults(30000);
@@ -180,7 +181,6 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JButton butOK;
     private javax.swing.JDialog diaName;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -198,6 +198,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel labMassnProp;
     private javax.swing.JLabel labMultiSim;
     private javax.swing.JLabel lblBemerkungen;
+    private javax.swing.JLabel lblCosts;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
@@ -423,8 +424,13 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 } catch (Exception e) {
                     LOG.error("Error while setting the name", e);
                 }
-                final DefaultMetaTreeNode dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getCatalogueTree()
+                DefaultMetaTreeNode dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getCatalogueTree()
                             .getSelectedNode();
+
+                if (dmtn == null) {
+                    dmtn = (DefaultMetaTreeNode)ComponentRegistry.getRegistry().getSearchResultsTree()
+                                .getSelectedNode();
+                }
 
                 if (dmtn != null) {
                     final TreeNode nodeTmp = dmtn.getParent();
@@ -467,31 +473,46 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
                 @Override
                 public void run() {
-                    try {
-                        final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
-                        cismap.saveLayout(cismapBackupLayout);
-                        final InputStream is = this.getClass()
-                                    .getClassLoader()
-                                    .getResourceAsStream(
-                                        "de/cismet/cids/custom/objecteditors/wrrl_db_mv/fullscreenmap.layout");
+                    // Check, if the layout is already in simulation mode
+                    if (layoutRestored) {
+                        try {
+                            final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
+                            final LayoutedContainer container = (LayoutedContainer)ComponentRegistry.getRegistry()
+                                        .getGUIContainer();
 
-                        cismap.loadLayout(is);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("cismap backup file: " + cismapBackupLayout);
+                            }
+                            cismap.saveLayout(cismapBackupLayout);
 
-                        final LayoutedContainer container = (LayoutedContainer)ComponentRegistry.getRegistry()
-                                    .getGUIContainer();
-                        container.saveLayout(navigatorBackupLayout, ComponentRegistry.getRegistry().getMainWindow());
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("navigator backup file: " + navigatorBackupLayout);
+                            }
+                            container.saveLayout(
+                                navigatorBackupLayout,
+                                ComponentRegistry.getRegistry().getMainWindow());
 
-                        final PluginDescriptor cismapDescriptor = PluginRegistry.getRegistry()
-                                    .getPluginDescriptor("cismap");
-                        final PluginUIDescriptor uiDescriptor = cismapDescriptor.getUIDescriptor("cismap");
+                            layoutRestored = false;
 
-                        container.remove("cismap");
-                        uiDescriptor.setPosition(MutableConstraints.P2);
-                        container.add(uiDescriptor);
+                            final InputStream is = this.getClass()
+                                        .getClassLoader()
+                                        .getResourceAsStream(
+                                            "de/cismet/cids/custom/objecteditors/wrrl_db_mv/fullscreenmap.layout");
 
-                        ComponentRegistry.getRegistry().showComponent(ComponentRegistry.ATTRIBUTE_EDITOR);
-                    } catch (Exception e) {
-                        LOG.error("Cannot cahnge the layout.", e);
+                            cismap.loadLayout(is);
+
+                            final PluginDescriptor cismapDescriptor = PluginRegistry.getRegistry()
+                                        .getPluginDescriptor("cismap");
+                            final PluginUIDescriptor uiDescriptor = cismapDescriptor.getUIDescriptor("cismap");
+
+                            container.remove("cismap");
+                            uiDescriptor.setPosition(MutableConstraints.P2);
+                            container.add(uiDescriptor);
+
+                            ComponentRegistry.getRegistry().showComponent(ComponentRegistry.ATTRIBUTE_EDITOR);
+                        } catch (Exception e) {
+                            LOG.error("Cannot cahnge the layout.", e);
+                        }
                     }
                 }
             });
@@ -519,6 +540,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                 false,
                                 ComponentRegistry.getRegistry().getMainWindow());
                         }
+                        layoutRestored = true;
                     } catch (Exception e) {
                         LOG.error("Cannot cahnge the layout.", e);
                     }
@@ -834,6 +856,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                         LOG.error("Error while retrieving massnahmen BVP objects", e);
                     }
                     refreshMorphometer();
+                    refreshWkFgMassnList();
                     ((CardLayout)panMain.getLayout()).show(panMain, "band");
                     panHeaderInfo.setVisible(true);
                 }
@@ -1249,6 +1272,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblMarker5 = new javax.swing.JLabel();
         lblTitleName = new javax.swing.JLabel();
         labInfo = new javax.swing.JLabel();
+        lblCosts = new javax.swing.JLabel();
+        lblKostenGes = new javax.swing.JLabel();
         diaName = new javax.swing.JDialog();
         panAllgemein = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
@@ -1290,8 +1315,6 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblSubTitle1 = new javax.swing.JLabel();
         rbOekPot = new javax.swing.JRadioButton();
         rbZust = new javax.swing.JRadioButton();
-        jLabel2 = new javax.swing.JLabel();
-        lblKostenGes = new javax.swing.JLabel();
         togZoomToParts = new javax.swing.JToggleButton();
         panMain = new javax.swing.JPanel();
         panLoading = new javax.swing.JPanel();
@@ -1331,6 +1354,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         panTitle.add(lblTitle, gridBagConstraints);
@@ -1501,11 +1525,11 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblMarker5.setBounds(615, 30, 25, 17);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridheight = 3;
         gridBagConstraints.ipady = 23;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         panTitle.add(jPanel1, gridBagConstraints);
@@ -1522,6 +1546,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         panTitle.add(lblTitleName, gridBagConstraints);
@@ -1549,6 +1574,38 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         panTitle.add(labInfo, gridBagConstraints);
+
+        lblCosts.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblCosts.setForeground(new java.awt.Color(255, 255, 255));
+        lblCosts.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblCosts.text",
+                new Object[] {}));                            // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panTitle.add(lblCosts, gridBagConstraints);
+
+        lblKostenGes.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblKostenGes.setForeground(new java.awt.Color(255, 255, 255));
+        lblKostenGes.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblKostenGes.text",
+                new Object[] {}));                                // NOI18N
+        lblKostenGes.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblKostenGesMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        panTitle.add(lblKostenGes, gridBagConstraints);
 
         diaName.setTitle(org.openide.util.NbBundle.getMessage(
                 SimulationEditor.class,
@@ -1931,7 +1988,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 }
             });
         panHeaderInfo.add(rbOekPot);
-        rbOekPot.setBounds(770, 0, 240, 24);
+        rbOekPot.setBounds(810, 0, 240, 24);
 
         bgZiel.add(rbZust);
         rbZust.setText(org.openide.util.NbBundle.getMessage(
@@ -1947,21 +2004,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 }
             });
         panHeaderInfo.add(rbZust);
-        rbZust.setBounds(770, 20, 230, 24);
-
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(
-                SimulationEditor.class,
-                "SimulationEditor.jLabel2.text",
-                new Object[] {})); // NOI18N
-        panHeaderInfo.add(jLabel2);
-        jLabel2.setBounds(280, 30, 110, 17);
-
-        lblKostenGes.setText(org.openide.util.NbBundle.getMessage(
-                SimulationEditor.class,
-                "SimulationEditor.lblKostenGes.text",
-                new Object[] {})); // NOI18N
-        panHeaderInfo.add(lblKostenGes);
-        lblKostenGes.setBounds(390, 30, 140, 17);
+        rbZust.setBounds(810, 20, 230, 24);
 
         togZoomToParts.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/icon-zoom-in.png"))); // NOI18N
@@ -1970,7 +2013,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 "SimulationEditor.togZoomToParts.toolTipText",
                 new Object[] {}));                                                                            // NOI18N
         panHeaderInfo.add(togZoomToParts);
-        togZoomToParts.setBounds(711, 25, 30, 28);
+        togZoomToParts.setBounds(760, 4, 30, 28);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -2005,20 +2048,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         panMain.add(panLoading, "loading");
 
         panBand.setOpaque(false);
-
-        final javax.swing.GroupLayout panBandLayout = new javax.swing.GroupLayout(panBand);
-        panBand.setLayout(panBandLayout);
-        panBandLayout.setHorizontalGroup(
-            panBandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                1150,
-                Short.MAX_VALUE));
-        panBandLayout.setVerticalGroup(
-            panBandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                291,
-                Short.MAX_VALUE));
-
+        panBand.setLayout(new java.awt.BorderLayout());
         panMain.add(panBand, "band");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2153,10 +2183,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      */
     private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblTitleNameMouseClicked
         if (evt.getClickCount() == 2) {
-            FgskSimulationHelper.createAllSimulations();
-            diaName.setSize(590, 226);
-            diaName.pack();
-            StaticSwingTools.showDialog(diaName);
+//            FgskSimulationHelper.createAllSimulations();
+//            diaName.setSize(590, 226);
+//            diaName.pack();
+//            StaticSwingTools.showDialog(diaName);
         }
     }                                                                            //GEN-LAST:event_lblTitleNameMouseClicked
 
@@ -2267,6 +2297,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     } //GEN-LAST:event_jbRemActionPerformed
 
     /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblKostenGesMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblKostenGesMouseClicked
+        // TODO add your handling code here:
+    } //GEN-LAST:event_lblKostenGesMouseClicked
+
+    /**
      * Checks, if all elements of the containedList are contained in the reference list. The containedList should
      * contains massnahmen objects and the referenceList can contain massnahmengruppen and massnahmen.
      *
@@ -2320,6 +2359,16 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void dispose() {
         simulationsEditor.dispose();
+
+        if (!initialReadOnly) {
+            restoreLayout();
+        }
+
+        if (fgskBands != null) {
+            for (final ReadOnlyFgskBand band : fgskBands) {
+                band.dispose();
+            }
+        }
 
         if (sbm != null) {
             for (int index = 0; index < sbm.length; ++index) {
@@ -2375,7 +2424,6 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        restoreLayout();
     }
 
     @Override

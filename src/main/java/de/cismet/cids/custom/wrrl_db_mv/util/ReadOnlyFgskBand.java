@@ -148,4 +148,13 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
             return this.max;
         }
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void dispose() {
+        for (int i = 0; i < getNumberOfMembers(); ++i) {
+            ((ReadOnlyFgskBandMember)getMember(i)).dispose();
+        }
+    }
 }

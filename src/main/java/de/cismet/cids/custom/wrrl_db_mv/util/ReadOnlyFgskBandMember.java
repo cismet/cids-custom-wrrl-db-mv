@@ -335,6 +335,18 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
 
     /**
      * DOCUMENT ME!
+     */
+    public void dispose() {
+        if (fgskFeature != null) {
+            CismapBroker.getInstance()
+                    .getMappingComponent()
+                    .removeFeatures(Arrays.asList(new Feature[] { fgskFeature }));
+            fgskFeature = null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
      *
      * @param  massnahmen  DOCUMENT ME!
      */
