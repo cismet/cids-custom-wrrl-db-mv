@@ -30,8 +30,6 @@ import de.cismet.cids.utils.interfaces.CidsBeanAction;
 import de.cismet.ext.CExtContext;
 import de.cismet.ext.CExtProvider;
 
-import de.cismet.tools.gui.WaitingDialogThread;
-
 /**
  * DOCUMENT ME!
  *

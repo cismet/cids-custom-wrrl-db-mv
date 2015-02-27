@@ -28,8 +28,10 @@ import java.awt.event.ActionEvent;
 
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
+import de.cismet.cids.custom.treeicons.wrrl_db_mv.SimMassnahmenGruppeIconFactory;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
@@ -58,7 +60,11 @@ public class FgskSimulationCidsBeanAction extends AbstractCidsBeanAction {
      * Creates a new FgskSimulationCidsBeanAction object.
      */
     public FgskSimulationCidsBeanAction() {
-        super("Simulation duplizieren");
+        super(
+            "Simulation duplizieren",
+            new ImageIcon(
+                FgskSimulationCidsBeanAction.class.getResource(
+                    "/de/cismet/cids/custom/wrrl_db_mv/fgsk/icon-copy.png")));
     }
 
     //~ Methods ----------------------------------------------------------------
