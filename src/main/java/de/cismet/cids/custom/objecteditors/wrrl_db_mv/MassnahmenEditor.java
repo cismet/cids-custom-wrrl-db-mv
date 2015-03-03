@@ -1665,6 +1665,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         if (cbGeom instanceof DefaultCismapGeometryComboBoxEditor) {
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).dispose();
         }
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }

@@ -572,6 +572,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      */
     @Override
     public void dispose() {
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         fgskKartierabschnittKartierabschnitt1.dispose();
         fgskKartierabschnittLaufentwicklung1.dispose();
         fgskKartierabschnittLaengsprofil1.dispose();

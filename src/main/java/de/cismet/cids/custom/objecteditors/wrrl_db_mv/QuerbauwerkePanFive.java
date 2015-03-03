@@ -60,6 +60,22 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    PropertyChangeListener bauwerkeListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent pce) {
+                if (pce.getPropertyName().equals("bauwerk")) {
+                    final String value = (String)cidsBean.getProperty("bauwerk.value");
+                    if (value != null) {
+                        defaultBindableReferenceCombo13.setVisible(value.equals("1") || value.equals("3"));
+                        defaultBindableReferenceCombo14.setVisible(value.equals("2"));
+                        jLabel3.setVisible(
+                            defaultBindableReferenceCombo13.isVisible()
+                                    || defaultBindableReferenceCombo14.isVisible());
+                    }
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo13;
@@ -380,22 +396,7 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
                 bindingGroup,
                 this.cidsBean);
             try {
-                cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals("bauwerk")) {
-                                final String value = (String)cidsBean.getProperty("bauwerk.value");
-                                if (value != null) {
-                                    defaultBindableReferenceCombo13.setVisible(value.equals("1") || value.equals("3"));
-                                    defaultBindableReferenceCombo14.setVisible(value.equals("2"));
-                                    jLabel3.setVisible(
-                                        defaultBindableReferenceCombo13.isVisible()
-                                                || defaultBindableReferenceCombo14.isVisible());
-                                }
-                            }
-                        }
-                    });
+                cidsBean.addPropertyChangeListener(bauwerkeListener);
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error while autosetting properties", ex);
@@ -407,6 +408,9 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
 
     @Override
     public void dispose() {
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(bauwerkeListener);
+        }
         bindingGroup.unbind();
     }
 

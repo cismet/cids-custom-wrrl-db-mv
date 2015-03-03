@@ -89,12 +89,27 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkeEditor.class);
-    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final PropertyChangeListener bauwerkPropertyChangeListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent pce) {
+                if (pce.getPropertyName().equals("bauwerk")) {
+                    int bauwerk_value = 0;
+                    try {
+                        bauwerk_value = Integer.parseInt((String)((CidsBean)cidsBean.getProperty("bauwerk"))
+                                        .getProperty("value"));
+                    } catch (Exception ex) {
+                    }
+                    querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
+                    querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -371,26 +386,11 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             this.cidsBean.removePropertyChangeListener(this);
         }
         this.cidsBean = cidsBean;
-        cidsBean.addPropertyChangeListener(this);
 
         if (cidsBean != null) {
+            cidsBean.addPropertyChangeListener(this);
             try {
-                cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals("bauwerk")) {
-                                int bauwerk_value = 0;
-                                try {
-                                    bauwerk_value = Integer.parseInt(
-                                            (String)((CidsBean)cidsBean.getProperty("bauwerk")).getProperty("value"));
-                                } catch (Exception ex) {
-                                }
-                                querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
-                                querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
-                            }
-                        }
-                    });
+                cidsBean.addPropertyChangeListener(bauwerkPropertyChangeListener);
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error while autosetting properties", ex);
@@ -635,6 +635,9 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         querbauwerkePanFive.dispose();
         querbauwerkePanSix.dispose();
         querbauwerkePanSeven1.dispose();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
     }
 
     @Override
