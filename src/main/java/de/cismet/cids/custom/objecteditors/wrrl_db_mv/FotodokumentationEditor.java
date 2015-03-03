@@ -644,6 +644,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     public void dispose() {
         bindingGroup.unbind();
         timer.stop();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         if (fotoCidsBean != null) {
             fotoCidsBean.removePropertyChangeListener(listRepaintListener);
         }

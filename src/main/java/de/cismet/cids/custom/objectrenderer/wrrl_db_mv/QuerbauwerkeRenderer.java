@@ -72,7 +72,24 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final PropertyChangeListener bauwerkeListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent pce) {
+                if (pce.getPropertyName().equals("bauwerk")) {
+                    int bauwerk_value = 0;
+                    try {
+                        bauwerk_value = Integer.parseInt((String)((CidsBean)cidsBean.getProperty("bauwerk"))
+                                        .getProperty("value"));
+                    } catch (Exception ex) {
+                        LOG.error("Error while parsing the property bauwerk.value", ex);
+                    }
+                    querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
+                    querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -325,23 +342,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
                 querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
                 querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
 
-                cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals("bauwerk")) {
-                                int bauwerk_value = 0;
-                                try {
-                                    bauwerk_value = Integer.parseInt(
-                                            (String)((CidsBean)cidsBean.getProperty("bauwerk")).getProperty("value"));
-                                } catch (Exception ex) {
-                                    LOG.error("Error while parsing the property bauwerk.value", ex);
-                                }
-                                querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
-                                querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
-                            }
-                        }
-                    });
+                cidsBean.addPropertyChangeListener(bauwerkeListener);
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error while autosetting properties", ex);
@@ -553,6 +554,9 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
 
     @Override
     public void dispose() {
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(bauwerkeListener);
+        }
         querbauwerkePanOne.dispose();
         querbauwerkePanTwo.dispose();
         querbauwerkePanThree.dispose();

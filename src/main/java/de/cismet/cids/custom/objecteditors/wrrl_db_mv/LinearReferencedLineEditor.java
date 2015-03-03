@@ -1351,6 +1351,20 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void dispose() {
         cleanupLine();
         MERGE_REGISTRY.removeRequestListener(cidsBean, this);
+        final CidsBean lineBean = getLineBean();
+
+        if (lineBean != null) {
+            lineBean.removePropertyChangeListener(linePropertyChangeListener);
+        }
+
+//        CidsBean pointBean = getPointBean(true);
+//        if (pointBean != null) {
+//            pointBean.addPropertyChangeListener(getPointBeanChangeListener(true));
+//        }
+//        pointBean = getPointBean(false);
+//        if (pointBean != null) {
+//            pointBean.addPropertyChangeListener(getPointBeanChangeListener(false));
+//        }
 //        setOtherLines(null);
         CismapBroker.getInstance().removeCrsChangeListener(getCrsChangeListener());
     }
