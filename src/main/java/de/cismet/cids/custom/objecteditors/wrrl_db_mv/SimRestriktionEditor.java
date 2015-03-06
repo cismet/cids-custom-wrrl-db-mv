@@ -64,11 +64,11 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
-    private RestriktionRWBand restriktionBand = new RestriktionRWBand(
+    private final RestriktionRWBand restriktionBand = new RestriktionRWBand(
             "Restriktionen",
             SIM_RESTRIKTION);
     private WKBand wkband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private VermessungsbandHelper vermessungsband;
     private final JBand jband;
     private final BandModelListener modelListener = new RestriktionBandModelListener();
@@ -76,7 +76,7 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private SimRestriktionsabschnittEditor restriktionEditor;
     private boolean readOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("ausdehnung");
+    private final StationLineBackup stationBackup = new StationLineBackup("ausdehnung");
     private boolean isNew = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -703,6 +703,7 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
             vermessungsband.dispose();
         }
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override

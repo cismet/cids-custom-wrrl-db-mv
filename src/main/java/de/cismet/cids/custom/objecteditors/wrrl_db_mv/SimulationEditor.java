@@ -846,6 +846,14 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                                             .determineFgskIntersectionPercentage(fgsk, from, to, gwk);
                                                 final boolean complete = percentage == 100.0;
                                                 addMassnahme(fgsk, massn, complete);
+
+                                                if (!complete) {
+                                                    final ReadOnlyFgskBandMember member = getBandMemberForFgsk(fgsk);
+
+                                                    if (member != null) {
+                                                        member.setComplete(false);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -863,6 +871,27 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             };
 
         CismetConcurrency.getInstance("Fgsk_sim").getDefaultExecutor().submit(waitingDialog);
+    }
+
+    /**
+     * The band member, that represents the given fgsk baen.
+     *
+     * @param   fgsk  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private ReadOnlyFgskBandMember getBandMemberForFgsk(final CidsBean fgsk) {
+        for (final ReadOnlyFgskBand band : fgskBands) {
+            for (int i = 0; i < band.getNumberOfMembers(); ++i) {
+                final ReadOnlyFgskBandMember member = (ReadOnlyFgskBandMember)band.getMember(i);
+
+                if (member.getCidsBean().equals(fgsk)) {
+                    return member;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -2365,7 +2394,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         }
 
         if (fgskBands != null) {
-            for (final ReadOnlyFgskBand band : fgskBands) {
+            for (final JBand band : jband) {
                 band.dispose();
             }
         }
@@ -2431,6 +2460,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         diaName.setSize(590, 156);
         if (namePrompt) {
             StaticSwingTools.showDialog(diaName);
+        } else {
+            cancel = false;
         }
         return !cancel;
     }

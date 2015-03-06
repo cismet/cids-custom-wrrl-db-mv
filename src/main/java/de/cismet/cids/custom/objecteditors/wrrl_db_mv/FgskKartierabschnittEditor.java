@@ -362,6 +362,25 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @param   kaBean  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
+     *
+     * @throws  IllegalArgumentException  DOCUMENT ME!
+     */
+    public static boolean isPiped(final CidsBean kaBean) {
+        if (kaBean == null) {
+            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        }
+
+        final CidsBean exception = (CidsBean)kaBean.getProperty(Calc.PROP_EXCEPTION);
+
+        return ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE)));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
      */
     public static boolean isPreFieldMapping(final CidsBean kaBean) {
         final Boolean vorkartierung = (Boolean)kaBean.getProperty("vorkatierung"); // NOI18N
