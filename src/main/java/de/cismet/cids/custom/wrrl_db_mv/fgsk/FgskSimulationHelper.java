@@ -387,7 +387,7 @@ public class FgskSimulationHelper {
                 return 0.0;
             }
 
-            return intersectionLength * 100 / (intersectionTo - intersectionFrom);
+            return intersectionLength * 100 / (fgskTo - fgskFrom);
         }
 
         return 0.0;
@@ -495,11 +495,14 @@ public class FgskSimulationHelper {
 
             if (resArray != null) {
                 int count = 0;
+
                 for (final ArrayList wkfgArray : resArray) {
                     final String wkk = (String)wkfgArray.get(0);
                     LOG.error("wkk: " + wkk + " " + (++count) + "/" + resArray.size());
-                    reCreateSimulation(wkk, false);
-                    reCreateSimulation(wkk, true);
+                    if (count > 443) {
+                        reCreateSimulation(wkk, false);
+                        reCreateSimulation(wkk, true);
+                    }
                 }
             }
         } catch (Exception e) {

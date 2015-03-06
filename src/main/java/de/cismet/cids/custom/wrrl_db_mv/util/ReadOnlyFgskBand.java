@@ -24,6 +24,7 @@ import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 
 import de.cismet.tools.gui.jbands.DefaultBand;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
+import de.cismet.tools.gui.jbands.interfaces.DisposableBand;
 
 /**
  * DOCUMENT ME!
@@ -31,7 +32,7 @@ import de.cismet.tools.gui.jbands.interfaces.BandMember;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionStore {
+public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionStore, DisposableBand {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -152,6 +153,7 @@ public class ReadOnlyFgskBand extends DefaultBand implements CidsBeanCollectionS
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void dispose() {
         for (int i = 0; i < getNumberOfMembers(); ++i) {
             ((ReadOnlyFgskBandMember)getMember(i)).dispose();

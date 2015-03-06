@@ -1322,7 +1322,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
         final CidsBean exception = (CidsBean)bean.getProperty(Calc.PROP_EXCEPTION);
 
-        if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
+        if ((p == null) && ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE)))) {
             gueteklasse = 5;
         } else {
             if (p != null) {
@@ -1496,155 +1496,301 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             if (fillFields) {
                 simEditor.clearAll();
             }
-            if (FgskKartierabschnittEditor.isException(bean)) {
-                return null;
-            } else {
+
+            if (FgskKartierabschnittEditor.isPreFieldMapping(bean)
+                        || !(FgskKartierabschnittEditor.isPiped(bean) && containsMassnahmeByKey(massnahmen, "ME6"))) {
                 return null;
             }
         }
 
-        if (wbTypeBean == null) {
-            if (fillFields) {
-                simEditor.clearAll();
-            }
-            throw new IllegalStateException("kartierabschnitt bean without water body type: " + bean); // NOI18N
-        }
         final int wbTypeId = wbTypeBean.getMetaObject().getId();
         final Integer lawaValue = (Integer)wbTypeBean.getProperty("value");
         final double stationLength = Calc.getStationLength(bean);
-        final CidsBean courseLoopBean = (CidsBean)bean.getProperty(Calc.PROP_COURSE_LOOP);
-        final CidsBean loopErosionBean = (CidsBean)bean.getProperty(Calc.PROP_LOOP_EROSION);
-
-        Integer ratingCourseLoop = cache.getCourseLoopRating(courseLoopBean.getMetaObject().getId(), wbTypeId);
-        Integer ratingLoopErosion = cache.getLoopErosionRating(loopErosionBean.getMetaObject().getId(), wbTypeId);
-
-        final Double absLongBenchSum = getLongBenchSum(bean, wbTypeId, stationLength);
-        final Double absCourseStructureSum = getCourseStructureSum(bean, wbTypeId, stationLength);
-        final Double absCrossBenchCount = getCrossBenchCount(bean, wbTypeId, stationLength);
-        final CidsBean flowDiversityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_DIVERSITY);
-        final CidsBean depthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_DEPTH_VARIANCE);
-        final CidsBean flowVelocityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_VELOCITY);
-
-        Double ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
-        Integer ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
-        Integer ratingCrossBench = cache.getCrossBenchRating(absCrossBenchCount, wbTypeId);
-        Integer ratingFlowDiversity = cache.getFlowDiversityRating(flowDiversityBean.getMetaObject().getId(),
-                wbTypeId);
-        final Integer ratingFlowVelocity = cache.getFlowVelocityRating(flowVelocityBean.getMetaObject().getId(),
-                wbTypeId);
-        Integer ratingDepthVariance = cache.getDepthVarianceRating(depthVarianceBean.getMetaObject().getId(),
-                wbTypeId);
-        Integer substrateDiversityRating = getSubstrateDiversity(bean, wbTypeId, stationLength);
-        Double bedStructureRating = getBedStructureRating(bean, wbTypeId, stationLength);
-        final CidsBean bedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_BED_FITMENT);
-        final CidsBean zBedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_Z_BED_FITMENT);
-        Integer ratingBedFitment = cache.getBedFitmentRating(
-                bedFitmentBean.getMetaObject().getId(),
-                zBedFitmentBean.getMetaObject().getId(),
-                wbTypeId);
-        final double upperProfileBreadth = (Double)bean.getProperty(Calc.PROP_UPPER_PROFILE_BREADTH);
-        final double incisionDepth = (Double)bean.getProperty(Calc.PROP_INCISION_DEPTH);
-        final double waterDepth = (Double)bean.getProperty(Calc.PROP_WATER_DEPTH);
-        final double profileDepth = incisionDepth + waterDepth;
-
-        final double breadthDepthRelation = Calc.round(Calc.round(upperProfileBreadth / profileDepth, SCALE));
-
-        final CidsBean profileTypeBean = (CidsBean)bean.getProperty(Calc.PROP_PROFILE_TYPE);
-        final CidsBean breadthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_BREADTH_VARIANCE);
-        final CidsBean breadthErosionBean = (CidsBean)bean.getProperty(Calc.PROP_BREADTH_EROSION);
-
-        Integer ratingDepthBreadth = cache.getProfileDepthBreadthRelationRating(breadthDepthRelation, wbTypeId);
-        if (ratingDepthBreadth == null) {
-            ratingDepthBreadth = cache.getBiggestProfileDepthBreadthRelationRating(breadthDepthRelation, wbTypeId);
-            if (ratingDepthBreadth == null) {
-                ratingDepthBreadth = cache.getLowestProfileDepthBreadthRelationRating(breadthDepthRelation, wbTypeId);
-            }
-        }
-
-        Integer ratingBreadthVariance = cache.getBreadthVarianceRating(
-                breadthVarianceBean.getMetaObject().getId(),
-                wbTypeId);
-        Integer ratingBreadthErosion = cache.getBreadthErosionRating(breadthErosionBean.getMetaObject().getId(),
-                wbTypeId);
-        Integer ratingProfileType = cache.getProfileTypeRating(profileTypeBean.getMetaObject().getId(),
-                wbTypeId);
-        Integer ratingBankStructureLeft = Calc.getInstance()
-                    .getBankStructureRating(wbTypeId, stationLength, bean, true);
-        Integer ratingBankStructureRight = Calc.getInstance()
-                    .getBankStructureRating(wbTypeId, stationLength, bean, false);
-        Integer ratingBankVegetationRight = Calc.getInstance()
-                    .getBankVegetationRating(wbTypeId, stationLength, bean, false);
-        Integer ratingBankVegetationLeft = Calc.getInstance()
-                    .getBankVegetationRating(wbTypeId, stationLength, bean, true);
-        Integer ratingBankFitmentRight = Calc.getInstance().getBankFitmentRating(wbTypeId, stationLength, bean, false);
-        Integer ratingBankFitmentLeft = Calc.getInstance().getBankFitmentRating(wbTypeId, stationLength, bean, true);
-        final Double bankContaminationRight = Calc.getInstance().getBankContaminationCount(wbTypeId, bean, false);
-        final Double bankContaminationLeft = Calc.getInstance().getBankContaminationCount(wbTypeId, bean, true);
-        final Double badEnvRight = Calc.getInstance().getBadEnvCount(wbTypeId, bean, false);
-        final Double badEnvLeft = Calc.getInstance().getBadEnvCount(wbTypeId, bean, true);
-        final Double bedContamination = Calc.getInstance().calcBedContaminationCount(bean, wbTypeId);
-        final Double ratingBankContaminationRight = Calc.getInstance()
+        Integer ratingCourseLoop;
+        Integer ratingLoopErosion;
+        Double ratingLongBench;
+        Integer ratingCourseStructure;
+        Integer ratingCrossBench;
+        Integer ratingFlowDiversity;
+        Integer ratingFlowVelocity;
+        Integer ratingDepthVariance;
+        Integer substrateDiversityRating;
+        Double bedStructureRating;
+        Integer ratingBedFitment;
+        Integer ratingDepthBreadth;
+        Integer ratingBreadthErosion;
+        Integer ratingBreadthVariance;
+        Integer ratingProfileType;
+        Integer ratingBankStructureRight;
+        Integer ratingBankStructureLeft;
+        Integer ratingBankVegetationRight;
+        Integer ratingBankVegetationLeft;
+        Integer ratingBankFitmentRight;
+        Integer ratingBankFitmentLeft;
+        Double bankContaminationRight;
+        Double bankContaminationLeft;
+        Double bedContamination;
+        Integer ratingWBTrimmingRight;
+        Integer ratingWBTrimmingLeft;
+        Integer ratingLandUseRight;
+        Integer ratingLandUseLeft;
+        Double badEnvRight;
+        Double badEnvLeft;
+        final CidsBean dummyBean = CidsBeanSupport.createNewCidsBeanFromTableName("fgsk_kartierabschnitt");
+        Double ratingBankContaminationRight = Calc.getInstance()
                     .getBankContaminationRating(wbTypeId, stationLength, bean, false);
-        final Double ratingBankContaminationLeft = Calc.getInstance()
+        Double ratingBankContaminationLeft = Calc.getInstance()
                     .getBankContaminationRating(wbTypeId, stationLength, bean, true);
-        Integer ratingWBTrimmingRight = Calc.getInstance().getWBTrimmingRating(wbTypeId, bean, false);
-        Integer ratingWBTrimmingLeft = Calc.getInstance().getWBTrimmingRating(wbTypeId, bean, true);
-        Integer ratingLandUseRight = Calc.getInstance().getLandUseRating(wbTypeId, bean, false);
-        Integer ratingLandUseLeft = Calc.getInstance().getLandUseRating(wbTypeId, bean, true);
+        Double ratingBedContamination = Calc.getInstance().calcBedContamination(bean, wbTypeId);
         Double ratingBadEnvRight = Calc.getInstance().getBadEnvRating(wbTypeId, bean, false);
         Double ratingBadEnvLeft = Calc.getInstance().getBadEnvRating(wbTypeId, bean, true);
-        final Double ratingBedContamination = Calc.getInstance().calcBedContamination(bean, wbTypeId);
 
-        ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, lawaValue);
-        ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, lawaValue);
-        ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
-        ratingCourseStructure = addProperty(
-                ratingCourseStructure,
-                "anzahl_besonderer_laufstrukturen",
-                massnahmen,
-                lawaValue);
-        ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
-        ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, lawaValue);
-        // Fliessgeschwindigkeit gibt es als Wirkung auf den FGSK Abschnitt nicht
-// ratingFlowVelocity = addProperty(ratingFlowVelocity, "fliessgeschwindigkeit", massnahmen, wbTypeId);
-        ratingDepthVariance = addProperty(ratingDepthVariance, "tiefenvarianz", massnahmen, lawaValue);
-        substrateDiversityRating = addProperty(substrateDiversityRating, "substratdiversitaet", massnahmen, lawaValue);
-        bedStructureRating = addProperty(bedStructureRating, "anzahl_besonderer_sohlstrukturen", massnahmen, lawaValue);
-        ratingBedFitment = addProperty(ratingBedFitment, "sohlverbau", massnahmen, lawaValue);
-        ratingDepthBreadth = addProperty(ratingDepthBreadth, "sohltiefe_obere_profilbreite", massnahmen, lawaValue);
-        ratingBreadthErosion = addProperty(ratingBreadthErosion, "breitenerosion", massnahmen, lawaValue);
-        ratingBreadthVariance = addProperty(ratingBreadthVariance, "breitenvarianz", massnahmen, lawaValue);
-        ratingProfileType = addProperty(ratingProfileType, "profiltyp", massnahmen, lawaValue);
-        ratingBankStructureRight = addProperty(
-                ratingBankStructureRight,
-                "anzahl_besonderer_uferstrukturen",
-                massnahmen,
-                lawaValue);
-        ratingBankStructureLeft = addProperty(
-                ratingBankStructureLeft,
-                "anzahl_besonderer_uferstrukturen",
-                massnahmen,
-                lawaValue);
-        ratingBankVegetationRight = addProperty(ratingBankVegetationRight, "uferbewuchs", massnahmen, lawaValue);
-        ratingBankVegetationLeft = addProperty(ratingBankVegetationLeft, "uferbewuchs", massnahmen, lawaValue);
-        ratingBankFitmentRight = addProperty(ratingBankFitmentRight, "uferverbau", massnahmen, lawaValue);
-        ratingBankFitmentLeft = addProperty(ratingBankFitmentLeft, "uferverbau", massnahmen, lawaValue);
-        ratingWBTrimmingRight = addProperty(ratingWBTrimmingRight, "gewaesserrandstreifen", massnahmen, lawaValue);
-        ratingWBTrimmingLeft = addProperty(ratingWBTrimmingLeft, "gewaesserrandstreifen", massnahmen, lawaValue);
-        ratingLandUseRight = addProperty(ratingLandUseRight, "flaechennutzung", massnahmen, lawaValue);
-        ratingLandUseLeft = addProperty(ratingLandUseLeft, "flaechennutzung", massnahmen, lawaValue);
-        ratingBadEnvRight = Calc.correctBadEnvRating(addProperty(
-                    ratingBadEnvRight,
-                    "sonstige_umfeldstrukturen",
+        if (!FgskKartierabschnittEditor.isPiped(bean)) {
+            if (wbTypeBean == null) {
+                if (fillFields) {
+                    simEditor.clearAll();
+                }
+                throw new IllegalStateException("kartierabschnitt bean without water body type: " + bean); // NOI18N
+            }
+            final CidsBean courseLoopBean = (CidsBean)bean.getProperty(Calc.PROP_COURSE_LOOP);
+            final CidsBean loopErosionBean = (CidsBean)bean.getProperty(Calc.PROP_LOOP_EROSION);
+
+            ratingCourseLoop = cache.getCourseLoopRating(courseLoopBean.getMetaObject().getId(), wbTypeId);
+            ratingLoopErosion = cache.getLoopErosionRating(loopErosionBean.getMetaObject().getId(), wbTypeId);
+
+            final Double absLongBenchSum = getLongBenchSum(bean, wbTypeId, stationLength);
+            final Double absCourseStructureSum = getCourseStructureSum(bean, wbTypeId, stationLength);
+            final Double absCrossBenchCount = getCrossBenchCount(bean, wbTypeId, stationLength);
+            final CidsBean flowDiversityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_DIVERSITY);
+            final CidsBean depthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_DEPTH_VARIANCE);
+            final CidsBean flowVelocityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_VELOCITY);
+
+            ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
+            ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
+            ratingCrossBench = cache.getCrossBenchRating(absCrossBenchCount, wbTypeId);
+            ratingFlowDiversity = cache.getFlowDiversityRating(flowDiversityBean.getMetaObject().getId(),
+                    wbTypeId);
+            ratingFlowVelocity = cache.getFlowVelocityRating(flowVelocityBean.getMetaObject().getId(),
+                    wbTypeId);
+            ratingDepthVariance = cache.getDepthVarianceRating(depthVarianceBean.getMetaObject().getId(),
+                    wbTypeId);
+            substrateDiversityRating = getSubstrateDiversity(bean, wbTypeId, stationLength);
+            bedStructureRating = getBedStructureRating(bean, wbTypeId, stationLength);
+            final CidsBean bedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_BED_FITMENT);
+            final CidsBean zBedFitmentBean = (CidsBean)bean.getProperty(Calc.PROP_Z_BED_FITMENT);
+            ratingBedFitment = cache.getBedFitmentRating(
+                    bedFitmentBean.getMetaObject().getId(),
+                    zBedFitmentBean.getMetaObject().getId(),
+                    wbTypeId);
+            final double upperProfileBreadth = (Double)bean.getProperty(Calc.PROP_UPPER_PROFILE_BREADTH);
+            final double incisionDepth = (Double)bean.getProperty(Calc.PROP_INCISION_DEPTH);
+            final double waterDepth = (Double)bean.getProperty(Calc.PROP_WATER_DEPTH);
+            final double profileDepth = incisionDepth + waterDepth;
+
+            final double breadthDepthRelation = Calc.round(Calc.round(upperProfileBreadth / profileDepth, SCALE));
+
+            final CidsBean profileTypeBean = (CidsBean)bean.getProperty(Calc.PROP_PROFILE_TYPE);
+            final CidsBean breadthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_BREADTH_VARIANCE);
+            final CidsBean breadthErosionBean = (CidsBean)bean.getProperty(Calc.PROP_BREADTH_EROSION);
+
+            ratingDepthBreadth = cache.getProfileDepthBreadthRelationRating(breadthDepthRelation, wbTypeId);
+            if (ratingDepthBreadth == null) {
+                ratingDepthBreadth = cache.getBiggestProfileDepthBreadthRelationRating(breadthDepthRelation, wbTypeId);
+                if (ratingDepthBreadth == null) {
+                    ratingDepthBreadth = cache.getLowestProfileDepthBreadthRelationRating(
+                            breadthDepthRelation,
+                            wbTypeId);
+                }
+            }
+
+            ratingBreadthVariance = cache.getBreadthVarianceRating(
+                    breadthVarianceBean.getMetaObject().getId(),
+                    wbTypeId);
+            ratingBreadthErosion = cache.getBreadthErosionRating(breadthErosionBean.getMetaObject().getId(),
+                    wbTypeId);
+            ratingProfileType = cache.getProfileTypeRating(profileTypeBean.getMetaObject().getId(),
+                    wbTypeId);
+            ratingBankStructureLeft = Calc.getInstance().getBankStructureRating(wbTypeId, stationLength, bean, true);
+            ratingBankStructureRight = Calc.getInstance().getBankStructureRating(wbTypeId, stationLength, bean, false);
+            ratingBankVegetationRight = Calc.getInstance()
+                        .getBankVegetationRating(wbTypeId, stationLength, bean, false);
+            ratingBankVegetationLeft = Calc.getInstance().getBankVegetationRating(wbTypeId, stationLength, bean, true);
+            ratingBankFitmentRight = Calc.getInstance().getBankFitmentRating(wbTypeId, stationLength, bean, false);
+            ratingBankFitmentLeft = Calc.getInstance().getBankFitmentRating(wbTypeId, stationLength, bean, true);
+            bankContaminationRight = Calc.getInstance().getBankContaminationCount(wbTypeId, bean, false);
+            bankContaminationLeft = Calc.getInstance().getBankContaminationCount(wbTypeId, bean, true);
+            badEnvRight = Calc.getInstance().getBadEnvCount(wbTypeId, bean, false);
+            badEnvLeft = Calc.getInstance().getBadEnvCount(wbTypeId, bean, true);
+            bedContamination = Calc.getInstance().calcBedContaminationCount(bean, wbTypeId);
+            ratingWBTrimmingRight = Calc.getInstance().getWBTrimmingRating(wbTypeId, bean, false);
+            ratingWBTrimmingLeft = Calc.getInstance().getWBTrimmingRating(wbTypeId, bean, true);
+            ratingLandUseRight = Calc.getInstance().getLandUseRating(wbTypeId, bean, false);
+            ratingLandUseLeft = Calc.getInstance().getLandUseRating(wbTypeId, bean, true);
+
+            ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, lawaValue);
+            ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, lawaValue);
+            ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
+            ratingCourseStructure = addProperty(
+                    ratingCourseStructure,
+                    "anzahl_besonderer_laufstrukturen",
                     massnahmen,
-                    wbTypeId),
-                lawaValue);
-        ratingBadEnvLeft = Calc.correctBadEnvRating(addProperty(
-                    ratingBadEnvLeft,
-                    "sonstige_umfeldstrukturen",
+                    lawaValue);
+            ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
+            ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, lawaValue);
+            // Fliessgeschwindigkeit gibt es als Wirkung auf den FGSK Abschnitt nicht
+            // ratingFlowVelocity = addProperty(ratingFlowVelocity, "fliessgeschwindigkeit", massnahmen, wbTypeId);
+            ratingDepthVariance = addProperty(ratingDepthVariance, "tiefenvarianz", massnahmen, lawaValue);
+            substrateDiversityRating = addProperty(
+                    substrateDiversityRating,
+                    "substratdiversitaet",
                     massnahmen,
-                    wbTypeId),
-                lawaValue);
+                    lawaValue);
+            bedStructureRating = addProperty(
+                    bedStructureRating,
+                    "anzahl_besonderer_sohlstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingBedFitment = addProperty(ratingBedFitment, "sohlverbau", massnahmen, lawaValue);
+            ratingDepthBreadth = addProperty(ratingDepthBreadth, "sohltiefe_obere_profilbreite", massnahmen, lawaValue);
+            ratingBreadthErosion = addProperty(ratingBreadthErosion, "breitenerosion", massnahmen, lawaValue);
+            ratingBreadthVariance = addProperty(ratingBreadthVariance, "breitenvarianz", massnahmen, lawaValue);
+            ratingProfileType = addProperty(ratingProfileType, "profiltyp", massnahmen, lawaValue);
+            ratingBankStructureRight = addProperty(
+                    ratingBankStructureRight,
+                    "anzahl_besonderer_uferstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingBankStructureLeft = addProperty(
+                    ratingBankStructureLeft,
+                    "anzahl_besonderer_uferstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingBankVegetationRight = addProperty(ratingBankVegetationRight, "uferbewuchs", massnahmen, lawaValue);
+            ratingBankVegetationLeft = addProperty(ratingBankVegetationLeft, "uferbewuchs", massnahmen, lawaValue);
+            ratingBankFitmentRight = addProperty(ratingBankFitmentRight, "uferverbau", massnahmen, lawaValue);
+            ratingBankFitmentLeft = addProperty(ratingBankFitmentLeft, "uferverbau", massnahmen, lawaValue);
+            ratingWBTrimmingRight = addProperty(ratingWBTrimmingRight, "gewaesserrandstreifen", massnahmen, lawaValue);
+            ratingWBTrimmingLeft = addProperty(ratingWBTrimmingLeft, "gewaesserrandstreifen", massnahmen, lawaValue);
+            ratingLandUseRight = addProperty(ratingLandUseRight, "flaechennutzung", massnahmen, lawaValue);
+            ratingLandUseLeft = addProperty(ratingLandUseLeft, "flaechennutzung", massnahmen, lawaValue);
+            ratingBadEnvRight = Calc.correctBadEnvRating(addProperty(
+                        ratingBadEnvRight,
+                        "sonstige_umfeldstrukturen",
+                        massnahmen,
+                        wbTypeId),
+                    lawaValue);
+            ratingBadEnvLeft = Calc.correctBadEnvRating(addProperty(
+                        ratingBadEnvLeft,
+                        "sonstige_umfeldstrukturen",
+                        massnahmen,
+                        wbTypeId),
+                    lawaValue);
+        } else {
+            if (wbTypeBean == null) {
+                if (fillFields) {
+                    simEditor.clearAll();
+                }
+                throw new IllegalStateException("kartierabschnitt bean without water body type: " + bean); // NOI18N
+            }
+
+            ratingCourseLoop = 0;
+            ratingLoopErosion = 0;
+            ratingLongBench = 0.0;
+            ratingCourseStructure = 0;
+            ratingCrossBench = 0;
+            ratingFlowDiversity = 0;
+            ratingFlowVelocity = 0;
+            ratingDepthVariance = 0;
+            substrateDiversityRating = 0;
+            bedStructureRating = 0.0;
+            ratingBedFitment = 0;
+            ratingDepthBreadth = 0;
+            ratingBreadthVariance = 0;
+            ratingBreadthErosion = 0;
+            ratingProfileType = 0;
+            ratingBankStructureLeft = 0;
+            ratingBankStructureRight = 0;
+            ratingBankVegetationRight = 0;
+            ratingBankVegetationLeft = 0;
+            ratingBankFitmentRight = 0;
+            ratingBankFitmentLeft = 0;
+            bankContaminationRight = 0.0;
+            bankContaminationLeft = 0.0;
+            badEnvRight = 0.0;
+            badEnvLeft = 0.0;
+            bedContamination = 0.0;
+            // test
+            ratingBankContaminationRight = Calc.getInstance()
+                        .getBankContaminationRating(wbTypeId, stationLength, bean, false);
+            ratingBankContaminationLeft = Calc.getInstance()
+                        .getBankContaminationRating(wbTypeId, stationLength, bean, true);
+            // test
+            ratingWBTrimmingRight = 0;
+            ratingWBTrimmingLeft = 0;
+            ratingLandUseRight = 0;
+            ratingLandUseLeft = 0;
+            // test start
+            ratingBadEnvRight = Calc.getInstance().getBadEnvRating(wbTypeId, bean, false);
+            ratingBadEnvLeft = Calc.getInstance().getBadEnvRating(wbTypeId, bean, true);
+            ratingBedContamination = Calc.getInstance().calcBedContamination(bean, wbTypeId);
+            // test end
+            ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, lawaValue);
+            ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, lawaValue);
+            ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
+            ratingCourseStructure = addProperty(
+                    ratingCourseStructure,
+                    "anzahl_besonderer_laufstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
+            ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, lawaValue);
+            ratingDepthVariance = addProperty(ratingDepthVariance, "tiefenvarianz", massnahmen, lawaValue);
+            substrateDiversityRating = addProperty(
+                    substrateDiversityRating,
+                    "substratdiversitaet",
+                    massnahmen,
+                    lawaValue);
+            bedStructureRating = addProperty(
+                    bedStructureRating,
+                    "anzahl_besonderer_sohlstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingBedFitment = addProperty(ratingBedFitment, "sohlverbau", massnahmen, lawaValue);
+            ratingDepthBreadth = addProperty(ratingDepthBreadth, "sohltiefe_obere_profilbreite", massnahmen, lawaValue);
+            ratingBreadthErosion = addProperty(ratingBreadthErosion, "breitenerosion", massnahmen, lawaValue);
+            ratingBreadthVariance = addProperty(ratingBreadthVariance, "breitenvarianz", massnahmen, lawaValue);
+            ratingProfileType = addProperty(ratingProfileType, "profiltyp", massnahmen, lawaValue);
+            ratingBankStructureRight = addProperty(
+                    ratingBankStructureRight,
+                    "anzahl_besonderer_uferstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingBankStructureLeft = addProperty(
+                    ratingBankStructureLeft,
+                    "anzahl_besonderer_uferstrukturen",
+                    massnahmen,
+                    lawaValue);
+            ratingBankVegetationRight = addProperty(ratingBankVegetationRight, "uferbewuchs", massnahmen, lawaValue);
+            ratingBankVegetationLeft = addProperty(ratingBankVegetationLeft, "uferbewuchs", massnahmen, lawaValue);
+            ratingBankFitmentRight = addProperty(ratingBankFitmentRight, "uferverbau", massnahmen, lawaValue);
+            ratingBankFitmentLeft = addProperty(ratingBankFitmentLeft, "uferverbau", massnahmen, lawaValue);
+            ratingWBTrimmingRight = addProperty(ratingWBTrimmingRight, "gewaesserrandstreifen", massnahmen, lawaValue);
+            ratingWBTrimmingLeft = addProperty(ratingWBTrimmingLeft, "gewaesserrandstreifen", massnahmen, lawaValue);
+            ratingLandUseRight = addProperty(ratingLandUseRight, "flaechennutzung", massnahmen, lawaValue);
+            ratingLandUseLeft = addProperty(ratingLandUseLeft, "flaechennutzung", massnahmen, lawaValue);
+            ratingBadEnvRight = Calc.correctBadEnvRating(addProperty(
+                        ratingBadEnvRight,
+                        "sonstige_umfeldstrukturen",
+                        massnahmen,
+                        wbTypeId),
+                    lawaValue);
+            ratingBadEnvLeft = Calc.correctBadEnvRating(addProperty(
+                        ratingBadEnvLeft,
+                        "sonstige_umfeldstrukturen",
+                        massnahmen,
+                        wbTypeId),
+                    lawaValue);
+        }
 
         // start overall rating calculation
         final Calc.RatingStruct wbLongProfileRating = new Calc.RatingStruct();
@@ -1682,14 +1828,6 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             ratingBreadthVariance);
         Calc.overallRating(finalBedStructureRating, true, substrateDiversityRating, ratingBedFitment);
         Calc.overallRating(finalBedStructureRating, false, ratingBedContamination, bedStructureRating);
-//        Calc.overallRating(
-//            finalBedStructureRating,
-//            true,
-//            substrateDiversityRating,
-//            bedStructureRating,
-//            ratingBedFitment);
-//
-//        Calc.overallRating(finalBedStructureRating, false, ratingBedContamination, bedStructureRating);
 
         Calc.overallRating(
             bankStructureRatingLeft,
@@ -1715,7 +1853,6 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             finalRating = 1;
         }
 
-        final CidsBean dummyBean = CidsBeanSupport.createNewCidsBeanFromTableName("fgsk_kartierabschnitt");
         dummyBean.setProperty(Calc.PROP_WB_TYPE, wbTypeBean);
         dummyBean.setProperty(Calc.PROP_COURSE_EVO_SUM_RATING, (Double)courseEvoRating.rating);
         dummyBean.setProperty(Calc.PROP_COURSE_EVO_SUM_CRIT, (Integer)courseEvoRating.criteriaCount);
@@ -1811,6 +1948,26 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             simEditor.txtMzb.setText(String.valueOf(indMzb));
         }
         return (Double)dummyBean.getProperty(Calc.PROP_WB_OVERALL_RATING);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   beanList  DOCUMENT ME!
+     * @param   key       DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static boolean containsMassnahmeByKey(final List<CidsBean> beanList, final String key) {
+        final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(beanList);
+
+        for (final CidsBean bean : massnList) {
+            if ((bean.getProperty("key") != null) && bean.getProperty("key").equals(key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

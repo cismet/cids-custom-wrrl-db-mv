@@ -93,7 +93,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
         } else {
             bottomBorder = 5;
         }
-        setBorder(new MatteBorder(new Insets(1, 1, 1, bottomBorder), Color.BLACK));
+        setBorder(new MatteBorder(new Insets(1, 1, bottomBorder, 1), Color.BLACK));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -128,7 +128,8 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
 
             final CidsBean exception = (CidsBean)cidsBean.getProperty(Calc.PROP_EXCEPTION);
 
-            if ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
+            if ((p == null) && (exception != null)
+                        && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE))) {
                 cl = 5;
             } else if ((p != null) && (p > 0.0)) {
                 cl = CalcCache.getQualityClass(p);
@@ -239,7 +240,7 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
             CismapBroker.getInstance().getMappingComponent().addFeaturesToMap(new Feature[] { fgskFeature });
 
             setBackgroundPainter(selectedBackgroundPainter);
-            setBorder(new MatteBorder(new Insets(3, 1, 1, bottomBorder), Color.BLACK));
+            setBorder(new MatteBorder(new Insets(3, 1, bottomBorder, 1), Color.BLACK));
         } else {
             if (fgskFeature != null) {
                 CismapBroker.getInstance()
@@ -248,8 +249,22 @@ public class ReadOnlyFgskBandMember extends AbschnittsinfoMember implements Band
                 fgskFeature = null;
             }
             setBackgroundPainter(unselectedBackgroundPainter);
-            setBorder(new MatteBorder(new Insets(1, 1, 1, bottomBorder), Color.BLACK));
+            setBorder(new MatteBorder(new Insets(1, 1, bottomBorder, 1), Color.BLACK));
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  complete  DOCUMENT ME!
+     */
+    public void setComplete(final Boolean complete) {
+        if ((complete == null) || complete) {
+            bottomBorder = 1;
+        } else {
+            bottomBorder = 5;
+        }
+        setBorder(new MatteBorder(new Insets(1, 1, bottomBorder, 1), Color.BLACK));
     }
 
     @Override
