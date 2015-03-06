@@ -240,12 +240,15 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
             if (oldLine != null) {
                 oldLine.removePropertyChangeListener(this);
             }
-        }
-        if (stationFrom != null) {
-            stationFrom.removePropertyChangeListener(this);
-        }
-        if (stationTill != null) {
-            stationTill.removePropertyChangeListener(this);
+            stationFrom = (CidsBean)oldLine.getProperty("von");
+            stationTill = (CidsBean)oldLine.getProperty("bis");
+
+            if (stationFrom != null) {
+                stationFrom.removePropertyChangeListener(this);
+            }
+            if (stationTill != null) {
+                stationTill.removePropertyChangeListener(this);
+            }
         }
     }
 
@@ -660,5 +663,12 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
      */
     public void setReadOnly(final boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void dispose() {
+        removeOldListener();
     }
 }

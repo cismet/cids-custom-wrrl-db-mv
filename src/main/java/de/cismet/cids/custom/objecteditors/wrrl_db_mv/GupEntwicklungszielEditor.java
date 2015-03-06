@@ -129,9 +129,8 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
         add(lblName, gridBagConstraints);
 
-        cbName.setMaximumSize(new java.awt.Dimension(380, 20));
         cbName.setMinimumSize(new java.awt.Dimension(380, 20));
-        cbName.setPreferredSize(new java.awt.Dimension(380, 20));
+        cbName.setPreferredSize(new java.awt.Dimension(720, 20));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,

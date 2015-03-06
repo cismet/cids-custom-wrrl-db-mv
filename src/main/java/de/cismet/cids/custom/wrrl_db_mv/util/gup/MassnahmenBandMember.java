@@ -157,6 +157,9 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
             final StringBuilder text = new StringBuilder("<html>" + bean.getProperty("massnahme.name"));
 
             if (errorList != null) {
+                if (errorList.size() > 0) {
+                    text.append("<br />");
+                }
                 for (final String tmp : errorList) {
                     text.append(tmp).append("<br />");
                 }

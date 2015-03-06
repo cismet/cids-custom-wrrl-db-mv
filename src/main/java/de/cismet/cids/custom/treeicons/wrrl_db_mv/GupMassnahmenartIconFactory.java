@@ -37,17 +37,24 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(
-            GupMassnahmenartIconFactory.class);
     private static ImageIcon fallback = new ImageIcon(GupMassnahmenartIconFactory.class.getResource(
                 "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
 
-    //~ Instance fields --------------------------------------------------------
+    private static final ImageIcon VALID_ICON;
+    private static final ImageIcon INVALID_ICON;
+    private static final ImageIcon WARNING_ICON;
+    private static final ImageIcon ERROR_ICON;
 
-    private final ImageIcon VALID_ICON;
-    private final ImageIcon INVALID_ICON;
-    private final ImageIcon WARNING_ICON;
-    private final ImageIcon ERROR_ICON;
+    static {
+        VALID_ICON = new ImageIcon(GupMassnahmenartIconFactory.class.getResource(
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/green_cog.png"));
+        INVALID_ICON = new ImageIcon(GupMassnahmenartIconFactory.class.getResource(
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/red_cog.png"));
+        ERROR_ICON = new ImageIcon(GupMassnahmenartIconFactory.class.getResource(
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
+        WARNING_ICON = new ImageIcon(GupMassnahmenartIconFactory.class.getResource(
+                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
+    }
 
     //~ Constructors -----------------------------------------------------------
 
@@ -55,14 +62,6 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
      * Creates a new Alb_baulastIconFactory object.
      */
     public GupMassnahmenartIconFactory() {
-        VALID_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/green_cog.png"));
-        INVALID_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/red_cog.png"));
-        ERROR_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
-        WARNING_ICON = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/treeicons/wrrl_db_mv/cog.png_16x16.png"));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -96,18 +95,22 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
         final UnterhaltungsmassnahmeValidator uv = GupPlanungsabschnittEditor.getSearchValidator();
 
-        final CidsBean massn = otn.getMetaObject().getBean();
         final int komp = GupUnterhaltungsmassnahmeEditor.getLastKompartiment();
 
         if (GupUnterhaltungsmassnahmeEditor.getLastKompartiment() == 0) {
             return fallback;
-        } else if (!GupUnterhaltungsmassnahmeEditor.supportsKompartiment(massn, komp)) {
-            return ERROR_ICON;
+        } else {
+            final CidsBean massn = otn.getMetaObject().getBean();
+
+            if (!GupUnterhaltungsmassnahmeEditor.supportsKompartiment(massn, komp)) {
+                return ERROR_ICON;
+            }
         }
 
         if (!uv.isReady()) {
             return fallback;
         } else {
+            final CidsBean massn = otn.getMetaObject().getBean();
             final CidsBean umassn = GupPlanungsabschnittEditor.getLastActiveMassnBean();
             final UnterhaltungsmassnahmeValidator.ValidationResult rs = uv.validate(
                     umassn,

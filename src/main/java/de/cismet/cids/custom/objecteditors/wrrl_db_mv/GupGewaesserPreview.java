@@ -18,9 +18,6 @@ import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
-import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.observablecollections.ObservableList;
-
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.EventQueue;
@@ -29,12 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnBezugListListener;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenBand;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -75,11 +70,11 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private String beanName = "";
-    private JBand band = new JBand(true);
-    private SimpleBandModel bandModel = new SimpleBandModel();
-    private MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME, Boolean.TRUE);
-    private MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME, null);
-    private MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME, Boolean.FALSE);
+    private final JBand band = new JBand(true);
+    private final SimpleBandModel bandModel = new SimpleBandModel();
+    private final MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME, Boolean.TRUE);
+    private final MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME, null);
+    private final MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME, Boolean.FALSE);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.tools.gui.RoundedPanel glassPanel;
@@ -322,6 +317,7 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
 
     @Override
     public void dispose() {
+        band.dispose();
 //        bindingGroup.unbind();
     }
 

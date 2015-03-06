@@ -45,6 +45,7 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_operatives_ziel");
+    private static MetaObject[] metaObjects = null;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -68,24 +69,34 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
      */
     private void init(final MetaClass mc) {
         if (!isFakeModel()) {
-            CismetThreadPool.execute(new SwingWorker<DefaultComboBoxModel, Void>() {
+            if (metaObjects == null) {
+                CismetThreadPool.execute(new SwingWorker<DefaultComboBoxModel, Void>() {
 
-                    @Override
-                    protected DefaultComboBoxModel doInBackground() throws Exception {
-                        return getModelByMetaClass(mc);
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            setModel(get());
-                            setSelectedItem(cidsBean);
-                        } catch (InterruptedException interruptedException) {
-                        } catch (ExecutionException executionException) {
-                            log.error("Error while initializing the model of a referenceCombo", executionException); // NOI18N
+                        @Override
+                        protected DefaultComboBoxModel doInBackground() throws Exception {
+                            return getModelByMetaClass(mc);
                         }
-                    }
-                });
+
+                        @Override
+                        protected void done() {
+                            try {
+                                setModel(get());
+                                setSelectedItem(cidsBean);
+                            } catch (InterruptedException interruptedException) {
+                            } catch (ExecutionException executionException) {
+                                log.error("Error while initializing the model of a referenceCombo", executionException); // NOI18N
+                            }
+                        }
+                    });
+            } else {
+                try {
+                    setModel(getModelByMetaClass(mc));
+                    setSelectedItem(cidsBean);
+                } catch (InterruptedException interruptedException) {
+                } catch (Exception ex) {
+                    log.error("Error while initializing the model of a referenceCombo", ex);                             // NOI18N
+                }
+            }
         } else {
         }
     }
@@ -100,11 +111,13 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
      * @throws  Exception  DOCUMENT ME!
      */
     private DefaultComboBoxModel getModelByMetaClass(final MetaClass mc) throws Exception {
-        final String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
-        final MetaObject[] MetaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-        final List<CidsBean> cbv = new ArrayList<CidsBean>(MetaObjects.length);
+        if (metaObjects == null) {
+            final String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        }
+        final List<CidsBean> cbv = new ArrayList<CidsBean>(metaObjects.length);
 
-        for (final MetaObject mo : MetaObjects) {
+        for (final MetaObject mo : metaObjects) {
             if (isRelevantBean(kompartiment, mo.getBean())) {
                 cbv.add(mo.getBean());
             }

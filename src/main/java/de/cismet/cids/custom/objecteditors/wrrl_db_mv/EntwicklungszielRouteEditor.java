@@ -16,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -34,9 +33,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -703,6 +699,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
             vermessungsband.dispose();
         }
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override

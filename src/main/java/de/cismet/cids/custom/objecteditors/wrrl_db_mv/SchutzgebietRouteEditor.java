@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -22,7 +20,6 @@ import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -32,7 +29,6 @@ import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
@@ -40,9 +36,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -75,18 +68,18 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
-    private SchutzgebietRWBand ufer_links = new SchutzgebietRWBand(
+    private final SchutzgebietRWBand ufer_links = new SchutzgebietRWBand(
             "Ufer links",
             SCHUTZGEBIET);
-    private SchutzgebietRWBand ufer_rechts = new SchutzgebietRWBand(
+    private final SchutzgebietRWBand ufer_rechts = new SchutzgebietRWBand(
             "Ufer rechts",
             SCHUTZGEBIET);
-    private SchutzgebietRWBand sohle = new SchutzgebietRWBand(
+    private final SchutzgebietRWBand sohle = new SchutzgebietRWBand(
             "Sohle",
             SCHUTZGEBIET);
     private WKBand wkband;
     private final JBand jband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private VermessungsbandHelper vermessungsband;
     private final BandModelListener modelListener = new GupSchutzgebietBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
@@ -96,7 +89,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private SchutzgebietEditor schutzgebietEditor;
     private boolean readOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private boolean isNew = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -775,6 +768,7 @@ public class SchutzgebietRouteEditor extends JPanel implements CidsBeanRenderer,
             vermessungsband.dispose();
         }
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override

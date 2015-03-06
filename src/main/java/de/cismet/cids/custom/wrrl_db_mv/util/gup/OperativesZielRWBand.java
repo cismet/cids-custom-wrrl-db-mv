@@ -22,6 +22,7 @@ public class OperativesZielRWBand extends LineBand implements BandSnappingPointP
     //~ Instance fields --------------------------------------------------------
 
     private int type;
+    private PflegezieleValidator validator;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -60,7 +61,7 @@ public class OperativesZielRWBand extends LineBand implements BandSnappingPointP
 
     @Override
     protected LineBandMember createBandMemberFromBean() {
-        final OperativesZielRWBandMember m = new OperativesZielRWBandMember(this, readOnly);
+        final OperativesZielRWBandMember m = new OperativesZielRWBandMember(this, readOnly, validator);
 
         return m;
     }
@@ -81,5 +82,29 @@ public class OperativesZielRWBand extends LineBand implements BandSnappingPointP
      */
     public void setType(final int type) {
         this.type = type;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the validator
+     */
+    public PflegezieleValidator getValidator() {
+        return validator;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  validator  the validator to set
+     */
+    public void setValidator(final PflegezieleValidator validator) {
+        this.validator = validator;
+
+        for (int i = 0; i < getNumberOfMembers(); ++i) {
+            final OperativesZielRWBandMember bm = (OperativesZielRWBandMember)getMember(i);
+
+            bm.setValidator(validator);
+        }
     }
 }

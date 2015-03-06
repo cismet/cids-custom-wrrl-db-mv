@@ -30,6 +30,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -148,8 +149,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     private ExaminationManager examinationManager = new ExaminationManager();
     private boolean ignoreSetSelection = false;
     private boolean readOnly = false;
+    private boolean forceReadOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbAllAccepted;
+    private javax.swing.JCheckBox cbAllDeclined;
     private org.jdesktop.swingx.JXHyperlink hlAbgelehnt;
     private org.jdesktop.swingx.JXHyperlink hlAngenommen;
     private org.jdesktop.swingx.JXHyperlink hlAuflagen;
@@ -164,6 +168,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     private org.jdesktop.swingx.JXHyperlink hlValide;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator4;
@@ -177,6 +182,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     private javax.swing.JPanel jpVorpruefung;
     private javax.swing.JScrollPane jsMain;
     private javax.swing.JLabel lblAbgelehntLab;
+    private javax.swing.JLabel lblAllAccepted;
+    private javax.swing.JLabel lblAllDeclined;
     private javax.swing.JLabel lblAngenommenLab;
     private javax.swing.JLabel lblAuflagen;
     private javax.swing.JLabel lblAuflagenLab;
@@ -211,6 +218,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      */
     public CheckAssistent() {
         initComponents();
+        cbAllAccepted.setMargin(new Insets(0, 0, 0, 0));
+        cbAllDeclined.setMargin(new Insets(0, 0, 0, 0));
         hlGesMassn.setClickedColor(hlGesMassn.getUnclickedColor());
         hlAbgelehnt.setClickedColor(hlGesMassn.getUnclickedColor());
         hlAngenommen.setClickedColor(hlGesMassn.getUnclickedColor());
@@ -235,14 +244,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
                 @Override
                 public void mouseClicked(final MouseEvent e) {
-                    final int row = jTable1.rowAtPoint(e.getPoint());
-                    final int col = jTable1.columnAtPoint(e.getPoint());
-                    final CustomTableModel model = (CustomTableModel)jTable1.getModel();
-                    final int modelCol = jTable1.convertColumnIndexToModel(col);
-                    final int modelRow = jTable1.convertRowIndexToModel(row);
+                    if (!readOnly) {
+                        final int row = jTable1.rowAtPoint(e.getPoint());
+                        final int col = jTable1.columnAtPoint(e.getPoint());
+                        final CustomTableModel model = (CustomTableModel)jTable1.getModel();
+                        final int modelCol = jTable1.convertColumnIndexToModel(col);
+                        final int modelRow = jTable1.convertRowIndexToModel(row);
 
-                    if ((model != null) && ((modelCol == 4) || (modelCol == 5))) {
-                        model.setValueAt(null, modelRow, modelCol);
+                        if ((model != null) && ((modelCol == 4) || (modelCol == 5))) {
+                            model.setValueAt(null, modelRow, modelCol);
+                        }
                     }
                 }
             });
@@ -307,6 +318,49 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the forceReadOnly
+     */
+    public boolean isForceReadOnly() {
+        return forceReadOnly;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  forceReadOnly  the forceReadOnly to set
+     */
+    public void setForceReadOnly(final boolean forceReadOnly) {
+        this.forceReadOnly = forceReadOnly;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshCheckBoxes() {
+        boolean allAccepted = true;
+        boolean allDeclined = true;
+
+        for (int row = 0; row < jTable1.getRowCount(); ++row) {
+            if (!((JCheckBox)jTable1.getModel().getValueAt(jTable1.convertRowIndexToModel(row), 4)).isSelected()) {
+                allAccepted = false;
+                break;
+            }
+        }
+
+        for (int row = 0; row < jTable1.getRowCount(); ++row) {
+            if (!((JCheckBox)jTable1.getModel().getValueAt(jTable1.convertRowIndexToModel(row), 5)).isSelected()) {
+                allDeclined = false;
+                break;
+            }
+        }
+
+        cbAllAccepted.setSelected(allAccepted);
+        cbAllDeclined.setSelected(allDeclined);
+    }
 
     /**
      * DOCUMENT ME!
@@ -451,6 +505,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panTabelle = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblTableHeader = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        cbAllAccepted = new javax.swing.JCheckBox();
+        lblAllAccepted = new javax.swing.JLabel();
+        cbAllDeclined = new javax.swing.JCheckBox();
+        lblAllDeclined = new javax.swing.JLabel();
         jpTable = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new org.jdesktop.swingx.JXTable();
@@ -718,6 +777,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 5, 0);
         jpStat.add(jpVorpruefung, gridBagConstraints);
 
+        jpPruefung.setForeground(java.awt.Color.white);
         jpPruefung.setOpaque(false);
         jpPruefung.setLayout(new java.awt.GridBagLayout());
 
@@ -859,10 +919,81 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         panHeadInfo1.add(lblTableHeader, gridBagConstraints);
+
+        jPanel3.setMinimumSize(new java.awt.Dimension(127, 25));
+        jPanel3.setOpaque(false);
+        jPanel3.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        cbAllAccepted.setBackground(java.awt.Color.white);
+        cbAllAccepted.setForeground(new java.awt.Color(255, 255, 255));
+        cbAllAccepted.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllAccepted.text",
+                new Object[] {})); // NOI18N
+        cbAllAccepted.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllAcceptedActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel3.add(cbAllAccepted, gridBagConstraints);
+
+        lblAllAccepted.setForeground(new java.awt.Color(255, 255, 255));
+        lblAllAccepted.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllAccepted.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
+        jPanel3.add(lblAllAccepted, gridBagConstraints);
+
+        cbAllDeclined.setBackground(java.awt.Color.white);
+        cbAllDeclined.setForeground(new java.awt.Color(255, 255, 255));
+        cbAllDeclined.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllDeclined.text",
+                new Object[] {})); // NOI18N
+        cbAllDeclined.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllDeclinedActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanel3.add(cbAllDeclined, gridBagConstraints);
+
+        lblAllDeclined.setForeground(new java.awt.Color(255, 255, 255));
+        lblAllDeclined.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllDeclined.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanel3.add(lblAllDeclined, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 2, 5);
+        panHeadInfo1.add(jPanel3, gridBagConstraints);
 
         panTabelle.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
 
@@ -1264,6 +1395,52 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllAcceptedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAcceptedActionPerformed
+        final CustomTableModel model = (CustomTableModel)jTable1.getModel();
+
+        for (int row = 0; row < jTable1.getRowCount(); ++row) {
+            final CidsBean bean = model.getBean(jTable1.convertRowIndexToModel(row));
+
+            try {
+                bean.setProperty("angenommen", cbAllAccepted.isSelected());
+                if (cbAllAccepted.isSelected()) {
+                    bean.setProperty("abgelehnt", !cbAllAccepted.isSelected());
+                }
+            } catch (Exception e) {
+                LOG.error("Exception while changing the accept status", e);
+            }
+        }
+        examinationManager.refreshGUI();
+    } //GEN-LAST:event_cbAllAcceptedActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllDeclinedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllDeclinedActionPerformed
+        final CustomTableModel model = (CustomTableModel)jTable1.getModel();
+
+        for (int row = 0; row < jTable1.getRowCount(); ++row) {
+            final CidsBean bean = model.getBean(jTable1.convertRowIndexToModel(row));
+
+            try {
+                bean.setProperty("abgelehnt", cbAllDeclined.isSelected());
+                if (cbAllDeclined.isSelected()) {
+                    bean.setProperty("angenommen", !cbAllDeclined.isSelected());
+                }
+            } catch (Exception e) {
+                LOG.error("Exception while changing the accept status", e);
+            }
+        }
+        examinationManager.refreshGUI();
+    } //GEN-LAST:event_cbAllDeclinedActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     public static CheckAssistent getInstance() {
@@ -1332,6 +1509,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             textAuflagen.setEnabled(!readOnly);
             tgAbgelehnt.setEnabled(!readOnly);
             tbAngenommen.setEnabled(!readOnly);
+            cbAllAccepted.setVisible(!readOnly);
+            cbAllDeclined.setVisible(!readOnly);
+            lblAllAccepted.setVisible(!readOnly);
+            lblAllDeclined.setVisible(!readOnly);
             lblTableHeader.setText(TABLE_HEADER_ALL);
             planungsabschnitt.addPropertyChangeListener(this);
         }
@@ -1343,6 +1524,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      * @return  DOCUMENT ME!
      */
     private boolean isReadOnly() {
+        if (forceReadOnly) {
+            return true;
+        }
         final Boolean isClosed = (Boolean)planungsabschnitt.getProperty("geschlossen");
 
         if ((isClosed != null) && isClosed.booleanValue()) {
@@ -1539,6 +1723,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             jTable1.setRowSorter(sorter);
                             jTable1.setUpdateSelectionOnSort(true);
                             jTable1.setModel(model);
+                            refreshCheckBoxes();
                             jTable1.getSelectionModel().addListSelectionListener(CheckAssistent.this);
                             setTableSize();
                             ((JXTable)jTable1).getColumnExt(4).setComparator(new JCheckboxComparator());
@@ -1664,6 +1849,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     public void dispose() {
         switchToForm("closed");
         if (planungsabschnitt != null) {
+            planungsabschnitt.removePropertyChangeListener(this);
+        }
+        if (planungsabschnitt != null) {
             final List<CidsBean> massnBeans = planungsabschnitt.getBeanCollectionProperty("massnahmen");
 
             if (massnBeans != null) {
@@ -1672,6 +1860,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             }
         }
+
+        listener.clear();
+        planungsabschnitt = null;
     }
 
     /**
@@ -1681,6 +1872,17 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      */
     public void addListener(final CheckAssistentListener l) {
         listener.add(l);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   l  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean containsListener(final CheckAssistentListener l) {
+        return listener.contains(l);
     }
 
     /**
@@ -1931,6 +2133,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     box.setSelected(ang);
                     box.setOpaque(false);
                     box.setContentAreaFilled(false);
+                    box.setEnabled(!readOnly);
 
                     result = box;
                     break;
@@ -1958,6 +2161,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     box.setSelected(abg);
                     box.setOpaque(false);
                     box.setContentAreaFilled(false);
+                    box.setEnabled(!readOnly);
 
                     result = box;
                     break;
@@ -2079,6 +2283,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             for (final TableModelListener tmp : listener) {
                 tmp.tableChanged(e);
             }
+
+            refreshCheckBoxes();
         }
     }
 
@@ -2270,6 +2476,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
         @Override
         public boolean check(final CidsBean bean) {
+            dummyList.clear();
             return validator.validate(bean, dummyList).equals(validationResult);
         }
     }
@@ -2446,10 +2653,36 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         public void setCondition(String newValue) {
             for (final CidsBean bean : beans) {
                 try {
+                    final String oldValue = (String)bean.getProperty("auflagen");
+
                     if (newValue == null) {
                         newValue = "";
                     }
-                    bean.setProperty("auflagen", newValue);
+
+                    if ((oldValue == null) || !oldValue.equals(newValue)) {
+                        bean.setProperty("auflagen", newValue);
+                        String basic = (String)bean.getProperty("hinweise");
+
+                        if (basic == null) {
+                            basic = newValue;
+                        } else {
+                            String possibleOldLine = "\n" + oldValue;
+
+                            if (basic.endsWith(possibleOldLine)) {
+                                basic = basic.substring(0, basic.lastIndexOf(possibleOldLine));
+                                basic += "\n" + newValue;
+                            } else {
+                                possibleOldLine = oldValue;
+
+                                if (basic.equals(possibleOldLine)) {
+                                    basic = newValue;
+                                } else {
+                                    basic += "\n" + newValue;
+                                }
+                            }
+                        }
+                        bean.setProperty("hinweise", basic);
+                    }
                 } catch (Exception e) {
                     LOG.error("Cannot set property 'angenommen'", e);
                 }

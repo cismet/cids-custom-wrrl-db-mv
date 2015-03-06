@@ -38,9 +38,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
-
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -69,24 +66,24 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
 
     //~ Instance fields --------------------------------------------------------
 
-    private UmlandnutzungRWBand umlandnutzung_links = new UmlandnutzungRWBand(
+    private final UmlandnutzungRWBand umlandnutzung_links = new UmlandnutzungRWBand(
             "Umlandnutzung links",
             GUP_UMLANDNUTZUNG);
-    private UmlandnutzungRWBand umlandnutzung_rechts = new UmlandnutzungRWBand(
+    private final UmlandnutzungRWBand umlandnutzung_rechts = new UmlandnutzungRWBand(
             "Umlandnutzung rechts",
             GUP_UMLANDNUTZUNG);
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
     private WKBand wkband;
     private final JBand jband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private VermessungsbandHelper vermessungsband;
     private final BandModelListener modelListener = new UmlandnutzungBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private GupUmlandnutzungEditor umlandnutzungEditor;
     private boolean readOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private boolean isNew = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -748,7 +745,9 @@ public class UmlandnutzungRouteEditor extends JPanel implements CidsBeanRenderer
         if (!readOnly) {
             vermessungsband.dispose();
         }
+        linearReferencedLineEditor.dispose();
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override

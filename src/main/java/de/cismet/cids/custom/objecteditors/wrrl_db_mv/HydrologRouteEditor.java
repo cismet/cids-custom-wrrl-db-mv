@@ -12,16 +12,11 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.ui.RequestsFullSizeComponent;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -31,7 +26,6 @@ import javax.swing.ScrollPaneConstants;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
@@ -40,9 +34,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -73,19 +64,19 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
-    private HydrologRWBand hydrologieband = new HydrologRWBand(
+    private final HydrologRWBand hydrologieband = new HydrologRWBand(
             "Hydrologie",
             GUP_HYDROLOGIE);
     private WKBand wkband;
     private VermessungsbandHelper vermessungsband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private final JBand jband;
     private final BandModelListener modelListener = new HydrologieBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private CidsBean cidsBean;
     private GupHydrologEditor hydrologieEditor;
     private boolean readOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private boolean isNew = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -713,7 +704,9 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         if (!readOnly) {
             vermessungsband.dispose();
         }
+        linearReferencedLineEditor.dispose();
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override

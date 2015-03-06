@@ -45,14 +45,11 @@
     </Component>
     <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbName">
       <Properties>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[380, 20]"/>
-        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[380, 20]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[380, 20]"/>
+          <Dimension value="[720, 20]"/>
         </Property>
       </Properties>
       <BindingProperties>

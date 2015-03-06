@@ -27,19 +27,14 @@ import Sirius.server.newuser.permission.Policy;
 
 import org.jdesktop.beansbinding.Converter;
 
-import org.openide.util.Exceptions;
-
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import java.io.File;
 
-import java.sql.Time;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -58,8 +53,8 @@ import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.DocumentDropList;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.GupHelper;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.StateMachine;
-import de.cismet.cids.custom.wrrl_db_mv.util.gup.VermeidungsgruppeReadOnlyBandMember;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -81,7 +76,6 @@ import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.WaitDialog;
-import de.cismet.tools.gui.jbands.SimpleBandModel;
 
 /**
  * DOCUMENT ME!
@@ -115,11 +109,11 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private static final String ICON_PRUEFUNG = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Test tubes.png";
     private static final String ICON_GENEHMIGT = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/approve_24.png";
     private static final String ICON_GESCHLOSSEN = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Valid_16.png";
-    private static final int STAT_PLANUNG = 0;
-    private static final int STAT_ANTRAG = 1;
-    private static final int STAT_PRUEFUNG = 2;
-    private static final int STAT_GENEHMIGT = 3;
-    private static final int STAT_ANGENOMMEN = 4;
+    public static final int STAT_PLANUNG = 0;
+    public static final int STAT_ANTRAG = 1;
+    public static final int STAT_PRUEFUNG = 2;
+    public static final int STAT_GENEHMIGT = 3;
+    public static final int STAT_ANGENOMMEN = 4;
     public static final int ID_PLANUNG = 1;
     public static final int ID_ANTRAG = 2;
     public static final int ID_PRUEFUNG = 3;
@@ -1503,7 +1497,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(min);
                     in.add(max);
                     in.add(route.getProperty("gwk"));
-                    final MetaObject[] beanArray = GupPlanungsabschnittEditor.getSchutzgebietCache().calcValue(in);
+                    final MetaObject[] beanArray = GupHelper.schutzgebietCache.calcValue(in);
 
                     final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
 
@@ -1534,7 +1528,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(min);
                     in.add(max);
                     in.add(route.getProperty("gwk"));
-                    final MetaObject[] beanArray = GupPlanungsabschnittEditor.getOperativeZieleCache().calcValue(in);
+                    final MetaObject[] beanArray = GupHelper.operativeZieleCache.calcValue(in);
 
                     final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
 
@@ -1565,7 +1559,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(min);
                     in.add(max);
                     in.add(route.getProperty("gwk"));
-                    final MetaObject[] beanArray = GupPlanungsabschnittEditor.getEntwicklungszielCache().calcValue(in);
+                    final MetaObject[] beanArray = GupHelper.entwicklungszielCache.calcValue(in);
 
                     final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
 
@@ -1596,7 +1590,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(min);
                     in.add(max);
                     in.add(route.getProperty("gwk"));
-                    final MetaObject[] beanArray = GupPlanungsabschnittEditor.getUmlandCache().calcValue(in);
+                    final MetaObject[] beanArray = GupHelper.umlandCache.calcValue(in);
 
                     final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
 
@@ -1638,7 +1632,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(min);
                     in.add(max);
                     in.add(route.getProperty("gwk"));
-                    final MetaObject[] mo = GupPlanungsabschnittEditor.getVerbreitungsraumCache().calcValue(in);
+                    final MetaObject[] mo = GupHelper.verbreitungsraumCache.calcValue(in);
                     final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
 
                     for (final MetaObject tmp : mo) {

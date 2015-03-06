@@ -38,9 +38,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
-
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -71,14 +68,14 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
-    private UmlandnutzerRWBand umlandnutzer_links = new UmlandnutzerRWBand(
+    private final UmlandnutzerRWBand umlandnutzer_links = new UmlandnutzerRWBand(
             "Umlandnutzer links",
             UMLANDNUTZER);
-    private UmlandnutzerRWBand umlandnutzer_rechts = new UmlandnutzerRWBand(
+    private final UmlandnutzerRWBand umlandnutzer_rechts = new UmlandnutzerRWBand(
             "Umlandnutzer rechts",
             UMLANDNUTZER);
     private WKBand wkband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private VermessungsbandHelper vermessungsband;
     private final JBand jband;
     private final BandModelListener modelListener = new UmlandnutzerBandModelListener();
@@ -88,7 +85,7 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     private boolean readOnly = false;
     private List<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
     private List<CidsBean> linkesUferList = new ArrayList<CidsBean>();
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private boolean isNew = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -748,10 +745,12 @@ public class UmlandnutzerRouteEditor extends JPanel implements CidsBeanRenderer,
     public void dispose() {
         vermessungsEditor.dispose();
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
         if (!readOnly) {
             vermessungsband.dispose();
         }
         umlandnutzerEditor.dispose();
+        linearReferencedLineEditor.dispose();
     }
 
     @Override
