@@ -37,9 +37,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
-import de.cismet.cids.server.search.CidsServerSearch;
-
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -67,17 +64,17 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
 
     //~ Instance fields --------------------------------------------------------
 
-    private PoiRWBand ufer_links = new PoiRWBand(
+    private final PoiRWBand ufer_links = new PoiRWBand(
             "Ufer links",
             GUP_POI);
-    private PoiRWBand ufer_rechts = new PoiRWBand(
+    private final PoiRWBand ufer_rechts = new PoiRWBand(
             "Ufer rechts",
             GUP_POI);
-    private PoiRWBand sohle = new PoiRWBand(
+    private final PoiRWBand sohle = new PoiRWBand(
             "Sohle",
             GUP_POI);
     private WKBand wkband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private VermessungsbandHelper vermessungsband;
     private final JBand jband;
     private final BandModelListener modelListener = new GupPoiBandModelListener();
@@ -88,7 +85,7 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
     private CidsBean cidsBean;
     private GupPoiEditor poiEditor;
     private boolean readOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private boolean isNew = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -766,7 +763,9 @@ public class GupPoiRouteEditor extends JPanel implements CidsBeanRenderer, Foote
         if (!readOnly) {
             vermessungsband.dispose();
         }
+        linearReferencedLineEditor.dispose();
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override

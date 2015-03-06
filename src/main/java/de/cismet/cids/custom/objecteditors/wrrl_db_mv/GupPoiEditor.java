@@ -293,6 +293,7 @@ public class GupPoiEditor extends javax.swing.JPanel implements CidsBeanRenderer
     @Override
     public void dispose() {
         linearReferencedLineEditor.dispose();
+        bindingGroup.unbind();
     }
 
     @Override

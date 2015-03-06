@@ -44,6 +44,7 @@ import de.cismet.tools.gui.jbands.interfaces.BandListener;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandMemberListener;
 import de.cismet.tools.gui.jbands.interfaces.BandModificationProvider;
+import de.cismet.tools.gui.jbands.interfaces.DisposableBand;
 
 /**
  * DOCUMENT ME!
@@ -54,7 +55,8 @@ import de.cismet.tools.gui.jbands.interfaces.BandModificationProvider;
 public abstract class LineBand extends DefaultBand implements CidsBeanCollectionStore,
     BandModificationProvider,
     BandMemberListener,
-    EditorSaveListener {
+    EditorSaveListener,
+    DisposableBand {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -129,6 +131,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
     @Override
     public void setCidsBeans(final Collection<CidsBean> beans) {
+        disposeAllMember();
         objectBeans = beans;
         super.removeAllMember();
         normalizeStations();
@@ -533,6 +536,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      * @return  DOCUMENT ME!
      */
     private LineBandMember refresh(final CidsBean special, final boolean add) {
+        disposeAllMember();
         super.removeAllMember();
 
         for (final CidsBean objectBean : objectBeans) {
@@ -603,6 +607,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      * @param  member  DOCUMENT ME!
      */
     public void deleteMember(final LineBandMember member) {
+        member.dispose();
         final CidsBean memberBean = member.getCidsBean();
         refresh(memberBean, false);
         objectBeans.remove(memberBean);
@@ -697,6 +702,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
     @Override
     public void removeAllMember() {
+        disposeAllMember();
         objectBeans.clear();
         super.removeAllMember();
         refresh(null, false);
@@ -737,6 +743,27 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             return fixMax;
         } else {
             return super.getMax();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    @Override
+    public void dispose() {
+        disposeAllMember();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void disposeAllMember() {
+        for (int i = 0; i < getNumberOfMembers(); ++i) {
+            final BandMember member = getMember(i);
+
+            if (member instanceof LineBandMember) {
+                ((LineBandMember)member).dispose();
+            }
         }
     }
 }

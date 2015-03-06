@@ -13,7 +13,6 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.method.MethodManager;
 import Sirius.navigator.tools.MetaObjectCache;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
@@ -51,8 +50,6 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.reports.GeppReport;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.NaturschutzgebietSearch;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.QuerbautenSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkSearchByStations;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
@@ -75,8 +72,6 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
-import de.cismet.tools.CalculationCache;
-import de.cismet.tools.Calculator;
 import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.RoundedPanel;
@@ -111,27 +106,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     public static final int GUP_UMFELD_RECHTS = 4;
     public static final int GUP_UMFELD_LINKS = 3;
     public static final int GUP_SOHLE = 5;
-    private static CalculationCache<List, MetaObject[]> schutzgebietCache = new CalculationCache<List, MetaObject[]>(
-            new SchutzgebietCalculator());
-    private static CalculationCache<List, MetaObject[]> umlandCache = new CalculationCache<List, MetaObject[]>(
-            new UmlandnutzungCalculator());
-    private static CalculationCache<List, MetaObject[]> umlandnutzerCache = new CalculationCache<List, MetaObject[]>(
-            new UmlandnutzerCalculator());
-    private static CalculationCache<List, MetaObject[]> entwicklungszielCache =
-        new CalculationCache<List, MetaObject[]>(new EntwicklungszielCalculator());
-    private static CalculationCache<List, ArrayList<ArrayList>> querbauwerkCache =
-        new CalculationCache<List, ArrayList<ArrayList>>(new QuerbauwerkeCalculator());
-    private static CalculationCache<List, MetaObject[]> unterhaltungserfordernisCache =
-        new CalculationCache<List, MetaObject[]>(new UnterhaltungserfordernisCalculator());
-    private static CalculationCache<List, MetaObject[]> verbreitungsraumCache =
-        new CalculationCache<List, MetaObject[]>(new VerbreitungsraumCalculator());
-    private static CalculationCache<List, MetaObject[]> operativeZieleCache = new CalculationCache<List, MetaObject[]>(
-            new OperativesZielCalculator());
-    private static CalculationCache<List, MetaObject[]> unterhaltungshinweiseCache =
-        new CalculationCache<List, MetaObject[]>(
-            new UnterhaltungshinweiseCalculator());
-    private static CalculationCache<List, MetaObject[]> hydrologieCache = new CalculationCache<List, MetaObject[]>(
-            new HydrologieCalculator());
     private static CidsBean lastGup = null;
     private static UnterhaltungsmassnahmeValidator searchValidator;
     private static CidsBean lastActiveMassnBean;
@@ -209,126 +183,125 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private List<CidsBean> linkesUmfeldList = new ArrayList<CidsBean>();
 
     private VermessungsbandHelper vermessungsband;
-    private MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME, Boolean.TRUE);
-    private MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME, null);
-    private MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME, Boolean.FALSE);
-    private MassnahmenBand rechtesUmfeldBand = new MassnahmenBand("Umfeld rechts", GUP_MASSNAHME, Boolean.TRUE);
-    private MassnahmenBand linkesUmfeldBand = new MassnahmenBand("Umfeld links", GUP_MASSNAHME, Boolean.FALSE);
+    private final MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME, Boolean.TRUE);
+    private final MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME, null);
+    private final MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME, Boolean.FALSE);
+    private final MassnahmenBand rechtesUmfeldBand = new MassnahmenBand("Umfeld rechts", GUP_MASSNAHME, Boolean.TRUE);
+    private final MassnahmenBand linkesUmfeldBand = new MassnahmenBand("Umfeld links", GUP_MASSNAHME, Boolean.FALSE);
     private boolean isNew = false;
 //    private UmlandnutzungBand nutzungLinksBand = new UmlandnutzungBand("links");
 //    private UmlandnutzungBand nutzungRechtsBand = new UmlandnutzungBand("rechts");
-    private ColoredReadOnlyBand nutzungLinksBand = new ColoredReadOnlyBand(
+    private final ColoredReadOnlyBand nutzungLinksBand = new ColoredReadOnlyBand(
             "Umlandnutzung links",
             "art",
             "art.name");
-    private ColoredReadOnlyBand nutzungRechtsBand = new ColoredReadOnlyBand(
+    private final ColoredReadOnlyBand nutzungRechtsBand = new ColoredReadOnlyBand(
             "Umlandnutzung rechts",
             "art",
             "art.name");
-    private ColoredReadOnlySnappingBand schutzgebietLinksBand = new ColoredReadOnlySnappingBand(
+    private final ColoredReadOnlySnappingBand schutzgebietLinksBand = new ColoredReadOnlySnappingBand(
             "Schutzgebiet links",
             "art",
             "art.name");
-    private ColoredReadOnlySnappingBand schutzgebietRechtsBand = new ColoredReadOnlySnappingBand(
+    private final ColoredReadOnlySnappingBand schutzgebietRechtsBand = new ColoredReadOnlySnappingBand(
             "Schutzgebiet rechts",
             "art",
             "art.name");
-    private ColoredReadOnlySnappingBand schutzgebietSohleBand = new ColoredReadOnlySnappingBand(
+    private final ColoredReadOnlySnappingBand schutzgebietSohleBand = new ColoredReadOnlySnappingBand(
             "Schutzgebiet Sohle",
             "art",
             "art.name");
-    private VermeidungsgruppeRBand verbreitungsraumLinksBand = new VermeidungsgruppeRBand(
+    private final VermeidungsgruppeRBand verbreitungsraumLinksBand = new VermeidungsgruppeRBand(
             "Verbreitungsraum links");
-    private VermeidungsgruppeRBand verbreitungsraumRechtsBand = new VermeidungsgruppeRBand(
+    private final VermeidungsgruppeRBand verbreitungsraumRechtsBand = new VermeidungsgruppeRBand(
             "Verbreitungsraum rechts");
-    private VermeidungsgruppeRBand verbreitungsraumUmfeldLinksBand = new VermeidungsgruppeRBand(
+    private final VermeidungsgruppeRBand verbreitungsraumUmfeldLinksBand = new VermeidungsgruppeRBand(
             "Verbreitungsraum Umfeld links");
-    private VermeidungsgruppeRBand verbreitungsraumUmfeldRechtsBand = new VermeidungsgruppeRBand(
+    private final VermeidungsgruppeRBand verbreitungsraumUmfeldRechtsBand = new VermeidungsgruppeRBand(
             "Verbreitungsraum Umfeld rechts");
-    private VermeidungsgruppeRBand verbreitungsraumSohleBand = new VermeidungsgruppeRBand(
+    private final VermeidungsgruppeRBand verbreitungsraumSohleBand = new VermeidungsgruppeRBand(
             "Verbreitungsraum Sohle");
-    private ColoredReadOnlyBand operativeZieleLinksBand = new ColoredReadOnlyBand(
-            "Op. Ziele links",
+    private final ColoredReadOnlyBand operativeZieleLinksBand = new ColoredReadOnlyBand(
+            "Pflegeziele links",
             "operatives_ziel",
             "operatives_ziel.name");
-    private ColoredReadOnlyBand operativeZieleRechtsBand = new ColoredReadOnlyBand(
-            "Op. Ziele rechts",
+    private final ColoredReadOnlyBand operativeZieleRechtsBand = new ColoredReadOnlyBand(
+            "Pflegeziele rechts",
             "operatives_ziel",
             "operatives_ziel.name");
-    private ColoredReadOnlyBand operativeZieleSohleBand = new ColoredReadOnlyBand(
-            "Op. Ziele Sohle",
+    private final ColoredReadOnlyBand operativeZieleSohleBand = new ColoredReadOnlyBand(
+            "Pflegeziele Sohle",
             "operatives_ziel",
             "operatives_ziel.name");
-    private ColoredReadOnlyBand operativeZieleUmfeldLinksBand = new ColoredReadOnlyBand(
-            "Op. Ziele Umfeld links",
+    private final ColoredReadOnlyBand operativeZieleUmfeldLinksBand = new ColoredReadOnlyBand(
+            "Pflegeziele Umfeld links",
             "operatives_ziel",
             "operatives_ziel.name");
-    private ColoredReadOnlyBand operativeZieleUmfeldRechtsBand = new ColoredReadOnlyBand(
-            "Op. Ziele Umfeld rechts",
+    private final ColoredReadOnlyBand operativeZieleUmfeldRechtsBand = new ColoredReadOnlyBand(
+            "Pflegeziele Umfeld rechts",
             "operatives_ziel",
             "operatives_ziel.name");
-    private ColoredReadOnlyBand entwicklungszielBand = new ColoredReadOnlyBand(
+    private final ColoredReadOnlyBand entwicklungszielBand = new ColoredReadOnlyBand(
             "Entwicklungsziel",
             "name_bezeichnung",
             "name_bezeichnung.name");
-    private ReadOnlyTextBand unterhaltungshinweisLinks = new ReadOnlyTextBand(
+    private final ReadOnlyTextBand unterhaltungshinweisLinks = new ReadOnlyTextBand(
             "Unterhaltungshinweise links",
             "art.name",
             "art.name");
-    private ReadOnlyTextBand unterhaltungshinweisRechts = new ReadOnlyTextBand(
+    private final ReadOnlyTextBand unterhaltungshinweisRechts = new ReadOnlyTextBand(
             "Unterhaltungshinweise rechts",
             "art.name",
             "art.name");
-    private ReadOnlyTextBand unterhaltungshinweisSohle = new ReadOnlyTextBand(
+    private final ReadOnlyTextBand unterhaltungshinweisSohle = new ReadOnlyTextBand(
             "Unterhaltungshinweise Sohle",
             "art.name",
             "art.name");
-    private ReadOnlyTextBand umlandnutzerLinks = new ReadOnlyTextBand(
+    private final ReadOnlyTextBand umlandnutzerLinks = new ReadOnlyTextBand(
             "Umlandnutzer links",
             null,
             null);
-    private ReadOnlyTextBand umlandnutzerRechts = new ReadOnlyTextBand(
+    private final ReadOnlyTextBand umlandnutzerRechts = new ReadOnlyTextBand(
             "Umlandnutzer rechts",
             null,
             null);
-    private ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
+    private final ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
             "Hydrologie",
             null,
             null);
-    private RulerBand ruler = new RulerBand(0, 5000);
-    private RulerLabelBand rulerLabel = new RulerLabelBand(0, 5000);
-    private UnterhaltungserfordernisBand unterhaltungserfordernisBand = new UnterhaltungserfordernisBand();
+    private final RulerBand ruler = new RulerBand(0, 5000);
+    private final RulerLabelBand rulerLabel = new RulerLabelBand(0, 5000);
+    private final UnterhaltungserfordernisBand unterhaltungserfordernisBand = new UnterhaltungserfordernisBand();
     private WKBand wkband;
-    private QuerbauwerksBand querbauwerksband = new QuerbauwerksBand();
-    private EmptyAbsoluteHeightedBand operativeZieleFiller = new EmptyAbsoluteHeightedBand(5);
-    private EmptyAbsoluteHeightedBand unterhaltungshinweisFiller = new EmptyAbsoluteHeightedBand(5);
-    private EmptyAbsoluteHeightedBand schutzgebieteFiller = new EmptyAbsoluteHeightedBand(5);
-    private EmptyAbsoluteHeightedBand hydrologieFiller = new EmptyAbsoluteHeightedBand(5);
-    private EmptyAbsoluteHeightedBand verbreitungsraumFiller = new EmptyAbsoluteHeightedBand(5);
-    private EmptyAbsoluteHeightedBand wkBandFiller = new EmptyAbsoluteHeightedBand(5);
+    private final QuerbauwerksBand querbauwerksband = new QuerbauwerksBand();
+    private final EmptyAbsoluteHeightedBand operativeZieleFiller = new EmptyAbsoluteHeightedBand(5);
+    private final EmptyAbsoluteHeightedBand unterhaltungshinweisFiller = new EmptyAbsoluteHeightedBand(5);
+    private final EmptyAbsoluteHeightedBand schutzgebieteFiller = new EmptyAbsoluteHeightedBand(5);
+    private final EmptyAbsoluteHeightedBand hydrologieFiller = new EmptyAbsoluteHeightedBand(5);
+    private final EmptyAbsoluteHeightedBand verbreitungsraumFiller = new EmptyAbsoluteHeightedBand(5);
+    private final EmptyAbsoluteHeightedBand wkBandFiller = new EmptyAbsoluteHeightedBand(5);
     private final JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
-    private String gwk = null;
+    private final String gwk = null;
     private CidsBean cidsBean;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
-    private GupAbschnittsinfoEditor abschnittsinfoEditor = new GupAbschnittsinfoEditor();
-    private GupEntwicklungszielEditor entwicklungszielEditor = new GupEntwicklungszielEditor(true);
-    private GupPoiEditor unterhaltungshinweisEditor = new GupPoiEditor(true);
-    private UmlandnutzerEditor umlandnutzerEditor = new UmlandnutzerEditor(true);
-    private GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor = new GupUnterhaltungserfordernisEditor(
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final GupEntwicklungszielEditor entwicklungszielEditor = new GupEntwicklungszielEditor(true);
+    private final GupPoiEditor unterhaltungshinweisEditor = new GupPoiEditor(true);
+    private final UmlandnutzerEditor umlandnutzerEditor = new UmlandnutzerEditor(true);
+    private final GupUnterhaltungserfordernisEditor unterhaltungserfordernisEditor =
+        new GupUnterhaltungserfordernisEditor(
             true);
     private GupUnterhaltungsmassnahmeEditor massnahmeEditor;
-    private GupUmlandnutzungEditor umlandnutzungEditor = new GupUmlandnutzungEditor(true);
-    private SchutzgebietEditor schutzgebietEditor = new SchutzgebietEditor(true);
-    private GupOperativesZielAbschnittEditor operativesZielEditor = new GupOperativesZielAbschnittEditor(true);
-    private GeschuetzteArtAbschnittEditor verbreitungsraumEditor = new GeschuetzteArtAbschnittEditor(true, true);
+    private final GupUmlandnutzungEditor umlandnutzungEditor = new GupUmlandnutzungEditor(true);
+    private final SchutzgebietEditor schutzgebietEditor = new SchutzgebietEditor(true);
+    private final GupOperativesZielAbschnittEditor operativesZielEditor = new GupOperativesZielAbschnittEditor(true);
+    private final GeschuetzteArtAbschnittEditor verbreitungsraumEditor = new GeschuetzteArtAbschnittEditor(true, true);
     private GupGewaesserabschnittAllgemein allgemeinEditor;
-    private GupGewaesserWrrl wrrlEditor = new GupGewaesserWrrl();
-    private GupHydrologEditor hydroEditor = new GupHydrologEditor(true);
+    private final GupHydrologEditor hydroEditor = new GupHydrologEditor(true);
     private boolean readOnly = false;
     private boolean initialReadOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private UnterhaltungsmassnahmeValidator validator;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgrpDetails;
@@ -369,7 +342,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private javax.swing.JLabel lblSubTitle;
     private javax.swing.JLabel lblTitle;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
-    private javax.swing.JPanel panAbschnittsinfo;
     private javax.swing.JPanel panAllgemein;
     private javax.swing.JPanel panApply;
     private javax.swing.JPanel panApplyBand;
@@ -396,7 +368,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private javax.swing.JPanel panUnterhaltungshinweis;
     private javax.swing.JPanel panVerbreitungsraum;
     private javax.swing.JPanel panVermessung;
-    private javax.swing.JPanel panWRRL;
     private javax.swing.JSlider sldZoom;
     private javax.swing.JScrollPane spBand;
     private javax.swing.JToggleButton togAllgemeinInfo;
@@ -523,19 +494,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         jband.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         switchToForm("allgemein");
         lblHeading.setText("Allgemeine Informationen");
-        panAbschnittsinfo.add(abschnittsinfoEditor, BorderLayout.CENTER);
         panEntwicklungsziel.add(entwicklungszielEditor, BorderLayout.CENTER);
         panUnterhaltungshinweis.add(unterhaltungshinweisEditor, BorderLayout.CENTER);
         panUmlandnutzer.add(umlandnutzerEditor, BorderLayout.CENTER);
         panUnterhaltungserfordernis.add(unterhaltungserfordernisEditor, BorderLayout.CENTER);
         panVermessung.add(vermessungsEditor, BorderLayout.CENTER);
-        panMassnahme.add(massnahmeEditor);
+        panMassnahme.add(massnahmeEditor, BorderLayout.CENTER);
         panUmlandnutzung.add(umlandnutzungEditor, BorderLayout.CENTER);
         panSchutzgebiet.add(schutzgebietEditor, BorderLayout.CENTER);
         panOperativeZiele.add(operativesZielEditor, BorderLayout.CENTER);
         panVerbreitungsraum.add(verbreitungsraumEditor, BorderLayout.CENTER);
         panAllgemein.add(allgemeinEditor, BorderLayout.CENTER);
-        panWRRL.add(wrrlEditor, BorderLayout.CENTER);
         panHydro.add(hydroEditor, BorderLayout.CENTER);
 
         sbm.addBandModelListener(modelListener);
@@ -582,96 +551,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the schutzgebietCache
-     */
-    public static CalculationCache<List, MetaObject[]> getSchutzgebietCache() {
-        return schutzgebietCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the umlandCache
-     */
-    public static CalculationCache<List, MetaObject[]> getUmlandCache() {
-        return umlandCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the umlandnutzerCache
-     */
-    public static CalculationCache<List, MetaObject[]> getUmlandnutzerCache() {
-        return umlandnutzerCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the entwicklungszielCache
-     */
-    public static CalculationCache<List, MetaObject[]> getEntwicklungszielCache() {
-        return entwicklungszielCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the querbauwerkCache
-     */
-    public static CalculationCache<List, ArrayList<ArrayList>> getQuerbauwerkCache() {
-        return querbauwerkCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the unterhaltungserfordernisCache
-     */
-    public static CalculationCache<List, MetaObject[]> getUnterhaltungserfordernisCache() {
-        return unterhaltungserfordernisCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the verbreitungsraumCache
-     */
-    public static CalculationCache<List, MetaObject[]> getVerbreitungsraumCache() {
-        return verbreitungsraumCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the operativeZieleCache
-     */
-    public static CalculationCache<List, MetaObject[]> getOperativeZieleCache() {
-        return operativeZieleCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the unterhaltungshinweiseCache
-     */
-    public static CalculationCache<List, MetaObject[]> getUnterhaltungshinweiseCache() {
-        return unterhaltungshinweiseCache;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  the hydrologieCache
-     */
-    public static CalculationCache<List, MetaObject[]> getHydrologieCache() {
-        return hydrologieCache;
-    }
 
     /**
      * DOCUMENT ME!
@@ -835,8 +714,20 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         validator = new UnterhaltungsmassnahmeValidator();
         searchValidator = validator;
         if (!initialReadOnly) {
+            CheckAssistent.getInstance().dispose();
+            CheckAssistent.getInstance().setForceReadOnly(false);
             CheckAssistent.getInstance().addListener(this);
             CheckAssistent.getInstance().setCidsBean(cidsBean);
+        } else {
+            if ((CheckAssistent.getInstance().getCidsBean() == null)
+                        || CheckAssistent.getInstance().isForceReadOnly()) {
+                // In the renderer mode, the CheckAssistent windows should only be usable,
+                // if the GupPlanungsabschnittEditor is not used in the editor mode
+                CheckAssistent.getInstance().dispose();
+                CheckAssistent.getInstance().setForceReadOnly(true);
+                CheckAssistent.getInstance().addListener(this);
+                CheckAssistent.getInstance().setCidsBean(cidsBean);
+            }
         }
         massnahmeEditor.setValidator(validator);
         rechtesUferBand.setUnterhaltungsmassnahmeValidator(validator);
@@ -936,7 +827,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         linkesUmfeldBand.setCidsBeans(linkesUmfeldList);
 
         allgemeinEditor.setCidsBean(cidsBean);
-        wrrlEditor.setCidsBean(cidsBean);
 
         final String rname = String.valueOf(route.getProperty("routenname"));
 
@@ -1000,7 +890,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return getQuerbauwerkCache().calcValue(in);
+                    return GupHelper.querbauwerkCache.calcValue(in);
                 }
 
                 @Override
@@ -1056,7 +946,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         in.add(sbm.getMin());
                         in.add(sbm.getMax());
                         in.add(route.getProperty("gwk"));
-                        final MetaObject[] metaObjects = getSchutzgebietCache().calcValue(in);
+                        final MetaObject[] metaObjects = GupHelper.schutzgebietCache.calcValue(in);
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
@@ -1136,7 +1026,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         in.add(sbm.getMax());
                         in.add(route.getProperty("gwk"));
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
-                        final MetaObject[] metaObjects = getVerbreitungsraumCache().calcValue(in);
+                        final MetaObject[] metaObjects = GupHelper.verbreitungsraumCache.calcValue(in);
 
                         for (final MetaObject tmp : metaObjects) {
                             final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
@@ -1247,7 +1137,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         in.add(sbm.getMin());
                         in.add(sbm.getMax());
                         in.add(route.getProperty("gwk"));
-                        final MetaObject[] metaObjects = getOperativeZieleCache().calcValue(in);
+                        final MetaObject[] metaObjects = GupHelper.operativeZieleCache.calcValue(in);
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
@@ -1319,7 +1209,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         in.add(sbm.getMin());
                         in.add(sbm.getMax());
                         in.add(route.getProperty("gwk"));
-                        final MetaObject[] metaObjects = getUmlandCache().calcValue(in);
+                        final MetaObject[] metaObjects = GupHelper.umlandCache.calcValue(in);
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
@@ -1378,7 +1268,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         in.add(sbm.getMin());
                         in.add(sbm.getMax());
                         in.add(route.getProperty("gwk"));
-                        final MetaObject[] metaObjects = getEntwicklungszielCache().calcValue(in);
+                        final MetaObject[] metaObjects = GupHelper.entwicklungszielCache.calcValue(in);
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
@@ -1412,7 +1302,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return getUnterhaltungshinweiseCache().calcValue(in);
+                    return GupHelper.unterhaltungshinweiseCache.calcValue(in);
                 }
 
                 @Override
@@ -1457,7 +1347,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return getUmlandnutzerCache().calcValue(in);
+                    return GupHelper.umlandnutzerCache.calcValue(in);
                 }
 
                 @Override
@@ -1498,7 +1388,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return getUnterhaltungserfordernisCache().calcValue(in);
+                    return GupHelper.unterhaltungserfordernisCache.calcValue(in);
                 }
 
                 @Override
@@ -1528,7 +1418,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     in.add(sbm.getMin());
                     in.add(sbm.getMax());
                     in.add(route.getProperty("gwk"));
-                    return getHydrologieCache().calcValue(in);
+                    return GupHelper.hydrologieCache.calcValue(in);
                 }
 
                 @Override
@@ -1558,33 +1448,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     public static void setLastGup(final CidsBean gup) {
         lastGup = gup;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  metaObjects  DOCUMENT ME!
-     * @param  min          DOCUMENT ME!
-     * @param  max          DOCUMENT ME!
-     */
-    private static void adjustBorders(final MetaObject[] metaObjects, final double min, final double max) {
-        if (metaObjects != null) {
-            for (final MetaObject tmp : metaObjects) {
-                final double von = (Double)tmp.getBean().getProperty("linie.von.wert");
-                final double bis = (Double)tmp.getBean().getProperty("linie.bis.wert");
-
-                try {
-                    if (von < min) {
-                        tmp.getBean().setProperty("linie.von.wert", min);
-                    }
-                    if (bis > max) {
-                        tmp.getBean().setProperty("linie.bis.wert", max);
-                    }
-                } catch (Exception e) {
-                    LOG.error("Cannot adjust the station value", e);
-                }
-            }
-        }
     }
 
     @Override
@@ -1631,9 +1494,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panEntwicklungsziel = new javax.swing.JPanel();
         panUnterhaltungserfordernis = new javax.swing.JPanel();
         panMassnahmeSonstige = new javax.swing.JPanel();
-        panAbschnittsinfo = new javax.swing.JPanel();
         panEmpty = new javax.swing.JPanel();
-        panWRRL = new javax.swing.JPanel();
         panHydro = new javax.swing.JPanel();
         panAllgemein = new javax.swing.JPanel();
         panUmlandnutzung = new javax.swing.JPanel();
@@ -1910,17 +1771,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         panMassnahmeSonstige.setLayout(new java.awt.BorderLayout());
         panInfoContent.add(panMassnahmeSonstige, "massnahmesonstige");
 
-        panAbschnittsinfo.setOpaque(false);
-        panAbschnittsinfo.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panAbschnittsinfo, "abschnittsinfo");
-
         panEmpty.setOpaque(false);
         panEmpty.setLayout(new java.awt.BorderLayout());
         panInfoContent.add(panEmpty, "empty");
-
-        panWRRL.setOpaque(false);
-        panWRRL.setLayout(new java.awt.BorderLayout());
-        panInfoContent.add(panWRRL, "wrrl");
 
         panHydro.setOpaque(false);
         panHydro.setLayout(new java.awt.BorderLayout());
@@ -2772,7 +2625,14 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         if (!readOnly) {
             vermessungsband.dispose();
         }
+        linearReferencedLineEditor.dispose();
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
+        if (CheckAssistent.getInstance().containsListener(this)) {
+            // this editor is currently using the CheckAssistent
+            CheckAssistent.getInstance().removeListener(this);
+            CheckAssistent.getInstance().dispose();
+        }
         bindingGroup.unbind();
     }
 
@@ -2780,14 +2640,12 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      * DOCUMENT ME!
      */
     private void disposeEditors() {
-        abschnittsinfoEditor.dispose();
         massnahmeEditor.dispose();
         umlandnutzungEditor.dispose();
         schutzgebietEditor.dispose();
         verbreitungsraumEditor.dispose();
         operativesZielEditor.dispose();
         allgemeinEditor.dispose();
-        wrrlEditor.dispose();
         hydroEditor.dispose();
         entwicklungszielEditor.dispose();
         unterhaltungserfordernisEditor.dispose();
@@ -2834,13 +2692,11 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     public void editorClosed(final EditorClosedEvent event) {
         linearReferencedLineEditor.editorClosed(event);
         allgemeinEditor.editorClosed(event);
-        abschnittsinfoEditor.editorClosed(event);
         massnahmeEditor.editorClosed(event);
         umlandnutzungEditor.editorClosed(event);
         schutzgebietEditor.editorClosed(event);
         verbreitungsraumEditor.editorClosed(event);
         operativesZielEditor.editorClosed(event);
-        wrrlEditor.editorClosed(event);
         hydroEditor.editorClosed(event);
         entwicklungszielEditor.editorClosed(event);
         unterhaltungserfordernisEditor.editorClosed(event);
@@ -2852,10 +2708,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             vermessungsband.editorClosed(event);
         }
 
-        if (!initialReadOnly) {
-            CheckAssistent.getInstance().removeListener(this);
-            CheckAssistent.getInstance().dispose();
-        }
 //        rechtesUferBand.editorClosed(event);
 //        linkesUferBand.editorClosed(event);
 //        rechtesUmfeldBand.editorClosed(event);
@@ -3043,8 +2895,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         switchToForm("massnahme");
                         lblHeading.setText("Maßnahmen Ufer");
 
-                        final List<CidsBean> massnBeans;
-
                         massnahmeEditor.setKompartiment(GupUnterhaltungsmassnahmeEditor.KOMPARTIMENT_UFER);
                         massnahmeEditor.setMassnahmen(linkesUferList);
                         massnahmeEditor.setCidsBean(bean);
@@ -3055,7 +2905,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     }
                     ComponentRegistry.getRegistry().getSearchResultsTree().repaint();
 
-                    if (!initialReadOnly) {
+                    if (CheckAssistent.getInstance().containsListener(GupPlanungsabschnittEditor.this)) {
+                        // check, if this editor is currently using the CheckAssistent
                         CheckAssistent.getInstance().setSelection(bean);
                     }
                 } else if (bm instanceof VermeidungsgruppeReadOnlyBandMember) {
@@ -3068,7 +2919,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     final String colorProp = ((ColoredReadOnlyBandMember)bm).getColorProperty();
                     if ((colorProp != null) && colorProp.equals("operatives_ziel")) {
                         switchToForm("operativeZiele");
-                        lblHeading.setText("Operatives Ziel");
+                        lblHeading.setText("Pflegeziel");
 
                         final int kompartiment = -1;
 
@@ -3096,7 +2947,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     }
                 } else if (bm instanceof UnterhaltungserfordernisBandMember) {
                     switchToForm("unterhaltungserfordernis");
-                    lblHeading.setText("Unterhaltungserfordernis");
+                    lblHeading.setText("Situationstyp");
                     unterhaltungserfordernisEditor.setCidsBean(((UnterhaltungserfordernisBandMember)bm).getCidsBean());
                 } else if (bm instanceof ReadOnlyTextBandMember) {
                     final String textProperty = ((ReadOnlyTextBandMember)bm).getTextProperty();
@@ -3132,519 +2983,6 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         @Override
         public void bandModelValuesChanged(final BandModelEvent e) {
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class NaturschutzCalculator implements Calculator<List, ArrayList<ArrayList>> {
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public ArrayList<ArrayList> calculate(final List input) throws Exception {
-            final CidsServerSearch searchNSG = new NaturschutzgebietSearch((Double)input.get(0),
-                    (Double)input.get(1),
-                    String.valueOf(input.get(2)));
-            final Collection resNSG = SessionManager.getProxy()
-                        .customServerSearch(SessionManager.getSession().getUser(), searchNSG);
-            return (ArrayList<ArrayList>)resNSG;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class UmlandnutzungCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass UMLANDNUTZUNG = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_UMLANDNUTZUNG");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + UMLANDNUTZUNG.getID() + ", u." + UMLANDNUTZUNG.getPrimaryKey()
-                        + " from "
-                        + UMLANDNUTZUNG.getTableName()
-                        + " u, umlandnutzung_route_umlandnutzung route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.umlandnutzung = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Umlandnutzung: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            // Passe die Groessen der Umfeldnutzung an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // der Umfeldnutzung und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class UmlandnutzerCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass UMLANDNUTZER = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "UMLANDNUTZER");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + UMLANDNUTZER.getID() + ", u." + UMLANDNUTZER.getPrimaryKey()
-                        + " from "
-                        + UMLANDNUTZER.getTableName()
-                        + " u, umlandnutzer_route_umlandnutzer route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.umlandnutzer = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Umlandnutzer: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            // Passe die Groessen der Umfeldnutzer an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // den Umfeldnutzern und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class HydrologieCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass HYDROLOGIE = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_HYDROLOG");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + HYDROLOGIE.getID() + ", u." + HYDROLOGIE.getPrimaryKey()
-                        + " from "
-                        + HYDROLOGIE.getTableName()
-                        + " u, hydrolog_route_hydrolog route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.hydrologie = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Hydrologie: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            // Passe die Groessen der Umfeldnutzer an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // den Umfeldnutzern und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class SchutzgebietCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass SCHUTZGEBIET = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "SCHUTZGEBIET");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + SCHUTZGEBIET.getID() + ", u." + SCHUTZGEBIET.getPrimaryKey()
-                        + " from "
-                        + SCHUTZGEBIET.getTableName()
-                        + " u, station_linie sl, station von, station bis, route r "
-                        + "WHERE u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Schutzgebiete: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            // Passe die Groessen der SChutzgebiete an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // den Schutzgebieten und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class OperativesZielCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass OPERATIVES_ZIEL = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_OPERATIVES_ZIEL_ABSCHNITT");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + OPERATIVES_ZIEL.getID() + ", u." + OPERATIVES_ZIEL.getPrimaryKey()
-                        + " from "
-                        + OPERATIVES_ZIEL.getTableName()
-                        + " u, gup_operatives_ziel_route_abschnitt route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.abschnitt = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for operatives Ziel: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            // Passe die Groessen der operativen Ziele an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // den operativen Zielen und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class VerbreitungsraumCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass VERMEIDUNGSGRUPPE_ABSCHNITT = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GESCHUETZTE_ART_ABSCHNITT");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + VERMEIDUNGSGRUPPE_ABSCHNITT.getID() + ", u."
-                        + VERMEIDUNGSGRUPPE_ABSCHNITT.getPrimaryKey()
-                        + " from "
-                        + VERMEIDUNGSGRUPPE_ABSCHNITT.getTableName()
-                        + " u, verbreitungsraum_geschuetzte_art_abschnitt route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.abschnitt = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Verbreitungsraum: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            // Passe die Groessen der Verbreitungsraeume an die Groesse des GUP an. Da keine Verknuepfung zwischen
-            // den Verbreitungsraeumen und dem Gewaesser besteht, werden diese Aenderungen auch nicht gespeichert
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class EntwicklungszielCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass ENTWICKLUNGSZIEL = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_ENTWICKLUNGSZIEL");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + ENTWICKLUNGSZIEL.getID() + ", u."
-                        + ENTWICKLUNGSZIEL.getPrimaryKey()
-                        + " from "
-                        + ENTWICKLUNGSZIEL.getTableName()
-                        + " u, entwicklungsziel_route_entwicklungsziel route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.entwicklungsziel = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Entwicklungsziel: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class UnterhaltungshinweiseCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass GUP_POI = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_poi");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + GUP_POI.getID() + ", u."
-                        + GUP_POI.getPrimaryKey()
-                        + " from "
-                        + GUP_POI.getTableName()
-                        + " u, gup_poi_route route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.id = u.poi_route and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Gup_POIs: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class UnterhaltungserfordernisCalculator implements Calculator<List, MetaObject[]> {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass UNTERHALTUNGSERFORDERNIS = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "GUP_UNTERHALTUNGSERFORDERNIS");
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + UNTERHALTUNGSERFORDERNIS.getID() + ", u."
-                        + UNTERHALTUNGSERFORDERNIS.getPrimaryKey()
-                        + " from "
-                        + UNTERHALTUNGSERFORDERNIS.getTableName()
-                        + " u, gup_unterhaltungserfordernis_route_unterhaltungserfordernis route, station_linie sl, station von, station bis, route r "
-                        + "WHERE route.unterhaltungserfordernis = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
-                        + "      and r.gwk = " + String.valueOf(input.get(2))
-                        + " and (( von.wert > " + (Double)input.get(0) + " and von.wert < " + (Double)input.get(1)
-                        + ") OR "
-                        + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
-                        + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Request for Situationstypen: " + query);
-            }
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            adjustBorders(metaObjects, (Double)input.get(0), (Double)input.get(1));
-
-            return metaObjects;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private static class QuerbauwerkeCalculator implements Calculator<List, ArrayList<ArrayList>> {
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   input  enthalt den Stationierungswert des Starts, des Endes und den GWT der Route in dieser
-         *                 Reihenfolge
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        @Override
-        public ArrayList<ArrayList> calculate(final List input) throws Exception {
-            final CidsServerSearch searchQB = new QuerbautenSearchByStations((Double)input.get(0),
-                    (Double)input.get(1),
-                    String.valueOf(input.get(2)));
-            final Collection resQB = SessionManager.getProxy()
-                        .customServerSearch(SessionManager.getSession().getUser(), searchQB);
-            return (ArrayList<ArrayList>)resQB;
         }
     }
 

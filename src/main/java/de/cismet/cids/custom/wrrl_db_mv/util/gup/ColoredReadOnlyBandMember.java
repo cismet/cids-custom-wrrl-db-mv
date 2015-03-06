@@ -7,12 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.tools.MetaObjectCache;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
 import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
@@ -27,13 +21,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
-import java.util.List;
-
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;

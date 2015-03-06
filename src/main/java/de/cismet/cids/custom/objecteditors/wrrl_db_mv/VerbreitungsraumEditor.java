@@ -68,24 +68,24 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
-    private GeschuetzteArtRWBand ufer_links = new GeschuetzteArtRWBand(
+    private final GeschuetzteArtRWBand ufer_links = new GeschuetzteArtRWBand(
             "Ufer links",
             GschuetzteArt_ABSCHNITT);
-    private GeschuetzteArtRWBand ufer_rechts = new GeschuetzteArtRWBand(
+    private final GeschuetzteArtRWBand ufer_rechts = new GeschuetzteArtRWBand(
             "Ufer rechts",
             GschuetzteArt_ABSCHNITT);
-    private GeschuetzteArtRWBand umfeld_links = new GeschuetzteArtRWBand(
+    private final GeschuetzteArtRWBand umfeld_links = new GeschuetzteArtRWBand(
             "Umfeld links",
             GschuetzteArt_ABSCHNITT);
-    private GeschuetzteArtRWBand umfeld_rechts = new GeschuetzteArtRWBand(
+    private final GeschuetzteArtRWBand umfeld_rechts = new GeschuetzteArtRWBand(
             "Umfeld rechts",
             GschuetzteArt_ABSCHNITT);
-    private GeschuetzteArtRWBand sohle = new GeschuetzteArtRWBand(
+    private final GeschuetzteArtRWBand sohle = new GeschuetzteArtRWBand(
             "Sohle",
             GschuetzteArt_ABSCHNITT);
     private WKBand wkband;
     private VermessungsbandHelper vermessungsband;
-    private VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
+    private final VermessungBandElementEditor vermessungsEditor = new VermessungBandElementEditor();
     private final JBand jband;
     private final BandModelListener modelListener = new GupVerbreitungsraumBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
@@ -97,7 +97,7 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private GeschuetzteArtAbschnittEditor geschuetzteArtAbschnittEditor;
     private boolean readOnly = false;
-    private StationLineBackup stationBackup = new StationLineBackup("linie");
+    private final StationLineBackup stationBackup = new StationLineBackup("linie");
     private boolean isNew = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -807,7 +807,9 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         if (!readOnly) {
             vermessungsband.dispose();
         }
+        linearReferencedLineEditor.dispose();
         sbm.removeBandModelListener(modelListener);
+        jband.dispose();
     }
 
     @Override
