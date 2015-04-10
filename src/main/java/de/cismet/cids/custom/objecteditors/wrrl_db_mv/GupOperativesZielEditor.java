@@ -58,11 +58,14 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JCheckBox cbUfer;
     private javax.swing.JCheckBox cbUmfeld;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccEntwicklungsziel;
+    private de.cismet.cids.editors.DefaultBindableCheckboxField ccEntwicklungsziel1;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccSituationstyp;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jpAllgemein;
     private javax.swing.JPanel jpEntwicklungsziel;
@@ -154,17 +157,20 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
+        panSpacingBottom1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         ccEntwicklungsziel = new DefaultBindableCheckboxField(new CustomComparator());
-        panSpacingBottom1 = new javax.swing.JPanel();
         jpPflegeziel = new javax.swing.JPanel();
         panInfo2 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading2 = new javax.swing.JLabel();
         panInfoContent2 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        ccSituationstyp = new DefaultBindableCheckboxField(new CustomComparator());
         panSpacingBottom2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel6 = new javax.swing.JPanel();
+        ccEntwicklungsziel1 = new DefaultBindableCheckboxField(new CustomComparator());
+        ccSituationstyp = new DefaultBindableCheckboxField(new CustomComparator());
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 400));
@@ -377,12 +383,23 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         panInfoContent1.setOpaque(false);
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
 
+        panSpacingBottom1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(panSpacingBottom1, gridBagConstraints);
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(750, 420));
+        jScrollPane1.setOpaque(false);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(750, 420));
+
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         ccEntwicklungsziel.setMinimumSize(new java.awt.Dimension(370, 320));
         ccEntwicklungsziel.setOpaque(false);
-        ccEntwicklungsziel.setPreferredSize(new java.awt.Dimension(550, 320));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -398,24 +415,20 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         jPanel4.add(ccEntwicklungsziel, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent1.add(jPanel4, gridBagConstraints);
+        jScrollPane1.setViewportView(jPanel4);
 
-        panSpacingBottom1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        panInfoContent1.add(panSpacingBottom1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        panInfoContent1.add(jScrollPane1, gridBagConstraints);
 
         panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
@@ -452,12 +465,34 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         panInfoContent2.setOpaque(false);
         panInfoContent2.setLayout(new java.awt.GridBagLayout());
 
-        jPanel5.setOpaque(false);
-        jPanel5.setLayout(new java.awt.GridBagLayout());
+        panSpacingBottom2.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent2.add(panSpacingBottom2, gridBagConstraints);
 
-        ccSituationstyp.setMinimumSize(new java.awt.Dimension(550, 320));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(750, 420));
+        jScrollPane2.setOpaque(false);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(750, 420));
+
+        jPanel6.setOpaque(false);
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        ccEntwicklungsziel1.setMinimumSize(new java.awt.Dimension(370, 320));
+        ccEntwicklungsziel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel6.add(ccEntwicklungsziel1, gridBagConstraints);
+
         ccSituationstyp.setOpaque(false);
-        ccSituationstyp.setPreferredSize(new java.awt.Dimension(550, 320));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -473,23 +508,20 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        jPanel5.add(ccSituationstyp, gridBagConstraints);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel6.add(ccSituationstyp, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent2.add(jPanel5, gridBagConstraints);
+        jScrollPane2.setViewportView(jPanel6);
 
-        panSpacingBottom2.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        panInfoContent2.add(panSpacingBottom2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        panInfoContent2.add(jScrollPane2, gridBagConstraints);
 
         panInfo2.add(panInfoContent2, java.awt.BorderLayout.CENTER);
 

@@ -32,6 +32,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -538,6 +539,14 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
                 protected void done() {
                     try {
                         final List<Node> validPflegezielList = get();
+                        if (validPflegezielList.isEmpty()) {
+                            JOptionPane.showMessageDialog(
+                                GupOperativesZielAbschnittEditor.this,
+                                "Es wurden keine validen Pflegeziele gefunden",
+                                "Keine validen Pflegeziele gefunden",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        }
+
                         MethodManager.getManager()
                                 .showSearchResults(validPflegezielList.toArray(
                                         new Node[validPflegezielList.size()]),
