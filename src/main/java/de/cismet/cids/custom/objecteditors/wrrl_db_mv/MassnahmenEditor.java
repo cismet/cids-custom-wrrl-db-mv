@@ -22,6 +22,8 @@ import Sirius.server.middleware.types.MetaObject;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.openide.util.NbBundle;
+
 import java.awt.Component;
 import java.awt.EventQueue;
 
@@ -1741,33 +1743,40 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 LOG.error("Error in prepareForSave.", ex); // NOI18N
             }
 
-            final WaitingDialogThread wdt = new WaitingDialogThread(StaticSwingTools.getParentFrame(this),
-                    false,
-                    "Aktualisiere Simulationen",
-                    null,
-                    0) {
+            final int answ = JOptionPane.showConfirmDialog(StaticSwingTools.getParentFrame(this),
+                    NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.prepareForSave().message", this),
+                    NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.prepareForSave().title", this),
+                    JOptionPane.YES_NO_OPTION);
 
-                    @Override
-                    protected Object doInBackground() throws Exception {
-                        final String wkk = (String)cidsBean.getProperty("wk_fg.wk_k");
+            if (answ == JOptionPane.YES_OPTION) {
+                final WaitingDialogThread wdt = new WaitingDialogThread(StaticSwingTools.getParentFrame(this),
+                        false,
+                        "Aktualisiere Simulationen",
+                        null,
+                        0) {
 
-                        if ((oldWkFg != null)
-                                    && ((wkk == null)
-                                        || !oldWkFg.equals(wkk))) {
-                            FgskSimulationHelper.reCreateSimulation(oldWkFg, true);
-                            FgskSimulationHelper.reCreateSimulation(oldWkFg, false);
+                        @Override
+                        protected Object doInBackground() throws Exception {
+                            final String wkk = (String)cidsBean.getProperty("wk_fg.wk_k");
+
+                            if ((oldWkFg != null)
+                                        && ((wkk == null)
+                                            || !oldWkFg.equals(wkk))) {
+                                FgskSimulationHelper.reCreateSimulation(oldWkFg, true);
+                                FgskSimulationHelper.reCreateSimulation(oldWkFg, false);
+                            }
+
+                            if (wkk != null) {
+                                FgskSimulationHelper.reCreateSimulation(wkk, true);
+                                FgskSimulationHelper.reCreateSimulation(wkk, false);
+                            }
+
+                            return null;
                         }
+                    };
 
-                        if (wkk != null) {
-                            FgskSimulationHelper.reCreateSimulation(wkk, true);
-                            FgskSimulationHelper.reCreateSimulation(wkk, false);
-                        }
-
-                        return null;
-                    }
-                };
-
-            wdt.start();
+                wdt.start();
+            }
         }
 
         boolean save = true;
