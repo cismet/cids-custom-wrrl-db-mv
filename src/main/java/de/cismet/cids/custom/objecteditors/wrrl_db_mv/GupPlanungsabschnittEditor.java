@@ -23,6 +23,8 @@ import Sirius.server.middleware.types.MetaObject;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.deegree.framework.concurrent.Executor;
+
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -39,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -71,6 +74,9 @@ import de.cismet.cismap.commons.features.DefaultStyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.commons.concurrency.CismetConcurrency;
+import de.cismet.commons.concurrency.CismetExecutors;
 
 import de.cismet.tools.CismetThreadPool;
 
@@ -173,6 +179,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
     }
+
+    private static final ExecutorService executor = CismetExecutors.newFixedThreadPool(10);
+    private static final ExecutorService executorReadOnly = CismetExecutors.newFixedThreadPool(10);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -280,7 +289,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private final EmptyAbsoluteHeightedBand hydrologieFiller = new EmptyAbsoluteHeightedBand(5);
     private final EmptyAbsoluteHeightedBand verbreitungsraumFiller = new EmptyAbsoluteHeightedBand(5);
     private final EmptyAbsoluteHeightedBand wkBandFiller = new EmptyAbsoluteHeightedBand(5);
-    private final JBand jband;
+    private JBand jband;
     private final BandModelListener modelListener = new GupGewaesserabschnittBandModelListener();
     private final SimpleBandModel sbm = new SimpleBandModel();
     private final String gwk = null;
@@ -511,7 +520,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         sldZoom.setPaintTrack(false);
 
-        CismetThreadPool.execute(new Runnable() {
+        getExecutor().execute(new Runnable() {
 
                 private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
                         WRRLUtil.DOMAIN_NAME,
@@ -551,6 +560,15 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private ExecutorService getExecutor() {
+        return (initialReadOnly ? executorReadOnly : executor);
+    }
 
     /**
      * DOCUMENT ME!
@@ -852,7 +870,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         final String freezedTimeString = (((freezed != null) && freezed.booleanValue() && (freezeTime != null))
                 ? ("Stand: " + formatter.format(freezeTime)) : "");
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 
                 @Override
                 protected ArrayList<ArrayList> doInBackground() throws Exception {
@@ -882,7 +900,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 
                 @Override
                 protected ArrayList<ArrayList> doInBackground() throws Exception {
@@ -905,7 +923,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-//        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
+//        getExecutor().execute(new javax.swing.SwingWorker<ArrayList<ArrayList>, Void>() {
 //
 //                @Override
 //                protected ArrayList<ArrayList> doInBackground() throws Exception {
@@ -928,7 +946,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 //                }
 //            });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
 
                 @Override
                 protected Collection<CidsBean> doInBackground() throws Exception {
@@ -992,7 +1010,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(
+        getExecutor().execute(
             new javax.swing.SwingWorker<VermeidungsgruppeReadOnlyBandMember[], Void>() {
 
                 private final MetaClass VERMEIDUNGSGRUPPE = ClassCacheMultiple.getMetaClass(
@@ -1119,7 +1137,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
 
                 @Override
                 protected Collection<CidsBean> doInBackground() throws Exception {
@@ -1191,7 +1209,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
 
                 @Override
                 protected Collection<CidsBean> doInBackground() throws Exception {
@@ -1250,7 +1268,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
 
                 @Override
                 protected Collection<CidsBean> doInBackground() throws Exception {
@@ -1294,7 +1312,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
@@ -1339,7 +1357,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
@@ -1380,7 +1398,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
@@ -1410,7 +1428,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
 
-        de.cismet.tools.CismetThreadPool.execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
+        getExecutor().execute(new javax.swing.SwingWorker<MetaObject[], Void>() {
 
                 @Override
                 protected MetaObject[] doInBackground() throws Exception {
@@ -2628,6 +2646,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         linearReferencedLineEditor.dispose();
         sbm.removeBandModelListener(modelListener);
         jband.dispose();
+        jband = null;
         if (CheckAssistent.getInstance().containsListener(this)) {
             // this editor is currently using the CheckAssistent
             CheckAssistent.getInstance().removeListener(this);

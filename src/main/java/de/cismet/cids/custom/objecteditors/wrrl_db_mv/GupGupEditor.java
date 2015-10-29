@@ -27,6 +27,8 @@ import Sirius.server.newuser.permission.Policy;
 
 import org.jdesktop.beansbinding.Converter;
 
+import org.openide.util.Exceptions;
+
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -69,6 +71,8 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.commons.concurrency.CismetConcurrency;
 
 import de.cismet.tools.CismetThreadPool;
 
@@ -118,6 +122,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int ID_ANTRAG = 2;
     public static final int ID_PRUEFUNG = 3;
     public static final int ID_GENEHMIGT = 4;
+    public static final int ID_ANGENOMMEN = 5;
     public static final int ID_GESCHLOSSEN = -1;
     public static final int[][] STATE_MATRIX = {
             { 0, 1, 0, 0, 0 },
@@ -127,27 +132,26 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             { 0, 0, 0, 0, 0 }
         };
     private static MetaObject[] STATE_BEANS = null;
+    private static final Thread STATE_BEANS_LOADER = new Thread("StateBeanLoader") {
+
+            @Override
+            public void run() {
+                final String query = "SELECT "
+                            + MC_WF.getID() + ", "
+                            + MC_WF.getPrimaryKey()
+                            + " FROM "
+                            + MC_WF.getTableName();
+                try {
+                    STATE_BEANS = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                } catch (Exception ex) {
+                    LOG.error("error while loading wk_fgs", ex);
+                }
+            }
+        };
 
     static {
         readActions();
-
-        CismetThreadPool.execute(new Runnable() {
-
-                @Override
-                public void run() {
-                    final String query = "SELECT "
-                                + MC_WF.getID() + ", "
-                                + MC_WF.getPrimaryKey()
-                                + " FROM "
-                                + MC_WF.getTableName();
-                    try {
-                        final MetaObject[] mosWkFg;
-                        STATE_BEANS = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-                    } catch (Exception ex) {
-                        LOG.error("error while loading wk_fgs", ex);
-                    }
-                }
-            });
+        CismetConcurrency.getInstance("GUP").getDefaultExecutor().execute(STATE_BEANS_LOADER);
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -227,6 +231,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public GupGupEditor(final boolean readOnly) {
         this.initialReadOnly = readOnly;
         initComponents();
+        setToolTips();
         scrollGewaesser.getViewport().setOpaque(false);
         butNewPlan.setVisible(!readOnly);
 
@@ -257,6 +262,47 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setToolTips() {
+        CismetConcurrency.getInstance("GUP").getDefaultExecutor().execute(new Thread("ToolTipThread") {
+
+                @Override
+                public void run() {
+                    if (STATE_BEANS_LOADER.isAlive()) {
+                        try {
+                            STATE_BEANS_LOADER.join();
+                        } catch (InterruptedException ex) {
+                            // nothing to do
+                        }
+                    }
+
+                    EventQueue.invokeLater(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                jbPlanung.setToolTipText(determineToolTipText(ID_PLANUNG));
+                                jbAntrag.setToolTipText(determineToolTipText(ID_ANTRAG));
+                                jbPruefung.setToolTipText(determineToolTipText(ID_PRUEFUNG));
+                                jbGenehmigt.setToolTipText(determineToolTipText(ID_GENEHMIGT));
+                                jbAngenommen.setToolTipText(determineToolTipText(ID_ANGENOMMEN));
+                            }
+
+                            private String determineToolTipText(final int stateId) {
+                                for (final MetaObject mo : STATE_BEANS) {
+                                    if (mo.getBean().getProperty("id").equals(stateId)) {
+                                        return String.valueOf(mo.getBean().getProperty("name"));
+                                    }
+                                }
+
+                                return "";
+                            }
+                        });
+                }
+            });
+    }
 
     /**
      * DOCUMENT ME!
@@ -667,7 +713,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.add(jbAdd, gridBagConstraints);
 
         panState.setOpaque(false);
-        panState.setLayout(new java.awt.FlowLayout(0));
+        panState.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jbPlanung.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Draft.png"))); // NOI18N
@@ -1018,10 +1064,10 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  evt  DOCUMENT ME!
      */
     private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblNameMouseClicked
-        final GupGewaesserPreview prev = (GupGewaesserPreview)panGewaesserInner.getComponent(0);
-        final CidsBean pl = prev.getCidsBean();
-
-        freezePlanungsabschnitt(pl);
+//        final GupGewaesserPreview prev = (GupGewaesserPreview)panGewaesserInner.getComponent(0);
+//        final CidsBean pl = prev.getCidsBean();
+//
+//        freezePlanungsabschnitt(pl);
     } //GEN-LAST:event_lblNameMouseClicked
 
     @Override

@@ -58,7 +58,6 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JCheckBox cbUfer;
     private javax.swing.JCheckBox cbUmfeld;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccEntwicklungsziel;
-    private de.cismet.cids.editors.DefaultBindableCheckboxField ccEntwicklungsziel1;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccSituationstyp;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JPanel jPanel1;
@@ -169,7 +168,6 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
         panSpacingBottom2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel6 = new javax.swing.JPanel();
-        ccEntwicklungsziel1 = new DefaultBindableCheckboxField(new CustomComparator());
         ccSituationstyp = new DefaultBindableCheckboxField(new CustomComparator());
 
         setOpaque(false);
@@ -479,18 +477,6 @@ public class GupOperativesZielEditor extends javax.swing.JPanel implements CidsB
 
         jPanel6.setOpaque(false);
         jPanel6.setLayout(new java.awt.GridBagLayout());
-
-        ccEntwicklungsziel1.setMinimumSize(new java.awt.Dimension(370, 320));
-        ccEntwicklungsziel1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel6.add(ccEntwicklungsziel1, gridBagConstraints);
 
         ccSituationstyp.setOpaque(false);
 
