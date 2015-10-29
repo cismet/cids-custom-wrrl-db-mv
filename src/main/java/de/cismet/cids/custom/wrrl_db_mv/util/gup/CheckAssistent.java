@@ -1412,6 +1412,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 LOG.error("Exception while changing the accept status", e);
             }
         }
+        if (cbAllAccepted.isSelected() && cbAllDeclined.isSelected()) {
+            cbAllDeclined.setSelected(false);
+        }
         examinationManager.refreshGUI();
     } //GEN-LAST:event_cbAllAcceptedActionPerformed
 
@@ -1434,6 +1437,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             } catch (Exception e) {
                 LOG.error("Exception while changing the accept status", e);
             }
+        }
+        if (cbAllDeclined.isSelected() && cbAllAccepted.isSelected()) {
+            cbAllAccepted.setSelected(false);
         }
         examinationManager.refreshGUI();
     } //GEN-LAST:event_cbAllDeclinedActionPerformed
