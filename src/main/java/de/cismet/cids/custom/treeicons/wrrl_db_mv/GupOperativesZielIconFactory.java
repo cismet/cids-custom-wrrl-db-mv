@@ -90,7 +90,7 @@ public class GupOperativesZielIconFactory implements CidsTreeObjectIconFactory {
         final PflegezieleValidator validator = GupOperativesZielRouteEditor.getSearchValidator();
         final CidsBean pflegeziel = otn.getMetaObject().getBean();
 
-        if (!validator.isReady()) {
+        if ((validator == null) || !validator.isReady()) {
             return fallback;
         } else {
             final CidsBean umassn = GupOperativesZielRouteEditor.getLastActivePflegezielBean();
