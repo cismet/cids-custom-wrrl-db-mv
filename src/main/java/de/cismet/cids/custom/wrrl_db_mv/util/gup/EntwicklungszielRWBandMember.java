@@ -155,7 +155,10 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
     @Override
     protected void configurePopupMenu() {
         final String query = "select " + ENTWICKLUNGSZIEL.getID() + "," + ENTWICKLUNGSZIEL.getPrimaryKey() + " from "
-                    + ENTWICKLUNGSZIEL.getTableName(); // NOI18N
+                    + ENTWICKLUNGSZIEL.getTableName() + " order by " // NOI18N
+                    + "case when cs_isnumeric(substr(name, 0, case when strpos(name, ' ') = 0 then length(name) + 1 else strpos(name, ' ') end)) \n"
+                    + "then substr(name, 0, case when strpos(name, ' ') = 0 then length(name) + 1 else strpos(name, ' ') end)::integer else \n"
+                    + "99999 end";
         final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
 
         menuItems = new JMenuItem[metaObjects.length];
