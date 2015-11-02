@@ -241,8 +241,8 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
         for (final Object doc : docs) {
             if (doc instanceof CidsBean) {
                 final CidsBean bean = (CidsBean)doc;
-                if (DownloadManagerDialog.showAskingForUserTitle(this)) {
-                    final String jobname = DownloadManagerDialog.getJobname();
+                if (DownloadManagerDialog.getInstance().showAskingForUserTitleDialog(this)) {
+                    final String jobname = DownloadManagerDialog.getInstance().getJobName();
                     final String name = bean.getProperty("name").toString();
                     final String file = bean.getProperty("file").toString();
                     final String extension = name.substring(name.lastIndexOf("."));
