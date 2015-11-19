@@ -762,7 +762,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                     try {
                         final Collection<Node> r = get();
                         if (r != null) {
-                            MethodManager.getManager().showSearchResults(r.toArray(new Node[r.size()]), false);
+                            MethodManager.getManager().showSearchResults(null, r.toArray(new Node[r.size()]), false);
                         }
                     } catch (Exception ex) {
                         LOG.error("error while splitting fgsk", ex);

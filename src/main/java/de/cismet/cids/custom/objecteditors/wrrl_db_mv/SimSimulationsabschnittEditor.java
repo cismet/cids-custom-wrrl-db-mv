@@ -1292,7 +1292,13 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                         }
 
                         MethodManager.getManager()
-                                .showSearchResults(newRes.toArray(new Node[newRes.size()]), false, null, false, false);
+                                .showSearchResults(
+                                    null,
+                                    newRes.toArray(new Node[newRes.size()]),
+                                    false,
+                                    null,
+                                    false,
+                                    false);
                     } catch (Exception e) {
                         LOG.error("Error during server search", e);
                     }
