@@ -548,7 +548,9 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
                         }
 
                         MethodManager.getManager()
-                                .showSearchResults(validPflegezielList.toArray(
+                                .showSearchResults(
+                                    null,
+                                    validPflegezielList.toArray(
                                         new Node[validPflegezielList.size()]),
                                     false);
                         MethodManager.getManager().showSearchResults();

@@ -561,7 +561,7 @@ public class FgskDialog extends javax.swing.JDialog {
                 protected void done() {
                     try {
                         final Collection<Node> r = get();
-                        MethodManager.getManager().showSearchResults(r.toArray(new Node[r.size()]), false);
+                        MethodManager.getManager().showSearchResults(null, r.toArray(new Node[r.size()]), false);
                     } catch (Exception ex) {
                         LOG.error("error while creating beans", ex);
                     }

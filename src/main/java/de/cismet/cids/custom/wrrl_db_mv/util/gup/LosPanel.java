@@ -158,7 +158,7 @@ public class LosPanel extends javax.swing.JPanel {
             nodes[index++] = new MetaObjectNode(tmp);
         }
 
-        MethodManager.getManager().showSearchResults(nodes, false);
+        MethodManager.getManager().showSearchResults(null, nodes, false);
     } //GEN-LAST:event_lblSearchResultMouseClicked
 
     /**

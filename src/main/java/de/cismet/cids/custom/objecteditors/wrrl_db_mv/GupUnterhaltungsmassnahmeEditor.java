@@ -1636,7 +1636,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         if ((txtMassnahme.getCursor().getType() == Cursor.HAND_CURSOR)) {
             if (massnartList != null) {
                 MethodManager.getManager()
-                        .showSearchResults(massnartList.toArray(new Node[massnartList.size()]), false);
+                        .showSearchResults(null, massnartList.toArray(new Node[massnartList.size()]), false);
                 MethodManager.getManager().showSearchResults();
             } else {
                 final WaitingDialogThread<List<Node>> t = new WaitingDialogThread<List<Node>>(StaticSwingTools
@@ -1663,7 +1663,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                             try {
                                 final List<Node> validMassnartList = get();
                                 MethodManager.getManager()
-                                        .showSearchResults(validMassnartList.toArray(
+                                        .showSearchResults(
+                                            null,
+                                            validMassnartList.toArray(
                                                 new Node[validMassnartList.size()]),
                                             false);
                                 MethodManager.getManager().showSearchResults();
