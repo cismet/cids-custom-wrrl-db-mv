@@ -499,7 +499,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                         .getResourceAsStream(
                                             "de/cismet/cids/custom/objecteditors/wrrl_db_mv/fullscreenmap.layout");
 
-                            cismap.loadLayout(is);
+                            cismap.loadLayout(is, false);
 
                             final PluginDescriptor cismapDescriptor = PluginRegistry.getRegistry()
                                         .getPluginDescriptor("cismap");
@@ -529,7 +529,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     try {
                         if (new File(cismapBackupLayout).exists()) {
                             final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
-                            cismap.loadLayout(cismapBackupLayout);
+                            cismap.loadLayout(cismapBackupLayout, false);
                         }
 
                         if (new File(navigatorBackupLayout).exists()) {
