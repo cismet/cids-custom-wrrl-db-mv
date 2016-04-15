@@ -1,83 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_phys" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
-	<style name="O2Col" isDefault="false" mode="Transparent" pattern="">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_phys" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty" uuid="edc29090-6326-4453-967d-ea540f7f88d8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="O2Col" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) <= 0
 )]]></conditionExpression>
-			<style isDefault="false" style="O2Col" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) > 0
 )]]></conditionExpression>
-			<style isDefault="false" style="O2Col" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="phosCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="phosCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) >= 0
 )]]></conditionExpression>
-			<style isDefault="false" style="phosCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="phosCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="orthoCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="orthoCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) >= 0
 )]]></conditionExpression>
-			<style isDefault="false" style="orthoCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="orthoCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="ammoCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="ammoCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) >= 0
 )]]></conditionExpression>
-			<style isDefault="false" style="ammoCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="ammoCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="chloridCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="chloridCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) >= 0
 )]]></conditionExpression>
-			<style isDefault="false" style="chloridCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
 $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 )]]></conditionExpression>
-			<style isDefault="false" style="chloridCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="umweltCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="umweltCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{u_eco_stoffe}]]></conditionExpression>
-			<style isDefault="false" style="umweltCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{u_eco_stoffe}]]></conditionExpression>
-			<style isDefault="false" style="umweltCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<field name="o2_owert_rakon" class="java.math.BigDecimal"/>
@@ -107,15 +110,15 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 	<title>
 		<band height="47">
 			<staticText>
-				<reportElement x="0" y="24" width="493" height="22"/>
+				<reportElement x="0" y="24" width="493" height="22" uuid="c72bf428-869d-48e5-90d3-34ad2e94b3c7"/>
 				<box leftPadding="15"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="16" isBold="true"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
 				<text><![CDATA[c) Physikalisch-chemische   Qualitätskomponenten]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="449" y="32" width="83" height="12" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Transparent" x="449" y="32" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="4f1ec30e-9180-4c4e-9aec-725f040568c8"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -125,7 +128,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[nein]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="32" width="17" height="12" forecolor="#000000" backcolor="#FF0000"/>
+				<reportElement mode="Opaque" x="432" y="32" width="17" height="12" forecolor="#000000" backcolor="#FF0000" uuid="54c3162a-685e-44a0-935d-ab8285cff994"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -135,7 +138,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="0" width="100" height="20" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="432" y="0" width="100" height="20" forecolor="#000000" backcolor="#DADADA" uuid="b7d5fc71-d7b9-4a03-befe-ea2c421a5dd7"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -145,7 +148,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[RAKON-Orientierungswert eingehalten]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="449" y="20" width="83" height="12" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Transparent" x="449" y="20" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="86e18a25-b07d-4bfd-96f5-c346c086a521"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -155,7 +158,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[ja]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="20" width="17" height="12" forecolor="#000000" backcolor="#0E2AF7"/>
+				<reportElement mode="Opaque" x="432" y="20" width="17" height="12" forecolor="#000000" backcolor="#0E2AF7" uuid="7c38dc22-52a4-4681-b4d6-75723c8a14a1"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -172,7 +175,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 	<columnHeader>
 		<band height="66">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="90" height="66" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="0" width="90" height="66" forecolor="#000000" backcolor="#DADADA" uuid="193085c3-ae13-4141-a822-eff9e79f4e46"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -182,7 +185,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Messstelle]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="90" y="0" width="31" height="66" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="90" y="0" width="31" height="66" forecolor="#000000" backcolor="#DADADA" uuid="e2537816-531b-4da9-a144-4dbbcab740fe"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -192,7 +195,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Jahr]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="121" y="0" width="434" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="121" y="0" width="434" height="14" forecolor="#000000" backcolor="#DADADA" uuid="2296c527-2b7f-4221-b87a-1bdc38828b3e"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -203,7 +206,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="121" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="121" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA" uuid="b26d8a98-1d61-4890-b72f-0aaf53d54d94"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -213,7 +216,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Sauerstoff]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="190" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="190" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA" uuid="76c19fd1-5a2d-4a3e-9c7b-f6f4d5d48148"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -223,7 +226,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Phosphor ges.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="259" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="259" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA" uuid="2b6ad2ce-b913-4cde-a7e6-39b8d44fd444"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -233,7 +236,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Orthophosphat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="328" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="328" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA" uuid="7baf3ef9-8b8d-4400-ac2f-684dcf4e0d0f"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -243,7 +246,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Ammonium]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="397" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="397" y="14" width="69" height="52" forecolor="#000000" backcolor="#DADADA" uuid="840c5cfa-9a60-4fde-9332-62ab44970b6b"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -253,7 +256,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<text><![CDATA[Chlorid]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="466" y="14" width="89" height="52" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="466" y="14" width="89" height="52" forecolor="#000000" backcolor="#DADADA" uuid="1498daa8-5de2-484f-acc8-61f1c412da39"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -267,7 +270,7 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 	<detail>
 		<band height="14">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="phosCol" stretchType="RelativeToBandHeight" x="190" y="0" width="69" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="phosCol" stretchType="RelativeToBandHeight" x="190" y="0" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="6f8ed573-a9a8-459d-97a9-d24a8cb0b77e"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 					<topPen lineColor="#000000"/>
@@ -278,10 +281,10 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{ges_p_owert_rakon}.compareTo($F{ges_p_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="O2Col" stretchType="RelativeToBandHeight" x="121" y="0" width="69" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="O2Col" stretchType="RelativeToBandHeight" x="121" y="0" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="c9d64212-3962-4282-ac42-6555089ee180"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 					<topPen lineColor="#000000"/>
@@ -292,10 +295,10 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) <= 0 ? "ja" : "nein")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{o2_owert_rakon}.compareTo( $F{o2_mittelwert} ) <= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="orthoCol" stretchType="RelativeToBandHeight" x="259" y="0" width="69" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="orthoCol" stretchType="RelativeToBandHeight" x="259" y="0" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="5735b010-dcc2-4556-9a43-577b7631bc50"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 					<topPen lineColor="#000000"/>
@@ -306,22 +309,22 @@ $F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) < 0
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{opo4_owert_rakon}.compareTo($F{opo4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="14" isPrintWhenDetailOverflows="true" uuid="4fe375bd-504e-4ac1-8aa2-ef808c8ecd93"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom" markup="none">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{messstelle}.getProperty( "messstelle" ).toString() + "\n" + 
-$F{messstelle}.getProperty( "gewaesser" ).toString() + "\n" + 
+				<textFieldExpression><![CDATA[$F{messstelle}.getProperty( "messstelle" ).toString() + "\n" +
+$F{messstelle}.getProperty( "gewaesser" ).toString() + "\n" +
 $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="ammoCol" stretchType="RelativeToBandHeight" x="328" y="0" width="69" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="ammoCol" stretchType="RelativeToBandHeight" x="328" y="0" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="65ff486c-2b10-497f-ac4e-d6aaaca14004"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 					<topPen lineColor="#000000"/>
@@ -332,10 +335,10 @@ $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{nh4_owert_rakon}.compareTo($F{nh4_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="chloridCol" stretchType="RelativeToBandHeight" x="397" y="0" width="69" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="chloridCol" stretchType="RelativeToBandHeight" x="397" y="0" width="69" height="14" isPrintWhenDetailOverflows="true" uuid="97daefe2-21f2-42e7-a7b1-b294c90f0817"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 					<topPen lineColor="#000000"/>
@@ -346,20 +349,20 @@ $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{cl_owert_rakon}.compareTo($F{cl_mittelwert}) >= 0 ? "ja" : "nein")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="90" y="0" width="31" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="90" y="0" width="31" height="14" isPrintWhenDetailOverflows="true" uuid="1d38116c-6a1a-4c06-a00d-6a435f00553d"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{messjahr}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{messjahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="umweltCol" stretchType="RelativeToBandHeight" x="466" y="0" width="89" height="14" isPrintWhenDetailOverflows="true"/>
+				<reportElement style="umweltCol" stretchType="RelativeToBandHeight" x="466" y="0" width="89" height="14" isPrintWhenDetailOverflows="true" uuid="b83a06f6-0bfa-47b8-8fa5-39e173551f38"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 					<topPen lineColor="#000000"/>
@@ -370,7 +373,7 @@ $F{messstelle}.getProperty( "lage" ).toString()]]></textFieldExpression>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{u_eco_stoffe}.booleanValue() ? "ja" : "nein"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{u_eco_stoffe}.booleanValue() ? "ja" : "nein"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
