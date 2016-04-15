@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_lawa" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_lawa" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty" uuid="fbcb5f5a-afac-450a-9b0a-460d9c848c21">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<import value="de.cismet.cids.dynamics.CidsBean"/>
 	<parameter name="map" class="java.awt.Image" isForPrompting="false"/>
 	<field name="linie" class="de.cismet.cids.dynamics.CidsBean"/>
@@ -10,9 +13,9 @@
 	<title>
 		<band height="30">
 			<staticText>
-				<reportElement x="1" y="0" width="554" height="20"/>
+				<reportElement x="1" y="0" width="554" height="20" uuid="ebd69ee9-9072-43da-99f9-e784f961c038"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[LAWA-Detailtypen]]></text>
 			</staticText>
@@ -24,7 +27,7 @@
 	<columnHeader>
 		<band height="16">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="510d3eb6-d785-4fc3-8c1f-c1992a2339b5"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -34,7 +37,7 @@
 				<text><![CDATA[von]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="100" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="100" y="0" width="100" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="dd735bef-4898-4e83-bae3-b7a8e50f7cac"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -44,7 +47,7 @@
 				<text><![CDATA[bis]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="200" y="0" width="355" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="200" y="0" width="355" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="386d880c-bceb-4ef8-904a-11a9ce5e4bb3"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -58,7 +61,7 @@
 	<detail>
 		<band height="16">
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="100" height="16"/>
+				<reportElement x="0" y="0" width="100" height="16" uuid="3266e619-336c-4d68-a054-d45c405c290f"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -66,11 +69,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[((CidsBean) ($F{linie}.getProperty("von"))).getProperty("wert").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="0" width="100" height="16"/>
+				<reportElement x="100" y="0" width="100" height="16" uuid="91a124ac-fa0a-4d4f-80d3-dc02624db771"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -78,11 +80,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[((CidsBean) ($F{linie}.getProperty("bis"))).getProperty("wert").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="0" width="355" height="16"/>
+				<reportElement x="200" y="0" width="355" height="16" uuid="e3f6e12b-2fb7-4724-9c2d-94991d67226d"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -90,8 +91,7 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{lawa_nr}.getProperty("description").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{lawa_nr}.getProperty("description").toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

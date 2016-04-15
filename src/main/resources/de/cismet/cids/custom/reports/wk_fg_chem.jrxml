@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_chem" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="5" whenResourceMissingType="Empty">
-	<style name="hmCol" isDefault="false" mode="Transparent" pattern="">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_chem" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="5" whenResourceMissingType="Empty" uuid="897ed0c7-1533-4717-bff6-a6024afc622f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="hmCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
     ((String) $F{eqs_hm}.getProperty("value")).equals("1")
 || ((String) $F{eqs_hm}.getProperty("value")).equals("2")
 )]]></conditionExpression>
-			<style isDefault="false" style="hmCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -21,16 +24,16 @@
     ((String) $F{eqs_hm}.getProperty("value")).equals("1")
 || ((String) $F{eqs_hm}.getProperty("value")).equals("2")
 ))]]></conditionExpression>
-			<style isDefault="false" style="hmCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="pesticCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="pesticCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
     ((String) $F{eqs_pestic}.getProperty("value")).equals("1")
  || ((String) $F{eqs_pestic}.getProperty("value")).equals("2")
 )]]></conditionExpression>
-			<style isDefault="false" style="pesticCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -45,16 +48,16 @@
     ((String) $F{eqs_pestic}.getProperty("value")).equals("1")
  || ((String) $F{eqs_pestic}.getProperty("value")).equals("2")
 ))]]></conditionExpression>
-			<style isDefault="false" style="pesticCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="indCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="indCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
     ((String) $F{eqs_indpol}.getProperty("value")).equals("1")
  || ((String) $F{eqs_indpol}.getProperty("value")).equals("2")
 )]]></conditionExpression>
-			<style isDefault="false" style="indCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -69,16 +72,16 @@
     ((String) $F{eqs_indpol}.getProperty("value")).equals("1")
  || ((String) $F{eqs_indpol}.getProperty("value")).equals("2")
 ))]]></conditionExpression>
-			<style isDefault="false" style="indCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="othCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="othCol" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
     ((String) $F{eqs_othpl}.getProperty("value")).equals("1")
  || ((String) $F{eqs_othpl}.getProperty("value")).equals("2")
 )]]></conditionExpression>
-			<style isDefault="false" style="othCol" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -93,16 +96,16 @@
     ((String) $F{eqs_othpl}.getProperty("value")).equals("1")
  || ((String) $F{eqs_othpl}.getProperty("value")).equals("2")
 ))]]></conditionExpression>
-			<style isDefault="false" style="othCol" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="chemStat" isDefault="false" mode="Transparent" pattern="">
+	<style name="chemStat" mode="Transparent" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(
-    ((String) $F{chem_stat}.getProperty("value")).equals("1")
- || ((String) $F{chem_stat}.getProperty("value")).equals("2")
+    ((String) $F{c_stat_dif_report}.getProperty("value")).equals("1")
+ || ((String) $F{c_stat_dif_report}.getProperty("value")).equals("2")
 )]]></conditionExpression>
-			<style isDefault="false" style="chemStat" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#0E2AF7">
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -114,10 +117,10 @@
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(!(
-    ((String) $F{chem_stat}.getProperty("value")).equals("1")
- || ((String) $F{chem_stat}.getProperty("value")).equals("2")
+    ((String) $F{c_stat_dif_report}.getProperty("value")).equals("1")
+ || ((String) $F{c_stat_dif_report}.getProperty("value")).equals("2")
 ))]]></conditionExpression>
-			<style isDefault="false" style="chemStat" mode="Opaque" backcolor="#FF0000"/>
+			<style mode="Opaque" backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<field name="eqs_hm" class="de.cismet.cids.dynamics.CidsBean"/>
@@ -127,21 +130,22 @@
 	<field name="non_comp" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="chem_stat" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="chem_stat_jahr" class="java.lang.Integer"/>
+	<field name="c_stat_dif_report" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band height="107" splitType="Prevent">
+		<band height="128" splitType="Prevent">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="22"/>
+				<reportElement x="0" y="0" width="555" height="22" uuid="4f85c181-5c0d-498a-8001-2d61f7a70fa8"/>
 				<box leftPadding="15"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="16" isBold="true"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
-				<text><![CDATA[d) Chemischer Zustand]]></text>
+				<text><![CDATA[d) Chemischer Zustand *]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="64" width="130" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="64" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="c85ff842-6276-4316-ac60-2701350ad10b"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -151,19 +155,18 @@
 				<text><![CDATA[Pestizide]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="pesticCol" x="130" y="64" width="86" height="14"/>
+				<reportElement style="pesticCol" x="130" y="64" width="86" height="14" uuid="7ab46842-7c5a-4392-9e5a-6e6ad21ecce3"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{eqs_pestic}.getProperty("name").equals("gut") 
- || $F{eqs_pestic}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")
-]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{eqs_pestic}.getProperty("name").equals("gut")
+ || $F{eqs_pestic}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="50" width="130" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="50" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="0ab354fb-5863-467b-91ad-57cbfd755bd5"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -173,19 +176,18 @@
 				<text><![CDATA[Schwermetalle]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="hmCol" x="130" y="50" width="86" height="14"/>
+				<reportElement style="hmCol" x="130" y="50" width="86" height="14" uuid="1f6b6108-b403-46cb-844d-a75b281da1e1"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{eqs_hm}.getProperty("name").equals("gut") 
- || $F{eqs_hm}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")
-]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{eqs_hm}.getProperty("name").equals("gut")
+ || $F{eqs_hm}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="78" width="130" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="78" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="ea52fa33-b733-49ad-8535-5b0d33bb138c"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -195,19 +197,18 @@
 				<text><![CDATA[Industrielle Stoffe]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="indCol" x="130" y="78" width="86" height="14"/>
+				<reportElement style="indCol" x="130" y="78" width="86" height="14" uuid="ac7efdf5-b4fa-4a82-a9a5-0a82fe750ad8"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{eqs_indpol}.getProperty("name").equals("gut") 
- || $F{eqs_indpol}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")
-]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{eqs_indpol}.getProperty("name").equals("gut")
+ || $F{eqs_indpol}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="92" width="130" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="92" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="713953dd-3d0b-4b00-a469-fe81fc322f30"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -217,30 +218,29 @@
 				<text><![CDATA[andere prioritäre Stoffe]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="othCol" x="130" y="92" width="86" height="14"/>
+				<reportElement style="othCol" x="130" y="92" width="86" height="14" uuid="24e717e0-a4e4-434c-a2db-4b98e6867b1d"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{eqs_othpl}.getProperty("name").equals("gut") 
- || $F{eqs_othpl}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")
-]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{eqs_othpl}.getProperty("name").equals("gut")
+ || $F{eqs_othpl}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="chemStat" x="130" y="36" width="86" height="14"/>
+				<reportElement style="chemStat" x="130" y="36" width="86" height="14" uuid="93261ae8-70ce-42a1-ad1a-b04878f2600d"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{chem_stat}.getProperty("name").equals("gut") 
- || $F{chem_stat}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{c_stat_dif_report}.getProperty("name").equals("gut")
+ || $F{c_stat_dif_report}.getProperty("name").equals("sehr gut") ? "gut" : "nicht gut")]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="22" width="130" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="22" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="bfb6cb66-29c9-484e-b207-bc745f14ce23"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -250,7 +250,7 @@
 				<text><![CDATA[Einhaltung UQN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="216" y="22" width="58" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="216" y="22" width="58" height="14" forecolor="#000000" backcolor="#DADADA" uuid="c4099a67-3874-4ec4-b973-7bf8cccf4e8f"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -260,7 +260,7 @@
 				<text><![CDATA[Jahr]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="130" y="22" width="86" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="130" y="22" width="86" height="14" forecolor="#000000" backcolor="#DADADA" uuid="ee74213d-fee7-49ca-ad81-a1bfc8702978"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -270,57 +270,57 @@
 				<text><![CDATA[Güteklasse]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="chemStat" x="216" y="36" width="58" height="14"/>
+				<reportElement style="chemStat" x="216" y="36" width="58" height="14" uuid="cf0cb054-424b-475e-8038-d532154ca127"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="hmCol" x="216" y="50" width="58" height="14"/>
+				<reportElement style="hmCol" x="216" y="50" width="58" height="14" uuid="229f4f18-245e-4934-ab30-3755c03b9cfb"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="pesticCol" x="216" y="64" width="58" height="14"/>
+				<reportElement style="pesticCol" x="216" y="64" width="58" height="14" uuid="0bf1cdf5-c9f3-4c01-8b8c-0d7bf40a87b0"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="indCol" x="216" y="78" width="58" height="14"/>
+				<reportElement style="indCol" x="216" y="78" width="58" height="14" uuid="eb6d738a-9984-412f-b7d6-0adf6ee1dfe6"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="othCol" x="216" y="92" width="58" height="14"/>
+				<reportElement style="othCol" x="216" y="92" width="58" height="14" uuid="b6700ab9-969d-454c-a2bc-f797110ea046"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{chem_stat_jahr}.toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="36" width="100" height="12" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="432" y="36" width="100" height="12" forecolor="#000000" backcolor="#DADADA" uuid="80b8498f-aad9-449b-915c-b3db3f14dbb8"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -330,7 +330,7 @@
 				<text><![CDATA[Chemischer Zustand]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="60" width="17" height="12" forecolor="#000000" backcolor="#FF0000"/>
+				<reportElement mode="Opaque" x="432" y="60" width="17" height="12" forecolor="#000000" backcolor="#FF0000" uuid="c68282d4-5044-42c8-8ca2-cde394845ffc"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -340,7 +340,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="449" y="60" width="83" height="12" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Transparent" x="449" y="60" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="c28d78c5-cd29-4a3b-a337-55601f4eff28"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -350,7 +350,7 @@
 				<text><![CDATA[nicht gut]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="449" y="48" width="83" height="12" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Transparent" x="449" y="48" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="4e70a597-6a0e-45bf-b6db-d64c144a1a04"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -360,7 +360,7 @@
 				<text><![CDATA[gut]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="432" y="48" width="17" height="12" forecolor="#000000" backcolor="#0E2AF7"/>
+				<reportElement mode="Opaque" x="432" y="48" width="17" height="12" forecolor="#000000" backcolor="#0E2AF7" uuid="7476160b-e9a7-4b1e-afe1-d531340ec1a9"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
@@ -370,7 +370,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="chemStat" x="0" y="36" width="130" height="14"/>
+				<reportElement style="chemStat" x="0" y="36" width="130" height="14" uuid="5be40d88-df2c-40d9-a939-cc7fb5f16944"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -384,7 +384,7 @@
 				<text><![CDATA[Gesamtbewertung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="432" y="22" width="100" height="14" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Transparent" x="432" y="22" width="100" height="14" forecolor="#000000" backcolor="#FFCC00" uuid="1f24e2eb-ef28-45ec-b088-bb83b17ee9ad"/>
 				<box leftPadding="0">
 					<pen lineWidth="0.0" lineStyle="Double" lineColor="#000000"/>
 					<topPen lineWidth="0.0" lineStyle="Double"/>
@@ -396,6 +396,13 @@
 					<font fontName="Arial" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Legende]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="106" width="532" height="20" uuid="c708bcec-37b5-45ce-b569-7a5a8e95f9ab"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[* ohne Berücksichtigung der ubiquitären Quecksilberbelastung in Biota (Fische, Muscheln)]]></text>
 			</staticText>
 		</band>
 	</title>

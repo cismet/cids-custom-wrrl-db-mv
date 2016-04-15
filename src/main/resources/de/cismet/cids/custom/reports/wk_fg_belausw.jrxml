@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_sg_belausw" pageWidth="350" pageHeight="802" columnWidth="350" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="5">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_sg_belausw" pageWidth="350" pageHeight="802" columnWidth="350" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="5" uuid="dff5cd68-61c1-4612-92ac-a0137a997953">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="value" class="java.lang.String"/>
 	<background>
@@ -8,9 +11,9 @@
 	<title>
 		<band height="30">
 			<staticText>
-				<reportElement x="0" y="0" width="275" height="22"/>
+				<reportElement x="0" y="0" width="275" height="22" uuid="ca7141ec-7f15-45ab-a76a-ad44992629c0"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="16" isBold="true" isUnderline="true"/>
+					<font fontName="Arial" size="16" isBold="false" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Belastungen]]></text>
 			</staticText>
@@ -22,7 +25,7 @@
 	<columnHeader>
 		<band height="14">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="255" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="0" y="0" width="255" height="14" forecolor="#000000" backcolor="#DADADA" uuid="39ec9824-4982-4a03-b63b-1e4d05193406"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -32,7 +35,7 @@
 				<text><![CDATA[Signifikante Belastungsquellen]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="255" y="0" width="95" height="14" forecolor="#000000" backcolor="#DADADA"/>
+				<reportElement mode="Opaque" x="255" y="0" width="95" height="14" forecolor="#000000" backcolor="#DADADA" uuid="667e4d63-8b17-4bf8-98d2-2426b713d286"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 				</box>
@@ -46,24 +49,24 @@
 	<detail>
 		<band height="14">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="255" y="0" width="95" height="14"/>
+				<reportElement stretchType="RelativeToBandHeight" x="255" y="0" width="95" height="14" uuid="4be40fc5-0d9e-4f51-9a74-33a420781d60"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="255" height="14"/>
+				<reportElement x="0" y="0" width="255" height="14" uuid="7daa579c-c070-4784-9f6e-25d28360bfb5"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="0.25"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

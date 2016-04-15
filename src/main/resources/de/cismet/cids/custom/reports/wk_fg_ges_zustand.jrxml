@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" uuid="5bfff1d6-66bb-4610-b6ed-169b60deb3c5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<field name="eco_stat" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="chem_stat" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
@@ -8,32 +11,28 @@
 	<title>
 		<band height="39" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="595" height="20"/>
+				<reportElement x="0" y="0" width="595" height="20" uuid="57867c06-c2a7-4e5b-ad64-aef5b791db4d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Gesamtzustand]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="148" y="20" width="148" height="16"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{eco_stat}.getProperty("name").toString()]]></textFieldExpression>
+				<reportElement x="148" y="20" width="148" height="16" uuid="1f4eafce-dab1-497a-a8c5-3969e9528eb7"/>
+				<textFieldExpression><![CDATA[$F{eco_stat}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="444" y="20" width="148" height="16"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{chem_stat}.getProperty("name").toString()]]></textFieldExpression>
+				<reportElement x="444" y="20" width="148" height="16" uuid="76454b3b-a4f4-4845-9576-96ccd3f08286"/>
+				<textFieldExpression><![CDATA[$F{chem_stat}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="296" y="20" width="148" height="16"/>
+				<reportElement x="296" y="20" width="148" height="16" uuid="feda444f-e97e-4f3b-a6d7-95c7a00547f0"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
 				<text><![CDATA[Chemischer Zustand:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="20" width="148" height="16"/>
+				<reportElement x="0" y="20" width="148" height="16" uuid="084f4ad3-99fd-4ce0-ae62-95edb4963dcd"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
 				<text><![CDATA[Ökologischer Zustand:]]></text>
 			</staticText>
 		</band>

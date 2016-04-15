@@ -463,7 +463,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
 
             return mapProvider.getImageAndWait(72, 130, 555, 375);
         } catch (Exception e) {
-            LOG.error("Error while retrievin gmap.", e);
+            LOG.error("Error while retrieving map for wk: " + getWkK(), e);
             return null;
         }
     }
@@ -521,7 +521,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
 
             return mapProvider.getImageAndWait(72, 130, 555, 375);
         } catch (Exception e) {
-            LOG.error("Error while retrievin gmap.", e);
+            LOG.error("Error while retrieving map for wk: " + getWkK(), e);
             return null;
         }
     }
