@@ -50,8 +50,7 @@ public class SignatureValueType {
 
     //~ Instance fields --------------------------------------------------------
 
-    @XmlValue
-    protected byte[] value;
+    @XmlValue protected byte[] value;
     @XmlAttribute(name = "Id")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlID

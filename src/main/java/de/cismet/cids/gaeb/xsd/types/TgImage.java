@@ -72,8 +72,7 @@ public class TgImage {
 
     //~ Instance fields --------------------------------------------------------
 
-    @XmlValue
-    protected String value;
+    @XmlValue protected String value;
     @XmlAttribute(name = "align")
     protected TgAttAlign align;
     @XmlAttribute(name = "border")
