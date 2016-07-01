@@ -38,6 +38,8 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.HeadlessMapProvider;
+import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
@@ -169,15 +171,10 @@ public class WkSgScriptlet extends JRDefaultScriptlet {
      */
     public Image generateMap() {
         try {
-            BufferedImage result = null;
-
-            final Lock lock = new ReentrantLock();
-            final Condition waitForImageRetrieval = lock.newCondition();
-
-            final String call = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+            final String call = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
                         + "&BBOX=<cismap:boundingBox>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
                         + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
@@ -185,7 +182,7 @@ public class WkSgScriptlet extends JRDefaultScriptlet {
             final CidsBean geomBean = (CidsBean)((JRFillField)fieldsMap.get("geom")).getValue();
             final Geometry geom = (Geometry)geomBean.getProperty("geo_field");
 
-            final BoundingBox boundingBox = new BoundingBox(geom);
+            final XBoundingBox boundingBox = new XBoundingBox(geom);
             boundingBox.setX1(boundingBox.getX1() - 50);
             boundingBox.setY1(boundingBox.getY1() - 50);
             boundingBox.setX2(boundingBox.getX2() + 50);
@@ -196,24 +193,12 @@ public class WkSgScriptlet extends JRDefaultScriptlet {
             swms.setBoundingBox(boundingBox);
             swms.setSize(375, 555);
 
-            final WkSgScriptlet.SignallingRetrievalListener listener = new WkSgScriptlet.SignallingRetrievalListener(
-                    lock,
-                    waitForImageRetrieval);
-            swms.addRetrievalListener(listener);
+            final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+            mapProvider.addLayer(swms);
+            mapProvider.setBoundingBox(boundingBox);
+            mapProvider.setCenterMapOnResize(true);
 
-            lock.lock();
-            try {
-                swms.retrieve(true);
-                waitForImageRetrieval.await();
-            } catch (Throwable t) {
-                LOG.error("Error occurred while retrieving WMS image", t);
-            } finally {
-                lock.unlock();
-            }
-
-            result = listener.getRetrievedImage();
-
-            return result;
+            return mapProvider.getImageAndWait(72, 72, 555, 375);
         } catch (Exception ex) {
             LOG.fatal("error", ex);
             return null;
