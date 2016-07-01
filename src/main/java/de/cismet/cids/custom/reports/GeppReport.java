@@ -848,10 +848,10 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
      */
     public Image generateMap() {
         try {
-            final String mapUrl = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+            final String mapUrl = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
                         + "&BBOX=<cismap:boundingBox>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
                         + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
@@ -859,7 +859,7 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
             final String overlayUrl = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1&REQUEST=GetMap"
                         + "&BBOX=<cismap:boundingBox>"
                         + "&WIDTH=<cismap:width>&HEIGHT=<cismap:height>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0"
+                        + "&SRS=EPSG:5650&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0"
                         + "&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=gepp&STYLES=default";
 //            final String overlayUrl = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1&REQUEST=GetMap"
 //                        + "&BBOX=<cismap:boundingBox>"

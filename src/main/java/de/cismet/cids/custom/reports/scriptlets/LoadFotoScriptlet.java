@@ -164,10 +164,10 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
         final Lock lock = new ReentrantLock();
         final Condition waitForImageRetrieval = lock.newCondition();
 
-        final String call = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                    + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+        final String call = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+                    + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
                     + "&BBOX=<cismap:boundingBox>"
-                    + "&SRS=EPSG:35833&FORMAT=image/png"
+                    + "&SRS=EPSG:5650&FORMAT=image/png"
                     + "&WIDTH=<cismap:width>"
                     + "&HEIGHT=<cismap:height>"
                     + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
