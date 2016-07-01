@@ -19,9 +19,23 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.UserException;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+
 import org.mortbay.log.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 
 import java.text.DecimalFormat;
@@ -50,6 +64,8 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.search.CidsServerSearch;
 
+import de.cismet.cids.utils.jasperreports.CidsBeanDataSource;
+import de.cismet.cids.utils.jasperreports.ReportHelper;
 import de.cismet.cids.utils.jasperreports.ReportSwingWorker;
 
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -72,6 +88,7 @@ public class WkFgReport {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgReport.class);
     private static ConfigurationManager configManager = new ConfigurationManager();
+    private static final String PDF_FILE_EXTENSION = ".pdf";
 
     //~ Methods ----------------------------------------------------------------
 
@@ -104,6 +121,7 @@ public class WkFgReport {
         parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
         parameters.put("LAWA-DETAILTYP", getLawaDetailTyp(cidsBean));
         parameters.put("BEWIRTSCHAFTUNGSBEREICHE", getBewirtschaftungsbereiche(cidsBean));
+        parameters.put("self", cidsBean);
 
         final ReportSwingWorker worker = new ReportSwingWorker(
                 beans,
@@ -146,6 +164,7 @@ public class WkFgReport {
         parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
         parameters.put("LAWA-DETAILTYP", getLawaDetailTyp(cidsBean));
         parameters.put("BEWIRTSCHAFTUNGSBEREICHE", getBewirtschaftungsbereiche(cidsBean));
+        parameters.put("self", cidsBean);
 
         final String reportName = String.valueOf(cidsBean.getProperty("wk_k"));
 
@@ -162,6 +181,90 @@ public class WkFgReport {
             worker.execute();
         } else {
             executor.execute(worker);
+        }
+    }
+
+    /**
+     * Creates the report for the given cids bean and saves the file in the given directory.
+     *
+     * @param   fileToSave  directory fileName directory the directory to save the reports
+     * @param   cidsBean    the report will be created for this wk_fg bean
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void createReport(final String fileToSave, final CidsBean cidsBean) throws Exception {
+        final Collection<CidsBean> coll = new ArrayList<CidsBean>();
+        coll.add(cidsBean);
+
+        final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
+        final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
+        beans.add(coll);
+        beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            beans.add(massnahmenUmgesetzt);
+        }
+
+        final ArrayList<String> reports = new ArrayList<String>();
+        reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
+        reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
+        if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
+        }
+
+        final HashMap parameters = new HashMap();
+        parameters.put("STATIONIERUNGEN", getStationierungen(cidsBean));
+        parameters.put("GEWAESSERKENNZAHLEN", getGewaesserkennzahlen(cidsBean));
+        parameters.put("LAWA-DETAILTYP", getLawaDetailTyp(cidsBean));
+        parameters.put("BEWIRTSCHAFTUNGSBEREICHE", getBewirtschaftungsbereiche(cidsBean));
+        parameters.put("self", cidsBean);
+
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        FileOutputStream fos = null;
+        try {
+            final List<InputStream> ins = new ArrayList<InputStream>();
+            for (int index = 0; index < reports.size(); index++) {
+                final String report = reports.get(index);
+                final Collection<CidsBean> beansCollection = beans.get(index);
+
+                // report holen
+                final JasperReport jasperReport = (JasperReport)JRLoader.loadObject(ReportSwingWorker.class
+                                .getResourceAsStream(report));
+                // daten vorbereiten
+                final JRDataSource dataSource = new CidsBeanDataSource(beansCollection);
+                // print aus report und daten erzeugen
+                final JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+                // quer- bzw hochformat übernehmen
+                jasperPrint.setOrientation(jasperReport.getOrientationValue());
+
+                // zum pdfStream exportieren und der streamliste hinzufügen
+                final ByteArrayOutputStream outTmp = new ByteArrayOutputStream();
+                JasperExportManager.exportReportToPdfStream(jasperPrint, outTmp);
+                ins.add(new ByteArrayInputStream(outTmp.toByteArray()));
+                outTmp.close();
+            }
+            // pdfStreams zu einem einzelnen pdfStream zusammenfügen
+            ReportHelper.concatPDFs(ins, out, true);
+
+            // zusammengefügten pdfStream in Datei schreiben
+            final File file = new File(fileToSave);
+
+            file.getParentFile().mkdirs();
+            fos = new FileOutputStream(file);
+            fos.write(out.toByteArray());
+        } catch (Exception ex) {
+            LOG.error("Export to PDF-Stream failed.", ex);
+            throw ex;
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException ex) {
+                LOG.error("error while closing streams", ex);
+            }
         }
     }
 
@@ -290,7 +393,11 @@ public class WkFgReport {
     private static Collection<CidsBean> getBeansFromQuery(final String query) {
         final ArrayList<CidsBean> collection = new ArrayList<CidsBean>();
         try {
-            for (final MetaObject mo : SessionManager.getProxy().getMetaObjectByQuery(query, 0)) {
+            for (final MetaObject mo
+                        : SessionManager.getProxy().getMetaObjectByQuery(
+                            SessionManager.getSession().getUser(),
+                            query,
+                            WRRLUtil.DOMAIN_NAME)) {
                 collection.add(mo.getBean());
             }
         } catch (ConnectionException ex) {

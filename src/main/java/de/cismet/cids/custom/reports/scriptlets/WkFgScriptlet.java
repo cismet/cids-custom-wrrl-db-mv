@@ -22,6 +22,7 @@ import net.sf.jasperreports.engine.JRDefaultScriptlet;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -82,6 +83,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             new Color(255, 86, 86),
             new Color(255, 204, 201)
         };
+    private Collection<CidsBean> selfReference = null;
+    private Collection<CidsBean> lawaTypes = null;
 
     //~ Methods ----------------------------------------------------------------
 
@@ -106,21 +109,40 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      * @return  DOCUMENT ME!
      */
     public Collection<CidsBean> getSelf() {
-        try {
-            final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
-            final String query = "SELECT "
-                        + "   " + mcWkFg.getID() + ", "
-                        + "   " + mcWkFg.getPrimaryKey() + " "
-                        + "FROM "
-                        + "   " + mcWkFg.getTableName() + " "
-                        + "WHERE "
-                        + "   id = " + String.valueOf(getId())
-                        + ";";
-            return getBeansFromQuery(query);
-        } catch (Exception ex) {
-            LOG.error("Error while getting self for wk-fg with id " + String.valueOf(getId()), ex);
+        if (selfReference == null) {
+            try {
+                final ArrayList<CidsBean> collection = new ArrayList<CidsBean>();
+                final JRFillParameter param = parametersMap.get("self");
 
-            return null;
+                if (param != null) {
+                    final CidsBean self = (CidsBean)param.getValue();
+                    collection.add(self);
+
+                    selfReference = collection;
+
+                    return selfReference;
+                } else {
+                    final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+                    final String query = "SELECT "
+                                + "   " + mcWkFg.getID() + ", "
+                                + "   " + mcWkFg.getPrimaryKey() + " "
+                                + "FROM "
+                                + "   " + mcWkFg.getTableName() + " "
+                                + "WHERE "
+                                + "   id = " + String.valueOf(getId())
+                                + ";";
+
+                    selfReference = getBeansFromQuery(query);
+
+                    return selfReference;
+                }
+            } catch (Exception ex) {
+                LOG.error("Error while getting self for wk-fg with id " + String.valueOf(getId()), ex);
+
+                return null;
+            }
+        } else {
+            return selfReference;
         }
     }
 
@@ -222,37 +244,45 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      * @return  DOCUMENT ME!
      */
     public Collection<CidsBean> getLawa() {
-        try {
-            final MetaClass mcLawa = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "lawa");
-            final MetaClass mcStation_linie = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station_linie");
-            final MetaClass mcStation = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station");
+        if (lawaTypes == null) {
+            try {
+                final MetaClass mcLawa = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "lawa");
+                final MetaClass mcStation_linie = ClassCacheMultiple.getMetaClass(
+                        WRRLUtil.DOMAIN_NAME,
+                        "station_linie");
+                final MetaClass mcStation = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "station");
 
-            final String query = "SELECT"
-                        + "   " + mcLawa.getID() + ", "
-                        + "   l." + mcLawa.getPrimaryKey() + ", "
-                        + "       s.wert "
-                        + " FROM "
-                        + "   " + mcLawa.getTableName() + " l "
-                        + " JOIN "
-                        + "   " + mcStation_linie.getTableName() + " sl on l.linie = sl."
-                        + mcStation_linie.getPrimaryKey()
-                        + " JOIN "
-                        + "   " + mcStation.getTableName() + " s on sl.von = s." + mcStation.getPrimaryKey()
-                        + " WHERE "
-                        + "       wk_k = '" + getWkK() + "' "
-                        + " order by s.wert ;";
+                final String query = "SELECT"
+                            + "   " + mcLawa.getID() + ", "
+                            + "   l." + mcLawa.getPrimaryKey() + ", "
+                            + "       s.wert "
+                            + " FROM "
+                            + "   " + mcLawa.getTableName() + " l "
+                            + " JOIN "
+                            + "   " + mcStation_linie.getTableName() + " sl on l.linie = sl."
+                            + mcStation_linie.getPrimaryKey()
+                            + " JOIN "
+                            + "   " + mcStation.getTableName() + " s on sl.von = s." + mcStation.getPrimaryKey()
+                            + " WHERE "
+                            + "       wk_k = '" + getWkK() + "' "
+                            + " order by s.wert ;";
 
-            final ArrayList<CidsBean> lawa_types = getBeansFromQuery(query);
+                final ArrayList<CidsBean> lawa_types = getBeansFromQuery(query);
 
-            if (lawa_types.size() > 1) {
-                extendLawa_TypesWithNoTypeElements(lawa_types);
+                if (lawa_types.size() > 1) {
+                    extendLawa_TypesWithNoTypeElements(lawa_types);
+                }
+
+                lawaTypes = lawa_types;
+
+                return lawaTypes;
+            } catch (Exception ex) {
+                LOG.error("Error while getting lawa types for wk-fg with id " + String.valueOf(getId()), ex);
+
+                return null;
             }
-
-            return lawa_types;
-        } catch (Exception ex) {
-            LOG.error("Error while getting lawa types for wk-fg with id " + String.valueOf(getId()), ex);
-
-            return null;
+        } else {
+            return lawaTypes;
         }
     }
 
@@ -385,7 +415,11 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(query);
             }
-            for (final MetaObject mo : SessionManager.getProxy().getMetaObjectByQuery(query, 0)) {
+            for (final MetaObject mo
+                        : SessionManager.getProxy().getMetaObjectByQuery(
+                            SessionManager.getSession().getUser(),
+                            query,
+                            WRRLUtil.DOMAIN_NAME)) {
                 collection.add(mo.getBean());
             }
         } catch (ConnectionException ex) {
@@ -404,10 +438,10 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Image generateMap() {
         try {
-            final String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+            final String urlBackground = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
                         + "&BBOX=<cismap:boundingBox>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
                         + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
@@ -416,7 +450,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "&BBOX=<cismap:boundingBox>"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&TRANSPARENT=TRUE"
                         + "&BGCOLOR=0xF0F0F0"
                         + "&EXCEPTIONS=application/vnd.ogc.se_xml"
@@ -475,10 +509,10 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Image generateOverviewMap() {
         try {
-            final String urlBackground = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+            final String urlBackground = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
                         + "&BBOX=<cismap:boundingBox>"
-                        + "&SRS=EPSG:35833&FORMAT=image/png"
+                        + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
                         + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
