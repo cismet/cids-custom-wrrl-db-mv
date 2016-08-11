@@ -532,7 +532,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         final String query = "select " + MASSNAHMENART_MC.getID() + ","
                                     + MASSNAHMENART_MC.getPrimaryKey()
                                     + " from " + MASSNAHMENART_MC.getTableName();
-                        final MetaObject[] mo = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+                        final MetaObject[] mo = MetaObjectCache.getInstance()
+                                    .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
 
                         EventQueue.invokeLater(new Runnable() {
 
@@ -1048,7 +1049,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         for (final MetaObject tmp : metaObjects) {
                             final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
-                                            .getMetaObjectsByQuery(query + tmp.getBean().getProperty("art.id"));
+                                            .getMetaObjectsByQuery(
+                                                query
+                                                + tmp.getBean().getProperty("art.id"),
+                                                WRRLUtil.DOMAIN_NAME);
 
                             if (vermeidungsgruppen != null) {
                                 for (final MetaObject vermeidungsgruppe : vermeidungsgruppen) {

@@ -342,7 +342,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                     final String query = "select " + PRESSURE_TYPE_CODE_MC.getID() + "," // NOI18N
                                 + PRESSURE_TYPE_CODE_MC.getPrimaryKey() + " from "       // NOI18N
                                 + PRESSURE_TYPE_CODE_MC.getTableName();
-                    final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, false);
+                    final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                                .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME, false);
 
                     for (final CidsBean measBean : meas) {
                         final String pValue = (String)measBean.getProperty("p_value");

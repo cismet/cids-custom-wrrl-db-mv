@@ -127,7 +127,8 @@ public class SchutzgebietRWBandMember extends LineBandMember {
         try {
             final String query = "select " + SCHUTZGEBIET.getID() + "," + SCHUTZGEBIET.getPrimaryKey() + " from "
                         + SCHUTZGEBIET.getTableName(); // NOI18N
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
             CidsBean b = null;
 
             if (metaObjects != null) {
@@ -152,7 +153,8 @@ public class SchutzgebietRWBandMember extends LineBandMember {
         try {
             final String query = "select " + SCHUTZGEBIET.getID() + "," + SCHUTZGEBIET.getPrimaryKey() + " from "
                         + SCHUTZGEBIET.getTableName(); // NOI18N
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
 
             menuItems = new JMenuItem[metaObjects.length];
 

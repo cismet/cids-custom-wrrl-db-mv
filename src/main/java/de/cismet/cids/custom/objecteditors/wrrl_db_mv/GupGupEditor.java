@@ -1683,7 +1683,10 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                     for (final MetaObject tmp : mo) {
                         final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
-                                    .getMetaObjectsByQuery(query + tmp.getBean().getProperty("art.id"));
+                                    .getMetaObjectsByQuery(
+                                        query
+                                        + tmp.getBean().getProperty("art.id"),
+                                        WRRLUtil.DOMAIN_NAME);
 
                         if (vermeidungsgruppen != null) {
                             for (final MetaObject bean : vermeidungsgruppen) {
