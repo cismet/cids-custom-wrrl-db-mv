@@ -752,7 +752,10 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
 
                     for (final MetaObject tmp : metaObjects) {
                         final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
-                                        .getMetaObjectsByQuery(query + tmp.getBean().getProperty("art.id"));
+                                        .getMetaObjectsByQuery(
+                                            query
+                                            + tmp.getBean().getProperty("art.id"),
+                                            WRRLUtil.DOMAIN_NAME);
 
                         if (vermeidungsgruppen != null) {
                             for (final MetaObject vermeidungsgruppe : vermeidungsgruppen) {

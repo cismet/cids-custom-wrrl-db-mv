@@ -75,7 +75,8 @@ public class MassnahmenHistoryListModel implements ListModel {
             // + MASSNAHMEN_TYP_MC.getPrimaryKey() + " from "
             // + MASSNAHMEN_TYP_MC.getTableName() + " m join gup_unterhaltungsmassnahme u on (u.massnahme = m.id) "
             // + "where bearbeiter = '" + user.getName() + "@" + user.getDomain() + "' limit 10"; // NOI18N
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
 
             if ((metaObjects != null) && (metaObjects.length == 1)) {
                 userHistory = metaObjects[0].getBean();

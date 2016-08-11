@@ -95,7 +95,8 @@ public class UmlandnutzungBandMember extends AbschnittsinfoMember implements Ban
             final String query = "select " + OBERGRUPPE_ART.getID() + "," + OBERGRUPPE_ART.getPrimaryKey()
                         + " from "
                         + OBERGRUPPE_ART.getTableName(); // NOI18N
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
             int action = -1;
 
             for (final MetaObject tmp : metaObjects) {

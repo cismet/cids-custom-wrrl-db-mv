@@ -667,7 +667,10 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
 
                     for (final MetaObject tmp : metaObjects) {
                         final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
-                                        .getMetaObjectsByQuery(query + tmp.getBean().getProperty("art.id"));
+                                        .getMetaObjectsByQuery(
+                                            query
+                                            + tmp.getBean().getProperty("art.id"),
+                                            WRRLUtil.DOMAIN_NAME);
 
                         if (vermeidungsgruppen != null) {
                             for (final MetaObject vermeidungsgruppe : vermeidungsgruppen) {

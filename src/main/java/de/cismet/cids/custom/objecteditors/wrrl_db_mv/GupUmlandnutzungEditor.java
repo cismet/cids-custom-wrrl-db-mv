@@ -318,7 +318,7 @@ public class GupUmlandnutzungEditor extends javax.swing.JPanel implements CidsBe
 
                             try {
                                 final MetaObject[] metaObjects = MetaObjectCache.getInstance()
-                                            .getMetaObjectsByQuery(query);
+                                            .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
 
                                 if ((metaObjects != null) && (metaObjects.length == 1)) {
                                     return metaObjects[0].getBean().toString();

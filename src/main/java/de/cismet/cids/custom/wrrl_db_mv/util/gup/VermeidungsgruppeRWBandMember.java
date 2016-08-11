@@ -128,7 +128,8 @@ public class VermeidungsgruppeRWBandMember extends LineBandMember {
             final String query = "select " + VERMEIDUNGSGRUPPE.getID() + "," + VERMEIDUNGSGRUPPE.getPrimaryKey()
                         + " from "
                         + VERMEIDUNGSGRUPPE.getTableName(); // NOI18N
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
             CidsBean b = null;
 
             if (metaObjects != null) {
@@ -154,7 +155,8 @@ public class VermeidungsgruppeRWBandMember extends LineBandMember {
             final String query = "select " + VERMEIDUNGSGRUPPE.getID() + "," + VERMEIDUNGSGRUPPE.getPrimaryKey()
                         + " from "
                         + VERMEIDUNGSGRUPPE.getTableName(); // NOI18N
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query);
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
 
             menuItems = new JMenuItem[metaObjects.length];
 

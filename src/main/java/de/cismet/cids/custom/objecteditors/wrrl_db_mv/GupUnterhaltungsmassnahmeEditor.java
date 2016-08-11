@@ -2189,7 +2189,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             newQuery += " AND kompartiment = " + kompartiment;
         }
 
-        return MetaObjectCache.getInstance().getMetaObjectsByQuery(newQuery);
+        return MetaObjectCache.getInstance().getMetaObjectsByQuery(newQuery, WRRLUtil.DOMAIN_NAME);
     }
 
     /**
