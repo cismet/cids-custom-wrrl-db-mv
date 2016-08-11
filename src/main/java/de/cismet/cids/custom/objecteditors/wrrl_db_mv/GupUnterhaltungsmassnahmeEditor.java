@@ -1270,7 +1270,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.geraet}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.zweiter_ausfuehrungszeitpunkt}"),
                 cbZeitpunkt2,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -1373,7 +1373,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.geraet}"),
                 cbGeraet,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
         bindingGroup.addBinding(binding);
 
         cbGeraet.addItemListener(new java.awt.event.ItemListener() {
@@ -1697,11 +1696,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             noRefresh = true;
             cbGewerk.setSelectedIndex(0);
             cbEinsatz.setSelectedIndex(0);
-//            cbGeraet.setSelectedIndex(0);
             cbVerbleib.setSelectedIndex(0);
             cbIntervall.setSelectedIndex(0);
             cbZeitpunkt.setSelectedIndex(0);
-//            cbZeitpunkt2.setSelectedIndex(0);
         } finally {
             noRefresh = false;
         }
@@ -1850,30 +1847,20 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         final CidsBean massnBean = (CidsBean)cidsBean.getProperty("massnahme");
 
         if (massnBean != null) {
-//            final CidsBean bean = (CidsBean)massnBean.getProperty("intervall");
-//            if (!readOnly) {
-//                cbZeitpunkt2.setEnabled((bean != null) && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
-//            }
             ((ScrollableComboBox)cbEinsatz).setSelectedItem(
                 massnBean.getProperty("einsatzvariante"));
-//            ((ScrollableComboBox)cbGeraet).setSelectedItem(massnBean.getProperty("geraet"));
             ((ScrollableComboBox)cbGewerk).setSelectedItem(massnBean.getProperty("gewerk"));
             ((ScrollableComboBox)cbIntervall).setSelectedItem(massnBean.getProperty("intervall"));
             ((ScrollableComboBox)cbVerbleib).setSelectedItem(massnBean.getProperty("verbleib"));
             ((ScrollableComboBox)cbZeitpunkt).setSelectedItem(massnBean.getProperty("ausfuehrungszeitpunkt"));
-//            ((ScrollableComboBox)cbZeitpunkt2).setSelectedItem(massnBean.getProperty(
-//                    "zweiter_ausfuehrungszeitpunkt"));
 
             txtMassnahme.setText(String.valueOf(massnBean.getProperty("name")));
         } else {
-//            cbZeitpunkt2.setEnabled(false);
             ((ScrollableComboBox)cbEinsatz).setSelectedItem(null);
-//            ((ScrollableComboBox)cbGeraet).setSelectedItem(null);
             ((ScrollableComboBox)cbGewerk).setSelectedItem(null);
             ((ScrollableComboBox)cbIntervall).setSelectedItem(null);
             ((ScrollableComboBox)cbVerbleib).setSelectedItem(null);
             ((ScrollableComboBox)cbZeitpunkt).setSelectedItem(null);
-//            ((ScrollableComboBox)cbZeitpunkt2).setSelectedItem(null);
 
             txtMassnahme.setText("");
         }
@@ -2017,15 +2004,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                             final String einsatzvariante = ((cbEinsatz.getSelectedItem() != null)
                                     ? String.valueOf(
                                         ((CidsBean)cbEinsatz.getSelectedItem()).getProperty("id")) : null);
-//                            final String geraet = ((cbGeraet.getSelectedItem() != null)
-//                                    ? String.valueOf(
-//                                        ((CidsBean)cbGeraet.getSelectedItem()).getProperty("id")) : null);
                             final String ausfuehrungszeitpunkt = ((cbZeitpunkt.getSelectedItem() != null)
                                     ? String.valueOf(
                                         ((CidsBean)cbZeitpunkt.getSelectedItem()).getProperty("id")) : null);
-//                            final String zweiter_ausfuehrungszeitpunkt = ((cbZeitpunkt2.getSelectedItem() != null)
-//                                    ? String.valueOf(
-//                                        ((CidsBean)cbZeitpunkt2.getSelectedItem()).getProperty("id")) : null);
                             final String gewerk = ((cbGewerk.getSelectedItem() != null)
                                     ? String.valueOf(
                                         ((CidsBean)cbGewerk.getSelectedItem()).getProperty("id")) : null);
@@ -2095,15 +2076,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         final String einsatzvariante = ((cbEinsatz.getSelectedItem() != null)
                 ? String.valueOf(
                     ((CidsBean)cbEinsatz.getSelectedItem()).getProperty("id")) : null);
-//        final String geraet = ((cbGeraet.getSelectedItem() != null)
-//                ? String.valueOf(
-//                    ((CidsBean)cbGeraet.getSelectedItem()).getProperty("id")) : null);
         final String ausfuehrungszeitpunkt = ((cbZeitpunkt.getSelectedItem() != null)
                 ? String.valueOf(
                     ((CidsBean)cbZeitpunkt.getSelectedItem()).getProperty("id")) : null);
-//        final String zweiter_ausfuehrungszeitpunkt = ((cbZeitpunkt2.getSelectedItem() != null)
-//                ? String.valueOf(
-//                    ((CidsBean)cbZeitpunkt2.getSelectedItem()).getProperty("id")) : null);
         final String gewerk = ((cbGewerk.getSelectedItem() != null)
                 ? String.valueOf(
                     ((CidsBean)cbGewerk.getSelectedItem()).getProperty("id")) : null);
@@ -2239,13 +2214,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      * @return  DOCUMENT ME!
      */
     private boolean isValidMassnahmenart(final CidsBean bean) {
-//        final Object geraet = cbGeraet.getSelectedItem();
         final Object gewerk = cbGewerk.getSelectedItem();
         final Object einsatz = cbEinsatz.getSelectedItem();
         final Object intervall = cbIntervall.getSelectedItem();
         final Object verbleib = cbVerbleib.getSelectedItem();
         final Object zeitpunkt = cbZeitpunkt.getSelectedItem();
-//        final Object zeitpunkt2 = cbZeitpunkt2.getSelectedItem();
 
         return ((gewerk == null) || gewerk.equals(bean.getProperty("gewerk")))
                     && ((einsatz == null) || einsatz.equals(bean.getProperty("einsatzvariante")))

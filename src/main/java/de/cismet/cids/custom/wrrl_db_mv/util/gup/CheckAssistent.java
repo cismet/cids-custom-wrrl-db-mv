@@ -1173,110 +1173,110 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formComponentResized(final java.awt.event.ComponentEvent evt) { //GEN-FIRST:event_formComponentResized
-    }                                                                            //GEN-LAST:event_formComponentResized
+    private void formComponentResized(final java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+    }//GEN-LAST:event_formComponentResized
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommenActionPerformed
+    private void tbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbAngenommenActionPerformed
         examinationManager.setAccept(tbAngenommen.isSelected());
-    }                                                                                //GEN-LAST:event_tbAngenommenActionPerformed
+    }//GEN-LAST:event_tbAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlGesMassnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlGesMassnActionPerformed
+    private void hlGesMassnActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlGesMassnActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(null);
         lblTableHeader.setText(TABLE_HEADER_ALL);
-    }                                                                              //GEN-LAST:event_hlGesMassnActionPerformed
+    }//GEN-LAST:event_hlGesMassnActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUferLinksActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUferLinksActionPerformed
+    private void hlUferLinksActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUferLinksActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UFER_LINKS));
         lblTableHeader.setText(TABLE_HEADER_UFER_LINKS);
-    }                                                                               //GEN-LAST:event_hlUferLinksActionPerformed
+    }//GEN-LAST:event_hlUferLinksActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUferRechtsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUferRechtsActionPerformed
+    private void hlUferRechtsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUferRechtsActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UFER_RECHTS));
         lblTableHeader.setText(TABLE_HEADER_UFER_RECHTS);
-    }                                                                                //GEN-LAST:event_hlUferRechtsActionPerformed
+    }//GEN-LAST:event_hlUferRechtsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlSohleActionPerformed
+    private void hlSohleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlSohleActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(GupPlanungsabschnittEditor.GUP_SOHLE));
         lblTableHeader.setText(TABLE_HEADER_SOHLE);
-    }                                                                           //GEN-LAST:event_hlSohleActionPerformed
+    }//GEN-LAST:event_hlSohleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUmfeldLinksActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUmfeldLinksActionPerformed
+    private void hlUmfeldLinksActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUmfeldLinksActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UMFELD_LINKS));
         lblTableHeader.setText(TABLE_HEADER_UMFELD_LINKS);
-    }                                                                                 //GEN-LAST:event_hlUmfeldLinksActionPerformed
+    }//GEN-LAST:event_hlUmfeldLinksActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUmfeldRechtsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUmfeldRechtsActionPerformed
+    private void hlUmfeldRechtsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUmfeldRechtsActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS));
         lblTableHeader.setText(TABLE_HEADER_UMFELD_RECHTS);
-    }                                                                                  //GEN-LAST:event_hlUmfeldRechtsActionPerformed
+    }//GEN-LAST:event_hlUmfeldRechtsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlValideActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlValideActionPerformed
+    private void hlValideActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlValideActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new ValidatorFilter(
                 UnterhaltungsmassnahmeValidator.ValidationResult.ok));
         lblTableHeader.setText(TABLE_HEADER_VALIDE);
-    }                                                                            //GEN-LAST:event_hlValideActionPerformed
+    }//GEN-LAST:event_hlValideActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlInvalideActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlInvalideActionPerformed
+    private void hlInvalideActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlInvalideActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new ValidatorFilter(
                 UnterhaltungsmassnahmeValidator.ValidationResult.error));
         lblTableHeader.setText(TABLE_HEADER_INVALIDE);
-    }                                                                              //GEN-LAST:event_hlInvalideActionPerformed
+    }//GEN-LAST:event_hlInvalideActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAbgelehntActionPerformed
+    private void hlAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAbgelehntActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1292,14 +1292,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_ABGELEHNT);
-    } //GEN-LAST:event_hlAbgelehntActionPerformed
+    }//GEN-LAST:event_hlAbgelehntActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAuflagenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAuflagenActionPerformed
+    private void hlAuflagenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAuflagenActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1316,14 +1316,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_AUFLAGEN);
-    } //GEN-LAST:event_hlAuflagenActionPerformed
+    }//GEN-LAST:event_hlAuflagenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAngenommenActionPerformed
+    private void hlAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAngenommenActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1340,14 +1340,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_ANGENOMMEN);
-    } //GEN-LAST:event_hlAngenommenActionPerformed
+    }//GEN-LAST:event_hlAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUngeprueftActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUngeprueftActionPerformed
+    private void hlUngeprueftActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUngeprueftActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1364,40 +1364,40 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_UNGEPRUEFT);
-    } //GEN-LAST:event_hlUngeprueftActionPerformed
+    }//GEN-LAST:event_hlUngeprueftActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tgAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tgAbgelehntActionPerformed
+    private void tgAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgAbgelehntActionPerformed
         examinationManager.setDecline(tgAbgelehnt.isSelected());
-    }                                                                               //GEN-LAST:event_tgAbgelehntActionPerformed
+    }//GEN-LAST:event_tgAbgelehntActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jTable1FocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTable1FocusLost
-    }                                                                    //GEN-LAST:event_jTable1FocusLost
+    private void jTable1FocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTable1FocusLost
+    }//GEN-LAST:event_jTable1FocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void textAuflagenFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_textAuflagenFocusLost
+    private void textAuflagenFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAuflagenFocusLost
         examinationManager.setCondition(textAuflagen.getText());
-    }                                                                         //GEN-LAST:event_textAuflagenFocusLost
+    }//GEN-LAST:event_textAuflagenFocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllAcceptedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAcceptedActionPerformed
+    private void cbAllAcceptedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedActionPerformed
         final CustomTableModel model = (CustomTableModel)jTable1.getModel();
 
         for (int row = 0; row < jTable1.getRowCount(); ++row) {
@@ -1405,6 +1405,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
             try {
                 bean.setProperty("angenommen", cbAllAccepted.isSelected());
+                bean.setProperty("geaendert_nach_pruefung", Boolean.FALSE);
                 if (cbAllAccepted.isSelected()) {
                     bean.setProperty("abgelehnt", !cbAllAccepted.isSelected());
                 }
@@ -1416,14 +1417,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllDeclined.setSelected(false);
         }
         examinationManager.refreshGUI();
-    } //GEN-LAST:event_cbAllAcceptedActionPerformed
+    }//GEN-LAST:event_cbAllAcceptedActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllDeclinedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllDeclinedActionPerformed
+    private void cbAllDeclinedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedActionPerformed
         final CustomTableModel model = (CustomTableModel)jTable1.getModel();
 
         for (int row = 0; row < jTable1.getRowCount(); ++row) {
@@ -1431,6 +1432,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
             try {
                 bean.setProperty("abgelehnt", cbAllDeclined.isSelected());
+                bean.setProperty("geaendert_nach_pruefung", Boolean.FALSE);
                 if (cbAllDeclined.isSelected()) {
                     bean.setProperty("angenommen", !cbAllDeclined.isSelected());
                 }
@@ -1442,7 +1444,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllAccepted.setSelected(false);
         }
         examinationManager.refreshGUI();
-    } //GEN-LAST:event_cbAllDeclinedActionPerformed
+    }//GEN-LAST:event_cbAllDeclinedActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1535,7 +1537,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         }
         final Boolean isClosed = (Boolean)planungsabschnitt.getProperty("geschlossen");
 
-        if ((isClosed != null) && isClosed.booleanValue()) {
+        if ((isClosed != null) && isClosed) {
             return true;
         }
 
@@ -1545,7 +1547,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             statId = GupGupEditor.ID_PLANUNG;
         }
 
-        if (GupGupEditor.hasActionPruefer() && (statId == GupGupEditor.ID_PRUEFUNG)) {
+        if (GupGupEditor.hasActionNaturschutz() && (statId == GupGupEditor.ID_PRUEFUNG)) {
             return false;
         }
 
@@ -1949,7 +1951,13 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
             if (row != -1) {
                 final int index = jTable1.convertRowIndexToModel(row);
-                fireSelectionChanged(model.getBean(index));
+                EventQueue.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            fireSelectionChanged(model.getBean(index));
+                        }
+                    });
             }
 
             final int[] rows = jTable1.getSelectedRows();
