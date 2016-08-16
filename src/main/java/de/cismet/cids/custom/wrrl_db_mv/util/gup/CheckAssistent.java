@@ -153,7 +153,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbAllAccepted;
+    private javax.swing.JCheckBox cbAllAccepted1;
     private javax.swing.JCheckBox cbAllDeclined;
+    private javax.swing.JCheckBox cbAllDeclined1;
     private org.jdesktop.swingx.JXHyperlink hlAbgelehnt;
     private org.jdesktop.swingx.JXHyperlink hlAngenommen;
     private org.jdesktop.swingx.JXHyperlink hlAuflagen;
@@ -169,45 +171,64 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JPanel jpEmpty;
     private javax.swing.JPanel jpMain;
     private javax.swing.JPanel jpPruefung;
     private javax.swing.JPanel jpStat;
     private javax.swing.JPanel jpStatistik;
     private javax.swing.JPanel jpTable;
+    private javax.swing.JPanel jpTable1;
     private javax.swing.JPanel jpVorpruefung;
     private javax.swing.JScrollPane jsMain;
     private javax.swing.JLabel lblAbgelehntLab;
     private javax.swing.JLabel lblAllAccepted;
+    private javax.swing.JLabel lblAllAccepted1;
     private javax.swing.JLabel lblAllDeclined;
+    private javax.swing.JLabel lblAllDeclined1;
     private javax.swing.JLabel lblAngenommenLab;
     private javax.swing.JLabel lblAuflagen;
+    private javax.swing.JLabel lblAuflagen1;
     private javax.swing.JLabel lblAuflagenLab;
     private javax.swing.JLabel lblClosed;
     private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblStat;
     private javax.swing.JLabel lblStat2;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblStatusPrefix;
     private javax.swing.JLabel lblTableHeader;
+    private javax.swing.JLabel lblTableHeader1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUngeprueftLab;
     private javax.swing.JLabel lblVorpruefung;
     private de.cismet.tools.gui.RoundedPanel panEntscheidung;
+    private de.cismet.tools.gui.RoundedPanel panEntscheidung1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo4;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JPanel panInfoContent2;
     private de.cismet.tools.gui.RoundedPanel panMain;
     private de.cismet.tools.gui.RoundedPanel panTabelle;
+    private de.cismet.tools.gui.RoundedPanel panTabelle1;
     private javax.swing.JToggleButton tbAngenommen;
+    private javax.swing.JToggleButton tbAngenommen1;
+    private javax.swing.JToggleButton tbAngenommen2;
     private javax.swing.JTextArea textAuflagen;
+    private javax.swing.JTextArea textAuflagen1;
     private javax.swing.JToggleButton tgAbgelehnt;
+    private javax.swing.JToggleButton tgAbgelehnt1;
     private javax.swing.JLabel txtHint;
     // End of variables declaration//GEN-END:variables
 
@@ -522,7 +543,28 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         lblAuflagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAuflagen = new javax.swing.JTextArea();
+        tbAngenommen2 = new javax.swing.JToggleButton();
         jSeparator4 = new javax.swing.JSeparator();
+        panTabelle1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo3 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblTableHeader1 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        cbAllAccepted1 = new javax.swing.JCheckBox();
+        lblAllAccepted1 = new javax.swing.JLabel();
+        cbAllDeclined1 = new javax.swing.JCheckBox();
+        lblAllDeclined1 = new javax.swing.JLabel();
+        jpTable1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new org.jdesktop.swingx.JXTable();
+        panEntscheidung1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading2 = new javax.swing.JLabel();
+        panInfoContent2 = new javax.swing.JPanel();
+        tbAngenommen1 = new javax.swing.JToggleButton();
+        tgAbgelehnt1 = new javax.swing.JToggleButton();
+        lblAuflagen1 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        textAuflagen1 = new javax.swing.JTextArea();
         txtHint = new javax.swing.JLabel();
 
         setBorder(null);
@@ -796,8 +838,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 CheckAssistent.class,
                 "CheckAssistent.lblAuflagenLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
@@ -818,8 +860,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 CheckAssistent.class,
                 "CheckAssistent.lblUngeprueftLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
@@ -852,8 +894,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         jpPruefung.add(hlAuflagen, gridBagConstraints);
@@ -886,8 +928,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         jpPruefung.add(hlUngeprueft, gridBagConstraints);
@@ -1082,9 +1124,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panInfoContent1.add(tgAbgelehnt, gridBagConstraints);
 
         lblAuflagen.setText(org.openide.util.NbBundle.getMessage(
@@ -1118,6 +1160,25 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent1.add(jScrollPane1, gridBagConstraints);
 
+        tbAngenommen2.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tbAngenommen2.text")); // NOI18N
+        tbAngenommen2.setMaximumSize(new java.awt.Dimension(88, 30));
+        tbAngenommen2.setMinimumSize(new java.awt.Dimension(88, 30));
+        tbAngenommen2.setPreferredSize(new java.awt.Dimension(88, 30));
+        tbAngenommen2.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tbAngenommen2ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panInfoContent1.add(tbAngenommen2, gridBagConstraints);
+
         panEntscheidung.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1136,10 +1197,231 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         panInfoContent.add(jSeparator4, gridBagConstraints);
 
-        txtHint.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.txtHint.text")); // NOI18N
+        panTabelle1.setMinimumSize(new java.awt.Dimension(109, 74));
+
+        panHeadInfo3.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo3.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo3.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo3.setLayout(new java.awt.GridBagLayout());
+
+        lblTableHeader1.setForeground(new java.awt.Color(255, 255, 255));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        panHeadInfo3.add(lblTableHeader1, gridBagConstraints);
+
+        jPanel4.setMinimumSize(new java.awt.Dimension(127, 25));
+        jPanel4.setOpaque(false);
+        jPanel4.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        cbAllAccepted1.setBackground(java.awt.Color.white);
+        cbAllAccepted1.setForeground(new java.awt.Color(255, 255, 255));
+        cbAllAccepted1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllAccepted1.text",
+                new Object[] {})); // NOI18N
+        cbAllAccepted1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllAccepted1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel4.add(cbAllAccepted1, gridBagConstraints);
+
+        lblAllAccepted1.setForeground(new java.awt.Color(255, 255, 255));
+        lblAllAccepted1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllAccepted1.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
+        jPanel4.add(lblAllAccepted1, gridBagConstraints);
+
+        cbAllDeclined1.setBackground(java.awt.Color.white);
+        cbAllDeclined1.setForeground(new java.awt.Color(255, 255, 255));
+        cbAllDeclined1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllDeclined1.text",
+                new Object[] {})); // NOI18N
+        cbAllDeclined1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllDeclined1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanel4.add(cbAllDeclined1, gridBagConstraints);
+
+        lblAllDeclined1.setForeground(new java.awt.Color(255, 255, 255));
+        lblAllDeclined1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllDeclined1.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanel4.add(lblAllDeclined1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 2, 5);
+        panHeadInfo3.add(jPanel4, gridBagConstraints);
+
+        panTabelle1.add(panHeadInfo3, java.awt.BorderLayout.NORTH);
+
+        jpTable1.setOpaque(false);
+        jpTable1.setLayout(new java.awt.GridBagLayout());
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {},
+                new String[] {}));
+        jTable2.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusLost(final java.awt.event.FocusEvent evt) {
+                    jTable2FocusLost(evt);
+                }
+            });
+        jScrollPane3.setViewportView(jTable2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jpTable1.add(jScrollPane3, gridBagConstraints);
+
+        panTabelle1.add(jpTable1, java.awt.BorderLayout.CENTER);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        panInfoContent.add(panTabelle1, gridBagConstraints);
+
+        panHeadInfo4.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo4.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo4.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo4.setLayout(new java.awt.FlowLayout());
+
+        lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading2.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblHeading2.text")); // NOI18N
+        panHeadInfo4.add(lblHeading2);
+
+        panEntscheidung1.add(panHeadInfo4, java.awt.BorderLayout.NORTH);
+
+        panInfoContent2.setOpaque(false);
+        panInfoContent2.setLayout(new java.awt.GridBagLayout());
+
+        tbAngenommen1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tbAngenommen1.text")); // NOI18N
+        tbAngenommen1.setMaximumSize(new java.awt.Dimension(88, 30));
+        tbAngenommen1.setMinimumSize(new java.awt.Dimension(88, 30));
+        tbAngenommen1.setPreferredSize(new java.awt.Dimension(88, 30));
+        tbAngenommen1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tbAngenommen1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panInfoContent2.add(tbAngenommen1, gridBagConstraints);
+
+        tgAbgelehnt1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tgAbgelehnt1.text")); // NOI18N
+        tgAbgelehnt1.setMaximumSize(new java.awt.Dimension(88, 30));
+        tgAbgelehnt1.setMinimumSize(new java.awt.Dimension(88, 30));
+        tgAbgelehnt1.setPreferredSize(new java.awt.Dimension(88, 30));
+        tgAbgelehnt1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tgAbgelehnt1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        panInfoContent2.add(tgAbgelehnt1, gridBagConstraints);
+
+        lblAuflagen1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAuflagen1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 0);
+        panInfoContent2.add(lblAuflagen1, gridBagConstraints);
+
+        textAuflagen1.setColumns(20);
+        textAuflagen1.setRows(5);
+        textAuflagen1.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusLost(final java.awt.event.FocusEvent evt) {
+                    textAuflagen1FocusLost(evt);
+                }
+            });
+        jScrollPane4.setViewportView(textAuflagen1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        panInfoContent2.add(jScrollPane4, gridBagConstraints);
+
+        panEntscheidung1.add(panInfoContent2, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        panInfoContent.add(panEntscheidung1, gridBagConstraints);
+
+        txtHint.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.txtHint.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
@@ -1173,110 +1455,110 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formComponentResized(final java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-    }//GEN-LAST:event_formComponentResized
+    private void formComponentResized(final java.awt.event.ComponentEvent evt) { //GEN-FIRST:event_formComponentResized
+    }                                                                            //GEN-LAST:event_formComponentResized
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbAngenommenActionPerformed
+    private void tbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommenActionPerformed
         examinationManager.setAccept(tbAngenommen.isSelected());
-    }//GEN-LAST:event_tbAngenommenActionPerformed
+    }                                                                                //GEN-LAST:event_tbAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlGesMassnActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlGesMassnActionPerformed
+    private void hlGesMassnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlGesMassnActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(null);
         lblTableHeader.setText(TABLE_HEADER_ALL);
-    }//GEN-LAST:event_hlGesMassnActionPerformed
+    }                                                                              //GEN-LAST:event_hlGesMassnActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUferLinksActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUferLinksActionPerformed
+    private void hlUferLinksActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUferLinksActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UFER_LINKS));
         lblTableHeader.setText(TABLE_HEADER_UFER_LINKS);
-    }//GEN-LAST:event_hlUferLinksActionPerformed
+    }                                                                               //GEN-LAST:event_hlUferLinksActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUferRechtsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUferRechtsActionPerformed
+    private void hlUferRechtsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUferRechtsActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UFER_RECHTS));
         lblTableHeader.setText(TABLE_HEADER_UFER_RECHTS);
-    }//GEN-LAST:event_hlUferRechtsActionPerformed
+    }                                                                                //GEN-LAST:event_hlUferRechtsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlSohleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlSohleActionPerformed
+    private void hlSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlSohleActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(GupPlanungsabschnittEditor.GUP_SOHLE));
         lblTableHeader.setText(TABLE_HEADER_SOHLE);
-    }//GEN-LAST:event_hlSohleActionPerformed
+    }                                                                           //GEN-LAST:event_hlSohleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUmfeldLinksActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUmfeldLinksActionPerformed
+    private void hlUmfeldLinksActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUmfeldLinksActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UMFELD_LINKS));
         lblTableHeader.setText(TABLE_HEADER_UMFELD_LINKS);
-    }//GEN-LAST:event_hlUmfeldLinksActionPerformed
+    }                                                                                 //GEN-LAST:event_hlUmfeldLinksActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUmfeldRechtsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUmfeldRechtsActionPerformed
+    private void hlUmfeldRechtsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUmfeldRechtsActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS));
         lblTableHeader.setText(TABLE_HEADER_UMFELD_RECHTS);
-    }//GEN-LAST:event_hlUmfeldRechtsActionPerformed
+    }                                                                                  //GEN-LAST:event_hlUmfeldRechtsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlValideActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlValideActionPerformed
+    private void hlValideActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlValideActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new ValidatorFilter(
                 UnterhaltungsmassnahmeValidator.ValidationResult.ok));
         lblTableHeader.setText(TABLE_HEADER_VALIDE);
-    }//GEN-LAST:event_hlValideActionPerformed
+    }                                                                            //GEN-LAST:event_hlValideActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlInvalideActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlInvalideActionPerformed
+    private void hlInvalideActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlInvalideActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new ValidatorFilter(
                 UnterhaltungsmassnahmeValidator.ValidationResult.error));
         lblTableHeader.setText(TABLE_HEADER_INVALIDE);
-    }//GEN-LAST:event_hlInvalideActionPerformed
+    }                                                                              //GEN-LAST:event_hlInvalideActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAbgelehntActionPerformed
+    private void hlAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAbgelehntActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1292,14 +1574,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_ABGELEHNT);
-    }//GEN-LAST:event_hlAbgelehntActionPerformed
+    } //GEN-LAST:event_hlAbgelehntActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAuflagenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAuflagenActionPerformed
+    private void hlAuflagenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAuflagenActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1316,14 +1598,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_AUFLAGEN);
-    }//GEN-LAST:event_hlAuflagenActionPerformed
+    } //GEN-LAST:event_hlAuflagenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAngenommenActionPerformed
+    private void hlAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAngenommenActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1340,14 +1622,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_ANGENOMMEN);
-    }//GEN-LAST:event_hlAngenommenActionPerformed
+    } //GEN-LAST:event_hlAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUngeprueftActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUngeprueftActionPerformed
+    private void hlUngeprueftActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUngeprueftActionPerformed
         ((CustomTableModel)jTable1.getModel()).setFilter(new TableFilter() {
 
                 @Override
@@ -1364,40 +1646,40 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeader.setText(TABLE_HEADER_UNGEPRUEFT);
-    }//GEN-LAST:event_hlUngeprueftActionPerformed
+    } //GEN-LAST:event_hlUngeprueftActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tgAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgAbgelehntActionPerformed
+    private void tgAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tgAbgelehntActionPerformed
         examinationManager.setDecline(tgAbgelehnt.isSelected());
-    }//GEN-LAST:event_tgAbgelehntActionPerformed
+    }                                                                               //GEN-LAST:event_tgAbgelehntActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jTable1FocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTable1FocusLost
-    }//GEN-LAST:event_jTable1FocusLost
+    private void jTable1FocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTable1FocusLost
+    }                                                                    //GEN-LAST:event_jTable1FocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void textAuflagenFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAuflagenFocusLost
+    private void textAuflagenFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_textAuflagenFocusLost
         examinationManager.setCondition(textAuflagen.getText());
-    }//GEN-LAST:event_textAuflagenFocusLost
+    }                                                                         //GEN-LAST:event_textAuflagenFocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllAcceptedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedActionPerformed
+    private void cbAllAcceptedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAcceptedActionPerformed
         final CustomTableModel model = (CustomTableModel)jTable1.getModel();
 
         for (int row = 0; row < jTable1.getRowCount(); ++row) {
@@ -1417,14 +1699,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllDeclined.setSelected(false);
         }
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllAcceptedActionPerformed
+    } //GEN-LAST:event_cbAllAcceptedActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllDeclinedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedActionPerformed
+    private void cbAllDeclinedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllDeclinedActionPerformed
         final CustomTableModel model = (CustomTableModel)jTable1.getModel();
 
         for (int row = 0; row < jTable1.getRowCount(); ++row) {
@@ -1444,7 +1726,70 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllAccepted.setSelected(false);
         }
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllDeclinedActionPerformed
+    } //GEN-LAST:event_cbAllDeclinedActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllAccepted1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAccepted1ActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbAllAccepted1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllDeclined1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllDeclined1ActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbAllDeclined1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jTable2FocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTable2FocusLost
+        // TODO add your handling code here:
+    } //GEN-LAST:event_jTable2FocusLost
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tbAngenommen1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommen1ActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_tbAngenommen1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tgAbgelehnt1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tgAbgelehnt1ActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_tgAbgelehnt1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void textAuflagen1FocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_textAuflagen1FocusLost
+        // TODO add your handling code here:
+    } //GEN-LAST:event_textAuflagen1FocusLost
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void tbAngenommen2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommen2ActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_tbAngenommen2ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1547,7 +1892,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             statId = GupGupEditor.ID_PLANUNG;
         }
 
-        if (GupGupEditor.hasActionNaturschutz() && (statId == GupGupEditor.ID_PRUEFUNG)) {
+        if (GupGupEditor.hasActionNaturschutz() && (statId == GupGupEditor.ID_PRUEFUNG_DURCH_NB)) {
             return false;
         }
 

@@ -37,10 +37,15 @@ import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -71,6 +76,8 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.cismap.commons.features.Feature;
 
 import de.cismet.commons.concurrency.CismetConcurrency;
 
@@ -114,23 +121,71 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private static final String ICON_PRUEFUNG = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Test tubes.png";
     private static final String ICON_GENEHMIGT = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/approve_24.png";
     private static final String ICON_GESCHLOSSEN = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Valid_16.png";
+    private static final Map<Integer, Integer[]> VIRTUAL_STAT_MAP = new HashMap<Integer, Integer[]>();
+    private static final int PERMISSION_SB = 1;
+    private static final int PERMISSION_NB = 2;
+    private static final int PERMISSION_WB = 4;
     public static final int STAT_PLANUNG = 0;
-    public static final int STAT_ANTRAG = 1;
-    public static final int STAT_PRUEFUNG = 2;
-    public static final int STAT_GENEHMIGT = 3;
-    public static final int STAT_ANGENOMMEN = 4;
+    public static final int STAT_PLANUNG_FERTIG = 1;
+    public static final int STAT_WB = 2;
+    public static final int STAT_WB_ABG = 3;
+    public static final int STAT_NB = 4;
+    public static final int STAT_NB_WB = 5;
+    public static final int STAT_NB_WB_ABG = 6;
+    public static final int STAT_NB_ABG = 7;
+    public static final int STAT_NB_ABG_WB = 8;
+    public static final int STAT_NB_ABG_WB_ABG = 9;
+    public static final int STAT_ANGENOMMEN = 10;
     public static final int ID_PLANUNG = 1;
-    public static final int ID_ANTRAG = 2;
-    public static final int ID_PRUEFUNG = 3;
-    public static final int ID_GENEHMIGT = 4;
-    public static final int ID_ANGENOMMEN = 5;
+    public static final int ID_PLANUNG_FERTIG = 2;
+    public static final int ID_PRUEFUNG_DURCH_NB = 3;
+    public static final int ID_PRUEFUNG_DURCH_NB_ABGESCHL = 4;
+    public static final int ID_PLAN_ABGESCHLOSSEN = 5;
+    public static final int ID_PRUEFUNG_DURCH_WB = 6;
+    public static final int ID_PRUEFUNG_DURCH_WB_ABGESCHL = 7;
     public static final int ID_GESCHLOSSEN = -1;
     public static final int[][] STATE_MATRIX = {
-            { 0, 1, 0, 0, 0 },
-            { 1, 0, 2, 0, 0 },
-            { 2, 0, 0, 2, 0 },
-            { 1, 0, 0, 0, 2 },
-            { 0, 0, 0, 0, 0 }
+            { 0, PERMISSION_SB, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                                     // 0
+            { PERMISSION_SB, 0, PERMISSION_WB, 0, PERMISSION_NB, 0, 0, 0, 0, 0, 0 },             // 1
+            { PERMISSION_WB, PERMISSION_WB, 0, PERMISSION_WB, 0, PERMISSION_NB, 0, 0, 0, 0, 0 }, // 2
+            { PERMISSION_WB, 0, PERMISSION_WB, 0, 0, 0, PERMISSION_NB, 0, 0, 0, 0 },             // 3
+            { PERMISSION_NB, PERMISSION_NB, 0, 0, 0, PERMISSION_WB, 0, PERMISSION_NB, 0, 0, 0 }, // 4
+            {
+                PERMISSION_NB
+                        | PERMISSION_WB,
+                0,
+                PERMISSION_NB,
+                0,
+                PERMISSION_WB,
+                PERMISSION_WB,
+                0,
+                0,
+                PERMISSION_NB,
+                0,
+                0
+            },                                                                                   // 5
+            { PERMISSION_NB
+                        | PERMISSION_WB, 0, 0, 0, 0, PERMISSION_WB, 0, 0, 0, PERMISSION_NB, 0 }, // 6
+            { PERMISSION_NB, 0, 0, 0, PERMISSION_NB, 0, 0, 0, PERMISSION_WB, 0, 0 },             // 7
+            { PERMISSION_NB
+                        | PERMISSION_WB, 0, 0, 0, 0, PERMISSION_NB, 0, 0, 0, PERMISSION_WB, 0 }, // 8
+            {
+                PERMISSION_NB
+                        | PERMISSION_WB,
+                0,
+                0,
+                0,
+                0,
+                0,
+                PERMISSION_NB,
+                0,
+                PERMISSION_WB,
+                0,
+                PERMISSION_NB
+                        | PERMISSION_WB
+            },                                                                                   // 9
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, PERMISSION_NB
+                        | PERMISSION_WB, 0 }                                                     // 10
         };
     private static MetaObject[] STATE_BEANS = null;
     private static final Thread STATE_BEANS_LOADER = new Thread("StateBeanLoader") {
@@ -138,7 +193,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             @Override
             public void run() {
                 final String query = "SELECT "
-                            + MC_WF.getID() + ", "
+                            + MC_WF.getID()
+                            + ", "
                             + MC_WF.getPrimaryKey()
                             + " FROM "
                             + MC_WF.getTableName();
@@ -151,6 +207,19 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         };
 
     static {
+        VIRTUAL_STAT_MAP.put(STAT_PLANUNG, new Integer[] { ID_PLANUNG });
+        VIRTUAL_STAT_MAP.put(STAT_PLANUNG_FERTIG, new Integer[] { ID_PLANUNG_FERTIG });
+        VIRTUAL_STAT_MAP.put(STAT_WB, new Integer[] { ID_PRUEFUNG_DURCH_WB });
+        VIRTUAL_STAT_MAP.put(STAT_WB_ABG, new Integer[] { ID_PRUEFUNG_DURCH_WB_ABGESCHL });
+        VIRTUAL_STAT_MAP.put(STAT_NB, new Integer[] { ID_PRUEFUNG_DURCH_NB });
+        VIRTUAL_STAT_MAP.put(STAT_NB_WB, new Integer[] { ID_PRUEFUNG_DURCH_NB, ID_PRUEFUNG_DURCH_WB });
+        VIRTUAL_STAT_MAP.put(STAT_NB_WB_ABG, new Integer[] { ID_PRUEFUNG_DURCH_NB, ID_PRUEFUNG_DURCH_WB_ABGESCHL });
+        VIRTUAL_STAT_MAP.put(STAT_NB_ABG, new Integer[] { ID_PRUEFUNG_DURCH_NB_ABGESCHL });
+        VIRTUAL_STAT_MAP.put(STAT_NB_ABG_WB, new Integer[] { ID_PRUEFUNG_DURCH_NB_ABGESCHL, ID_PRUEFUNG_DURCH_WB });
+        VIRTUAL_STAT_MAP.put(
+            STAT_NB_ABG_WB_ABG,
+            new Integer[] { ID_PRUEFUNG_DURCH_NB_ABGESCHL, ID_PRUEFUNG_DURCH_WB_ABGESCHL });
+        VIRTUAL_STAT_MAP.put(STAT_ANGENOMMEN, new Integer[] { ID_PLAN_ABGESCHLOSSEN });
         readActions();
         CismetConcurrency.getInstance("GUP").getDefaultExecutor().execute(STATE_BEANS_LOADER);
     }
@@ -165,6 +234,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private int y = 0;
     private final StateMachine stateMachine = new StateMachine(STATE_MATRIX);
     private ReentrantReadWriteLock initializedLock = new ReentrantReadWriteLock();
+    private final Map<Integer, JButton> STAT_ID_TO_BUTTON = new HashMap<Integer, JButton>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butNewPlan;
@@ -177,9 +247,11 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JButton jbAngenommen;
     private javax.swing.JButton jbAntrag;
     private javax.swing.JButton jbDownload;
-    private javax.swing.JButton jbGenehmigt;
+    private javax.swing.JButton jbGenehmigtNb;
+    private javax.swing.JButton jbGenehmigtWb;
     private javax.swing.JButton jbPlanung;
-    private javax.swing.JButton jbPruefung;
+    private javax.swing.JButton jbPruefungNb;
+    private javax.swing.JButton jbPruefungWb;
     private javax.swing.JList jlObjectList;
     private javax.swing.JButton jpDelete;
     private javax.swing.JScrollPane jsObjectList;
@@ -196,6 +268,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblSepa1;
     private javax.swing.JLabel lblSepa2;
     private javax.swing.JLabel lblSepa3;
+    private javax.swing.JLabel lblSepa4;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblStatusTitle;
     private javax.swing.JLabel lblTitle;
@@ -239,13 +312,24 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         scrollGewaesser.getViewport().setOpaque(false);
         butNewPlan.setVisible(!readOnly);
 
+        // set the stat id to button mapping
+        STAT_ID_TO_BUTTON.put(ID_PLANUNG, jbPlanung);
+        STAT_ID_TO_BUTTON.put(ID_PLANUNG_FERTIG, jbAntrag);
+        STAT_ID_TO_BUTTON.put(ID_PRUEFUNG_DURCH_NB, jbPruefungNb);
+        STAT_ID_TO_BUTTON.put(ID_PRUEFUNG_DURCH_NB_ABGESCHL, jbGenehmigtNb);
+        STAT_ID_TO_BUTTON.put(ID_PRUEFUNG_DURCH_WB, jbPruefungWb);
+        STAT_ID_TO_BUTTON.put(ID_PRUEFUNG_DURCH_WB_ABGESCHL, jbGenehmigtWb);
+        STAT_ID_TO_BUTTON.put(ID_PLANUNG_FERTIG, jbAngenommen);
+
         jbAdd.setEnabled(!readOnly);
         jpDelete.setEnabled(!readOnly);
         jbAngenommen.setEnabled(false);
         jbAntrag.setEnabled(false);
-        jbGenehmigt.setEnabled(false);
+        jbGenehmigtNb.setEnabled(false);
+        jbGenehmigtWb.setEnabled(false);
         jbPlanung.setEnabled(false);
-        jbPruefung.setEnabled(false);
+        jbPruefungNb.setEnabled(false);
+        jbPruefungWb.setEnabled(false);
 
         if (initialReadOnly) {
             RendererTools.makeReadOnly(cbGenehmigungsbehoerde);
@@ -288,10 +372,12 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                             @Override
                             public void run() {
                                 jbPlanung.setToolTipText(determineToolTipText(ID_PLANUNG));
-                                jbAntrag.setToolTipText(determineToolTipText(ID_ANTRAG));
-                                jbPruefung.setToolTipText(determineToolTipText(ID_PRUEFUNG));
-                                jbGenehmigt.setToolTipText(determineToolTipText(ID_GENEHMIGT));
-                                jbAngenommen.setToolTipText(determineToolTipText(ID_ANGENOMMEN));
+                                jbAntrag.setToolTipText(determineToolTipText(ID_PLANUNG_FERTIG));
+                                jbPruefungNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB));
+                                jbGenehmigtNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB_ABGESCHL));
+                                jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
+                                jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB_ABGESCHL));
+                                jbAngenommen.setToolTipText(determineToolTipText(ID_PLAN_ABGESCHLOSSEN));
                             }
 
                             private String determineToolTipText(final int stateId) {
@@ -384,11 +470,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         lblSepa = new javax.swing.JLabel();
         jbAntrag = new javax.swing.JButton();
         lblSepa1 = new javax.swing.JLabel();
-        jbPruefung = new javax.swing.JButton();
+        jbPruefungNb = new javax.swing.JButton();
         lblSepa2 = new javax.swing.JLabel();
-        jbGenehmigt = new javax.swing.JButton();
+        jbGenehmigtNb = new javax.swing.JButton();
         lblSepa3 = new javax.swing.JLabel();
         jbAngenommen = new javax.swing.JButton();
+        jbPruefungWb = new javax.swing.JButton();
+        lblSepa4 = new javax.swing.JLabel();
+        jbGenehmigtWb = new javax.swing.JButton();
         lblStatus = new javax.swing.JLabel();
         lblCurrentState = new javax.swing.JLabel();
         cbUnterhaltungspflichtiger = new ScrollableComboBox();
@@ -452,7 +541,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(557, 248));
-        panInfo.setPreferredSize(new java.awt.Dimension(1130, 255));
+        panInfo.setPreferredSize(new java.awt.Dimension(1130, 305));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -640,7 +729,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.add(dcBis, gridBagConstraints);
 
         panState.setOpaque(false);
-        panState.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        panState.setLayout(new java.awt.GridBagLayout());
 
         jbPlanung.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Draft.png"))); // NOI18N
@@ -657,10 +746,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     jbPlanungActionPerformed(evt);
                 }
             });
-        panState.add(jbPlanung);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        panState.add(jbPlanung, gridBagConstraints);
 
         lblSepa.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblSepa.text")); // NOI18N
-        panState.add(lblSepa);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        panState.add(lblSepa, gridBagConstraints);
 
         jbAntrag.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource(
@@ -678,50 +773,68 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     jbAntragActionPerformed(evt);
                 }
             });
-        panState.add(jbAntrag);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        panState.add(jbAntrag, gridBagConstraints);
 
         lblSepa1.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblSepa1.text")); // NOI18N
-        panState.add(lblSepa1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        panState.add(lblSepa1, gridBagConstraints);
 
-        jbPruefung.setIcon(new javax.swing.ImageIcon(
+        jbPruefungNb.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Test tubes.png"))); // NOI18N
-        jbPruefung.setToolTipText(org.openide.util.NbBundle.getMessage(
+        jbPruefungNb.setToolTipText(org.openide.util.NbBundle.getMessage(
                 GupGupEditor.class,
-                "GupGupEditor.jbPruefung.toolTipText"));                                                    // NOI18N
-        jbPruefung.setMaximumSize(new java.awt.Dimension(45, 30));
-        jbPruefung.setMinimumSize(new java.awt.Dimension(45, 30));
-        jbPruefung.setPreferredSize(new java.awt.Dimension(45, 30));
-        jbPruefung.addActionListener(new java.awt.event.ActionListener() {
+                "GupGupEditor.jbPruefungNb.toolTipText"));                                                  // NOI18N
+        jbPruefungNb.setMaximumSize(new java.awt.Dimension(45, 30));
+        jbPruefungNb.setMinimumSize(new java.awt.Dimension(45, 30));
+        jbPruefungNb.setPreferredSize(new java.awt.Dimension(45, 30));
+        jbPruefungNb.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jbPruefungActionPerformed(evt);
+                    jbPruefungNbActionPerformed(evt);
                 }
             });
-        panState.add(jbPruefung);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        panState.add(jbPruefungNb, gridBagConstraints);
 
         lblSepa2.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblSepa2.text")); // NOI18N
-        panState.add(lblSepa2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        panState.add(lblSepa2, gridBagConstraints);
 
-        jbGenehmigt.setIcon(new javax.swing.ImageIcon(
+        jbGenehmigtNb.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/approve_24.png"))); // NOI18N
-        jbGenehmigt.setToolTipText(org.openide.util.NbBundle.getMessage(
+        jbGenehmigtNb.setToolTipText(org.openide.util.NbBundle.getMessage(
                 GupGupEditor.class,
-                "GupGupEditor.jbGenehmigt.toolTipText"));                                                   // NOI18N
-        jbGenehmigt.setMaximumSize(new java.awt.Dimension(45, 30));
-        jbGenehmigt.setMinimumSize(new java.awt.Dimension(45, 30));
-        jbGenehmigt.setPreferredSize(new java.awt.Dimension(45, 30));
-        jbGenehmigt.addActionListener(new java.awt.event.ActionListener() {
+                "GupGupEditor.jbGenehmigtNb.toolTipText"));                                                 // NOI18N
+        jbGenehmigtNb.setMaximumSize(new java.awt.Dimension(45, 30));
+        jbGenehmigtNb.setMinimumSize(new java.awt.Dimension(45, 30));
+        jbGenehmigtNb.setPreferredSize(new java.awt.Dimension(45, 30));
+        jbGenehmigtNb.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jbGenehmigtActionPerformed(evt);
+                    jbGenehmigtNbActionPerformed(evt);
                 }
             });
-        panState.add(jbGenehmigt);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        panState.add(jbGenehmigtNb, gridBagConstraints);
 
         lblSepa3.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblSepa3.text")); // NOI18N
-        panState.add(lblSepa3);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 1;
+        panState.add(lblSepa3, gridBagConstraints);
 
         jbAngenommen.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Valid_16.png"))); // NOI18N
@@ -738,7 +851,58 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     jbAngenommenActionPerformed(evt);
                 }
             });
-        panState.add(jbAngenommen);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        panState.add(jbAngenommen, gridBagConstraints);
+
+        jbPruefungWb.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Test tubes.png"))); // NOI18N
+        jbPruefungWb.setToolTipText(org.openide.util.NbBundle.getMessage(
+                GupGupEditor.class,
+                "GupGupEditor.jbPruefungWb.toolTipText"));                                                  // NOI18N
+        jbPruefungWb.setMaximumSize(new java.awt.Dimension(45, 30));
+        jbPruefungWb.setMinimumSize(new java.awt.Dimension(45, 30));
+        jbPruefungWb.setPreferredSize(new java.awt.Dimension(45, 30));
+        jbPruefungWb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbPruefungWbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        panState.add(jbPruefungWb, gridBagConstraints);
+
+        lblSepa4.setText(org.openide.util.NbBundle.getMessage(GupGupEditor.class, "GupGupEditor.lblSepa4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        panState.add(lblSepa4, gridBagConstraints);
+
+        jbGenehmigtWb.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/approve_24.png"))); // NOI18N
+        jbGenehmigtWb.setToolTipText(org.openide.util.NbBundle.getMessage(
+                GupGupEditor.class,
+                "GupGupEditor.jbGenehmigtWb.toolTipText"));                                                 // NOI18N
+        jbGenehmigtWb.setMaximumSize(new java.awt.Dimension(45, 30));
+        jbGenehmigtWb.setMinimumSize(new java.awt.Dimension(45, 30));
+        jbGenehmigtWb.setPreferredSize(new java.awt.Dimension(45, 30));
+        jbGenehmigtWb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jbGenehmigtWbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        panState.add(jbGenehmigtWb, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1091,7 +1255,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  evt  DOCUMENT ME!
      */
     private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAntragActionPerformed
-        setState(STAT_ANTRAG, ID_ANTRAG);
+        setState(STAT_PLANUNG_FERTIG, ID_PLANUNG_FERTIG);
     }                                                                            //GEN-LAST:event_jbAntragActionPerformed
 
     /**
@@ -1099,18 +1263,18 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungActionPerformed
-        setState(STAT_PRUEFUNG, ID_PRUEFUNG);
-    }                                                                              //GEN-LAST:event_jbPruefungActionPerformed
+    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungNbActionPerformed
+        setState(STAT_NB, ID_PRUEFUNG_DURCH_NB);
+    }                                                                                //GEN-LAST:event_jbPruefungNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtActionPerformed
-        setState(STAT_GENEHMIGT, ID_GENEHMIGT);
-    }                                                                               //GEN-LAST:event_jbGenehmigtActionPerformed
+    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtNbActionPerformed
+        setState(STAT_NB_ABG, ID_PRUEFUNG_DURCH_NB_ABGESCHL);
+    }                                                                                 //GEN-LAST:event_jbGenehmigtNbActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1141,6 +1305,24 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblName1MouseClicked
         // TODO add your handling code here:
     } //GEN-LAST:event_lblName1MouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungWbActionPerformed
+        setState(STAT_WB, ID_PRUEFUNG_DURCH_WB);
+    }                                                                                //GEN-LAST:event_jbPruefungWbActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtWbActionPerformed
+        setState(STAT_WB_ABG, ID_PRUEFUNG_DURCH_WB_ABGESCHL);
+    }                                                                                 //GEN-LAST:event_jbGenehmigtWbActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -1184,7 +1366,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             } else if ((geschlossen != null) && geschlossen.booleanValue()) {
                 status = STAT_ANGENOMMEN;
             } else {
-                status = status - 1;
+                status = status
+                            - 1;
             }
 
             stateMachine.forceState(status);
@@ -1213,9 +1396,9 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         jpDelete.setEnabled(!readOnly);
         jbAngenommen.setEnabled(false);
         jbAntrag.setEnabled(false);
-        jbGenehmigt.setEnabled(false);
         jbPlanung.setEnabled(false);
-        jbPruefung.setEnabled(false);
+        jbPruefungNb.setEnabled(false);
+        jbPruefungNb.setEnabled(false);
 //        lblStatus.setVisible(!readOnly);
 
         if (readOnly) {
@@ -1347,7 +1530,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         CidsBean stateObject = null;
         final int oldState = stateMachine.getState();
 
-        if ((state == STAT_GENEHMIGT) && !isApproved()) {
+        if (((state == STAT_NB_ABG) && !isApproved(STAT_NB_ABG))
+                    || ((state == STAT_WB_ABG) && !isApproved(STAT_WB_ABG))) {
             JOptionPane.showMessageDialog(
                 this,
                 "Es wurde noch nicht alle Maßnahmen genehmigt",
@@ -1356,6 +1540,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             return;
         }
 
+        if ((state == STAT_ANGENOMMEN) && !isApproved(STAT_ANGENOMMEN)) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Es wurde noch nicht alle Maßnahmen geprüft",
+                "Prüfung unvollständig",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+//        todo: Status in Bean eintragen und m:n Beziehung erstellen
         stateMachine.setState(state);
 
         for (final MetaObject tmp : STATE_BEANS) {
@@ -1402,39 +1596,46 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         int rights = 0;
 
         if (actionSachbearbeiter) {
-            rights = 1;
+            rights = rights
+                        | PERMISSION_SB;
         }
 
-        if (actionNaturschutz || actionWasser) {
-            rights += 2;
+        if (actionNaturschutz) {
+            rights = rights
+                        | PERMISSION_NB;
         }
 
-        jbPlanung.setEnabled(false);
-        jbAntrag.setEnabled(false);
-        jbPruefung.setEnabled(false);
-        jbGenehmigt.setEnabled(false);
-        jbAngenommen.setEnabled(false);
+        if (actionWasser) {
+            rights = rights
+                        | PERMISSION_WB;
+        }
 
         if (actionBearbeiter) {
             // It is not allowed to change the state for the role bearbeiter
             return;
         }
 
-        if ((stateMachine.getRoleForState(STAT_PLANUNG) & rights) != 0) {
-            jbPlanung.setEnabled(true);
+        final HashSet<JButton> buttonsToActivate = new HashSet<JButton>();
+
+        for (final Integer stat : VIRTUAL_STAT_MAP.keySet()) {
+            if ((stateMachine.getRoleForState(stat) & rights) != 0) {
+                final Integer[] ids = VIRTUAL_STAT_MAP.get(stat);
+
+                if (ids != null) {
+                    for (final int statId : ids) {
+                        buttonsToActivate.add(STAT_ID_TO_BUTTON.get(statId));
+                    }
+                }
+            }
         }
-        if ((stateMachine.getRoleForState(STAT_ANTRAG) & rights) != 0) {
-            jbAntrag.setEnabled(true);
-        }
-        if ((stateMachine.getRoleForState(STAT_PRUEFUNG) & rights) != 0) {
-            jbPruefung.setEnabled(true);
-        }
-        if ((stateMachine.getRoleForState(STAT_GENEHMIGT) & rights) != 0) {
-            jbGenehmigt.setEnabled(true);
-        }
-        if ((stateMachine.getRoleForState(STAT_ANGENOMMEN) & rights) != 0) {
-            jbAngenommen.setEnabled(true);
-        }
+
+        jbPlanung.setEnabled(buttonsToActivate.contains(jbPlanung));
+        jbAntrag.setEnabled(buttonsToActivate.contains(jbAntrag));
+        jbPruefungNb.setEnabled(buttonsToActivate.contains(jbPruefungNb));
+        jbPruefungWb.setEnabled(buttonsToActivate.contains(jbPruefungWb));
+        jbGenehmigtNb.setEnabled(buttonsToActivate.contains(jbGenehmigtNb));
+        jbGenehmigtWb.setEnabled(buttonsToActivate.contains(jbGenehmigtWb));
+        jbAngenommen.setEnabled(buttonsToActivate.contains(jbAngenommen));
     }
 
     /**
@@ -1557,9 +1758,11 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     /**
      * DOCUMENT ME!
      *
+     * @param   status  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
-    private boolean isApproved() {
+    private boolean isApproved(final Integer status) {
         // todo: Wartendialog anzeigen
         initializedLock.readLock().lock();
         try {
@@ -1580,11 +1783,43 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 final List<CidsBean> maBeans = paBean.getBeanCollectionProperty("massnahmen");
 
                 for (final CidsBean tmp : maBeans) {
-                    final Boolean app = (Boolean)tmp.getProperty("angenommen");
-                    final Boolean changed = (Boolean)tmp.getProperty("geaendert_nach_pruefung");
+                    if (status == STAT_NB_ABG) {
+                        final Boolean approved = (Boolean)tmp.getProperty("angenommen_nb");
+                        final Boolean refused = (Boolean)tmp.getProperty("abgelehnt_nb");
+                        final Boolean notRequired = (Boolean)tmp.getProperty("nicht_erforderlich_nb");
 
-                    if (((changed != null) && changed.booleanValue()) || ((app == null) || !app.booleanValue())) {
-                        return false;
+                        if (((approved == null) || !approved) && ((refused == null) || !refused)
+                                    && ((notRequired == null) || !notRequired)) {
+                            return false;
+                        }
+                    } else if (status == STAT_NB_ABG) {
+                        final Boolean approved = (Boolean)tmp.getProperty("angenommen_wb");
+                        final Boolean refused = (Boolean)tmp.getProperty("abgelehnt_wb");
+
+                        if (((approved == null) || !approved) && ((refused == null) || !refused)) {
+                            return false;
+                        }
+                    } else {
+                        // STAT_ANGENOMMEN will be assumed
+                        final Boolean approvedNb = (Boolean)tmp.getProperty("angenommen_nb");
+                        final Boolean refusedNb = (Boolean)tmp.getProperty("abgelehnt_nb");
+                        final Boolean notRequired = (Boolean)tmp.getProperty("nicht_erforderlich_nb");
+                        final Boolean approvedWb = (Boolean)tmp.getProperty("angenommen_wb");
+                        final Boolean refusedWb = (Boolean)tmp.getProperty("abgelehnt_wb");
+
+                        // proposal was refused not completely checked
+                        if (((approvedNb == null) || !approvedNb) && ((refusedNb == null) || !refusedNb)
+                                    && ((notRequired == null) || !notRequired)) {
+                            return false;
+                        }
+                        if (((approvedWb == null) || !approvedWb) && ((refusedWb == null) || !refusedWb)) {
+                            return false;
+                        }
+
+                        // proposal was refused
+                        if (((refusedNb != null) && refusedNb) || ((refusedWb != null) && refusedWb)) {
+                            return false;
+                        }
                     }
                 }
             }

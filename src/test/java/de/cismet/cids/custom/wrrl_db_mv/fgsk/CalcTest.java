@@ -62,6 +62,7 @@ import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 import static de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc.*;
+import java.util.LinkedHashMap;
 
 /**
  * DOCUMENT ME!
@@ -2654,7 +2655,7 @@ public class CalcTest {
             }
 
             @Override
-            public Object getAttribute(final Object key) {
+            public ObjectAttribute getAttribute(final String key) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -2664,12 +2665,12 @@ public class CalcTest {
             }
 
             @Override
-            public Collection<Attribute> getAttributeByName(final String name, final int maxResult) {
+            public Collection<ObjectAttribute> getAttributeByName(final String name, final int maxResult) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public HashMap getAttributes() {
+            public LinkedHashMap<Object, ObjectAttribute> getAttributes() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -2704,7 +2705,7 @@ public class CalcTest {
             }
 
             @Override
-            public Attribute getPrimaryKey() {
+            public ObjectAttribute getPrimaryKey() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 

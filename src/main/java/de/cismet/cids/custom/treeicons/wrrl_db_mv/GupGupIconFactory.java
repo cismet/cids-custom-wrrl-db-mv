@@ -113,15 +113,21 @@ public class GupGupIconFactory implements CidsTreeObjectIconFactory {
                 icon = PLANUNG_ICON;
                 break;
             }
-            case GupGupEditor.STAT_ANTRAG: {
+            case GupGupEditor.STAT_PLANUNG_FERTIG: {
                 icon = ANTRAG_ICON;
                 break;
             }
-            case GupGupEditor.STAT_PRUEFUNG: {
+            case GupGupEditor.STAT_NB:
+            case GupGupEditor.STAT_WB:
+            case GupGupEditor.STAT_NB_ABG:
+            case GupGupEditor.STAT_WB_ABG:
+            case GupGupEditor.STAT_NB_ABG_WB:
+            case GupGupEditor.STAT_NB_WB_ABG:
+            case GupGupEditor.STAT_NB_WB: {
                 icon = PRUEFUNG_ICON;
                 break;
             }
-            case GupGupEditor.STAT_GENEHMIGT: {
+            case GupGupEditor.STAT_NB_ABG_WB_ABG: {
                 icon = GENEHMIGT_ICON;
                 break;
             }

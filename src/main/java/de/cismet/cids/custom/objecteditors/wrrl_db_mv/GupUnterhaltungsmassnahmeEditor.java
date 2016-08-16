@@ -2415,10 +2415,14 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                     && !evt.getPropertyName().equals("jahr")
                     && !evt.getPropertyName().equals("ausfuehrungszeitpunkt")
                     && !evt.getPropertyName().equals("verbleib")
-                    && !evt.getPropertyName().equals("angenommen")
-                    && !evt.getPropertyName().equals("abgelehnt")
+                    && !evt.getPropertyName().equals("angenommen_wb")
+                    && !evt.getPropertyName().equals("abgelehnt_wb")
+                    && !evt.getPropertyName().equals("auflagen_wb")
+                    && !evt.getPropertyName().equals("angenommen_nb")
+                    && !evt.getPropertyName().equals("abgelehnt_nb")
+                    && !evt.getPropertyName().equals("auflagen_nb")
+                    && !evt.getPropertyName().equals("nicht_erforderlich_nb")
                     && !evt.getPropertyName().equals("geaendert_nach_pruefung")
-                    && !evt.getPropertyName().equals("auflagen")
                     && !evt.getPropertyName().equals("massnahme")) {
             changeBearbeiter();
 
