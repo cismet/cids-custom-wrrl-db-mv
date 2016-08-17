@@ -101,7 +101,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String WORKFLOW_STATUS_PROPERTY = "status";
+    public static final String WORKFLOW_STATUS_PROP = "workflow_status";
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupGupEditor.class);
@@ -122,9 +122,9 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private static final String ICON_GENEHMIGT = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/approve_24.png";
     private static final String ICON_GESCHLOSSEN = "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Valid_16.png";
     private static final Map<Integer, Integer[]> VIRTUAL_STAT_MAP = new HashMap<Integer, Integer[]>();
-    private static final int PERMISSION_SB = 1;
-    private static final int PERMISSION_NB = 2;
-    private static final int PERMISSION_WB = 4;
+    public static final int PERMISSION_SB = 1;
+    public static final int PERMISSION_NB = 2;
+    public static final int PERMISSION_WB = 4;
     public static final int STAT_PLANUNG = 0;
     public static final int STAT_PLANUNG_FERTIG = 1;
     public static final int STAT_WB = 2;
@@ -143,7 +143,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int ID_PLAN_ABGESCHLOSSEN = 5;
     public static final int ID_PRUEFUNG_DURCH_WB = 6;
     public static final int ID_PRUEFUNG_DURCH_WB_ABGESCHL = 7;
-    public static final int ID_GESCHLOSSEN = -1;
+//    public static final int ID_GESCHLOSSEN = -1;
     public static final int[][] STATE_MATRIX = {
             { 0, PERMISSION_SB, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                                     // 0
             { PERMISSION_SB, 0, PERMISSION_WB, 0, PERMISSION_NB, 0, 0, 0, 0, 0, 0 },             // 1
@@ -1169,16 +1169,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
+    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDownloadActionPerformed
         ((DocumentDropList)jlObjectList).downloadSelectedDocs();
-    }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
+    }//GEN-LAST:event_jbDownloadActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
+    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpDeleteActionPerformed
         if (readOnly) {
             return;
         }
@@ -1188,14 +1188,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         for (final int index : selection) {
             ((DocumentDropList)jlObjectList).removeObject(index - (count++));
         }
-    } //GEN-LAST:event_jpDeleteActionPerformed
+    }//GEN-LAST:event_jpDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAddActionPerformed
+    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddActionPerformed
         if (!readOnly) {
             final JFileChooser chooser = new JFileChooser();
             chooser.setMultiSelectionEnabled(true);
@@ -1204,14 +1204,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             ((DocumentDropList)jlObjectList).addFiles(Arrays.asList(files));
         }
-    } //GEN-LAST:event_jbAddActionPerformed
+    }//GEN-LAST:event_jbAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butNewPlanActionPerformed
+    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNewPlanActionPerformed
         GupPlanungsabschnittEditor.setLastGup(cidsBean);
 
         final MetaClass MC = ClassCacheMultiple.getMetaClass(
@@ -1238,91 +1238,91 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         } catch (Exception e) {
             LOG.error("Error while creating a new object", e);
         }
-    } //GEN-LAST:event_butNewPlanActionPerformed
+    }//GEN-LAST:event_butNewPlanActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPlanungActionPerformed
-        setState(STAT_PLANUNG, ID_PLANUNG);
-    }                                                                             //GEN-LAST:event_jbPlanungActionPerformed
+    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPlanungActionPerformed
+        setState(ID_PLANUNG);
+    }//GEN-LAST:event_jbPlanungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAntragActionPerformed
-        setState(STAT_PLANUNG_FERTIG, ID_PLANUNG_FERTIG);
-    }                                                                            //GEN-LAST:event_jbAntragActionPerformed
+    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAntragActionPerformed
+        setState(ID_PLANUNG_FERTIG);
+    }//GEN-LAST:event_jbAntragActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungNbActionPerformed
-        setState(STAT_NB, ID_PRUEFUNG_DURCH_NB);
-    }                                                                                //GEN-LAST:event_jbPruefungNbActionPerformed
+    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungNbActionPerformed
+        setState(ID_PRUEFUNG_DURCH_NB);
+    }//GEN-LAST:event_jbPruefungNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtNbActionPerformed
-        setState(STAT_NB_ABG, ID_PRUEFUNG_DURCH_NB_ABGESCHL);
-    }                                                                                 //GEN-LAST:event_jbGenehmigtNbActionPerformed
+    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtNbActionPerformed
+        setState(ID_PRUEFUNG_DURCH_NB_ABGESCHL);
+    }//GEN-LAST:event_jbGenehmigtNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAngenommenActionPerformed
-        setState(STAT_ANGENOMMEN, ID_GESCHLOSSEN);
-    }                                                                                //GEN-LAST:event_jbAngenommenActionPerformed
+    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAngenommenActionPerformed
+        setState(ID_PLAN_ABGESCHLOSSEN);
+    }//GEN-LAST:event_jbAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblNameMouseClicked
+    private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameMouseClicked
 //        final GupGewaesserPreview prev = (GupGewaesserPreview)panGewaesserInner.getComponent(0);
 //        final CidsBean pl = prev.getCidsBean();
 //
 //        freezePlanungsabschnitt(pl);
-    } //GEN-LAST:event_lblNameMouseClicked
+    }//GEN-LAST:event_lblNameMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblName1MouseClicked
+    private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblName1MouseClicked
         // TODO add your handling code here:
-    } //GEN-LAST:event_lblName1MouseClicked
+    }//GEN-LAST:event_lblName1MouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungWbActionPerformed
-        setState(STAT_WB, ID_PRUEFUNG_DURCH_WB);
-    }                                                                                //GEN-LAST:event_jbPruefungWbActionPerformed
+    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungWbActionPerformed
+        setState(ID_PRUEFUNG_DURCH_WB);
+    }//GEN-LAST:event_jbPruefungWbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtWbActionPerformed
-        setState(STAT_WB_ABG, ID_PRUEFUNG_DURCH_WB_ABGESCHL);
-    }                                                                                 //GEN-LAST:event_jbGenehmigtWbActionPerformed
+    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtWbActionPerformed
+        setState(ID_PRUEFUNG_DURCH_WB_ABGESCHL);
+    }//GEN-LAST:event_jbGenehmigtWbActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -1358,17 +1358,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             bindingGroup.bind();
 
             // set status
-            Integer status = (Integer)cidsBean.getProperty(WORKFLOW_STATUS_PROPERTY + ".id");
-            final Boolean geschlossen = (Boolean)cidsBean.getProperty("geschlossen");
-
-            if (status == null) {
-                status = STAT_PLANUNG;
-            } else if ((geschlossen != null) && geschlossen.booleanValue()) {
-                status = STAT_ANGENOMMEN;
-            } else {
-                status = status
-                            - 1;
-            }
+            Integer status = determineStatusByGupBean(cidsBean);
 
             stateMachine.forceState(status);
             setTitleStatus();
@@ -1381,6 +1371,42 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     }
                 }).start();
         }
+    }
+    
+    public static Integer determineStatusByGupBean(CidsBean gup) {
+        if (gup == null) {
+            return STAT_PLANUNG;
+        }
+        List<CidsBean> statusList = gup.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
+        final Boolean geschlossen = (Boolean)gup.getProperty("geschlossen");
+        Integer status = STAT_PLANUNG;
+
+        if ((geschlossen != null) && geschlossen) {
+            status = STAT_ANGENOMMEN;
+        } else {
+            for (Integer stat : VIRTUAL_STAT_MAP.keySet()) {
+                Integer[] ids = VIRTUAL_STAT_MAP.get(stat);
+                Arrays.sort(ids);
+                
+                if (ids.length == statusList.size()) {
+                    boolean match = true;
+                    for (CidsBean bean : statusList) {
+                        Integer i = (Integer)bean.getProperty("id");
+                        
+                        if (Arrays.binarySearch(ids, i) < 0) {
+                            match = false;
+                        }
+                    }
+                    
+                    if (match) {
+                        status = stat;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return status;
     }
 
     /**
@@ -1526,9 +1552,11 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  state    DOCUMENT ME!
      * @param  stateId  DOCUMENT ME!
      */
-    private void setState(final Integer state, final Integer stateId) {
+    private void setState(final Integer stateId) {
         CidsBean stateObject = null;
         final int oldState = stateMachine.getState();
+        Integer state = determineNewState(oldState, stateId);
+        Integer[] stateIds = VIRTUAL_STAT_MAP.get(state);
 
         if (((state == STAT_NB_ABG) && !isApproved(STAT_NB_ABG))
                     || ((state == STAT_WB_ABG) && !isApproved(STAT_WB_ABG))) {
@@ -1559,9 +1587,12 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         }
 
         try {
-            if (stateId == ID_GESCHLOSSEN) {
+            if (stateId == ID_PLAN_ABGESCHLOSSEN) {
                 cidsBean.setProperty("geschlossen", true);
                 cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
+                List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
+                stateList.clear();
+                stateList.add(stateObject);
 
                 CismetThreadPool.execute(new Runnable() {
 
@@ -1573,11 +1604,26 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             } else {
                 final Boolean closed = (Boolean)cidsBean.getProperty("geschlossen");
 
-                if ((closed != null) && closed.booleanValue()) {
+                if ((closed != null) && closed) {
                     cidsBean.setProperty("geschlossen", false);
                 }
 
-                cidsBean.setProperty(WORKFLOW_STATUS_PROPERTY, stateObject);
+                List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
+                
+                if (stateList != null) {
+                    for (CidsBean bean : new ArrayList<CidsBean>(stateList)) {
+                        Integer id = (Integer)bean.getProperty("id");
+                        
+                        if (Arrays.binarySearch(stateIds, id) < 0) {
+                            stateList.remove(bean);
+                        }
+                    }
+                    
+                    if (!stateList.contains(stateObject)) {
+                        stateList.add(stateObject);
+                    }
+                }
+                
                 cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
             }
         } catch (Exception e) {
@@ -1587,6 +1633,53 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         activateButtons();
         setTitleStatus();
+    }
+    
+    /**
+     * Determines the new state. The new state contains the additional stateId and
+     * the maximum number of the old state ids. It is assumed that only one state fulfits the requirements from the last sentence.
+     * If new states will be added, this method must probably changed.
+     * 
+     * @param oldState
+     * @param additionalStateId
+     * @return 
+     */
+    private Integer determineNewState(Integer oldState, Integer additionalStateId) {
+        Map<Integer, Integer[]> possibleMatches = new HashMap<Integer, Integer[]>();
+        
+        for (Integer state : VIRTUAL_STAT_MAP.keySet()) {
+            Integer[] stateIds = VIRTUAL_STAT_MAP.get(state);
+            
+            Arrays.sort(stateIds);
+            
+            if (Arrays.binarySearch(stateIds, additionalStateId) >= 0) {
+                possibleMatches.put(state, stateIds);
+            }
+        }
+        
+        Integer[] idsFromOldState = VIRTUAL_STAT_MAP.get(oldState);
+        int maxMatchCount = -1;
+        int newState = 0;
+        
+        for (Integer state : possibleMatches.keySet()) {
+            Integer[] stateIds = VIRTUAL_STAT_MAP.get(state);
+            int matchCount = 0;
+            Arrays.sort(stateIds);
+            
+            for (Integer id : idsFromOldState) {
+                if (Arrays.binarySearch(stateIds, id) >= 0) {
+                    ++matchCount;
+                }
+            }
+            
+            if (matchCount > maxMatchCount) {
+                maxMatchCount = matchCount;
+                newState = state;
+            }
+        }
+    
+        
+        return newState;
     }
 
     /**
