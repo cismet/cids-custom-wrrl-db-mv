@@ -75,7 +75,6 @@ import javax.swing.table.TableRowSorter;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGupEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.HTMLTools;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -89,7 +88,6 @@ import de.cismet.cids.server.search.MetaObjectNodeServerSearch;
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
 import de.cismet.security.WebAccessManager;
-import java.util.Arrays;
 
 /**
  * DOCUMENT ME!
@@ -284,7 +282,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     try {
                         final String insertedText = e.getDocument().getText(e.getOffset(), e.getLength());
                         if (!insertedText.startsWith("http://www.fis-wasser-mv.de/nutzerhandbuch")
-                                    || (insertedText.indexOf("#") == -1)) {
+                                    || (insertedText.contains("#"))) {
                             return;
                         }
 
@@ -313,14 +311,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                                         e.getDocument().remove(e.getOffset(), e.getLength());
                                         e.getDocument().insertString(e.getOffset(), text, null);
                                     } catch (Exception ex) {
-                                        ex.printStackTrace();
+                                        LOG.error("Error in document listener", ex);
                                     }
                                 }
                             });
                     } catch (MalformedURLException ex) {
                         // nothing to do
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        LOG.error("Error in document listener", ex);
                     }
                 }
 
@@ -401,7 +399,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             tmpIndex = tmp.indexOf(SPAN_CLASS_MWHEADLINE_ID);
         }
 
-        if ((tmp != null) && (tmpIndex != -1) && (tmp.indexOf(">") != -1) && (tmp.indexOf("<") != -1)
+        if ((tmp != null) && (tmpIndex != -1) && (tmp.contains(">")) && (tmp.contains("<"))
                     && (tmp.indexOf(">") < tmp.indexOf("<"))) {
             return tmp.substring(tmp.indexOf(">") + 1, tmp.indexOf("<"));
         }
@@ -421,11 +419,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         final String searchExp = DIV_TEMPLATE_START + part;
         String pasteText = text.substring(text.indexOf(searchExp) + searchExp.length());
 
-        if (pasteText.indexOf(SPAN_CLASS_MWHEADLINE_ID) != -1) {
+        if (pasteText.contains(SPAN_CLASS_MWHEADLINE_ID)) {
             pasteText = pasteText.substring(0, pasteText.indexOf(SPAN_CLASS_MWHEADLINE_ID));
         }
 
-        if (pasteText.indexOf(DIV_CLASSPASTE_START) == -1) {
+        if (pasteText.contains(DIV_CLASSPASTE_START)) {
             // No text to paste found
             return "";
         }
@@ -1394,11 +1392,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     final Boolean changed = (Boolean)bean.getProperty("geaendert_nach_pruefung");
                     final Boolean abg = (Boolean)bean.getProperty("abgelehnt");
 
-                    if ((changed != null) && changed.booleanValue()) {
+                    if ((changed != null) && changed) {
                         return false;
                     }
 
-                    return (abg != null) && abg.booleanValue();
+                    return (abg != null) && abg;
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_ABGELEHNT);
@@ -1418,11 +1416,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     final Boolean ang = (Boolean)bean.getProperty("angenommen");
                     final String auflagen = (String)bean.getProperty("auflagen");
 
-                    if ((changed != null) && changed.booleanValue()) {
+                    if ((changed != null) && changed) {
                         return false;
                     }
 
-                    return (ang != null) && ang.booleanValue() && (auflagen != null) && !auflagen.equals("");
+                    return (ang != null) && ang && (auflagen != null) && !auflagen.equals("");
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_AUFLAGEN);
@@ -1442,11 +1440,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     final Boolean ang = (Boolean)bean.getProperty("angenommen");
                     final String auflagen = (String)bean.getProperty("auflagen");
 
-                    if ((changed != null) && changed.booleanValue()) {
+                    if ((changed != null) && changed) {
                         return false;
                     }
 
-                    return (ang != null) && ang.booleanValue() && ((auflagen == null) || auflagen.equals(""));
+                    return (ang != null) && ang && ((auflagen == null) || auflagen.equals(""));
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_ANGENOMMEN);
@@ -1466,7 +1464,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     final Boolean ang = (Boolean)bean.getProperty("angenommen");
                     final Boolean abg = (Boolean)bean.getProperty("abgelehnt");
 
-                    if ((changed != null) && changed.booleanValue()) {
+                    if ((changed != null) && changed) {
                         return true;
                     }
 
@@ -2357,11 +2355,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 return false;
             }
 
-            if ((columnIndex == 4) || (columnIndex == 5)) {
-                return true;
-            } else {
-                return false;
-            }
+            return (columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8) || (columnIndex == 9);
         }
 
         @Override
@@ -2592,7 +2586,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     }
 
                     final Boolean val = (Boolean)bean.getProperty(prop);
-                    final boolean currentValue = ((val != null) && val.booleanValue());
+                    final boolean currentValue = ((val != null) && val);
 
                     if (columnIndex == 4) {
                         examinationManager.setNotRequired(!currentValue);
