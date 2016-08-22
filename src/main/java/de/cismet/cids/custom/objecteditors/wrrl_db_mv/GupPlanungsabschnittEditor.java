@@ -2777,12 +2777,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         final List<CidsBean> maBeans = cidsBean.getBeanCollectionProperty("massnahmen");
 
         for (final CidsBean tmp : maBeans) {
-            final Boolean app = (Boolean)tmp.getProperty("abgelehnt");
-            final Boolean changed = (Boolean)tmp.getProperty("geaendert_nach_pruefung");
-            final String conditions = (String)tmp.getProperty("auflagen");
+            Boolean appNb = (Boolean)tmp.getProperty("abgelehnt_nb");
+            String conditionsNb = (String)tmp.getProperty("auflagen_nb");
+            Boolean appWb = (Boolean)tmp.getProperty("abgelehnt_wb");
+            String conditionsWb = (String)tmp.getProperty("auflagen_wb");
 
-            if (!((changed != null) && changed.booleanValue()) && ((app != null) && app.booleanValue())
-                        && ((conditions == null) || conditions.equals(""))) {
+            appNb = ((appNb == null) ? false : appNb);
+            appWb = ((appWb == null) ? false : appWb);
+            conditionsNb = (((conditionsNb == null) || conditionsNb.equals("")) ? null : conditionsNb);
+            conditionsWb = (((conditionsWb == null) || conditionsWb.equals("")) ? null : conditionsWb);
+
+            if ((appNb && (conditionsNb == null)) || (appWb && (conditionsWb == null))) {
                 return true;
             }
         }

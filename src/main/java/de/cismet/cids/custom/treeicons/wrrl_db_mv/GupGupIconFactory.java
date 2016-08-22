@@ -97,16 +97,8 @@ public class GupGupIconFactory implements CidsTreeObjectIconFactory {
         final CidsBean bean = otn.getMetaObject().getBean();
         Icon icon;
 
-        Integer status = (Integer)bean.getProperty(GupGupEditor.WORKFLOW_STATUS_PROPERTY + ".id");
+        final Integer status = GupGupEditor.determineStatusByGupBean(bean);
         final Boolean geschlossen = (Boolean)bean.getProperty("geschlossen");
-
-        if (status == null) {
-            status = GupGupEditor.STAT_PLANUNG;
-        } else if ((geschlossen != null) && geschlossen) {
-            status = GupGupEditor.STAT_ANGENOMMEN;
-        } else {
-            status = status - 1;
-        }
 
         switch (status) {
             case GupGupEditor.STAT_PLANUNG: {

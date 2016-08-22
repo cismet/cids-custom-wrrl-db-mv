@@ -173,6 +173,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
@@ -236,7 +238,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     public CheckAssistent() {
         initComponents();
         cbAllAcceptedWithoutNb.setMargin(new Insets(0, 0, 0, 0));
+        cbAllAcceptedNb.setMargin(new Insets(0, 0, 0, 0));
         cbAllDeclinedNb.setMargin(new Insets(0, 0, 0, 0));
+        cbAllDeclinedWb.setMargin(new Insets(0, 0, 0, 0));
+        cbAllAcceptedWb.setMargin(new Insets(0, 0, 0, 0));
         hlGesMassn.setClickedColor(hlGesMassn.getUnclickedColor());
         hlAbgelehnt.setClickedColor(hlGesMassn.getUnclickedColor());
         hlAngenommen.setClickedColor(hlGesMassn.getUnclickedColor());
@@ -268,7 +273,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                         final int modelCol = jTableNb.convertColumnIndexToModel(col);
                         final int modelRow = jTableNb.convertRowIndexToModel(row);
 
-                        if ((model != null) && ((modelCol == 4) || (modelCol == 5))) {
+                        if ((model != null)
+                                    && ((modelCol == 4) || (modelCol == 5) || (modelCol == 6) || (modelCol == 8)
+                                        || (modelCol == 9))) {
                             model.setValueAt(null, modelRow, modelCol);
                         }
                     }
@@ -276,6 +283,62 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             });
 
         textAuflagenNb.getDocument().addDocumentListener(new DocumentListener() {
+
+                @Override
+                public void insertUpdate(final DocumentEvent e) {
+                    try {
+                        final String insertedText = e.getDocument().getText(e.getOffset(), e.getLength());
+                        if (!insertedText.startsWith("http://www.fis-wasser-mv.de/nutzerhandbuch")
+                                    || (insertedText.contains("#"))) {
+                            return;
+                        }
+
+                        final String part = insertedText.substring(insertedText.indexOf("#") + 1);
+                        final URL url = new URL(insertedText);
+                        final InputStream is = WebAccessManager.getInstance().doRequest(url);
+                        final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                        String tmp;
+                        String htmlText = "";
+
+                        while ((tmp = br.readLine()) != null) {
+                            htmlText += tmp;
+                        }
+
+                        final String htmlPart = extractPasteText(htmlText, part);
+                        final Document d = Jsoup.parse(htmlPart);
+                        final String text = HTMLTools.getText(d.body()) + "\nLink zur Wiki-Seite: "
+                                    + insertedText.substring(0, insertedText.indexOf("#") + 1)
+                                    + toWikiLinkSyntax(extractTitle(htmlText, part));
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    try {
+                                        e.getDocument().remove(e.getOffset(), e.getLength());
+                                        e.getDocument().insertString(e.getOffset(), text, null);
+                                    } catch (Exception ex) {
+                                        LOG.error("Error in document listener", ex);
+                                    }
+                                }
+                            });
+                    } catch (MalformedURLException ex) {
+                        // nothing to do
+                    } catch (Exception ex) {
+                        LOG.error("Error in document listener", ex);
+                    }
+                }
+
+                @Override
+                public void removeUpdate(final DocumentEvent e) {
+                }
+
+                @Override
+                public void changedUpdate(final DocumentEvent e) {
+                }
+            });
+        
+        textAuflagenWb.getDocument().addDocumentListener(new DocumentListener() {
 
                 @Override
                 public void insertUpdate(final DocumentEvent e) {
@@ -540,30 +603,34 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
-        tbAngenommenNb = new javax.swing.JToggleButton();
-        tgAbgelehntNb = new javax.swing.JToggleButton();
         lblAuflagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAuflagenNb = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        tbAngenommenNb = new javax.swing.JToggleButton();
+        tgAbgelehntNb = new javax.swing.JToggleButton();
         tbAngenommenNbP = new javax.swing.JToggleButton();
         jSeparator4 = new javax.swing.JSeparator();
         panEntscheidung1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading2 = new javax.swing.JLabel();
         panInfoContent2 = new javax.swing.JPanel();
-        tbAngenommenWb = new javax.swing.JToggleButton();
-        tgAbgelehntWB = new javax.swing.JToggleButton();
         lblAuflagen1 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         textAuflagenWb = new javax.swing.JTextArea();
+        jPanel5 = new javax.swing.JPanel();
+        tgAbgelehntWB = new javax.swing.JToggleButton();
+        tbAngenommenWb = new javax.swing.JToggleButton();
         txtHint = new javax.swing.JLabel();
 
         setBorder(null);
         addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                formComponentResized(evt);
-            }
-        });
+
+                @Override
+                public void componentResized(final java.awt.event.ComponentEvent evt) {
+                    formComponentResized(evt);
+                }
+            });
         setLayout(new java.awt.CardLayout());
 
         jpEmpty.setBorder(null);
@@ -603,7 +670,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panHeadInfo.add(lblTitle, gridBagConstraints);
 
         lblStatusPrefix.setForeground(new java.awt.Color(255, 255, 255));
-        lblStatusPrefix.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblStatusPrefix.text")); // NOI18N
+        lblStatusPrefix.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblStatusPrefix.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -637,7 +706,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jpStat.add(lblStat, gridBagConstraints);
 
-        lblVorpruefung.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblVorpruefung.text")); // NOI18N
+        lblVorpruefung.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblVorpruefung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -658,12 +729,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         jpStatistik.setOpaque(false);
         jpStatistik.setLayout(new java.awt.GridBagLayout());
 
-        hlGesMassn.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlGesMassn.text")); // NOI18N
+        hlGesMassn.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlGesMassn.text")); // NOI18N
         hlGesMassn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlGesMassnActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlGesMassnActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -677,45 +752,65 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 22));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        hlUferLinks.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlUferLinks.text")); // NOI18N
+        hlUferLinks.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlUferLinks.text")); // NOI18N
         hlUferLinks.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlUferLinksActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlUferLinksActionPerformed(evt);
+                }
+            });
         jPanel1.add(hlUferLinks);
 
-        hlUferRechts.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlUferRechts.text")); // NOI18N
-        hlUferRechts.setToolTipText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlUferRechts.toolTipText")); // NOI18N
+        hlUferRechts.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlUferRechts.text"));        // NOI18N
+        hlUferRechts.setToolTipText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlUferRechts.toolTipText")); // NOI18N
         hlUferRechts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlUferRechtsActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlUferRechtsActionPerformed(evt);
+                }
+            });
         jPanel1.add(hlUferRechts);
 
         hlSohle.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlSohle.text")); // NOI18N
         hlSohle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlSohleActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlSohleActionPerformed(evt);
+                }
+            });
         jPanel1.add(hlSohle);
 
-        hlUmfeldLinks.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlUmfeldLinks.text")); // NOI18N
+        hlUmfeldLinks.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlUmfeldLinks.text")); // NOI18N
         hlUmfeldLinks.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlUmfeldLinksActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlUmfeldLinksActionPerformed(evt);
+                }
+            });
         jPanel1.add(hlUmfeldLinks);
 
-        hlUmfeldRechts.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlUmfeldRechts.text")); // NOI18N
+        hlUmfeldRechts.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlUmfeldRechts.text")); // NOI18N
         hlUmfeldRechts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlUmfeldRechtsActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlUmfeldRechtsActionPerformed(evt);
+                }
+            });
         jPanel1.add(hlUmfeldRechts);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -740,10 +835,12 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
         hlValide.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlValide.text")); // NOI18N
         hlValide.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlValideActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlValideActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -751,12 +848,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         jpVorpruefung.add(hlValide, gridBagConstraints);
 
-        hlInvalide.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlInvalide.text")); // NOI18N
+        hlInvalide.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlInvalide.text")); // NOI18N
         hlInvalide.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlInvalideActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlInvalideActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -778,7 +879,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         jpPruefung.setOpaque(false);
         jpPruefung.setLayout(new java.awt.GridBagLayout());
 
-        lblAbgelehntLab.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAbgelehntLab.text")); // NOI18N
+        lblAbgelehntLab.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAbgelehntLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -787,7 +890,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jpPruefung.add(lblAbgelehntLab, gridBagConstraints);
 
-        lblAuflagenLab.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAuflagenLab.text")); // NOI18N
+        lblAuflagenLab.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAuflagenLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -796,7 +901,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jpPruefung.add(lblAuflagenLab, gridBagConstraints);
 
-        lblAngenommenLab.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAngenommenLab.text")); // NOI18N
+        lblAngenommenLab.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAngenommenLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -805,7 +912,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jpPruefung.add(lblAngenommenLab, gridBagConstraints);
 
-        lblUngeprueftLab.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblUngeprueftLab.text")); // NOI18N
+        lblUngeprueftLab.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblUngeprueftLab.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -814,24 +923,32 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jpPruefung.add(lblUngeprueftLab, gridBagConstraints);
 
-        hlAbgelehnt.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlAbgelehnt.text")); // NOI18N
+        hlAbgelehnt.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlAbgelehnt.text")); // NOI18N
         hlAbgelehnt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlAbgelehntActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlAbgelehntActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jpPruefung.add(hlAbgelehnt, gridBagConstraints);
 
-        hlAuflagen.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlAuflagen.text")); // NOI18N
+        hlAuflagen.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlAuflagen.text")); // NOI18N
         hlAuflagen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlAuflagenActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlAuflagenActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -839,12 +956,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         jpPruefung.add(hlAuflagen, gridBagConstraints);
 
-        hlAngenommen.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlAngenommen.text")); // NOI18N
+        hlAngenommen.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlAngenommen.text")); // NOI18N
         hlAngenommen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlAngenommenActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlAngenommenActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -852,12 +973,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         jpPruefung.add(hlAngenommen, gridBagConstraints);
 
-        hlUngeprueft.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.hlUngeprueft.text")); // NOI18N
+        hlUngeprueft.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.hlUngeprueft.text")); // NOI18N
         hlUngeprueft.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hlUngeprueftActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    hlUngeprueftActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -892,31 +1017,38 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         panHeadInfo1.add(lblTableHeaderNb, gridBagConstraints);
 
-        jPanel3.setMinimumSize(new java.awt.Dimension(150, 25));
+        jPanel3.setMinimumSize(new java.awt.Dimension(260, 25));
         jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(300, 25));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 25));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         cbAllAcceptedWithoutNb.setBackground(java.awt.Color.white);
         cbAllAcceptedWithoutNb.setForeground(new java.awt.Color(255, 255, 255));
-        cbAllAcceptedWithoutNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.cbAllAcceptedWithoutNb.text", new Object[] {})); // NOI18N
+        cbAllAcceptedWithoutNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllAcceptedWithoutNb.text",
+                new Object[] {})); // NOI18N
         cbAllAcceptedWithoutNb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAllAcceptedWithoutNbActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllAcceptedWithoutNbActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         jPanel3.add(cbAllAcceptedWithoutNb, gridBagConstraints);
 
         lblAllAcceptedWithoutNb.setForeground(new java.awt.Color(255, 255, 255));
-        lblAllAcceptedWithoutNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAllAcceptedWithoutNb.text", new Object[] {})); // NOI18N
+        lblAllAcceptedWithoutNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllAcceptedWithoutNb.text",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -925,92 +1057,124 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
         cbAllAcceptedNb.setBackground(java.awt.Color.white);
         cbAllAcceptedNb.setForeground(new java.awt.Color(255, 255, 255));
-        cbAllAcceptedNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.cbAllAcceptedNb.text", new Object[] {})); // NOI18N
+        cbAllAcceptedNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllAcceptedNb.text",
+                new Object[] {})); // NOI18N
         cbAllAcceptedNb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAllAcceptedNbActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllAcceptedNbActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         jPanel3.add(cbAllAcceptedNb, gridBagConstraints);
 
         lblAllAcceptedNb.setForeground(new java.awt.Color(255, 255, 255));
-        lblAllAcceptedNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAllAcceptedNb.text", new Object[] {})); // NOI18N
+        lblAllAcceptedNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllAcceptedNb.text",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
         jPanel3.add(lblAllAcceptedNb, gridBagConstraints);
 
         cbAllDeclinedNb.setBackground(java.awt.Color.white);
         cbAllDeclinedNb.setForeground(new java.awt.Color(255, 255, 255));
-        cbAllDeclinedNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.cbAllDeclinedNb.text", new Object[] {})); // NOI18N
+        cbAllDeclinedNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllDeclinedNb.text",
+                new Object[] {})); // NOI18N
         cbAllDeclinedNb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAllDeclinedNbActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllDeclinedNbActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
         jPanel3.add(cbAllDeclinedNb, gridBagConstraints);
 
         lblAllDeclinedNb.setForeground(new java.awt.Color(255, 255, 255));
-        lblAllDeclinedNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAllDeclinedNb.text", new Object[] {})); // NOI18N
+        lblAllDeclinedNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllDeclinedNb.text",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
         jPanel3.add(lblAllDeclinedNb, gridBagConstraints);
 
         cbAllAcceptedWb.setBackground(java.awt.Color.white);
         cbAllAcceptedWb.setForeground(new java.awt.Color(255, 255, 255));
-        cbAllAcceptedWb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.cbAllAcceptedWb.text", new Object[] {})); // NOI18N
+        cbAllAcceptedWb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllAcceptedWb.text",
+                new Object[] {})); // NOI18N
         cbAllAcceptedWb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAllAcceptedWbActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllAcceptedWbActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         jPanel3.add(cbAllAcceptedWb, gridBagConstraints);
 
         lblAllAcceptedWb.setForeground(new java.awt.Color(255, 255, 255));
-        lblAllAcceptedWb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAllAcceptedWb.text", new Object[] {})); // NOI18N
+        lblAllAcceptedWb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllAcceptedWb.text",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
         jPanel3.add(lblAllAcceptedWb, gridBagConstraints);
 
         cbAllDeclinedWb.setBackground(java.awt.Color.white);
         cbAllDeclinedWb.setForeground(new java.awt.Color(255, 255, 255));
-        cbAllDeclinedWb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.cbAllDeclinedWb.text", new Object[] {})); // NOI18N
+        cbAllDeclinedWb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.cbAllDeclinedWb.text",
+                new Object[] {})); // NOI18N
         cbAllDeclinedWb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAllDeclinedWbActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbAllDeclinedWbActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
         jPanel3.add(cbAllDeclinedWb, gridBagConstraints);
 
         lblAllDeclinedWb.setForeground(new java.awt.Color(255, 255, 255));
-        lblAllDeclinedWb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAllDeclinedWb.text", new Object[] {})); // NOI18N
+        lblAllDeclinedWb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAllDeclinedWb.text",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
         jPanel3.add(lblAllDeclinedWb, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 2, 5);
@@ -1022,18 +1186,15 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         jpTable.setLayout(new java.awt.GridBagLayout());
 
         jTableNb.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
+                new Object[][] {},
+                new String[] {}));
         jTableNb.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTableNbFocusLost(evt);
-            }
-        });
+
+                @Override
+                public void focusLost(final java.awt.event.FocusEvent evt) {
+                    jTableNbFocusLost(evt);
+                }
+            });
         jScrollPane2.setViewportView(jTableNb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1062,7 +1223,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panHeadInfo2.setLayout(new java.awt.FlowLayout());
 
         lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblHeading1.text")); // NOI18N
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblHeading1.text")); // NOI18N
         panHeadInfo2.add(lblHeading1);
 
         panEntscheidung.add(panHeadInfo2, java.awt.BorderLayout.NORTH);
@@ -1070,38 +1233,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panInfoContent1.setOpaque(false);
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
 
-        tbAngenommenNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.tbAngenommenNb.text")); // NOI18N
-        tbAngenommenNb.setMaximumSize(new java.awt.Dimension(88, 30));
-        tbAngenommenNb.setMinimumSize(new java.awt.Dimension(88, 30));
-        tbAngenommenNb.setPreferredSize(new java.awt.Dimension(88, 30));
-        tbAngenommenNb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbAngenommenNbActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panInfoContent1.add(tbAngenommenNb, gridBagConstraints);
-
-        tgAbgelehntNb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.tgAbgelehntNb.text")); // NOI18N
-        tgAbgelehntNb.setMaximumSize(new java.awt.Dimension(88, 30));
-        tgAbgelehntNb.setMinimumSize(new java.awt.Dimension(88, 30));
-        tgAbgelehntNb.setPreferredSize(new java.awt.Dimension(88, 30));
-        tgAbgelehntNb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tgAbgelehntNbActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panInfoContent1.add(tgAbgelehntNb, gridBagConstraints);
-
-        lblAuflagen.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAuflagen.text")); // NOI18N
+        lblAuflagen.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAuflagen.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1112,36 +1246,93 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         textAuflagenNb.setColumns(20);
         textAuflagenNb.setRows(5);
         textAuflagenNb.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                textAuflagenNbFocusLost(evt);
-            }
-        });
+
+                @Override
+                public void focusLost(final java.awt.event.FocusEvent evt) {
+                    textAuflagenNbFocusLost(evt);
+                }
+            });
         jScrollPane1.setViewportView(textAuflagenNb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent1.add(jScrollPane1, gridBagConstraints);
 
-        tbAngenommenNbP.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.tbAngenommenNbP.text")); // NOI18N
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        tbAngenommenNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tbAngenommenNb.text")); // NOI18N
+        tbAngenommenNb.setMaximumSize(new java.awt.Dimension(88, 30));
+        tbAngenommenNb.setMinimumSize(new java.awt.Dimension(88, 30));
+        tbAngenommenNb.setPreferredSize(new java.awt.Dimension(88, 30));
+        tbAngenommenNb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tbAngenommenNbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel4.add(tbAngenommenNb, gridBagConstraints);
+
+        tgAbgelehntNb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tgAbgelehntNb.text")); // NOI18N
+        tgAbgelehntNb.setMaximumSize(new java.awt.Dimension(88, 30));
+        tgAbgelehntNb.setMinimumSize(new java.awt.Dimension(88, 30));
+        tgAbgelehntNb.setPreferredSize(new java.awt.Dimension(88, 30));
+        tgAbgelehntNb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tgAbgelehntNbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel4.add(tgAbgelehntNb, gridBagConstraints);
+
+        tbAngenommenNbP.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tbAngenommenNbP.text")); // NOI18N
         tbAngenommenNbP.setMaximumSize(new java.awt.Dimension(88, 30));
         tbAngenommenNbP.setMinimumSize(new java.awt.Dimension(88, 30));
         tbAngenommenNbP.setPreferredSize(new java.awt.Dimension(88, 30));
         tbAngenommenNbP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbAngenommenNbPActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tbAngenommenNbPActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panInfoContent1.add(tbAngenommenNbP, gridBagConstraints);
+        jPanel4.add(tbAngenommenNbP, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(jPanel4, gridBagConstraints);
 
         panEntscheidung.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
@@ -1167,7 +1358,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panHeadInfo4.setLayout(new java.awt.FlowLayout());
 
         lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading2.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblHeading2.text")); // NOI18N
+        lblHeading2.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblHeading2.text")); // NOI18N
         panHeadInfo4.add(lblHeading2);
 
         panEntscheidung1.add(panHeadInfo4, java.awt.BorderLayout.NORTH);
@@ -1175,38 +1368,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         panInfoContent2.setOpaque(false);
         panInfoContent2.setLayout(new java.awt.GridBagLayout());
 
-        tbAngenommenWb.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.tbAngenommenWb.text")); // NOI18N
-        tbAngenommenWb.setMaximumSize(new java.awt.Dimension(88, 30));
-        tbAngenommenWb.setMinimumSize(new java.awt.Dimension(88, 30));
-        tbAngenommenWb.setPreferredSize(new java.awt.Dimension(88, 30));
-        tbAngenommenWb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbAngenommenWbActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panInfoContent2.add(tbAngenommenWb, gridBagConstraints);
-
-        tgAbgelehntWB.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.tgAbgelehntWB.text")); // NOI18N
-        tgAbgelehntWB.setMaximumSize(new java.awt.Dimension(88, 30));
-        tgAbgelehntWB.setMinimumSize(new java.awt.Dimension(88, 30));
-        tgAbgelehntWB.setPreferredSize(new java.awt.Dimension(88, 30));
-        tgAbgelehntWB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tgAbgelehntWBActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
-        panInfoContent2.add(tgAbgelehntWB, gridBagConstraints);
-
-        lblAuflagen1.setText(org.openide.util.NbBundle.getMessage(CheckAssistent.class, "CheckAssistent.lblAuflagen1.text")); // NOI18N
+        lblAuflagen1.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.lblAuflagen1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1217,21 +1381,74 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         textAuflagenWb.setColumns(20);
         textAuflagenWb.setRows(5);
         textAuflagenWb.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                textAuflagenWbFocusLost(evt);
-            }
-        });
+
+                @Override
+                public void focusLost(final java.awt.event.FocusEvent evt) {
+                    textAuflagenWbFocusLost(evt);
+                }
+            });
         jScrollPane4.setViewportView(textAuflagenWb);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         panInfoContent2.add(jScrollPane4, gridBagConstraints);
+
+        jPanel5.setOpaque(false);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        tgAbgelehntWB.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tgAbgelehntWB.text")); // NOI18N
+        tgAbgelehntWB.setMaximumSize(new java.awt.Dimension(88, 30));
+        tgAbgelehntWB.setMinimumSize(new java.awt.Dimension(88, 30));
+        tgAbgelehntWB.setPreferredSize(new java.awt.Dimension(88, 30));
+        tgAbgelehntWB.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tgAbgelehntWBActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        jPanel5.add(tgAbgelehntWB, gridBagConstraints);
+
+        tbAngenommenWb.setText(org.openide.util.NbBundle.getMessage(
+                CheckAssistent.class,
+                "CheckAssistent.tbAngenommenWb.text")); // NOI18N
+        tbAngenommenWb.setMaximumSize(new java.awt.Dimension(88, 30));
+        tbAngenommenWb.setMinimumSize(new java.awt.Dimension(88, 30));
+        tbAngenommenWb.setPreferredSize(new java.awt.Dimension(88, 30));
+        tbAngenommenWb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    tbAngenommenWbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel5.add(tbAngenommenWb, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent2.add(jPanel5, gridBagConstraints);
 
         panEntscheidung1.add(panInfoContent2, java.awt.BorderLayout.CENTER);
 
@@ -1274,7 +1491,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         jpMain.add(jsMain, gridBagConstraints);
 
         add(jpMain, "open");
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -1389,14 +1606,13 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    final Boolean changed = (Boolean)bean.getProperty("geaendert_nach_pruefung");
-                    final Boolean abg = (Boolean)bean.getProperty("abgelehnt");
+                    Boolean abgNb = (Boolean)bean.getProperty("abgelehnt_nb");
+                    Boolean abgWb = (Boolean)bean.getProperty("abgelehnt_wb");
 
-                    if ((changed != null) && changed) {
-                        return false;
-                    }
+                    abgNb = ((abgNb == null) ? false : abgNb);
+                    abgWb = ((abgWb == null) ? false : abgWb);
 
-                    return (abg != null) && abg;
+                    return abgNb || abgWb;
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_ABGELEHNT);
@@ -1412,15 +1628,19 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    final Boolean changed = (Boolean)bean.getProperty("geaendert_nach_pruefung");
-                    final Boolean ang = (Boolean)bean.getProperty("angenommen");
-                    final String auflagen = (String)bean.getProperty("auflagen");
+                    Boolean angNb = (Boolean)bean.getProperty("angenommen_nb");
+                    Boolean keNb = (Boolean)bean.getProperty("nicht_erforderlich_nb");
+                    Boolean angWb = (Boolean)bean.getProperty("angenommen_wb");
+                    final String auflagenNb = (String)bean.getProperty("auflagen_nb");
+                    final String auflagenWb = (String)bean.getProperty("auflagen_wb");
 
-                    if ((changed != null) && changed) {
-                        return false;
-                    }
+                    angNb = ((angNb == null) ? false : angNb);
+                    keNb = ((keNb == null) ? false : keNb);
+                    angWb = ((angWb == null) ? false : angWb);
 
-                    return (ang != null) && ang && (auflagen != null) && !auflagen.equals("");
+                    return ((angNb || keNb) && angWb
+                                    && (((auflagenNb != null) && !auflagenNb.equals(""))
+                                        || ((auflagenWb != null) && !auflagenWb.equals(""))));
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_AUFLAGEN);
@@ -1436,15 +1656,19 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    final Boolean changed = (Boolean)bean.getProperty("geaendert_nach_pruefung");
-                    final Boolean ang = (Boolean)bean.getProperty("angenommen");
-                    final String auflagen = (String)bean.getProperty("auflagen");
+                    Boolean angNb = (Boolean)bean.getProperty("angenommen_nb");
+                    Boolean keNb = (Boolean)bean.getProperty("nicht_erforderlich_nb");
+                    Boolean angWb = (Boolean)bean.getProperty("angenommen_wb");
+                    String auflagenNb = (String)bean.getProperty("auflagen_nb");
+                    String auflagenWb = (String)bean.getProperty("auflagen_wb");
 
-                    if ((changed != null) && changed) {
-                        return false;
-                    }
+                    angNb = ((angNb == null) ? false : angNb);
+                    keNb = ((keNb == null) ? false : keNb);
+                    angWb = ((angWb == null) ? false : angWb);
+                    auflagenNb = (((auflagenNb == null) || auflagenNb.equals("")) ? null : auflagenNb);
+                    auflagenWb = (((auflagenWb == null) || auflagenWb.equals("")) ? null : auflagenWb);
 
-                    return (ang != null) && ang && ((auflagen == null) || auflagen.equals(""));
+                    return (angNb || keNb) && angWb && (auflagenNb == null) && (auflagenWb == null);
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_ANGENOMMEN);
@@ -1460,15 +1684,19 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    final Boolean changed = (Boolean)bean.getProperty("geaendert_nach_pruefung");
-                    final Boolean ang = (Boolean)bean.getProperty("angenommen");
-                    final Boolean abg = (Boolean)bean.getProperty("abgelehnt");
+                    Boolean angNb = (Boolean)bean.getProperty("angenommen_nb");
+                    Boolean keNb = (Boolean)bean.getProperty("nicht_erforderlich_nb");
+                    Boolean angWb = (Boolean)bean.getProperty("angenommen_wb");
+                    Boolean abgWb = (Boolean)bean.getProperty("abgelehnt_wb");
+                    Boolean abgNb = (Boolean)bean.getProperty("abgelehnt_nb");
 
-                    if ((changed != null) && changed) {
-                        return true;
-                    }
+                    angNb = ((angNb == null) ? false : angNb);
+                    keNb = ((keNb == null) ? false : keNb);
+                    angWb = ((angWb == null) ? false : angWb);
+                    abgWb = ((abgWb == null) ? false : abgWb);
+                    abgNb = ((abgNb == null) ? false : abgNb);
 
-                    return ((ang == null) || !ang) && ((abg == null) || !abg);
+                    return (!angNb && !abgNb && !keNb) || (!angWb && !abgWb && !abgNb);
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_UNGEPRUEFT);
@@ -1537,7 +1765,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      */
     private void cbAllDeclinedNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedNbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
-        
+
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
@@ -1554,11 +1782,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         if (cbAllDeclinedNb.isSelected() && cbAllAcceptedWithoutNb.isSelected()) {
             cbAllAcceptedWithoutNb.setSelected(false);
         }
-        
+
         if (cbAllDeclinedNb.isSelected() && cbAllAcceptedNb.isSelected()) {
             cbAllAcceptedNb.setSelected(false);
         }
-        
+
         examinationManager.refreshGUI();
     }//GEN-LAST:event_cbAllDeclinedNbActionPerformed
 
@@ -1598,7 +1826,12 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         examinationManager.setAccept(tbAngenommenNbP.isSelected(), GupGupEditor.PERMISSION_NB);
     }//GEN-LAST:event_tbAngenommenNbPActionPerformed
 
-    private void cbAllAcceptedWbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedWbActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllAcceptedWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedWbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
@@ -1606,7 +1839,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
             try {
                 bean.setProperty("angenommen_wb", cbAllAcceptedWb.isSelected());
-                
+
                 if (cbAllAcceptedWb.isSelected()) {
                     bean.setProperty("abgelehnt_wb", !cbAllAcceptedWb.isSelected());
                     bean.setProperty("nicht_erforderlich_wb", !cbAllAcceptedWb.isSelected());
@@ -1621,9 +1854,14 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         examinationManager.refreshGUI();
     }//GEN-LAST:event_cbAllAcceptedWbActionPerformed
 
-    private void cbAllDeclinedWbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedWbActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllDeclinedWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedWbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
-        
+
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
@@ -1642,7 +1880,12 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         examinationManager.refreshGUI();
     }//GEN-LAST:event_cbAllDeclinedWbActionPerformed
 
-    private void cbAllAcceptedNbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedNbActionPerformed
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbAllAcceptedNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedNbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
@@ -1744,7 +1987,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllDeclinedNb.setVisible(!readOnlyNb);
             lblAllAcceptedWithoutNb.setVisible(!readOnlyNb);
             lblAllDeclinedNb.setVisible(!readOnlyNb);
-            
+
             textAuflagenWb.setEnabled(!readOnlyWb);
             tgAbgelehntWB.setEnabled(!readOnlyWb);
             tbAngenommenWb.setEnabled(!readOnlyWb);
@@ -1752,7 +1995,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllDeclinedWb.setVisible(!readOnlyWb);
             lblAllAcceptedWb.setVisible(!readOnlyWb);
             lblAllDeclinedWb.setVisible(!readOnlyWb);
-            
+
             lblTableHeaderNb.setText(TABLE_HEADER_ALL);
             planungsabschnitt.addPropertyChangeListener(this);
         }
@@ -1761,9 +2004,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
     /**
      * It is only for user with the action attribute pruefer in the status pruefung allowed to make changes.
      *
+     * @param   role  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
-    private boolean isReadOnly(Integer role) {
+    private boolean isReadOnly(final Integer role) {
         if (forceReadOnly) {
             return true;
         }
@@ -1773,20 +2018,24 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             return true;
         }
 
-        Integer state = GupGupEditor.determineStatusByGupBean( (CidsBean)planungsabschnitt.getProperty("gup") );
-        
+        final Integer state = GupGupEditor.determineStatusByGupBean((CidsBean)planungsabschnitt.getProperty("gup"));
+
         if ((role & GupGupEditor.PERMISSION_NB) != 0) {
-            if (GupGupEditor.hasActionNaturschutz() && (state == GupGupEditor.STAT_NB || state == GupGupEditor.STAT_NB_WB || state == GupGupEditor.STAT_NB_WB_ABG)) {
+            if (GupGupEditor.hasActionNaturschutz()
+                        && ((state == GupGupEditor.STAT_NB) || (state == GupGupEditor.STAT_NB_WB)
+                            || (state == GupGupEditor.STAT_NB_WB_ABG))) {
                 return false;
             }
         }
-        
+
         if ((role & GupGupEditor.PERMISSION_WB) != 0) {
-            if (GupGupEditor.hasActionWasser() && (state == GupGupEditor.STAT_WB || state == GupGupEditor.STAT_NB_WB || state == GupGupEditor.STAT_NB_ABG_WB)) {
+            if (GupGupEditor.hasActionWasser()
+                        && ((state == GupGupEditor.STAT_WB) || (state == GupGupEditor.STAT_NB_WB)
+                            || (state == GupGupEditor.STAT_NB_ABG_WB))) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -1920,25 +2169,22 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             }
 
                             // Bestimme Entscheidungen
-                            final Decision decision = getCheckResult(bean);
+                            final Decision decisionNb = getCheckResult(bean, GupGupEditor.PERMISSION_NB);
+                            final Decision decisionWb = getCheckResult(bean, GupGupEditor.PERMISSION_WB);
+                            final boolean nbOnCondition = ((decisionNb == Decision.onCondition)
+                                            || (decisionNb == Decision.notRequiredOnCondition));
+                            final boolean wbOnCondition = decisionWb == Decision.onCondition;
 
-                            switch (decision) {
-                                case accepted: {
-                                    ++angenommen;
-                                    break;
-                                }
-                                case onCondition: {
-                                    ++auflagen;
-                                    break;
-                                }
-                                case declined: {
-                                    ++abgelehnt;
-                                    break;
-                                }
-                                case notChecked: {
-                                    ++ungeprueft;
-                                    break;
-                                }
+                            if (nbOnCondition
+                                        && ((decisionWb == Decision.onCondition) || (decisionWb == Decision.accepted))) {
+                                ++auflagen;
+                            } else if (((decisionNb == Decision.accepted) || (decisionNb == Decision.notRequired))
+                                        && (decisionWb == Decision.accepted)) {
+                                ++angenommen;
+                            } else if ((decisionNb == Decision.declined) || (decisionWb == Decision.declined)) {
+                                ++abgelehnt;
+                            } else {
+                                ++ungeprueft;
                             }
                         }
 
@@ -1974,6 +2220,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             ((JXTable)jTableNb).getColumnExt(5).setComparator(new JCheckboxComparator());
                             ((JXTable)jTableNb).getColumnExt(1).setComparator(new StationCellComparator());
                             tbAngenommenNb.setSelected(false);
+                            tbAngenommenNbP.setSelected(false);
                             tgAbgelehntNb.setSelected(false);
                             for (int i = 0; i < jTableNb.getColumnCount(); ++i) {
                                 jTableNb.getColumn(jTableNb.getColumnName(i))
@@ -1991,15 +2238,23 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      * DOCUMENT ME!
      *
      * @param   bean  DOCUMENT ME!
+     * @param   role  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private boolean isBeanAccepted(final CidsBean bean, Integer role) {
+    private boolean isBeanAccepted(final CidsBean bean, final Integer role) {
         final Decision d = getCheckResult(bean, role);
 
         return d.equals(Decision.accepted) || d.equals(Decision.onCondition);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     private boolean isBeanNotRequired(final CidsBean bean) {
         final Decision d = getCheckResult(bean, GupGupEditor.PERMISSION_NB);
 
@@ -2010,10 +2265,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      * DOCUMENT ME!
      *
      * @param   bean  DOCUMENT ME!
+     * @param   role  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private boolean isBeanDeclined(final CidsBean bean, Integer role) {
+    private boolean isBeanDeclined(final CidsBean bean, final Integer role) {
         return getCheckResult(bean, role).equals(Decision.declined);
     }
 
@@ -2021,10 +2277,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      * DOCUMENT ME!
      *
      * @param   bean  DOCUMENT ME!
+     * @param   role  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private boolean hasBeanConditions(final CidsBean bean, Integer role) {
+    private boolean hasBeanConditions(final CidsBean bean, final Integer role) {
         if (role == GupGupEditor.PERMISSION_NB) {
             final String aufl = (String)bean.getProperty("auflagen_nb");
 
@@ -2042,10 +2299,11 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      * DOCUMENT ME!
      *
      * @param   bean  DOCUMENT ME!
+     * @param   type  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Decision getCheckResult(final CidsBean bean, Integer type) {
+    private Decision getCheckResult(final CidsBean bean, final Integer type) {
         if (type == GupGupEditor.PERMISSION_NB) {
             final Boolean ang = (Boolean)bean.getProperty("angenommen_nb");
             final Boolean abg = (Boolean)bean.getProperty("abgelehnt_nb");
@@ -2059,7 +2317,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 } else {
                     return Decision.accepted;
                 }
-            } if ((ne != null) && ne) {
+            }
+            if ((ne != null) && ne) {
                 final String aufl = (String)bean.getProperty("auflagen_nb");
 
                 if ((aufl != null) && !aufl.equals("")) {
@@ -2338,9 +2597,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
         @Override
         public Class<?> getColumnClass(final int columnIndex) {
-            if ((columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8) || (columnIndex == 9)) {
+            if ((columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8)
+                        || (columnIndex == 9)) {
                 return JCheckBox.class;
-            } else if (columnIndex == 7 || columnIndex == 10) {
+            } else if ((columnIndex == 7) || (columnIndex == 10)) {
                 return ImageIcon.class;
             } else if (columnIndex == 1) {
                 return StationCell.class;
@@ -2355,7 +2615,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 return false;
             }
 
-            return (columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8) || (columnIndex == 9);
+            return (columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8)
+                        || (columnIndex == 9);
         }
 
         @Override
@@ -2568,7 +2829,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
         @Override
         public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-            if ((columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8) || (columnIndex == 9)) {
+            if ((columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8)
+                        || (columnIndex == 9)) {
                 if ((rowIndex >= 0) && (rowIndex < getRowCount())) {
                     final CidsBean bean = getBean(rowIndex);
                     String prop;
@@ -2949,6 +3211,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         private void refreshGUI() {
             boolean acceptedNb = true;
             boolean declinedNb = true;
+            boolean notRequiredNb = true;
             String conditionsNb = null;
             boolean acceptedWb = true;
             boolean declinedWb = true;
@@ -2970,7 +3233,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     conditionsNb = tmpAuflagen;
                 } else {
                     if (!conditionsNb.equals(tmpAuflagen)) {
-                         conditionsNb = DIFFERENT_CONDITIONS;
+                        conditionsNb = DIFFERENT_CONDITIONS;
                     }
                 }
 
@@ -2978,15 +3241,19 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     acceptedNb = false;
                 }
 
+                if (!isBeanNotRequired(tmp)) {
+                    notRequiredNb = false;
+                }
+
                 if (!isBeanDeclined(tmp, GupGupEditor.PERMISSION_NB)) {
                     declinedNb = false;
                 }
-                
+
                 if (conditionsWb == null) {
                     conditionsWb = tmpAuflagenWb;
                 } else {
                     if (!conditionsWb.equals(tmpAuflagenWb)) {
-                         conditionsWb = DIFFERENT_CONDITIONS;
+                        conditionsWb = DIFFERENT_CONDITIONS;
                     }
                 }
 
@@ -3001,7 +3268,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             // if accepted = false and sameAcceptedStatus = false, the beans have different values
 
             if (beans.size() > 0) {
-                tbAngenommenNb.setSelected(acceptedNb);
+                tbAngenommenNb.setSelected(notRequiredNb);
+                tbAngenommenNbP.setSelected(acceptedNb);
                 tgAbgelehntNb.setSelected(declinedNb);
                 textAuflagenNb.setText(conditionsNb);
                 tbAngenommenWb.setSelected(acceptedWb);
@@ -3009,6 +3277,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 textAuflagenWb.setText(conditionsWb);
             } else {
                 tbAngenommenNb.setSelected(false);
+                tbAngenommenNbP.setSelected(false);
                 tgAbgelehntNb.setSelected(false);
                 textAuflagenNb.setText("");
                 tbAngenommenWb.setSelected(false);
@@ -3044,8 +3313,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
          * DOCUMENT ME!
          *
          * @param  newValue  DOCUMENT ME!
+         * @param  type      DOCUMENT ME!
          */
-        public void setAccept(final boolean newValue, Integer type) {
+        public void setAccept(final boolean newValue, final Integer type) {
             for (final CidsBean bean : beans) {
                 try {
                     if (type == GupGupEditor.PERMISSION_NB) {
@@ -3074,8 +3344,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
          * DOCUMENT ME!
          *
          * @param  newValue  DOCUMENT ME!
+         * @param  type      DOCUMENT ME!
          */
-        public void setDecline(final boolean newValue, Integer type) {
+        public void setDecline(final boolean newValue, final Integer type) {
             for (final CidsBean bean : beans) {
                 try {
                     if (type == GupGupEditor.PERMISSION_NB) {

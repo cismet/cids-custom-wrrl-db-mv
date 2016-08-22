@@ -99,7 +99,7 @@
     <Container class="de.cismet.tools.gui.RoundedPanel" name="panInfo">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[557, 248]"/>
+          <Dimension value="[557, 305]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[1130, 305]"/>
