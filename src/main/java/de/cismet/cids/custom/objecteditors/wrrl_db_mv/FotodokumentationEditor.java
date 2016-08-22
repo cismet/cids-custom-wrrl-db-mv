@@ -18,8 +18,6 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.User;
 
-import com.drew.metadata.MetadataException;
-
 import com.vividsolutions.jts.geom.Point;
 
 import org.apache.commons.io.IOUtils;
@@ -48,19 +46,15 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 import java.lang.ref.SoftReference;
 
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +82,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ProgressMonitor;
-import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
@@ -104,8 +97,6 @@ import de.cismet.cids.custom.reports.FotodokumentationReport;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
-import de.cismet.cids.custom.wrrl_db_mv.util.ExifReader;
-import de.cismet.cids.custom.wrrl_db_mv.util.ImageUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -139,9 +130,11 @@ import de.cismet.netutil.Proxy;
 
 import de.cismet.tools.BrowserLauncher;
 import de.cismet.tools.CismetThreadPool;
+import de.cismet.tools.ExifReader;
 import de.cismet.tools.PasswordEncrypter;
 
 import de.cismet.tools.gui.CurvedFlowBackgroundPanel;
+import de.cismet.tools.gui.ImageUtil;
 import de.cismet.tools.gui.RoundedPanel;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;

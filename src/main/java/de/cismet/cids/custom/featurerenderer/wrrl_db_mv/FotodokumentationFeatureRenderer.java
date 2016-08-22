@@ -18,13 +18,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
-import de.cismet.cids.custom.wrrl_db_mv.util.ImageUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
+
+import de.cismet.tools.gui.ImageUtil;
 
 /**
  * DOCUMENT ME!
