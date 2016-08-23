@@ -227,6 +227,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         CismetConcurrency.getInstance("GUP").getDefaultExecutor().execute(STATE_BEANS_LOADER);
     }
 
+    private static final String PROP_ID = "id";
+    private static final String PROP_CLOSE = "geschlossen";
+    private static final String PROP_FREEZE_TIME = "eingefroren_zeit";
+    private static final String PROP_FREEZE = "eingefroren";
+    public static final String PROP_DECLINED_WB = "abgelehnt_wb";
+    public static final String PROP_ACCEPTED_WB = "angenommen_wb";
+    public static final String PROP_NOT_REQUIRED_NB = "nicht_erforderlich_nb";
+    public static final String PROP_DECLINED_NB = "abgelehnt_nb";
+    public static final String PROP_ACCEPTED_NB = "angenommen_nb";
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
@@ -385,7 +395,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                             private String determineToolTipText(final int stateId) {
                                 for (final MetaObject mo : STATE_BEANS) {
-                                    if (mo.getBean().getProperty("id").equals(stateId)) {
+                                    if (mo.getBean().getProperty(PROP_ID).equals(stateId)) {
                                         return String.valueOf(mo.getBean().getProperty("name"));
                                     }
                                 }
@@ -1388,7 +1398,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             return STAT_PLANUNG;
         }
         final List<CidsBean> statusList = gup.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
-        final Boolean geschlossen = (Boolean)gup.getProperty("geschlossen");
+        final Boolean geschlossen = (Boolean)gup.getProperty(PROP_CLOSE);
         Integer status = STAT_PLANUNG;
 
         if ((geschlossen != null) && geschlossen) {
@@ -1401,7 +1411,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 if (ids.length == statusList.size()) {
                     boolean match = true;
                     for (final CidsBean bean : statusList) {
-                        final Integer i = (Integer)bean.getProperty("id");
+                        final Integer i = (Integer)bean.getProperty(PROP_ID);
 
                         if (Arrays.binarySearch(ids, i) < 0) {
                             match = false;
@@ -1417,6 +1427,36 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         }
 
         return status;
+    }
+
+    /**
+     * Determines the name of the status of the given gup bean.
+     *
+     * @param   gup  a gup CidsBean
+     *
+     * @return  The name of the status
+     */
+    public static String determineStatusNameByGupBean(final CidsBean gup) {
+        final List<CidsBean> statusList = gup.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
+        String statName = "";
+        final Boolean closed = (Boolean)gup.getProperty(PROP_CLOSE);
+
+        if ((closed != null) && closed) {
+            statName = "Geschlossen";
+        } else if ((statusList == null) || statusList.isEmpty()) {
+            statName = "Planung";
+        } else {
+            for (final CidsBean stat : statusList) {
+                if (statName.equals("")) {
+                    statName = String.valueOf(stat.getProperty("name"));
+                } else {
+                    statName += "/"
+                                + String.valueOf(stat.getProperty("name"));
+                }
+            }
+        }
+
+        return statName;
     }
 
     /**
@@ -1462,7 +1502,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             return true;
         }
 
-        final Boolean isClosed = (Boolean)cidsBean.getProperty("geschlossen");
+        final Boolean isClosed = (Boolean)cidsBean.getProperty(PROP_CLOSE);
 
         if ((isClosed != null) && isClosed.booleanValue()) {
             return true;
@@ -1486,7 +1526,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      */
     private void setCidsBeans() {
         try {
-            final CidsServerSearch search = new PlanungsabschnittSearch(cidsBean.getProperty("id").toString());
+            final CidsServerSearch search = new PlanungsabschnittSearch(cidsBean.getProperty(PROP_ID).toString());
             final ArrayList<ArrayList> list = (ArrayList<ArrayList>)SessionManager.getProxy()
                         .customServerSearch(search);
 
@@ -1516,37 +1556,46 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * DOCUMENT ME!
      */
     private void setTitleStatus() {
-        Integer statId = (Integer)cidsBean.getProperty("status.id");
-        String statName = (String)cidsBean.getProperty("status.name");
-        final Boolean closed = (Boolean)cidsBean.getProperty("geschlossen");
-        String icon = "";
+        final Integer statId = determineStatusByGupBean(cidsBean);
+        final String statName = determineStatusNameByGupBean(cidsBean);
+        final Boolean closed = (Boolean)cidsBean.getProperty(PROP_CLOSE);
+        String icon;
 
-        if ((statName == null) || (statId == null)) {
-            statName = "Planung/Abstimmung";
-            statId = STAT_PLANUNG;
-        }
-
-        if ((closed != null) && closed.booleanValue()) {
-            statName = "Geschlossen";
-            icon = ICON_GESCHLOSSEN;
-        } else {
-            switch (statId) {
-                case 1: {
-                    icon = ICON_PLANUNG;
-                    break;
-                }
-                case 2: {
-                    icon = ICON_ANTRAG;
-                    break;
-                }
-                case 3: {
-                    icon = ICON_PRUEFUNG;
-                    break;
-                }
-                case 4: {
+        switch (statId) {
+            case GupGupEditor.STAT_PLANUNG: {
+                icon = ICON_PLANUNG;
+                break;
+            }
+            case GupGupEditor.STAT_PLANUNG_FERTIG: {
+                icon = ICON_ANTRAG;
+                break;
+            }
+            case GupGupEditor.STAT_NB:
+            case GupGupEditor.STAT_WB:
+            case GupGupEditor.STAT_NB_ABG:
+            case GupGupEditor.STAT_WB_ABG:
+            case GupGupEditor.STAT_NB_ABG_WB:
+            case GupGupEditor.STAT_NB_WB_ABG:
+            case GupGupEditor.STAT_NB_WB: {
+                icon = ICON_PRUEFUNG;
+                break;
+            }
+            case GupGupEditor.STAT_NB_ABG_WB_ABG: {
+                icon = ICON_GENEHMIGT;
+                break;
+            }
+            case GupGupEditor.STAT_ANGENOMMEN: {
+                if ((closed != null) && closed) {
+                    icon = ICON_GESCHLOSSEN;
+                } else {
                     icon = ICON_GENEHMIGT;
-                    break;
                 }
+                break;
+            }
+            default: {
+                // should never happen
+                icon = ICON_PLANUNG;
+                break;
             }
         }
 
@@ -1591,14 +1640,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         stateMachine.setState(state);
 
         for (final MetaObject tmp : STATE_BEANS) {
-            if (tmp.getBean().getProperty("id").equals(stateId)) {
+            if (tmp.getBean().getProperty(PROP_ID).equals(stateId)) {
                 stateObject = tmp.getBean();
             }
         }
 
         try {
             if (stateId == ID_PLAN_ABGESCHLOSSEN) {
-                cidsBean.setProperty("geschlossen", true);
+                cidsBean.setProperty(PROP_CLOSE, true);
                 cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
                 final List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
                 stateList.clear();
@@ -1612,17 +1661,17 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         }
                     });
             } else {
-                final Boolean closed = (Boolean)cidsBean.getProperty("geschlossen");
+                final Boolean closed = (Boolean)cidsBean.getProperty(PROP_CLOSE);
 
                 if ((closed != null) && closed) {
-                    cidsBean.setProperty("geschlossen", false);
+                    cidsBean.setProperty(PROP_CLOSE, false);
                 }
 
                 final List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
 
                 if (stateList != null) {
                     for (final CidsBean bean : new ArrayList<CidsBean>(stateList)) {
-                        final Integer id = (Integer)bean.getProperty("id");
+                        final Integer id = (Integer)bean.getProperty(PROP_ID);
 
                         if (Arrays.binarySearch(stateIds, id) < 0) {
                             stateList.remove(bean);
@@ -1866,8 +1915,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 freezePlanungsabschnitt(paBean);
             }
             try {
-                cidsBean.setProperty("eingefroren", Boolean.TRUE);
-                cidsBean.setProperty("eingefroren_zeit", new java.sql.Timestamp(System.currentTimeMillis()));
+                cidsBean.setProperty(PROP_FREEZE, Boolean.TRUE);
+                cidsBean.setProperty(PROP_FREEZE_TIME, new java.sql.Timestamp(System.currentTimeMillis()));
             } catch (Exception ex) {
                 LOG.error("Probleme beim Einfrieren des GUP", ex);
             }
@@ -1905,28 +1954,28 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                 for (final CidsBean tmp : maBeans) {
                     if (status == STAT_NB_ABG) {
-                        final Boolean approved = (Boolean)tmp.getProperty("angenommen_nb");
-                        final Boolean refused = (Boolean)tmp.getProperty("abgelehnt_nb");
-                        final Boolean notRequired = (Boolean)tmp.getProperty("nicht_erforderlich_nb");
+                        final Boolean approved = (Boolean)tmp.getProperty(PROP_ACCEPTED_NB);
+                        final Boolean refused = (Boolean)tmp.getProperty(PROP_DECLINED_NB);
+                        final Boolean notRequired = (Boolean)tmp.getProperty(PROP_NOT_REQUIRED_NB);
 
                         if (((approved == null) || !approved) && ((refused == null) || !refused)
                                     && ((notRequired == null) || !notRequired)) {
                             return false;
                         }
                     } else if (status == STAT_NB_ABG) {
-                        final Boolean approved = (Boolean)tmp.getProperty("angenommen_wb");
-                        final Boolean refused = (Boolean)tmp.getProperty("abgelehnt_wb");
+                        final Boolean approved = (Boolean)tmp.getProperty(PROP_ACCEPTED_WB);
+                        final Boolean refused = (Boolean)tmp.getProperty(PROP_DECLINED_WB);
 
                         if (((approved == null) || !approved) && ((refused == null) || !refused)) {
                             return false;
                         }
                     } else {
                         // STAT_ANGENOMMEN will be assumed
-                        final Boolean approvedNb = (Boolean)tmp.getProperty("angenommen_nb");
-                        final Boolean refusedNb = (Boolean)tmp.getProperty("abgelehnt_nb");
-                        final Boolean notRequired = (Boolean)tmp.getProperty("nicht_erforderlich_nb");
-                        final Boolean approvedWb = (Boolean)tmp.getProperty("angenommen_wb");
-                        final Boolean refusedWb = (Boolean)tmp.getProperty("abgelehnt_wb");
+                        final Boolean approvedNb = (Boolean)tmp.getProperty(PROP_ACCEPTED_NB);
+                        final Boolean refusedNb = (Boolean)tmp.getProperty(PROP_DECLINED_NB);
+                        final Boolean notRequired = (Boolean)tmp.getProperty(PROP_NOT_REQUIRED_NB);
+                        final Boolean approvedWb = (Boolean)tmp.getProperty(PROP_ACCEPTED_WB);
+                        final Boolean refusedWb = (Boolean)tmp.getProperty(PROP_DECLINED_WB);
 
                         // proposal was refused not completely checked
                         if (((approvedNb == null) || !approvedNb) && ((refusedNb == null) || !refusedNb)
@@ -2168,7 +2217,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                         && (pl.getProperty("eingefrorene_entwicklungsziele") != null);
                         }
 
-                        pl.setProperty("eingefroren", Boolean.TRUE);
+                        pl.setProperty(PROP_FREEZE, Boolean.TRUE);
                         pl.persist();
                     } catch (Exception e) {
                         LOG.error("Problem beim Speichern des Beans.", e);

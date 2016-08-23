@@ -98,7 +98,6 @@ public class GupGupIconFactory implements CidsTreeObjectIconFactory {
         Icon icon;
 
         final Integer status = GupGupEditor.determineStatusByGupBean(bean);
-        final Boolean geschlossen = (Boolean)bean.getProperty("geschlossen");
 
         switch (status) {
             case GupGupEditor.STAT_PLANUNG: {

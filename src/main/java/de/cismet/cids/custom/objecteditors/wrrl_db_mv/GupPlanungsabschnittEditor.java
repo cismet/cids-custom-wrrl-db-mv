@@ -90,6 +90,8 @@ import de.cismet.tools.gui.jbands.SimpleBandModel;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 
+import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGupEditor.WORKFLOW_STATUS_PROP;
+
 /**
  * DOCUMENT ME!
  *
@@ -646,15 +648,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 setNamesAndBands();
             }
 
-            String status = (String)cidsBean.getProperty("gup.status.name");
-            final Boolean geschlossen = (Boolean)cidsBean.getProperty("gup.geschlossen");
-
-            if (status == null) {
-                status = "Planung/Abstimmung";
-            } else if ((geschlossen != null) && geschlossen.booleanValue()) {
-                status = "Geschlossen";
-            }
-
+            final String status = GupGupEditor.determineStatusNameByGupBean((CidsBean)cidsBean.getProperty("gup"));
             lblStatus.setText("Status: " + status);
         }
     }
@@ -709,11 +703,11 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         final Boolean isClosed = (Boolean)cidsBean.getProperty("gup.geschlossen");
 
-        if ((isClosed != null) && isClosed.booleanValue()) {
+        if ((isClosed != null) && isClosed) {
             return true;
         }
 
-        Integer statId = (Integer)cidsBean.getProperty("gup.status.id");
+        Integer statId = GupGupEditor.determineStatusByGupBean((CidsBean)cidsBean.getProperty("gup"));
 
         if (statId == null) {
             statId = GupGupEditor.ID_PLANUNG;
@@ -2777,9 +2771,9 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         final List<CidsBean> maBeans = cidsBean.getBeanCollectionProperty("massnahmen");
 
         for (final CidsBean tmp : maBeans) {
-            Boolean appNb = (Boolean)tmp.getProperty("abgelehnt_nb");
+            Boolean appNb = (Boolean)tmp.getProperty(GupGupEditor.PROP_DECLINED_NB);
             String conditionsNb = (String)tmp.getProperty("auflagen_nb");
-            Boolean appWb = (Boolean)tmp.getProperty("abgelehnt_wb");
+            Boolean appWb = (Boolean)tmp.getProperty(GupGupEditor.PROP_DECLINED_WB);
             String conditionsWb = (String)tmp.getProperty("auflagen_wb");
 
             appNb = ((appNb == null) ? false : appNb);

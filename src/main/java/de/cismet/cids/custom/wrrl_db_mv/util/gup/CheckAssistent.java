@@ -337,7 +337,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 public void changedUpdate(final DocumentEvent e) {
                 }
             });
-        
+
         textAuflagenWb.getDocument().addDocumentListener(new DocumentListener() {
 
                 @Override
@@ -1498,116 +1498,116 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formComponentResized(final java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-    }//GEN-LAST:event_formComponentResized
+    private void formComponentResized(final java.awt.event.ComponentEvent evt) { //GEN-FIRST:event_formComponentResized
+    }                                                                            //GEN-LAST:event_formComponentResized
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tbAngenommenNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbAngenommenNbActionPerformed
+    private void tbAngenommenNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommenNbActionPerformed
         examinationManager.setNotRequired(tbAngenommenNb.isSelected());
-    }//GEN-LAST:event_tbAngenommenNbActionPerformed
+    }                                                                                  //GEN-LAST:event_tbAngenommenNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlGesMassnActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlGesMassnActionPerformed
+    private void hlGesMassnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlGesMassnActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(null);
         lblTableHeaderNb.setText(TABLE_HEADER_ALL);
-    }//GEN-LAST:event_hlGesMassnActionPerformed
+    }                                                                              //GEN-LAST:event_hlGesMassnActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUferLinksActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUferLinksActionPerformed
+    private void hlUferLinksActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUferLinksActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UFER_LINKS));
         lblTableHeaderNb.setText(TABLE_HEADER_UFER_LINKS);
-    }//GEN-LAST:event_hlUferLinksActionPerformed
+    }                                                                               //GEN-LAST:event_hlUferLinksActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUferRechtsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUferRechtsActionPerformed
+    private void hlUferRechtsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUferRechtsActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UFER_RECHTS));
         lblTableHeaderNb.setText(TABLE_HEADER_UFER_RECHTS);
-    }//GEN-LAST:event_hlUferRechtsActionPerformed
+    }                                                                                //GEN-LAST:event_hlUferRechtsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlSohleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlSohleActionPerformed
+    private void hlSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlSohleActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new KompartimentFilter(GupPlanungsabschnittEditor.GUP_SOHLE));
         lblTableHeaderNb.setText(TABLE_HEADER_SOHLE);
-    }//GEN-LAST:event_hlSohleActionPerformed
+    }                                                                           //GEN-LAST:event_hlSohleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUmfeldLinksActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUmfeldLinksActionPerformed
+    private void hlUmfeldLinksActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUmfeldLinksActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UMFELD_LINKS));
         lblTableHeaderNb.setText(TABLE_HEADER_UMFELD_LINKS);
-    }//GEN-LAST:event_hlUmfeldLinksActionPerformed
+    }                                                                                 //GEN-LAST:event_hlUmfeldLinksActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUmfeldRechtsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUmfeldRechtsActionPerformed
+    private void hlUmfeldRechtsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUmfeldRechtsActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new KompartimentFilter(
                 GupPlanungsabschnittEditor.GUP_UMFELD_RECHTS));
         lblTableHeaderNb.setText(TABLE_HEADER_UMFELD_RECHTS);
-    }//GEN-LAST:event_hlUmfeldRechtsActionPerformed
+    }                                                                                  //GEN-LAST:event_hlUmfeldRechtsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlValideActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlValideActionPerformed
+    private void hlValideActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlValideActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new ValidatorFilter(
                 UnterhaltungsmassnahmeValidator.ValidationResult.ok));
         lblTableHeaderNb.setText(TABLE_HEADER_VALIDE);
-    }//GEN-LAST:event_hlValideActionPerformed
+    }                                                                            //GEN-LAST:event_hlValideActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlInvalideActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlInvalideActionPerformed
+    private void hlInvalideActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlInvalideActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new ValidatorFilter(
                 UnterhaltungsmassnahmeValidator.ValidationResult.error));
         lblTableHeaderNb.setText(TABLE_HEADER_INVALIDE);
-    }//GEN-LAST:event_hlInvalideActionPerformed
+    }                                                                              //GEN-LAST:event_hlInvalideActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAbgelehntActionPerformed
+    private void hlAbgelehntActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAbgelehntActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new TableFilter() {
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    Boolean abgNb = (Boolean)bean.getProperty("abgelehnt_nb");
-                    Boolean abgWb = (Boolean)bean.getProperty("abgelehnt_wb");
+                    Boolean abgNb = (Boolean)bean.getProperty(GupGupEditor.PROP_DECLINED_NB);
+                    Boolean abgWb = (Boolean)bean.getProperty(GupGupEditor.PROP_DECLINED_WB);
 
                     abgNb = ((abgNb == null) ? false : abgNb);
                     abgWb = ((abgWb == null) ? false : abgWb);
@@ -1616,21 +1616,21 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_ABGELEHNT);
-    }//GEN-LAST:event_hlAbgelehntActionPerformed
+    } //GEN-LAST:event_hlAbgelehntActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAuflagenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAuflagenActionPerformed
+    private void hlAuflagenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAuflagenActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new TableFilter() {
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    Boolean angNb = (Boolean)bean.getProperty("angenommen_nb");
-                    Boolean keNb = (Boolean)bean.getProperty("nicht_erforderlich_nb");
-                    Boolean angWb = (Boolean)bean.getProperty("angenommen_wb");
+                    Boolean angNb = (Boolean)bean.getProperty(GupGupEditor.PROP_ACCEPTED_NB);
+                    Boolean keNb = (Boolean)bean.getProperty(GupGupEditor.PROP_NOT_REQUIRED_NB);
+                    Boolean angWb = (Boolean)bean.getProperty(GupGupEditor.PROP_ACCEPTED_WB);
                     final String auflagenNb = (String)bean.getProperty("auflagen_nb");
                     final String auflagenWb = (String)bean.getProperty("auflagen_wb");
 
@@ -1644,21 +1644,21 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_AUFLAGEN);
-    }//GEN-LAST:event_hlAuflagenActionPerformed
+    } //GEN-LAST:event_hlAuflagenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlAngenommenActionPerformed
+    private void hlAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlAngenommenActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new TableFilter() {
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    Boolean angNb = (Boolean)bean.getProperty("angenommen_nb");
-                    Boolean keNb = (Boolean)bean.getProperty("nicht_erforderlich_nb");
-                    Boolean angWb = (Boolean)bean.getProperty("angenommen_wb");
+                    Boolean angNb = (Boolean)bean.getProperty(GupGupEditor.PROP_ACCEPTED_NB);
+                    Boolean keNb = (Boolean)bean.getProperty(GupGupEditor.PROP_NOT_REQUIRED_NB);
+                    Boolean angWb = (Boolean)bean.getProperty(GupGupEditor.PROP_ACCEPTED_WB);
                     String auflagenNb = (String)bean.getProperty("auflagen_nb");
                     String auflagenWb = (String)bean.getProperty("auflagen_wb");
 
@@ -1672,23 +1672,23 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_ANGENOMMEN);
-    }//GEN-LAST:event_hlAngenommenActionPerformed
+    } //GEN-LAST:event_hlAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void hlUngeprueftActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hlUngeprueftActionPerformed
+    private void hlUngeprueftActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_hlUngeprueftActionPerformed
         ((CustomTableModel)jTableNb.getModel()).setFilter(new TableFilter() {
 
                 @Override
                 public boolean check(final CidsBean bean) {
-                    Boolean angNb = (Boolean)bean.getProperty("angenommen_nb");
-                    Boolean keNb = (Boolean)bean.getProperty("nicht_erforderlich_nb");
-                    Boolean angWb = (Boolean)bean.getProperty("angenommen_wb");
-                    Boolean abgWb = (Boolean)bean.getProperty("abgelehnt_wb");
-                    Boolean abgNb = (Boolean)bean.getProperty("abgelehnt_nb");
+                    Boolean angNb = (Boolean)bean.getProperty(GupGupEditor.PROP_ACCEPTED_NB);
+                    Boolean keNb = (Boolean)bean.getProperty(GupGupEditor.PROP_NOT_REQUIRED_NB);
+                    Boolean angWb = (Boolean)bean.getProperty(GupGupEditor.PROP_ACCEPTED_WB);
+                    Boolean abgWb = (Boolean)bean.getProperty(GupGupEditor.PROP_DECLINED_WB);
+                    Boolean abgNb = (Boolean)bean.getProperty(GupGupEditor.PROP_DECLINED_NB);
 
                     angNb = ((angNb == null) ? false : angNb);
                     keNb = ((keNb == null) ? false : keNb);
@@ -1700,50 +1700,50 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 }
             });
         lblTableHeaderNb.setText(TABLE_HEADER_UNGEPRUEFT);
-    }//GEN-LAST:event_hlUngeprueftActionPerformed
+    } //GEN-LAST:event_hlUngeprueftActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tgAbgelehntNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgAbgelehntNbActionPerformed
+    private void tgAbgelehntNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tgAbgelehntNbActionPerformed
         examinationManager.setDecline(tgAbgelehntNb.isSelected(), GupGupEditor.PERMISSION_NB);
-    }//GEN-LAST:event_tgAbgelehntNbActionPerformed
+    }                                                                                 //GEN-LAST:event_tgAbgelehntNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jTableNbFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableNbFocusLost
-    }//GEN-LAST:event_jTableNbFocusLost
+    private void jTableNbFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTableNbFocusLost
+    }                                                                     //GEN-LAST:event_jTableNbFocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void textAuflagenNbFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAuflagenNbFocusLost
-        examinationManager.setCondition(textAuflagenNb.getText());
-    }//GEN-LAST:event_textAuflagenNbFocusLost
+    private void textAuflagenNbFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_textAuflagenNbFocusLost
+        examinationManager.setCondition(textAuflagenNb.getText(), GupGupEditor.PERMISSION_NB);
+    }                                                                           //GEN-LAST:event_textAuflagenNbFocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllAcceptedWithoutNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedWithoutNbActionPerformed
+    private void cbAllAcceptedWithoutNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAcceptedWithoutNbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
             try {
-                bean.setProperty("nicht_erforderlich_nb", cbAllAcceptedWithoutNb.isSelected());
+                bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, cbAllAcceptedWithoutNb.isSelected());
                 if (cbAllAcceptedWithoutNb.isSelected()) {
-                    bean.setProperty("abgelehnt_nb", !cbAllAcceptedWithoutNb.isSelected());
-                    bean.setProperty("angenommen_nb", !cbAllAcceptedWithoutNb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_DECLINED_NB, !cbAllAcceptedWithoutNb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, !cbAllAcceptedWithoutNb.isSelected());
                 }
             } catch (Exception e) {
                 LOG.error("Exception while changing the accept status", e);
@@ -1756,24 +1756,24 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllAcceptedNb.setSelected(false);
         }
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllAcceptedWithoutNbActionPerformed
+    } //GEN-LAST:event_cbAllAcceptedWithoutNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllDeclinedNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedNbActionPerformed
+    private void cbAllDeclinedNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllDeclinedNbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
             try {
-                bean.setProperty("abgelehnt_nb", cbAllDeclinedNb.isSelected());
+                bean.setProperty(GupGupEditor.PROP_DECLINED_NB, cbAllDeclinedNb.isSelected());
                 if (cbAllDeclinedNb.isSelected()) {
-                    bean.setProperty("angenommen_nb", !cbAllDeclinedNb.isSelected());
-                    bean.setProperty("nicht_erforderlich_nb", !cbAllDeclinedNb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, !cbAllDeclinedNb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, !cbAllDeclinedNb.isSelected());
                 }
             } catch (Exception e) {
                 LOG.error("Exception while changing the accept status", e);
@@ -1788,61 +1788,60 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         }
 
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllDeclinedNbActionPerformed
+    } //GEN-LAST:event_cbAllDeclinedNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tbAngenommenWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbAngenommenWbActionPerformed
+    private void tbAngenommenWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommenWbActionPerformed
         examinationManager.setAccept(tbAngenommenWb.isSelected(), GupGupEditor.PERMISSION_WB);
-    }//GEN-LAST:event_tbAngenommenWbActionPerformed
+    }                                                                                  //GEN-LAST:event_tbAngenommenWbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tgAbgelehntWBActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgAbgelehntWBActionPerformed
-        examinationManager.setDecline(tbAngenommenWb.isSelected(), GupGupEditor.PERMISSION_WB);
-    }//GEN-LAST:event_tgAbgelehntWBActionPerformed
+    private void tgAbgelehntWBActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tgAbgelehntWBActionPerformed
+        examinationManager.setDecline(tgAbgelehntWB.isSelected(), GupGupEditor.PERMISSION_WB);
+    }                                                                                 //GEN-LAST:event_tgAbgelehntWBActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void textAuflagenWbFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAuflagenWbFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textAuflagenWbFocusLost
+    private void textAuflagenWbFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_textAuflagenWbFocusLost
+        examinationManager.setCondition(textAuflagenWb.getText(), GupGupEditor.PERMISSION_WB);
+    }                                                                           //GEN-LAST:event_textAuflagenWbFocusLost
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void tbAngenommenNbPActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbAngenommenNbPActionPerformed
+    private void tbAngenommenNbPActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_tbAngenommenNbPActionPerformed
         examinationManager.setAccept(tbAngenommenNbP.isSelected(), GupGupEditor.PERMISSION_NB);
-    }//GEN-LAST:event_tbAngenommenNbPActionPerformed
+    }                                                                                   //GEN-LAST:event_tbAngenommenNbPActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllAcceptedWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedWbActionPerformed
+    private void cbAllAcceptedWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAcceptedWbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
             try {
-                bean.setProperty("angenommen_wb", cbAllAcceptedWb.isSelected());
+                bean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, cbAllAcceptedWb.isSelected());
 
                 if (cbAllAcceptedWb.isSelected()) {
-                    bean.setProperty("abgelehnt_wb", !cbAllAcceptedWb.isSelected());
-                    bean.setProperty("nicht_erforderlich_wb", !cbAllAcceptedWb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_DECLINED_WB, !cbAllAcceptedWb.isSelected());
                 }
             } catch (Exception e) {
                 LOG.error("Exception while changing the accept status", e);
@@ -1852,23 +1851,23 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllDeclinedWb.setSelected(false);
         }
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllAcceptedWbActionPerformed
+    } //GEN-LAST:event_cbAllAcceptedWbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllDeclinedWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllDeclinedWbActionPerformed
+    private void cbAllDeclinedWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllDeclinedWbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
             try {
-                bean.setProperty("abgelehnt_wb", cbAllDeclinedWb.isSelected());
+                bean.setProperty(GupGupEditor.PROP_DECLINED_WB, cbAllDeclinedWb.isSelected());
                 if (cbAllDeclinedWb.isSelected()) {
-                    bean.setProperty("angenommen_wb", !cbAllDeclinedWb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, !cbAllDeclinedWb.isSelected());
                 }
             } catch (Exception e) {
                 LOG.error("Exception while changing the accept status", e);
@@ -1878,24 +1877,24 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllAcceptedWb.setSelected(false);
         }
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllDeclinedWbActionPerformed
+    } //GEN-LAST:event_cbAllDeclinedWbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbAllAcceptedNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAllAcceptedNbActionPerformed
+    private void cbAllAcceptedNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbAllAcceptedNbActionPerformed
         final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
 
         for (int row = 0; row < jTableNb.getRowCount(); ++row) {
             final CidsBean bean = model.getBean(jTableNb.convertRowIndexToModel(row));
 
             try {
-                bean.setProperty("angenommen_nb", cbAllAcceptedNb.isSelected());
+                bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, cbAllAcceptedNb.isSelected());
                 if (cbAllAcceptedNb.isSelected()) {
-                    bean.setProperty("abgelehnt_nb", !cbAllAcceptedNb.isSelected());
-                    bean.setProperty("nicht_erforderlich_nb", !cbAllAcceptedNb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_DECLINED_NB, !cbAllAcceptedNb.isSelected());
+                    bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, !cbAllAcceptedNb.isSelected());
                 }
             } catch (Exception e) {
                 LOG.error("Exception while changing the accept status", e);
@@ -1908,7 +1907,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             cbAllAcceptedWithoutNb.setSelected(false);
         }
         examinationManager.refreshGUI();
-    }//GEN-LAST:event_cbAllAcceptedNbActionPerformed
+    } //GEN-LAST:event_cbAllAcceptedNbActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2012,7 +2011,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         if (forceReadOnly) {
             return true;
         }
-        final Boolean isClosed = (Boolean)planungsabschnitt.getProperty("geschlossen");
+        final Boolean isClosed = (Boolean)planungsabschnitt.getProperty("gup.geschlossen");
 
         if ((isClosed != null) && isClosed) {
             return true;
@@ -2047,7 +2046,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         final Double von = (Double)planungsabschnitt.getProperty("linie.von.wert");
         final Double bis = (Double)planungsabschnitt.getProperty("linie.bis.wert");
         String stat = null;
-        String status = (String)planungsabschnitt.getProperty("gup.status.name");
+        final String status = GupGupEditor.determineStatusNameByGupBean((CidsBean)planungsabschnitt.getProperty("gup"));
 
         if (name == null) {
             name = "unbenannt";
@@ -2060,10 +2059,6 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         }
 
         lblTitle.setText(name + stat);
-
-        if (status == null) {
-            status = "Planung/Abstimmung";
-        }
 
         lblStatus.setText(status);
     }
@@ -2673,10 +2668,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             @Override
                             public void actionPerformed(final ActionEvent e) {
                                 try {
-                                    bean.setProperty("nicht_erforderlich_nb", box.isSelected());
+                                    bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, box.isSelected());
                                     if (box.isSelected()) {
-                                        bean.setProperty("angenommen_nb", !box.isSelected());
-                                        bean.setProperty("abgelehnt_nb", !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_DECLINED_NB, !box.isSelected());
                                     }
                                     examinationManager.refreshGUI();
                                 } catch (final Exception ex) {
@@ -2702,10 +2697,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             @Override
                             public void actionPerformed(final ActionEvent e) {
                                 try {
-                                    bean.setProperty("angenommen_nb", box.isSelected());
+                                    bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, box.isSelected());
                                     if (box.isSelected()) {
-                                        bean.setProperty("abgelehnt_nb", !box.isSelected());
-                                        bean.setProperty("nicht_erforderlich_nb", !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_DECLINED_NB, !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, !box.isSelected());
                                     }
                                     examinationManager.refreshGUI();
                                 } catch (final Exception ex) {
@@ -2730,10 +2725,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             @Override
                             public void actionPerformed(final ActionEvent e) {
                                 try {
-                                    bean.setProperty("abgelehnt_nb", box.isSelected());
+                                    bean.setProperty(GupGupEditor.PROP_DECLINED_NB, box.isSelected());
                                     if (box.isSelected()) {
-                                        bean.setProperty("angenommen_nb", !box.isSelected());
-                                        bean.setProperty("nicht_erforderlich_nb", !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, !box.isSelected());
                                     }
                                     examinationManager.refreshGUI();
                                 } catch (final Exception ex) {
@@ -2768,9 +2763,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             @Override
                             public void actionPerformed(final ActionEvent e) {
                                 try {
-                                    bean.setProperty("angenommen_wb", box.isSelected());
+                                    bean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, box.isSelected());
                                     if (box.isSelected()) {
-                                        bean.setProperty("abgelehnt_wb", !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_DECLINED_WB, !box.isSelected());
                                     }
                                     examinationManager.refreshGUI();
                                 } catch (final Exception ex) {
@@ -2795,9 +2790,9 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             @Override
                             public void actionPerformed(final ActionEvent e) {
                                 try {
-                                    bean.setProperty("abgelehnt_nb", box.isSelected());
+                                    bean.setProperty(GupGupEditor.PROP_DECLINED_WB, box.isSelected());
                                     if (box.isSelected()) {
-                                        bean.setProperty("angenommen_nb", !box.isSelected());
+                                        bean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, !box.isSelected());
                                     }
                                     examinationManager.refreshGUI();
                                 } catch (final Exception ex) {
@@ -2836,15 +2831,15 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     String prop;
 
                     if (columnIndex == 4) {
-                        prop = "nicht_erforderlich_nb";
+                        prop = GupGupEditor.PROP_NOT_REQUIRED_NB;
                     } else if (columnIndex == 5) {
-                        prop = "angenommen_nb";
+                        prop = GupGupEditor.PROP_ACCEPTED_NB;
                     } else if (columnIndex == 6) {
-                        prop = "abgelehnt_nb";
+                        prop = GupGupEditor.PROP_DECLINED_NB;
                     } else if (columnIndex == 8) {
-                        prop = "angenommen_wb";
+                        prop = GupGupEditor.PROP_ACCEPTED_WB;
                     } else {
-                        prop = "abgelehnt_wb";
+                        prop = GupGupEditor.PROP_DECLINED_WB;
                     }
 
                     final Boolean val = (Boolean)bean.getProperty(prop);
@@ -3319,15 +3314,15 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             for (final CidsBean bean : beans) {
                 try {
                     if (type == GupGupEditor.PERMISSION_NB) {
-                        bean.setProperty("angenommen_nb", newValue);
+                        bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, newValue);
                         if (newValue) {
-                            bean.setProperty("nicht_erforderlich_nb", !newValue);
-                            bean.setProperty("abgelehnt_nb", !newValue);
+                            bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, !newValue);
+                            bean.setProperty(GupGupEditor.PROP_DECLINED_NB, !newValue);
                         }
                     } else if (type == GupGupEditor.PERMISSION_WB) {
-                        bean.setProperty("angenommen_wb", newValue);
+                        bean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, newValue);
                         if (newValue) {
-                            bean.setProperty("abgelehnt_wb", !newValue);
+                            bean.setProperty(GupGupEditor.PROP_DECLINED_WB, !newValue);
                         }
                     }
                 } catch (Exception e) {
@@ -3350,16 +3345,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
             for (final CidsBean bean : beans) {
                 try {
                     if (type == GupGupEditor.PERMISSION_NB) {
-                        bean.setProperty("abgelehnt_nb", newValue);
+                        bean.setProperty(GupGupEditor.PROP_DECLINED_NB, newValue);
                         if (newValue) {
-                            bean.setProperty("nicht_erforderlich_nb", !newValue);
-                            bean.setProperty("angenommen_nb", !newValue);
+                            bean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, !newValue);
+                            bean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, !newValue);
                         }
                     } else if (type == GupGupEditor.PERMISSION_WB) {
-                        bean.setProperty("abgelehnt_wb", newValue);
+                        bean.setProperty(GupGupEditor.PROP_DECLINED_WB, newValue);
 
                         if (newValue) {
-                            bean.setProperty("angenommen_wb", !newValue);
+                            bean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, !newValue);
                         }
                     }
                 } catch (Exception e) {
@@ -3375,46 +3370,88 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
          * DOCUMENT ME!
          *
          * @param  newValue  DOCUMENT ME!
+         * @param  role      DOCUMENT ME!
          */
-        public void setCondition(String newValue) {
-            for (final CidsBean bean : beans) {
-                try {
-                    final String oldValue = (String)bean.getProperty("auflagen");
+        public void setCondition(String newValue, final Integer role) {
+            if (role == GupGupEditor.PERMISSION_NB) {
+                for (final CidsBean bean : beans) {
+                    try {
+                        final String oldValue = (String)bean.getProperty("auflagen_nb");
 
-                    if (newValue == null) {
-                        newValue = "";
-                    }
+                        if (newValue == null) {
+                            newValue = "";
+                        }
 
-                    if ((oldValue == null) || !oldValue.equals(newValue)) {
-                        bean.setProperty("auflagen", newValue);
-                        String basic = (String)bean.getProperty("hinweise");
+                        if ((oldValue == null) || !oldValue.equals(newValue)) {
+                            bean.setProperty("auflagen_nb", newValue);
+                            String basic = (String)bean.getProperty("hinweise");
 
-                        if (basic == null) {
-                            basic = newValue;
-                        } else {
-                            String possibleOldLine = "\n" + oldValue;
-
-                            if (basic.endsWith(possibleOldLine)) {
-                                basic = basic.substring(0, basic.lastIndexOf(possibleOldLine));
-                                basic += "\n" + newValue;
+                            if (basic == null) {
+                                basic = newValue;
                             } else {
-                                possibleOldLine = oldValue;
+                                String possibleOldLine = "\n" + oldValue;
 
-                                if (basic.equals(possibleOldLine)) {
-                                    basic = newValue;
-                                } else {
+                                if (basic.endsWith(possibleOldLine)) {
+                                    basic = basic.substring(0, basic.lastIndexOf(possibleOldLine));
                                     basic += "\n" + newValue;
+                                } else {
+                                    possibleOldLine = oldValue;
+
+                                    if (basic.equals(possibleOldLine)) {
+                                        basic = newValue;
+                                    } else {
+                                        basic += "\n" + newValue;
+                                    }
                                 }
                             }
+                            bean.setProperty("hinweise", basic);
                         }
-                        bean.setProperty("hinweise", basic);
+                    } catch (Exception e) {
+                        LOG.error("Cannot set property 'hinweise'", e);
                     }
-                } catch (Exception e) {
-                    LOG.error("Cannot set property 'angenommen'", e);
                 }
+                refresh();
+                lblTableHeaderNb.setText(TABLE_HEADER_GEMISCHT);
+            } else if (role == GupGupEditor.PERMISSION_WB) {
+                for (final CidsBean bean : beans) {
+                    try {
+                        final String oldValue = (String)bean.getProperty("auflagen_wb");
+
+                        if (newValue == null) {
+                            newValue = "";
+                        }
+
+                        if ((oldValue == null) || !oldValue.equals(newValue)) {
+                            bean.setProperty("auflagen_wb", newValue);
+                            String basic = (String)bean.getProperty("hinweise");
+
+                            if (basic == null) {
+                                basic = newValue;
+                            } else {
+                                String possibleOldLine = "\n" + oldValue;
+
+                                if (basic.endsWith(possibleOldLine)) {
+                                    basic = basic.substring(0, basic.lastIndexOf(possibleOldLine));
+                                    basic += "\n" + newValue;
+                                } else {
+                                    possibleOldLine = oldValue;
+
+                                    if (basic.equals(possibleOldLine)) {
+                                        basic = newValue;
+                                    } else {
+                                        basic += "\n" + newValue;
+                                    }
+                                }
+                            }
+                            bean.setProperty("hinweise", basic);
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Cannot set property 'hinweise'", e);
+                    }
+                }
+                refresh();
+                lblTableHeaderNb.setText(TABLE_HEADER_GEMISCHT);
             }
-            refresh();
-            lblTableHeaderNb.setText(TABLE_HEADER_GEMISCHT);
         }
     }
 }

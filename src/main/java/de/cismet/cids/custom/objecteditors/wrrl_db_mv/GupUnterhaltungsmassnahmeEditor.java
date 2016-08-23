@@ -26,6 +26,8 @@ import Sirius.server.newuser.User;
 
 import org.apache.log4j.Logger;
 
+import org.jdesktop.beansbinding.Converter;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -135,13 +137,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butRefresh;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEinsatz;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeraet;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGewerk;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbJahr;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbZeitpunkt;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbZeitpunkt2;
     private javax.swing.JPanel flowPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -204,9 +204,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JTextField txtBoeschungsneigung;
     private javax.swing.JTextField txtCbmProM;
     private javax.swing.JTextField txtDeichkronenbreite;
+    private javax.swing.JTextField txtGeraet;
     private javax.swing.JTextField txtMassnahme;
     private javax.swing.JTextField txtRandstreifenbreite;
     private javax.swing.JTextField txtSchnitttiefe;
+    private javax.swing.JTextField txtSecondTime;
     private javax.swing.JTextField txtSohlbreite;
     private javax.swing.JTextField txtStueck;
     private javax.swing.JTextField txtStunden;
@@ -241,8 +243,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         RendererTools.makeReadOnly(txtMassnahme);
         butRefresh.setVisible(!readOnly);
 
-        RendererTools.makeReadOnly(cbZeitpunkt2);
-        RendererTools.makeReadOnly(cbGeraet);
+        RendererTools.makeReadOnly(txtSecondTime);
+        RendererTools.makeReadOnly(txtGeraet);
         if (readOnly) {
             RendererTools.makeReadOnly(cbIntervall);
             RendererTools.makeReadOnly(cbVerbleib);
@@ -366,13 +368,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblBearbeiter1 = new javax.swing.JLabel();
         txtBearbeiter = new javax.swing.JTextField();
         lblZeitpunkt2 = new javax.swing.JLabel();
-        cbZeitpunkt2 = new ScrollableComboBox(ZEITPUNKT_MC, true, false);
         cbVerbleib = new ScrollableComboBox(VERBLEIB_MC, true, false);
         lblVerbleib = new javax.swing.JLabel();
         lblEinsatz = new javax.swing.JLabel();
         cbEinsatz = new ScrollableComboBox(EINSATZVARIANTE_MC, true, false);
         lblGeraet = new javax.swing.JLabel();
-        cbGeraet = new ScrollableComboBox(GERAET_MC, true, false);
         cbGewerk = new ScrollableComboBox(GEWERK_MC, true, false);
         lblGewerk = new javax.swing.JLabel();
         cbZeitpunkt = new ScrollableComboBox(ZEITPUNKT_MC, true, false);
@@ -381,6 +381,8 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         butRefresh = new javax.swing.JButton();
+        txtGeraet = new javax.swing.JTextField();
+        txtSecondTime = new javax.swing.JTextField();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(894, 400));
@@ -1264,33 +1266,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblZeitpunkt2, gridBagConstraints);
 
-        cbZeitpunkt2.setMinimumSize(new java.awt.Dimension(100, 20));
-        cbZeitpunkt2.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.zweiter_ausfuehrungszeitpunkt}"),
-                cbZeitpunkt2,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbZeitpunkt2.addItemListener(new java.awt.event.ItemListener() {
-
-                @Override
-                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
-                    cbZeitpunkt2ItemStateChanged(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbZeitpunkt2, gridBagConstraints);
-
         cbVerbleib.setMinimumSize(new java.awt.Dimension(100, 20));
         cbVerbleib.setPreferredSize(new java.awt.Dimension(200, 20));
         cbVerbleib.addItemListener(new java.awt.event.ItemListener() {
@@ -1363,33 +1338,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         add(lblGeraet, gridBagConstraints);
-
-        cbGeraet.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGeraet.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.geraet}"),
-                cbGeraet,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbGeraet.addItemListener(new java.awt.event.ItemListener() {
-
-                @Override
-                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
-                    cbGeraetItemStateChanged(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbGeraet, gridBagConstraints);
 
         cbGewerk.setMinimumSize(new java.awt.Dimension(200, 20));
         cbGewerk.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -1506,6 +1454,54 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
         add(jPanel3, gridBagConstraints);
 
+        txtGeraet.setMaximumSize(new java.awt.Dimension(200, 20));
+        txtGeraet.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtGeraet.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.geraet}"),
+                txtGeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        binding.setConverter(new ReadOnlyBeanConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(txtGeraet, gridBagConstraints);
+
+        txtSecondTime.setMaximumSize(new java.awt.Dimension(200, 20));
+        txtSecondTime.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtSecondTime.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme.zweiter_ausfuehrungszeitpunkt}"),
+                txtSecondTime,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        binding.setConverter(new ReadOnlyBeanConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(txtSecondTime, gridBagConstraints);
+
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
@@ -1545,19 +1541,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbZeitpunkt2ItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbZeitpunkt2ItemStateChanged
-//        if (evt.getItem() != null) {
-//            if (((Component)evt.getSource()).hasFocus()) {
-//                refreshMassnahme();
-//            }
-//        }
-    } //GEN-LAST:event_cbZeitpunkt2ItemStateChanged
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void cbVerbleibItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbVerbleibItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
@@ -1578,19 +1561,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             }
         }
     }                                                                            //GEN-LAST:event_cbEinsatzItemStateChanged
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbGeraetItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGeraetItemStateChanged
-//        if (evt.getItem() != null) {
-//            if (((Component)evt.getSource()).hasFocus()) {
-//                refreshMassnahme();
-//            }
-//        }
-    } //GEN-LAST:event_cbGeraetItemStateChanged
 
     /**
      * DOCUMENT ME!
@@ -2415,13 +2385,13 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                     && !evt.getPropertyName().equals("jahr")
                     && !evt.getPropertyName().equals("ausfuehrungszeitpunkt")
                     && !evt.getPropertyName().equals("verbleib")
-                    && !evt.getPropertyName().equals("angenommen_wb")
-                    && !evt.getPropertyName().equals("abgelehnt_wb")
+                    && !evt.getPropertyName().equals(GupGupEditor.PROP_ACCEPTED_WB)
+                    && !evt.getPropertyName().equals(GupGupEditor.PROP_DECLINED_WB)
                     && !evt.getPropertyName().equals("auflagen_wb")
-                    && !evt.getPropertyName().equals("angenommen_nb")
-                    && !evt.getPropertyName().equals("abgelehnt_nb")
+                    && !evt.getPropertyName().equals(GupGupEditor.PROP_ACCEPTED_NB)
+                    && !evt.getPropertyName().equals(GupGupEditor.PROP_DECLINED_NB)
                     && !evt.getPropertyName().equals("auflagen_nb")
-                    && !evt.getPropertyName().equals("nicht_erforderlich_nb")
+                    && !evt.getPropertyName().equals(GupGupEditor.PROP_NOT_REQUIRED_NB)
                     && !evt.getPropertyName().equals("massnahme")) {
             changeBearbeiter();
 
@@ -2450,11 +2420,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             try {
                 final User user = SessionManager.getSession().getUser();
                 cidsBean.setProperty("bearbeiter", user.getName() + "@" + user.getDomain());
-                cidsBean.setProperty("angenommen_nb", Boolean.TRUE);
-                cidsBean.setProperty("abgelehnt_nb", Boolean.TRUE);
-                cidsBean.setProperty("nicht_erforderlich_nb", Boolean.TRUE);
-                cidsBean.setProperty("angenommen_wb", Boolean.TRUE);
-                cidsBean.setProperty("abgelehnt_wb", Boolean.TRUE);
+                cidsBean.setProperty(GupGupEditor.PROP_ACCEPTED_NB, Boolean.FALSE);
+                cidsBean.setProperty(GupGupEditor.PROP_DECLINED_NB, Boolean.FALSE);
+                cidsBean.setProperty(GupGupEditor.PROP_NOT_REQUIRED_NB, Boolean.FALSE);
+                cidsBean.setProperty(GupGupEditor.PROP_ACCEPTED_WB, Boolean.FALSE);
+                cidsBean.setProperty(GupGupEditor.PROP_DECLINED_WB, Boolean.FALSE);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
@@ -2590,6 +2560,30 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 tip.setComponent(this);
                 return tip;
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class ReadOnlyBeanConverter extends Converter<CidsBean, String> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String convertForward(final CidsBean s) {
+            if (s != null) {
+                return s.toString();
+            } else {
+                return "";
+            }
+        }
+
+        @Override
+        public CidsBean convertReverse(final String t) {
+            return null;
         }
     }
 }

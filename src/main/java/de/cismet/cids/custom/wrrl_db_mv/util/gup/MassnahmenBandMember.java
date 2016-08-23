@@ -198,16 +198,35 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
         }
         if (color != null) {
             try {
+                String auflagenNb = (String)bean.getProperty("auflagen_nb");
+                String auflagenWb = (String)bean.getProperty("auflagen_wb");
+
+                auflagenNb = (((auflagenNb != null) && auflagenNb.equals("")) ? null : auflagenNb);
+                auflagenWb = (((auflagenWb != null) && auflagenWb.equals("")) ? null : auflagenWb);
+
                 if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
-                    setBackgroundPainter(new ExtendedMattePainter(
-                            Color.decode(color),
-                            secondColor,
-                            factor,
-                            invertSide));
+                    if ((auflagenNb != null) || (auflagenWb != null)) {
+                        setBackgroundPainter(new CompoundPainter(
+                                new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
+                                new PinstripePainter(new Color(255, 255, 255), 90, 2, 5)));
+                    } else {
+                        setBackgroundPainter(new ExtendedMattePainter(
+                                Color.decode(color),
+                                secondColor,
+                                factor,
+                                invertSide));
+                    }
                 } else {
-                    setBackgroundPainter(new CompoundPainter(
-                            new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
-                            new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+                    if ((auflagenNb != null) || (auflagenWb != null)) {
+                        setBackgroundPainter(new CompoundPainter(
+                                new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
+                                new PinstripePainter(new Color(255, 66, 66), 45, 2, 5),
+                                new PinstripePainter(new Color(255, 255, 255), 90, 2, 5)));
+                    } else {
+                        setBackgroundPainter(new CompoundPainter(
+                                new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
+                                new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+                    }
                 }
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
@@ -238,6 +257,11 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      */
     @Override
     protected void setDefaultBackground() {
+        String auflagenNb = (String)bean.getProperty("auflagen_nb");
+        String auflagenWb = (String)bean.getProperty("auflagen_wb");
+        auflagenNb = (((auflagenNb != null) && auflagenNb.equals("")) ? null : auflagenNb);
+        auflagenWb = (((auflagenWb != null) && auflagenWb.equals("")) ? null : auflagenWb);
+
         unselectedBackgroundPainter = new MattePainter(new Color(229, 0, 0));
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
@@ -254,11 +278,24 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                     new Color(50, 50, 50, 100)));
 
         if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
-            setBackgroundPainter(unselectedBackgroundPainter);
+            if ((auflagenNb != null) || (auflagenWb != null)) {
+                setBackgroundPainter(new CompoundPainter(
+                        unselectedBackgroundPainter,
+                        new PinstripePainter(new Color(255, 255, 255), 90, 2, 5)));
+            } else {
+                setBackgroundPainter(unselectedBackgroundPainter);
+            }
         } else {
-            setBackgroundPainter(new CompoundPainter(
-                    unselectedBackgroundPainter,
-                    new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+            if ((auflagenNb != null) || (auflagenWb != null)) {
+                setBackgroundPainter(new CompoundPainter(
+                        unselectedBackgroundPainter,
+                        new PinstripePainter(new Color(255, 66, 66), 45, 2, 5),
+                        new PinstripePainter(new Color(255, 255, 255), 90, 2, 5)));
+            } else {
+                setBackgroundPainter(new CompoundPainter(
+                        unselectedBackgroundPainter,
+                        new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+            }
         }
 
         unselectedBackgroundPainter = getBackgroundPainter();
