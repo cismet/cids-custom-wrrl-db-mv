@@ -1498,8 +1498,8 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formComponentResized(final java.awt.event.ComponentEvent evt) { //GEN-FIRST:event_formComponentResized
-    }                                                                            //GEN-LAST:event_formComponentResized
+    private void formComponentResized(final java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+    }//GEN-LAST:event_formComponentResized
 
     /**
      * DOCUMENT ME!
