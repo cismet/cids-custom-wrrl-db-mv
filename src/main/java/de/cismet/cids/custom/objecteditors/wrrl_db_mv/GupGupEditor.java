@@ -56,6 +56,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.PlanungsabschnittSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -87,6 +88,7 @@ import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
 import de.cismet.tools.gui.WaitDialog;
+import de.cismet.tools.gui.WaitingDialogThread;
 
 /**
  * DOCUMENT ME!
@@ -184,11 +186,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 PERMISSION_NB
                         | PERMISSION_WB
             },                                                                                   // 9
-            {
-                0, 0, 0, 0, 0, 0, 0, 0, 0,
-                PERMISSION_NB
-                        | PERMISSION_WB, 0
-            }                                                                                    // 10
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }                                                  // 10
         };
     private static MetaObject[] STATE_BEANS = null;
     private static final Thread STATE_BEANS_LOADER = new Thread("StateBeanLoader") {
@@ -1182,16 +1180,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
+    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDownloadActionPerformed
         ((DocumentDropList)jlObjectList).downloadSelectedDocs();
-    }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
+    }//GEN-LAST:event_jbDownloadActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
+    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpDeleteActionPerformed
         if (readOnly) {
             return;
         }
@@ -1201,14 +1199,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         for (final int index : selection) {
             ((DocumentDropList)jlObjectList).removeObject(index - (count++));
         }
-    } //GEN-LAST:event_jpDeleteActionPerformed
+    }//GEN-LAST:event_jpDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAddActionPerformed
+    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddActionPerformed
         if (!readOnly) {
             final JFileChooser chooser = new JFileChooser();
             chooser.setMultiSelectionEnabled(true);
@@ -1217,14 +1215,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             ((DocumentDropList)jlObjectList).addFiles(Arrays.asList(files));
         }
-    } //GEN-LAST:event_jbAddActionPerformed
+    }//GEN-LAST:event_jbAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butNewPlanActionPerformed
+    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNewPlanActionPerformed
         GupPlanungsabschnittEditor.setLastGup(cidsBean);
 
         final MetaClass MC = ClassCacheMultiple.getMetaClass(
@@ -1251,91 +1249,91 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         } catch (Exception e) {
             LOG.error("Error while creating a new object", e);
         }
-    } //GEN-LAST:event_butNewPlanActionPerformed
+    }//GEN-LAST:event_butNewPlanActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPlanungActionPerformed
+    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPlanungActionPerformed
         setState(ID_PLANUNG);
-    }                                                                             //GEN-LAST:event_jbPlanungActionPerformed
+    }//GEN-LAST:event_jbPlanungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAntragActionPerformed
+    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAntragActionPerformed
         setState(ID_PLANUNG_FERTIG);
-    }                                                                            //GEN-LAST:event_jbAntragActionPerformed
+    }//GEN-LAST:event_jbAntragActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungNbActionPerformed
+    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungNbActionPerformed
         setState(ID_PRUEFUNG_DURCH_NB);
-    }                                                                                //GEN-LAST:event_jbPruefungNbActionPerformed
+    }//GEN-LAST:event_jbPruefungNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtNbActionPerformed
+    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtNbActionPerformed
         setState(ID_PRUEFUNG_DURCH_NB_ABGESCHL);
-    }                                                                                 //GEN-LAST:event_jbGenehmigtNbActionPerformed
+    }//GEN-LAST:event_jbGenehmigtNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAngenommenActionPerformed
+    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAngenommenActionPerformed
         setState(ID_PLAN_ABGESCHLOSSEN);
-    }                                                                                //GEN-LAST:event_jbAngenommenActionPerformed
+    }//GEN-LAST:event_jbAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblNameMouseClicked
+    private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameMouseClicked
 //        final GupGewaesserPreview prev = (GupGewaesserPreview)panGewaesserInner.getComponent(0);
 //        final CidsBean pl = prev.getCidsBean();
 //
 //        freezePlanungsabschnitt(pl);
-    } //GEN-LAST:event_lblNameMouseClicked
+    }//GEN-LAST:event_lblNameMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblName1MouseClicked
+    private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblName1MouseClicked
         // TODO add your handling code here:
-    } //GEN-LAST:event_lblName1MouseClicked
+    }//GEN-LAST:event_lblName1MouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungWbActionPerformed
+    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungWbActionPerformed
         setState(ID_PRUEFUNG_DURCH_WB);
-    }                                                                                //GEN-LAST:event_jbPruefungWbActionPerformed
+    }//GEN-LAST:event_jbPruefungWbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtWbActionPerformed
+    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtWbActionPerformed
         setState(ID_PRUEFUNG_DURCH_WB_ABGESCHL);
-    }                                                                                 //GEN-LAST:event_jbGenehmigtWbActionPerformed
+    }//GEN-LAST:event_jbGenehmigtWbActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -1437,6 +1435,9 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @return  The name of the status
      */
     public static String determineStatusNameByGupBean(final CidsBean gup) {
+        if (gup == null) {
+            return "Planung";
+        }
         final List<CidsBean> statusList = gup.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
         String statName = "";
         final Boolean closed = (Boolean)gup.getProperty(PROP_CLOSE);
@@ -1611,87 +1612,116 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  stateId  DOCUMENT ME!
      */
     private void setState(final Integer stateId) {
-        CidsBean stateObject = null;
-        final int oldState = stateMachine.getState();
-        final Integer state = determineNewState(oldState, stateId);
-        final Integer[] stateIds = VIRTUAL_STAT_MAP.get(state);
+        final WaitingDialogThread<Integer> wdt = new WaitingDialogThread<Integer>(StaticSwingTools.getParentFrame(this),
+                true,
+                "Ändere Status",
+                null,
+                200) {
 
-        if ((((state == STAT_NB_ABG) || (state == STAT_NB_ABG_WB)) && !isApproved(STAT_NB_ABG))
-                    || (((state == STAT_WB_ABG) || (state == STAT_NB_WB_ABG)) && !isApproved(STAT_WB_ABG))
-                    || ((state == STAT_NB_ABG_WB_ABG) && (!isApproved(STAT_NB_ABG) || !isApproved(STAT_WB_ABG)))) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Es wurde noch nicht alle Maßnahmen genehmigt",
-                "Prüfung unvollständig",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+                @Override
+                protected Integer doInBackground() throws Exception {
+                    CidsBean stateObject = null;
+                    final int oldState = stateMachine.getState();
+                    final Integer state = determineNewState(oldState, stateId);
+                    final Integer[] stateIds = VIRTUAL_STAT_MAP.get(state);
 
-        if ((state == STAT_ANGENOMMEN) && !isApproved(STAT_ANGENOMMEN)) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Es wurde noch nicht alle Maßnahmen geprüft",
-                "Prüfung unvollständig",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+                    if ((((state == STAT_NB_ABG) || (state == STAT_NB_ABG_WB)) && !isApproved(STAT_NB_ABG))
+                                || (((state == STAT_WB_ABG) || (state == STAT_NB_WB_ABG)) && !isApproved(STAT_WB_ABG))
+                                || ((state == STAT_NB_ABG_WB_ABG)
+                                    && (!isApproved(STAT_NB_ABG) || !isApproved(STAT_WB_ABG)))) {
+                        return 1;
+                    }
 
-//        todo: Status in Bean eintragen und m:n Beziehung erstellen
-        stateMachine.setState(state);
+                    if ((state == STAT_ANGENOMMEN) && !isApproved(STAT_ANGENOMMEN)) {
+                        return 2;
+                    }
 
-        for (final MetaObject tmp : STATE_BEANS) {
-            if (tmp.getBean().getProperty(PROP_ID).equals(stateId)) {
-                stateObject = tmp.getBean();
-            }
-        }
+                    // todo: Status in Bean eintragen und m:n Beziehung erstellen
+                    stateMachine.setState(state);
 
-        try {
-            if (stateId == ID_PLAN_ABGESCHLOSSEN) {
-                cidsBean.setProperty(PROP_CLOSE, true);
-                cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
-                final List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
-                stateList.clear();
-                stateList.add(stateObject);
-
-                CismetThreadPool.execute(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            freezeAllPlanungsabschnitte();
-                        }
-                    });
-            } else {
-                final Boolean closed = (Boolean)cidsBean.getProperty(PROP_CLOSE);
-
-                if ((closed != null) && closed) {
-                    cidsBean.setProperty(PROP_CLOSE, false);
-                }
-
-                final List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
-
-                if (stateList != null) {
-                    for (final CidsBean bean : new ArrayList<CidsBean>(stateList)) {
-                        final Integer id = (Integer)bean.getProperty(PROP_ID);
-
-                        if (Arrays.binarySearch(stateIds, id) < 0) {
-                            stateList.remove(bean);
+                    for (final MetaObject tmp : STATE_BEANS) {
+                        if (tmp.getBean().getProperty(PROP_ID).equals(stateId)) {
+                            stateObject = tmp.getBean();
                         }
                     }
 
-                    if (!stateList.contains(stateObject)) {
-                        stateList.add(stateObject);
+                    try {
+                        if (stateId == ID_PLAN_ABGESCHLOSSEN) {
+                            cidsBean.setProperty(PROP_CLOSE, true);
+                            cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
+                            final List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
+                            stateList.clear();
+                            stateList.add(stateObject);
+
+                            CismetThreadPool.execute(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        freezeAllPlanungsabschnitte();
+                                    }
+                                });
+                        } else {
+                            final Boolean closed = (Boolean)cidsBean.getProperty(PROP_CLOSE);
+
+                            if ((closed != null) && closed) {
+                                cidsBean.setProperty(PROP_CLOSE, false);
+                            }
+
+                            final List<CidsBean> stateList = cidsBean.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
+
+                            if (stateList != null) {
+                                for (final CidsBean bean : new ArrayList<CidsBean>(stateList)) {
+                                    final Integer id = (Integer)bean.getProperty(PROP_ID);
+
+                                    if (Arrays.binarySearch(stateIds, id) < 0) {
+                                        stateList.remove(bean);
+                                    }
+                                }
+
+                                if (!stateList.contains(stateObject)) {
+                                    stateList.add(stateObject);
+                                }
+                            }
+
+                            cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Cannot change the state of the gup.", e);
+                        stateMachine.forceState(oldState);
                     }
+
+                    return 0;
                 }
 
-                cidsBean.setProperty("status_wechsel", new java.sql.Date(new Date().getTime()));
-            }
-        } catch (Exception e) {
-            LOG.error("Cannot change the state of the gup.", e);
-            stateMachine.forceState(oldState);
-        }
+                @Override
+                protected void done() {
+                    try {
+                        final Integer errorCode = get();
 
-        activateButtons();
-        setTitleStatus();
+                        if (errorCode == 1) {
+                            JOptionPane.showMessageDialog(
+                                GupGupEditor.this,
+                                "Es wurden noch nicht alle Maßnahmen genehmigt",
+                                "Prüfung unvollständig",
+                                JOptionPane.WARNING_MESSAGE);
+                        }
+                        if (errorCode == 2) {
+                            JOptionPane.showMessageDialog(
+                                GupGupEditor.this,
+                                "Es wurden noch nicht alle Maßnahmen angenommen",
+                                "Prüfung unvollständig",
+                                JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            activateButtons();
+                            setTitleStatus();
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error while change status", e);
+                    }
+                }
+            };
+
+        wdt.start();
     }
 
     /**
@@ -1926,9 +1956,9 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     }
 
     /**
-     * DOCUMENT ME!
+     * Determines, if all massnahmen objects are ready for the given status.
      *
-     * @param   status  DOCUMENT ME!
+     * @param   status  The new status
      *
      * @return  DOCUMENT ME!
      */
@@ -1962,7 +1992,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                     && ((notRequired == null) || !notRequired)) {
                             return false;
                         }
-                    } else if (status == STAT_NB_ABG) {
+                    } else if (status == STAT_WB_ABG) {
                         final Boolean approved = (Boolean)tmp.getProperty(PROP_ACCEPTED_WB);
                         final Boolean refused = (Boolean)tmp.getProperty(PROP_DECLINED_WB);
 
@@ -2013,6 +2043,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             pl.setProperty("eingefrorene_schutzgebiete", null);
             pl.setProperty("eingefrorene_operative_ziele", null);
             pl.setProperty("eingefrorene_entwicklungsziele", null);
+            pl.setProperty("eingefrorene_verbreitungsraeume", null);
+            pl.setProperty("eingefrorene_umlandnutzung", null);
         } catch (Exception ex) {
             LOG.error("Problem beim Einfrieren eines Planungsabschnittes", ex);
         }
@@ -2027,13 +2059,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(route.getProperty("gwk"));
                     final MetaObject[] beanArray = GupHelper.schutzgebietCache.calcValue(in);
 
-                    final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
+                    final CidsBean route = CidsBeanSupport.createNewCidsBeanFromTableName("schutzgebiet_route");
+                    final List<CidsBean> beanCollection = route.getBeanCollectionProperty("schutzgebiete");
 
                     for (final MetaObject bean : beanArray) {
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(true, beanCollection);
+                    return route.toJSONString(true);
                 }
 
                 @Override
@@ -2057,14 +2090,15 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(max);
                     in.add(route.getProperty("gwk"));
                     final MetaObject[] beanArray = GupHelper.operativeZieleCache.calcValue(in);
+                    final CidsBean route = CidsBeanSupport.createNewCidsBeanFromTableName("gup_operatives_ziel_route");
 
-                    final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
+                    final List<CidsBean> beanCollection = route.getBeanCollectionProperty("ziele");
 
                     for (final MetaObject bean : beanArray) {
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(true, beanCollection);
+                    return route.toJSONString(true);
                 }
 
                 @Override
@@ -2089,13 +2123,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(route.getProperty("gwk"));
                     final MetaObject[] beanArray = GupHelper.entwicklungszielCache.calcValue(in);
 
-                    final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
+                    final CidsBean route = CidsBeanSupport.createNewCidsBeanFromTableName("entwicklungsziel_route");
+                    final List<CidsBean> beanCollection = route.getBeanCollectionProperty("entwicklungsziele");
 
                     for (final MetaObject bean : beanArray) {
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(true, beanCollection);
+                    return route.toJSONString(true);
                 }
 
                 @Override
@@ -2120,13 +2155,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     in.add(route.getProperty("gwk"));
                     final MetaObject[] beanArray = GupHelper.umlandCache.calcValue(in);
 
-                    final List<CidsBean> beanCollection = new ArrayList<CidsBean>();
+                    final CidsBean route = CidsBeanSupport.createNewCidsBeanFromTableName("umlandnutzung_route");
+                    final List<CidsBean> beanCollection = route.getBeanCollectionProperty("umlandnutzung");
 
                     for (final MetaObject bean : beanArray) {
                         beanCollection.add(bean.getBean());
                     }
 
-                    return CidsBean.toJSONString(true, beanCollection);
+                    return route.toJSONString(true);
                 }
 
                 @Override
