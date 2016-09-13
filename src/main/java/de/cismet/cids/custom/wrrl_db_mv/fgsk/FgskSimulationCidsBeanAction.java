@@ -89,8 +89,9 @@ public class FgskSimulationCidsBeanAction extends AbstractCidsBeanAction {
                     newBean.setProperty("wk_key", String.valueOf(origBean.getProperty("wk_key")));
                     newBean.setProperty("read_only", Boolean.FALSE);
                     final List<CidsBean> origMassn = origBean.getBeanCollectionProperty(
-                            "angewendete_simulationsmassnahmen");
-                    final List<CidsBean> massn = newBean.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
+                            FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
+                    final List<CidsBean> massn = newBean.getBeanCollectionProperty(
+                            FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
 
                     if (origMassn != null) {
                         for (final CidsBean origMassnBean : origMassn) {

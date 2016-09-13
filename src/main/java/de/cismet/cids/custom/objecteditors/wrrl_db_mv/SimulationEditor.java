@@ -75,11 +75,13 @@ import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.fgsksimulation.FgskSimCalc;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.AllObjectsSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ComparableCidsBean;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBand;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReadOnlyFgskBandMember;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+import de.cismet.cids.custom.wrrl_db_mv.util.WrrlMapOptionsPanel;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.*;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencingHelper;
 
@@ -91,6 +93,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -135,22 +139,43 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private static final MetaClass MC_FGSK = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "fgsk_kartierabschnitt");
-    private static final CalculationCache<List, MetaObject[]> fgskCache = new CalculationCache<List, MetaObject[]>(
+    private static final MetaClass MC_SIM_FLAECEHNERWERBSPREIS = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "sim_flaechenerwerbspreis");
+    private static final CalculationCache<List, MetaObject[]> FGSK_CACHE = new CalculationCache<List, MetaObject[]>(
             new FgskCalculator());
-    private static final CalculationCache<List, MetaObject[]> wkfgCache = new CalculationCache<List, MetaObject[]>(
+    private static final CalculationCache<List, MetaObject[]> WK_FG_CACHE = new CalculationCache<List, MetaObject[]>(
             new WkfgCalculator());
-    private static final CalculationCache<List, MetaObject[]> massnahmenCache =
+    private static final CalculationCache<List, MetaObject[]> MASSNAHMEN_CACHE =
         new CalculationCache<List, MetaObject[]>(
             new MassnBvpCalculator());
-    private static final String home = System.getProperty("user.home");    // NOI18N
-    private static final String fs = System.getProperty("file.separator"); // NOI18N
-    private static final String cismapBackupLayout = home + fs + ".cismap" + fs + "backup.layout";
-    private static final String navigatorBackupLayout = Navigator.NAVIGATOR_HOME + "navigatorBackup.layout";
+    public static final CalculationCache<String, List<MetaObject>> FL_COSTS_CACHE =
+        new CalculationCache<String, List<MetaObject>>(
+            new FlCostsCalculator());
+    private static final String HOME = System.getProperty("user.home");    // NOI18N
+    private static final String FS = System.getProperty("file.separator"); // NOI18N
+    private static final String CISMAP_BACKUP_LAYOUT = HOME + FS + ".cismap" + FS + "backup.layout";
+    private static final String NAVIGATOR_BACKUP_LAYOUT = Navigator.NAVIGATOR_HOME + "navigatorBackup.layout";
     private static boolean layoutRestored = true;
 
     static {
-        fgskCache.setTimeToCacheResults(30000);
-        wkfgCache.setTimeToCacheResults(30000);
+        FGSK_CACHE.setTimeToCacheResults(30000);
+        WK_FG_CACHE.setTimeToCacheResults(30000);
+        FL_COSTS_CACHE.setTimeToCacheResults(3000000L);
+
+        final Thread t = new Thread("load costs") {
+
+                @Override
+                public void run() {
+                    try {
+                        SimulationEditor.FL_COSTS_CACHE.calcValue("1");
+                    } catch (Exception e) {
+                        LOG.error("error while loading costs", e);
+                    }
+                }
+            };
+
+        t.start();
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -186,6 +211,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -198,18 +224,26 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel labMassnProp;
     private javax.swing.JLabel labMultiSim;
     private javax.swing.JLabel lblBemerkungen;
-    private javax.swing.JLabel lblCosts;
+    private javax.swing.JLabel lblCosts4;
+    private javax.swing.JLabel lblFlCosts;
+    private javax.swing.JLabel lblFlKosten;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
-    private javax.swing.JLabel lblKostenGes;
+    private javax.swing.JLabel lblKostenGes4;
+    private javax.swing.JLabel lblMaCosts;
+    private javax.swing.JLabel lblMaKosten;
     private javax.swing.JLabel lblMarker1;
     private javax.swing.JLabel lblMarker2;
     private javax.swing.JLabel lblMarker3;
     private javax.swing.JLabel lblMarker4;
     private javax.swing.JLabel lblMarker5;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblNeCosts;
+    private javax.swing.JLabel lblNeKosten;
     private javax.swing.JLabel lblNeu;
+    private javax.swing.JLabel lblSoCosts;
+    private javax.swing.JLabel lblSoKosten;
     private javax.swing.JLabel lblSubTitle1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTitleName;
@@ -407,8 +441,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             isNew = cidsBean.getProperty("wk_key") == null;
             warningAlreadyShown = false;
 
-            if (!initialReadOnly && (cidsBean.getProperty("read_only") != null)
-                        && ((Boolean)cidsBean.getProperty("read_only"))) {
+            if (initialReadOnly
+                        || ((cidsBean.getProperty("read_only") != null)
+                            && ((Boolean)cidsBean.getProperty("read_only")))) {
                 setReadOnly(true);
             } else {
                 setReadOnly(false);
@@ -460,7 +495,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             }
         }
 
-        if (!initialReadOnly) {
+        if (!initialReadOnly && WrrlMapOptionsPanel.isChangeMapWindowActive()) {
             changeLayout();
         }
     }
@@ -481,15 +516,15 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                                         .getGUIContainer();
 
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("cismap backup file: " + cismapBackupLayout);
+                                LOG.debug("cismap backup file: " + CISMAP_BACKUP_LAYOUT);
                             }
-                            cismap.saveLayout(cismapBackupLayout);
+                            cismap.saveLayout(CISMAP_BACKUP_LAYOUT);
 
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("navigator backup file: " + navigatorBackupLayout);
+                                LOG.debug("navigator backup file: " + NAVIGATOR_BACKUP_LAYOUT);
                             }
                             container.saveLayout(
-                                navigatorBackupLayout,
+                                NAVIGATOR_BACKUP_LAYOUT,
                                 ComponentRegistry.getRegistry().getMainWindow());
 
                             layoutRestored = false;
@@ -527,16 +562,16 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 @Override
                 public void run() {
                     try {
-                        if (new File(cismapBackupLayout).exists()) {
+                        if (new File(CISMAP_BACKUP_LAYOUT).exists()) {
                             final CismapPlugin cismap = (CismapPlugin)PluginRegistry.getRegistry().getPlugin("cismap");
-                            cismap.loadLayout(cismapBackupLayout, false);
+                            cismap.loadLayout(CISMAP_BACKUP_LAYOUT, false);
                         }
 
-                        if (new File(navigatorBackupLayout).exists()) {
+                        if (new File(NAVIGATOR_BACKUP_LAYOUT).exists()) {
                             final LayoutedContainer container = (LayoutedContainer)ComponentRegistry.getRegistry()
                                         .getGUIContainer();
                             container.loadLayout(
-                                navigatorBackupLayout,
+                                NAVIGATOR_BACKUP_LAYOUT,
                                 false,
                                 ComponentRegistry.getRegistry().getMainWindow());
                         }
@@ -649,13 +684,13 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 protected MetaObject[] doInBackground() throws Exception {
                     final List wkfgIn = new ArrayList(1);
                     wkfgIn.add(cidsBean.getProperty("wk_key"));
-                    final MetaObject[] mosWkFg = wkfgCache.calcValue(wkfgIn);
+                    final MetaObject[] mosWkFg = WK_FG_CACHE.calcValue(wkfgIn);
 
                     if ((mosWkFg != null) && (mosWkFg.length == 1)) {
                         wkFg = mosWkFg[0].getBean();
                         final List in = new ArrayList(1);
                         in.add(cidsBean.getProperty("wk_key"));
-                        return fgskCache.calcValue(in);
+                        return FGSK_CACHE.calcValue(in);
                     }
 
                     return null;
@@ -800,7 +835,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 protected MetaObject[] doInBackground() throws Exception {
                     final List in = new ArrayList(1);
                     in.add(cidsBean.getProperty("wk_key"));
-                    return massnahmenCache.calcValue(in);
+                    return MASSNAHMEN_CACHE.calcValue(in);
                 }
 
                 @Override
@@ -1098,6 +1133,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         final List<CidsBean> angMassn = cidsBean.getBeanCollectionProperty(
                 FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
         double costs = 0.0;
+        double flaechenerwerb = 0.0;
+        double customCosts = 0.0;
 
         for (final CidsBean massn : angMassn) {
             try {
@@ -1110,10 +1147,27 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 if (fgsk != null) {
                     if ((mass != null)) {
                         for (final CidsBean m : mass.getBeanCollectionProperty("massnahmen")) {
-                            costs += FgskSimCalc.getInstance().calcCosts(fgsk, m);
+                            final String ort = (String)m.getProperty("ort.name");
+
+                            if (ort.equalsIgnoreCase("Flächenbedarf")) {
+                                flaechenerwerb += FgskSimCalc.getInstance()
+                                            .calcCosts(fgsk, m, FL_COSTS_CACHE.calcValue("1"));
+                            } else {
+                                costs += FgskSimCalc.getInstance().calcCosts(fgsk, m, FL_COSTS_CACHE.calcValue("1"));
+                            }
                         }
                     } else if (einzelMass != null) {
-                        costs += FgskSimCalc.getInstance().calcCosts(fgsk, einzelMass);
+                        final String ort = (String)einzelMass.getProperty("ort.name");
+
+                        if (ort.equalsIgnoreCase("Flächenbedarf")) {
+                            flaechenerwerb += FgskSimCalc.getInstance()
+                                        .calcCosts(fgsk, einzelMass, FL_COSTS_CACHE.calcValue("1"));
+                        } else {
+                            costs += FgskSimCalc.getInstance()
+                                        .calcCosts(fgsk, einzelMass, FL_COSTS_CACHE.calcValue("1"));
+                        }
+                    } else if (massn.getProperty(FgskSimulationHelper.CUSTOM_COSTS_PROPERTY) != null) {
+                        customCosts += (Double)massn.getProperty(FgskSimulationHelper.CUSTOM_COSTS_PROPERTY);
                     }
                 }
             } catch (Exception e) {
@@ -1121,8 +1175,13 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             }
         }
 
+        final double p = (costs + flaechenerwerb + customCosts) * 0.15;
         final DecimalFormat format = new DecimalFormat();
-        lblKostenGes.setText(format.format(costs) + " €");
+        lblMaKosten.setText(format.format(costs) + " €");
+        lblFlKosten.setText(format.format(flaechenerwerb) + " €");
+        lblSoKosten.setText(format.format(customCosts) + " €");
+        lblNeKosten.setText(format.format(p) + " €");
+        lblKostenGes4.setText(format.format(costs + flaechenerwerb + p + customCosts) + " €");
     }
 
     /**
@@ -1199,7 +1258,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     final Integer massnId = (Integer)massn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY);
                     final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeGruppeById(massnId);
                     massnahmen.add(simMassBean);
-                } else {
+                } else if (massn.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY) != null) {
                     final Integer massnId = (Integer)massn.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY);
                     final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeById(massnId);
                     massnahmen.add(simMassBean);
@@ -1208,6 +1267,23 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         }
 
         return massnahmen;
+    }
+
+    /**
+     * Determines the custom costs of the given fgsk object.
+     *
+     * @param   fgsk  DOCUMENT ME!
+     *
+     * @return  the custom costs of the given fgsk object
+     */
+    private Double getCustomCostsForFgsk(final CidsBean fgsk) {
+        final CidsBean costsBean = FgskSimulationHelper.getCustomCostsBeanForFgsk(cidsBean, fgsk);
+
+        if (costsBean != null) {
+            return (Double)costsBean.getProperty(FgskSimulationHelper.CUSTOM_COSTS_PROPERTY);
+        }
+
+        return null;
     }
 
     /**
@@ -1230,7 +1306,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                         final Integer massnId = (Integer)massn.getProperty(FgskSimulationHelper.MASSNAHME_PROPERTY);
                         final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeGruppeById(massnId);
                         massnahmen.add(simMassBean);
-                    } else {
+                    } else if (massn.getProperty(FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY) != null) {
                         final Integer massnId = (Integer)massn.getProperty(
                                 FgskSimulationHelper.EINZEL_MASSNAHME_PROPERTY);
                         final CidsBean simMassBean = FgskSimulationHelper.getSimMassnahmeById(massnId);
@@ -1301,8 +1377,17 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         lblMarker5 = new javax.swing.JLabel();
         lblTitleName = new javax.swing.JLabel();
         labInfo = new javax.swing.JLabel();
-        lblCosts = new javax.swing.JLabel();
-        lblKostenGes = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lblMaCosts = new javax.swing.JLabel();
+        lblMaKosten = new javax.swing.JLabel();
+        lblFlCosts = new javax.swing.JLabel();
+        lblFlKosten = new javax.swing.JLabel();
+        lblSoCosts = new javax.swing.JLabel();
+        lblSoKosten = new javax.swing.JLabel();
+        lblNeCosts = new javax.swing.JLabel();
+        lblNeKosten = new javax.swing.JLabel();
+        lblCosts4 = new javax.swing.JLabel();
+        lblKostenGes4 = new javax.swing.JLabel();
         diaName = new javax.swing.JDialog();
         panAllgemein = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
@@ -1556,7 +1641,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipady = 23;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1604,29 +1689,33 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         panTitle.add(labInfo, gridBagConstraints);
 
-        lblCosts.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lblCosts.setForeground(new java.awt.Color(255, 255, 255));
-        lblCosts.setText(org.openide.util.NbBundle.getMessage(
+        jPanel2.setOpaque(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(640, 30));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lblMaCosts.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblMaCosts.setForeground(new java.awt.Color(255, 255, 255));
+        lblMaCosts.setText(org.openide.util.NbBundle.getMessage(
                 SimulationEditor.class,
-                "SimulationEditor.lblCosts.text",
-                new Object[] {}));                            // NOI18N
+                "SimulationEditor.lblMaCosts.text",
+                new Object[] {}));                              // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panTitle.add(lblCosts, gridBagConstraints);
+        jPanel2.add(lblMaCosts, gridBagConstraints);
 
-        lblKostenGes.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lblKostenGes.setForeground(new java.awt.Color(255, 255, 255));
-        lblKostenGes.setText(org.openide.util.NbBundle.getMessage(
+        lblMaKosten.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblMaKosten.setForeground(new java.awt.Color(255, 255, 255));
+        lblMaKosten.setText(org.openide.util.NbBundle.getMessage(
                 SimulationEditor.class,
-                "SimulationEditor.lblKostenGes.text",
-                new Object[] {}));                                // NOI18N
-        lblKostenGes.addMouseListener(new java.awt.event.MouseAdapter() {
+                "SimulationEditor.lblMaKosten.text",
+                new Object[] {}));                               // NOI18N
+        lblMaKosten.addMouseListener(new java.awt.event.MouseAdapter() {
 
                 @Override
                 public void mouseClicked(final java.awt.event.MouseEvent evt) {
-                    lblKostenGesMouseClicked(evt);
+                    lblMaKostenMouseClicked(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1634,7 +1723,149 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        panTitle.add(lblKostenGes, gridBagConstraints);
+        jPanel2.add(lblMaKosten, gridBagConstraints);
+
+        lblFlCosts.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblFlCosts.setForeground(new java.awt.Color(255, 255, 255));
+        lblFlCosts.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblFlCosts.text",
+                new Object[] {}));                              // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel2.add(lblFlCosts, gridBagConstraints);
+
+        lblFlKosten.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblFlKosten.setForeground(new java.awt.Color(255, 255, 255));
+        lblFlKosten.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblFlKosten.text",
+                new Object[] {}));                               // NOI18N
+        lblFlKosten.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblFlKostenMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(lblFlKosten, gridBagConstraints);
+
+        lblSoCosts.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSoCosts.setForeground(new java.awt.Color(255, 255, 255));
+        lblSoCosts.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblSoCosts.text",
+                new Object[] {}));                              // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel2.add(lblSoCosts, gridBagConstraints);
+
+        lblSoKosten.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSoKosten.setForeground(new java.awt.Color(255, 255, 255));
+        lblSoKosten.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblSoKosten.text",
+                new Object[] {}));                               // NOI18N
+        lblSoKosten.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblSoKostenMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(lblSoKosten, gridBagConstraints);
+
+        lblNeCosts.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNeCosts.setForeground(new java.awt.Color(255, 255, 255));
+        lblNeCosts.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblNeCosts.text",
+                new Object[] {}));                              // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel2.add(lblNeCosts, gridBagConstraints);
+
+        lblNeKosten.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNeKosten.setForeground(new java.awt.Color(255, 255, 255));
+        lblNeKosten.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblNeKosten.text",
+                new Object[] {}));                               // NOI18N
+        lblNeKosten.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblNeKostenMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(lblNeKosten, gridBagConstraints);
+
+        lblCosts4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblCosts4.setForeground(new java.awt.Color(255, 255, 255));
+        lblCosts4.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblCosts4.text",
+                new Object[] {}));                             // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel2.add(lblCosts4, gridBagConstraints);
+
+        lblKostenGes4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblKostenGes4.setForeground(new java.awt.Color(255, 255, 255));
+        lblKostenGes4.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblKostenGes4.text",
+                new Object[] {}));                                 // NOI18N
+        lblKostenGes4.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblKostenGes4MouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(lblKostenGes4, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        panTitle.add(jPanel2, gridBagConstraints);
 
         diaName.setTitle(org.openide.util.NbBundle.getMessage(
                 SimulationEditor.class,
@@ -2330,9 +2561,45 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblKostenGesMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblKostenGesMouseClicked
+    private void lblMaKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblMaKostenMouseClicked
         // TODO add your handling code here:
-    } //GEN-LAST:event_lblKostenGesMouseClicked
+    } //GEN-LAST:event_lblMaKostenMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblFlKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblFlKostenMouseClicked
+        // TODO add your handling code here:
+    } //GEN-LAST:event_lblFlKostenMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblNeKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblNeKostenMouseClicked
+        // TODO add your handling code here:
+    } //GEN-LAST:event_lblNeKostenMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblKostenGes4MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblKostenGes4MouseClicked
+        // TODO add your handling code here:
+    } //GEN-LAST:event_lblKostenGes4MouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblSoKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblSoKostenMouseClicked
+        // TODO add your handling code here:
+    } //GEN-LAST:event_lblSoKostenMouseClicked
 
     /**
      * Checks, if all elements of the containedList are contained in the reference list. The containedList should
@@ -2389,7 +2656,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     public void dispose() {
         simulationsEditor.dispose();
 
-        if (!initialReadOnly) {
+        if (!initialReadOnly && WrrlMapOptionsPanel.isChangeMapWindowActive()) {
             restoreLayout();
         }
 
@@ -2462,6 +2729,9 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             StaticSwingTools.showDialog(diaName);
         } else {
             cancel = false;
+        }
+        if (simulationsEditor != null) {
+            simulationsEditor.prepareForSave();
         }
         return !cancel;
     }
@@ -2597,6 +2867,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                     lblHeading.setText("FGSK-Abschnitt: " + bean.toString());
 
                     simulationsEditor.setSimulation(cidsBean);
+                    simulationsEditor.setCustomCosts(getCustomCostsForFgsk(bean));
                     simulationsEditor.setMassnahmen(getMassnahmenForFgsk(bean));
                     simulationsEditor.setCidsBean(bean);
                 }
@@ -2774,6 +3045,34 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
             return metaObjects;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public static class FlCostsCalculator implements Calculator<String, List<MetaObject>> {
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   id  input den wkk des Wasserkörpers
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        @Override
+        public List<MetaObject> calculate(final String id) throws Exception {
+            final AbstractCidsServerSearch objectSeartch = new AllObjectsSearch(MC_SIM_FLAECEHNERWERBSPREIS.getID(),
+                    MC_SIM_FLAECEHNERWERBSPREIS.getTableName());
+
+            return (List<MetaObject>)SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), objectSeartch);
         }
     }
 
