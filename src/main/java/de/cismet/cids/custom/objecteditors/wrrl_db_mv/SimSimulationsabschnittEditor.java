@@ -44,6 +44,8 @@ import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.fgsksimulation.FgskSimCalc;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenvorschlagSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.FgskHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -137,6 +139,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     private javax.swing.JLabel lblLaufkr;
     private javax.swing.JLabel lblLaufkrVal;
     private javax.swing.JLabel lblMassn;
+    private javax.swing.JLabel lblMassn1;
     private javax.swing.JLabel lblProfiltyp;
     private javax.swing.JLabel lblProfiltypVal;
     private javax.swing.JLabel lblQuerprofil;
@@ -173,6 +176,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     private javax.swing.JPanel panSohle;
     private javax.swing.JPanel panUfer;
     private javax.swing.JTextField txtCosts;
+    private javax.swing.JTextField txtCustomCosts;
     private javax.swing.JTextField txtFische;
     private javax.swing.JTextField txtMkP;
     private javax.swing.JTextField txtMzb;
@@ -200,6 +204,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             new CidsBeanDropTarget(liMassn);
         } else {
             jbRem.setVisible(false);
+            RendererTools.makeReadOnly(txtCustomCosts);
         }
 
         liMassn.setModel(model);
@@ -297,6 +302,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         jScrollPane1 = new javax.swing.JScrollPane();
         liMassn = new CidsBeanDropList();
         jbRem = new javax.swing.JButton();
+        lblMassn1 = new javax.swing.JLabel();
+        txtCustomCosts = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         lblIndFische = new javax.swing.JLabel();
         txtFische = new javax.swing.JTextField();
@@ -1065,10 +1072,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 "SimSimulationsabschnittEditor.lblMassn.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblMassn, gridBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -1104,7 +1111,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1112,6 +1119,32 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panLand.add(jPanel1, gridBagConstraints);
+
+        lblMassn1.setText(org.openide.util.NbBundle.getMessage(
+                SimSimulationsabschnittEditor.class,
+                "SimSimulationsabschnittEditor.lblMassn1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        panLand.add(lblMassn1, gridBagConstraints);
+
+        txtCustomCosts.addFocusListener(new java.awt.event.FocusAdapter() {
+
+                @Override
+                public void focusLost(final java.awt.event.FocusEvent evt) {
+                    txtCustomCostsFocusLost(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        panLand.add(txtCustomCosts, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1367,11 +1400,33 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtCustomCostsFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtCustomCostsFocusLost
+        saveCosts();
+        fillCosts();
+        final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
+                this,
+                cidsBean,
+                massnahmen);
+
+        fireSimulationResultChangedEvent(e);
+    } //GEN-LAST:event_txtCustomCostsFocusLost
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  readOnly  DOCUMENT ME!
      */
     public void setReadOnly(final boolean readOnly) {
         this.readOnly = readOnly;
         jbRem.setVisible(!readOnly);
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtCustomCosts);
+        } else {
+            RendererTools.makeWritable(txtCustomCosts);
+        }
     }
 
     /**
@@ -1380,7 +1435,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @param  bean  this can be a massnahmen_gruppe object or a massnahmen object
      */
     private void removeMassnGroupFromSimulation(final CidsBean bean) {
-        final List<CidsBean> simList = simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen");
+        final List<CidsBean> simList = simulation.getBeanCollectionProperty(
+                FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
 
         for (final CidsBean simMassn : simList) {
             if (simMassn.getProperty("fgsk_ka").equals(cidsBean.getProperty("id"))) {
@@ -1473,6 +1529,19 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     /**
      * DOCUMENT ME!
      *
+     * @param  costs  massnahmen DOCUMENT ME!
+     */
+    public void setCustomCosts(final Double costs) {
+        if (costs == null) {
+            txtCustomCosts.setText("");
+        } else {
+            txtCustomCosts.setText(costs.toString());
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  simulation  DOCUMENT ME!
      */
     public void setSimulation(final CidsBean simulation) {
@@ -1480,7 +1549,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     }
 
     /**
-     * DOCUMENT ME!
+     * Calculates the points of the given fgsk object.
      *
      * @param   bean        DOCUMENT ME!
      * @param   massnahmen  DOCUMENT ME!
@@ -1497,6 +1566,11 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             final boolean fillFields,
             final SimSimulationsabschnittEditor simEditor) throws Exception {
         final CidsBean wbTypeBean = (CidsBean)bean.getProperty(Calc.PROP_WB_TYPE);
+        final Double pointsFromMassn = getFixClassFromMassnahme(massnahmen);
+
+        if (pointsFromMassn != null) {
+            return pointsFromMassn;
+        }
 
         if (FgskKartierabschnittEditor.isPreFieldMapping(bean) || FgskKartierabschnittEditor.isException(bean)) {
             if (fillFields) {
@@ -1977,6 +2051,25 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
     }
 
     /**
+     * Determines the fix class from the given list.
+     *
+     * @param   beanList  a list of beans with the type massnahme
+     *
+     * @return  the fix class from the massnahmen list or null, if no massnahme has a fix class
+     */
+    private static Double getFixClassFromMassnahme(final List<CidsBean> beanList) {
+        final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(beanList);
+
+        for (final CidsBean bean : massnList) {
+            if ((bean.getProperty("fix_gk") != null)) {
+                return (Double)bean.getProperty("fix_gk");
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * DOCUMENT ME!
      */
     private void clearAll() {
@@ -2388,6 +2481,37 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
     @Override
     public void dispose() {
+        saveCosts();
+    }
+
+    /**
+     * saves the custom costs.
+     */
+    private void saveCosts() {
+        final Double costs = getCurrentCustomCosts();
+
+        if (cidsBean != null) {
+            FgskSimulationHelper.setCustomCostsForFgsk(simulation, cidsBean, costs);
+        }
+    }
+
+    /**
+     * Determines the current custom costs from the text field.
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Double getCurrentCustomCosts() {
+        final String costsAsString = txtCustomCosts.getText();
+
+        if ((costsAsString != null) && !costsAsString.equals("")) {
+            try {
+                return Double.parseDouble(costsAsString);
+            } catch (NumberFormatException e) {
+                LOG.error("Costs are not a number and will be ignored", e);
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -2412,6 +2536,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
     @Override
     public boolean prepareForSave() {
+        saveCosts();
         return true;
     }
 
@@ -2420,6 +2545,12 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      */
     private void fillCosts() {
         double costs = 0.0;
+        Double customCosts = getCurrentCustomCosts();
+
+        if (customCosts == null) {
+            customCosts = 0.0;
+        }
+
         try {
             if (massnahmen != null) {
                 for (final CidsBean massnGroup : massnahmen) {
@@ -2428,7 +2559,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             }
 
             final DecimalFormat format = new DecimalFormat();
-            txtCosts.setText(format.format(costs));
+            txtCosts.setText(format.format(costs + customCosts));
         } catch (Exception e) {
             LOG.error("Error while calculating the costs.", e);
         }
@@ -2450,7 +2581,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                         massnGroup));
 
             for (final CidsBean massn : massnList) {
-                costs += FgskSimCalc.getInstance().calcCosts(cidsBean, massn);
+                costs += FgskSimCalc.getInstance()
+                            .calcCosts(cidsBean, massn, SimulationEditor.FL_COSTS_CACHE.calcValue("1"));
             }
         } catch (Exception e) {
             LOG.error("Error while calculating the costs.", e);
@@ -2590,7 +2722,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                     calc(cidsBean, massnahmen, true, SimSimulationsabschnittEditor.this);
                     fillCosts();
 
-                    simulation.getBeanCollectionProperty("angewendete_simulationsmassnahmen").add(newBean);
+                    simulation.getBeanCollectionProperty(FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY)
+                            .add(newBean);
                     final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
                             this,
                             cidsBean,
@@ -2613,6 +2746,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      * @version  $Revision$, $Date$
      */
     private class CustomListCellRenderer extends DefaultListCellRenderer {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final DecimalFormat FORMAT = new DecimalFormat();
 
         //~ Methods ------------------------------------------------------------
 
@@ -2662,7 +2799,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 }
             }
 
-            final String title = name + " (" + costs + " €, +" + wirkung + ")";
+            final String title = name + " (" + FORMAT.format(costs) + " €, +" + wirkung + ")";
             final Component o = super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
 
             if (o instanceof JLabel) {

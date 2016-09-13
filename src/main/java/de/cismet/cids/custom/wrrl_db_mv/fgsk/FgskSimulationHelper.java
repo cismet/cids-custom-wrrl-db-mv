@@ -76,6 +76,7 @@ public class FgskSimulationHelper {
     private static final Map<Integer, CidsBean> massnBeanMap = new HashMap<Integer, CidsBean>();
     private static final Map<Integer, CidsBean> massnGruppeBeanMap = new HashMap<Integer, CidsBean>();
     public static final String FGSK_KA_PROPERTY = "fgsk_ka";
+    public static final String CUSTOM_COSTS_PROPERTY = "sonstige_kosten";
     public static final String SIMULATIONSMASSNAHMEN_PROPERTY = "angewendete_simulationsmassnahmen";
     public static final String EINZEL_MASSNAHME_PROPERTY = "einzel_massnahme";
     public static final String MASSNAHME_PROPERTY = "massnahme";
@@ -197,6 +198,66 @@ public class FgskSimulationHelper {
             simulationBean.getBeanCollectionProperty(SIMULATIONSMASSNAHMEN_PROPERTY).add(newBean);
         } catch (Exception e) {
             LOG.error("error adding new object of type sim_massnahmen_anwendung", e);
+        }
+    }
+
+    /**
+     * Determines the custom costs of the given fgsk object.
+     *
+     * @param   simulationBean  DOCUMENT ME!
+     * @param   fgsk            DOCUMENT ME!
+     *
+     * @return  the custom costs of the given fgsk object
+     */
+    public static CidsBean getCustomCostsBeanForFgsk(final CidsBean simulationBean, final CidsBean fgsk) {
+        final Integer fgskId = (Integer)fgsk.getProperty("id");
+        final List<CidsBean> angMassn = simulationBean.getBeanCollectionProperty(
+                FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
+
+        for (final CidsBean massn : angMassn) {
+            if (massn.getProperty(FgskSimulationHelper.FGSK_KA_PROPERTY).equals(fgskId)) {
+                final Double costs = (Double)massn.getProperty(FgskSimulationHelper.CUSTOM_COSTS_PROPERTY);
+
+                if (costs != null) {
+                    return massn;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set the given custom costs in the given fgsk object. The custom costs will be removed, if costs == null.
+     *
+     * @param  simulationBean  the simulation bean that contains the given fgsk object
+     * @param  fgsk            the fgsk object, the costs should be assigned to
+     * @param  costs           the costs to set
+     */
+    public static void setCustomCostsForFgsk(final CidsBean simulationBean,
+            final CidsBean fgsk,
+            final Double costs) {
+        try {
+            final CidsBean customCostsBean = FgskSimulationHelper.getCustomCostsBeanForFgsk(simulationBean, fgsk);
+
+            if (customCostsBean != null) {
+                // there are already custom costs for the given fgsk
+                if (costs != null) {
+                    customCostsBean.setProperty(CUSTOM_COSTS_PROPERTY, costs);
+                } else {
+                    final List<CidsBean> angMassn = simulationBean.getBeanCollectionProperty(
+                            FgskSimulationHelper.SIMULATIONSMASSNAHMEN_PROPERTY);
+                    angMassn.remove(customCostsBean);
+                }
+            } else if (costs != null) {
+                final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("sim_massnahmen_anwendungen");
+                newBean.setProperty(FGSK_KA_PROPERTY, fgsk.getProperty("id"));
+                newBean.setProperty("complete", true);
+                newBean.setProperty(CUSTOM_COSTS_PROPERTY, costs);
+                simulationBean.getBeanCollectionProperty(SIMULATIONSMASSNAHMEN_PROPERTY).add(newBean);
+            }
+        } catch (Exception e) {
+            LOG.error("error while changing the given costs", e);
         }
     }
 
@@ -455,9 +516,9 @@ public class FgskSimulationHelper {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request for massnahmen: " + query);
             }
-            final long start = System.currentTimeMillis();
+//            final long start = System.currentTimeMillis();
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-            LOG.error("Zeit zum Laden: " + (System.currentTimeMillis() - start));
+//            LOG.error("Zeit zum Laden: " + (System.currentTimeMillis() - start));
 
             final CidsBean simulationBean;
 
