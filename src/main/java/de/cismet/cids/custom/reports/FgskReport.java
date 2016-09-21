@@ -23,14 +23,24 @@
  */
 package de.cismet.cids.custom.reports;
 
+import Sirius.navigator.connection.Connection;
+import Sirius.navigator.connection.ConnectionFactory;
+import Sirius.navigator.connection.ConnectionInfo;
+import Sirius.navigator.connection.ConnectionSession;
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.connection.proxy.ConnectionProxy;
+import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.newuser.UserException;
 
 import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
+
+import java.io.FileReader;
+import java.io.Reader;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,18 +51,25 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.FgskIdSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgIdSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.ReportUtils;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 /**
@@ -65,10 +82,13 @@ public final class FgskReport extends AbstractJasperReportPrint {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final String REPORT_URL = "/de/cismet/cids/custom/reports/fgsk.jasper";
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
     private static final Logger LOG = Logger.getLogger(FgskReport.class);
     private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static final String INDETERMINATE = "nicht ermittelbar";
+
+    //~ Instance fields --------------------------------------------------------
+
+    private final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
 
     //~ Constructors -----------------------------------------------------------
 
@@ -88,6 +108,17 @@ public final class FgskReport extends AbstractJasperReportPrint {
      */
     public FgskReport(final CidsBean bean) {
         super(REPORT_URL, bean);
+        setBeansCollection(false);
+    }
+
+    /**
+     * Creates a new StadtbildJasperReportPrint object.
+     *
+     * @param  bean      DOCUMENT ME!
+     * @param  filename  DOCUMENT ME!
+     */
+    public FgskReport(final CidsBean bean, final String filename) {
+        super(REPORT_URL, bean, filename);
         setBeansCollection(false);
     }
 
@@ -991,5 +1022,138 @@ public final class FgskReport extends AbstractJasperReportPrint {
     @Override
     public Map generateReportParam(final Collection<CidsBean> beans) {
         return Collections.EMPTY_MAP;
+    }
+
+    /**
+     * Creates all wk_fg reports and saves the files in the given directory.
+     *
+     * @param  directory   the directory to save the reports
+     * @param  expression  DOCUMENT ME!
+     */
+    public static void createAllReports(final String directory, final String expression) {
+        final MetaClass fgskMc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "fgsk_kartierabschnitt");
+        final ArrayList ids = new ArrayList();
+
+        try {
+            final CidsServerSearch search = new FgskIdSearch(expression);
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search);
+            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                for (final ArrayList l : resArray) {
+                    ids.add(l.get(0));
+                }
+            }
+        } catch (ConnectionException e) {
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        int index = 1;
+
+        try {
+            for (final Object id : ids) {
+                final Integer oId = (Integer)id;
+                final MetaObject wkFgObject = SessionManager.getProxy()
+                            .getMetaObject(oId, fgskMc.getID(), WRRLUtil.DOMAIN_NAME);
+                final CidsBean bean = wkFgObject.getBean();
+                final String filename = (directory.endsWith("/") ? directory : (directory + "/")) + bean.toString()
+                            + ".pdf";
+
+                executor.execute(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            final FgskReport r = new FgskReport(bean, filename);
+                            r.print();
+                        }
+                    });
+                ++index;
+
+                if ((index % 100) == 0) {
+                    executor.shutdown();
+                    executor.awaitTermination(1, TimeUnit.DAYS);
+                    executor = Executors.newFixedThreadPool(5);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Error while creating all fgsk reports", e);
+            System.exit(1);
+        }
+
+        try {
+            executor.shutdown();
+            executor.awaitTermination(10, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            // nothing to do
+        }
+
+        System.exit(0);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  the command line arguments
+     */
+    public static void main(final String[] args) {
+        try {
+            String expression = null;
+
+            if (args.length == 0) {
+                System.out.println("Als Parameter muss der Pfad zur Konfigurationsdatei angegeben werden");
+                System.exit(1);
+            }
+
+            if (args.length == 2) {
+                expression = args[1];
+            }
+
+            // read the properties
+            final Properties properties = new Properties();
+            final Reader propertiesReader = new FileReader(args[0]);
+            properties.load(propertiesReader);
+
+            // login
+            final ConnectionInfo connectionInfo = new ConnectionInfo();
+            connectionInfo.setCallserverURL(properties.getProperty("callserver"));
+            connectionInfo.setPassword(properties.getProperty("password"));
+            connectionInfo.setUserDomain(properties.getProperty("userDomain"));
+            connectionInfo.setUsergroup(properties.getProperty("userGroup"));
+            connectionInfo.setUsergroupDomain(properties.getProperty("userGroupDomain"));
+            connectionInfo.setUsername(properties.getProperty("username"));
+
+            final Connection connection = ConnectionFactory.getFactory()
+                        .createConnection(
+                            properties.getProperty("connectionClass"),
+                            properties.getProperty("callserver"),
+                            null);
+            final ConnectionSession session;
+            final ConnectionProxy proxy;
+
+            try {
+                session = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
+                proxy = ConnectionFactory.getFactory()
+                            .createProxy("Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler", session);
+                SessionManager.init(proxy);
+            } catch (UserException uexp) {
+                LOG.error("autologin failed", uexp); // NOI18N
+                System.exit(1);
+            }
+
+            ReportUtils.initCismap();
+
+            // init log4J
+            final Properties p = new Properties();
+            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
+            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
+            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
+            org.apache.log4j.PropertyConfigurator.configure(p);
+
+            // create the reports
+            createAllReports(properties.getProperty("report_directory"), expression);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
