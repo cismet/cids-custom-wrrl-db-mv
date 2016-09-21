@@ -56,6 +56,7 @@ import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgIdSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.LawaTableModel;
+import de.cismet.cids.custom.wrrl_db_mv.util.ReportUtils;
 import de.cismet.cids.custom.wrrl_db_mv.util.TeileComparator;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -87,7 +88,6 @@ public class WkFgReport {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgReport.class);
-    private static ConfigurationManager configManager = new ConfigurationManager();
     private static final String PDF_FILE_EXTENSION = ".pdf";
 
     //~ Methods ----------------------------------------------------------------
@@ -276,8 +276,6 @@ public class WkFgReport {
      */
     public static void createAllReports(final String directory, final String expression) {
         final MetaClass wkFgMc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
-        final String query = "SELECT " + wkFgMc.getID() + ", " + wkFgMc.getPrimaryKey() + " FROM "
-                    + wkFgMc.getTableName();
         final ArrayList ids = new ArrayList();
 
         try {
@@ -642,7 +640,7 @@ public class WkFgReport {
                 System.exit(1);
             }
 
-            initCismap();
+            ReportUtils.initCismap();
 
             // init log4J
             final Properties p = new Properties();
@@ -656,28 +654,6 @@ public class WkFgReport {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Initialises the MappingComponent.
-     */
-    private static void initCismap() {
-        final MappingComponent mappingComponent = new MappingComponent();
-
-        configManager.setDefaultFileName("de/cismet/cids/custom/reports/defaultCismapProperties.xml");
-        configManager.setFallBackFileName("de/cismet/cids/custom/reports/defaultCismapProperties.xml");
-
-        final ActiveLayerModel mappingModel = new ActiveLayerModel();
-        configManager.addConfigurable((ActiveLayerModel)mappingModel);
-        configManager.addConfigurable(mappingComponent);
-
-        configManager.configure(mappingModel);
-        mappingComponent.preparationSetMappingModel(mappingModel);
-        configManager.configure(mappingComponent);
-
-        mappingComponent.setMappingModel(mappingModel);
-
-        CismapBroker.getInstance().setMappingComponent(mappingComponent);
     }
 
     //~ Inner Classes ----------------------------------------------------------

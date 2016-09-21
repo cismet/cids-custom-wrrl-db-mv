@@ -12,6 +12,7 @@
 package de.cismet.cids.custom.reports;
 
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -21,6 +22,10 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.swing.JRViewer;
 
 import java.awt.EventQueue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +63,7 @@ public abstract class AbstractJasperReportPrint {
     private JasperPrintWorker jpw;
     private boolean beansCollection = true;
     private JFrame parentFrame;
+    private String filename = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -79,6 +85,18 @@ public abstract class AbstractJasperReportPrint {
      */
     public AbstractJasperReportPrint(final String reportURL, final CidsBean bean) {
         this(null, reportURL, bean);
+    }
+
+    /**
+     * Creates a new AbstractJasperReportPrint object. The report will be written to the given file
+     *
+     * @param  reportURL  DOCUMENT ME!
+     * @param  bean       DOCUMENT ME!
+     * @param  filename   DOCUMENT ME!
+     */
+    public AbstractJasperReportPrint(final String reportURL, final CidsBean bean, final String filename) {
+        this(null, reportURL, bean);
+        this.filename = filename;
     }
 
     /**
@@ -164,7 +182,7 @@ public abstract class AbstractJasperReportPrint {
         if ((old != null) && !old.isDone()) {
             old.cancel(true);
         }
-        jpw = new JasperPrintWorker();
+        jpw = new JasperPrintWorker(filename);
         CismetThreadPool.execute(jpw);
     }
 
@@ -195,6 +213,10 @@ public abstract class AbstractJasperReportPrint {
      */
     final class JasperPrintWorker extends SwingWorker<JasperPrint, Void> {
 
+        //~ Instance fields ----------------------------------------------------
+
+        private String fileName = null;
+
         //~ Constructors -------------------------------------------------------
 
         /**
@@ -203,6 +225,15 @@ public abstract class AbstractJasperReportPrint {
         public JasperPrintWorker() {
 //            printingWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(component));
 //            printingWaitDialog.setVisible(true);
+        }
+
+        /**
+         * Creates a new JasperPrintWorker object.
+         *
+         * @param  fileName  DOCUMENT ME!
+         */
+        public JasperPrintWorker(final String fileName) {
+            this.fileName = fileName;
         }
 
         //~ Methods ------------------------------------------------------------
@@ -275,15 +306,37 @@ public abstract class AbstractJasperReportPrint {
         protected void done() {
             try {
                 final JasperPrint jp = get();
-                if ((jp != null) && !isCancelled()) {
+
+                if ((jp != null) && !isCancelled() && (fileName == null)) {
                     final JRViewer aViewer = new JRViewer(jp);
                     aViewer.setZoomRatio(0.35f);
                     setupPrintFrame(aViewer);
+                } else {
+                    final ByteArrayOutputStream outTmp = new ByteArrayOutputStream();
+                    JasperExportManager.exportReportToPdfStream(jp, outTmp);
+                    File file = new File(fileName);
+                    final String filePrefix = (fileName.contains(".") ? fileName.substring(0, fileName.indexOf("."))
+                                                                      : fileName);
+                    final String extension = (fileName.contains(".") ? fileName.substring(fileName.indexOf(".")) : "");
+                    int index = 0;
+
+                    while (file.exists()) {
+                        file = new File(filePrefix + (++index) + extension);
+                    }
+
+                    FileOutputStream fos = null;
+                    try {
+                        file.getParentFile().mkdirs();
+                        fos = new FileOutputStream(file);
+                        fos.write(outTmp.toByteArray());
+                    } finally {
+                        if (fos != null) {
+                            fos.close();
+                        }
+                    }
                 }
-            } catch (InterruptedException ex) {
+            } catch (Exception ex) {
                 log.warn(ex, ex);
-            } catch (ExecutionException ex) {
-                log.error(ex, ex);
             } finally {
 //                printingWaitDialog.setVisible(false);
             }
