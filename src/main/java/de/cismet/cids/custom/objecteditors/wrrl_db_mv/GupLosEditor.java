@@ -15,12 +15,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
 import Sirius.navigator.types.treenode.ObjectTreeNode;
-import Sirius.navigator.ui.ComponentRegistry;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
-import org.openide.util.Exceptions;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -44,11 +38,10 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import javax.swing.tree.TreePath;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.reports.LosReport;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ExpressionEvaluator;
@@ -63,7 +56,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.search.CidsServerSearch;
 
@@ -95,6 +87,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     private static CalculationCache<List, ArrayList<ArrayList>> massnCache =
         new CalculationCache<List, ArrayList<ArrayList>>(
             new GupLosEditor.MassnCalculator());
+    private static final int UNUSED_ATTRIBUTE_FIELDS = 10;
 
     // The massnahmen objects are stored in ArrayLists due to performance reasons.
     // The fields have the following values
@@ -123,7 +116,20 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int UM_ID = 22;
     public static final int PL_ID = 23;
     public static final int GUP_ID = 24;
-    public static final int BEAN = 25;
+    public static final int GWK = 25;
+    public static final int MASSNAHMEN_ID = 26;
+    public static final int BEAN = 27;
+    public static final int GROUP_MASSN_TYP = 0;
+    public static final int GROUP_TEILSTUECKE = 1;
+    public static final int GROUP_LAENGE = 2;
+    public static final int GROUP_AUFMASS = 3;
+    public static final int GROUP_MASSEINHEIT = 4;
+    public static final int GROUP_ID = 5;
+    public static final int GROUP_LEISTUNGSTEXT = 6;
+    public static final int GROUP_AUFMASSREGEL = 7;
+    public static final int GROUP_EINHEIT = 8;
+    public static final int GROUP_MASSN_ID = 9;
+
     public static final String[] ADDITIONAL_ATTRIBUTES = {
             "Randstreifenbreite",
             "Böschungsneigung",
@@ -136,7 +142,33 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             "Stunden",
             "Schnitttiefe"
         };
+    public static final String[] ADDITIONAL_ATTRIBUTE_MEASURES = {
+            "m",
+            "1/",
+            "m",
+            "m",
+            "m",
+            "m",
+            "m³",
+            "",
+            "h",
+            "m"
+        };
     private static ExpressionEvaluator eval = new ExpressionEvaluator();
+
+    //~ Enums ------------------------------------------------------------------
+
+    /**
+     * To choose the type of the additional attribute.
+     *
+     * @version  $Revision$, $Date$
+     */
+    public enum FieldKind {
+
+        //~ Enum constants -----------------------------------------------------
+
+        name, value, measure
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -565,12 +597,24 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  evt  DOCUMENT ME!
      */
     private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
-//        try {
-//            java.awt.Desktop.getDesktop()
-//                    .browse(java.net.URI.create("http://localhost/~thorsten/cids/web/gup/GWUTollense-Los1-5.pdf"));
-//        } catch (Exception ex) {
-//            log.error("Problem beim Oeffnen des LV", ex);
-//        }
+        try {
+            if (DownloadManagerDialog.getInstance().showAskingForUserTitleDialog(this)) {
+                final String jobname = DownloadManagerDialog.getInstance().getJobName();
+                final String extension = ".xls";
+                final String filename = cidsBean.toString();
+
+                DownloadManager.instance()
+                        .add(new LosReport(
+                                createKumMassnList(false),
+                                ((MassnTableModel)tabMassn.getModel()).getBeans(),
+                                jobname,
+                                filename,
+                                filename,
+                                extension));
+            }
+        } catch (Exception e) {
+            LOG.error("Error while creating report.", e);
+        }
     } //GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -596,7 +640,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
                 DownloadManager.instance()
                         .add(new GaebDownload(
-                                createKumMassnList(),
+                                createKumMassnList(false),
                                 cidsBean,
                                 jobname,
                                 "Leistungsverzeichnis - "
@@ -848,7 +892,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                             final Integer id = (Integer)bean.get(UM_ID);
 
                             for (final CidsBean tmp : beans) {
-                                if (tmp.getProperty("id").equals(id) && (bean.size() == 25)) {
+                                if (tmp.getProperty("id").equals(id) && (bean.size() == BEAN)) {
                                     bean.add(tmp);
                                     break;
                                 }
@@ -903,15 +947,17 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * DOCUMENT ME!
      */
     private void fillKumTable() {
-        tabMassnKum.setModel(new MassnKumTableModel(createKumMassnList()));
+        tabMassnKum.setModel(new MassnKumTableModel(createKumMassnList(true)));
     }
 
     /**
      * DOCUMENT ME!
      *
+     * @param   showError  DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
-    private ArrayList<ArrayList> createKumMassnList() {
+    private ArrayList<ArrayList> createKumMassnList(final boolean showError) {
         final ArrayList<ArrayList> beans = ((MassnTableModel)tabMassn.getModel()).getBeans();
         final ArrayList<ArrayList> groups = new ArrayList<ArrayList>();
         boolean error = false;
@@ -941,6 +987,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 group.add(bean.get(LEISTUNGSTEXT));      // Beschreibung
                 group.add(bean.get(AUFMASS_REGEL));      // Aufmassregel
                 group.add(bean.get(EINHEIT));            // Einheit
+                group.add(bean.get(MASSNAHMEN_ID));      // Massn-ID
                 groups.add(group);
             }
 
@@ -955,7 +1002,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 if (a != null) {
                     group.set(3, (Double)group.get(3) + a);
                 } else {
-                    if (!error) {
+                    if (!error && showError) {
                         error = true;
                         if (bean.get(MASSNAHMENART_ID) == null) {
                             JOptionPane.showMessageDialog(
@@ -1264,6 +1311,48 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     @Override
     public JComponent getTitleComponent() {
         return panTitle;
+    }
+
+    /**
+     * Returns the optional attributes.
+     *
+     * @param   bean    the object, the attribute should be determined from
+     * @param   number  The number of the attribute
+     * @param   value   true, if the value of the attribute should be determined. Otherwise the name of the attribute is
+     *                  determined.
+     *
+     * @return  the numberth optional attribute of the given object
+     */
+    public static Object getAttribute(final ArrayList bean, final int number, final FieldKind value) {
+        final int FIRST_ATTRIB = 8;
+        int currentNumber = 0;
+
+        for (int i = FIRST_ATTRIB; i < (bean.size() - UNUSED_ATTRIBUTE_FIELDS); ++i) {
+            final Object tmpVal = bean.get(i);
+            if (tmpVal != null) {
+                if (++currentNumber == number) {
+                    switch (value) {
+                        case value: {
+                            if (tmpVal instanceof Integer) {
+                                final Integer intVal = (Integer)tmpVal;
+
+                                return intVal.doubleValue();
+                            } else {
+                                return tmpVal;
+                            }
+                        }
+                        case name: {
+                            return ADDITIONAL_ATTRIBUTES[i - FIRST_ATTRIB];
+                        }
+                        case measure: {
+                            return ADDITIONAL_ATTRIBUTE_MEASURES[i - FIRST_ATTRIB];
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -1618,8 +1707,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
         //~ Instance fields ----------------------------------------------------
 
-        public final int UNUSED_ATTRIBUTE_FIELDS = 8;
-
         private final String[] columns = {
                 "GUP",
                 "Planungsabschnitt",
@@ -1700,22 +1787,22 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                     return String.valueOf(bean.get(columnIndex + 2));
                 }
                 case 6: {
-                    return getAttribute(bean, 1, false);
+                    return getAttribute(bean, 1, FieldKind.name);
                 }
                 case 7: {
-                    return getAttribute(bean, 1, true);
+                    return getAttribute(bean, 1, FieldKind.value);
                 }
                 case 8: {
-                    return getAttribute(bean, 2, false);
+                    return getAttribute(bean, 2, FieldKind.name);
                 }
                 case 9: {
-                    return getAttribute(bean, 2, true);
+                    return getAttribute(bean, 2, FieldKind.value);
                 }
                 case 10: {
-                    return getAttribute(bean, 3, false);
+                    return getAttribute(bean, 3, FieldKind.name);
                 }
                 case 11: {
-                    return getAttribute(bean, 3, true);
+                    return getAttribute(bean, 3, FieldKind.value);
                 }
             }
 
@@ -1760,36 +1847,6 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             }
 
             return null;
-        }
-
-        /**
-         * Returns the optional attributes.
-         *
-         * @param   bean    the object, the attribute should be determined from
-         * @param   number  The number of the attribute
-         * @param   value   true, if the value of the attribute should be determined. Otherwise the name of the
-         *                  attribute is determined.
-         *
-         * @return  the numberth optional attribute of the given object
-         */
-        private String getAttribute(final ArrayList bean, final int number, final boolean value) {
-            final int FIRST_ATTRIB = 8;
-            int currentNumber = 0;
-
-            for (int i = FIRST_ATTRIB; i < (bean.size() - UNUSED_ATTRIBUTE_FIELDS); ++i) {
-                final Object tmpVal = bean.get(i);
-                if (tmpVal != null) {
-                    if (++currentNumber == number) {
-                        if (value) {
-                            return String.valueOf(tmpVal);
-                        } else {
-                            return ADDITIONAL_ATTRIBUTES[i - FIRST_ATTRIB];
-                        }
-                    }
-                }
-            }
-
-            return "";
         }
 
         @Override

@@ -724,7 +724,15 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
 
         bemerkungen.append(hints);
 
-        final String auflagen = toString(cBean.getProperty("auflagen"));
+        String auflagen = toString(cBean.getProperty("auflagen_nb"));
+
+        if (!auflagen.equals("")) {
+            bemerkungen.append(", ");
+        }
+
+        bemerkungen.append(auflagen);
+
+        auflagen = toString(cBean.getProperty("auflagen_wb"));
 
         if (!auflagen.equals("")) {
             bemerkungen.append(", ");
