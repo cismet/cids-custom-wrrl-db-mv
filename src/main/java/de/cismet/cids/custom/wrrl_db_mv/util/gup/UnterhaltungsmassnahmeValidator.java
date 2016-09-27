@@ -204,17 +204,31 @@ public class UnterhaltungsmassnahmeValidator {
             if (isLineInsideBean(vg, von, bis, wo)) {
                 if ((vrBeans == null) || !vrBeans.contains((CidsBean)vg.getVermeidungsgruppe())) {
                     final CidsBean v = (CidsBean)vg.getVermeidungsgruppe();
-                    if (v != null) {
+                    final Boolean warning = ((v == null) ? null
+                                                         : (Boolean)vg.getVermeidungsgruppe().getProperty("warnung"));
+
+                    if ((warning != null) && warning) {
                         errors.add(NbBundle.getMessage(
                                 UnterhaltungsmassnahmeValidator.class,
-                                "UnterhaltungsmassnahmeValidator.validate.invalidPreventionGroup",
+                                "UnterhaltungsmassnahmeValidator.validate.preventionGroupYellow",
                                 v));
+
+                        if (!res.equals(ValidationResult.error)) {
+                            res = ValidationResult.warning;
+                        }
                     } else {
-                        errors.add(NbBundle.getMessage(
-                                UnterhaltungsmassnahmeValidator.class,
-                                "UnterhaltungsmassnahmeValidator.validate.preventionGroupWithoutValue"));
+                        if (v != null) {
+                            errors.add(NbBundle.getMessage(
+                                    UnterhaltungsmassnahmeValidator.class,
+                                    "UnterhaltungsmassnahmeValidator.validate.invalidPreventionGroup",
+                                    v));
+                        } else {
+                            errors.add(NbBundle.getMessage(
+                                    UnterhaltungsmassnahmeValidator.class,
+                                    "UnterhaltungsmassnahmeValidator.validate.preventionGroupWithoutValue"));
+                        }
+                        res = ValidationResult.error;
                     }
-                    res = ValidationResult.error;
                 }
             }
         }
@@ -256,7 +270,11 @@ public class UnterhaltungsmassnahmeValidator {
 //        final CidsBean moBean = mo.getBean();
         final double von = (Double)moBean.getProperty("linie.von.wert");
         final double bis = (Double)moBean.getProperty("linie.bis.wert");
-        final int wo = (Integer)moBean.getProperty("wo.id");
+        final Integer wo = (Integer)moBean.getProperty("wo.id");
+
+        if (wo == null) {
+            return false;
+        }
 
         return (wo == woId)
                     && (((von < fromBean) && (bis > fromBean)) || ((von < untilBean) && (bis > untilBean))
