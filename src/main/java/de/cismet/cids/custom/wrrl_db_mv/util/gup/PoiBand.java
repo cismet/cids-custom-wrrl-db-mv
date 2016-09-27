@@ -19,20 +19,6 @@ import de.cismet.tools.gui.jbands.DefaultBand;
  */
 public class PoiBand extends DefaultBand {
 
-    //~ Enums ------------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    public enum Seite {
-
-        //~ Enum constants -----------------------------------------------------
-
-        RECHTS, LINKS, BEIDE
-    }
-
     //~ Constructors -----------------------------------------------------------
 
     /**

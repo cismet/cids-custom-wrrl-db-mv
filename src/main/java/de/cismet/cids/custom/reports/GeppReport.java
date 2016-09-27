@@ -457,7 +457,7 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
             for (final CidsBean tmp : cidsBeans) {
                 final CidsBean tmpArt = (CidsBean)tmp.getProperty("massnahme");
 
-                if ((tmpArt != null) && (tmpArt.getProperty("kompartiment.id") != null)
+                if ((tmpArt != null)
                             && (tmpArt.getProperty("massnahmen_id") != null)
                             && !sortedCidsBeans.contains(tmpArt)) {
                     sortedCidsBeans.add(tmpArt);
