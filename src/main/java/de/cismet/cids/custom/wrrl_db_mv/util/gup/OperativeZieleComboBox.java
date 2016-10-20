@@ -54,7 +54,7 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new MassnahmenComboBox object.
+     * Creates a new OperativeZieleComboBox object.
      */
     public OperativeZieleComboBox() {
         super();

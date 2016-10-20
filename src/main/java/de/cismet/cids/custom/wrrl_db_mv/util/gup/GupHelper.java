@@ -494,7 +494,7 @@ public class GupHelper {
 
         //~ Static fields/initializers -----------------------------------------
 
-        private static final MetaClass VERMEIDUNGSGRUPPE_ABSCHNITT = ClassCacheMultiple.getMetaClass(
+        private static final MetaClass GESCHUETZTE_ART_ABSCHNITT = ClassCacheMultiple.getMetaClass(
                 WRRLUtil.DOMAIN_NAME,
                 "GESCHUETZTE_ART_ABSCHNITT");
 
@@ -512,10 +512,10 @@ public class GupHelper {
          */
         @Override
         public MetaObject[] calculate(final List input) throws Exception {
-            final String query = "select " + VERMEIDUNGSGRUPPE_ABSCHNITT.getID() + ", u."
-                        + VERMEIDUNGSGRUPPE_ABSCHNITT.getPrimaryKey()
+            final String query = "select " + GESCHUETZTE_ART_ABSCHNITT.getID() + ", u."
+                        + GESCHUETZTE_ART_ABSCHNITT.getPrimaryKey()
                         + " from "
-                        + VERMEIDUNGSGRUPPE_ABSCHNITT.getTableName()
+                        + GESCHUETZTE_ART_ABSCHNITT.getTableName()
                         + " u, verbreitungsraum_geschuetzte_art_abschnitt route, station_linie sl, station von, station bis, route r "
                         + "WHERE route.abschnitt = u.id and u.linie = sl.id and sl.von = von.id and sl.bis = bis.id and von.route = r.id "
                         + "      and r.gwk = " + String.valueOf(input.get(2))

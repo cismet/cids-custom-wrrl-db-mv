@@ -2080,15 +2080,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             ++conditions;
         }
 
-//        if ((geraet != null) && !geraet.equals("null")) {
-//            if (conditions == 0) {
-//                newQuery += " WHERE geraet = " + geraet;
-//            } else {
-//                newQuery += " AND geraet = " + geraet;
-//            }
-//            ++conditions;
-//        }
-
         if ((ausfuehrungszeitpunkt != null) && !ausfuehrungszeitpunkt.equals("null")) {
             if (conditions == 0) {
                 newQuery += " WHERE ausfuehrungszeitpunkt = " + ausfuehrungszeitpunkt;
@@ -2097,18 +2088,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             }
             ++conditions;
         }
-
-//        if ((zweiter_ausfuehrungszeitpunkt != null)
-//                    && !zweiter_ausfuehrungszeitpunkt.equals("null")) {
-//            if (conditions == 0) {
-//                newQuery += " WHERE zweiter_ausfuehrungszeitpunkt = "
-//                            + zweiter_ausfuehrungszeitpunkt;
-//            } else {
-//                newQuery += " AND zweiter_ausfuehrungszeitpunkt = "
-//                            + zweiter_ausfuehrungszeitpunkt;
-//            }
-//            ++conditions;
-//        }
 
         if ((gewerk != null) && !gewerk.equals("null")) {
             if (conditions == 0) {
@@ -2129,9 +2108,21 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         }
 
         if (conditions == 0) {
-            newQuery += " WHERE kompartiment = " + kompartiment;
+            newQuery += " WHERE ";
         } else {
-            newQuery += " AND kompartiment = " + kompartiment;
+            newQuery += " AND ";
+        }
+
+        if (kompartiment == KOMPARTIMENT_SOHLE) {
+            newQuery += " sohle";
+        }
+
+        if (kompartiment == KOMPARTIMENT_UFER) {
+            newQuery += " ufer";
+        }
+
+        if (kompartiment == KOMPARTIMENT_UMFELD) {
+            newQuery += " umfeld";
         }
 
         return MetaObjectCache.getInstance().getMetaObjectsByQuery(newQuery, WRRLUtil.DOMAIN_NAME);
@@ -2199,20 +2190,28 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     }
 
     /**
-     * DOCUMENT ME!
+     * Checks, if the given massnahmenart object supports the given kompartiment.
      *
-     * @param   bean          DOCUMENT ME!
+     * @param   bean          a massnahmenart object
      * @param   kompartiment  DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @return  true, iff the given massnahmenart object supports the given kompartiment
      */
     public static boolean supportsKompartiment(final CidsBean bean, final int kompartiment) {
-        final CidsBean kompartimentObject = (CidsBean)bean.getProperty("kompartiment");
+        final Boolean sohle = (Boolean)bean.getProperty("sohle");
+        final Boolean ufer = (Boolean)bean.getProperty("ufer");
+        final Boolean umfeld = (Boolean)bean.getProperty("umfeld");
 
-        if (kompartimentObject != null) {
-            if (kompartimentObject.getProperty("id").equals(kompartiment)) {
-                return true;
-            }
+        if ((kompartiment == KOMPARTIMENT_SOHLE) && (sohle != null) && sohle) {
+            return true;
+        }
+
+        if ((kompartiment == KOMPARTIMENT_UFER) && (ufer != null) && ufer) {
+            return true;
+        }
+
+        if ((kompartiment == KOMPARTIMENT_UMFELD) && (umfeld != null) && umfeld) {
+            return true;
         }
 
         return false;
@@ -2363,8 +2362,6 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         if (!readOnly) {
             lastKompartiment = kompartiment;
         }
-//        ((MassnahmenComboBox)cbMassnahme).setKompartiment(kompartiment);
-//        cbMassnahme.setSelectedItem(null);
     }
 
     /**

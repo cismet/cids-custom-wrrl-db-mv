@@ -147,7 +147,7 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      * DOCUMENT ME!
      */
     private void setToolTip() {
-        if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
+        if ((res == null) || (res == UnterhaltungsmassnahmeValidator.ValidationResult.ok)) {
             if (bean.getProperty("massnahme.name") != null) {
                 setToolTipText(bean.getProperty("massnahme.name") + "");
             } else {
@@ -204,7 +204,7 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                 auflagenNb = (((auflagenNb != null) && auflagenNb.equals("")) ? null : auflagenNb);
                 auflagenWb = (((auflagenWb != null) && auflagenWb.equals("")) ? null : auflagenWb);
 
-                if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
+                if ((res == null) || (res == UnterhaltungsmassnahmeValidator.ValidationResult.ok)) {
                     if ((auflagenNb != null) || (auflagenWb != null)) {
                         setBackgroundPainter(new CompoundPainter(
                                 new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
@@ -217,15 +217,21 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                                 invertSide));
                     }
                 } else {
+                    Color validatorResultColor = new Color(255, 66, 66);
+
+                    if (res == UnterhaltungsmassnahmeValidator.ValidationResult.warning) {
+                        validatorResultColor = new Color(229, 240, 76);
+                    }
+
                     if ((auflagenNb != null) || (auflagenWb != null)) {
                         setBackgroundPainter(new CompoundPainter(
                                 new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
-                                new PinstripePainter(new Color(255, 66, 66), 45, 2, 5),
+                                new PinstripePainter(validatorResultColor, 45, 2, 5),
                                 new PinstripePainter(new Color(255, 255, 255), 90, 2, 5)));
                     } else {
                         setBackgroundPainter(new CompoundPainter(
                                 new ExtendedMattePainter(Color.decode(color), secondColor, factor, invertSide),
-                                new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+                                new PinstripePainter(validatorResultColor, 45, 2, 5)));
                     }
                 }
             } catch (NumberFormatException e) {
@@ -277,7 +283,7 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
                     2f,
                     new Color(50, 50, 50, 100)));
 
-        if ((res == null) || (res != UnterhaltungsmassnahmeValidator.ValidationResult.error)) {
+        if ((res == null) || (res == UnterhaltungsmassnahmeValidator.ValidationResult.ok)) {
             if ((auflagenNb != null) || (auflagenWb != null)) {
                 setBackgroundPainter(new CompoundPainter(
                         unselectedBackgroundPainter,
