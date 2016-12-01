@@ -522,33 +522,35 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         sldZoom.setPaintTrack(false);
 
-        getExecutor().execute(new Runnable() {
-
-                private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
-                        WRRLUtil.DOMAIN_NAME,
-                        "gup_massnahmenart");
-
-                @Override
-                public void run() {
-                    try {
-                        final String query = "select " + MASSNAHMENART_MC.getID() + ","
-                                    + MASSNAHMENART_MC.getPrimaryKey()
-                                    + " from " + MASSNAHMENART_MC.getTableName();
-                        final MetaObject[] mo = MetaObjectCache.getInstance()
-                                    .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
-
-                        EventQueue.invokeLater(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    massnahmeEditor.setMassnahmnenObjects(mo);
-                                }
-                            });
-                    } catch (Exception e) {
-                        LOG.error("Error while retrieving massnahmen objects.", e);
-                    }
-                }
-            });
+//        if (false) {
+//            getExecutor().execute(new Runnable() {
+//
+//                    private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
+//                            WRRLUtil.DOMAIN_NAME,
+//                            "gup_massnahmenart");
+//
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            final String query = "select " + MASSNAHMENART_MC.getID() + ","
+//                                        + MASSNAHMENART_MC.getPrimaryKey()
+//                                        + " from " + MASSNAHMENART_MC.getTableName();
+//                            final MetaObject[] mo = MetaObjectCache.getInstance()
+//                                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
+//
+//                            EventQueue.invokeLater(new Runnable() {
+//
+//                                    @Override
+//                                    public void run() {
+//                                        massnahmeEditor.setMassnahmnenObjects(mo);
+//                                    }
+//                                });
+//                        } catch (Exception e) {
+//                            LOG.error("Error while retrieving massnahmen objects.", e);
+//                        }
+//                    }
+//                });
+//        }
         if (!readOnly) {
             vermessungsband = new VermessungsbandHelper(
                     jband,
