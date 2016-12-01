@@ -250,6 +250,15 @@ public class UnterhaltungsmassnahmeValidator {
             }
         }
 
+        final Boolean alAnf = (Boolean)massn.getProperty("erfuellt_al_anf");
+
+        if ((alAnf == null) || !alAnf) {
+            errors.add(NbBundle.getMessage(
+                    UnterhaltungsmassnahmeValidator.class,
+                    "UnterhaltungsmassnahmeValidator.validate.notAlAnf"));
+            res = ValidationResult.error;
+        }
+
         return res;
     }
 
