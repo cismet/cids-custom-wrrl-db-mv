@@ -44,6 +44,8 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -3030,6 +3032,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                     }
                 }
 
+                Collections.sort(beans, new BeanToStringComparator());
                 return beans.toArray(new CidsBean[beans.size()]);
             } else {
                 return new CidsBean[0];
@@ -3053,6 +3056,24 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             } catch (final Exception e) {
                 LOG.error("Error while initializing the model of the catalogue " + catalogueName, e); // NOI18N
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static final class BeanToStringComparator implements Comparator<CidsBean> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            final String s1 = (o1 == null) ? "" : o1.toString(); // NOI18N
+            final String s2 = (o2 == null) ? "" : o2.toString(); // NOI18N
+
+            return (s1).compareToIgnoreCase(s2);
         }
     }
 }
