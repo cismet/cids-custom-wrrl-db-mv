@@ -46,6 +46,6 @@ public class EntwicklungszielToolbarAction extends AbstractNewObjectToolbarActio
 
     @Override
     public String getTooltipString() {
-        return "neue Entwicklungsziele anlegen";
+        return "neue WRRL-Maßnahme anlegen";
     }
 }

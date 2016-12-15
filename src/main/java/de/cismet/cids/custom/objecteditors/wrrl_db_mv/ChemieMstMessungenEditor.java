@@ -1604,24 +1604,11 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * @return  DOCUMENT ME!
      */
     public static Color calcColorReverse(final double mittel, final double o, final double hgr) {
-        if ((mittel > hgr) && (hgr != Double.MAX_VALUE)) {
-            return LIGHT_BLUE;
-        } else if (mittel > o) {
+        if (mittel < o) {
             return Color.GREEN;
-        } else if (mittel >= (1 / 2 * o)) {
-            return Color.ORANGE;
         } else {
-            return Color.RED;
+            return Color.ORANGE;
         }
-//        if ((mittel <= hgr) && (hgr != Double.MAX_VALUE)) {
-//            return Color.RED;
-//        } else if (mittel <= o) {
-//            return Color.ORANGE;
-//        } else if (mittel <= (2 * o)) {
-//            return Color.GREEN;
-//        } else {
-//            return LIGHT_BLUE;
-//        }
     }
 
     /**

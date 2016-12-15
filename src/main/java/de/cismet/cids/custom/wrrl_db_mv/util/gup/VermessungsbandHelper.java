@@ -17,6 +17,9 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +54,8 @@ import de.cismet.tools.gui.jbands.SimpleBandModel;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
 
+import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.EntwicklungszielRouteEditor.COLLECTION_PROPERTY;
+
 /**
  * DOCUMENT ME!
  *
@@ -66,6 +71,9 @@ public class VermessungsbandHelper {
     private static final String VERMESSUNG = "vermessung_band_element";
 
     //~ Instance fields --------------------------------------------------------
+
+    Double[] positions;
+    CidsBean routeBean;
 
     private String lineProperty = "linie";
     private CidsBean cidsBean;
@@ -144,6 +152,16 @@ public class VermessungsbandHelper {
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
 
+        cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final PropertyChangeEvent evt) {
+                    if (evt.getPropertyName().equals("linie")) {
+                        togApplyStats.setEnabled(cidsBean.getProperty(getLineProperty()) != null);
+//                        setNamesAndBands();
+                    }
+                }
+            });
         togApplyStats.setEnabled(cidsBean.getProperty(getLineProperty()) != null);
 
         EventQueue.invokeLater(new Runnable() {
@@ -182,11 +200,98 @@ public class VermessungsbandHelper {
             route = LinearReferencingHelper.getRouteBeanFromStationBean(station);
             routeFeature = FeatureRegistry.getInstance().addRouteFeature(route, routeGeometry);
             final MappingComponent map = CismapBroker.getInstance().getMappingComponent();
+            vermessungsBand.setRoute(route);
             if (!map.isFixedMapExtent()) {
                 map.zoomToAFeatureCollection(map.getFeatureCollection().getAllFeatures(),
                     true,
                     map.isFixedMapScale());
             }
+        }
+    }
+    /**
+     * DOCUMENT ME!
+     */
+    public void savePositions() {
+        try {
+            final MappingComponent mappingComponent = CismapBroker.getInstance().getMappingComponent();
+
+            // positionen speichern
+            final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
+                mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
+            final PFeature selectedPFeature = marksListener.getSelectedLinePFeature();
+            positions = marksListener.getMarkPositionsOfSelectedFeature();
+            routeBean = null;
+
+            // route bestimmen
+            if (selectedPFeature != null) {
+                final Feature feature = selectedPFeature.getFeature();
+                if ((feature != null) && (feature instanceof CidsFeature)) {
+                    final CidsFeature cidsFeature = (CidsFeature)feature;
+                    if (cidsFeature.getMetaClass().getName().equals(LinearReferencingConstants.CN_ROUTE)) {
+                        routeBean = cidsFeature.getMetaObject().getBean();
+                    }
+                } else if ((feature != null) && (feature instanceof FeatureRegistry.RouteFeature)) {
+                    routeBean = FeatureRegistry.getInstance().getCidsBean(feature);
+//                    routeBean = (CidsBean)cidsBean.getProperty(getLineProperty() + ".von.route");
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Error while applying stations.", e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void showVermessungsbandFromSavedPositions() {
+        try {
+            // Member hinzufuegen
+            if (routeBean != null) {
+                final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
+                        cidsBean.getProperty(
+                            getLineProperty()
+                                    + ".von"));
+                final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)
+                        cidsBean.getProperty(
+                            getLineProperty()
+                                    + ".bis"));
+                vermessungsBand.setRoute(routeBean);
+                vermessungsBand.removeAllMember();
+                Double fromPosition = null;
+                CidsBean fromStation = null;
+                CidsBean toStation = null;
+                for (final double position : positions) {
+                    Double toPosition = Math.floor(position);
+                    if (toPosition < from) {
+                        toPosition = from;
+                    } else if (position > till) {
+                        toPosition = till;
+                    }
+                    toStation = LinearReferencingHelper.createStationBeanFromRouteBean(routeBean, (double)toPosition);
+                    if ((fromPosition != null) && (toPosition > fromPosition)) {
+                        final CidsBean memberBean = CidsBeanSupport.createNewCidsBeanFromTableName(VERMESSUNG);
+                        vermessungsBand.addMember(memberBean, fromStation, toStation);
+                    }
+                    fromPosition = toPosition;
+                    fromStation = toStation;
+                }
+            }
+
+            final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
+                        getLineProperty()
+                                + ".von"));
+            final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
+                        getLineProperty()
+                                + ".bis"));
+            vBand.setMinValue(from);
+            vBand.setMaxValue(till);
+            panBand.removeAll();
+            panApplyBand.removeAll();
+            panApplyBand.add(vBand, BorderLayout.CENTER);
+            panBand.add(panApply, BorderLayout.CENTER);
+            modelListener.bandModelSelectionChanged(null);
+        } catch (Exception e) {
+            LOG.error("Error while applying stations.", e);
         }
     }
 
@@ -265,6 +370,33 @@ public class VermessungsbandHelper {
         } catch (Exception e) {
             LOG.error("Error while applying stations.", e);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setNamesAndBands() {
+        final CidsBean route = LinearReferencingHelper.getRouteBeanFromStationBean((CidsBean)cidsBean.getProperty(
+                    "linie.von"));
+        final double from = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
+                    "linie.von"));
+        final double till = LinearReferencingHelper.getLinearValueFromStationBean((CidsBean)cidsBean.getProperty(
+                    "linie.bis"));
+        final SimpleBandModel sbm = new SimpleBandModel();
+        sbm.setMin(from);
+        sbm.setMax(till);
+        final WKBand wkband = new WKBand(from, till);
+        setVwkBand(new WKBand(sbm.getMin(), sbm.getMax()));
+//        jband.setMinValue(from);
+//        jband.setMaxValue(till);
+//        entwicklungsband.setRoute(route);
+//        entwicklungsband.setCidsBeans(cidsBean.getBeanCollectionProperty(COLLECTION_PROPERTY));
+//
+//        final String rname = String.valueOf(route.getProperty("routenname"));
+//
+//        lblSubTitle.setText(rname + " [" + (int)sbm.getMin() + "," + (int)sbm.getMax() + "]");
+
+        wkband.fillAndInsertBand(sbm, String.valueOf(route.getProperty("gwk")), jband, this);
     }
 
     /**

@@ -462,11 +462,18 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
         try {
             if (beanBefore == null) {
-                beanBefore = createNewStation(getRoute(), minStart);
+                beanBefore = createNewStation(getRoute(), ((minStart == Double.MAX_VALUE) ? 0 : minStart));
             }
 
             if (beanBehind == null) {
-                beanBehind = createNewStation(getRoute(), maxEnd);
+                if (maxEnd == Double.MIN_VALUE) {
+                    final String geomString = LinearReferencingHelper.PROP_ROUTE_GEOM + "."
+                                + LinearReferencingHelper.PROP_GEOM_GEOFIELD;
+                    final Geometry g = (Geometry)getRoute().getProperty(geomString);
+                    beanBehind = createNewStation(getRoute(), g.getLength());
+                } else {
+                    beanBehind = createNewStation(getRoute(), maxEnd);
+                }
             }
 
             addNewMember(beanBefore, beanBehind);

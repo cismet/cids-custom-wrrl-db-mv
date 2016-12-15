@@ -744,11 +744,21 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
      */
     private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
-            vermessungsband.showVermessungsband();
+            if (isNew) {
+                vermessungsband.savePositions();
+                jbApplyActionPerformed(null);
+                vermessungsband.showVermessungsbandFromSavedPositions();
+                if (butStationierung.isSelected()) {
+                    butStationierung.setSelected(false);
+                    stationBackup.restoreStationValues(cidsBean);
+                }
+            } else {
+                vermessungsband.showVermessungsband();
 
-            if (butStationierung.isSelected()) {
-                butStationierung.setSelected(false);
-                stationBackup.restoreStationValues(cidsBean);
+                if (butStationierung.isSelected()) {
+                    butStationierung.setSelected(false);
+                    stationBackup.restoreStationValues(cidsBean);
+                }
             }
         } else {
             vermessungsband.hideVermessungsband();
@@ -770,6 +780,8 @@ public class VerbreitungsraumEditor extends JPanel implements CidsBeanRenderer,
         bands[3] = umfeld_links;
         bands[4] = umfeld_rechts;
         vermessungsband.applyStats(this, bands, GschuetzteArt_ABSCHNITT);
+        updateUI();
+        repaint();
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     /**
