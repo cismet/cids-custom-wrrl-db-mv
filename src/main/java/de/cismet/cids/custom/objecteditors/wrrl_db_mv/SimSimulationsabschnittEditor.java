@@ -1566,7 +1566,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             final boolean fillFields,
             final SimSimulationsabschnittEditor simEditor) throws Exception {
         final CidsBean wbTypeBean = (CidsBean)bean.getProperty(Calc.PROP_WB_TYPE);
-        final Double pointsFromMassn = getFixClassFromMassnahme(massnahmen);
+        final Double pointsFromMassn = getFixPointsFromMassnahme(massnahmen);
 
         if (pointsFromMassn != null) {
             return pointsFromMassn;
@@ -2057,12 +2057,12 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @return  the fix class from the massnahmen list or null, if no massnahme has a fix class
      */
-    private static Double getFixClassFromMassnahme(final List<CidsBean> beanList) {
+    private static Double getFixPointsFromMassnahme(final List<CidsBean> beanList) {
         final List<CidsBean> massnList = FgskSimulationHelper.getMassnahmenBeans(beanList);
 
         for (final CidsBean bean : massnList) {
             if ((bean.getProperty("fix_gk") != null)) {
-                return (Double)bean.getProperty("fix_gk");
+                return 6 - (Double)bean.getProperty("fix_gk");
             }
         }
 
