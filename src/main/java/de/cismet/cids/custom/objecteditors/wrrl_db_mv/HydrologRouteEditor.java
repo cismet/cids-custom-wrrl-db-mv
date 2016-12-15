@@ -570,20 +570,20 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         jband.setZoomFactor(zoom);
         if (vermessungsband != null) {
             vermessungsband.setZoomFactor(zoom);
         }
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApplyActionPerformed
+    private void jbApplyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApplyActionPerformed
         if (isNew) {
             panBand.removeAll();
             panBand.add(jband, BorderLayout.CENTER);
@@ -630,14 +630,14 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_jbApplyActionPerformed
+    } //GEN-LAST:event_jbApplyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togApplyStatsActionPerformed
+    private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
             if (isNew) {
                 vermessungsband.savePositions();
@@ -659,14 +659,14 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         }
         updateUI();
         repaint();
-    }//GEN-LAST:event_togApplyStatsActionPerformed
+    } //GEN-LAST:event_togApplyStatsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApply1ActionPerformed
+    private void jbApply1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbApply1ActionPerformed
         final HydrologRWBand[] bands = new HydrologRWBand[1];
         bands[0] = hydrologieband;
         vermessungsband.applyStats(this, bands, GUP_HYDROLOGIE);
@@ -674,14 +674,14 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
         panInfo.setMinimumSize(new Dimension(640, 460));
         updateUI();
         repaint();
-    }//GEN-LAST:event_jbApply1ActionPerformed
+    }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butStationierungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butStationierungActionPerformed
+    private void butStationierungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butStationierungActionPerformed
         if (butStationierung.isSelected()) {
             panBand.removeAll();
             panBand.add(panNew, BorderLayout.CENTER);
@@ -702,7 +702,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
             panBand.add(jband, BorderLayout.CENTER);
             repaint();
         }
-    }//GEN-LAST:event_butStationierungActionPerformed
+    } //GEN-LAST:event_butStationierungActionPerformed
 
     @Override
     public void dispose() {

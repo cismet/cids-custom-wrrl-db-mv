@@ -502,7 +502,7 @@ public class SimFlaechenerwerbspreisEditor extends javax.swing.JPanel implements
 
     @Override
     public String getTitle() {
-        return "Vermeidungsgruppe: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
+        return "Flächenerwerbspreis: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
     }
 
     @Override

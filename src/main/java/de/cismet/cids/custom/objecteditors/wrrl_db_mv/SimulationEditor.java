@@ -204,6 +204,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.ButtonGroup bgrpDetails;
     private javax.swing.JButton butCancel;
     private javax.swing.JButton butOK;
+    private javax.swing.JCheckBox cbKostenFix;
     private javax.swing.JDialog diaName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
@@ -224,6 +225,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel labMassnProp;
     private javax.swing.JLabel labMultiSim;
     private javax.swing.JLabel lblBemerkungen;
+    private javax.swing.JLabel lblBemerkungen1;
     private javax.swing.JLabel lblCosts4;
     private javax.swing.JLabel lblFlCosts;
     private javax.swing.JLabel lblFlKosten;
@@ -338,9 +340,11 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             if (readOnly) {
                 RendererTools.makeReadOnly(txtName);
                 RendererTools.makeReadOnly(taBemerkungen);
+                RendererTools.makeReadOnly(cbKostenFix);
             } else {
                 RendererTools.makeWritable(txtName);
                 RendererTools.makeWritable(taBemerkungen);
+                RendererTools.makeWritable(cbKostenFix);
             }
         }
     }
@@ -646,6 +650,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
     private void fillDialog() {
         String name = (String)cidsBean.getProperty("name");
         String beschreibung = (String)cidsBean.getProperty("beschreibung");
+        Boolean fixCosts = (Boolean)cidsBean.getProperty("kosten_fix");
 
         if (name == null) {
             name = "";
@@ -653,8 +658,14 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         if (beschreibung == null) {
             beschreibung = "";
         }
+
+        if (fixCosts == null) {
+            fixCosts = false;
+        }
+
         txtName.setText(name);
         taBemerkungen.setText(beschreibung);
+        cbKostenFix.setSelected(fixCosts);
     }
 
     /**
@@ -1397,6 +1408,8 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         taBemerkungen = new javax.swing.JTextArea();
         butOK = new javax.swing.JButton();
         butCancel = new javax.swing.JButton();
+        lblBemerkungen1 = new javax.swing.JLabel();
+        cbKostenFix = new javax.swing.JCheckBox();
         jMenu1 = new javax.swing.JMenu();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -1950,7 +1963,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         panAllgemein.add(butOK, gridBagConstraints);
@@ -1968,10 +1981,35 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         panAllgemein.add(butCancel, gridBagConstraints);
+
+        lblBemerkungen1.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.lblBemerkungen1.text")); // NOI18N
+        lblBemerkungen1.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblBemerkungen1.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblBemerkungen1.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        panAllgemein.add(lblBemerkungen1, gridBagConstraints);
+
+        cbKostenFix.setText(org.openide.util.NbBundle.getMessage(
+                SimulationEditor.class,
+                "SimulationEditor.cbKostenFix.text",
+                new Object[] {})); // NOI18N
+        cbKostenFix.setContentAreaFilled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        panAllgemein.add(cbKostenFix, gridBagConstraints);
 
         diaName.getContentPane().add(panAllgemein, new java.awt.GridBagConstraints());
 
@@ -2430,6 +2468,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         try {
             cidsBean.setProperty("name", txtName.getText());
             cidsBean.setProperty("beschreibung", taBemerkungen.getText());
+            cidsBean.setProperty("kosten_fix", cbKostenFix.isSelected());
         } catch (Exception e) {
             LOG.error("Cannot set name", e);
         }
@@ -2733,6 +2772,13 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         if (simulationsEditor != null) {
             simulationsEditor.prepareForSave();
         }
+
+        try {
+            cidsBean.setProperty("kosten", Double.parseDouble(lblKostenGes4.getText()));
+        } catch (Exception e) {
+            LOG.error("Cannot set the property kosten", e);
+        }
+
         return !cancel;
     }
 
@@ -3037,7 +3083,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             final String query = "SELECT " + MC_FGSK.getID() + ",  " + MC_FGSK.getPrimaryKey()
                         + " FROM "
                         + MC_FGSK.getTableName() + " WHERE wkk = '"
-                        + String.valueOf(input.get(0)) + "';";
+                        + String.valueOf(input.get(0)) + "' and (historisch is null or not historisch);";
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request for fgsk: " + query);

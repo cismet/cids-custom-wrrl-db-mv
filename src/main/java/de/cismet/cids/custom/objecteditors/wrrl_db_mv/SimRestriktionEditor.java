@@ -643,11 +643,20 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
      */
     private void togApplyStatsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_togApplyStatsActionPerformed
         if (togApplyStats.isSelected()) {
-            vermessungsband.showVermessungsband();
+            if (isNew) {
+                vermessungsband.savePositions();
+                jbApplyActionPerformed(null);
+                vermessungsband.showVermessungsbandFromSavedPositions();
+                if (butStationierung.isSelected()) {
+                    butStationierung.setSelected(false);
+                }
+            } else {
+                vermessungsband.showVermessungsband();
 
-            if (butStationierung.isSelected()) {
-                butStationierung.setSelected(false);
-                stationBackup.restoreStationValues(cidsBean);
+                if (butStationierung.isSelected()) {
+                    butStationierung.setSelected(false);
+                    stationBackup.restoreStationValues(cidsBean);
+                }
             }
         } else {
             vermessungsband.hideVermessungsband();
@@ -665,6 +674,8 @@ public class SimRestriktionEditor extends JPanel implements CidsBeanRenderer,
         final RestriktionRWBand[] bands = new RestriktionRWBand[1];
         bands[0] = restriktionBand;
         vermessungsband.applyStats(this, bands, SIM_RESTRIKTION);
+        updateUI();
+        repaint();
     }                                                                            //GEN-LAST:event_jbApply1ActionPerformed
 
     /**

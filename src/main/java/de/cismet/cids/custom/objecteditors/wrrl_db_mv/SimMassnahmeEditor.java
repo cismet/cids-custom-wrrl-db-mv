@@ -121,8 +121,8 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
     private CustomTableModel model;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbFl;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRestriktion;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -146,6 +146,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JLabel lblKurzbez;
     private javax.swing.JLabel lblMNT;
     private javax.swing.JLabel lblMNT1;
+    private javax.swing.JLabel lblMNT2;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblOrt;
     private javax.swing.JLabel lblPreis;
@@ -163,6 +164,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JTable tabWirkung;
     private javax.swing.JTextField txtKurzbez;
     private javax.swing.JTextField txtMnt;
+    private javax.swing.JTextField txtMnt1;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -199,6 +201,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
             RendererTools.makeReadOnly(txtKurzbez);
             RendererTools.makeReadOnly(txtMnt);
             RendererTools.makeReadOnly(txtName);
+            RendererTools.makeReadOnly(cbFl);
             panButtons.setVisible(false);
         }
 
@@ -273,7 +276,9 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         taBemerkung = new javax.swing.JTextArea();
         lblMNT = new javax.swing.JLabel();
         lblMNT1 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbFl = new javax.swing.JCheckBox();
+        lblMNT2 = new javax.swing.JLabel();
+        txtMnt1 = new javax.swing.JTextField();
         jSplitPane3 = new javax.swing.JSplitPane();
         panKosten = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -437,7 +442,7 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -464,27 +469,27 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         jPanel1.add(lblMNT1, gridBagConstraints);
 
-        jCheckBox1.setText(org.openide.util.NbBundle.getMessage(
+        cbFl.setText(org.openide.util.NbBundle.getMessage(
                 SimMassnahmeEditor.class,
-                "SimMassnahmeEditor.jCheckBox1.text",
+                "SimMassnahmeEditor.cbFl.text",
                 new Object[] {})); // NOI18N
-        jCheckBox1.setContentAreaFilled(false);
+        cbFl.setContentAreaFilled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.flaechenbedarf}"),
-                jCheckBox1,
+                cbFl,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbFl.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jCheckBox1ActionPerformed(evt);
+                    cbFlActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -493,7 +498,35 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        jPanel1.add(jCheckBox1, gridBagConstraints);
+        jPanel1.add(cbFl, gridBagConstraints);
+
+        lblMNT2.setText(org.openide.util.NbBundle.getMessage(
+                SimMassnahmeEditor.class,
+                "SimMassnahmeEditor.lblMNT2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        jPanel1.add(lblMNT2, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fix_gk}"),
+                txtMnt1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        jPanel1.add(txtMnt1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -785,9 +818,9 @@ public class SimMassnahmeEditor extends javax.swing.JPanel implements CidsBeanRe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cbFlActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFlActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_jCheckBox1ActionPerformed
+    } //GEN-LAST:event_cbFlActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
