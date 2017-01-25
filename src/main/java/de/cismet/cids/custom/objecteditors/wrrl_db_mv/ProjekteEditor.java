@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.*;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -66,6 +67,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -325,13 +327,13 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
-        dlgIndikator = new javax.swing.JDialog();
+        dlgIndikator = new JDialog(StaticSwingTools.getParentFrame(this));
         lblIndikatorCataloge = new javax.swing.JLabel();
         cbIndikatorCataloge = new ScrollableComboBox(INDIKATOR_MC, false, false, new IndikatorComparator());
         panMenButtonsIndikator = new javax.swing.JPanel();
         btnIndikatorAbort = new javax.swing.JButton();
         btnIndikatorOk = new javax.swing.JButton();
-        dlgMassnahmenTyp = new javax.swing.JDialog();
+        dlgMassnahmenTyp = new JDialog(StaticSwingTools.getParentFrame(this));
         lblMassnahmenGruppeCataloge = new javax.swing.JLabel();
         cbMassnahmenTypCataloge = new ScrollableComboBox(MASSNAHMEN_GROUP_MC, true, false);
         panMenButtonsMassnahmenTyp = new javax.swing.JPanel();
@@ -340,7 +342,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         jScrollPane5 = new javax.swing.JScrollPane();
         jlMassnahmenCataloge = new javax.swing.JList();
         lblMassnahmenTypCataloge = new javax.swing.JLabel();
-        dlgMassnahmenTypAll = new javax.swing.JDialog();
+        dlgMassnahmenTypAll = new JDialog(StaticSwingTools.getParentFrame(this));
         panMenButtonsMassnahmenTyp1 = new javax.swing.JPanel();
         btnMassnahmenTypAllAbort = new javax.swing.JButton();
         btnMassnahmenTypAllOk = new javax.swing.JButton();
@@ -1686,7 +1688,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         final Object selection = jlUmsetzung.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Umsetzung wirklich gelöscht werden?",
                     "Umsetzung entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -1695,11 +1697,12 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("umsetzung");
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
                         CidsBeanSupport.deleteStationlineIfExists(beanToDelete, "linie", beansToDelete);
                         CidsBeanSupport.deletePropertyIfExists(beanToDelete, "additional_geom", beansToDelete); // NOI18N
                         beanToDelete.delete();
+                        beansToDelete.add(beanToDelete);
                         massnahmenUmsetzungEditor.setCidsBean(null);
+                        ((Collection)beanColl).remove(beanToDelete);
                     }
                 } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
@@ -1760,9 +1763,11 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
                                     @Override
                                     public void run() {
-                                        UIUtil.findOptimalPositionOnScreen(dlgMassnahmenTyp);
                                         dlgMassnahmenTyp.setSize(790, 400);
-                                        dlgMassnahmenTyp.setVisible(true);
+                                        StaticSwingTools.showDialog(
+                                            StaticSwingTools.getParentFrame(ProjekteEditor.this),
+                                            dlgMassnahmenTyp,
+                                            true);
                                     }
                                 });
                         } catch (final Exception ex) {
@@ -1783,7 +1788,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         final Object selection = jlIndikator.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der ausgewählte Indikator wirklich gelöscht werden?",
                     "Indikator entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -1792,8 +1797,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("indikator");          // NOI18N
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
                         beanToDelete.delete();
+                        ((Collection)beanColl).remove(beanToDelete);
                     }
                 } catch (final Exception e) {
                     UIUtil.showExceptionToUser(e, this);
@@ -1808,9 +1813,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddIndikatorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddIndikatorActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgIndikator);
         dlgIndikator.setSize(550, 150);
-        dlgIndikator.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgIndikator, true);
     }                                                                                   //GEN-LAST:event_btnAddIndikatorActionPerformed
 
     /**
@@ -1891,7 +1895,7 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
         final Object selection = jlMassnahme.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der ausgewählte Maßnahmentyp wirklich gelöscht werden?",
                     "Maßnahmentyp entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -1900,8 +1904,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                     final CidsBean beanToDelete = (CidsBean)selection;
                     final Object beanColl = cidsBean.getProperty("aggregierte_massnahmen_typen"); // NOI18N
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
                         beanToDelete.delete();
+                        ((Collection)beanColl).remove(beanToDelete);
                     }
                     measureModel.fireContentsChanged();
                 } catch (final Exception e) {
@@ -1917,9 +1921,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddUmsetzung1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddUmsetzung1ActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMassnahmenTypAll);
         dlgMassnahmenTypAll.setSize(790, 350);
-        dlgMassnahmenTypAll.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMassnahmenTypAll, true);
     }                                                                                    //GEN-LAST:event_btnAddUmsetzung1ActionPerformed
 
     /**
@@ -2026,9 +2029,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 } catch (final Exception ex) {
                     LOG.error(ex, ex);
                 }
+            } else {
+                LOG.error("The property aggregierte_massnahmen_typen was not found.");
             }
-        } else {
-            LOG.error("The property aggregierte_massnahmen_typen was not found.");
         }
     }
 
@@ -2126,8 +2129,8 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             }
         }
 
-        final Date end = (Date)cidsBean.getProperty("m_ende");
-        if (end != null) {
+        final CidsBean status = (CidsBean)cidsBean.getProperty("status");
+        if ((status != null) && status.getProperty("name").equals("abgeschlossen")) {
             final List<CidsBean> implementations = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "umsetzung");
 
             if (implementations != null) {

@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.openide.util.NbBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +78,8 @@ public class GupUnterhaltungserfordernisEditor extends javax.swing.JPanel implem
      */
     public GupUnterhaltungserfordernisEditor(final boolean readOnly) {
         this.readOnly = readOnly;
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 
@@ -243,7 +246,9 @@ public class GupUnterhaltungserfordernisEditor extends javax.swing.JPanel implem
 
     @Override
     public String getTitle() {
-        return "Unterhaltungserfordernis";
+        return NbBundle.getMessage(
+                GupUnterhaltungserfordernisEditor.class,
+                "GupUnterhaltungserfordernisEditor.getTitle");
     }
 
     @Override

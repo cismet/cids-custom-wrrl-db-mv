@@ -79,7 +79,8 @@ public class UmlandnutzerEditor extends javax.swing.JPanel implements CidsBeanRe
      */
     public UmlandnutzerEditor(final boolean readOnly) {
         this.readOnly = readOnly;
-        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer(true)
+                                                : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
 
@@ -103,6 +104,24 @@ public class UmlandnutzerEditor extends javax.swing.JPanel implements CidsBeanRe
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setReadOnlyFields() {
+        final String firstName = (String)cidsBean.getProperty("nutzer.vorname");
+        final String name = (String)cidsBean.getProperty("nutzer.name");
+
+        if ((firstName != null) && (name != null)) {
+            lblNutzer1.setText(firstName + " " + name);
+        } else if (firstName != null) {
+            lblNutzer1.setText(firstName);
+        } else if (name != null) {
+            lblNutzer1.setText(name);
+        } else {
+            lblNutzer1.setText("");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -232,6 +251,7 @@ public class UmlandnutzerEditor extends javax.swing.JPanel implements CidsBeanRe
             }
             linearReferencedLineEditor.setCidsBean(cidsBean);
         }
+        setReadOnlyFields();
     }
 
     /**

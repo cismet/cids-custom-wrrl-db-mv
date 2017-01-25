@@ -6,7 +6,7 @@
 *
 ****************************************************/
 /*
- * WkFgEditor.java
+ * ChemieMstStammdatenEditor.java
  *
  * Created on 04.08.2010, 13:13:12
  */
@@ -569,8 +569,15 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
                 @Override
                 public void run() {
                     synchronized (ChemieMstStammdatenEditor.this) {
-                        final CidsBean measure = getDataForYear(newYear, measureNumber);
-                        showNewMeasure(measure);
+                        CidsBean measure = null;
+                        int measureYear = newYear;
+
+                        do {
+                            txtJahr.setText(String.valueOf(measureYear));
+                            measure = getDataForYear(measureYear, measureNumber);
+                            showNewMeasure(measure);
+                            --measureYear;
+                        } while ((measure == null) && (measureYear > 2006));
                     }
                 }
             }).start();
@@ -599,8 +606,16 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
                     @Override
                     public void run() {
                         synchronized (ChemieMstStammdatenEditor.this) {
-                            final CidsBean measure = getDataForYear(newYear, measureNumber);
-                            showNewMeasure(measure);
+                            CidsBean measure = null;
+                            int measureYear = newYear;
+                            final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
+
+                            do {
+                                txtJahr.setText(String.valueOf(measureYear));
+                                measure = getDataForYear(measureYear, measureNumber);
+                                showNewMeasure(measure);
+                                ++measureYear;
+                            } while ((measure == null) && (measureYear <= currentYear));
                         }
                     }
                 }).start();

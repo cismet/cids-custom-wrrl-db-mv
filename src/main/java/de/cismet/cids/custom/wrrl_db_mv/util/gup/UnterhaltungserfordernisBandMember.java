@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import org.apache.log4j.Logger;
+
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
@@ -33,6 +35,10 @@ import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
 public class UnterhaltungserfordernisBandMember extends AbschnittsinfoMember implements BandMemberSelectable,
     BandMemberMouseListeningComponent {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOG = Logger.getLogger(LineBandMember.class);
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
@@ -56,7 +62,7 @@ public class UnterhaltungserfordernisBandMember extends AbschnittsinfoMember imp
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
         this.cidsBean = cidsBean;
-        setToolTipText(String.valueOf(cidsBean.getProperty("name_bezeichnung.name")));
+        setToolTipText(String.valueOf(cidsBean.getProperty("name_beschreibung.name")));
         determineBackgroundColour();
         setBackgroundPainter(unselectedBackgroundPainter);
     }
@@ -65,54 +71,23 @@ public class UnterhaltungserfordernisBandMember extends AbschnittsinfoMember imp
      * DOCUMENT ME!
      */
     protected void determineBackgroundColour() {
-        if (cidsBean.getProperty("name_bezeichnung") == null) {
+        if ((cidsBean.getProperty("name_beschreibung") == null)
+                    || (cidsBean.getProperty("name_beschreibung.color") == null)) {
+            setDefaultBackground();
             return;
         }
-        final int art = (Integer)cidsBean.getProperty("name_bezeichnung.id");
+        final String color = (String)cidsBean.getProperty("name_beschreibung.color");
 
-        switch (art) {
-            case 1: {
-                // hydraulischen Querschnitt des Gewässerprofils erhalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
-                break;
-            }
-            case 2: {
-                // Wasserspiegellage erhalten (Entwässerung anliegender Flächen)
-                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
-                break;
-            }
-            case 3: {
-                // Anlage im/am Gewässer (Stau/Wehr/Durchlass/Sandfang) freihalten
-                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
-                break;
-            }
-            case 4: {
-                // Sohl-, Ufer- oder Deichsicherung
-                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
-
-                break;
-            }
-            case 5: {
-                // Sedimentationsabschnitt
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
-            }
-            case 6: {
-                // Krautaufwuchs Sohle > 80%
-                unselectedBackgroundPainter = (new MattePainter(new Color(0, 255, 0)));
-                break;
-            }
-            case 7: {
-                // Verkehrssicherung für Gehölze
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
-            }
-            case 8: {
-                // andere Erfordernisse - bitte erläutern
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackground();
             }
         }
+
+        unselectedBackgroundPainter = getBackgroundPainter();
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
@@ -126,6 +101,32 @@ public class UnterhaltungserfordernisBandMember extends AbschnittsinfoMember imp
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+        setBackgroundPainter(unselectedBackgroundPainter);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void setDefaultBackground() {
+        unselectedBackgroundPainter = new MattePainter(new Color(229, 0, 0));
+        selectedBackgroundPainter = new CompoundPainter(
+                unselectedBackgroundPainter,
+                new RectanglePainter(
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    true,
+                    new Color(100, 100, 100, 100),
+                    2f,
+                    new Color(50, 50, 50, 100)));
+        if (selected) {
+            setBackgroundPainter(selectedBackgroundPainter);
+        } else {
+            setBackgroundPainter(unselectedBackgroundPainter);
+        }
     }
 
     @Override

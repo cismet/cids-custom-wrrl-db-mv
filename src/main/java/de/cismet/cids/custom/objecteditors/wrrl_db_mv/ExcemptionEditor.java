@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -30,6 +31,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -104,7 +107,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgJustificationCataloge = new javax.swing.JDialog();
+        dlgJustificationCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblJustfification = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo(EX_JUST_MC, true, true);
         cbJustfificationCataloge = cb;
@@ -381,9 +384,8 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
      */
     private void btnJusAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnJusAddActionPerformed
         if (cbExCat.isEnabled()) {
-            UIUtil.findOptimalPositionOnScreen(dlgJustificationCataloge);
             dlgJustificationCataloge.setSize(300, 150);
-            dlgJustificationCataloge.setVisible(true);
+            StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgJustificationCataloge, true);
         }
     }                                                                             //GEN-LAST:event_btnJusAddActionPerformed
 
@@ -397,7 +399,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
             final Object selection = lstExJus.getSelectedValue();
             if (selection != null) {
                 final int answer = JOptionPane.showConfirmDialog(
-                        this,
+                        StaticSwingTools.getParentFrame(this),
                         "Soll die Ausnahme '"
                                 + selection.toString()
                                 + "' wirklich gelöscht werden?",

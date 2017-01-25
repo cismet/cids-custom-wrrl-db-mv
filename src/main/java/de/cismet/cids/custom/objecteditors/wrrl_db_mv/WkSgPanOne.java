@@ -11,6 +11,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -26,6 +27,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -136,14 +139,14 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgImpactCataloge = new javax.swing.JDialog();
+        dlgImpactCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo(IMPACT_MC, true, true);
         cbImpactCataloge = cb1;
         panMenButtonsImpact = new javax.swing.JPanel();
         btnImpactAbort = new javax.swing.JButton();
         btnImpactOk = new javax.swing.JButton();
-        dlgImpactSrcCataloge = new javax.swing.JDialog();
+        dlgImpactSrcCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactSrcCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(IMPACT_SRC_MC, true, true);
         cbImpactSrcCataloge = cb2;
@@ -956,10 +959,10 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddImpactSrcActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactSrcActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgImpactSrcCataloge);
+//        UIUtil.findOptimalPositionOnScreen(dlgImpactSrcCataloge);
         dlgImpactSrcCataloge.setSize(300, 150);
-        dlgImpactSrcCataloge.setVisible(true);
-    }                                                                                   //GEN-LAST:event_btnAddImpactSrcActionPerformed
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactSrcCataloge, true);
+    } //GEN-LAST:event_btnAddImpactSrcActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -970,7 +973,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         final Object selection = lstImpactSrc.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Belastungsquelle '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -999,7 +1002,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         final Object selection = lstImpact.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Auswirkung '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -1025,10 +1028,10 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
+//        UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
         dlgImpactCataloge.setSize(300, 150);
-        dlgImpactCataloge.setVisible(true);
-    }                                                                                //GEN-LAST:event_btnAddImpactActionPerformed
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactCataloge, true);
+    } //GEN-LAST:event_btnAddImpactActionPerformed
 
     /**
      * DOCUMENT ME!

@@ -12,23 +12,35 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.EventQueue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenBand;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.CismetThreadPool;
+
+import de.cismet.tools.gui.jbands.JBand;
+import de.cismet.tools.gui.jbands.SimpleBandModel;
 
 /**
  * DOCUMENT ME!
@@ -44,17 +56,30 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
             GupGewaesserPreview.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "gup_gewaesserabschnitt");
+            "gup_planungsabschnitt");
+    private static final String GUP_MASSNAHME = "gup_unterhaltungsmassnahme";
+
+    public static final int GUP_MASSNAHME_UFER_LINKS = 2;
+    public static final int GUP_MASSNAHME_UFER_RECHTS = 1;
+    public static final int GUP_MASSNAHME_UMFELD_RECHTS = 4;
+    public static final int GUP_MASSNAHME_UMFELD_LINKS = 3;
+    public static final int GUP_MASSNAHME_SOHLE = 5;
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
     private String beanName = "";
+    private final JBand band = new JBand(true);
+    private final SimpleBandModel bandModel = new SimpleBandModel();
+    private final MassnahmenBand rechtesUferBand = new MassnahmenBand("Ufer rechts", GUP_MASSNAHME, Boolean.TRUE);
+    private final MassnahmenBand sohleBand = new MassnahmenBand("Sohle", GUP_MASSNAHME, null);
+    private final MassnahmenBand linkesUferBand = new MassnahmenBand("Ufer links", GUP_MASSNAHME, Boolean.FALSE);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblGewBild;
+    private de.cismet.tools.gui.RoundedPanel glassPanel;
     private javax.swing.JLabel lblGewName;
+    private javax.swing.JPanel panBand;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -63,7 +88,22 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
      * Creates new form GupMassnahmeSohle.
      */
     public GupGewaesserPreview() {
+        this(false);
+    }
+
+    /**
+     * Creates new form GupMassnahmeSohle.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public GupGewaesserPreview(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+
+        band.setModel(bandModel);
+        bandModel.addBand(rechtesUferBand);
+        bandModel.addBand(sohleBand);
+        bandModel.addBand(linkesUferBand);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -78,42 +118,63 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
         java.awt.GridBagConstraints gridBagConstraints;
 
         lblGewName = new javax.swing.JLabel();
-        lblGewBild = new javax.swing.JLabel();
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
+        panBand = new javax.swing.JPanel();
 
         setMinimumSize(new java.awt.Dimension(775, 142));
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(900, 142));
         setLayout(new java.awt.GridBagLayout());
 
-        lblGewName.setFont(new java.awt.Font("DejaVu Sans", 1, 18));
+        lblGewName.setFont(new java.awt.Font("DejaVu Sans", 1, 18)); // NOI18N
         lblGewName.setMaximumSize(new java.awt.Dimension(200, 50));
         lblGewName.setMinimumSize(new java.awt.Dimension(200, 50));
         lblGewName.setPreferredSize(new java.awt.Dimension(200, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 50);
         add(lblGewName, gridBagConstraints);
 
-        lblGewBild.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        lblGewBild.setMaximumSize(new java.awt.Dimension(610, 142));
-        lblGewBild.setMinimumSize(new java.awt.Dimension(610, 142));
-        lblGewBild.setPreferredSize(new java.awt.Dimension(610, 142));
-        lblGewBild.addMouseListener(new java.awt.event.MouseAdapter() {
+        glassPanel.setAlpha(0);
+        glassPanel.addMouseListener(new java.awt.event.MouseAdapter() {
 
                 @Override
                 public void mouseClicked(final java.awt.event.MouseEvent evt) {
-                    lblGewBildMouseClicked(evt);
+                    glassPanelMouseClicked(evt);
                 }
             });
+        glassPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(glassPanel, gridBagConstraints);
+
+        panBand.setMaximumSize(new java.awt.Dimension(610, 142));
+        panBand.setMinimumSize(new java.awt.Dimension(610, 142));
+        panBand.setOpaque(false);
+        panBand.setPreferredSize(new java.awt.Dimension(610, 142));
+        panBand.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    panBandMouseClicked(evt);
+                }
+            });
+        panBand.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 0);
-        add(lblGewBild, gridBagConstraints);
+        add(panBand, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -121,11 +182,24 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblGewBildMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblGewBildMouseClicked
+    private void panBandMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_panBandMouseClicked
         if (cidsBean != null) {
             ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObject(cidsBean.getMetaObject(), "");
         }
-    }                                                                          //GEN-LAST:event_lblGewBildMouseClicked
+    }                                                                       //GEN-LAST:event_panBandMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void glassPanelMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_glassPanelMouseClicked
+        if (cidsBean != null) {
+            if (readOnly) {
+                ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObject(cidsBean.getMetaObject(), "");
+            }
+        }
+    }                                                                          //GEN-LAST:event_glassPanelMouseClicked
 
     @Override
     public CidsBean getCidsBean() {
@@ -138,7 +212,50 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
-            lblGewBild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            glassPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            final List<CidsBean> all = cidsBean.getBeanCollectionProperty("massnahmen");
+            final ArrayList<CidsBean> rechtesUferList = new ArrayList<CidsBean>();
+            final ArrayList<CidsBean> sohleList = new ArrayList<CidsBean>();
+            final ArrayList<CidsBean> linkesUferList = new ArrayList<CidsBean>();
+
+            for (final CidsBean tmp : all) {
+                final Integer kind = (Integer)tmp.getProperty("wo.id");
+
+                switch (kind) {
+                    case GUP_MASSNAHME_UFER_LINKS: {
+                        linkesUferList.add(tmp);
+                        break;
+                    }
+                    case GUP_MASSNAHME_UFER_RECHTS: {
+                        rechtesUferList.add(tmp);
+                        break;
+                    }
+                    case GUP_MASSNAHME_SOHLE: {
+                        sohleList.add(tmp);
+                        break;
+                    }
+                }
+            }
+
+            rechtesUferBand.setCidsBeans(rechtesUferList);
+            sohleBand.setCidsBeans(sohleList);
+            linkesUferBand.setCidsBeans(linkesUferList);
+
+//            band.setSize(610, 142);
+            panBand.add(band, BorderLayout.CENTER);
+            bandModel.fireBandModelValuesChanged();
+            bandModel.fireBandModelChanged();
+            band.updateUI();
+            panBand.updateUI();
+
+            band.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                        panBandMouseClicked(evt);
+                    }
+                });
 //            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
 //                bindingGroup,
 //                cidsBean);
@@ -149,25 +266,58 @@ public class GupGewaesserPreview extends javax.swing.JPanel implements CidsBeanR
     /**
      * DOCUMENT ME!
      *
+     * @param  id  DOCUMENT ME!
+     */
+    public void loadCidsBean(final int id) {
+        CismetThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        String query = "select " + MC.getID() + ", " + MC.getPrimaryKey() + " from "
+                                    + MC.getTableName(); // NOI18N
+                        query += " WHERE id = " + id;    // NOI18N
+
+                        final MetaObject metaObject = SessionManager.getProxy()
+                                    .getMetaObject(id, MC.getId(), MC.getDomain());
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    setCidsBean(metaObject.getBean());
+                                }
+                            });
+                    } catch (Exception e) {
+                        LOG.error("Error while loading planungsabschnitt", e);
+                    }
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  beanName  DOCUMENT ME!
      */
     public void setBeanName(final String beanName) {
         this.beanName = beanName;
-        if (beanName.equals("Tollense")) {
-            lblGewBild.setIcon(new javax.swing.ImageIcon(
-                    getClass().getResource(
-                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Tollense_screenshot.jpg")));
-        } else {
-            lblGewBild.setIcon(new javax.swing.ImageIcon(
-                    getClass().getResource(
-                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Lindebach_screenshot.jpg")));
-        }
+//        if (beanName.equals("Tollense")) {
+//            lblGewBild.setIcon(new javax.swing.ImageIcon(
+//                    getClass().getResource(
+//                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Tollense_screenshot.jpg")));
+//        } else {
+//            lblGewBild.setIcon(new javax.swing.ImageIcon(
+//                    getClass().getResource(
+//                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/Lindebach_screenshot.jpg")));
+//        }
 
         lblGewName.setText(beanName);
     }
 
     @Override
     public void dispose() {
+        band.dispose();
 //        bindingGroup.unbind();
     }
 

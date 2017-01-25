@@ -27,6 +27,7 @@ import java.util.List;
 
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -60,6 +61,9 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     private javax.swing.JCheckBox cbSeeausfluss;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccGewaesserSubtyp;
     private de.cismet.tools.gui.RoundedPanel glassPanel;
+    private de.cismet.tools.gui.RoundedPanel glassPanel1;
+    private de.cismet.tools.gui.RoundedPanel glassPanel2;
+    private de.cismet.tools.gui.RoundedPanel glassPanel3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private de.cismet.tools.gui.RoundedPanel jpGewTyp;
@@ -137,14 +141,17 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        glassPanel = new de.cismet.tools.gui.RoundedPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
+        glassPanel = new de.cismet.tools.gui.RoundedPanel();
+        glassPanel1 = new de.cismet.tools.gui.RoundedPanel();
+        glassPanel2 = new de.cismet.tools.gui.RoundedPanel();
         kartierabschnittStammEditor1 = new KartierabschnittStammEditor(readOnly);
         jpUnterh = new javax.swing.JPanel();
         panInfo1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
+        glassPanel3 = new de.cismet.tools.gui.RoundedPanel();
         lblWasserfuehrung = new javax.swing.JLabel();
         lblUnterhaltung = new javax.swing.JLabel();
         lblSonderfall = new javax.swing.JLabel();
@@ -183,17 +190,39 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         setPreferredSize(new java.awt.Dimension(1100, 650));
         setLayout(new java.awt.GridBagLayout());
 
+        panInfo.setLayout(new java.awt.GridBagLayout());
+
         glassPanel.setAlpha(0);
         glassPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        add(glassPanel, gridBagConstraints);
+        panInfo.add(glassPanel, gridBagConstraints);
 
-        panInfo.setLayout(new java.awt.GridBagLayout());
+        glassPanel1.setAlpha(0);
+        glassPanel1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfo.add(glassPanel1, gridBagConstraints);
+
+        glassPanel2.setAlpha(0);
+        glassPanel2.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfo.add(glassPanel2, gridBagConstraints);
 
         kartierabschnittStammEditor1.setMinimumSize(new java.awt.Dimension(1100, 250));
         kartierabschnittStammEditor1.setPreferredSize(new java.awt.Dimension(1100, 250));
@@ -227,6 +256,18 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
+        glassPanel3.setAlpha(0);
+        glassPanel3.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent.add(glassPanel3, gridBagConstraints);
+
         lblWasserfuehrung.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittKartierabschnitt.class,
                 "FgskKartierabschnittKartierabschnitt.lblWasserfuehrung.text")); // NOI18N
@@ -234,6 +275,8 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         lblWasserfuehrung.setMinimumSize(new java.awt.Dimension(120, 17));
         lblWasserfuehrung.setPreferredSize(new java.awt.Dimension(120, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent.add(lblWasserfuehrung, gridBagConstraints);
@@ -663,10 +706,21 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         if (readOnly) {
             glassPanel.addMouseListener(new MouseAdapter() {
                 });
+            glassPanel1.addMouseListener(new MouseAdapter() {
+                });
+            glassPanel2.addMouseListener(new MouseAdapter() {
+                });
+            glassPanel3.addMouseListener(new MouseAdapter() {
+                });
+            RendererTools.makeReadOnly(taErlaeuterung);
         } else {
             for (final MouseListener ml : glassPanel.getMouseListeners()) {
                 glassPanel.removeMouseListener(ml);
+                glassPanel1.removeMouseListener(ml);
+                glassPanel2.removeMouseListener(ml);
+                glassPanel3.removeMouseListener(ml);
             }
+            RendererTools.makeWritable(taErlaeuterung);
         }
 
         this.readOnly = readOnly;

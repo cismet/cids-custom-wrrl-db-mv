@@ -16,13 +16,13 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -33,6 +33,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -57,9 +59,11 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFliessgewaesser;
+    private javax.swing.JCheckBox cbHistorisch;
     private javax.swing.JCheckBox cbVorkatierung;
     private javax.swing.JDialog geomDialog;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBearbeiter;
     private javax.swing.JLabel lblDatum;
@@ -68,6 +72,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JLabel lblGewaesserkennzahl;
     private javax.swing.JLabel lblGewaessername;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHistorisch;
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblVorkatierung;
     private javax.swing.JLabel lblWk;
@@ -128,7 +133,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        geomDialog = new javax.swing.JDialog();
+        geomDialog = new JDialog(StaticSwingTools.getParentFrame(this));
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
@@ -157,9 +162,12 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtWkType = new javax.swing.JTextField();
         lblFotoNr = new javax.swing.JLabel();
         txtFotoNr = new javax.swing.JTextField();
-        cbVorkatierung = new javax.swing.JCheckBox();
         lblVorkatierung = new javax.swing.JLabel();
         linearReferencedLineEditor = linearReferencedLineEditor;
+        jPanel2 = new javax.swing.JPanel();
+        cbVorkatierung = new javax.swing.JCheckBox();
+        cbHistorisch = new javax.swing.JCheckBox();
+        lblHistorisch = new javax.swing.JLabel();
 
         geomDialog.setTitle(org.openide.util.NbBundle.getMessage(
                 KartierabschnittStammEditor.class,
@@ -518,27 +526,6 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
         panInfoContent.add(txtFotoNr, gridBagConstraints);
 
-        cbVorkatierung.setContentAreaFilled(false);
-        cbVorkatierung.setMinimumSize(new java.awt.Dimension(100, 20));
-        cbVorkatierung.setPreferredSize(new java.awt.Dimension(100, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorkatierung}"),
-                cbVorkatierung,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbVorkatierung, gridBagConstraints);
-
         lblVorkatierung.setText(org.openide.util.NbBundle.getMessage(
                 KartierabschnittStammEditor.class,
                 "KartierabschnittStammEditor.lblVorkatierung.text")); // NOI18N
@@ -558,6 +545,69 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panInfoContent.add(linearReferencedLineEditor, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        cbVorkatierung.setContentAreaFilled(false);
+        cbVorkatierung.setMinimumSize(new java.awt.Dimension(100, 20));
+        cbVorkatierung.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorkatierung}"),
+                cbVorkatierung,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel2.add(cbVorkatierung, gridBagConstraints);
+
+        cbHistorisch.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.historisch}"),
+                cbHistorisch,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        jPanel2.add(cbHistorisch, gridBagConstraints);
+
+        lblHistorisch.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.lblHistorisch.text")); // NOI18N
+        lblHistorisch.setMinimumSize(new java.awt.Dimension(100, 17));
+        lblHistorisch.setPreferredSize(new java.awt.Dimension(100, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        jPanel2.add(lblHistorisch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(jPanel2, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -682,7 +732,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                         || (timErfassungsdatum.getTimestamp().getTime() == 0)
                         || (cidsBean.getProperty("linie") == null)) {
                 JOptionPane.showMessageDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Mindestens die Stationierung des Abschnitts, "
                             + "Datum und Bearbeiter müssen angegeben werden.",
                     "Unvollständig",
@@ -715,9 +765,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                     0,
                     0);
             jPanel1.add(linearReferencedLineEditor, constraints);
-            UIUtil.findOptimalPositionOnScreen(geomDialog);
             geomDialog.setModal(true);
-            geomDialog.setVisible(true);
+            StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), geomDialog, true);
         } else {
             geomDialog.setVisible(false);
             jPanel1.removeAll();

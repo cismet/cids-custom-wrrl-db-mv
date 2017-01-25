@@ -28,13 +28,14 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
-import Sirius.server.search.builtin.GeoSearch;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import org.openide.util.Lookup;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;
@@ -48,6 +49,8 @@ import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.server.search.builtin.GeoSearch;
 
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.Feature;
@@ -97,11 +100,13 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
         sep.setName("oeg-sep");
 
         final JToggleButton cmdOEGGesamt = new JToggleButton();
-        cmdOEGGesamt.setText("OEG (Gesamt)");
+//        cmdOEGGesamt.setText("OEG (Gesamt)");
         cmdOEGGesamt.setToolTipText("OEG Tool (Gesamt)");
         cmdOEGGesamt.setName("oeg_tool_gesamt");
         cmdOEGGesamt.setBorderPainted(false);
         cmdOEGGesamt.setFocusable(false);
+        cmdOEGGesamt.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/toolbar/wrrl_db_mv/Tool_oeg.png")));
         // setIcon(new
         // javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/alkisframeprint.png")));
         cmdOEGGesamt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -136,11 +141,13 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
             });
 
         final JToggleButton cmdOEGEinzel = new JToggleButton();
-        cmdOEGEinzel.setText("OEG (Einzeln)");
+//        cmdOEGEinzel.setText("OEG (Einzeln)");
         cmdOEGEinzel.setToolTipText("OEG Tool (Einzeln)");
         cmdOEGEinzel.setName("oeg_tool_einzeln");
         cmdOEGEinzel.setBorderPainted(false);
         cmdOEGEinzel.setFocusable(false);
+        cmdOEGEinzel.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/toolbar/wrrl_db_mv/Tool_oeg.png")));
         // setIcon(new
         // javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/icons/alkisframeprint.png")));
         cmdOEGEinzel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -211,7 +218,7 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
      */
     private void OegSearch(final String type, final PInputEvent event) {
         final MappingComponent mc = CismapBroker.getInstance().getMappingComponent();
-        waiting = new OEGWaitDialog(StaticSwingTools.getFirstParentFrame(mc), true);
+        waiting = new OEGWaitDialog(StaticSwingTools.getParentFrame(mc), true);
         final javax.swing.SwingWorker<Collection<Feature>, Void> search =
             new javax.swing.SwingWorker<Collection<Feature>, Void>() {
 
@@ -224,7 +231,9 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
                     transformed.setSRID(
                         CismapBroker.getInstance().getDefaultCrsAlias());
 
-                    final GeoSearch gs = new GeoSearch(transformed);
+                    // default geosearch always present
+                    final GeoSearch gs = Lookup.getDefault().lookup(GeoSearch.class);
+                    gs.setGeometry(transformed);
 
                     if (type.equals(OEG_GESAMT)) {
                         if (oegGesamt == null) {
@@ -320,8 +329,7 @@ public class OEGToolProvider implements ToolbarComponentsProvider {
                 public void run() {
                     waiting.setWorker(search);
                     waiting.pack();
-                    waiting.setLocationRelativeTo(mc);
-                    waiting.setVisible(true);
+                    StaticSwingTools.showDialog(waiting);
                 }
             });
     }

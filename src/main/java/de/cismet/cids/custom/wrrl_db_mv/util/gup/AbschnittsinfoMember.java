@@ -14,14 +14,16 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import org.jdesktop.swingx.JXPanel;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.JComponent;
+import javax.swing.border.LineBorder;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberMouseListeningComponent;
-import de.cismet.tools.gui.jbands.interfaces.BandMemberSelectable;
 import de.cismet.tools.gui.jbands.interfaces.Section;
 
 /**
@@ -37,6 +39,9 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
     CidsBean abschnittsInfo;
     double from;
     double to;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel labText;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -56,15 +61,24 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        final java.awt.GridBagConstraints gridBagConstraints;
+
+        labText = new javax.swing.JLabel();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        labText.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        labText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        add(labText, gridBagConstraints);
+    }                                                        // </editor-fold>//GEN-END:initComponents
 
     @Override
     public JComponent getBandMemberComponent() {
@@ -73,12 +87,12 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
 
     @Override
     public double getMax() {
-        return to;
+        return ((to > from) ? to : from);
     }
 
     @Override
     public double getMin() {
-        return from;
+        return ((to > from) ? from : to);
     }
 
     @Override
@@ -101,5 +115,64 @@ public class AbschnittsinfoMember extends JXPanel implements BandMember, Section
         abschnittsInfo = cidsBean;
         from = (Double)abschnittsInfo.getProperty("linie.von.wert");
         to = (Double)abschnittsInfo.getProperty("linie.bis.wert");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  text  DOCUMENT ME!
+     */
+    public void setText(final String text) {
+        labText.setText(text);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  font  DOCUMENT ME!
+     */
+    public void setTextFont(final Font font) {
+        labText.setFont(font);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Font getTextFont() {
+        return labText.getFont();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  visible  DOCUMENT ME!
+     */
+    public void setTextVisible(final boolean visible) {
+        labText.setVisible(visible);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   visible  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isTextVisible(final boolean visible) {
+        return labText.isVisible();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  border  DOCUMENT ME!
+     */
+    public void setMemberBorder(final boolean border) {
+        if (!border) {
+            setBorder(null);
+        } else {
+            setBorder(new LineBorder(Color.BLACK));
+        }
     }
 }

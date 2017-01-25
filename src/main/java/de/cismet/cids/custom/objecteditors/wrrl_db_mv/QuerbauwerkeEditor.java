@@ -40,12 +40,15 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JComponent;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -53,6 +56,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerProvider;
+import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
@@ -64,6 +70,8 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.tools.CismetThreadPool;
+
 import de.cismet.tools.gui.FooterComponentProvider;
 
 /**
@@ -74,17 +82,34 @@ import de.cismet.tools.gui.FooterComponentProvider;
  */
 public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRenderer,
     EditorSaveListener,
-    FooterComponentProvider {
+    FooterComponentProvider,
+    BeanInitializerProvider,
+    PropertyChangeListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkeEditor.class);
-    private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final PropertyChangeListener bauwerkPropertyChangeListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent pce) {
+                if (pce.getPropertyName().equals("bauwerk")) {
+                    int bauwerk_value = 0;
+                    try {
+                        bauwerk_value = Integer.parseInt((String)((CidsBean)cidsBean.getProperty("bauwerk"))
+                                        .getProperty("value"));
+                    } catch (Exception ex) {
+                    }
+                    querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
+                    querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -94,10 +119,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panBeschreibung;
+    private javax.swing.JPanel panFische;
     private javax.swing.JPanel panFooter;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSeven querbauwerkePanSeven1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSix querbauwerkePanSix;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanThree querbauwerkePanThree;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanTwo querbauwerkePanTwo;
@@ -180,11 +207,13 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         querbauwerkePanFour = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour();
+        panFische = new javax.swing.JPanel();
+        querbauwerkePanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSeven();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -259,12 +288,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1033,
+                1120,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                448,
+                501,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -296,12 +325,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1033,
+                1120,
                 Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                812,
+                857,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -325,6 +354,23 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                 "QuerbauwerkeEditor.jPanel4.TabConstraints.tabTitle"),
             jPanel4); // NOI18N
 
+        panFische.setOpaque(false);
+        panFische.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        panFische.add(querbauwerkePanSeven1, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.panFische.TabConstraints.tabTitle"),
+            panFische); // NOI18N
+
         add(tpMain, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
@@ -336,34 +382,22 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         this.cidsBean = cidsBean;
-        if (cidsBean != null) {
-            try {
-                cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
 
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent pce) {
-                            if (pce.getPropertyName().equals("bauwerk")) {
-                                int bauwerk_value = 0;
-                                try {
-                                    bauwerk_value = Integer.parseInt(
-                                            (String)((CidsBean)cidsBean.getProperty("bauwerk")).getProperty("value"));
-                                } catch (Exception ex) {
-                                }
-                                querbauwerkePanFour.setWehrVisible(bauwerk_value == 1);
-                                querbauwerkePanFour.setStarrVisible(bauwerk_value == 3);
-                            }
-                        }
-                    });
+        if (cidsBean != null) {
+            cidsBean.addPropertyChangeListener(this);
+            try {
+                cidsBean.addPropertyChangeListener(bauwerkPropertyChangeListener);
             } catch (Exception ex) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("error while autosetting properties", ex);
                 }
             }
 
-            updateQbwId();
-            // aus Performancegründen nicht in wertChanged
-            updateWaKoerper();
+            refreshReadOnlyFields();
 
             querbauwerkePanOne.setCidsBean(cidsBean);
             querbauwerkePanTwo.setCidsBean(cidsBean);
@@ -371,9 +405,11 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             querbauwerkePanFour.setCidsBean(cidsBean);
             querbauwerkePanFive.setCidsBean(cidsBean);
             querbauwerkePanSix.setCidsBean(cidsBean);
+            querbauwerkePanSeven1.setCidsBean(cidsBean);
 
             bindingGroup.bind();
             UIUtil.setLastModifier(cidsBean, lblFoot);
+            tpMain.setEnabledAt(3, QuerbauwerkeEditor.showFishPanel(cidsBean));
             zoomToFeatures();
         }
     }
@@ -381,7 +417,33 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     /**
      * DOCUMENT ME!
      */
-    private void updateWaKoerper() {
+    private void refreshReadOnlyFields() {
+        updateQbwId();
+        // aus Performancegründen nicht in wertChanged
+        CismetThreadPool.execute(new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        updateWaKoerper();
+                    }
+                }));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static boolean showFishPanel(final CidsBean cidsBean) {
+        return cidsBean.getProperty("b_aal") != null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private synchronized void updateWaKoerper() {
         final MetaClass mcWkFg = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
         final MetaClass mcWkFgTeile = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg_teile");
         final MetaClass mcWkTeil = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_teil");
@@ -438,89 +500,96 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                         + Double.toString(wert) + ") "
                         + "   ) "
                         + ";";
-
-            queryWkSg = "SELECT "
-                        + "   " + mcWkSg.getID() + ", "
-                        + "   wk_sg." + mcWkSg.getPrimaryKey() + " "
-                        + "FROM "
-                        + "   " + mcWkSg.getTableName() + " AS wk_sg, "
-                        + "   " + mcGeom.getTableName() + " AS geom_sg, "
-                        + "   ( "
-                        + "      SELECT "
-                        + "         querbauwerke.id AS id, "
-                        + "         station_von.wert AS wert, "
-                        + "         route.gwk AS gwk, "
-                        + "         ST_Line_Substring( "
-                        + "            geom_route.geo_field, "
-                        + "            (case when station_von.wert < station_bis.wert then station_von.wert else station_bis.wert end ) / length2d(geom_route.geo_field), "
-                        + "            (case when station_von.wert < station_bis.wert then station_bis.wert else station_von.wert end ) / length2d(geom_route.geo_field) "
-                        + "         ) AS geom "
-                        + "      FROM "
-                        + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
-                        + "         " + mcStation.getTableName() + " AS station_von, "
-                        + "         " + mcStation.getTableName() + " AS station_bis, "
-                        + "         " + mcRoute.getTableName() + " AS route, "
-                        + "         " + mcGeom.getTableName() + " AS geom_route "
-                        + "      WHERE "
-                        + "         querbauwerke.stat09 = station_von.id AND "
-                        + "         querbauwerke.stat09_bis = station_bis.id AND "
-                        + "         station_von.route = route.id AND "
-                        + "         route.geom = geom_route.id "
-                        + "   ) AS qbw, "
-                        + "   ( "
-                        + "      SELECT "
-                        + "         querbauwerke.id AS id, "
-                        + "         ST_Extent(geom_route.geo_field) AS geom "
-                        + "      FROM "
-                        + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
-                        + "         " + mcStation.getTableName() + " AS station_von, "
-                        + "         " + mcRoute.getTableName() + " AS route, "
-                        + "         " + mcGeom.getTableName() + " AS geom_route "
-                        + "      WHERE "
-                        + "         querbauwerke.stat09 = station_von.id AND "
-                        + "         station_von.route = route.id AND "
-                        + "         route.geom = geom_route.id "
-                        + "      GROUP BY querbauwerke.id "
-                        + "   ) AS qbw_ext "
-                        + "WHERE "
-                        + "   qbw.id = " + id + " AND "
-                        + "   wk_sg.geom = geom_sg.id AND "
-                        + "   qbw.id = qbw_ext.id AND "
-                        + "   geom_sg.geo_field && qbw_ext.geom AND "
-                        + "   ST_Intersects( "
-                        + "      geom_sg.geo_field, "
-                        + "      qbw.geom "
-                        + "   ) "
-                        + ";";
         }
         try {
             final MetaObject[] mosWkFg;
             final MetaObject[] mosWkSg;
             if (LOG.isDebugEnabled()) {
                 LOG.debug("queryWkFg  => " + queryWkFg);
-                LOG.debug("queryWkSg  => " + queryWkSg);
             }
             mosWkFg = SessionManager.getProxy().getMetaObjectByQuery(queryWkFg, 0);
-            mosWkSg = SessionManager.getProxy().getMetaObjectByQuery(queryWkSg, 0);
 
             final MetaObject moWkFg;
-            final MetaObject moWkSg;
             if ((mosWkFg != null) && (mosWkFg.length > 0)) {
                 moWkFg = mosWkFg[0];
                 final String wkK = (String)moWkFg.getAttributeByFieldName("wk_k").getValue();
                 querbauwerkePanTwo.setWaKoerper(wkK);
                 querbauwerkePanTwo.setMoWk(moWkFg);
                 querbauwerkePanTwo.setKategorie(QuerbauwerkePanTwo.Kategorie.Fliessgewaesser);
-            } else if ((mosWkSg != null) && (mosWkSg.length > 0)) {
-                moWkSg = mosWkSg[0];
-                final String wkK = (String)moWkSg.getAttributeByFieldName("wk_k").getValue();
-                querbauwerkePanTwo.setWaKoerper(wkK);
-                querbauwerkePanTwo.setMoWk(moWkSg);
-                querbauwerkePanTwo.setKategorie(QuerbauwerkePanTwo.Kategorie.Standgewaesser);
             } else {
-                querbauwerkePanTwo.setWaKoerper(null);
-                querbauwerkePanTwo.setMoWk(null);
-                querbauwerkePanTwo.setKategorie(null);
+                if (stat09 != null) {
+                    queryWkSg = "SELECT "
+                                + "   " + mcWkSg.getID() + ", "
+                                + "   wk_sg." + mcWkSg.getPrimaryKey() + " "
+                                + "FROM "
+                                + "   " + mcWkSg.getTableName() + " AS wk_sg, "
+                                + "   " + mcGeom.getTableName() + " AS geom_sg, "
+                                + "   ( "
+                                + "      SELECT "
+                                + "         querbauwerke.id AS id, "
+                                + "         station_von.wert AS wert, "
+                                + "         route.gwk AS gwk, "
+                                + "         ST_Line_Substring( "
+                                + "            geom_route.geo_field, "
+                                + "            (case when station_von.wert < station_bis.wert then station_von.wert else station_bis.wert end ) / length2d(geom_route.geo_field), "
+                                + "            (case when station_von.wert < station_bis.wert then station_bis.wert else station_von.wert end ) / length2d(geom_route.geo_field) "
+                                + "         ) AS geom "
+                                + "      FROM "
+                                + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
+                                + "         " + mcStation.getTableName() + " AS station_von, "
+                                + "         " + mcStation.getTableName() + " AS station_bis, "
+                                + "         " + mcRoute.getTableName() + " AS route, "
+                                + "         " + mcGeom.getTableName() + " AS geom_route "
+                                + "      WHERE "
+                                + "         querbauwerke.stat09 = station_von.id AND "
+                                + "         querbauwerke.stat09_bis = station_bis.id AND "
+                                + "         station_von.route = route.id AND "
+                                + "         route.geom = geom_route.id "
+                                + "   ) AS qbw, "
+                                + "   ( "
+                                + "      SELECT "
+                                + "         querbauwerke.id AS id, "
+                                + "         ST_Extent(geom_route.geo_field) AS geom "
+                                + "      FROM "
+                                + "         " + mcQuerbauwerke.getTableName() + " AS querbauwerke, "
+                                + "         " + mcStation.getTableName() + " AS station_von, "
+                                + "         " + mcRoute.getTableName() + " AS route, "
+                                + "         " + mcGeom.getTableName() + " AS geom_route "
+                                + "      WHERE "
+                                + "         querbauwerke.stat09 = station_von.id AND "
+                                + "         station_von.route = route.id AND "
+                                + "         route.geom = geom_route.id "
+                                + "      GROUP BY querbauwerke.id "
+                                + "   ) AS qbw_ext "
+                                + "WHERE "
+                                + "   qbw.id = " + id + " AND "
+                                + "   wk_sg.geom = geom_sg.id AND "
+                                + "   qbw.id = qbw_ext.id AND "
+                                + "   geom_sg.geo_field && qbw_ext.geom AND "
+                                + "   ST_Intersects( "
+                                + "      geom_sg.geo_field, "
+                                + "      qbw.geom "
+                                + "   ) "
+                                + ";";
+
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("queryWkSg  => " + queryWkSg);
+                    }
+                    mosWkSg = SessionManager.getProxy().getMetaObjectByQuery(queryWkSg, 0);
+
+                    if ((mosWkSg != null) && (mosWkSg.length > 0)) {
+                        final MetaObject moWkSg = mosWkSg[0];
+
+                        final String wkK = (String)moWkSg.getAttributeByFieldName("wk_k").getValue();
+                        querbauwerkePanTwo.setWaKoerper(wkK);
+                        querbauwerkePanTwo.setMoWk(moWkSg);
+                        querbauwerkePanTwo.setKategorie(QuerbauwerkePanTwo.Kategorie.Standgewaesser);
+                    } else {
+                        querbauwerkePanTwo.setWaKoerper(null);
+                        querbauwerkePanTwo.setMoWk(null);
+                        querbauwerkePanTwo.setKategorie(null);
+                    }
+                }
             }
         } catch (ConnectionException ex) {
             if (LOG.isDebugEnabled()) {
@@ -565,6 +634,10 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         querbauwerkePanFour.dispose();
         querbauwerkePanFive.dispose();
         querbauwerkePanSix.dispose();
+        querbauwerkePanSeven1.dispose();
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
     }
 
     @Override
@@ -609,5 +682,107 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
+    }
+
+    @Override
+    public BeanInitializer getBeanInitializer() {
+        return new DefaultBeanInitializer(cidsBean) {
+
+                private final String[] IGNORED_SIMPLE_TYPES = {
+                        "av_user",
+                        "av_date",
+                        "anlagename",
+                        "massn_id",
+                        "zurueckgebaut",
+                        "foto",
+                        "starr_ander",
+                        "wehr_andere",
+                        "info_quel",
+                        "sqa_id",
+                        "bemerk_alt",
+                        "hb",
+                        "b_index1",
+                        "b_unio",
+                        "b_rhithral",
+                        "vorrang",
+                        "qbw_anz3a",
+                        "up_bem",
+                        "endkontr",
+                        "bereich_o",
+                        "b_aal",
+                        "b_stoer",
+                        "b_fna",
+                        "b_lachs",
+                        "b_mai",
+                        "b_mf",
+                        "b_mna",
+                        "b_schnaep",
+                        "b_stint_w",
+                        "b_bf",
+                        "b_bna",
+                        "b_elritze",
+                        "b_groppe",
+                        "b_quappe",
+                        "b_rapfen",
+                        "b_stint_b",
+                        "b_wels",
+                        "b_zaehrte",
+                        "b_zope",
+                        "zuord_faa"
+                    };
+
+                {
+                    Arrays.sort(IGNORED_SIMPLE_TYPES);
+                }
+
+                @Override
+                protected void processSimpleProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Object simpleValueToProcess) throws Exception {
+                    if (Arrays.binarySearch(IGNORED_SIMPLE_TYPES, propertyName) >= 0) {
+                        return;
+                    }
+                    super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+                }
+
+                @Override
+                protected void processArrayProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final Collection<CidsBean> arrayValueToProcess) throws Exception {
+                    final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
+                            beanToInit,
+                            propertyName);
+                    beans.clear();
+
+                    for (final CidsBean tmp : arrayValueToProcess) {
+                        beans.add(tmp);
+                    }
+                }
+
+                @Override
+                protected void processComplexProperty(final CidsBean beanToInit,
+                        final String propertyName,
+                        final CidsBean complexValueToProcess) throws Exception {
+                    if (propertyName.equals("stat09") || propertyName.equals("stat09_bis")
+                                || propertyName.equals("massn_ref")
+                                || propertyName.equals("massn1") || propertyName.equals("massn2")
+                                || propertyName.equals("massn3") || propertyName.equalsIgnoreCase("foto_richtung")
+                                || propertyName.equals("starr") || propertyName.equalsIgnoreCase("wehr_1")
+                                || propertyName.equalsIgnoreCase("wehr_2") || propertyName.equalsIgnoreCase("oeko_dgk")
+                                || propertyName.equalsIgnoreCase("dgk_warum")) {
+                        return;
+                    }
+
+                    // flat copy
+                    beanToInit.setProperty(propertyName, complexValueToProcess);
+                }
+            };
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("stat09")) {
+            refreshReadOnlyFields();
+        }
     }
 }

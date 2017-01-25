@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_steckbrief" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
+	<parameter name="map" class="java.awt.Image" isForPrompting="false"/>
+	<field name="rbd_cd" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="planu_cd" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="wa_cd" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="wk_k" class="java.lang.String"/>
+	<field name="wk_n" class="java.lang.String"/>
+	<field name="teile" class="java.util.Collection"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Wasserkörper-Steckbrief Fließgewässer]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="437">
+			<staticText>
+				<reportElement x="0" y="0" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Flussgebietseinheit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Wasserkörper Kürzel:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="16" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Planungseinheit:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="32" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Bearbeitungsgebiet:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="16" width="115" height="16"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Wasserkörper Name:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="0" width="150" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{rbd_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="0" width="150" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_k}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="16" width="150" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{planu_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="405" y="16" width="150" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_n}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="32" width="150" height="16"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{wa_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RealSize">
+				<reportElement x="0" y="60" width="555" height="375"/>
+				<imageExpression class="java.awt.Image"><![CDATA[$P{map}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

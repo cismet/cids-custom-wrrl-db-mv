@@ -78,7 +78,12 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+
+        if (bean.getProperty("name_bezeichnung.name") != null) {
+            setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+        } else {
+            setToolTipText("");
+        }
     }
 
     /**
@@ -86,8 +91,8 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("name_bezeichnung") == null) {
-            setDefaultBackgound();
+        if ((bean.getProperty("name_bezeichnung") == null) || (bean.getProperty("name_bezeichnung.color") == null)) {
+            setDefaultBackground();
             return;
         }
         final String color = (String)bean.getProperty("name_bezeichnung.color");
@@ -97,7 +102,7 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
                 setBackgroundPainter(new MattePainter(Color.decode(color)));
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
-                setDefaultBackgound();
+                setDefaultBackground();
             }
         }
 
@@ -150,7 +155,10 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
     @Override
     protected void configurePopupMenu() {
         final String query = "select " + ENTWICKLUNGSZIEL.getID() + "," + ENTWICKLUNGSZIEL.getPrimaryKey() + " from "
-                    + ENTWICKLUNGSZIEL.getTableName(); // NOI18N
+                    + ENTWICKLUNGSZIEL.getTableName() + " order by " // NOI18N
+                    + "case when cs_isnumeric(substr(name, 0, case when strpos(name, ' ') = 0 then length(name) + 1 else strpos(name, ' ') end)) \n"
+                    + "then substr(name, 0, case when strpos(name, ' ') = 0 then length(name) + 1 else strpos(name, ' ') end)::integer else \n"
+                    + "99999 end";
         final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
 
         menuItems = new JMenuItem[metaObjects.length];
@@ -192,7 +200,12 @@ public class EntwicklungszielRWBandMember extends LineBandMember {
         if (evt.getPropertyName().equals("name_bezeichnung")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+
+            if (bean.getProperty("name_bezeichnung.name") != null) {
+                setToolTipText(bean.getProperty("name_bezeichnung.name") + "");
+            } else {
+                setToolTipText("");
+            }
         } else {
             super.propertyChange(evt);
         }

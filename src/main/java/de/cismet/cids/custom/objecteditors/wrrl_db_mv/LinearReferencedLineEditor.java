@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.*;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -66,7 +67,6 @@ import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRende
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistryListener;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LineEditorDropBehavior;
@@ -98,6 +98,8 @@ import de.cismet.cismap.commons.interaction.CrsChangeListener;
 import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 
 import de.cismet.tools.CurrentStackTrace;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -1300,7 +1302,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         if (isEditable()) {
             final LinearReferencedPointFeature feature = getPointFeature(isFrom);
             final Feature badFeature = getBadGeomFeature(isFrom);
-            feature.moveTo(badFeature.getGeometry().getCoordinate());
+            feature.moveTo(badFeature.getGeometry().getCoordinate(), null);
             zoomToBadFeature(isFrom);
         }
     }
@@ -1349,6 +1351,20 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     public void dispose() {
         cleanupLine();
         MERGE_REGISTRY.removeRequestListener(cidsBean, this);
+        final CidsBean lineBean = getLineBean();
+
+        if (lineBean != null) {
+            lineBean.removePropertyChangeListener(linePropertyChangeListener);
+        }
+
+//        CidsBean pointBean = getPointBean(true);
+//        if (pointBean != null) {
+//            pointBean.addPropertyChangeListener(getPointBeanChangeListener(true));
+//        }
+//        pointBean = getPointBean(false);
+//        if (pointBean != null) {
+//            pointBean.addPropertyChangeListener(getPointBeanChangeListener(false));
+//        }
 //        setOtherLines(null);
         CismapBroker.getInstance().removeCrsChangeListener(getCrsChangeListener());
     }
@@ -1480,7 +1496,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     private boolean isCrsSupported(final Crs crs) {
-        return CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833;
+        return (CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833)
+                    || (CrsTransformer.extractSridFromCrs(crs.getCode()) == 5650);
     }
 
     /**
@@ -2060,7 +2077,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        externalGeomDialog = new javax.swing.JDialog();
+        externalGeomDialog = new JDialog(StaticSwingTools.getParentFrame(this));
         geomDialogScrollPane = new javax.swing.JScrollPane();
         geomDialogInternalPanel = new javax.swing.JPanel();
         panEdit = new javax.swing.JPanel();
@@ -2594,11 +2611,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                     externalOthersEditor.btnRoute.doClick();
                 }
 
-                UIUtil.findOptimalPositionOnScreen(externalGeomDialog);
                 externalGeomDialog.addWindowListener(this);
                 externalGeomDialog.setSize(500, 400);
                 externalGeomDialog.setModal(true);
-                externalGeomDialog.setVisible(true);
+                StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), externalGeomDialog, true);
             } else {
                 panOtherLines.setVisible(btnRoute.isSelected());
             }

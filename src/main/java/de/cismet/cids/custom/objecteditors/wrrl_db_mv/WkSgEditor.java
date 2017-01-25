@@ -37,6 +37,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -491,7 +492,7 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Ausnahme wirklich gelöscht werden?",
                     "Ausnahme entfernen",
                     JOptionPane.YES_NO_OPTION);

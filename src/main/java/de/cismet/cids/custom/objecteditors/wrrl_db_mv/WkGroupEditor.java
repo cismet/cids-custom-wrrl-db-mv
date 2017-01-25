@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -55,6 +56,8 @@ import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -152,7 +155,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jDialog1 = new javax.swing.JDialog();
+        jDialog1 = new JDialog(StaticSwingTools.getParentFrame(this));
         jColorChooser1 = new javax.swing.JColorChooser();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -330,7 +333,7 @@ public class WkGroupEditor extends javax.swing.JPanel implements CidsBeanRendere
         final Object selection = lstWkFgs.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der Eintrag wirklich gelöscht werden?",
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);

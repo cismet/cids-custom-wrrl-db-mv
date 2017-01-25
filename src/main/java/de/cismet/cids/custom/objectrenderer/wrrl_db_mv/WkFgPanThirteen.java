@@ -889,8 +889,8 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            if (e.getFirstIndex() > -1) {
-                final CidsBean sbean = model.getData().get(e.getFirstIndex());
+            if (jtMstTab1.getSelectedRow() > -1) {
+                final CidsBean sbean = model.getData().get(jtMstTab1.getSelectedRow());
                 setMst(sbean, lblEqsHmMstVal, "u_schwermetalle", txtEqsHmMst, "u_schwermetalle_welche");
                 setMst(sbean, lblEqsPesticMstVal, "u_psm", txtEqsPesticBemerkMst, "u_psm_welche");
                 setMst(sbean, lblIndPolMstVal, "u_ind_stoffe", txtIndpolBemerkMst, "u_ind_stoffe_welche");

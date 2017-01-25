@@ -15,8 +15,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
-import Sirius.server.search.CidsServerSearch;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -38,6 +36,9 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.features.Feature;
@@ -49,6 +50,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -602,7 +604,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Ausnahme wirklich gelöscht werden?",
                     "Ausnahme entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -667,7 +669,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
 
         if (!isWkkUnique()) {
             JOptionPane.showMessageDialog(
-                this,
+                StaticSwingTools.getParentFrame(this),
                 org.openide.util.NbBundle.getMessage(
                     WkFgEditor.class,
                     "WkFgEditor.prepareForSave().wkkNotUnique.message"),

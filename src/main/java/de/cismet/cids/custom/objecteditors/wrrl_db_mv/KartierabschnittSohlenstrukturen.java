@@ -19,6 +19,8 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -303,13 +305,13 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
             nothing &= (CidsBeanSupport.textToDouble(tfWurzelflaechen, 0.0) == 0.0);
 
             if (nothing) {
-                tfKolke.setText("0");
-                tfRiffle.setText("0");
-                tfTotholz.setText("0");
-                tfWurzelflaechen.setText("0");
+                tfKolke.setText("0.0");
+                tfRiffle.setText("0.0");
+                tfTotholz.setText("0.0");
+                tfWurzelflaechen.setText("0.0");
             } else {
                 JOptionPane.showMessageDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
                     "Felder gesetzt",
                     JOptionPane.INFORMATION_MESSAGE);

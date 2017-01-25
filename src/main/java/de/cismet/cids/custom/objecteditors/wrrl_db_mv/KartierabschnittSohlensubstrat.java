@@ -13,9 +13,6 @@ import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import java.lang.reflect.Field;
-
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
@@ -555,38 +552,31 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
      * @param  evt  DOCUMENT ME!
      */
     private void cbNeStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbNeStateChanged
-        if (cbNe.isSelected()) {
-            boolean nothing = true;
-            nothing &= CidsBeanSupport.textToDouble(tfBloecke, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfKies, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfKuenSub, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfSand, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfSchlamm, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfSteine, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfTon, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfTorf, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfTotholz, 0.0) == 0.0;
-            nothing &= CidsBeanSupport.textToDouble(tfWurzeln, 0.0) == 0.0;
+        boolean nothing = true;
+        nothing &= CidsBeanSupport.textToDouble(tfBloecke, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfKies, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfKuenSub, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfSand, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfSchlamm, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfSteine, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfTon, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfTorf, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfTotholz, 0.0) == 0.0;
+        nothing &= CidsBeanSupport.textToDouble(tfWurzeln, 0.0) == 0.0;
 
-            if (nothing) {
-                tfBloecke.setText("0");
-                tfKies.setText("0");
-                tfKuenSub.setText("0");
-                tfSand.setText("0");
-                tfSchlamm.setText("0");
-                tfSteine.setText("0");
-                tfTon.setText("0");
-                tfTorf.setText("0");
-                tfTotholz.setText("0");
-                tfWurzeln.setText("0");
-            } else {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Felder gesetzt",
-                    "Es sind bereits Felder auf einen Wert ungleich Null gesetzt.",
-                    JOptionPane.INFORMATION_MESSAGE);
-                cbNe.setSelected(false);
-            }
+        cbNe.setSelected(nothing);
+
+        if (nothing) {
+            tfBloecke.setText("0");
+            tfKies.setText("0");
+            tfKuenSub.setText("0");
+            tfSand.setText("0");
+            tfSchlamm.setText("0");
+            tfSteine.setText("0");
+            tfTon.setText("0");
+            tfTorf.setText("0");
+            tfTotholz.setText("0");
+            tfWurzeln.setText("0");
         }
     } //GEN-LAST:event_cbNeStateChanged
 
@@ -682,8 +672,10 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
         } else {
             if (c instanceof JTextField) {
                 final JTextField jtf = (JTextField)c;
-                final Double value = CidsBeanSupport.textToDouble(jtf, 0.0);
-                jtf.setText(String.valueOf(Math.round(value)));
+                if (!jtf.getText().isEmpty()) {
+                    final Double value = CidsBeanSupport.textToDouble(jtf, 0.0);
+                    jtf.setText(String.valueOf(Math.round(value)));
+                }
             } else {
                 LOG.warn("substate percentage round: component no JTextField, illegal listener registration?"); // NOI18N
             }

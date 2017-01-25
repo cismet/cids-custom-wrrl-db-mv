@@ -14,13 +14,16 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.PinstripePainter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
 import java.beans.PropertyChangeEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JMenuItem;
@@ -32,7 +35,11 @@ import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
+import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import static de.cismet.cids.custom.wrrl_db_mv.util.gup.LineBandMember.LOG;
 
 /**
  * DOCUMENT ME!
@@ -40,7 +47,7 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class OperativesZielRWBandMember extends LineBandMember {
+public class OperativesZielRWBandMember extends LineBandMember implements CidsBeanDropListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -51,28 +58,33 @@ public class OperativesZielRWBandMember extends LineBandMember {
     //~ Instance fields --------------------------------------------------------
 
     private JMenuItem[] menuItems;
+    private PflegezieleValidator validator;
+    private List<String> errorList;
+    private PflegezieleValidator.ValidationResult res;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
      *
-     * @param  parent  DOCUMENT ME!
+     * @param  parent     DOCUMENT ME!
+     * @param  readOnly   DOCUMENT ME!
+     * @param  validator  DOCUMENT ME!
      */
-    public OperativesZielRWBandMember(final OperativesZielRWBand parent) {
-        super(parent);
-        lineFieldName = "linie";
-    }
-
-    /**
-     * Creates new form MassnahmenBandMember.
-     *
-     * @param  parent    DOCUMENT ME!
-     * @param  readOnly  DOCUMENT ME!
-     */
-    public OperativesZielRWBandMember(final OperativesZielRWBand parent, final boolean readOnly) {
+    public OperativesZielRWBandMember(final OperativesZielRWBand parent,
+            final boolean readOnly,
+            final PflegezieleValidator validator) {
         super(parent, readOnly);
         lineFieldName = "linie";
+        this.validator = validator;
+
+        try {
+            new CidsBeanDropTarget(this);
+        } catch (final Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+            }
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -80,7 +92,9 @@ public class OperativesZielRWBandMember extends LineBandMember {
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         super.setCidsBean(cidsBean);
-        setToolTipText(bean.getProperty("operatives_ziel.name") + "");
+        setToolTip();
+
+        validateBean();
     }
 
     /**
@@ -89,7 +103,7 @@ public class OperativesZielRWBandMember extends LineBandMember {
     @Override
     protected void determineBackgroundColour() {
         if ((bean.getProperty("operatives_ziel") == null) || (bean.getProperty("operatives_ziel.color") == null)) {
-            setDefaultBackgound();
+            setDefaultBackground();
             return;
         }
 
@@ -97,10 +111,16 @@ public class OperativesZielRWBandMember extends LineBandMember {
 
         if (color != null) {
             try {
-                setBackgroundPainter(new MattePainter(Color.decode(color)));
+                if ((res == null) || (res != PflegezieleValidator.ValidationResult.error)) {
+                    setBackgroundPainter(new MattePainter(Color.decode(color)));
+                } else {
+                    setBackgroundPainter(new CompoundPainter(
+                            new MattePainter(Color.decode(color)),
+                            new PinstripePainter(new Color(255, 66, 66), 45, 2, 5)));
+                }
             } catch (NumberFormatException e) {
                 LOG.error("Error while parsing the color.", e);
-                setDefaultBackgound();
+                setDefaultBackground();
             }
         }
 
@@ -212,9 +232,69 @@ public class OperativesZielRWBandMember extends LineBandMember {
         if (evt.getPropertyName().equals("operatives_ziel")) {
             determineBackgroundColour();
             setSelected(isSelected);
-            setToolTipText(bean.getProperty("operatives_ziel.name") + "");
+            setToolTip();
+
+            validateBean();
         } else {
             super.propertyChange(evt);
+
+            validateBean();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void validateBean() {
+        if (validator != null) {
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final List<String> errorList = new ArrayList<String>();
+                        final PflegezieleValidator.ValidationResult res = validator.validate(
+                                getCidsBean(),
+                                errorList);
+
+                        EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    OperativesZielRWBandMember.this.errorList = errorList;
+                                    OperativesZielRWBandMember.this.res = res;
+                                    determineBackgroundColour();
+                                    setToolTip();
+                                }
+                            });
+                    }
+                }).start();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setToolTip() {
+        if ((res == null) || (res != PflegezieleValidator.ValidationResult.error)) {
+            if (bean.getProperty("operatives_ziel.name") != null) {
+                setToolTipText(bean.getProperty("operatives_ziel.name") + "");
+            } else {
+                setToolTipText("");
+            }
+        } else {
+            final StringBuilder text = new StringBuilder("<html>" + bean.getProperty("operatives_ziel.name"));
+
+            if (errorList != null) {
+                for (final String tmp : errorList) {
+                    text.append(tmp).append("<br />");
+                }
+            }
+            text.append("</html>");
+            if (bean.getProperty("operatives_ziel.name") != null) {
+                setToolTipText(bean.getProperty("operatives_ziel.name") + "");
+            } else {
+                setToolTipText("");
+            }
         }
     }
 
@@ -230,5 +310,46 @@ public class OperativesZielRWBandMember extends LineBandMember {
     @Override
     protected CidsBean cloneBean(final CidsBean bean) throws Exception {
         return CidsBeanSupport.cloneCidsBean(bean, false);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the validator
+     */
+    public PflegezieleValidator getValidator() {
+        return validator;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  validator  the validator to set
+     */
+    public void setValidator(final PflegezieleValidator validator) {
+        this.validator = validator;
+
+        validateBean();
+    }
+
+    @Override
+    public void beansDropped(final ArrayList<CidsBean> beans) {
+        if (isReadOnly()) {
+            return;
+        }
+
+        final CidsBean cidsBean = getCidsBean();
+
+        if (cidsBean != null) {
+            for (final CidsBean opBean : beans) {
+                if (opBean.getClass().getName().equals("de.cismet.cids.dynamics.Gup_operatives_ziel")) { // NOI18N
+                    try {
+                        cidsBean.setProperty("operatives_ziel", opBean);
+                    } catch (Exception e) {
+                        LOG.error("Error while saving the new massnahme property", e);
+                    }
+                }
+            }
+        }
     }
 }

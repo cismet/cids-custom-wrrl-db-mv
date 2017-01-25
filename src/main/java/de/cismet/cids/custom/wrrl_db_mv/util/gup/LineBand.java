@@ -9,6 +9,7 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.apache.http.impl.conn.tsccm.WaitingThread;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -25,10 +26,17 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
+import de.cismet.cids.editors.EditorClosedEvent;
+import de.cismet.cids.editors.EditorSaveListener;
+
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.tools.CismetThreadPool;
+
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitingDialogThread;
 import de.cismet.tools.gui.jbands.BandEvent;
 import de.cismet.tools.gui.jbands.BandMemberEvent;
 import de.cismet.tools.gui.jbands.DefaultBand;
@@ -36,6 +44,7 @@ import de.cismet.tools.gui.jbands.interfaces.BandListener;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandMemberListener;
 import de.cismet.tools.gui.jbands.interfaces.BandModificationProvider;
+import de.cismet.tools.gui.jbands.interfaces.DisposableBand;
 
 /**
  * DOCUMENT ME!
@@ -45,7 +54,9 @@ import de.cismet.tools.gui.jbands.interfaces.BandModificationProvider;
  */
 public abstract class LineBand extends DefaultBand implements CidsBeanCollectionStore,
     BandModificationProvider,
-    BandMemberListener {
+    BandMemberListener,
+    EditorSaveListener,
+    DisposableBand {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -65,6 +76,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     private HashMap<String, CidsBean> beanMap = new HashMap<String, CidsBean>();
     private boolean normalise = false;
     private CidsBean route;
+    private List<CidsBean> beansToDelete = new ArrayList<CidsBean>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -119,6 +131,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
     @Override
     public void setCidsBeans(final Collection<CidsBean> beans) {
+        disposeAllMember();
         objectBeans = beans;
         super.removeAllMember();
         normalizeStations();
@@ -167,11 +180,25 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             final Double minStart,
             final Double maxEnd,
             final List<BandMember> memberList) {
-        if (endStation == null) {
-            addUnspecifiedMember(startStation, minStart, maxEnd, memberList);
-        } else {
-            addSpecifiedMember(startStation, endStation);
-        }
+        final WaitingDialogThread<Void> wdt = new WaitingDialogThread<Void>(StaticSwingTools.getParentFrame(
+                    getPrefixComponent()),
+                true,
+                "Erstelle Abschnitt",
+                null,
+                100) {
+
+                @Override
+                protected Void doInBackground() throws Exception {
+                    if (endStation == null) {
+                        addUnspecifiedMember(startStation, minStart, maxEnd, memberList);
+                    } else {
+                        addSpecifiedMember(startStation, endStation);
+                    }
+
+                    return null;
+                }
+            };
+        wdt.start();
     }
 
     /**
@@ -189,6 +216,20 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             line.setProperty("bis", endStation);
             line.setProperty("id", LinearReferencingHelper.getNewLineId());
             objectBean.setProperty(lineFieldName, line);
+
+            // add geometry
+            final Geometry lineGeom = LinearReferencedLineFeature.createSubline((Double)startStation.getProperty(
+                        "wert"),
+                    (Double)endStation.getProperty("wert"),
+                    (Geometry)startStation.getProperty("route.geom.geo_field"));
+            lineGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+
+            try {
+                LinearReferencingHelper.setGeometryToLineBean(lineGeom, line);
+            } catch (Exception ex) {
+                LOG.error("Cannot create geometry for station", ex);
+            }
+
             final LineBandMember m = refresh(objectBean, true);
             objectBeans.add(objectBean);
             fireBandChanged(new BandEvent());
@@ -347,6 +388,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
         pointGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
         LinearReferencingHelper.setPointGeometryToStationBean(pointGeom, newStat);
 
+        final CidsBean tmp = newStat.persist();
         return newStat;
     }
 
@@ -420,11 +462,18 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
         try {
             if (beanBefore == null) {
-                beanBefore = createNewStation(getRoute(), minStart);
+                beanBefore = createNewStation(getRoute(), ((minStart == Double.MAX_VALUE) ? 0 : minStart));
             }
 
             if (beanBehind == null) {
-                beanBehind = createNewStation(getRoute(), maxEnd);
+                if (maxEnd == Double.MIN_VALUE) {
+                    final String geomString = LinearReferencingHelper.PROP_ROUTE_GEOM + "."
+                                + LinearReferencingHelper.PROP_GEOM_GEOFIELD;
+                    final Geometry g = (Geometry)getRoute().getProperty(geomString);
+                    beanBehind = createNewStation(getRoute(), g.getLength());
+                } else {
+                    beanBehind = createNewStation(getRoute(), maxEnd);
+                }
             }
 
             addNewMember(beanBefore, beanBehind);
@@ -494,6 +543,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      * @return  DOCUMENT ME!
      */
     private LineBandMember refresh(final CidsBean special, final boolean add) {
+        disposeAllMember();
         super.removeAllMember();
 
         for (final CidsBean objectBean : objectBeans) {
@@ -564,9 +614,11 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      * @param  member  DOCUMENT ME!
      */
     public void deleteMember(final LineBandMember member) {
+        member.dispose();
         final CidsBean memberBean = member.getCidsBean();
         refresh(memberBean, false);
         objectBeans.remove(memberBean);
+        beansToDelete.add(memberBean);
 
         final BandEvent e = new BandEvent();
         e.setSelectionLost(true);
@@ -581,6 +633,42 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 //        } catch (Exception e) {
 //            LOG.error("Error while deleting a band member.", e);
 //        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  event  status DOCUMENT ME!
+     */
+    @Override
+    public void editorClosed(final EditorClosedEvent event) {
+        if (event.getStatus() == EditorSaveStatus.SAVE_SUCCESS) {
+            // all as delete marked band member will be deleted in the database
+            CismetThreadPool.execute(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        for (final CidsBean tmp : beansToDelete) {
+                            try {
+                                tmp.delete();
+                                tmp.persist();
+                            } catch (Exception e) {
+                                LOG.error("Cannot delete bean.", e);
+                            }
+                        }
+                    }
+                });
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public boolean prepareForSave() {
+        return true;
     }
 
     /**
@@ -621,6 +709,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
 
     @Override
     public void removeAllMember() {
+        disposeAllMember();
         objectBeans.clear();
         super.removeAllMember();
         refresh(null, false);
@@ -631,6 +720,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      *
      * @param  min  DOCUMENT ME!
      */
+    @Override
     public void setMin(final Double min) {
         this.fixMin = min;
     }
@@ -640,6 +730,7 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      *
      * @param  max  DOCUMENT ME!
      */
+    @Override
     public void setMax(final Double max) {
         this.fixMax = max;
     }
@@ -659,6 +750,27 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
             return fixMax;
         } else {
             return super.getMax();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    @Override
+    public void dispose() {
+        disposeAllMember();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void disposeAllMember() {
+        for (int i = 0; i < getNumberOfMembers(); ++i) {
+            final BandMember member = getMember(i);
+
+            if (member instanceof LineBandMember) {
+                ((LineBandMember)member).dispose();
+            }
         }
     }
 }

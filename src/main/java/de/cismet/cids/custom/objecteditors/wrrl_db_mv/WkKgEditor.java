@@ -64,6 +64,98 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
 
     private CidsBean cidsBean;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private final PropertyChangeListener propertyChange = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent pce) {
+                if (pce.getPropertyName().equals("ty_cd_cw")) {
+                    try {
+                        cidsBean.setProperty(
+                            "ty_na_cw",
+                            (String)((CidsBean)cidsBean.getProperty("ty_cd_cw")).getProperty("name"));
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("autosetting ty_na_cw failed", ex);
+                        }
+                    }
+                } else if (pce.getPropertyName().equals("nitrat")
+                            || pce.getPropertyName().equals("eqs_hm")
+                            || pce.getPropertyName().equals("eqs_pestic")
+                            || pce.getPropertyName().equals("eqs_indpol")
+                            || pce.getPropertyName().equals("eqs_othpl")
+                            || pce.getPropertyName().equals("eqs_onatpl")) {
+                    try {
+                        int worstCaseValue = 0;
+                        final String[] props = {
+                                "nitrat",
+                                "eqs_hm",
+                                "eqs_pestic",
+                                "eqs_indpol",
+                                "eqs_othpl",
+                                "eqs_onatpl"
+                            };
+                        int worstCasePropIndex = 0;
+                        for (int propIndex = 0; propIndex < props.length; propIndex++) {
+                            final String prop = props[propIndex];
+                            final String baseValue = (String)((CidsBean)cidsBean.getProperty(prop)).getProperty(
+                                    "value");
+                            int propValue = 0;
+                            try {
+                                propValue = Integer.valueOf(baseValue);
+                            } catch (Exception ex) {
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("baseValInt cast", ex);
+                                }
+                            }
+
+                            if (propValue >= worstCaseValue) {
+                                worstCasePropIndex = propIndex;
+                                worstCaseValue = propValue;
+                            }
+                        }
+                        cidsBean.setProperty(
+                            "chem_stat",
+                            (CidsBean)cidsBean.getProperty(props[worstCasePropIndex]));
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("autosetting chem_stat failed", ex);
+                        }
+                    }
+                } else if (pce.getPropertyName().equals("risk_ecpo")
+                            || pce.getPropertyName().equals("risk_ecst")) {
+                    try {
+                        int worstCaseValue = 0;
+                        final String[] props = { "risk_ecpo", "risk_ecst" };
+                        int worstCasePropIndex = 0;
+                        for (int propIndex = 0; propIndex < props.length; propIndex++) {
+                            final String prop = props[propIndex];
+                            final String baseValue = (String)((CidsBean)cidsBean.getProperty(prop)).getProperty(
+                                    "value");
+                            int propValue = 0;
+                            try {
+                                propValue = Integer.valueOf(baseValue);
+                            } catch (Exception ex) {
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("baseValInt cast", ex);
+                                }
+                            }
+
+                            if (propValue >= worstCaseValue) {
+                                worstCasePropIndex = propIndex;
+                                worstCaseValue = propValue;
+                            }
+                        }
+                        cidsBean.setProperty(
+                            "risk_total",
+                            (CidsBean)cidsBean.getProperty(props[worstCasePropIndex]));
+                    } catch (Exception ex) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("autosetting risk_total failed", ex);
+                        }
+                    }
+                }
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblFoot;
@@ -314,167 +406,63 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
             // *.setCidsBean(cidsBean);
             bindingGroup.bind();
 
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+            cidsBean.addPropertyChangeListener(propertyChange);
 
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("ty_cd_cw")) {
-                            try {
-                                cidsBean.setProperty(
-                                    "ty_na_cw",
-                                    (String)((CidsBean)cidsBean.getProperty("ty_cd_cw")).getProperty("name"));
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting ty_na_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
+//            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(final PropertyChangeEvent pce) {
+//                        if (pce.getPropertyName().equals("name")) {
+//                            try {
+//                                cidsBean.setProperty("ms_cd_cw", "DEMV_" + (String)pce.getNewValue());
+//                            } catch (Exception ex) {
+//                                if (LOG.isDebugEnabled()) {
+//                                    LOG.debug("autosetting ms_cd_cw failed", ex);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
 
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(final PropertyChangeEvent pce) {
+//                        if (pce.getPropertyName().equals("ms_cd_cw")) {
+//                            try {
+//                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
+//                            } catch (Exception ex) {
+//                                if (LOG.isDebugEnabled()) {
+//                                    LOG.debug("autosetting eu_cd_cw failed", ex);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
 
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("name")) {
-                            try {
-                                cidsBean.setProperty("ms_cd_cw", "DEMV_" + (String)pce.getNewValue());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting ms_cd_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
-
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("ms_cd_cw")) {
-                            try {
-                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting eu_cd_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
-
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("ms_cd_cw")) {
-                            try {
-                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting eu_cd_cw failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
-
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("nitrat")
-                                    || pce.getPropertyName().equals("eqs_hm")
-                                    || pce.getPropertyName().equals("eqs_pestic")
-                                    || pce.getPropertyName().equals("eqs_indpol")
-                                    || pce.getPropertyName().equals("eqs_othpl")
-                                    || pce.getPropertyName().equals("eqs_onatpl")) {
-                            try {
-                                int worstCaseValue = 0;
-                                final String[] props = {
-                                        "nitrat",
-                                        "eqs_hm",
-                                        "eqs_pestic",
-                                        "eqs_indpol",
-                                        "eqs_othpl",
-                                        "eqs_onatpl"
-                                    };
-                                int worstCasePropIndex = 0;
-                                for (int propIndex = 0; propIndex < props.length; propIndex++) {
-                                    final String prop = props[propIndex];
-                                    final String baseValue = (String)((CidsBean)cidsBean.getProperty(prop)).getProperty(
-                                            "value");
-                                    int propValue = 0;
-                                    try {
-                                        propValue = Integer.valueOf(baseValue);
-                                    } catch (Exception ex) {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug("baseValInt cast", ex);
-                                        }
-                                    }
-
-                                    if (propValue >= worstCaseValue) {
-                                        worstCasePropIndex = propIndex;
-                                        worstCaseValue = propValue;
-                                    }
-                                }
-                                cidsBean.setProperty(
-                                    "chem_stat",
-                                    (CidsBean)cidsBean.getProperty(props[worstCasePropIndex]));
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting chem_stat failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
-
-            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent pce) {
-                        if (pce.getPropertyName().equals("risk_ecpo")
-                                    || pce.getPropertyName().equals("risk_ecst")) {
-                            try {
-                                int worstCaseValue = 0;
-                                final String[] props = { "risk_ecpo", "risk_ecst" };
-                                int worstCasePropIndex = 0;
-                                for (int propIndex = 0; propIndex < props.length; propIndex++) {
-                                    final String prop = props[propIndex];
-                                    final String baseValue = (String)((CidsBean)cidsBean.getProperty(prop)).getProperty(
-                                            "value");
-                                    int propValue = 0;
-                                    try {
-                                        propValue = Integer.valueOf(baseValue);
-                                    } catch (Exception ex) {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug("baseValInt cast", ex);
-                                        }
-                                    }
-
-                                    if (propValue >= worstCaseValue) {
-                                        worstCasePropIndex = propIndex;
-                                        worstCaseValue = propValue;
-                                    }
-                                }
-                                cidsBean.setProperty(
-                                    "risk_total",
-                                    (CidsBean)cidsBean.getProperty(props[worstCasePropIndex]));
-                            } catch (Exception ex) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("autosetting risk_total failed", ex);
-                                }
-                            }
-                        }
-                    }
-                });
+//            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
+//
+//                    @Override
+//                    public void propertyChange(final PropertyChangeEvent pce) {
+//                        if (pce.getPropertyName().equals("ms_cd_cw")) {
+//                            try {
+//                                cidsBean.setProperty("eu_cd_cw", "DEMV_" + (String)pce.getNewValue());
+//                            } catch (Exception ex) {
+//                                if (LOG.isDebugEnabled()) {
+//                                    LOG.debug("autosetting eu_cd_cw failed", ex);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
         }
     }
 
     @Override
     public void dispose() {
+        if (cidsBean != null) {
+            cidsBean.removePropertyChangeListener(propertyChange);
+        }
         wkKgPanOne1.dispose();
         wkKgPanTwo1.dispose();
         wkKgPanThree1.dispose();

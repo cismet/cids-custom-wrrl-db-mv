@@ -102,7 +102,7 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             final MetaClassCacheService classcache = Lookup.getDefault().lookup(MetaClassCacheService.class);
             geoHintMetaClass = classcache.getMetaClass(SessionManager.getSession().getUser().getDomain(), "geo_hint");
             isCurrentUserAllowedToSetHint = geoHintMetaClass.getPermissions()
-                        .hasWritePermission(SessionManager.getSession().getUser().getUserGroup());
+                        .hasWritePermission(SessionManager.getSession().getUser());
         } catch (Exception e) {
             LOG.error(
                 "An error occurred while trying to set up SetHintAction. There was a problem with the lookup mechanism or session handling.",
@@ -116,9 +116,7 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
     @Override
     public void actionPerformed(final ActionEvent e) {
         final SetHintDialog dlgSetHint = new SetHintDialog(CismapBroker.getInstance().getMappingComponent());
-        dlgSetHint.setLocationRelativeTo(StaticSwingTools.getParentFrame(
-                CismapBroker.getInstance().getMappingComponent()));
-        dlgSetHint.setVisible(true);
+        StaticSwingTools.showDialog(dlgSetHint);
 
         if (dlgSetHint.wasCancelled()) {
             return;
@@ -167,7 +165,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
             persistedHint = hint.persist();
         } catch (Exception ex) {
             LOG.error("Could not persist new entity for table 'geo_hint'.", ex);
-            JOptionPane.showMessageDialog(CismapBroker.getInstance().getMappingComponent(),
+            JOptionPane.showMessageDialog(
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorMessage"),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorTitle"),
                 JOptionPane.ERROR_MESSAGE);
@@ -175,7 +174,8 @@ public class SetHintAction extends AbstractAction implements CommonFeatureAction
 
         if (persistedHint == null) {
             LOG.error("Could not persist new entity for table 'geo_hint'.");
-            JOptionPane.showMessageDialog(CismapBroker.getInstance().getMappingComponent(),
+            JOptionPane.showMessageDialog(
+                StaticSwingTools.getParentFrame(CismapBroker.getInstance().getMappingComponent()),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorMessage"),
                 NbBundle.getMessage(SetHintAction.class, "SetHintAction.actionPerformed(ActionEvent).errorTitle"),
                 JOptionPane.ERROR_MESSAGE);

@@ -56,17 +56,17 @@ public class QuerbauwerkeMember extends JLabel implements BandMember, Spot, Band
 // 11    Brücken 11
 
     Color[] colors = {
-            new Color(226, 223, 154),
-            new Color(235, 229, 77),
-            new Color(117, 116, 73),
-            new Color(75, 73, 11),
-            new Color(207, 240, 158),
-            new Color(168, 219, 168),
-            new Color(121, 189, 154),
-            new Color(59, 134, 134),
-            new Color(11, 72, 107),
-            new Color(84, 36, 55),
-            new Color(217, 91, 67)
+            new Color(106, 90, 205),
+            new Color(255, 140, 0),
+            new Color(139, 26, 26),
+            new Color(255, 215, 0),
+            new Color(0, 229, 238),
+            new Color(255, 222, 173),
+            new Color(255, 182, 193),
+            new Color(211, 211, 211),
+            new Color(255, 0, 255),
+            new Color(244, 164, 96),
+            new Color(255, 0, 0)
         };
     Geometry geom = null;
 

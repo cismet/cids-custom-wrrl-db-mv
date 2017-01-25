@@ -7,10 +7,13 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+
+import org.apache.log4j.Logger;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -46,6 +49,7 @@ public class UmlandnutzungBandMember extends AbschnittsinfoMember implements Ban
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final Logger LOG = Logger.getLogger(UmlandnutzungBandMember.class);
     private static final MetaClass OBERGRUPPE_ART = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "GUP_UMLANDNUTZUNGSOBERGRUPPE");
@@ -85,92 +89,100 @@ public class UmlandnutzungBandMember extends AbschnittsinfoMember implements Ban
         if (cidsBean.getProperty("art") == null) {
             return;
         }
-        final CidsBean artBean = (CidsBean)cidsBean.getProperty("art");
-        final String query = "select " + OBERGRUPPE_ART.getID() + "," + OBERGRUPPE_ART.getPrimaryKey() + " from "
-                    + OBERGRUPPE_ART.getTableName(); // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-        int action = -1;
 
-        for (final MetaObject tmp : metaObjects) {
-            final List<CidsBean> beans = tmp.getBean().getBeanCollectionProperty("gruppen");
-            if ((beans != null) && beans.contains(artBean)) {
-                action = tmp.getId();
-                break;
+        try {
+            final CidsBean artBean = (CidsBean)cidsBean.getProperty("art");
+            final String query = "select " + OBERGRUPPE_ART.getID() + "," + OBERGRUPPE_ART.getPrimaryKey()
+                        + " from "
+                        + OBERGRUPPE_ART.getTableName(); // NOI18N
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME);
+            int action = -1;
+
+            for (final MetaObject tmp : metaObjects) {
+                final List<CidsBean> beans = tmp.getBean().getBeanCollectionProperty("gruppen");
+                if ((beans != null) && beans.contains(artBean)) {
+                    action = tmp.getId();
+                    break;
+                }
             }
+
+            switch (action) {
+                case 1: {
+                    // Gebaeude und Freiflaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
+                    break;
+                }
+                case 2: {
+                    // Betriebsflaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
+                    break;
+                }
+                case 3: {
+                    // Erholungsflaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
+                    break;
+                }
+                case 4: {
+                    // Verkehrsflaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
+
+                    break;
+                }
+                case 5: {
+                    // Acker
+                    unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
+                    break;
+                }
+                case 6: {
+                    // Gruenland
+                    unselectedBackgroundPainter = (new MattePainter(new Color(0, 255, 0)));
+                    break;
+                }
+                case 7: {
+                    // Sonderkultur
+                    unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
+                    break;
+                }
+                case 8: {
+                    // LF Sonstige
+                    unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
+                    break;
+                }
+                case 9: {
+                    // waldflaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(51, 151, 51)));
+                }
+                case 10: {
+                    // Wasserflaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(79, 131, 189)));
+                }
+                case 11: {
+                    // Sonstige Flaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
+                }
+                default: {
+                    // Sonstige Flaechen
+                    unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
+                }
+            }
+
+            selectedBackgroundPainter = new CompoundPainter(
+                    unselectedBackgroundPainter,
+                    new RectanglePainter(
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        true,
+                        new Color(100, 100, 100, 100),
+                        2f,
+                        new Color(50, 50, 50, 100)));
+        } catch (Exception e) {
+            LOG.error("error", e);
         }
-
-        switch (action) {
-            case 1: {
-                // Gebaeude und Freiflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(241, 220, 219)));
-                break;
-            }
-            case 2: {
-                // Betriebsflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(216, 216, 216)));
-                break;
-            }
-            case 3: {
-                // Erholungsflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(209, 252, 207)));
-                break;
-            }
-            case 4: {
-                // Verkehrsflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(255, 100, 0)));
-
-                break;
-            }
-            case 5: {
-                // Acker
-                unselectedBackgroundPainter = (new MattePainter(new Color(197, 103, 13)));
-                break;
-            }
-            case 6: {
-                // Gruenland
-                unselectedBackgroundPainter = (new MattePainter(new Color(0, 255, 0)));
-                break;
-            }
-            case 7: {
-                // Sonderkultur
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
-            }
-            case 8: {
-                // LF Sonstige
-                unselectedBackgroundPainter = (new MattePainter(new Color(254, 254, 0)));
-                break;
-            }
-            case 9: {
-                // waldflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(51, 151, 51)));
-            }
-            case 10: {
-                // Wasserflaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(79, 131, 189)));
-            }
-            case 11: {
-                // Sonstige Flaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
-            }
-            default: {
-                // Sonstige Flaechen
-                unselectedBackgroundPainter = (new MattePainter(new Color(199, 195, 212)));
-            }
-        }
-        selectedBackgroundPainter = new CompoundPainter(
-                unselectedBackgroundPainter,
-                new RectanglePainter(
-                    3,
-                    3,
-                    3,
-                    3,
-                    3,
-                    3,
-                    true,
-                    new Color(100, 100, 100, 100),
-                    2f,
-                    new Color(50, 50, 50, 100)));
     }
 
     @Override

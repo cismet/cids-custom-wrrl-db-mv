@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -30,6 +31,8 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -108,13 +111,13 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgMonitorCataloge = new javax.swing.JDialog();
+        dlgMonitorCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblMonitorCataloge = new javax.swing.JLabel();
         cbMonitorCataloge = new ScrollableComboBox(MONITORINT_MC, true, true);
         panMenButtonsMonitor = new javax.swing.JPanel();
         btnMenMonitorAbort = new javax.swing.JButton();
         btnMenMonitorOk = new javax.swing.JButton();
-        dlgQeCataloge = new javax.swing.JDialog();
+        dlgQeCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblQeCataloge = new javax.swing.JLabel();
         cbQeCataloge = new ScrollableComboBox(QE_TYPES_MC, true, true);
         panMenButtonsQe = new javax.swing.JPanel();
@@ -439,9 +442,8 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddMonitorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddMonitorActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgMonitorCataloge);
         dlgMonitorCataloge.setSize(750, 150);
-        dlgMonitorCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMonitorCataloge, true);
     }                                                                                 //GEN-LAST:event_btnAddMonitorActionPerformed
 
     /**
@@ -453,7 +455,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         final Object selection = lstMonitor.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll das Messnetz wirklich entfern werden?",
                     "Messnetz entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -509,9 +511,8 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddQeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddQeActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgQeCataloge);
         dlgQeCataloge.setSize(750, 150);
-        dlgQeCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgQeCataloge, true);
     }                                                                            //GEN-LAST:event_btnAddQeActionPerformed
 
     /**
@@ -523,7 +524,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
         final Object selection = lstQe.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Qualitätskomponente wirklich entfern werden?",
                     "Qualitätskomponente entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -565,7 +566,7 @@ public class SwstnPanThree extends javax.swing.JPanel implements DisposableCidsB
                     colToAdd.add(selectedBean);
                 } else {
                     JOptionPane.showMessageDialog(
-                        this,
+                        StaticSwingTools.getParentFrame(this),
                         "Die ausgewählte Qualitätskomponente ist der Messstation bereits zugewiesen.");
                 }
             }

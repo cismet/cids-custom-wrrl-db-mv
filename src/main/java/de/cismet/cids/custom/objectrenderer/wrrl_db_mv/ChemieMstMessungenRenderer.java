@@ -292,7 +292,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -362,7 +362,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_90_perzentil}"),
                 lbl90PerzentilOrth,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,8 +384,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_gk_lawa.name}"),
                 lblGkLawaOrth,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -407,7 +407,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_owert_rakon}"),
                 lblOWertOrth,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -417,6 +417,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panOrtho.add(lblOWertOrth, gridBagConstraints);
 
+        lblMittelOrth.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -429,7 +430,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_mittelwert}"),
                 lblMittelOrth,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -489,7 +490,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_90_perzentil}"),
                 lbl90PerzentilAmm,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -511,8 +512,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_gk_lawa.name}"),
                 lblGkLawaAmm,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -534,7 +535,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_owert_rakon}"),
                 lblOWertAmm,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -544,6 +545,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAmm.add(lblOWertAmm, gridBagConstraints);
 
+        lblMittelAmm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -556,7 +558,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_mittelwert}"),
                 lblMittelAmm,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -604,7 +606,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_90_perzentil}"),
                 lbl90PerzentilGesN,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -626,8 +628,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_gk_lawa.name}"),
                 lblGkLawaGesN,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -637,6 +639,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panGesN.add(lblGkLawaGesN, gridBagConstraints);
 
+        lblMittelGesN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -709,7 +712,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_90_perzentil}"),
                 lbl90PerzentilPhos,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -731,8 +734,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_gk_lawa.name}"),
                 lblGkLawaPhos,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -754,7 +757,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_owert_rakon}"),
                 lblOWertPhos,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -764,6 +767,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPhos.add(lblOWertPhos, gridBagConstraints);
 
+        lblMittelPhos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -776,7 +780,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_mittelwert}"),
                 lblMittelPhos,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -824,7 +828,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_90_perzentil}"),
                 lbl90PerzentilNit,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -846,8 +850,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_gk_lawa.name}"),
                 lblGkLawaNit,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -857,6 +861,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panNit.add(lblGkLawaNit, gridBagConstraints);
 
+        lblMittelNit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelNit.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -869,7 +874,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_mittelwert}"),
                 lblMittelNit,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -929,7 +934,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_90_perzentil}"),
                 lbl90PerzentilChlor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -951,8 +956,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_gk_lawa.name}"),
                 lblGkLawaChlor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -974,7 +979,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_owert_rakon}"),
                 lblOWertChlor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -984,6 +989,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panChlor.add(lblOWertChlor, gridBagConstraints);
 
+        lblMittelChlor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
                 "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
@@ -996,7 +1002,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_mittelwert}"),
                 lblMittelChlor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1044,7 +1050,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_owert_rakon}"),
                 lblOWertO2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1054,9 +1060,10 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panO2.add(lblOWertO2, gridBagConstraints);
 
+        lblMittelO2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenRenderer.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
+                "WkFgPanSix.lblMin.toolTipText")); // NOI18N
         lblMittelO2.setMinimumSize(new java.awt.Dimension(110, 20));
         lblMittelO2.setPreferredSize(new java.awt.Dimension(110, 20));
 
@@ -1066,7 +1073,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_mittelwert}"),
                 lblMittelO2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1105,7 +1112,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_schwermetalle}"),
                 lblEqsHmMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1125,7 +1132,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_schwermetalle_welche}"),
                 txtEqsHmMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1224,7 +1231,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_psm}"),
                 lblEqsPesticMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1244,7 +1251,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_ind_stoffe}"),
                 lblIndPolMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1264,7 +1271,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_stoffe}"),
                 lblEqsOthplVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1284,7 +1291,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_nat}"),
                 lblUNonCompMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1304,7 +1311,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_nat_welche}"),
                 lblUNonCompBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1326,7 +1333,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_andere_stoffe_welche}"),
                 txtEqsOthplBemerkungMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1348,7 +1355,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_ind_stoffe_welche}"),
                 txtIndpolBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1370,7 +1377,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_psm_welche}"),
                 txtEqsPesticBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1404,7 +1411,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_eco_stoffe}"),
                 lblUEcoMstVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         binding.setConverter(YesNoConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1424,7 +1431,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_eco_stoffe_welche}"),
                 lblUEcoBemerkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1446,8 +1453,8 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_mst.name}"),
                 lblGkPhysChem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1467,7 +1474,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_pc}"),
                 lblPhysChemBem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1497,13 +1504,13 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
      * DOCUMENT ME!
      */
     private void setColors() {
-        ChemieMstMessungenEditor.setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelNit, null, lbl90PerzentilNit);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelO2, lblOWertO2, null);
-        ChemieMstMessungenEditor.setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelNit, null, lbl90PerzentilNit, false);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelO2, lblOWertO2, null, true);
+        ChemieMstMessungenEditor.setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos, false);
     }
 
     /**

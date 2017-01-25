@@ -15,8 +15,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
-import Sirius.server.search.CidsServerSearch;
-
 import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.Color;
@@ -49,6 +47,9 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.commons.features.Feature;
@@ -60,6 +61,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -702,7 +704,7 @@ public class LawaEditor extends JPanel implements CidsBeanRenderer,
                                         synchronized (LOG) {
                                             if (!wkk.equals((String)o)) {
                                                 JOptionPane.showMessageDialog(
-                                                    LawaEditor.this,
+                                                    StaticSwingTools.getParentFrame(LawaEditor.this),
                                                     "Durch die Änderung der Stationierung hat "
                                                             + "sich der Wasserkörper geändert.",
                                                     "Änderung am Wasserkörper",

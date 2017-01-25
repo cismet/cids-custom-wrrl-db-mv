@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -29,6 +30,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -126,14 +129,14 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgPoorChemCataloge = new javax.swing.JDialog();
+        dlgPoorChemCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblPoorChemCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo(POOR_CHEM_MC, true, true);
         cbPoorChemCataloge = cb1;
         panMenButtonsPoorChem = new javax.swing.JPanel();
         btnPoorChemAbort = new javax.swing.JButton();
         btnPoorChemOk = new javax.swing.JButton();
-        dlgTrendTypeCataloge = new javax.swing.JDialog();
+        dlgTrendTypeCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblTrendTypeCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(TREND_TYPE_MC, true, true);
         cbTrendTypeCataloge = cb2;
@@ -817,9 +820,8 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddTrendTypeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddTrendTypeActionPerformed
-        dlgTrendTypeCataloge.setLocationRelativeTo(this);
         dlgTrendTypeCataloge.pack();
-        dlgTrendTypeCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgTrendTypeCataloge, true);
     }                                                                                   //GEN-LAST:event_btnAddTrendTypeActionPerformed
 
     /**
@@ -831,7 +833,7 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
         final Object selection = lstTrendTypes.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der Eintrag wirklich gelöscht werden?",
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -855,9 +857,8 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddPoorChemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPoorChemActionPerformed
-        dlgPoorChemCataloge.setLocationRelativeTo(this);
         dlgPoorChemCataloge.pack();
-        dlgPoorChemCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgPoorChemCataloge, true);
     }                                                                                  //GEN-LAST:event_btnAddPoorChemActionPerformed
 
     /**
@@ -869,7 +870,7 @@ public class WkGwPanThree extends javax.swing.JPanel implements DisposableCidsBe
         final Object selection = lstPoorChems.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der Eintrag wirklich gelöscht werden?",
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);

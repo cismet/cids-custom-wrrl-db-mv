@@ -520,7 +520,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
      * @return  DOCUMENT ME!
      */
     private boolean isCrsSupported(final Crs crs) {
-        return CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833;
+        return (CrsTransformer.extractSridFromCrs(crs.getCode()) == 35833)
+                    || (CrsTransformer.extractSridFromCrs(crs.getCode()) == 5650);
     }
 
     /**
@@ -676,7 +677,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
             setValueToFeature(value);
 
             // realgeoms nur nach manueller eingabe updaten
-            if (isInited()) {
+            if (isInited() && isEditable()) {
                 updateGeometry();
             }
         } finally {
@@ -856,7 +857,9 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
                 new javax.swing.ImageIcon(
                     StationEditor.class.getResource(
                         "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation-octagon.png")).getImage(),
-                null));
+                new javax.swing.ImageIcon(
+                    StationEditor.class.getResource(
+                        "/de/cismet/cids/custom/objecteditors/wrrl_db_mv/exclamation-octagon.png")).getImage()));
         return dsf;
     }
 
@@ -1308,7 +1311,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
         if (isEditable()) {
             final LinearReferencedPointFeature feature = getFeature();
             final Feature badFeature = getBadGeomFeature();
-            feature.moveTo(badFeature.getGeometry().getCoordinate());
+            feature.moveTo(badFeature.getGeometry().getCoordinate(), null);
             zoomToBadFeature();
         }
     }

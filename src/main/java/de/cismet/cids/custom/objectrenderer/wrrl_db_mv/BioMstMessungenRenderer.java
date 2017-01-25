@@ -140,6 +140,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         lblSTIMPVal.setText("");
         lblSTIMVal.setText("");
         lblSTITVal.setText("");
+        lblPerlodesValAd.setText("");
+        lblDiatTrophieVal.setText("");
         lblFischeBem.setText("");
         lblMacPhytBem.setText("");
         lblMZBBem.setText("");
@@ -148,6 +150,13 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         lblGkMacPhyt.setText("");
         lblGkMzb.setText("");
         lblGkPhyt.setText("");
+        jcGesDiatomeen.setSelected(false);
+        jcGesMacPhyto.setSelected(false);
+        jcGesPerlodes.setSelected(false);
+        jcGesPerlodesAd.setSelected(false);
+        jcGesPhylib.setSelected(false);
+        jcGesPhyto.setSelected(false);
+        jcGesSI.setSelected(false);
     }
 
     /**
@@ -212,7 +221,7 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -805,6 +814,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_gesichert}"),
                 jcGesPerlodes,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -826,6 +837,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_ad_gesichert}"),
                 jcGesPerlodesAd,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -847,6 +860,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.perlodes_sl_gesichert}"),
                 jcGesSI,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -900,6 +915,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_gesichert}"),
                 jcGesPhylib,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -921,6 +938,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_phytobenthos_gesichert}"),
                 jcGesPhyto,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -942,6 +961,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_makrophyten_gesichert}"),
                 jcGesMacPhyto,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -963,6 +984,8 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phylib_diatomeen_gesichert}"),
                 jcGesDiatomeen,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

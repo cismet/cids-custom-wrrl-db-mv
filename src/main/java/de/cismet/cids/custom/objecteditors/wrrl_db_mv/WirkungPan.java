@@ -33,6 +33,8 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
+import de.cismet.tools.gui.StaticSwingTools;
+
 /**
  * DOCUMENT ME!
  *
@@ -209,7 +211,7 @@ public class WirkungPan extends javax.swing.JPanel implements DisposableCidsBean
             }
 
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Wirkung auf "
                             + typeString
                             + " '"

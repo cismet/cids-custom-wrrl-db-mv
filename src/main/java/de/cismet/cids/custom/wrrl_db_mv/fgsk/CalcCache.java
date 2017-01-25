@@ -10,8 +10,6 @@ package de.cismet.cids.custom.wrrl_db_mv.fgsk;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
-import Sirius.server.search.CidsServerSearch;
-
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
@@ -34,6 +32,8 @@ import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SectionLengthSearch;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleMappingSearch;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleRatingSearch.DoubleRatingSearch;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.SimpleRatingSearch.IntegerRatingSearch;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 /**
  * DOCUMENT ME!
@@ -493,14 +493,14 @@ public final class CalcCache {
     private final transient Map<Integer, Double> courseStructureSectionLength;
     private final transient Map<String, Integer> courseLoopRatings;
     private final transient Map<String, Integer> loopErosionRatings;
-    private final transient Map<Integer, Map<Range, Integer>> longBenchRatings;
+    private final transient Map<Integer, Map<Range, Double>> longBenchRatings;
     private final transient Map<Integer, Map<Range, Integer>> courseStructureRatings;
     private final transient Map<Integer, Map<Range, Integer>> profileDepthBreathRelationRatings;
     private final transient Map<String, Integer> profileTypeRatingsRatings;
     private final transient Map<String, Integer> breadthErosionRatings;
     private final transient Map<String, Integer> profileTypeRatings;
     private final transient Map<Integer, Double> bedStructureSectionLength;
-    private final transient Map<Integer, Map<Range, Integer>> bedStructureRatings;
+    private final transient Map<Integer, Map<Range, Double>> bedStructureRatings;
     private final transient Map<Integer, Double> maxBedContaminationRatings;
     private final transient Map<String, Map<Range, Integer>> naturalSubstrateRatings;
     private final transient Map<String, Map<Range, Integer>> artificialSubstrateRatings;
@@ -539,14 +539,14 @@ public final class CalcCache {
         this.courseStructureSectionLength = new HashMap<Integer, Double>();
         this.courseLoopRatings = new HashMap<String, Integer>();
         this.loopErosionRatings = new HashMap<String, Integer>();
-        this.longBenchRatings = new HashMap<Integer, Map<Range, Integer>>();
+        this.longBenchRatings = new HashMap<Integer, Map<Range, Double>>();
         this.courseStructureRatings = new HashMap<Integer, Map<Range, Integer>>();
         this.profileDepthBreathRelationRatings = new HashMap<Integer, Map<Range, Integer>>();
         this.profileTypeRatingsRatings = new HashMap<String, Integer>();
         this.breadthErosionRatings = new HashMap<String, Integer>();
         this.profileTypeRatings = new HashMap<String, Integer>();
         this.bedStructureSectionLength = new HashMap<Integer, Double>();
-        this.bedStructureRatings = new HashMap<Integer, Map<Range, Integer>>();
+        this.bedStructureRatings = new HashMap<Integer, Map<Range, Double>>();
         this.maxBedContaminationRatings = new HashMap<Integer, Double>();
         this.naturalSubstrateRatings = new HashMap<String, Map<Range, Integer>>();
         this.artificialSubstrateRatings = new HashMap<String, Map<Range, Integer>>();
@@ -926,14 +926,14 @@ public final class CalcCache {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getLongBenchRating(final Double longBenchCount, final int wbTypeId) {
+    public Double getLongBenchRating(final Double longBenchCount, final int wbTypeId) {
         if (longBenchCount == null) {
             return null;
         }
 
         check();
 
-        final Map<Range, Integer> ranges = longBenchRatings.get(wbTypeId);
+        final Map<Range, Double> ranges = longBenchRatings.get(wbTypeId);
 
         return getRangeRating(ranges, longBenchCount);
     }
@@ -1097,14 +1097,14 @@ public final class CalcCache {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getBedStructureRating(final Double absBedStructureCount, final int wbTypeId) {
+    public Double getBedStructureRating(final Double absBedStructureCount, final int wbTypeId) {
         if (absBedStructureCount == null) {
             return null;
         }
 
         check();
 
-        final Map<Range, Integer> ranges = bedStructureRatings.get(wbTypeId);
+        final Map<Range, Double> ranges = bedStructureRatings.get(wbTypeId);
 
         return getRangeRating(ranges, absBedStructureCount);
     }
@@ -1312,12 +1312,13 @@ public final class CalcCache {
     /**
      * DOCUMENT ME!
      *
+     * @param   <T>     DOCUMENT ME!
      * @param   ranges  DOCUMENT ME!
      * @param   length  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Integer getRangeRating(final Map<Range, Integer> ranges, final double length) {
+    private <T extends Number> T getRangeRating(final Map<Range, T> ranges, final double length) {
         if (ranges != null) {
             for (final Range range : ranges.keySet()) {
                 if (range.withinRange(length)) {
@@ -1327,6 +1328,31 @@ public final class CalcCache {
         }
 
         return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   p  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static int getQualityClass(final double p) {
+        int qualityClass = 0;
+
+        if (p <= 1.4) {
+            qualityClass = 5;
+        } else if (p <= 2.3) {
+            qualityClass = 4;
+        } else if (p <= 3.2) {
+            qualityClass = 3;
+        } else if (p <= 4.1) {
+            qualityClass = 2;
+        } else if (p > 4.1) {
+            qualityClass = 1;
+        }
+
+        return qualityClass;
     }
 
     /**

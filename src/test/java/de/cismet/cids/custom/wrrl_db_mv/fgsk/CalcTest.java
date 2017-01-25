@@ -53,15 +53,16 @@ import de.cismet.cids.tools.fromstring.FromStringCreator;
 
 import de.cismet.netutil.Proxy;
 
-import de.cismet.remotetesthelper.RemoteTestHelperService;
+//import de.cismet.remotetesthelper.RemoteTestHelperService;
 
-import de.cismet.remotetesthelper.ws.rest.RemoteTestHelperClient;
+//import de.cismet.remotetesthelper.ws.rest.RemoteTestHelperClient;
 
 import java.util.Arrays;
 import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 import static de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc.*;
+import java.util.LinkedHashMap;
 
 /**
  * DOCUMENT ME!
@@ -76,7 +77,7 @@ public class CalcTest {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final String TEST_DB_NAME = "calc_test_db";
-    private static final RemoteTestHelperService SERVICE = new RemoteTestHelperClient();
+//    private static final RemoteTestHelperService SERVICE = new RemoteTestHelperClient();
     private static final String SERVER_CONFIG =
         "src/test/resources/de/cismet/cids/custom/wrrl_db_mv/fgsk/runtime.properties"; // NOI18N
 
@@ -102,9 +103,9 @@ public class CalcTest {
         p.put("log4j.rootLogger", "ALL,Remote");
         org.apache.log4j.PropertyConfigurator.configure(p);
 
-        if (!Boolean.valueOf(SERVICE.initCidsSystem(TEST_DB_NAME))) {
-            throw new IllegalStateException("cannot initilise test db");
-        }
+//        if (!Boolean.valueOf(SERVICE.initCidsSystem(TEST_DB_NAME))) {
+//            throw new IllegalStateException("cannot initilise test db");
+//        }
         final ServerProperties props = new ServerProperties(SERVER_CONFIG);
         final DBConnectionPool pool = new DBConnectionPool(props);
         final Connection con = pool.getConnection();
@@ -157,9 +158,9 @@ public class CalcTest {
             System.err.println("exit error");
         }
 
-        if (!Boolean.valueOf(SERVICE.dropDatabase(TEST_DB_NAME))) {
-            throw new IllegalStateException("could not drop test db");
-        }
+//        if (!Boolean.valueOf(SERVICE.dropDatabase(TEST_DB_NAME))) {
+//            throw new IllegalStateException("could not drop test db");
+//        }
     }
 
     /**
@@ -2639,7 +2640,7 @@ public class CalcTest {
             }
 
             @Override
-            public Sirius.server.localserver.object.Object filter(final UserGroup ug) {
+            public Sirius.server.localserver.object.Object filter(final User u) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -2654,7 +2655,7 @@ public class CalcTest {
             }
 
             @Override
-            public Object getAttribute(final Object key) {
+            public ObjectAttribute getAttribute(final String key) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -2664,12 +2665,12 @@ public class CalcTest {
             }
 
             @Override
-            public Collection<Attribute> getAttributeByName(final String name, final int maxResult) {
+            public Collection<ObjectAttribute> getAttributeByName(final String name, final int maxResult) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public HashMap getAttributes() {
+            public LinkedHashMap<Object, ObjectAttribute> getAttributes() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -2704,7 +2705,7 @@ public class CalcTest {
             }
 
             @Override
-            public Attribute getPrimaryKey() {
+            public ObjectAttribute getPrimaryKey() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -2785,6 +2786,16 @@ public class CalcTest {
 
             @Override
             public FromStringCreator getObjectCreator() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public boolean hasObjectWritePermission(User user) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void forceStatus(int status) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         }

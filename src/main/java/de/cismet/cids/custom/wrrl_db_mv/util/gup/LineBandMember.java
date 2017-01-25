@@ -79,8 +79,36 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOG = Logger.getLogger(LineBandMember.class);
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
+    //~ Instance fields --------------------------------------------------------
+
+    protected PinstripePainter stripes = new PinstripePainter();
+    protected Painter unselectedBackgroundPainter = null;
+    protected Painter selectedBackgroundPainter = null;
+    // End of variables declaration
+    protected CidsBean bean;
+    protected boolean isSelected = false;
+    protected JPopupMenu popup = new JPopupMenu();
+    protected boolean newMode = false;
+    protected int mouseClickedXPosition = 0;
+    protected String lineFieldName = "linie";
+
+    double von = 0;
+    double bis = 0;
+    // Variables declaration - do not modify
     private javax.swing.JLabel labText;
+    private CidsBean stationFrom;
+    private CidsBean stationTill;
+    private boolean dragStart = false;
+    private int dragSide = 0;
+    private double oldStationValue;
+    private JMenuItem deleteItem = new JMenuItem("löschen");
+    private JMenuItem splitItem = new JMenuItem("teilen");
+    private LineBand parent;
+    private List<BandMemberListener> listenerList = new ArrayList<BandMemberListener>();
+    private boolean readOnly;
+
+    //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form MassnahmenBandMember.
@@ -106,6 +134,8 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         this.parent = parent;
         popup.addPopupMenuListener(this);
     }
+
+    //~ Methods ----------------------------------------------------------------
 
     @Override
     public JComponent getBandMemberComponent() {
@@ -167,9 +197,8 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
     /**
      * DOCUMENT ME!
      */
-    protected void setDefaultBackgound() {
-        setBackgroundPainter(new MattePainter(new Color(229, 0, 0)));
-        unselectedBackgroundPainter = getBackgroundPainter();
+    protected void setDefaultBackground() {
+        unselectedBackgroundPainter = new MattePainter(new Color(229, 0, 0));
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
                 new RectanglePainter(
@@ -183,6 +212,11 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
                     new Color(100, 100, 100, 100),
                     2f,
                     new Color(50, 50, 50, 100)));
+        if (isSelected) {
+            setBackgroundPainter(selectedBackgroundPainter);
+        } else {
+            setBackgroundPainter(unselectedBackgroundPainter);
+        }
     }
 
     /**
@@ -206,12 +240,15 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
             if (oldLine != null) {
                 oldLine.removePropertyChangeListener(this);
             }
-        }
-        if (stationFrom != null) {
-            stationFrom.removePropertyChangeListener(this);
-        }
-        if (stationTill != null) {
-            stationTill.removePropertyChangeListener(this);
+            stationFrom = (CidsBean)oldLine.getProperty("von");
+            stationTill = (CidsBean)oldLine.getProperty("bis");
+
+            if (stationFrom != null) {
+                stationFrom.removePropertyChangeListener(this);
+            }
+            if (stationTill != null) {
+                stationTill.removePropertyChangeListener(this);
+            }
         }
     }
 
@@ -263,34 +300,6 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         gridBagConstraints.weighty = 1.0;
         add(labText, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
-
-    //~ Instance fields --------------------------------------------------------
-
-    protected PinstripePainter stripes = new PinstripePainter();
-    protected Painter unselectedBackgroundPainter = null;
-    protected Painter selectedBackgroundPainter = null;
-    // End of variables declaration//GEN-END:variables
-    protected CidsBean bean;
-    protected boolean isSelected = false;
-    protected JPopupMenu popup = new JPopupMenu();
-    protected boolean newMode = false;
-    protected int mouseClickedXPosition = 0;
-    protected String lineFieldName = "linie";
-
-    double von = 0;
-    double bis = 0;
-    private CidsBean stationFrom;
-    private CidsBean stationTill;
-    private boolean dragStart = false;
-    private int dragSide = 0;
-    private double oldStationValue;
-    private JMenuItem deleteItem = new JMenuItem("löschen");
-    private JMenuItem splitItem = new JMenuItem("teilen");
-    private LineBand parent;
-    private List<BandMemberListener> listenerList = new ArrayList<BandMemberListener>();
-    private boolean readOnly;
-
-    //~ Methods ----------------------------------------------------------------
 
     @Override
     public void mouseClicked(final MouseEvent e) {
@@ -374,14 +383,18 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         }
 
         if (!dragStart) {
-            if (e.getX() < 5) {
+//            if (e.getX() <= (getWidth() / 2)) {
+            if (JBandCursorManager.getInstance().getCursor().equals(
+                            Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR))) {
                 dragSide = 1;
                 dragStart = true;
                 oldStationValue = (Double)stationFrom.getProperty("wert");
                 JBandCursorManager.getInstance().setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
                 JBandCursorManager.getInstance().setLocked(true);
                 JBandCursorManager.getInstance().setCursor(this);
-            } else if (e.getX() > (getWidth() - 5)) {
+            } else if (JBandCursorManager.getInstance().getCursor().equals(
+                            Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR))) {
+//            } else if (e.getX() > (getWidth() / 2)) {
                 dragSide = 2;
                 dragStart = true;
                 oldStationValue = (Double)stationTill.getProperty("wert");
@@ -527,7 +540,12 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
         try {
             final CidsBean endStation = (CidsBean)bean.getProperty(lineFieldName + ".bis");
             final CidsBean route = (CidsBean)endStation.getProperty("route");
-            final CidsBean newStation = LinearReferencingHelper.createStationBeanFromRouteBean(route, (double)pos);
+            CidsBean newStation = LinearReferencingHelper.createStationBeanFromRouteBean(route, (double)pos);
+            try {
+                newStation = newStation.persist();
+            } catch (Exception e) {
+                LOG.error("Error while persist station", e);
+            }
             final LinearReferencedPointFeature pointFeature = LinearReferencingSingletonInstances.FEATURE_REGISTRY
                         .addStationFeature(
                             newStation);
@@ -645,5 +663,12 @@ public abstract class LineBandMember extends JXPanel implements ModifiableBandMe
      */
     public void setReadOnly(final boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void dispose() {
+        removeOldListener();
     }
 }

@@ -31,12 +31,17 @@ import com.vividsolutions.jts.geom.Geometry;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class ChemieMstStammdatenPermissionProvider extends BasicGeometryFomFilePermissionProvider {
+public class ChemieMstStammdatenPermissionProvider extends BasicGeometryFromCidsObjectPermissionProvider {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Geometry getGeometry() {
         return (Geometry)cidsBean.getProperty("geom.geo_field");
+    }
+
+    @Override
+    public String getKey() {
+        return "chem_mst";
     }
 }

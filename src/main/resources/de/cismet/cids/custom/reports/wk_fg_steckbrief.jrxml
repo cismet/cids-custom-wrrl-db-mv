@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_steckbrief" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_steckbrief" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="5" whenResourceMissingType="Empty" uuid="9d16bba2-d5f3-4b5a-93c3-e260331f49ec">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="tableTitle" backcolor="#DADADA" hAlign="Left" vAlign="Top" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="map" class="java.awt.Image" isForPrompting="false"/>
+	<parameter name="teilgebiet" class="java.lang.String"/>
+	<parameter name="lawa" class="java.lang.String"/>
+	<parameter name="gewName" class="java.lang.String"/>
 	<field name="rbd_cd" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="planu_cd" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="wa_cd" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="wk_k" class="java.lang.String"/>
 	<field name="wk_n" class="java.lang.String"/>
 	<field name="teile" class="java.util.Collection"/>
+	<field name="wk_group" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="evk" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="av_time" class="java.util.Date"/>
+	<field name="lawa_type" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band height="30">
-			<staticText>
-				<reportElement x="0" y="0" width="555" height="20"/>
+		<band height="52">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="555" height="22" uuid="7f364313-5966-457f-9754-884e30a0f971"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Arial" size="16" isBold="false" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Wasserkörper-Steckbrief Fließgewässer]]></text>
+				<textFieldExpression><![CDATA["Wasserkörper-Steckbrief Fließgewässer " + $F{wk_k}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="29" width="555" height="22" forecolor="#000000" uuid="d6886913-0dfe-41d3-b312-c75dc1db8280"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="16" isBold="false"/>
+				</textElement>
+				<text><![CDATA[1. Allgemeine Wasserkörper-Informationen]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -28,71 +54,263 @@
 		<band/>
 	</columnHeader>
 	<detail>
-		<band height="437">
+		<band height="129">
 			<staticText>
-				<reportElement x="0" y="0" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" rightPadding="2"/>
-				<textElement/>
-				<text><![CDATA[Flussgebietseinheit:]]></text>
+				<reportElement style="tableTitle" mode="Opaque" x="277" y="0" width="115" height="14" uuid="fe401247-ea99-4378-9549-b758656c0227"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Wasserkörper Kürzel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="290" y="0" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" rightPadding="2"/>
-				<textElement/>
-				<text><![CDATA[Wasserkörper Kürzel:]]></text>
+				<reportElement style="tableTitle" mode="Opaque" x="277" y="14" width="115" height="14" uuid="da9358e8-d485-4afa-8671-ad8aab8e447d"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Planungseinheit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="16" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" rightPadding="2"/>
-				<textElement/>
-				<text><![CDATA[Planungseinheit:]]></text>
+				<reportElement style="tableTitle" mode="Opaque" x="0" y="14" width="115" height="14" uuid="02fb8566-62c3-4fe1-a9c5-dff51a4ffcc7"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Flussgebietseinheit]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="115" y="0" width="162" height="14" uuid="095a604c-c36e-4251-b469-dc2d7bb2e2a6"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wk_n}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="392" y="0" width="162" height="14" uuid="c5ef632a-966b-4836-84a7-bb2e3d7acdd5"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wk_k}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="392" y="14" width="162" height="14" uuid="42550500-80d6-4d87-8e26-811319a7896d"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{planu_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="115" y="14" width="162" height="14" uuid="bb88b254-c0c6-4814-82c1-fcbbed3422b9"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rbd_cd}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="115" height="14" forecolor="#000000" backcolor="#DADADA" uuid="ad97966f-8225-42c2-beda-a8c14abe5df1"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Wasserkörper Name]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="115" y="28" width="162" height="24" uuid="5730c738-145c-49d6-9c77-bcf4545c42d6"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{evk}.getProperty("name").toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="tableTitle" mode="Opaque" x="0" y="28" width="115" height="24" uuid="60de09af-8d7a-4c41-8622-4ae7982f14dd"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Status Wasserkörper]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="115" y="66" width="439" height="14" uuid="203cb5a7-8432-4d3f-9c6d-c359ac902ba8"/>
+				<box leftPadding="10">
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lawa_type}.getProperty( "description" ) + "(" + $F{lawa_type}.getProperty( "code" ) + ")"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="tableTitle" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="52" width="115" height="59" isPrintWhenDetailOverflows="true" uuid="9fd5cb61-d6d0-49ab-98a9-7fb0ad59286e"/>
+				<box leftPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fließgewässertyp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="32" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" rightPadding="2"/>
-				<textElement/>
-				<text><![CDATA[Bearbeitungsgebiet:]]></text>
+				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="0" y="111" width="115" height="14" uuid="ccc68064-a148-4da1-8e29-69a9af1b503c"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Druckdatum]]></text>
+			</staticText>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="115" y="111" width="439" height="14" uuid="82bd21a4-51bf-47c3-8ae4-2b437de4fd1b"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[((new Date()).getDate() + "." + ((new Date()).getMonth() + 1) + "." + ((new Date()).getYear() + 1900))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="tableTitle" mode="Opaque" x="115" y="52" width="439" height="14" backcolor="#FFFFFF" uuid="0c520efc-42a6-431c-8268-709d2bdd4dc7"/>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[- aggregierter LAWA-Typ:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="290" y="16" width="115" height="16"/>
-				<box topPadding="2" leftPadding="2" rightPadding="2"/>
-				<textElement/>
-				<text><![CDATA[Wasserkörper Name:]]></text>
+				<reportElement style="tableTitle" mode="Opaque" x="115" y="80" width="439" height="17" backcolor="#FFFFFF" uuid="76b916c0-1c35-4726-b1e0-d403a22c8a5a"/>
+				<box leftPadding="5" bottomPadding="3">
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[- LAWA-Detailtyp:]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="0" width="150" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{rbd_cd}.getProperty("name").toString()]]></textFieldExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="115" y="97" width="439" height="14" isPrintWhenDetailOverflows="true" uuid="bd1c06f7-2095-47d7-871e-69cd9424ccfc"/>
+				<box topPadding="2" leftPadding="10" bottomPadding="2">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom" markup="html">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lawa}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="405" y="0" width="150" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_k}]]></textFieldExpression>
+			<staticText>
+				<reportElement style="tableTitle" mode="Opaque" x="277" y="28" width="115" height="24" uuid="32c33f56-5279-421a-9cf9-8daf1ddc70bb"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Gewässername]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="392" y="28" width="162" height="24" isPrintWhenDetailOverflows="true" uuid="79b3dff7-a2e9-4dde-b0b6-d954795e7010"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{gewName}.toString()]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="16" width="150" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{planu_cd}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="405" y="16" width="150" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{wk_n}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="32" width="150" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{wa_cd}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
-			<image scaleImage="RealSize">
-				<reportElement x="0" y="60" width="555" height="375"/>
-				<imageExpression class="java.awt.Image"><![CDATA[$P{map}]]></imageExpression>
-			</image>
 		</band>
 	</detail>
 	<columnFooter>

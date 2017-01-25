@@ -14,7 +14,6 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -46,6 +45,7 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_operatives_ziel");
+    private static MetaObject[] metaObjects = null;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -54,7 +54,7 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new MassnahmenComboBox object.
+     * Creates a new OperativeZieleComboBox object.
      */
     public OperativeZieleComboBox() {
         super();
@@ -69,24 +69,34 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
      */
     private void init(final MetaClass mc) {
         if (!isFakeModel()) {
-            CismetThreadPool.execute(new SwingWorker<DefaultComboBoxModel, Void>() {
+            if (metaObjects == null) {
+                CismetThreadPool.execute(new SwingWorker<DefaultComboBoxModel, Void>() {
 
-                    @Override
-                    protected DefaultComboBoxModel doInBackground() throws Exception {
-                        return getModelByMetaClass(mc);
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            setModel(get());
-                            setSelectedItem(cidsBean);
-                        } catch (InterruptedException interruptedException) {
-                        } catch (ExecutionException executionException) {
-                            log.error("Error while initializing the model of a referenceCombo", executionException); // NOI18N
+                        @Override
+                        protected DefaultComboBoxModel doInBackground() throws Exception {
+                            return getModelByMetaClass(mc);
                         }
-                    }
-                });
+
+                        @Override
+                        protected void done() {
+                            try {
+                                setModel(get());
+                                setSelectedItem(cidsBean);
+                            } catch (InterruptedException interruptedException) {
+                            } catch (ExecutionException executionException) {
+                                log.error("Error while initializing the model of a referenceCombo", executionException); // NOI18N
+                            }
+                        }
+                    });
+            } else {
+                try {
+                    setModel(getModelByMetaClass(mc));
+                    setSelectedItem(cidsBean);
+                } catch (InterruptedException interruptedException) {
+                } catch (Exception ex) {
+                    log.error("Error while initializing the model of a referenceCombo", ex);                             // NOI18N
+                }
+            }
         } else {
         }
     }
@@ -101,18 +111,20 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
      * @throws  Exception  DOCUMENT ME!
      */
     private DefaultComboBoxModel getModelByMetaClass(final MetaClass mc) throws Exception {
-        final String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
-        final MetaObject[] MetaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
-        final List<CidsBean> cbv = new ArrayList<CidsBean>(MetaObjects.length);
+        if (metaObjects == null) {
+            final String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        }
+        final List<CidsBean> cbv = new ArrayList<CidsBean>(metaObjects.length);
 
-        for (final MetaObject mo : MetaObjects) {
+        for (final MetaObject mo : metaObjects) {
             if (isRelevantBean(kompartiment, mo.getBean())) {
                 cbv.add(mo.getBean());
             }
         }
 
         // Sorts the model using String comparison on the bean's toString()
-        Collections.sort(cbv, beanToStringComparator);
+        Collections.sort(cbv, BEAN_TOSTRING_COMPARATOR);
         return new DefaultComboBoxModel(cbv.toArray());
     }
 
@@ -126,6 +138,9 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
      */
     public static boolean isRelevantBean(final int kompartiment, final CidsBean bean) {
         String kompartimentProp = "ufer";
+        if (kompartiment == -1) {
+            return true;
+        }
 
         if (kompartiment == GupOperativesZielAbschnittEditor.OPERATIVES_ZIEL_SOHLE) {
             kompartimentProp = "sohle";

@@ -28,9 +28,11 @@
  */
 package de.cismet.cids.custom.actions.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
 import Sirius.server.middleware.types.Node;
 
@@ -44,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
@@ -51,10 +54,14 @@ import javax.swing.event.DocumentListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanCache;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
@@ -730,6 +737,15 @@ public class FgskSplitDialog extends javax.swing.JDialog {
 //        final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
 //                mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
 //
+        if (jSpinner1.getValue().equals(getStationMinimum()) || jSpinner1.getValue().equals(getStationMaximum())) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Die Länge der resultierenden Kartierabschnitte muss > 0 sein.",
+                "Fehler",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         cmdOk.setEnabled(false);
         cmdCancel.setEnabled(false);
         jProgressBar1.setVisible(true);
@@ -746,7 +762,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                     try {
                         final Collection<Node> r = get();
                         if (r != null) {
-                            MethodManager.getManager().showSearchResults(r.toArray(new Node[r.size()]), false);
+                            MethodManager.getManager().showSearchResults(null, r.toArray(new Node[r.size()]), false);
                         }
                     } catch (Exception ex) {
                         LOG.error("error while splitting fgsk", ex);
@@ -771,13 +787,31 @@ public class FgskSplitDialog extends javax.swing.JDialog {
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private Collection<Node> splitFgskBean(final CidsBean oldBean, final boolean fromToSplit, final double splitValue)
+    private Collection<Node> splitFgskBean(CidsBean oldBean, final boolean fromToSplit, final double splitValue)
             throws Exception {
         jProgressBar1.setMaximum(3);
+        oldBean = SessionManager.getProxy()
+                    .getMetaObject(oldBean.getPrimaryKeyValue(),
+                            oldBean.getMetaObject().getClassID(),
+                            oldBean.getMetaObject().getDomain())
+                    .getBean();
 
         final String oldAbschnitt = (String)oldBean.getProperty("gewaesser_abschnitt");
         final String oldSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".2" : ".1");
         final String newSubAbschnitt = oldAbschnitt + ((fromToSplit) ? ".1" : ".2");
+
+        CidsBeanCache.getInstance().clear();
+        // Linie durch die Linie aus dem Cache ersetzen
+        final CidsBean line = CidsBeanCache.getInstance().getCachedBeanFor((CidsBean)oldBean.getProperty("linie"));
+        oldBean.setProperty("linie", line);
+        line.setProperty(
+            "von",
+            CidsBeanCache.getInstance().getCachedBeanFor(
+                (CidsBean)line.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM)));
+        line.setProperty(
+            "bis",
+            CidsBeanCache.getInstance().getCachedBeanFor(
+                (CidsBean)line.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO)));
 
         final CidsBean oldFromPointBean = (CidsBean)oldBean.getProperty("linie."
                         + LinearReferencingConstants.PROP_STATIONLINIE_FROM);
@@ -856,6 +890,37 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         newfgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
         newfgskBean.setProperty("gewaesser_abschnitt", newSubAbschnitt);
         newfgskBean.setProperty("linie", newLinieBean);
+        newfgskBean.setProperty("gwk", oldRouteBean.getProperty("gwk"));
+
+        try {
+            if ((newLinieBean != null) && (oldRouteBean != null)) {
+                final Double vonWert = (Double)newLinieBean.getProperty("von.wert");
+                final Double bisWert = (Double)newLinieBean.getProperty("bis.wert");
+                if ((vonWert != null) && (bisWert != null)) {
+                    final double wert = (bisWert + vonWert) / 2;
+                    final CidsServerSearch search = new WKKSearchBySingleStation(String.valueOf(
+                                oldRouteBean.getProperty("id")),
+                            String.valueOf(wert));
+                    final Collection res = SessionManager.getProxy()
+                                .customServerSearch(SessionManager.getSession().getUser(), search);
+                    final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+                    if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                        final Object o = resArray.get(0).get(0);
+
+                        if (o instanceof String) {
+                            newfgskBean.setProperty("wkk", o.toString());
+                        }
+                    } else {
+                        LOG.error("Server error in getWk_k(). Cids server search return null. " // NOI18N
+                                    + "See the server logs for further information");     // NOI18N
+                    }
+                }
+            }
+        } catch (final Exception e) {
+            LOG.error("Error while determining the water body", e);
+        }
+
         // ---
         final CidsBean persistedNewFgskBean = newfgskBean.persist();
         jProgressBar1.setValue(3);
@@ -868,6 +933,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
         final Collection<Node> nodes = new ArrayList<Node>();
         nodes.add(firstSearchNode);
         nodes.add(secondSearchNode);
+        CidsBeanCache.getInstance().clear();
         return nodes;
     }
     /**

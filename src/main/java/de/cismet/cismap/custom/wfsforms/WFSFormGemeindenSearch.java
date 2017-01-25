@@ -50,6 +50,7 @@ import de.cismet.cismap.commons.wfsforms.AbstractWFSForm;
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 import de.cismet.cismap.commons.wfsforms.WFSFormQuery;
 
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /**
@@ -91,7 +92,7 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
             initComponents();
 //        cboStreets.setEditable(true);
 //        cboNr.setEditable(true);
-            AutoCompleteDecorator.decorate(cboGemeinden);
+            StaticSwingTools.decorateWithFixedAutoCompleteDecorator(cboGemeinden);
 //        prbLocationtypes.setPreferredSize(new java.awt.Dimension(1,5));
             prbGemeinden.setPreferredSize(new java.awt.Dimension(1, 5));
 

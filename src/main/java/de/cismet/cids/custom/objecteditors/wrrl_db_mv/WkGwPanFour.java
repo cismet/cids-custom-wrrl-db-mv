@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -29,6 +30,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -112,13 +115,13 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgPoorQuantCataloge = new javax.swing.JDialog();
+        dlgPoorQuantCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblPoorQuantCataloge = new javax.swing.JLabel();
         cbPoorQuantCataloge = new DefaultBindableReferenceCombo(POOR_QUANT_MC, true, true);
         panMenButtonsPoorQuant = new javax.swing.JPanel();
         btnPoorQuantAbort = new javax.swing.JButton();
         btnPoorQuantOk = new javax.swing.JButton();
-        dlgImpactCataloge = new javax.swing.JDialog();
+        dlgImpactCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactCataloge = new javax.swing.JLabel();
         cbImpactCataloge = new DefaultBindableReferenceCombo(IMPACT_MC, true, true);
         panMenButtonsImpact = new javax.swing.JPanel();
@@ -555,9 +558,8 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddPoorQuantActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPoorQuantActionPerformed
-        dlgPoorQuantCataloge.setLocationRelativeTo(this);
         dlgPoorQuantCataloge.pack();
-        dlgPoorQuantCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgPoorQuantCataloge, true);
     }                                                                                   //GEN-LAST:event_btnAddPoorQuantActionPerformed
 
     /**
@@ -569,7 +571,7 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         final Object selection = lstPoorQuants.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der Eintrag wirklich gelöscht werden?",
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);
@@ -593,9 +595,8 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactActionPerformed
-        dlgImpactCataloge.setLocationRelativeTo(this);
         dlgImpactCataloge.pack();
-        dlgImpactCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactCataloge, true);
     }                                                                                //GEN-LAST:event_btnAddImpactActionPerformed
 
     /**
@@ -607,7 +608,7 @@ public class WkGwPanFour extends javax.swing.JPanel implements DisposableCidsBea
         final Object selection = lstImpacts.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll der Eintrag wirklich gelöscht werden?",
                     "Eintrag entfernen",
                     JOptionPane.YES_NO_OPTION);

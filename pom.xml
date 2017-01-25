@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.cismet.cids</groupId>
         <artifactId>cids-parent</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>2.4</version>
     </parent>
 
     <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
@@ -16,6 +16,13 @@
 
     <name>cids Custom WRRL-DB-MV</name>
     <description>!!! description pending !!!</description>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <distribution>repo</distribution>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.html</url>
+        </license>
+    </licenses>
 
     <prerequisites>
         <maven>3</maven>
@@ -92,11 +99,25 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
+        <!-- 
+            the remote test helper service cannot be used anymore in its current form and causes wrong dependencies to 
+            appear in the tree
+         -->
+<!--        <dependency>
             <groupId>de.cismet</groupId>
             <artifactId>remote-test-helper-service</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.3-SNAPSHOT</version>
             <scope>test</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.13</version>
         </dependency>
     </dependencies>
     
@@ -139,11 +160,48 @@
             </plugin>
         </plugins>
     </build>
+            <profiles>
+        <profile>
+            <id>default-tools.jar</id>
+            <activation>
+                <property>
+                    <name>java.vendor</name>
+                    <value>Sun Microsystems Inc.</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.sun</groupId>
+                    <artifactId>tools</artifactId>
+                    <version>1.6.0</version>
+                    <scope>system</scope>
+                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                </dependency>
+            </dependencies>
+            <properties> 
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>default-tools1.7.jar</id>
+            <activation>
+                <property>
+                    <name>java.vendor</name>
+                    <value>Oracle Corporation</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.sun</groupId>
+                    <artifactId>tools</artifactId>
+                    <version>1.7.0</version>
+                    <scope>system</scope>
+                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                </dependency>
+            </dependencies>
+            <properties> 
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+    </profiles>
 </project>
-
-
-
-
-
-
-

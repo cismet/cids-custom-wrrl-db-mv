@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -29,6 +30,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -116,14 +119,14 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgImpactCataloge = new javax.swing.JDialog();
+        dlgImpactCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb1 = new DefaultBindableReferenceCombo(IMPACT_MC, true, true);
         cbImpactCataloge = cb1;
         panMenButtonsImpact = new javax.swing.JPanel();
         btnImpactAbort = new javax.swing.JButton();
         btnImpactOk = new javax.swing.JButton();
-        dlgImpactSrcCataloge = new javax.swing.JDialog();
+        dlgImpactSrcCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactSrcCataloge = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb2 = new DefaultBindableReferenceCombo(IMPACT_SRC_MC, true, true);
         cbImpactSrcCataloge = cb2;
@@ -601,11 +604,10 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactActionPerformed
-        UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
-        dlgImpactCataloge.setLocationRelativeTo(this);
+//        UIUtil.findOptimalPositionOnScreen(dlgImpactCataloge);
         dlgImpactCataloge.pack();
-        dlgImpactCataloge.setVisible(true);
-    }                                                                                //GEN-LAST:event_btnAddImpactActionPerformed
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactCataloge, true);
+    } //GEN-LAST:event_btnAddImpactActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -616,7 +618,7 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         final Object selection = lstImpact.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Auswirkung '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -703,7 +705,7 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
         final Object selection = lstImpactSrc.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
-                    this,
+                    StaticSwingTools.getParentFrame(this),
                     "Soll die Belastung '"
                             + selection.toString()
                             + "' wirklich gelöscht werden?",
@@ -729,9 +731,8 @@ public class WkKgPanThree extends javax.swing.JPanel implements DisposableCidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
-        dlgImpactSrcCataloge.setLocationRelativeTo(this);
         dlgImpactSrcCataloge.pack();
-        dlgImpactSrcCataloge.setVisible(true);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactSrcCataloge, true);
     }                                                                                    //GEN-LAST:event_btnAddImpactSrc1ActionPerformed
 
     @Override

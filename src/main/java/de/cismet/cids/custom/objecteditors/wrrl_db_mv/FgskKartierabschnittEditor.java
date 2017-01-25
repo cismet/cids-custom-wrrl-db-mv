@@ -9,8 +9,6 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 
-import Sirius.server.search.CidsServerSearch;
-
 import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
@@ -27,6 +25,7 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -36,10 +35,10 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.FgskKartierabschnittRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.CalcCache;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.ValidationException;
-import de.cismet.cids.custom.wrrl_db_mv.fgsk.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WKKSearchBySingleStation;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
@@ -47,12 +46,20 @@ import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.BeanInitializer;
+import de.cismet.cids.editors.BeanInitializerForcePaste;
+import de.cismet.cids.editors.BeanInitializerProvider;
+import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+
+import de.cismet.cids.server.search.AbstractCidsServerSearch;
+import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -62,11 +69,16 @@ import de.cismet.tools.gui.FooterComponentProvider;
  */
 public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRenderer,
     EditorSaveListener,
-    FooterComponentProvider {
+    FooterComponentProvider,
+    PropertyChangeListener,
+    BeanInitializerProvider {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final transient Logger LOG = Logger.getLogger(FgskKartierabschnittEditor.class);
+    private static FgskKartierabschnittEditor lastInstance = null;
+    private static CidsBean lastBean = null;
+    private static boolean open = false;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -76,6 +88,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     private final transient ChangeListener calcL;
     private final transient PropertyChangeListener excL;
+    private String wkk = null;
 
     // will only be changed in EDT
     private transient int selectedTabIndex;
@@ -155,7 +168,18 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         this.cidsBean = cidsBean;
+        cidsBean.addPropertyChangeListener(this);
+
+        if (!readOnly) {
+            lastInstance = this;
+            lastBean = cidsBean;
+            open = true;
+        }
+
         if (cidsBean != null) {
             fgskKartierabschnittKartierabschnitt1.setCidsBean(cidsBean);
             fgskKartierabschnittLaufentwicklung1.setCidsBean(cidsBean);
@@ -181,6 +205,25 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         }
 
         fillFooter();
+
+        if (!readOnly) {
+            // ensure no wrong values will remain if there are rating errors due to changes
+            // this should only be done in the editor and not in the renderer
+            Calc.getInstance().removeAllRatings(this.cidsBean);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static CidsBean getCurrentlyOpenBean() {
+        if (open) {
+            return lastBean;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -303,7 +346,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      *
      * @throws  IllegalArgumentException  DOCUMENT ME!
      */
-    private boolean isException(final CidsBean kaBean) {
+    public static boolean isException(final CidsBean kaBean) {
         if (kaBean == null) {
             throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
         }
@@ -319,9 +362,28 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @param   kaBean  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
+     *
+     * @throws  IllegalArgumentException  DOCUMENT ME!
      */
-    private boolean isPreFieldMapping(final CidsBean kaBean) {
-        final Boolean vorkartierung = (Boolean)cidsBean.getProperty("vorkatierung"); // NOI18N
+    public static boolean isPiped(final CidsBean kaBean) {
+        if (kaBean == null) {
+            throw new IllegalArgumentException("cidsBean must not be null"); // NOI18N
+        }
+
+        final CidsBean exception = (CidsBean)kaBean.getProperty(Calc.PROP_EXCEPTION);
+
+        return ((exception != null) && Integer.valueOf(1).equals(exception.getProperty(Calc.PROP_VALUE)));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kaBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static boolean isPreFieldMapping(final CidsBean kaBean) {
+        final Boolean vorkartierung = (Boolean)kaBean.getProperty("vorkatierung"); // NOI18N
 
         return (vorkartierung != null) && vorkartierung;
     }
@@ -370,7 +432,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -378,12 +440,12 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1105, 720));
+        setMinimumSize(new java.awt.Dimension(1100, 720));
         setPreferredSize(new java.awt.Dimension(1100, 720));
         setLayout(new java.awt.BorderLayout());
 
-        tpMain.setMinimumSize(new java.awt.Dimension(1104, 710));
-        tpMain.setPreferredSize(new java.awt.Dimension(1104, 710));
+        tpMain.setMinimumSize(new java.awt.Dimension(1100, 710));
+        tpMain.setPreferredSize(new java.awt.Dimension(1100, 710));
 
         panKartierabschnitt.setOpaque(false);
         panKartierabschnitt.setLayout(new java.awt.GridBagLayout());
@@ -529,6 +591,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      */
     @Override
     public void dispose() {
+        if (this.cidsBean != null) {
+            this.cidsBean.removePropertyChangeListener(this);
+        }
         fgskKartierabschnittKartierabschnitt1.dispose();
         fgskKartierabschnittLaufentwicklung1.dispose();
         fgskKartierabschnittLaengsprofil1.dispose();
@@ -537,6 +602,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         fgskKartierabschnittUferstruktur1.dispose();
         fgskKartierabschnittGewaesserumfeld1.dispose();
         fgskKartierabschnittErgebnisse1.dispose();
+        if (!readOnly) {
+            open = false;
+        }
     }
 
     @Override
@@ -572,6 +640,19 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             } catch (Exception ex) {
                 LOG.error("Cannot save the current time.", ex);
             }
+            try {
+                cidsBean.setProperty("gwk", cidsBean.getProperty("linie.von.route.gwk"));
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current gwk.", ex);
+            }
+
+            try {
+                if (wkk != null) {
+                    cidsBean.setProperty("wkk", wkk);
+                }
+            } catch (Exception ex) {
+                LOG.error("Cannot save the current gwk.", ex);
+            }
 
             performCalculations(tpMain.getComponentAt(selectedTabIndex), panErgebnisse);
         }
@@ -589,6 +670,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      * @param  wkk  DOCUMENT ME!
      */
     public void setWkk(final String wkk) {
+        if (wkk == null) {
+            this.wkk = "";
+        } else {
+            this.wkk = wkk;
+        }
         fgskKartierabschnittKartierabschnitt1.setWkk(wkk);
         fgskKartierabschnittGewaesserumfeld1.setWkk(wkk);
         fgskKartierabschnittLaengsprofil1.setWkk(wkk);
@@ -625,6 +711,9 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void performCalculations(final Component leftC, final Component enteredC) {
         if (readOnly || isException(cidsBean) || isPreFieldMapping(cidsBean)) {
+            if (!readOnly && isException(cidsBean)) {
+                Calc.getInstance().removeAllRatings(cidsBean);
+            }
             return;
         }
 
@@ -644,7 +733,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.envRatingNotPossible.message"), // NOI18N
@@ -664,7 +753,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.longProfileRatingNotPossible.message"), // NOI18N
@@ -684,7 +773,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.courseEvoRatingNotPossible.message"), // NOI18N
@@ -704,7 +793,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.crossProfileRatingNotPossible.message"), // NOI18N
@@ -724,7 +813,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.bedStructureRatingNotPossible.message"), // NOI18N
@@ -744,7 +833,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.bankStructureRatingNotPossible.message"), // NOI18N
@@ -756,6 +845,31 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     return;
                 }
 
+                // NOTE: we run the separated topic ratings before the overall rating because this is the required input
+                // to this. However, we do not care about errors as the overall rating error handling will take care of
+                // this as well. This has to be kept in mind when changing the calculation procedure.
+                try {
+                    Calc.getInstance().calcBedRating(cidsBean);
+                } catch (final ValidationException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate bed rating", e);
+                    }
+                }
+                try {
+                    Calc.getInstance().calcBankRating(cidsBean);
+                } catch (final ValidationException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate bank rating", e);
+                    }
+                }
+                try {
+                    Calc.getInstance().calcEnvRating(cidsBean);
+                } catch (final ValidationException e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cannot calculate env rating", e);
+                    }
+                }
+
                 try {
                     Calc.getInstance().calcOverallRating(cidsBean);
                 } catch (final ValidationException ex) {
@@ -764,7 +878,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                     }
 
                     JOptionPane.showMessageDialog(
-                        FgskKartierabschnittEditor.this,
+                        StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                         NbBundle.getMessage(
                             FgskKartierabschnittEditor.class,
                             "FgskKartierabschnittEditor.CalcListener.stateChanged.overallRatingNotPossible.message"), // NOI18N
@@ -813,7 +927,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             }
 
             JOptionPane.showMessageDialog(
-                FgskKartierabschnittEditor.this,
+                StaticSwingTools.getParentFrame(FgskKartierabschnittEditor.this),
                 NbBundle.getMessage(
                     FgskKartierabschnittEditor.class,
                     "FgskKartierabschnittEditor.CalcListener.stateChanged.ratingNotPossible.message", // NOI18N
@@ -834,7 +948,93 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         }
     }
 
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equalsIgnoreCase("linie")) {
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refreshLabels();
+                    }
+                }).start();
+        }
+    }
+
+    @Override
+    public BeanInitializer getBeanInitializer() {
+        return new KartierabschnittInitializer(cidsBean);
+    }
+
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class KartierabschnittInitializer extends DefaultBeanInitializer implements BeanInitializerForcePaste {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new KartierabschnittInitializer object.
+         *
+         * @param  cidsBean  DOCUMENT ME!
+         */
+        public KartierabschnittInitializer(final CidsBean cidsBean) {
+            super(cidsBean);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void initializeBean(final CidsBean beanToInit) throws Exception {
+            super.initializeBean(beanToInit);
+
+            if (lastInstance != null) {
+                lastInstance.setCidsBean(beanToInit);
+            }
+        }
+
+        @Override
+        protected void processSimpleProperty(final CidsBean beanToInit,
+                final String propertyName,
+                final Object simpleValueToProcess) throws Exception {
+            if (propertyName.equalsIgnoreCase("av_user") || propertyName.equalsIgnoreCase("av_date")
+                        || propertyName.equalsIgnoreCase("gewaesser_abschnitt")
+                        || propertyName.equalsIgnoreCase("foto_nr")) {
+                return;
+            }
+            super.processSimpleProperty(beanToInit, propertyName, simpleValueToProcess);
+        }
+
+        @Override
+        protected void processArrayProperty(final CidsBean beanToInit,
+                final String propertyName,
+                final Collection<CidsBean> arrayValueToProcess) throws Exception {
+            final List<CidsBean> beans = CidsBeanSupport.getBeanCollectionFromProperty(
+                    beanToInit,
+                    propertyName);
+            beans.clear();
+
+            for (final CidsBean tmp : arrayValueToProcess) {
+                beans.add(tmp);
+            }
+        }
+
+        @Override
+        protected void processComplexProperty(final CidsBean beanToInit,
+                final String propertyName,
+                final CidsBean complexValueToProcess) throws Exception {
+            if (propertyName.equals("linie") || propertyName.equals("fliessrichtung_id")) {
+                return;
+            }
+
+            // flat copy
+            beanToInit.setProperty(propertyName, complexValueToProcess);
+        }
+    }
 
     /**
      * DOCUMENT ME!

@@ -34,6 +34,8 @@ import Sirius.navigator.exception.ConnectionException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.JDialog;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
@@ -43,6 +45,8 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -110,7 +114,7 @@ public class WkGroupAggrEditor extends javax.swing.JPanel implements CidsBeanRen
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jDialog1 = new javax.swing.JDialog();
+        jDialog1 = new JDialog(StaticSwingTools.getParentFrame(this));
         jColorChooser1 = new javax.swing.JColorChooser();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();

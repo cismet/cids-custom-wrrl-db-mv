@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Collection;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -32,6 +33,8 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -95,7 +98,7 @@ public class ExcemptionRenderer extends JPanel implements DisposableCidsBeanStor
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        dlgJustificationCataloge = new javax.swing.JDialog();
+        dlgJustificationCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblJustfification = new javax.swing.JLabel();
         final DefaultBindableReferenceCombo cb = new DefaultBindableReferenceCombo(EX_JUST_MC, true, true);
         cbJustfificationCataloge = cb;

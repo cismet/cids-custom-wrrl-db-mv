@@ -23,6 +23,9 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util;
 
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
+
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
@@ -33,6 +36,8 @@ import java.util.logging.Level;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -43,6 +48,11 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class UIUtil {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            UIUtil.class);
 
     //~ Constructors -----------------------------------------------------------
 
@@ -114,5 +124,30 @@ public class UIUtil {
         }
 
         lab.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+    }
+
+    /**
+     * refreshs the navigator tree.
+     *
+     * @param  treePath  DOCUMENT ME!
+     */
+    public static void refreshTree(final TreePath treePath) {
+        if (treePath != null) {
+            try {
+                final MetaCatalogueTree tree = ComponentRegistry.getRegistry().getCatalogueTree();
+                ((DefaultTreeModel)tree.getModel()).reload();
+                tree.exploreSubtree(treePath);
+//                final Enumeration<TreeNode> firstChilds = parentNode.children();
+//
+//                while (firstChilds.hasMoreElements()) {
+//                    final TreeNode firstChild = firstChilds.nextElement();
+//                    ComponentRegistry.getRegistry()
+//                            .getCatalogueTree()
+//                            .refreshTreePath(treePath.pathByAddingChild(firstChild));
+//                }
+            } catch (Exception e) {
+                LOG.error("Error when refreshing Tree", e); // NOI18N
+            }
+        }
     }
 }

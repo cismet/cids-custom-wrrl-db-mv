@@ -1,108 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_hydro" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
-	<style name="hydroCol" isDefault="false" mode="Transparent" pattern="">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="555" pageHeight="822" whenNoDataType="BlankPage" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="5" whenResourceMissingType="Empty" uuid="90e35b8a-1dbb-457b-b75e-d8086a4d7e02">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="hydroCol" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(((String) $F{hydro_reg}.getProperty("value")).equals("1"))]]></conditionExpression>
-			<style isDefault="false" style="hydroCol" mode="Opaque" backcolor="#0000FF"/>
+			<style forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(((String) $F{hydro_reg}.getProperty("value")).equals("2"))]]></conditionExpression>
-			<style isDefault="false" style="hydroCol" mode="Opaque" backcolor="#009900"/>
+			<style backcolor="#009900"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{hydro_reg}.getProperty("value")).equals("3"))]]></conditionExpression>
-			<style isDefault="false" style="hydroCol" mode="Opaque" backcolor="#FFFF00"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{hydro_reg}.getProperty("value")).equals("4"))]]></conditionExpression>
-			<style isDefault="false" style="hydroCol" mode="Opaque" backcolor="#FF9900"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{hydro_reg}.getProperty("value")).equals("5"))]]></conditionExpression>
-			<style isDefault="false" style="hydroCol" mode="Opaque" backcolor="#FF0000"/>
+			<conditionExpression><![CDATA[new Boolean(!(
+    ((String) $F{hydro_reg}.getProperty("value")).equals("1")
+    || ((String) $F{hydro_reg}.getProperty("value")).equals("2")
+    )
+)]]></conditionExpression>
+			<style backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="rivCol" isDefault="false" mode="Transparent" pattern="">
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("1"))]]></conditionExpression>
-			<style isDefault="false" style="rivCol" mode="Opaque" backcolor="#0000FF"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("2"))]]></conditionExpression>
-			<style isDefault="false" style="rivCol" mode="Opaque" backcolor="#009900"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("3"))]]></conditionExpression>
-			<style isDefault="false" style="rivCol" mode="Opaque" backcolor="#FFFF00"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("4"))]]></conditionExpression>
-			<style isDefault="false" style="rivCol" mode="Opaque" backcolor="#FF9900"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("5"))]]></conditionExpression>
-			<style isDefault="false" style="rivCol" mode="Opaque" backcolor="#FF0000"/>
-		</conditionalStyle>
-	</style>
-	<style name="morphCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="morphCol" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(((String) $F{morph_cond}.getProperty("value")).equals("1"))]]></conditionExpression>
-			<style isDefault="false" style="morphCol" mode="Opaque" backcolor="#0000FF"/>
+			<style forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(((String) $F{morph_cond}.getProperty("value")).equals("2"))]]></conditionExpression>
-			<style isDefault="false" style="morphCol" mode="Opaque" backcolor="#009900"/>
+			<style backcolor="#009900"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{morph_cond}.getProperty("value")).equals("3"))]]></conditionExpression>
-			<style isDefault="false" style="morphCol" mode="Opaque" backcolor="#FFFF00"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{morph_cond}.getProperty("value")).equals("4"))]]></conditionExpression>
-			<style isDefault="false" style="morphCol" mode="Opaque" backcolor="#FF9900"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{morph_cond}.getProperty("value")).equals("5"))]]></conditionExpression>
-			<style isDefault="false" style="morphCol" mode="Opaque" backcolor="#FF0000"/>
+			<conditionExpression><![CDATA[new Boolean(!(
+    ((String) $F{morph_cond}.getProperty("value")).equals("1")
+     || ((String) $F{morph_cond}.getProperty("value")).equals("2")
+)
+)]]></conditionExpression>
+			<style backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
-	<style name="hydromorphCol" isDefault="false" mode="Transparent" pattern="">
+	<style name="rivCol" pattern="">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("1"))]]></conditionExpression>
+			<style forecolor="#FFFFFF" backcolor="#0E2AF7"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(((String) $F{riv_cont}.getProperty("value")).equals("2"))]]></conditionExpression>
+			<style backcolor="#009900"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!(
+
+    ((String) $F{riv_cont}.getProperty("value")).equals("1")
+    || ((String) $F{riv_cont}.getProperty("value")).equals("2")
+)
+
+)]]></conditionExpression>
+			<style backcolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="hydromorphCol" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(((String) $F{hydromorph}.getProperty("value")).equals("1"))]]></conditionExpression>
-			<style isDefault="false" style="hydromorphCol" mode="Opaque" backcolor="#0000FF"/>
+			<style forecolor="#FFFFFF" backcolor="#0E2AF7"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(((String) $F{hydromorph}.getProperty("value")).equals("2"))]]></conditionExpression>
-			<style isDefault="false" style="hydromorphCol" mode="Opaque" backcolor="#009900"/>
+			<style backcolor="#009900"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{hydromorph}.getProperty("value")).equals("3"))]]></conditionExpression>
-			<style isDefault="false" style="hydromorphCol" mode="Opaque" backcolor="#FFFF00"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{hydromorph}.getProperty("value")).equals("4"))]]></conditionExpression>
-			<style isDefault="false" style="hydromorphCol" mode="Opaque" backcolor="#FF9900"/>
-		</conditionalStyle>
-		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean(((String) $F{hydromorph}.getProperty("value")).equals("5"))]]></conditionExpression>
-			<style isDefault="false" style="hydromorphCol" mode="Opaque" backcolor="#FF0000"/>
+			<conditionExpression><![CDATA[new Boolean(!(((String) $F{hydromorph}.getProperty("value")).equals("1")
+    || ((String) $F{hydromorph}.getProperty("value")).equals("2")
+)
+)]]></conditionExpression>
+			<style backcolor="#FF0000"/>
 		</conditionalStyle>
 	</style>
 	<field name="hydro_reg" class="de.cismet.cids.dynamics.CidsBean"/>
-	<field name="riv_cont" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="morph_cond" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="hydromorph" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="riv_cont" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="hymo_gk_jahr" class="java.lang.Integer"/>
+	<field name="hydro_reg_jahr" class="java.lang.Integer"/>
+	<field name="riv_cont_jahr" class="java.lang.Integer"/>
+	<field name="morph_jahr" class="java.lang.Integer"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band height="30">
+		<band height="23">
 			<staticText>
-				<reportElement x="1" y="0" width="555" height="20"/>
+				<reportElement x="0" y="0" width="555" height="22" uuid="b7bef0ae-6bf4-4918-be24-95d6ffce89a0"/>
+				<box leftPadding="15"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Qualitätskomponenten: Hydromorphologie:]]></text>
+				<text><![CDATA[b) Hydromorphologische Qualitätskomponenten]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -110,100 +103,261 @@
 		<band/>
 	</pageHeader>
 	<columnHeader>
-		<band/>
-	</columnHeader>
-	<detail>
-		<band height="64">
+		<band height="75">
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="0" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="0" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="9fcc9a6b-ffd2-4f16-b616-f42f32d7592c"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Parameter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="130" y="0" width="86" height="14" forecolor="#000000" backcolor="#DADADA" uuid="3d8779d0-592f-4428-b213-a5e194a9fe48"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Güteklasse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="216" y="0" width="58" height="14" forecolor="#000000" backcolor="#DADADA" uuid="32f778a5-b2d1-4349-8555-6a944a2adfa6"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jahr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="432" y="0" width="100" height="28" forecolor="#000000" backcolor="#DADADA" uuid="f98bb511-3a62-4321-baa0-40160e58896f"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Zustand der hydromorphologischen Qualitätskomponenten]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="hydroCol" mode="Opaque" x="130" y="28" width="86" height="14" uuid="d21d30c3-09eb-4dc1-9283-7ec1b2804e7e"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{hydro_reg}.getProperty("value").equals("1") ||
+$F{hydro_reg}.getProperty("value").equals("2")) ?
+$F{hydro_reg}.getProperty("name").toString()
+:
+"nicht gut"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="morphCol" mode="Opaque" x="130" y="56" width="86" height="14" uuid="046a3fe5-ab25-4873-ae9a-44f36e7d14f4"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{morph_cond}.getProperty("value").equals("1") ||
+$F{morph_cond}.getProperty("value").equals("2")) ?
+$F{morph_cond}.getProperty("name").toString()
+:
+"nicht gut"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="rivCol" mode="Opaque" x="130" y="42" width="86" height="14" uuid="eff226ab-bb2b-4e99-a222-deec2ca0acf4"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{riv_cont}.getProperty("value").equals("1") ||
+$F{riv_cont}.getProperty("value").equals("2")) ?
+$F{riv_cont}.getProperty("name").toString()
+:
+"nicht gut"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="hydromorphCol" mode="Opaque" x="130" y="14" width="86" height="14" uuid="cabc79b7-9e79-40dc-9188-fbe95204de99"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{hydromorph}.getProperty("value").equals("1") ||
+$F{hydromorph}.getProperty("value").equals("2")) ?
+$F{hydromorph}.getProperty("name").toString()
+:
+"nicht gut"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="28" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="bf244d78-fc97-423f-8434-4c72984c6fa1"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Wasserhaushalt]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="32" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Morphologie]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement style="morphCol" x="131" y="32" width="425" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+				<reportElement mode="Opaque" x="0" y="56" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="ca5de679-f8fb-4138-86f6-520f2532fe73"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{morph_cond}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Morphologie]]></text>
+			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="16" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="42" width="130" height="14" forecolor="#000000" backcolor="#DADADA" uuid="b7fb826b-f09c-4eeb-9632-8c4257f31679"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font size="10" isBold="false"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Durchgängigkeit]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement style="rivCol" x="131" y="16" width="425" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+				<reportElement style="hydroCol" mode="Opaque" x="216" y="28" width="58" height="14" uuid="ff7ac837-45b5-47b0-864a-d02fd568c494"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{riv_cont}.getProperty("name").toString()]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hydro_reg_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="morphCol" mode="Opaque" x="216" y="56" width="58" height="14" uuid="82926198-1fbc-499a-b821-49814dad2c37"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{morph_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="rivCol" mode="Opaque" x="216" y="42" width="58" height="14" uuid="87c5e5e5-38b7-4b42-bd15-02535b667263"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{riv_cont_jahr}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="hydromorphCol" mode="Opaque" x="216" y="14" width="58" height="14" uuid="3a804542-f597-4dc2-90c4-a2a60e5cdf3d"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hymo_gk_jahr}.toString()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="48" width="130" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement x="449" y="52" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="769a9390-5de9-4aad-9d54-f67f0716a905"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[nicht gut]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="449" y="28" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="b56caadb-51ec-4444-9b3f-e6e7e9e9d849"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[sehr gut]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="432" y="52" width="17" height="12" forecolor="#000000" backcolor="#FF0000" uuid="5732b3a4-95d2-4bb7-9cd2-5119fc56b513"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font size="10" isBold="false"/>
+					<font fontName="Arial" size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Hydromorphologie]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement style="hydromorphCol" x="131" y="48" width="425" height="16"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
+			<staticText>
+				<reportElement x="449" y="40" width="83" height="12" forecolor="#000000" backcolor="#FFCC00" uuid="5ed81fc9-a7ad-4daf-8b6d-808028ceda7c"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{hydromorph}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement style="hydroCol" x="131" y="0" width="425" height="16"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[gut]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="432" y="28" width="17" height="12" forecolor="#000000" backcolor="#0E2AF7" uuid="06aec15e-4ea4-43de-a867-fc51e81057a1"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
+					<pen lineWidth="0.25" lineColor="#000000"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{hydro_reg}.getProperty("name").toString()]]></textFieldExpression>
-			</textField>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="432" y="40" width="17" height="12" forecolor="#000000" backcolor="#009900" uuid="3a1c125e-1a79-4863-abf5-0994f5f7cfb6"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="hydromorphCol" mode="Opaque" x="0" y="14" width="130" height="14" uuid="7e7dddc8-e374-4ed7-8ce4-bcefa8cd616d"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Gesamtbewertung]]></text>
+			</staticText>
 		</band>
-	</detail>
+	</columnHeader>
 	<columnFooter>
 		<band/>
 	</columnFooter>

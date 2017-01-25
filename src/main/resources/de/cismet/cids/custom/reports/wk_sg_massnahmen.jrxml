@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkSgScriptlet">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkSgScriptlet" uuid="51c29c0a-937c-4719-a499-e8a015bf5d4d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -19,7 +19,7 @@
 	<title>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="802" height="20"/>
+				<reportElement x="0" y="0" width="802" height="20" uuid="1cc3002b-ad5b-4cb3-a2fc-b1f2ed676f25"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -33,7 +33,7 @@
 	<columnHeader>
 		<band height="16">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="132" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="0" y="0" width="132" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="2f182033-09f8-4522-90dc-ce9ffb822a84"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -43,7 +43,7 @@
 				<text><![CDATA[Maßnahme Nummer:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="132" y="0" width="150" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="132" y="0" width="150" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="1e96fff2-c107-4259-832a-4e56c25d691d"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -53,7 +53,7 @@
 				<text><![CDATA[Beschreibung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="282" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="282" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="ade1a2ae-b6f6-4b9f-b406-90be4934520e"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -63,7 +63,7 @@
 				<text><![CDATA[Priorität MV]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="402" y="0" width="160" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="402" y="0" width="160" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="4b56513c-245a-4b9d-b81a-4ffdefde76a2"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -73,7 +73,7 @@
 				<text><![CDATA[EU Maßnahmentyp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="562" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="562" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="168baa4a-d99f-4e62-94be-45abc6fa3b76"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -83,7 +83,7 @@
 				<text><![CDATA[Realisierung bis:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="682" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00"/>
+				<reportElement mode="Opaque" x="682" y="0" width="120" height="16" forecolor="#000000" backcolor="#FFCC00" uuid="bc94df1f-213b-438a-960d-13b02d5c9064"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 				</box>
@@ -96,8 +96,8 @@
 	</columnHeader>
 	<detail>
 		<band height="16">
-			<textField isBlankWhenNull="true">
-				<reportElement x="282" y="0" width="120" height="16"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="282" y="0" width="120" height="16" isPrintWhenDetailOverflows="true" uuid="2dd9a0ed-474d-4594-bf49-0b190da73aa2"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -105,11 +105,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{prioritaet}.getProperty("description").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{prioritaet}.getProperty("description").toString()]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="682" y="0" width="120" height="16"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="682" y="0" width="120" height="16" isPrintWhenDetailOverflows="true" uuid="0661325a-e8b0-491d-9502-d1e6fafe6dcf"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -117,11 +116,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{kosten}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{kosten}.toString()]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="132" y="0" width="150" height="16"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="132" y="0" width="150" height="16" isPrintWhenDetailOverflows="true" uuid="c52bcda0-4843-48f9-92c8-9feb86f21d4f"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -129,11 +127,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{massnahme}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{massnahme}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="562" y="0" width="120" height="16"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="562" y="0" width="120" height="16" isPrintWhenDetailOverflows="true" uuid="0460b216-b1ac-44b5-98b9-abc0dad652ca"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -141,11 +138,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{realisierung}.getProperty("name").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{realisierung}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="132" height="16"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="132" height="16" isPrintWhenDetailOverflows="true" uuid="7bbe9082-3c16-4c6d-a91a-a4401b2917bf"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -153,11 +149,10 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{massn_id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{massn_id}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="402" y="0" width="160" height="16"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="402" y="0" width="160" height="16" isPrintWhenDetailOverflows="true" uuid="3c73541b-94f0-40f4-aee6-07ca38c0d396"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -165,8 +160,7 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{suppl_cd}.getProperty("name").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{suppl_cd}.getProperty("name").toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -43,6 +43,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.imageio.ImageIO;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.BoundingBox;
@@ -51,9 +53,9 @@ import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
 import de.cismet.cismap.commons.retrieval.RetrievalListener;
 
-import de.cismet.netutil.Proxy;
+import de.cismet.commons.security.WebDavClient;
 
-import de.cismet.security.WebDavClient;
+import de.cismet.netutil.Proxy;
 
 import de.cismet.tools.PasswordEncrypter;
 
@@ -104,10 +106,11 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
         Image result = null;
 
         final String fileName = (String)((JRFillField)fieldsMap.get("file")).getValue();
+        final String encodedFilename = WebDavHelper.encodeURL(fileName);
 
         InputStream inputStream = null;
         try {
-            inputStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY + fileName);
+            inputStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY + encodedFilename);
             result = ImageIO.read(inputStream);
         } catch (IOException ex) {
             LOG.error("Couldn't load photo", ex);
@@ -116,7 +119,7 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
                 try {
                     inputStream.close();
                 } catch (IOException ex) {
-                    LOG.error("Couldn't close stream for " + fileName, ex);
+                    LOG.error("Couldn't close stream for " + encodedFilename, ex);
                 }
             }
         }
@@ -161,10 +164,10 @@ public class LoadFotoScriptlet extends JRDefaultScriptlet {
         final Lock lock = new ReentrantLock();
         final Condition waitForImageRetrieval = lock.newCondition();
 
-        final String call = "http://www.geodaten-mv.de/dienste/gdimv_topomv"
-                    + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=gdimv_topomv"
+        final String call = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+                    + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
                     + "&BBOX=<cismap:boundingBox>"
-                    + "&SRS=EPSG:35833&FORMAT=image/png"
+                    + "&SRS=EPSG:5650&FORMAT=image/png"
                     + "&WIDTH=<cismap:width>"
                     + "&HEIGHT=<cismap:height>"
                     + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";

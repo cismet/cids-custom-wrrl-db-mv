@@ -34,17 +34,17 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblGbPredecKey;
     private javax.swing.JLabel lblGeom;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblNameKey;
-    private javax.swing.JList lstPoorChems;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panSpacingBottom;
     private javax.swing.JPanel panSpacingBottom1;
-    private javax.swing.JScrollPane scpPoorChems;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -79,10 +79,10 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         txtName = new javax.swing.JTextField();
         panSpacingBottom = new javax.swing.JPanel();
         lblGbPredecKey = new javax.swing.JLabel();
-        scpPoorChems = new javax.swing.JScrollPane();
-        lstPoorChems = new javax.swing.JList();
         jComboBox1 = new DefaultCismapGeometryComboBoxEditor();
         lblGeom = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         panSpacingBottom1 = new javax.swing.JPanel();
 
         setOpaque(false);
@@ -154,31 +154,6 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblGbPredecKey, gridBagConstraints);
 
-        scpPoorChems.setMinimumSize(new java.awt.Dimension(300, 80));
-        scpPoorChems.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        lstPoorChems.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.gb_predecs}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstPoorChems);
-        bindingGroup.addBinding(jListBinding);
-
-        scpPoorChems.setViewportView(lstPoorChems);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(scpPoorChems, gridBagConstraints);
-
         jComboBox1.setMinimumSize(new java.awt.Dimension(300, 20));
         jComboBox1.setPreferredSize(new java.awt.Dimension(300, 20));
 
@@ -209,6 +184,27 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblGeom, gridBagConstraints);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gbn_predecs}"),
+                jTextArea1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jScrollPane1.setViewportView(jTextArea1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
