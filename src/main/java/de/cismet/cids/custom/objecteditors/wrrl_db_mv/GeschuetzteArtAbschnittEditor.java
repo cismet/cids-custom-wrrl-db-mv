@@ -12,6 +12,10 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
+import Sirius.server.newuser.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +99,12 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
 
         txtVermeidungsgruppe.setVisible(withVerbreitungsraum);
         lblVermeidungsgruppe.setVisible(withVerbreitungsraum);
+        final String group = SessionManager.getSession().getUser().getUserGroup().getName();
+
+        if (!group.equalsIgnoreCase("gup-admin") && !group.equalsIgnoreCase("administratoren")) {
+            lblArt.setVisible(false);
+            cbName.setVisible(false);
+        }
 
         if (!readOnly) {
             linearReferencedLineEditor.setOtherLinesEnabled(true);
@@ -174,6 +184,7 @@ public class GeschuetzteArtAbschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 10);
         add(linearReferencedLineEditor, gridBagConstraints);
 

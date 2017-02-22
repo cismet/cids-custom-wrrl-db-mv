@@ -53,26 +53,46 @@ public class CidsBeanNormalizer {
      * @throws  Exception  DOCUMENT ME!
      */
     public CidsBean normalizeCidsBean(final CidsBean bean) throws Exception {
+        return normalizeCidsBean(bean, true);
+    }
+
+    /**
+     * No CidsBean that was returned by this method uses a different instances of the same sub bean as an other CidsBean
+     * that was returned by this method.
+     *
+     * @param   bean      DOCUMENT ME!
+     * @param   useCache  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  a bean that represents the same object as the given bean, but it uses the same sub beans as
+     *                     the bean which are former used with this method
+     */
+    public CidsBean normalizeCidsBean(final CidsBean bean, final boolean useCache) throws Exception {
         if (bean == null) {
             return null;
         }
-        CidsBean cachedBean = beanCache.get(new CidsBeanWrapper(
-                    bean.getMetaObject().getMetaClass().getId(),
-                    bean.getMetaObject().getId()));
+        CidsBean cachedBean = null;
+
+        if (useCache) {
+            cachedBean = beanCache.get(new CidsBeanWrapper(
+                        bean.getMetaObject().getMetaClass().getId(),
+                        bean.getMetaObject().getId()));
+        }
 
         if (cachedBean == null) {
             for (final String propName : bean.getPropertyNames()) {
                 final Object o = bean.getProperty(propName);
 
                 if (o instanceof CidsBean) {
-                    bean.setProperty(propName, normalizeCidsBean((CidsBean)o));
+                    bean.setProperty(propName, normalizeCidsBean((CidsBean)o, true));
                 } else if (o instanceof List) {
                     final List<CidsBean> beanList = (List<CidsBean>)o;
                     final List<CidsBean> listCopy = new ArrayList<CidsBean>(beanList);
                     beanList.clear();
 
                     for (final CidsBean b : listCopy) {
-                        beanList.add(normalizeCidsBean(b));
+                        beanList.add(normalizeCidsBean(b, true));
                     }
                 }
             }
@@ -81,10 +101,12 @@ public class CidsBeanNormalizer {
             cachedBean.getMetaObject().setID(bean.getMetaObject().getId());
             cachedBean.getMetaObject().forceStatus(MetaObject.NO_STATUS);
 
-            beanCache.put(new CidsBeanWrapper(
-                    bean.getMetaObject().getMetaClass().getId(),
-                    bean.getMetaObject().getId()),
-                cachedBean);
+            if (useCache) {
+                beanCache.put(new CidsBeanWrapper(
+                        bean.getMetaObject().getMetaClass().getId(),
+                        bean.getMetaObject().getId()),
+                    cachedBean);
+            }
         } else {
             final int a = 0;
             // System.out.println("from cache");

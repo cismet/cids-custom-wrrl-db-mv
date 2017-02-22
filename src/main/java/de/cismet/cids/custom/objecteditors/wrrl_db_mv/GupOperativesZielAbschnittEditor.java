@@ -529,7 +529,11 @@ public class GupOperativesZielAbschnittEditor extends javax.swing.JPanel impleme
                     final List<Node> validPflegezielList = new ArrayList<Node>();
 
                     for (final MetaObject tmp : mo) {
-                        validPflegezielList.add(new MetaObjectNode(tmp.getBean()));
+                        if (OperativeZieleComboBox.isRelevantBean(
+                                        ((OperativeZieleComboBox)cbName).getKompartiment(),
+                                        tmp.getBean())) {
+                            validPflegezielList.add(new MetaObjectNode(tmp.getBean()));
+                        }
                     }
 
                     return validPflegezielList;

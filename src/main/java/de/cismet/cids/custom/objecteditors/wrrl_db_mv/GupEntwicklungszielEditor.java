@@ -247,7 +247,7 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
 
     @Override
     public String getTitle() {
-        return "Entwicklungsziel";
+        return "WRRL-Maßnahme";
     }
 
     @Override
