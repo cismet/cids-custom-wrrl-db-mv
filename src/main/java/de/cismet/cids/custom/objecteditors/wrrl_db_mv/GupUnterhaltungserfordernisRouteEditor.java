@@ -21,6 +21,7 @@ import org.openide.util.NbBundle;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -141,7 +142,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
             "operatives_ziel",
             "operatives_ziel.name");
     private final ColoredReadOnlyBand entwicklungszielBand = new ColoredReadOnlyBand(
-            "Entwicklungsziel",
+            "WRRL-Maßnahme",
             "name_bezeichnung",
             "name_bezeichnung.name");
     private final ReadOnlyTextBand unterhaltungshinweisLinks = new ReadOnlyTextBand(
@@ -1749,6 +1750,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         massnahmeRechtesUferBand.setEnabled(chkMassnahmen.isSelected());
         massnahmeSohleBand.setEnabled(chkMassnahmen.isSelected());
         massnahmenFiller.setEnabled(chkMassnahmen.isSelected() || chkSonstigeMassnahmen.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                 //GEN-LAST:event_chkMassnahmenActionPerformed
 
@@ -1761,6 +1763,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         massnahmeLinkesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         massnahmeRechtesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         massnahmenFiller.setEnabled(chkMassnahmen.isSelected() || chkSonstigeMassnahmen.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                         //GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
 
@@ -1772,6 +1775,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkWasserkoerperActionPerformed
         wkband.setEnabled(chkWasserkoerper.isSelected());
         wkBandFiller.setEnabled(chkWasserkoerper.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                    //GEN-LAST:event_chkWasserkoerperActionPerformed
 
@@ -1783,6 +1787,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzungActionPerformed
         nutzungLinksBand.setEnabled(chkUmlandnutzung.isSelected());
         nutzungRechtsBand.setEnabled(chkUmlandnutzung.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                    //GEN-LAST:event_chkUmlandnutzungActionPerformed
 
@@ -1793,6 +1798,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
      */
     private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkQuerbauwerkeActionPerformed
         querbauwerksband.setEnabled(chkQuerbauwerke.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                   //GEN-LAST:event_chkQuerbauwerkeActionPerformed
 
@@ -1806,6 +1812,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         schutzgebietRechtsBand.setEnabled(chkNaturschutz.isSelected());
         schutzgebietSohleBand.setEnabled(chkNaturschutz.isSelected());
         schutzgebieteFiller.setEnabled(chkNaturschutz.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                  //GEN-LAST:event_chkNaturschutzActionPerformed
 
@@ -1816,6 +1823,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
      */
     private void chkUnterhaltungserfordernisActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUnterhaltungserfordernisActionPerformed
         unterhaltungsband.setEnabled((chkUnterhaltungserfordernis.isSelected()));
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                               //GEN-LAST:event_chkUnterhaltungserfordernisActionPerformed
 
@@ -1826,6 +1834,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
      */
     private void chkEntwicklungszielActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkEntwicklungszielActionPerformed
         entwicklungszielBand.setEnabled(chkEntwicklungsziel.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                       //GEN-LAST:event_chkEntwicklungszielActionPerformed
 
@@ -1841,6 +1850,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         verbreitungsraumRechtsBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumSohleBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumFiller.setEnabled(chkVerbreitungsraum.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                       //GEN-LAST:event_chkVerbreitungsraumActionPerformed
 
@@ -1856,6 +1866,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         operativeZieleUmfeldLinksBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleFiller.setEnabled(chkOperativeZiele.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                     //GEN-LAST:event_chkOperativeZieleActionPerformed
 
@@ -1869,6 +1880,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
         unterhaltungshinweisRechts.setEnabled(chkUnterhaltungshinweise.isSelected());
         unterhaltungshinweisSohle.setEnabled(chkUnterhaltungshinweise.isSelected());
         unterhaltungshinweisFiller.setEnabled(chkUnterhaltungshinweise.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                            //GEN-LAST:event_chkUnterhaltungshinweiseActionPerformed
 
@@ -1880,6 +1892,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private void chkUmlandnutzerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzerActionPerformed
         umlandnutzerLinks.setEnabled(chkUmlandnutzer.isSelected());
         umlandnutzerRechts.setEnabled(chkUmlandnutzer.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                   //GEN-LAST:event_chkUmlandnutzerActionPerformed
 
@@ -1891,6 +1904,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
     private void chkHydrologieActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkHydrologieActionPerformed
         hydrologieBand.setEnabled(chkHydrologie.isSelected());
         hydrologieFiller.setEnabled(chkHydrologie.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                 //GEN-LAST:event_chkHydrologieActionPerformed
 
@@ -1950,6 +1964,66 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
             repaint();
         }
     } //GEN-LAST:event_butStationierungActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void adjustHeight() {
+        final int SIZE_OTHERS = 510;
+        final int DEFAULT_SIZE = 700;
+
+        int recommendetHeight = 30;
+
+        if (chkMassnahmen.isSelected()) {
+            recommendetHeight += 75;
+        }
+
+        if (chkEntwicklungsziel.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkHydrologie.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkNaturschutz.isSelected()) {
+            recommendetHeight += 75;
+        }
+        if (chkOperativeZiele.isSelected()) {
+            recommendetHeight += 125;
+        }
+        if (chkQuerbauwerke.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkSonstigeMassnahmen.isSelected()) {
+            recommendetHeight += 50;
+        }
+        if (chkUmlandnutzer.isSelected()) {
+            recommendetHeight += 50;
+        }
+        if (chkUmlandnutzung.isSelected()) {
+            recommendetHeight += 50;
+        }
+        if (chkUnterhaltungserfordernis.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkUnterhaltungshinweise.isSelected()) {
+            recommendetHeight += 75;
+        }
+        if (chkVerbreitungsraum.isSelected()) {
+            recommendetHeight += 170;
+        }
+        if (chkWasserkoerper.isSelected()) {
+            recommendetHeight += 25;
+        }
+
+        if ((recommendetHeight + SIZE_OTHERS) > DEFAULT_SIZE) {
+            setMinimumSize(new Dimension((int)getMinimumSize().getWidth(), recommendetHeight + SIZE_OTHERS));
+            setPreferredSize(new Dimension((int)getMinimumSize().getWidth(), recommendetHeight + SIZE_OTHERS));
+        } else {
+            setMinimumSize(new Dimension((int)getMinimumSize().getWidth(), DEFAULT_SIZE));
+            setPreferredSize(new Dimension((int)getMinimumSize().getWidth(), DEFAULT_SIZE));
+        }
+        revalidate();
+    }
 
     @Override
     public void dispose() {
@@ -2119,7 +2193,7 @@ public class GupUnterhaltungserfordernisRouteEditor extends JPanel implements Ci
                         hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else if ((colorProp != null) && colorProp.equals("name_bezeichnung")) {
                         switchToForm("entwicklungsziel");
-                        lblHeading.setText("Entwicklungsziel");
+                        lblHeading.setText("WRRL-Maßnahme");
                         entwicklungszielEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else if ((colorProp != null) && colorProp.equals("massnahme")) {
                         switchToForm("massnahme");
