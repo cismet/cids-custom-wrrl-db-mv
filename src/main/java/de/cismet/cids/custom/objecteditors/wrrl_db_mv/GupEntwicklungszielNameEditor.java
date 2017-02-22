@@ -188,7 +188,7 @@ public class GupEntwicklungszielNameEditor extends javax.swing.JPanel implements
 
     @Override
     public String getTitle() {
-        return "Entwicklungsziel: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
+        return "WRRL-Maßnahme: " + ((cidsBean.getProperty("name") != null) ? cidsBean.toString() : "");
     }
 
     @Override

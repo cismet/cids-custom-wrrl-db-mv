@@ -253,7 +253,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             "operatives_ziel",
             "operatives_ziel.name");
     private final ColoredReadOnlyBand entwicklungszielBand = new ColoredReadOnlyBand(
-            "Entwicklungsziel",
+            "WRRL-Maßnahme",
             "name_bezeichnung",
             "name_bezeichnung.name");
     private final ReadOnlyTextBand unterhaltungshinweisLinks = new ReadOnlyTextBand(
@@ -1331,7 +1331,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         chkEntwicklungsziel.setEnabled(true);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
                     } catch (Exception e) {
-                        LOG.error("Problem beim Suchen der Entwicklungsziele", e);
+                        LOG.error("Problem beim Suchen der WRRL-Maßnahmen", e);
                     }
                 }
             });
@@ -2294,6 +2294,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void chkQuerbauwerkeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkQuerbauwerkeActionPerformed
         querbauwerksband.setEnabled(chkQuerbauwerke.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                   //GEN-LAST:event_chkQuerbauwerkeActionPerformed
 
@@ -2306,6 +2307,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         linkesUferBand.setEnabled(chkMassnahmen.isSelected());
         rechtesUferBand.setEnabled(chkMassnahmen.isSelected());
         sohleBand.setEnabled(chkMassnahmen.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                 //GEN-LAST:event_chkMassnahmenActionPerformed
 
@@ -2317,6 +2319,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void chkSonstigeMassnahmenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkSonstigeMassnahmenActionPerformed
         rechtesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
         linkesUmfeldBand.setEnabled(chkSonstigeMassnahmen.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                         //GEN-LAST:event_chkSonstigeMassnahmenActionPerformed
 
@@ -2328,6 +2331,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void chkWasserkoerperActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkWasserkoerperActionPerformed
         wkband.setEnabled(chkWasserkoerper.isSelected());
         wkBandFiller.setEnabled(chkWasserkoerper.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                    //GEN-LAST:event_chkWasserkoerperActionPerformed
 
@@ -2339,6 +2343,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void chkUmlandnutzungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzungActionPerformed
         nutzungLinksBand.setEnabled(chkUmlandnutzung.isSelected());
         nutzungRechtsBand.setEnabled(chkUmlandnutzung.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                    //GEN-LAST:event_chkUmlandnutzungActionPerformed
 
@@ -2352,6 +2357,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         schutzgebietRechtsBand.setEnabled(chkNaturschutz.isSelected());
         schutzgebietSohleBand.setEnabled(chkNaturschutz.isSelected());
         schutzgebieteFiller.setEnabled(chkNaturschutz.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                  //GEN-LAST:event_chkNaturschutzActionPerformed
 
@@ -2362,6 +2368,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void chkUnterhaltungserfordernisActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUnterhaltungserfordernisActionPerformed
         unterhaltungserfordernisBand.setEnabled((chkUnterhaltungserfordernis.isSelected()));
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                               //GEN-LAST:event_chkUnterhaltungserfordernisActionPerformed
 
@@ -2372,8 +2379,69 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
      */
     private void chkEntwicklungszielActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkEntwicklungszielActionPerformed
         entwicklungszielBand.setEnabled(chkEntwicklungsziel.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                       //GEN-LAST:event_chkEntwicklungszielActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void adjustHeight() {
+        final int SIZE_OTHERS = 610;
+        final int DEFAULT_SIZE = 850;
+
+        int recommendetHeight = 30;
+
+        if (chkMassnahmen.isSelected()) {
+            recommendetHeight += 75;
+        }
+
+        if (chkEntwicklungsziel.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkHydrologie.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkNaturschutz.isSelected()) {
+            recommendetHeight += 75;
+        }
+        if (chkOperativeZiele.isSelected()) {
+            recommendetHeight += 125;
+        }
+        if (chkQuerbauwerke.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkSonstigeMassnahmen.isSelected()) {
+            recommendetHeight += 50;
+        }
+        if (chkUmlandnutzer.isSelected()) {
+            recommendetHeight += 50;
+        }
+        if (chkUmlandnutzung.isSelected()) {
+            recommendetHeight += 50;
+        }
+        if (chkUnterhaltungserfordernis.isSelected()) {
+            recommendetHeight += 25;
+        }
+        if (chkUnterhaltungshinweise.isSelected()) {
+            recommendetHeight += 75;
+        }
+        if (chkVerbreitungsraum.isSelected()) {
+            recommendetHeight += 170;
+        }
+        if (chkWasserkoerper.isSelected()) {
+            recommendetHeight += 25;
+        }
+
+        if ((recommendetHeight + SIZE_OTHERS) > DEFAULT_SIZE) {
+            setMinimumSize(new Dimension((int)getMinimumSize().getWidth(), recommendetHeight + SIZE_OTHERS));
+            setPreferredSize(new Dimension((int)getMinimumSize().getWidth(), recommendetHeight + SIZE_OTHERS));
+        } else {
+            setMinimumSize(new Dimension((int)getMinimumSize().getWidth(), DEFAULT_SIZE));
+            setPreferredSize(new Dimension((int)getMinimumSize().getWidth(), DEFAULT_SIZE));
+        }
+        revalidate();
+    }
 
     /**
      * DOCUMENT ME!
@@ -2523,6 +2591,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         verbreitungsraumRechtsBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumSohleBand.setEnabled(chkVerbreitungsraum.isSelected());
         verbreitungsraumFiller.setEnabled(chkVerbreitungsraum.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                       //GEN-LAST:event_chkVerbreitungsraumActionPerformed
 
@@ -2538,6 +2607,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         operativeZieleUmfeldLinksBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleUmfeldRechtsBand.setEnabled(chkOperativeZiele.isSelected());
         operativeZieleFiller.setEnabled(chkOperativeZiele.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                     //GEN-LAST:event_chkOperativeZieleActionPerformed
 
@@ -2551,6 +2621,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         unterhaltungshinweisRechts.setEnabled(chkUnterhaltungshinweise.isSelected());
         unterhaltungshinweisSohle.setEnabled(chkUnterhaltungshinweise.isSelected());
         unterhaltungshinweisFiller.setEnabled(chkUnterhaltungshinweise.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                            //GEN-LAST:event_chkUnterhaltungshinweiseActionPerformed
 
@@ -2562,6 +2633,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void chkUmlandnutzerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkUmlandnutzerActionPerformed
         umlandnutzerLinks.setEnabled(chkUmlandnutzer.isSelected());
         umlandnutzerRechts.setEnabled(chkUmlandnutzer.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                   //GEN-LAST:event_chkUmlandnutzerActionPerformed
 
@@ -2573,6 +2645,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private void chkHydrologieActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkHydrologieActionPerformed
         hydrologieBand.setEnabled(chkHydrologie.isSelected());
         hydrologieFiller.setEnabled(chkHydrologie.isSelected());
+        adjustHeight();
         sbm.fireBandModelValuesChanged();
     }                                                                                 //GEN-LAST:event_chkHydrologieActionPerformed
 
@@ -2885,6 +2958,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
         if (!member.isSelected()) {
             jband.setSelectedMember(member);
+            jband.scrollToBandMember(member);
         }
     }
 
@@ -2997,7 +3071,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else if ((colorProp != null) && colorProp.equals("name_bezeichnung")) {
                         switchToForm("entwicklungsziel");
-                        lblHeading.setText("Entwicklungsziel");
+                        lblHeading.setText("WRRL-Maßnahme");
                         entwicklungszielEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else {
                         switchToForm("schutzgebiet");

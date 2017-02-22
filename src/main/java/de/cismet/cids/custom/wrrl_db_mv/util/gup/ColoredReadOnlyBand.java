@@ -13,6 +13,7 @@ import java.util.Collection;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 
+import de.cismet.tools.gui.jbands.DefaultBand;
 import de.cismet.tools.gui.jbands.MinimumHeightBand;
 
 /**
@@ -21,7 +22,7 @@ import de.cismet.tools.gui.jbands.MinimumHeightBand;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class ColoredReadOnlyBand extends MinimumHeightBand implements CidsBeanCollectionStore {
+public class ColoredReadOnlyBand extends DefaultBand implements CidsBeanCollectionStore {
 
     //~ Instance fields --------------------------------------------------------
 

@@ -738,7 +738,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.arbeitsflaeche}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.arbeitsbreite}"),
                 cbArbeitsbreite,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
