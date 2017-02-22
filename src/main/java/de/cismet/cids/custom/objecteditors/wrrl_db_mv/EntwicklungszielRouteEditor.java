@@ -64,7 +64,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
     //~ Instance fields --------------------------------------------------------
 
     private EntwicklungszielRWBand entwicklungsband = new EntwicklungszielRWBand(
-            "Entwicklungsziel",
+            "WRRL-Maßnahme",
             GUP_ENTWICKLUNGSZIEL);
     private WKBand wkband;
     private VermessungsbandHelper vermessungsband;
@@ -793,7 +793,7 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
 
                 if (bm instanceof EntwicklungszielRWBandMember) {
                     switchToForm("entwicklungsziel");
-                    lblHeading.setText("Entwicklungsziel");
+                    lblHeading.setText("WRRL-Maßnahme");
 
                     final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
                             cidsBean,

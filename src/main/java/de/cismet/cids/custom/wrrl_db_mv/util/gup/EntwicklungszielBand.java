@@ -39,7 +39,7 @@ public class EntwicklungszielBand extends MinimumHeightBand implements CidsBeanC
      * Creates a new UmlandnutzungsBand object.
      */
     public EntwicklungszielBand() {
-        super("Entwicklungsziel");
+        super("WRRL-Maßnahme");
     }
 
     //~ Methods ----------------------------------------------------------------

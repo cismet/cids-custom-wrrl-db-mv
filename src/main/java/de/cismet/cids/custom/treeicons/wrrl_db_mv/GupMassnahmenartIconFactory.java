@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeEditor;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanNormalizer;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.UnterhaltungsmassnahmeValidator;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -44,6 +45,7 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
     private static final ImageIcon INVALID_ICON;
     private static final ImageIcon WARNING_ICON;
     private static final ImageIcon ERROR_ICON;
+    private static final CidsBeanNormalizer normalizer = new CidsBeanNormalizer();
 
     static {
         VALID_ICON = new ImageIcon(GupMassnahmenartIconFactory.class.getResource(
@@ -94,7 +96,11 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
         final UnterhaltungsmassnahmeValidator uv = GupPlanungsabschnittEditor.getSearchValidator();
-
+        try {
+            otn.setMetaObject(normalizer.normalizeCidsBean(otn.getMetaObject().getBean(), false).getMetaObject());
+        } catch (Exception e) {
+            // nothing to do
+        }
         final int komp = GupUnterhaltungsmassnahmeEditor.getLastKompartiment();
 
         if (GupUnterhaltungsmassnahmeEditor.getLastKompartiment() == 0) {

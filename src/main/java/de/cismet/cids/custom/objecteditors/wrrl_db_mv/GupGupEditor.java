@@ -1293,8 +1293,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      * @param  evt  DOCUMENT ME!
      */
     private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAngenommenActionPerformed
-        setState(ID_PLAN_ABGESCHLOSSEN);
-    }                                                                                //GEN-LAST:event_jbAngenommenActionPerformed
+        final int answer = JOptionPane.showConfirmDialog(
+                StaticSwingTools.getParentFrame(this),
+                "Möchten Sie den Plan wirklich abschließen? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "Plan abschließen",
+                JOptionPane.YES_NO_OPTION);
+
+        if (answer == JOptionPane.YES_OPTION) {
+            setState(ID_PLAN_ABGESCHLOSSEN);
+        }
+    } //GEN-LAST:event_jbAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1701,7 +1709,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                         if (errorCode == 1) {
                             JOptionPane.showMessageDialog(
                                 GupGupEditor.this,
-                                "Es wurden noch nicht alle Maßnahmen genehmigt",
+                                "Es wurden noch nicht alle Maßnahmen bearbeitet",
                                 "Prüfung unvollständig",
                                 JOptionPane.WARNING_MESSAGE);
                         }
