@@ -123,16 +123,33 @@
         <!-- END: cids-dependencies -->
         
         <!-- BEGIN: managed dependencies -->
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-        </dependency>
-        <!-- END: managed dependencies -->
         
+        <!-- END: managed dependencies -->
+
         <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+        
+        <!--
+        Unused declared dependencies found:
+            org.swinglabs:jxlayer:jar:3.0.3:compile
+            de.cismet.todo:quicktime:jar:unknown:compile
+            org.apache.poi:poi:jar:3.13:compile
+            com.googlecode:sardine:jar:1.29:compile
+            org.apache.httpcomponents:httpclient:jar:4.0.1:compile
+            commons-httpclient:commons-httpclient:jar:3.1:compile
+        -->
+        
+        <!-- <dependency>
             <groupId>org.swinglabs</groupId>
             <artifactId>jxlayer</artifactId>
             <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
         </dependency>
         <dependency>
             <groupId>com.googlecode</groupId>
@@ -148,17 +165,18 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.7.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.13</version>
-        </dependency>
+        </dependency>-->
         
         <!-- BEGIN: Runtime dependencies -->
         <dependency>
