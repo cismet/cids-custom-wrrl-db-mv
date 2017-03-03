@@ -31,6 +31,7 @@ import org.jdesktop.observablecollections.ObservableList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -2980,6 +2981,8 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         @Override
         public void bandModelSelectionChanged(final BandModelEvent e) {
             final BandMember bm;
+            final Cursor currentCursor = getCursor();
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             togAllgemeinInfo.setSelected(false);
             disposeEditors();
             if (togApplyStats.isSelected()) {
@@ -3112,6 +3115,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 jband.setRefreshAvoided(false);
                 jband.bandModelChanged(null);
             }
+            setCursor(currentCursor);
         }
 
         @Override

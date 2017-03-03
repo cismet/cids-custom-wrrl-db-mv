@@ -63,7 +63,7 @@ public class GupStartupHook implements StartupHook {
 
     @Override
     public void applicationStarted() {
-        executor.execute(new Runnable() {
+        final Thread gupInit = new Thread() {
 
                 private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
                         WRRLUtil.DOMAIN_NAME,
@@ -126,6 +126,8 @@ public class GupStartupHook implements StartupHook {
                         LOG.error("Error while retrieving massnahmen objects.", e);
                     }
                 }
-            });
+            };
+
+        gupInit.start();
     }
 }

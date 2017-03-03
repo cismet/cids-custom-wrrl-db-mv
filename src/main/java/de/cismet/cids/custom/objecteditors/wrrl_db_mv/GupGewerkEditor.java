@@ -47,7 +47,12 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
     private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbSohle;
+    private javax.swing.JCheckBox cbUfer;
+    private javax.swing.JCheckBox cbUmfeld;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblEinheit;
+    private javax.swing.JLabel lblKompartiment;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRegel;
     private javax.swing.JTextField txtEinheit;
@@ -78,6 +83,9 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
             RendererTools.makeReadOnly(txtEinheit);
             RendererTools.makeReadOnly(txtRegel);
             RendererTools.makeReadOnly(txtName);
+            RendererTools.makeReadOnly(cbSohle);
+            RendererTools.makeReadOnly(cbUfer);
+            RendererTools.makeReadOnly(cbUmfeld);
         }
     }
 
@@ -99,6 +107,11 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         txtEinheit = new javax.swing.JTextField();
         lblEinheit = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        cbSohle = new javax.swing.JCheckBox();
+        cbUfer = new javax.swing.JCheckBox();
+        cbUmfeld = new javax.swing.JCheckBox();
+        lblKompartiment = new javax.swing.JLabel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 500));
@@ -192,6 +205,96 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(txtName, gridBagConstraints);
+
+        jPanel5.setOpaque(false);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        cbSohle.setText(org.openide.util.NbBundle.getMessage(GupGewerkEditor.class, "GupGewerkEditor.cbSohle.text")); // NOI18N
+        cbSohle.setContentAreaFilled(false);
+        cbSohle.setMaximumSize(new java.awt.Dimension(230, 22));
+        cbSohle.setMinimumSize(new java.awt.Dimension(180, 22));
+        cbSohle.setPreferredSize(new java.awt.Dimension(180, 22));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohle}"),
+                cbSohle,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        jPanel5.add(cbSohle, gridBagConstraints);
+
+        cbUfer.setText(org.openide.util.NbBundle.getMessage(GupGewerkEditor.class, "GupGewerkEditor.cbUfer.text")); // NOI18N
+        cbUfer.setContentAreaFilled(false);
+        cbUfer.setMaximumSize(new java.awt.Dimension(230, 22));
+        cbUfer.setMinimumSize(new java.awt.Dimension(180, 22));
+        cbUfer.setPreferredSize(new java.awt.Dimension(180, 22));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ufer}"),
+                cbUfer,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanel5.add(cbUfer, gridBagConstraints);
+
+        cbUmfeld.setText(org.openide.util.NbBundle.getMessage(GupGewerkEditor.class, "GupGewerkEditor.cbUmfeld.text")); // NOI18N
+        cbUmfeld.setContentAreaFilled(false);
+        cbUmfeld.setMaximumSize(new java.awt.Dimension(230, 22));
+        cbUmfeld.setMinimumSize(new java.awt.Dimension(180, 22));
+        cbUmfeld.setPreferredSize(new java.awt.Dimension(140, 22));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeld}"),
+                cbUmfeld,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanel5.add(cbUmfeld, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jPanel5, gridBagConstraints);
+
+        lblKompartiment.setText(org.openide.util.NbBundle.getMessage(
+                GupGewerkEditor.class,
+                "GupGewerkEditor.lblKompartiment.text")); // NOI18N
+        lblKompartiment.setMaximumSize(new java.awt.Dimension(250, 17));
+        lblKompartiment.setMinimumSize(new java.awt.Dimension(250, 17));
+        lblKompartiment.setPreferredSize(new java.awt.Dimension(250, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblKompartiment, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

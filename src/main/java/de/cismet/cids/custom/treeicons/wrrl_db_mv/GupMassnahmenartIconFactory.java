@@ -97,7 +97,10 @@ public class GupMassnahmenartIconFactory implements CidsTreeObjectIconFactory {
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
         final UnterhaltungsmassnahmeValidator uv = GupPlanungsabschnittEditor.getSearchValidator();
         try {
-            otn.setMetaObject(normalizer.normalizeCidsBean(otn.getMetaObject().getBean(), false).getMetaObject());
+            // useCache must be true. Otherwise, there will be written duplicates in the array tables of the
+            // massnahmenart objects after every time, a planungaschnitt object that contains massnahmen ojects will be
+            // saved.
+            otn.setMetaObject(normalizer.normalizeCidsBean(otn.getMetaObject().getBean(), true).getMetaObject());
         } catch (Exception e) {
             // nothing to do
         }
