@@ -282,6 +282,11 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             RendererTools.makeReadOnly(txtVorlandbreite);
             RendererTools.makeReadOnly(txtCbmProM);
             RendererTools.makeReadOnly(txtStueck);
+            RendererTools.makeReadOnly(txtArbeitsflaeche);
+            RendererTools.makeReadOnly(txtTeillaenge);
+            RendererTools.makeReadOnly(txtMZwei);
+            RendererTools.makeReadOnly(txtMDrei);
+            RendererTools.makeReadOnly(txtStunden);
             RendererTools.makeReadOnly(jTextArea1);
             RendererTools.makeReadOnly(cbEinsatz);
             RendererTools.makeReadOnly(cbGewerk);
@@ -2636,6 +2641,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             final Object st = massnahme.getProperty("stueck");
             final Object stu = massnahme.getProperty("stunden");
             final Object sch = massnahme.getProperty("schnitttiefe");
+            final Object arbf = massnahme.getProperty("arbeitsbreite");
+            final Object teil = massnahme.getProperty("teillaenge");
+            final Object m2 = massnahme.getProperty("m_zwei");
+            final Object m3 = massnahme.getProperty("m_drei");
 
             panBoeschungslaenge.setVisible((bl != null) && ((Boolean)bl).booleanValue());
             panBoeschungsneigung.setVisible((bn != null) && ((Boolean)bn).booleanValue());
@@ -2647,6 +2656,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             panStueck.setVisible((st != null) && ((Boolean)st).booleanValue());
             panStunden.setVisible((stu != null) && ((Boolean)stu).booleanValue());
             panSchnitttiefe.setVisible((sch != null) && ((Boolean)sch).booleanValue());
+            panArbeitsflaeche.setVisible((arbf != null) && ((Boolean)arbf).booleanValue());
+            panTeillaenge.setVisible((teil != null) && ((Boolean)teil).booleanValue());
+            panMZwei.setVisible((m2 != null) && ((Boolean)m2).booleanValue());
+            panMDrei.setVisible((m3 != null) && ((Boolean)m3).booleanValue());
         } else {
             panBoeschungslaenge.setVisible(false);
             panBoeschungsneigung.setVisible(false);
@@ -2658,6 +2671,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             panStueck.setVisible(false);
             panStunden.setVisible(false);
             panSchnitttiefe.setVisible(false);
+            panArbeitsflaeche.setVisible(false);
+            panTeillaenge.setVisible(false);
+            panMZwei.setVisible(false);
+            panMDrei.setVisible(false);
         }
     }
 
