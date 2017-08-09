@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>5.0.2</version>
+                <version>5.2.10</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -82,7 +82,7 @@
             <dependency>
                 <groupId>de.cismet.cismap</groupId>
                 <artifactId>cismap-plugin</artifactId>
-                <version>5.0.1</version>
+                <version>5.0.5</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
                 <artifactId>cids-custom-wrrl-db-mv-server</artifactId>
-                <version>5.0</version>
+                <version>5.1</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
