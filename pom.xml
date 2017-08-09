@@ -172,7 +172,6 @@
         <dependency>
             <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
             <artifactId>cids-custom-wrrl-db-mv-commons</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
