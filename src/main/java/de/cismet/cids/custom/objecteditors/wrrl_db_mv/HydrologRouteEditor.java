@@ -65,7 +65,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
     //~ Instance fields --------------------------------------------------------
 
     private final HydrologRWBand hydrologieband = new HydrologRWBand(
-            "Hydrologie",
+            "Hydraulik",
             GUP_HYDROLOGIE);
     private WKBand wkband;
     private VermessungsbandHelper vermessungsband;
@@ -796,7 +796,7 @@ public class HydrologRouteEditor extends JPanel implements CidsBeanRenderer,
 
                 if (bm instanceof HydrologRWBandMember) {
                     switchToForm("entwicklungsziel");
-                    lblHeading.setText("Hydrologie");
+                    lblHeading.setText("Hydraulik");
 
                     final List<CidsBean> otherBeans = CidsBeanSupport.getBeanCollectionFromProperty(
                             cidsBean,

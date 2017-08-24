@@ -155,7 +155,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
             null,
             null);
     private final ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
-            "Hydrologie",
+            "Hydraulik",
             null,
             null);
     private final ColoredReadOnlyBand massnahmeRechtesUferBand = new ColoredReadOnlyBand(
@@ -2295,7 +2295,7 @@ public class GupOperativesZielRouteEditor extends JPanel implements CidsBeanRend
                     } else if (((ColoredReadOnlyBandMember)bm).getCidsBean().getClass().getName().endsWith(
                                     "hydrolog")) {
                         switchToForm("hydro");
-                        lblHeading.setText("Hydrologie");
+                        lblHeading.setText("Hydraulik");
                         hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else if ((colorProp != null) && colorProp.equals("name_bezeichnung")) {
                         switchToForm("entwicklungsziel");
