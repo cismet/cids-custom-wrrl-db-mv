@@ -278,7 +278,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             null,
             null);
     private final ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
-            "Hydrologie",
+            "Hydraulik",
             null,
             null);
     private final RulerBand ruler = new RulerBand(0, 5000);
@@ -3070,7 +3070,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     } else if (((ColoredReadOnlyBandMember)bm).getCidsBean().getClass().getName().endsWith(
                                     "hydrolog")) {
                         switchToForm("hydro");
-                        lblHeading.setText("Hydrologie");
+                        lblHeading.setText("Hydraulik");
                         hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else if ((colorProp != null) && colorProp.equals("name_bezeichnung")) {
                         switchToForm("entwicklungsziel");
