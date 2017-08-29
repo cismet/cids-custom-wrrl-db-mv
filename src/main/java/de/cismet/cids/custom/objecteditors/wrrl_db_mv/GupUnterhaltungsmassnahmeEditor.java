@@ -3042,7 +3042,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                     queryRk += " where "
                                 + ((!criterium) ? (critField + " is null or " + critField + " is not ")
                                                 : (critField + " is not null and " + critField + " is "))
-                                + critField;
+                                + criterium;
                 }
 
                 final MetaObject[] mos = MetaObjectCache.getInstance()
