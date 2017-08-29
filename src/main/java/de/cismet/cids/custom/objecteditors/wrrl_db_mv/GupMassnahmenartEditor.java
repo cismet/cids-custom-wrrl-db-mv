@@ -201,6 +201,10 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(txtUrl);
             RendererTools.makeReadOnly(txtUrlSmall);
             RendererTools.makeReadOnly(cbAllAnf);
+            RendererTools.makeReadOnly(cbMZwei);
+            RendererTools.makeReadOnly(cbDrei);
+            RendererTools.makeReadOnly(cbArbeitsbreite);
+            RendererTools.makeReadOnly(cbTeillaenge);
         }
     }
 
@@ -295,9 +299,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         ccVermeidungsgruppen = new DefaultBindableCheckboxField(new CustomComparator());
         panSpacingBottom2 = new javax.swing.JPanel();
 
-        setMinimumSize(new java.awt.Dimension(994, 780));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 780));
         setLayout(new java.awt.GridBagLayout());
 
         jpAllgemein.setOpaque(false);
@@ -883,7 +885,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -917,7 +918,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -984,7 +984,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -1012,7 +1011,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -1040,7 +1038,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -1074,7 +1071,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -1108,7 +1104,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -1285,6 +1280,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 17;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(cbAllAnf, gridBagConstraints);
@@ -1391,15 +1387,15 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jPanel5, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(jPanel2, gridBagConstraints);
@@ -1409,7 +1405,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
         panInfoContent.add(panSpacingBottom, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
@@ -1777,7 +1772,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             "WRRL_DB_MV",
             "Administratoren",
             "admin",
-            "x",
+            "n!emal$99",
             "gup_massnahmenart",
             11,
             1280,
