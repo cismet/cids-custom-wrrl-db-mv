@@ -16,7 +16,6 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
-import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -57,15 +56,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalToolTipUI;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenartSearch;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenHistoryListModel;
@@ -2062,18 +2058,30 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         final CidsBean massnBean = (CidsBean)cidsBean.getProperty("massnahme");
 
         if (massnBean != null) {
-            String critField = null;
-            boolean crit = true;
             final CidsBean erlaubt = (CidsBean)massnBean.getProperty("erlaubte_geraete");
 
+            final String critField;
+            final Boolean crit;
             if (erlaubt != null) {
-                if (erlaubt.getMetaObject().getId() == AL_ANF) {
-                    critField = "erfuellt_all_anf";
-                    crit = true;
-                } else if (erlaubt.getMetaObject().getId() == NOT_AL_ANF) {
-                    critField = "erfuellt_all_anf";
-                    crit = false;
+                switch (erlaubt.getMetaObject().getId()) {
+                    case AL_ANF: {
+                        critField = "erfuellt_all_anf";
+                        crit = true;
+                        break;
+                    }
+                    case NOT_AL_ANF: {
+                        critField = "erfuellt_all_anf";
+                        crit = false;
+                        break;
+                    }
+                    default: {
+                        critField = null;
+                        crit = false;
+                    }
                 }
+            } else {
+                critField = null;
+                crit = false;
             }
 
             final ModelLoader ml = new ModelLoader("gup_geraet", "geraet", cbGeraet, critField, crit, true);
@@ -3009,7 +3017,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 final String objectProperty,
                 final JComboBox cBox,
                 final String critField,
-                final boolean criterium,
+                final Boolean criterium,
                 final boolean nullable) {
             this.catalogueName = catalogueName;
             this.cBox = cBox;
@@ -3032,8 +3040,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
                 if (critField != null) {
                     queryRk += " where "
-                                + ((!criterium) ? (critField + " is null or not ") : (critField + " is not null and "))
-                                + critField;
+                                + ((!criterium) ? (critField + " is null or " + critField + " is not ")
+                                                : (critField + " is not null and " + critField + " is "))
+                                + criterium;
                 }
 
                 final MetaObject[] mos = MetaObjectCache.getInstance()
