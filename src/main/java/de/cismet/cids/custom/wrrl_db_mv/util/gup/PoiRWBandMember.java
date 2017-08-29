@@ -19,6 +19,8 @@ import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import static de.cismet.cids.custom.wrrl_db_mv.util.gup.LineBandMember.LOG;
+
 /**
  * DOCUMENT ME!
  *
@@ -69,12 +71,22 @@ public class PoiRWBandMember extends LineBandMember {
      */
     @Override
     protected void determineBackgroundColour() {
-        if (bean.getProperty("art") == null) {
+        if (((bean.getProperty("art") == null) || (bean.getProperty("art.color") == null))) {
             setDefaultBackground();
             return;
         }
 
-        unselectedBackgroundPainter = (new MattePainter(new Color(153, 204, 255)));
+        final String color = (String)bean.getProperty("art.color");
+        if (color != null) {
+            try {
+                setBackgroundPainter(new MattePainter(Color.decode(color)));
+            } catch (NumberFormatException e) {
+                LOG.error("Error while parsing the color.", e);
+                setDefaultBackground();
+            }
+        }
+
+        unselectedBackgroundPainter = getBackgroundPainter();
 
         selectedBackgroundPainter = new CompoundPainter(
                 unselectedBackgroundPainter,
