@@ -13,12 +13,9 @@
 package de.cismet.cids.custom.wrrl_db_mv.util;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-
-import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
 
@@ -27,7 +24,6 @@ import org.openide.util.lookup.ServiceProvider;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -42,8 +38,6 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.commons.concurrency.CismetExecutors;
 
 import de.cismet.tools.configuration.StartupHook;
-
-import static de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport.cloneCidsBean;
 
 /**
  * DOCUMENT ME!
