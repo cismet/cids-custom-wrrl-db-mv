@@ -1584,7 +1584,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGewerkItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGewerkItemStateChanged
+    private void cbGewerkItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbGewerkItemStateChanged
         final Object selectedItem = evt.getItem();
         final String rule = txtRegel.getText();
         final String maesure = txtEinheit.getText();
@@ -1602,32 +1602,32 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         } else {
             txtEinheit.setToolTipText("");
         }
-    } //GEN-LAST:event_cbGewerkItemStateChanged
+    }//GEN-LAST:event_cbGewerkItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbEinsatzvarianteItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbEinsatzvarianteItemStateChanged
+    private void cbEinsatzvarianteItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEinsatzvarianteItemStateChanged
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbEinsatzvarianteItemStateChanged
+    }//GEN-LAST:event_cbEinsatzvarianteItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbGeraetItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbGeraetItemStateChanged
+    private void cbGeraetItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbGeraetItemStateChanged
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbGeraetItemStateChanged
+    }//GEN-LAST:event_cbGeraetItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbIntervalItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbIntervalItemStateChanged
+    private void cbIntervalItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIntervalItemStateChanged
         if (evt.getItem() != null) {
             if (((Component)evt.getSource()).hasFocus()) {
                 final CidsBean bean = (CidsBean)evt.getItem();
@@ -1637,55 +1637,55 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
                 }
             }
         }
-    }                                                                             //GEN-LAST:event_cbIntervalItemStateChanged
+    }//GEN-LAST:event_cbIntervalItemStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSohleActionPerformed
+    private void cbSohleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSohleActionPerformed
         decider.setSohle(cbSohle.isSelected());
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
-    }                                                                           //GEN-LAST:event_cbSohleActionPerformed
+    }//GEN-LAST:event_cbSohleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbUferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUferActionPerformed
+    private void cbUferActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUferActionPerformed
         decider.setUfer(cbUfer.isSelected());
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
-    }                                                                          //GEN-LAST:event_cbUferActionPerformed
+    }//GEN-LAST:event_cbUferActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbUmfeldActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUmfeldActionPerformed
+    private void cbUmfeldActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUmfeldActionPerformed
         decider.setUmfeld(cbUmfeld.isSelected());
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
-    }                                                                            //GEN-LAST:event_cbUmfeldActionPerformed
+    }//GEN-LAST:event_cbUmfeldActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbArbeitsbreiteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbArbeitsbreiteActionPerformed
+    private void cbArbeitsbreiteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbArbeitsbreiteActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbArbeitsbreiteActionPerformed
+    }//GEN-LAST:event_cbArbeitsbreiteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbRandstreifenbreiteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbRandstreifenbreiteActionPerformed
+    private void cbRandstreifenbreiteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRandstreifenbreiteActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cbRandstreifenbreiteActionPerformed
+    }//GEN-LAST:event_cbRandstreifenbreiteActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -1772,7 +1772,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             "WRRL_DB_MV",
             "Administratoren",
             "admin",
-            "n!emal$99",
+            "x",
             "gup_massnahmenart",
             11,
             1280,
@@ -1964,7 +1964,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
          * Creates a new SubTypeDecider object.
          */
         public VermeidungsgruppenDecider() {
-        }
+}
 
         //~ Methods ------------------------------------------------------------
 
