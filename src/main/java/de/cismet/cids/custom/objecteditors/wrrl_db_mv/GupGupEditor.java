@@ -140,11 +140,11 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int STAT_ANGENOMMEN = 10;
     public static final int ID_PLANUNG = 1;
     public static final int ID_PLANUNG_FERTIG = 2;
-    public static final int ID_PRUEFUNG_DURCH_NB = 3;
-    public static final int ID_PRUEFUNG_DURCH_NB_ABGESCHL = 4;
+    public static final int ID_PRUEFUNG_DURCH_WB = 3;
+    public static final int ID_PRUEFUNG_DURCH_WB_ABGESCHL = 4;
     public static final int ID_PLAN_ABGESCHLOSSEN = 5;
-    public static final int ID_PRUEFUNG_DURCH_WB = 6;
-    public static final int ID_PRUEFUNG_DURCH_WB_ABGESCHL = 7;
+    public static final int ID_PRUEFUNG_DURCH_NB = 6;
+    public static final int ID_PRUEFUNG_DURCH_NB_ABGESCHL = 7;
 //    public static final int ID_GESCHLOSSEN = -1;
     public static final int[][] STATE_MATRIX = {
             { 0, PERMISSION_SB, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                                     // 0
@@ -386,7 +386,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                 jbAntrag.setToolTipText(determineToolTipText(ID_PLANUNG_FERTIG));
                                 jbPruefungNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB));
                                 jbGenehmigtNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB_ABGESCHL));
-                                jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
+                                jbPruefungWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
                                 jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB_ABGESCHL));
                                 jbAngenommen.setToolTipText(determineToolTipText(ID_PLAN_ABGESCHLOSSEN));
                             }

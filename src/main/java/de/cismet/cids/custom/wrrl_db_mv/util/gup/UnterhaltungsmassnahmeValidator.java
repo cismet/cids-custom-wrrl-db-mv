@@ -13,9 +13,6 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import Sirius.navigator.ui.ComponentRegistry;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
 import java.util.Collection;
