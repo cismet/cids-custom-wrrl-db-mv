@@ -1712,6 +1712,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             decider.setSohle((Boolean)cidsBean.getProperty("sohle"));
             decider.setUfer((Boolean)cidsBean.getProperty("ufer"));
             decider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
+            vdecider.setSohle((Boolean)cidsBean.getProperty("sohle"));
+            vdecider.setUfer((Boolean)cidsBean.getProperty("ufer"));
+            vdecider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
