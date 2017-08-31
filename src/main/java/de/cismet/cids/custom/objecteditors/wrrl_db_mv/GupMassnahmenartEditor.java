@@ -1438,6 +1438,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
 
+        panInfoContent1.setOpaque(false);
         panInfoContent1.setLayout(new java.awt.GridBagLayout());
 
         jPanel3.setOpaque(false);
@@ -1646,7 +1647,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      */
     private void cbSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSohleActionPerformed
         decider.setSohle(cbSohle.isSelected());
+        vdecider.setSohle(cbSohle.isSelected());
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
+        ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                           //GEN-LAST:event_cbSohleActionPerformed
 
     /**
@@ -1656,7 +1659,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      */
     private void cbUferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUferActionPerformed
         decider.setUfer(cbUfer.isSelected());
+        vdecider.setSohle(cbUfer.isSelected());
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
+        ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                          //GEN-LAST:event_cbUferActionPerformed
 
     /**
@@ -1666,7 +1671,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      */
     private void cbUmfeldActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUmfeldActionPerformed
         decider.setUmfeld(cbUmfeld.isSelected());
+        vdecider.setSohle(cbUmfeld.isSelected());
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
+        ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                            //GEN-LAST:event_cbUmfeldActionPerformed
 
     /**
@@ -1705,6 +1712,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             decider.setSohle((Boolean)cidsBean.getProperty("sohle"));
             decider.setUfer((Boolean)cidsBean.getProperty("ufer"));
             decider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
+            vdecider.setSohle((Boolean)cidsBean.getProperty("sohle"));
+            vdecider.setUfer((Boolean)cidsBean.getProperty("ufer"));
+            vdecider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
@@ -1772,7 +1782,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             "WRRL_DB_MV",
             "Administratoren",
             "admin",
-            "n!emal$99",
+            "x",
             "gup_massnahmenart",
             11,
             1280,
@@ -1958,6 +1968,12 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      */
     private class VermeidungsgruppenDecider implements FieldStateDecider {
 
+        //~ Instance fields ----------------------------------------------------
+
+        private boolean sohle = false;
+        private boolean ufer = false;
+        private boolean umfeld = false;
+
         //~ Constructors -------------------------------------------------------
 
         /**
@@ -1970,7 +1986,69 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
         @Override
         public boolean isCheckboxForClassActive(final MetaObject mo) {
-            return true;
+            return (sohle && (mo.getBean().getProperty("sohle") != null)
+                            && (Boolean)mo.getBean().getProperty("sohle"))
+                        || (ufer && ((Boolean)mo.getBean().getProperty("ufer") != null)
+                            && (Boolean)mo.getBean().getProperty("ufer"))
+                        || (umfeld && ((Boolean)mo.getBean().getProperty("umfeld") != null)
+                            && (Boolean)mo.getBean().getProperty("umfeld"));
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the sohle
+         */
+        public boolean isSohle() {
+            return sohle;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  sohle  the sohle to set
+         */
+        public void setSohle(Boolean sohle) {
+            sohle = ((sohle == null) ? false : sohle);
+            this.sohle = sohle;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the ufer
+         */
+        public boolean isUfer() {
+            return ufer;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  ufer  the ufer to set
+         */
+        public void setUfer(Boolean ufer) {
+            ufer = ((ufer == null) ? false : ufer);
+            this.ufer = ufer;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the umfeld
+         */
+        public boolean isUmfeld() {
+            return umfeld;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  umfeld  the umfeld to set
+         */
+        public void setUmfeld(Boolean umfeld) {
+            umfeld = ((umfeld == null) ? false : umfeld);
+            this.umfeld = umfeld;
         }
     }
 }
