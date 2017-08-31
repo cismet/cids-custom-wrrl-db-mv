@@ -386,7 +386,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                 jbAntrag.setToolTipText(determineToolTipText(ID_PLANUNG_FERTIG));
                                 jbPruefungNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB));
                                 jbGenehmigtNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB_ABGESCHL));
-                                jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
+                                jbPruefungWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
                                 jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB_ABGESCHL));
                                 jbAngenommen.setToolTipText(determineToolTipText(ID_PLAN_ABGESCHLOSSEN));
                             }
@@ -1180,16 +1180,16 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDownloadActionPerformed
+    private void jbDownloadActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbDownloadActionPerformed
         ((DocumentDropList)jlObjectList).downloadSelectedDocs();
-    }//GEN-LAST:event_jbDownloadActionPerformed
+    }                                                                              //GEN-LAST:event_jbDownloadActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpDeleteActionPerformed
+    private void jpDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jpDeleteActionPerformed
         if (readOnly) {
             return;
         }
@@ -1199,14 +1199,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         for (final int index : selection) {
             ((DocumentDropList)jlObjectList).removeObject(index - (count++));
         }
-    }//GEN-LAST:event_jpDeleteActionPerformed
+    } //GEN-LAST:event_jpDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddActionPerformed
+    private void jbAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAddActionPerformed
         if (!readOnly) {
             final JFileChooser chooser = new JFileChooser();
             chooser.setMultiSelectionEnabled(true);
@@ -1215,14 +1215,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
 
             ((DocumentDropList)jlObjectList).addFiles(Arrays.asList(files));
         }
-    }//GEN-LAST:event_jbAddActionPerformed
+    } //GEN-LAST:event_jbAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNewPlanActionPerformed
+    private void butNewPlanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butNewPlanActionPerformed
         GupPlanungsabschnittEditor.setLastGup(cidsBean);
 
         final MetaClass MC = ClassCacheMultiple.getMetaClass(
@@ -1249,50 +1249,50 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         } catch (Exception e) {
             LOG.error("Error while creating a new object", e);
         }
-    }//GEN-LAST:event_butNewPlanActionPerformed
+    } //GEN-LAST:event_butNewPlanActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPlanungActionPerformed
+    private void jbPlanungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPlanungActionPerformed
         setState(ID_PLANUNG);
-    }//GEN-LAST:event_jbPlanungActionPerformed
+    }                                                                             //GEN-LAST:event_jbPlanungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAntragActionPerformed
+    private void jbAntragActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAntragActionPerformed
         setState(ID_PLANUNG_FERTIG);
-    }//GEN-LAST:event_jbAntragActionPerformed
+    }                                                                            //GEN-LAST:event_jbAntragActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungNbActionPerformed
+    private void jbPruefungNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungNbActionPerformed
         setState(ID_PRUEFUNG_DURCH_NB);
-    }//GEN-LAST:event_jbPruefungNbActionPerformed
+    }                                                                                //GEN-LAST:event_jbPruefungNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtNbActionPerformed
+    private void jbGenehmigtNbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtNbActionPerformed
         setState(ID_PRUEFUNG_DURCH_NB_ABGESCHL);
-    }//GEN-LAST:event_jbGenehmigtNbActionPerformed
+    }                                                                                 //GEN-LAST:event_jbGenehmigtNbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAngenommenActionPerformed
+    private void jbAngenommenActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbAngenommenActionPerformed
         final int answer = JOptionPane.showConfirmDialog(
                 StaticSwingTools.getParentFrame(this),
                 "Möchten Sie den Plan wirklich abschließen? Diese Aktion kann nicht rückgängig gemacht werden.",
@@ -1302,46 +1302,46 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         if (answer == JOptionPane.YES_OPTION) {
             setState(ID_PLAN_ABGESCHLOSSEN);
         }
-    }//GEN-LAST:event_jbAngenommenActionPerformed
+    } //GEN-LAST:event_jbAngenommenActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNameMouseClicked
+    private void lblNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblNameMouseClicked
 //        final GupGewaesserPreview prev = (GupGewaesserPreview)panGewaesserInner.getComponent(0);
 //        final CidsBean pl = prev.getCidsBean();
 //
 //        freezePlanungsabschnitt(pl);
-    }//GEN-LAST:event_lblNameMouseClicked
+    } //GEN-LAST:event_lblNameMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblName1MouseClicked
+    private void lblName1MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblName1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblName1MouseClicked
+    } //GEN-LAST:event_lblName1MouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPruefungWbActionPerformed
+    private void jbPruefungWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbPruefungWbActionPerformed
         setState(ID_PRUEFUNG_DURCH_WB);
-    }//GEN-LAST:event_jbPruefungWbActionPerformed
+    }                                                                                //GEN-LAST:event_jbPruefungWbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGenehmigtWbActionPerformed
+    private void jbGenehmigtWbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbGenehmigtWbActionPerformed
         setState(ID_PRUEFUNG_DURCH_WB_ABGESCHL);
-    }//GEN-LAST:event_jbGenehmigtWbActionPerformed
+    }                                                                                 //GEN-LAST:event_jbGenehmigtWbActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
