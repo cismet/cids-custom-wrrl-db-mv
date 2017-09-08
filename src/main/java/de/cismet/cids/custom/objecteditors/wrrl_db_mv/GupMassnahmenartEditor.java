@@ -61,7 +61,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
-    private OperativeZieleDecider decider = new OperativeZieleDecider();
     private VermeidungsgruppenDecider vdecider = new VermeidungsgruppenDecider();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -76,16 +75,13 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private javax.swing.JCheckBox cbUmfeld;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbZweiterAusfuehrungszeitraum;
-    private de.cismet.cids.editors.DefaultBindableCheckboxField ccOperativeZiele;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccVermeidungsgruppen;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jpAllgemein;
     private javax.swing.JPanel jpGeschuetzteArten;
-    private javax.swing.JPanel jpOperativeZiele;
     private javax.swing.JScrollPane jsLeistungstext;
     private javax.swing.JTextArea jtLeistungstext;
     private javax.swing.JLabel lblAusfuehrungszeitraum;
@@ -95,7 +91,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private javax.swing.JLabel lblGeraet;
     private javax.swing.JLabel lblGewerk;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblInterval;
@@ -107,16 +102,12 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private javax.swing.JLabel lblVerbleib;
     private javax.swing.JLabel lblZweiterAusfuehrungszeitraum;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private de.cismet.tools.gui.RoundedPanel panInfo;
-    private de.cismet.tools.gui.RoundedPanel panInfo1;
     private de.cismet.tools.gui.RoundedPanel panInfo2;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panInfoContent2;
     private javax.swing.JPanel panSpacingBottom;
-    private javax.swing.JPanel panSpacingBottom1;
     private javax.swing.JPanel panSpacingBottom2;
     private javax.swing.JLabel txtAlAnf;
     private javax.swing.JTextField txtBeschreibung;
@@ -145,8 +136,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     public GupMassnahmenartEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
-        ccOperativeZiele.setBackgroundSelected(SELECT_COLOR);
-        ccOperativeZiele.setBackgroundUnselected(UNSELECT_COLOR);
         ccVermeidungsgruppen.setBackgroundSelected(SELECT_COLOR);
         ccVermeidungsgruppen.setBackgroundUnselected(UNSELECT_COLOR);
         jTabbedPane1.setUI(new TabbedPaneUITransparent());
@@ -165,7 +154,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(cbAusfuehrungszeitraum);
             RendererTools.makeReadOnly(cbVerbleib);
             RendererTools.makeReadOnly(cbZweiterAusfuehrungszeitraum);
-            RendererTools.makeReadOnly(ccOperativeZiele);
             RendererTools.makeReadOnly(ccVermeidungsgruppen);
             RendererTools.makeReadOnly(txtRegel);
             RendererTools.makeReadOnly(txtEinheit);
@@ -231,14 +219,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         cbUfer = new javax.swing.JCheckBox();
         cbUmfeld = new javax.swing.JCheckBox();
         panSpacingBottom = new javax.swing.JPanel();
-        jpOperativeZiele = new javax.swing.JPanel();
-        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
-        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading1 = new javax.swing.JLabel();
-        panInfoContent1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        ccOperativeZiele = new DefaultBindableCheckboxField(new CustomComparator());
-        panSpacingBottom1 = new javax.swing.JPanel();
         jpGeschuetzteArten = new javax.swing.JPanel();
         panInfo2 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -960,80 +940,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
                 "GupMassnahmenartEditor.jpAllgemein.title"),
             jpAllgemein); // NOI18N
 
-        jpOperativeZiele.setOpaque(false);
-        jpOperativeZiele.setLayout(new java.awt.GridBagLayout());
-
-        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadInfo1.setLayout(new java.awt.FlowLayout());
-
-        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.lblHeading1.text")); // NOI18N
-        panHeadInfo1.add(lblHeading1);
-
-        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
-
-        panInfoContent1.setOpaque(false);
-        panInfoContent1.setLayout(new java.awt.GridBagLayout());
-
-        jPanel3.setOpaque(false);
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-
-        ccOperativeZiele.setMinimumSize(new java.awt.Dimension(370, 340));
-        ccOperativeZiele.setOpaque(false);
-        ccOperativeZiele.setPreferredSize(new java.awt.Dimension(550, 340));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.operative_ziele}"),
-                ccOperativeZiele,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        jPanel3.add(ccOperativeZiele, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent1.add(jPanel3, gridBagConstraints);
-
-        panSpacingBottom1.setOpaque(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panInfoContent1.add(panSpacingBottom1, gridBagConstraints);
-
-        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        jpOperativeZiele.add(panInfo1, gridBagConstraints);
-
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.jpOperativeZiele.title"),
-            jpOperativeZiele); // NOI18N
-
         jpGeschuetzteArten.setOpaque(false);
         jpGeschuetzteArten.setLayout(new java.awt.GridBagLayout());
 
@@ -1184,9 +1090,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void cbSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSohleActionPerformed
-        decider.setSohle(cbSohle.isSelected());
         vdecider.setSohle(cbSohle.isSelected());
-        ccOperativeZiele.refreshCheckboxState(decider, true, true);
         ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                           //GEN-LAST:event_cbSohleActionPerformed
 
@@ -1196,9 +1100,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void cbUferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUferActionPerformed
-        decider.setUfer(cbUfer.isSelected());
         vdecider.setSohle(cbUfer.isSelected());
-        ccOperativeZiele.refreshCheckboxState(decider, true, true);
         ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                          //GEN-LAST:event_cbUferActionPerformed
 
@@ -1208,9 +1110,7 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
      * @param  evt  DOCUMENT ME!
      */
     private void cbUmfeldActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUmfeldActionPerformed
-        decider.setUmfeld(cbUmfeld.isSelected());
         vdecider.setSohle(cbUmfeld.isSelected());
-        ccOperativeZiele.refreshCheckboxState(decider, true, true);
         ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                            //GEN-LAST:event_cbUmfeldActionPerformed
 
@@ -1229,9 +1129,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         }
 
         if (cidsBean != null) {
-            decider.setSohle((Boolean)cidsBean.getProperty("sohle"));
-            decider.setUfer((Boolean)cidsBean.getProperty("ufer"));
-            decider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
             vdecider.setSohle((Boolean)cidsBean.getProperty("sohle"));
             vdecider.setUfer((Boolean)cidsBean.getProperty("ufer"));
             vdecider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
@@ -1245,7 +1142,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
                 cbZweiterAusfuehrungszeitraum.setEnabled((bean != null)
                             && bean.getProperty("id").equals(INTERVAL_TWO_TIMES));
             }
-            ccOperativeZiele.refreshCheckboxState(decider, true, false);
             ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, false);
         }
     }
@@ -1387,97 +1283,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         @Override
         public int compare(final MetaObject o1, final MetaObject o2) {
             return o1.getName().compareTo(o2.getName());
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    private class OperativeZieleDecider implements FieldStateDecider {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private boolean sohle = false;
-        private boolean ufer = false;
-        private boolean umfeld = false;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new SubTypeDecider object.
-         */
-        public OperativeZieleDecider() {
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public boolean isCheckboxForClassActive(final MetaObject mo) {
-            return (sohle && (mo.getBean().getProperty("sohle") != null)
-                            && (Boolean)mo.getBean().getProperty("sohle"))
-                        || (ufer && ((Boolean)mo.getBean().getProperty("ufer") != null)
-                            && (Boolean)mo.getBean().getProperty("ufer"))
-                        || (umfeld && ((Boolean)mo.getBean().getProperty("umfeld") != null)
-                            && (Boolean)mo.getBean().getProperty("umfeld"));
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  the sohle
-         */
-        public boolean isSohle() {
-            return sohle;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  sohle  the sohle to set
-         */
-        public void setSohle(Boolean sohle) {
-            sohle = ((sohle == null) ? false : sohle);
-            this.sohle = sohle;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  the ufer
-         */
-        public boolean isUfer() {
-            return ufer;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  ufer  the ufer to set
-         */
-        public void setUfer(Boolean ufer) {
-            ufer = ((ufer == null) ? false : ufer);
-            this.ufer = ufer;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  the umfeld
-         */
-        public boolean isUmfeld() {
-            return umfeld;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  umfeld  the umfeld to set
-         */
-        public void setUmfeld(Boolean umfeld) {
-            umfeld = ((umfeld == null) ? false : umfeld);
-            this.umfeld = umfeld;
         }
     }
 
