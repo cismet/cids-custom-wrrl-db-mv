@@ -12,6 +12,12 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.server.middleware.types.MetaObject;
+
+import java.awt.Color;
+
+import java.util.Comparator;
+
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
@@ -21,10 +27,12 @@ import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultBindableCheckboxField;
 import de.cismet.cids.editors.DefaultBindableColorChooser;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cids.editors.FieldStateDecider;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -40,11 +48,14 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             GupGewerkEditor.class);
+    public static final Color SELECT_COLOR = new Color(212, 238, 94);
+    public static final Color UNSELECT_COLOR = new Color(255, 66, 66);
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
+    private OperativeZieleDecider decider = new OperativeZieleDecider();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbArbeitsbreite;
@@ -64,15 +75,31 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
     private javax.swing.JCheckBox cbUfer;
     private javax.swing.JCheckBox cbUmfeld;
     private javax.swing.JCheckBox cbVorlandbreite;
+    private de.cismet.cids.editors.DefaultBindableCheckboxField ccOperativeZiele;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel jpAllgemein;
+    private javax.swing.JPanel jpOperativeZiele;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblEinheit;
+    private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblKompartiment;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblOptionaleFelder;
     private javax.swing.JLabel lblRegel;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
+    private de.cismet.tools.gui.RoundedPanel panInfo;
+    private de.cismet.tools.gui.RoundedPanel panInfo1;
+    private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
+    private javax.swing.JPanel panSpacingBottom;
+    private javax.swing.JPanel panSpacingBottom1;
     private javax.swing.JTextField txtEinheit;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtRegel;
@@ -96,6 +123,8 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
     public GupGewerkEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+        ccOperativeZiele.setBackgroundSelected(SELECT_COLOR);
+        ccOperativeZiele.setBackgroundUnselected(UNSELECT_COLOR);
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtEinheit);
@@ -119,6 +148,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
             RendererTools.makeReadOnly(cbDrei);
             RendererTools.makeReadOnly(cbArbeitsbreite);
             RendererTools.makeReadOnly(cbTeillaenge);
+            RendererTools.makeReadOnly(ccOperativeZiele);
         }
     }
 
@@ -134,6 +164,13 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jpAllgemein = new javax.swing.JPanel();
+        panInfo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading = new javax.swing.JLabel();
+        panInfoContent = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
         lblRegel = new javax.swing.JLabel();
         txtRegel = new javax.swing.JTextField();
@@ -163,10 +200,41 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         lblOptionaleFelder = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
+        panSpacingBottom = new javax.swing.JPanel();
+        jpOperativeZiele = new javax.swing.JPanel();
+        panInfo1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        ccOperativeZiele = new DefaultBindableCheckboxField(new CustomComparator());
+        panSpacingBottom1 = new javax.swing.JPanel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
+
+        jpAllgemein.setOpaque(false);
+        jpAllgemein.setLayout(new java.awt.GridBagLayout());
+
+        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setLayout(new java.awt.FlowLayout());
+
+        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                GupGewerkEditor.class,
+                "GupGewerkEditor.lblHeading.text")); // NOI18N
+        panHeadInfo.add(lblHeading);
+
+        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
+
+        panInfoContent.setOpaque(false);
+        panInfoContent.setLayout(new java.awt.GridBagLayout());
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblName.setText(org.openide.util.NbBundle.getMessage(GupGewerkEditor.class, "GupGewerkEditor.lblName.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(150, 17));
@@ -177,7 +245,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
-        add(lblName, gridBagConstraints);
+        jPanel2.add(lblName, gridBagConstraints);
 
         lblRegel.setText(org.openide.util.NbBundle.getMessage(GupGewerkEditor.class, "GupGewerkEditor.lblRegel.text")); // NOI18N
         lblRegel.setToolTipText(org.openide.util.NbBundle.getMessage(
@@ -188,7 +256,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblRegel, gridBagConstraints);
+        jPanel2.add(lblRegel, gridBagConstraints);
 
         txtRegel.setMinimumSize(new java.awt.Dimension(550, 25));
         txtRegel.setPreferredSize(new java.awt.Dimension(550, 25));
@@ -207,7 +275,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtRegel, gridBagConstraints);
+        jPanel2.add(txtRegel, gridBagConstraints);
 
         txtEinheit.setMinimumSize(new java.awt.Dimension(550, 25));
         txtEinheit.setPreferredSize(new java.awt.Dimension(550, 25));
@@ -226,7 +294,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtEinheit, gridBagConstraints);
+        jPanel2.add(txtEinheit, gridBagConstraints);
 
         lblEinheit.setText(org.openide.util.NbBundle.getMessage(
                 GupGewerkEditor.class,
@@ -236,7 +304,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblEinheit, gridBagConstraints);
+        jPanel2.add(lblEinheit, gridBagConstraints);
 
         txtName.setMinimumSize(new java.awt.Dimension(550, 25));
         txtName.setPreferredSize(new java.awt.Dimension(550, 25));
@@ -255,7 +323,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtName, gridBagConstraints);
+        jPanel2.add(txtName, gridBagConstraints);
 
         jPanel5.setOpaque(false);
         jPanel5.setLayout(new java.awt.GridBagLayout());
@@ -275,6 +343,13 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
+        cbSohle.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbSohleActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -297,6 +372,13 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
+        cbUfer.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbUferActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -319,6 +401,13 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
+        cbUmfeld.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbUmfeldActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -331,7 +420,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jPanel5, gridBagConstraints);
+        jPanel2.add(jPanel5, gridBagConstraints);
 
         lblKompartiment.setText(org.openide.util.NbBundle.getMessage(
                 GupGewerkEditor.class,
@@ -344,7 +433,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblKompartiment, gridBagConstraints);
+        jPanel2.add(lblKompartiment, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -703,7 +792,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 5);
-        add(jPanel1, gridBagConstraints);
+        jPanel2.add(jPanel1, gridBagConstraints);
 
         lblOptionaleFelder.setText(org.openide.util.NbBundle.getMessage(
                 GupGewerkEditor.class,
@@ -716,7 +805,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblOptionaleFelder, gridBagConstraints);
+        jPanel2.add(lblOptionaleFelder, gridBagConstraints);
 
         lblColor.setText(org.openide.util.NbBundle.getMessage(GupGewerkEditor.class, "GupGewerkEditor.lblColor.text")); // NOI18N
         lblColor.setMaximumSize(new java.awt.Dimension(250, 17));
@@ -727,7 +816,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        add(lblColor, gridBagConstraints);
+        jPanel2.add(lblColor, gridBagConstraints);
 
         dccColor.setMinimumSize(new java.awt.Dimension(250, 20));
         dccColor.setPreferredSize(new java.awt.Dimension(250, 20));
@@ -746,7 +835,106 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        add(dccColor, gridBagConstraints);
+        jPanel2.add(dccColor, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jPanel2, gridBagConstraints);
+
+        panSpacingBottom.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panInfoContent.add(panSpacingBottom, gridBagConstraints);
+
+        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        jpAllgemein.add(panInfo, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                GupGewerkEditor.class,
+                "GupGewerkEditor.jpAllgemein.TabConstraints.tabTitle"),
+            jpAllgemein); // NOI18N
+
+        jpOperativeZiele.setOpaque(false);
+        jpOperativeZiele.setLayout(new java.awt.GridBagLayout());
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                GupGewerkEditor.class,
+                "GupGewerkEditor.lblHeading1.text")); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panInfo1.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        ccOperativeZiele.setMinimumSize(new java.awt.Dimension(370, 340));
+        ccOperativeZiele.setOpaque(false);
+        ccOperativeZiele.setPreferredSize(new java.awt.Dimension(550, 340));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        jPanel3.add(ccOperativeZiele, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent1.add(jPanel3, gridBagConstraints);
+
+        panSpacingBottom1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(panSpacingBottom1, gridBagConstraints);
+
+        panInfo1.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        jpOperativeZiele.add(panInfo1, gridBagConstraints);
+
+        jTabbedPane1.addTab("Regeln für Pflegeziele", jpOperativeZiele);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jTabbedPane1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -769,6 +957,36 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         // TODO add your handling code here:
     } //GEN-LAST:event_cbArbeitsbreiteActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbUferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUferActionPerformed
+        decider.setUfer(cbUfer.isSelected());
+        ccOperativeZiele.refreshCheckboxState(decider, true, true);
+    }                                                                          //GEN-LAST:event_cbUferActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbUmfeldActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbUmfeldActionPerformed
+        decider.setUmfeld(cbUmfeld.isSelected());
+        ccOperativeZiele.refreshCheckboxState(decider, true, true);
+    }                                                                            //GEN-LAST:event_cbUmfeldActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbSohleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSohleActionPerformed
+        decider.setSohle(cbSohle.isSelected());
+        ccOperativeZiele.refreshCheckboxState(decider, true, true);
+    }                                                                           //GEN-LAST:event_cbSohleActionPerformed
+
     @Override
     public CidsBean getCidsBean() {
         return this.cidsBean;
@@ -780,10 +998,15 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            decider.setSohle((Boolean)cidsBean.getProperty("sohle"));
+            decider.setUfer((Boolean)cidsBean.getProperty("ufer"));
+            decider.setUmfeld((Boolean)cidsBean.getProperty("umfeld"));
+
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            ccOperativeZiele.refreshCheckboxState(decider, true, false);
         }
     }
 
@@ -845,5 +1068,112 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
             1,
             1280,
             1024);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class CustomComparator implements Comparator<MetaObject> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final MetaObject o1, final MetaObject o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class OperativeZieleDecider implements FieldStateDecider {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private boolean sohle = false;
+        private boolean ufer = false;
+        private boolean umfeld = false;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new SubTypeDecider object.
+         */
+        public OperativeZieleDecider() {
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public boolean isCheckboxForClassActive(final MetaObject mo) {
+            return (sohle && (mo.getBean().getProperty("sohle") != null)
+                            && (Boolean)mo.getBean().getProperty("sohle"))
+                        || (ufer && ((Boolean)mo.getBean().getProperty("ufer") != null)
+                            && (Boolean)mo.getBean().getProperty("ufer"))
+                        || (umfeld && ((Boolean)mo.getBean().getProperty("umfeld") != null)
+                            && (Boolean)mo.getBean().getProperty("umfeld"));
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the sohle
+         */
+        public boolean isSohle() {
+            return sohle;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  sohle  the sohle to set
+         */
+        public void setSohle(Boolean sohle) {
+            sohle = ((sohle == null) ? false : sohle);
+            this.sohle = sohle;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the ufer
+         */
+        public boolean isUfer() {
+            return ufer;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  ufer  the ufer to set
+         */
+        public void setUfer(Boolean ufer) {
+            ufer = ((ufer == null) ? false : ufer);
+            this.ufer = ufer;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the umfeld
+         */
+        public boolean isUmfeld() {
+            return umfeld;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  umfeld  the umfeld to set
+         */
+        public void setUmfeld(Boolean umfeld) {
+            umfeld = ((umfeld == null) ? false : umfeld);
+            this.umfeld = umfeld;
+        }
     }
 }
