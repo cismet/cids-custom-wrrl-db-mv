@@ -151,7 +151,7 @@ public class UnterhaltungsmassnahmeValidator {
      * DOCUMENT ME!
      *
      * @param   abschnittBean  Gup_Unterhaltungsmassnahme
-     * @param   massnArt          Gup_Massnahmenart
+     * @param   massnArt       Gup_Massnahmenart
      * @param   errors         DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -173,7 +173,6 @@ public class UnterhaltungsmassnahmeValidator {
         if (massnArt == null) {
             return ValidationResult.error;
         }
-
 
         if (massnArt.getBeanCollectionProperty("gewerk") != null) {
             final List<CidsBean> opBeans = massnArt.getBeanCollectionProperty("gewerk.operative_ziele");

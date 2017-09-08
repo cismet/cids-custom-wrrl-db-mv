@@ -177,7 +177,8 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      */
     @Override
     protected void determineBackgroundColour() {
-        if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.gewerk") == null) || (bean.getProperty("massnahme.gewerk.color") == null)) {
+        if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.gewerk") == null)
+                    || (bean.getProperty("massnahme.gewerk.color") == null)) {
             setDefaultBackground();
             return;
         }
