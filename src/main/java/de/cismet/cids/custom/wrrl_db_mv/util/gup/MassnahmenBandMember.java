@@ -14,7 +14,6 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.painter.PinstripePainter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 
@@ -178,11 +177,11 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      */
     @Override
     protected void determineBackgroundColour() {
-        if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.color") == null)) {
+        if ((bean.getProperty("massnahme") == null) || (bean.getProperty("massnahme.gewerk") == null) || (bean.getProperty("massnahme.gewerk.color") == null)) {
             setDefaultBackground();
             return;
         }
-        final String color = (String)bean.getProperty("massnahme.color");
+        final String color = (String)bean.getProperty("massnahme.gewerk.color");
         double factor = 0.0;
         Color secondColor = new Color(255, 66, 66);
 
