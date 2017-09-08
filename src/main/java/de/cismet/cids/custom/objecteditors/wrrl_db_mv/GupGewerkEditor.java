@@ -895,6 +895,15 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
         ccOperativeZiele.setMinimumSize(new java.awt.Dimension(370, 340));
         ccOperativeZiele.setOpaque(false);
         ccOperativeZiele.setPreferredSize(new java.awt.Dimension(550, 340));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.operative_ziele}"),
+                ccOperativeZiele,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
