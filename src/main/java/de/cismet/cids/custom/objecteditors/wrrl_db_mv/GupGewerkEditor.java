@@ -24,6 +24,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.ExpressionEvaluator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -123,6 +124,7 @@ public class GupGewerkEditor extends javax.swing.JPanel implements CidsBeanRende
     public GupGewerkEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+        jTabbedPane1.setUI(new TabbedPaneUITransparent());
         ccOperativeZiele.setBackgroundSelected(SELECT_COLOR);
         ccOperativeZiele.setBackgroundUnselected(UNSELECT_COLOR);
 
