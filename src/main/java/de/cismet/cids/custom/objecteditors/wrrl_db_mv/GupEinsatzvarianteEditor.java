@@ -32,6 +32,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupMassnahmenartEditor.SELECT_COLOR;
 import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupMassnahmenartEditor.UNSELECT_COLOR;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 
 /**
  * DOCUMENT ME!
@@ -93,6 +94,7 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
     public GupEinsatzvarianteEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+        jTabbedPane1.setUI(new TabbedPaneUITransparent());
         ccVermeidungsgruppen.setBackgroundSelected(SELECT_COLOR);
         ccVermeidungsgruppen.setBackgroundUnselected(UNSELECT_COLOR);
 
