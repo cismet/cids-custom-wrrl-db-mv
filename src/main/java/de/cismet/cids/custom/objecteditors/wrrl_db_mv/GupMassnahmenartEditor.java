@@ -66,34 +66,19 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbAllAnf;
-    private javax.swing.JCheckBox cbArbeitsbreite;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbAusfuehrungszeitraum;
-    private javax.swing.JCheckBox cbBoeschungslaenge;
-    private javax.swing.JCheckBox cbBoeschungsneigung;
-    private javax.swing.JCheckBox cbCbmprom;
-    private javax.swing.JCheckBox cbDeichkronenbreite;
-    private javax.swing.JCheckBox cbDrei;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEinsatzvariante;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeraet;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGewerk;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbInterval;
-    private javax.swing.JCheckBox cbMZwei;
-    private javax.swing.JCheckBox cbRandstreifenbreite;
-    private javax.swing.JCheckBox cbSchnitttiefe;
-    private javax.swing.JCheckBox cbSohlbreite;
     private javax.swing.JCheckBox cbSohle;
-    private javax.swing.JCheckBox cbStueck;
-    private javax.swing.JCheckBox cbStunden;
-    private javax.swing.JCheckBox cbTeillaenge;
     private javax.swing.JCheckBox cbUfer;
     private javax.swing.JCheckBox cbUmfeld;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbVerbleib;
-    private javax.swing.JCheckBox cbVorlandbreite;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbZweiterAusfuehrungszeitraum;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccOperativeZiele;
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccVermeidungsgruppen;
     private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -118,7 +103,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
     private javax.swing.JLabel lblInterval;
     private javax.swing.JLabel lblKompartiment;
     private javax.swing.JLabel lblLeistungstext;
-    private javax.swing.JLabel lblOptionaleFelder;
     private javax.swing.JLabel lblRegel;
     private javax.swing.JLabel lblUrl;
     private javax.swing.JLabel lblUrlSmall;
@@ -173,14 +157,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(jtLeistungstext);
             RendererTools.makeReadOnly(txtBeschreibung);
             RendererTools.makeReadOnly(txtId);
-            RendererTools.makeReadOnly(cbBoeschungslaenge);
-            RendererTools.makeReadOnly(cbBoeschungsneigung);
-            RendererTools.makeReadOnly(cbDeichkronenbreite);
-            RendererTools.makeReadOnly(cbRandstreifenbreite);
-            RendererTools.makeReadOnly(cbSohlbreite);
-            RendererTools.makeReadOnly(cbVorlandbreite);
-            RendererTools.makeReadOnly(cbStueck);
-            RendererTools.makeReadOnly(cbCbmprom);
             RendererTools.makeReadOnly(cbSohle);
             RendererTools.makeReadOnly(cbUfer);
             RendererTools.makeReadOnly(cbUmfeld);
@@ -196,15 +172,9 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
             RendererTools.makeReadOnly(ccVermeidungsgruppen);
             RendererTools.makeReadOnly(txtRegel);
             RendererTools.makeReadOnly(txtEinheit);
-            RendererTools.makeReadOnly(cbStunden);
-            RendererTools.makeReadOnly(cbSchnitttiefe);
             RendererTools.makeReadOnly(txtUrl);
             RendererTools.makeReadOnly(txtUrlSmall);
             RendererTools.makeReadOnly(cbAllAnf);
-            RendererTools.makeReadOnly(cbMZwei);
-            RendererTools.makeReadOnly(cbDrei);
-            RendererTools.makeReadOnly(cbArbeitsbreite);
-            RendererTools.makeReadOnly(cbTeillaenge);
         }
     }
 
@@ -234,22 +204,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         lblLeistungstext = new javax.swing.JLabel();
         jsLeistungstext = new javax.swing.JScrollPane();
         jtLeistungstext = new javax.swing.JTextArea();
-        jPanel1 = new javax.swing.JPanel();
-        cbRandstreifenbreite = new javax.swing.JCheckBox();
-        cbBoeschungslaenge = new javax.swing.JCheckBox();
-        cbBoeschungsneigung = new javax.swing.JCheckBox();
-        cbSohlbreite = new javax.swing.JCheckBox();
-        cbDeichkronenbreite = new javax.swing.JCheckBox();
-        cbVorlandbreite = new javax.swing.JCheckBox();
-        cbCbmprom = new javax.swing.JCheckBox();
-        cbStueck = new javax.swing.JCheckBox();
-        cbStunden = new javax.swing.JCheckBox();
-        cbSchnitttiefe = new javax.swing.JCheckBox();
-        cbMZwei = new javax.swing.JCheckBox();
-        cbDrei = new javax.swing.JCheckBox();
-        cbArbeitsbreite = new javax.swing.JCheckBox();
-        cbTeillaenge = new javax.swing.JCheckBox();
-        lblOptionaleFelder = new javax.swing.JLabel();
         lblKompartiment = new javax.swing.JLabel();
         dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
         lblColor = new javax.swing.JLabel();
@@ -425,385 +379,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jsLeistungstext, gridBagConstraints);
-
-        jPanel1.setOpaque(false);
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        cbRandstreifenbreite.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbRandstreifenbreite.text")); // NOI18N
-        cbRandstreifenbreite.setContentAreaFilled(false);
-        cbRandstreifenbreite.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbRandstreifenbreite.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbRandstreifenbreite.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.randstreifenbreite}"),
-                cbRandstreifenbreite,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        cbRandstreifenbreite.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbRandstreifenbreiteActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel1.add(cbRandstreifenbreite, gridBagConstraints);
-
-        cbBoeschungslaenge.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbBoeschungslaenge.text")); // NOI18N
-        cbBoeschungslaenge.setContentAreaFilled(false);
-        cbBoeschungslaenge.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbBoeschungslaenge.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbBoeschungslaenge.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungslaenge}"),
-                cbBoeschungslaenge,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbBoeschungslaenge, gridBagConstraints);
-
-        cbBoeschungsneigung.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbBoeschungsneigung.text")); // NOI18N
-        cbBoeschungsneigung.setContentAreaFilled(false);
-        cbBoeschungsneigung.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbBoeschungsneigung.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbBoeschungsneigung.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.boeschungsneigung}"),
-                cbBoeschungsneigung,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel1.add(cbBoeschungsneigung, gridBagConstraints);
-
-        cbSohlbreite.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbSohlbreite.text")); // NOI18N
-        cbSohlbreite.setContentAreaFilled(false);
-        cbSohlbreite.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbSohlbreite.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbSohlbreite.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlbreite}"),
-                cbSohlbreite,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbSohlbreite, gridBagConstraints);
-
-        cbDeichkronenbreite.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbDeichkronenbreite.text")); // NOI18N
-        cbDeichkronenbreite.setContentAreaFilled(false);
-        cbDeichkronenbreite.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbDeichkronenbreite.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbDeichkronenbreite.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.deichkronenbreite}"),
-                cbDeichkronenbreite,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel1.add(cbDeichkronenbreite, gridBagConstraints);
-
-        cbVorlandbreite.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbVorlandbreite.text")); // NOI18N
-        cbVorlandbreite.setContentAreaFilled(false);
-        cbVorlandbreite.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbVorlandbreite.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbVorlandbreite.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorlandbreite}"),
-                cbVorlandbreite,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbVorlandbreite, gridBagConstraints);
-
-        cbCbmprom.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbCbmprom.text")); // NOI18N
-        cbCbmprom.setContentAreaFilled(false);
-        cbCbmprom.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbCbmprom.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbCbmprom.setPreferredSize(new java.awt.Dimension(140, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cbmprom}"),
-                cbCbmprom,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbCbmprom, gridBagConstraints);
-
-        cbStueck.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbStueck.text")); // NOI18N
-        cbStueck.setContentAreaFilled(false);
-        cbStueck.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbStueck.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbStueck.setPreferredSize(new java.awt.Dimension(140, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stueck}"),
-                cbStueck,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"),
-                "StueckId");
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbStueck, gridBagConstraints);
-
-        cbStunden.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbStunden.text")); // NOI18N
-        cbStunden.setContentAreaFilled(false);
-        cbStunden.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbStunden.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbStunden.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stunden}"),
-                cbStunden,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel1.add(cbStunden, gridBagConstraints);
-
-        cbSchnitttiefe.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbSchnitttiefe.text")); // NOI18N
-        cbSchnitttiefe.setContentAreaFilled(false);
-        cbSchnitttiefe.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbSchnitttiefe.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbSchnitttiefe.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.schnitttiefe}"),
-                cbSchnitttiefe,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbSchnitttiefe, gridBagConstraints);
-
-        cbMZwei.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbMZwei.text")); // NOI18N
-        cbMZwei.setContentAreaFilled(false);
-        cbMZwei.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbMZwei.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbMZwei.setPreferredSize(new java.awt.Dimension(140, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.m_zwei}"),
-                cbMZwei,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbMZwei, gridBagConstraints);
-
-        cbDrei.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbDrei.text")); // NOI18N
-        cbDrei.setContentAreaFilled(false);
-        cbDrei.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbDrei.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbDrei.setPreferredSize(new java.awt.Dimension(140, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.m_drei}"),
-                cbDrei,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbDrei, gridBagConstraints);
-
-        cbArbeitsbreite.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbArbeitsbreite.text")); // NOI18N
-        cbArbeitsbreite.setContentAreaFilled(false);
-        cbArbeitsbreite.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbArbeitsbreite.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbArbeitsbreite.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.arbeitsbreite}"),
-                cbArbeitsbreite,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        cbArbeitsbreite.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbArbeitsbreiteActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel1.add(cbArbeitsbreite, gridBagConstraints);
-
-        cbTeillaenge.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.cbTeillaenge.text")); // NOI18N
-        cbTeillaenge.setContentAreaFilled(false);
-        cbTeillaenge.setMaximumSize(new java.awt.Dimension(230, 22));
-        cbTeillaenge.setMinimumSize(new java.awt.Dimension(180, 22));
-        cbTeillaenge.setPreferredSize(new java.awt.Dimension(180, 22));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.teillaenge}"),
-                cbTeillaenge,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        jPanel1.add(cbTeillaenge, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
-        jPanel2.add(jPanel1, gridBagConstraints);
-
-        lblOptionaleFelder.setText(org.openide.util.NbBundle.getMessage(
-                GupMassnahmenartEditor.class,
-                "GupMassnahmenartEditor.lblOptionaleFelder.text")); // NOI18N
-        lblOptionaleFelder.setMaximumSize(new java.awt.Dimension(250, 17));
-        lblOptionaleFelder.setMinimumSize(new java.awt.Dimension(250, 17));
-        lblOptionaleFelder.setPreferredSize(new java.awt.Dimension(250, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        jPanel2.add(lblOptionaleFelder, gridBagConstraints);
 
         lblKompartiment.setText(org.openide.util.NbBundle.getMessage(
                 GupMassnahmenartEditor.class,
@@ -1675,24 +1250,6 @@ public class GupMassnahmenartEditor extends javax.swing.JPanel implements CidsBe
         ccOperativeZiele.refreshCheckboxState(decider, true, true);
         ccVermeidungsgruppen.refreshCheckboxState(vdecider, true, true);
     }                                                                            //GEN-LAST:event_cbUmfeldActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbArbeitsbreiteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbArbeitsbreiteActionPerformed
-        // TODO add your handling code here:
-    } //GEN-LAST:event_cbArbeitsbreiteActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbRandstreifenbreiteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbRandstreifenbreiteActionPerformed
-        // TODO add your handling code here:
-    } //GEN-LAST:event_cbRandstreifenbreiteActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

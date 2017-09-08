@@ -2625,7 +2625,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     private void refreshMassnahmenFields() {
         txtMassnahme.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
+        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("gewerk"));
         setComboboxes();
         validateMassnahme();
         refreshGeraeteCombo();
@@ -2642,24 +2642,24 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     /**
      * DOCUMENT ME!
      *
-     * @param  massnahme  DOCUMENT ME!
+     * @param  gewerk  DOCUMENT ME!
      */
-    private void deActivateAdditionalAttributes(final CidsBean massnahme) {
-        if (massnahme != null) {
-            final Object bl = massnahme.getProperty("boeschungslaenge");
-            final Object bn = massnahme.getProperty("boeschungsneigung");
-            final Object db = massnahme.getProperty("deichkronenbreite");
-            final Object rs = massnahme.getProperty("randstreifenbreite");
-            final Object sb = massnahme.getProperty("sohlbreite");
-            final Object vb = massnahme.getProperty("vorlandbreite");
-            final Object cm = massnahme.getProperty("cbmprom");
-            final Object st = massnahme.getProperty("stueck");
-            final Object stu = massnahme.getProperty("stunden");
-            final Object sch = massnahme.getProperty("schnitttiefe");
-            final Object arbbr = massnahme.getProperty("arbeitsbreite");
-            final Object teil = massnahme.getProperty("teillaenge");
-            final Object m2 = massnahme.getProperty("m_zwei");
-            final Object m3 = massnahme.getProperty("m_drei");
+    private void deActivateAdditionalAttributes(final CidsBean gewerk) {
+        if (gewerk != null) {
+            final Object bl = gewerk.getProperty("boeschungslaenge");
+            final Object bn = gewerk.getProperty("boeschungsneigung");
+            final Object db = gewerk.getProperty("deichkronenbreite");
+            final Object rs = gewerk.getProperty("randstreifenbreite");
+            final Object sb = gewerk.getProperty("sohlbreite");
+            final Object vb = gewerk.getProperty("vorlandbreite");
+            final Object cm = gewerk.getProperty("cbmprom");
+            final Object st = gewerk.getProperty("stueck");
+            final Object stu = gewerk.getProperty("stunden");
+            final Object sch = gewerk.getProperty("schnitttiefe");
+            final Object arbbr = gewerk.getProperty("arbeitsbreite");
+            final Object teil = gewerk.getProperty("teillaenge");
+            final Object m2 = gewerk.getProperty("m_zwei");
+            final Object m3 = gewerk.getProperty("m_drei");
 
             panBoeschungslaenge.setVisible((bl != null) && ((Boolean)bl).booleanValue());
             panBoeschungsneigung.setVisible((bn != null) && ((Boolean)bn).booleanValue());
