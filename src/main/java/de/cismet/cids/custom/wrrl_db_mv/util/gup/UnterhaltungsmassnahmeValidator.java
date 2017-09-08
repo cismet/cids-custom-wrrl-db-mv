@@ -174,8 +174,7 @@ public class UnterhaltungsmassnahmeValidator {
             return ValidationResult.error;
         }
 
-
-        if (massnArt.getBeanCollectionProperty("gewerk") != null) {
+        if (massnArt.getProperty("gewerk") != null) {
             final List<CidsBean> opBeans = massnArt.getBeanCollectionProperty("gewerk.operative_ziele");
             for (final CidsBean mo : operativeZiele) {
                 if (isLineInsideBean(mo, von, bis, wo)) {
