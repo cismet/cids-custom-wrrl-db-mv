@@ -916,6 +916,9 @@
                               <Dimension value="[550, 340]"/>
                             </Property>
                           </Properties>
+                          <BindingProperties>
+                            <BindingProperty name="selectedElements" source="Form" sourcePath="${cidsBean.operative_ziele}" target="ccOperativeZiele" targetPath="selectedElements" updateStrategy="0" immediately="false"/>
+                          </BindingProperties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableCheckboxField(new CustomComparator())"/>
                           </AuxValues>
