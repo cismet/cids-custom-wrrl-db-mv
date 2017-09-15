@@ -151,7 +151,7 @@ public class UnterhaltungsmassnahmeValidator {
      * DOCUMENT ME!
      *
      * @param   abschnittBean  Gup_Unterhaltungsmassnahme
-     * @param   massnArt          Gup_Massnahmenart
+     * @param   massnArt       Gup_Massnahmenart
      * @param   errors         DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
