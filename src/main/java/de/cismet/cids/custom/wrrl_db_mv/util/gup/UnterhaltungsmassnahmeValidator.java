@@ -13,9 +13,6 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import Sirius.navigator.ui.ComponentRegistry;
 
-import Sirius.server.middleware.types.MetaObject;
-
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 
 import java.util.Collection;
@@ -154,12 +151,12 @@ public class UnterhaltungsmassnahmeValidator {
      * DOCUMENT ME!
      *
      * @param   abschnittBean  Gup_Unterhaltungsmassnahme
-     * @param   massn          Gup_Massnahmenart
+     * @param   massnArt       Gup_Massnahmenart
      * @param   errors         DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public ValidationResult validate(final CidsBean abschnittBean, final CidsBean massn, final List<String> errors) {
+    public ValidationResult validate(final CidsBean abschnittBean, final CidsBean massnArt, final List<String> errors) {
         while ((operativeZiele == null) || (verbreitungsraum == null) || (schutzgebiete == null)) {
             try {
                 Thread.sleep(50);
@@ -173,32 +170,33 @@ public class UnterhaltungsmassnahmeValidator {
         final double bis = (Double)abschnittBean.getProperty("linie.bis.wert");
         final Integer wo = (Integer)abschnittBean.getProperty("wo.id");
 
-        if (massn == null) {
+        if (massnArt == null) {
             return ValidationResult.error;
         }
 
-        final List<CidsBean> opBeans = massn.getBeanCollectionProperty("operative_ziele");
-
-        for (final CidsBean mo : operativeZiele) {
-            if (isLineInsideBean(mo, von, bis, wo)) {
-                if ((opBeans == null) || !opBeans.contains((CidsBean)mo.getProperty("operatives_ziel"))) {
-                    final CidsBean oz = (CidsBean)mo.getProperty("operatives_ziel");
-                    if (oz != null) {
-                        errors.add(NbBundle.getMessage(
-                                UnterhaltungsmassnahmeValidator.class,
-                                "UnterhaltungsmassnahmeValidator.validate.invalidCareTarget",
-                                oz));
-                    } else {
-                        errors.add(NbBundle.getMessage(
-                                UnterhaltungsmassnahmeValidator.class,
-                                "UnterhaltungsmassnahmeValidator.validate.careTargetWithoutValue"));
+        if (massnArt.getProperty("gewerk") != null) {
+            final List<CidsBean> opBeans = massnArt.getBeanCollectionProperty("gewerk.operative_ziele");
+            for (final CidsBean mo : operativeZiele) {
+                if (isLineInsideBean(mo, von, bis, wo)) {
+                    if ((opBeans == null) || !opBeans.contains((CidsBean)mo.getProperty("operatives_ziel"))) {
+                        final CidsBean oz = (CidsBean)mo.getProperty("operatives_ziel");
+                        if (oz != null) {
+                            errors.add(NbBundle.getMessage(
+                                    UnterhaltungsmassnahmeValidator.class,
+                                    "UnterhaltungsmassnahmeValidator.validate.invalidCareTarget",
+                                    oz));
+                        } else {
+                            errors.add(NbBundle.getMessage(
+                                    UnterhaltungsmassnahmeValidator.class,
+                                    "UnterhaltungsmassnahmeValidator.validate.careTargetWithoutValue"));
+                        }
+                        res = ValidationResult.error;
                     }
-                    res = ValidationResult.error;
                 }
             }
         }
 
-        final List<CidsBean> vrBeans = massn.getBeanCollectionProperty("vermeidungsgruppen");
+        final List<CidsBean> vrBeans = massnArt.getBeanCollectionProperty("vermeidungsgruppen");
 
         for (final VermeidungsgruppeMitGeom vg : verbreitungsraum) {
             if (isLineInsideBean(vg, von, bis, wo)) {
@@ -250,7 +248,7 @@ public class UnterhaltungsmassnahmeValidator {
             }
         }
 
-        final Boolean alAnf = (Boolean)massn.getProperty("erfuellt_al_anf");
+        final Boolean alAnf = (Boolean)massnArt.getProperty("erfuellt_al_anf");
 
         if ((alAnf == null) || !alAnf) {
             errors.add(NbBundle.getMessage(

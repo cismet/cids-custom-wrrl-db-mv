@@ -23,8 +23,6 @@ import Sirius.server.middleware.types.MetaObject;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import org.deegree.framework.concurrent.Executor;
-
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -76,7 +74,6 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
-import de.cismet.commons.concurrency.CismetConcurrency;
 import de.cismet.commons.concurrency.CismetExecutors;
 
 import de.cismet.tools.CismetThreadPool;
@@ -90,8 +87,6 @@ import de.cismet.tools.gui.jbands.JBand;
 import de.cismet.tools.gui.jbands.SimpleBandModel;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandModelListener;
-
-import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupGupEditor.WORKFLOW_STATUS_PROP;
 
 /**
  * DOCUMENT ME!
@@ -278,7 +273,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             null,
             null);
     private final ColoredReadOnlyBand hydrologieBand = new ColoredReadOnlyBand(
-            "Hydrologie",
+            "Hydraulik",
             null,
             null);
     private final RulerBand ruler = new RulerBand(0, 5000);
@@ -1051,10 +1046,29 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         final MetaObject[] metaObjects = GupHelper.verbreitungsraumCache.calcValue(in);
 
                         for (final MetaObject tmp : metaObjects) {
+                            final CidsBean abschnitt = tmp.getBean();
+
+                            final Integer woId = (Integer)abschnitt.getProperty("wo.id");
+                            final boolean sohle = woId == GUP_SOHLE;
+                            final boolean ufer = (woId == GUP_UFER_LINKS) || (woId == GUP_UFER_RECHTS);
+                            final boolean umfeld = (woId == GUP_UMFELD_LINKS) || (woId == GUP_UMFELD_RECHTS);
+
+                            final String woQuery;
+                            if (sohle) {
+                                woQuery = " AND v.sohle IS TRUE ";
+                            } else if (ufer) {
+                                woQuery = " AND v.ufer IS TRUE ";
+                            } else if (umfeld) {
+                                woQuery = " AND v.umfeld IS TRUE ";
+                            } else {
+                                woQuery = "";
+                            }
+
                             final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
                                             .getMetaObjectsByQuery(
                                                 query
-                                                + tmp.getBean().getProperty("art.id"),
+                                                + tmp.getBean().getProperty("art.id")
+                                                + woQuery,
                                                 WRRLUtil.DOMAIN_NAME);
 
                             if (vermeidungsgruppen != null) {
@@ -1062,7 +1076,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                                     final CidsBean newBean = CidsBean.createNewCidsBeanFromTableName(
                                             WRRLUtil.DOMAIN_NAME,
                                             "gup_vermeidungsgruppe_art");
-                                    newBean.setProperty("art", tmp.getBean());
+                                    newBean.setProperty("art", abschnitt);
                                     newBean.setProperty("vermeidungsgruppe", vermeidungsgruppe.getBean());
                                     beanList.add(newBean);
                                 }
@@ -1115,17 +1129,17 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         for (final VermeidungsgruppeReadOnlyBandMember tmp : result) {
                             final CidsBean side = (CidsBean)tmp.getCidsBean().getProperty("wo");
-
                             if (side != null) {
-                                if ((Integer)side.getProperty("id") == GUP_UFER_RECHTS) {
+                                final int sideId = (Integer)side.getProperty("id");
+                                if (sideId == GUP_UFER_RECHTS) {
                                     beansRight.add(tmp);
-                                } else if ((Integer)side.getProperty("id") == GUP_UMFELD_LINKS) {
+                                } else if (sideId == GUP_UMFELD_LINKS) {
                                     beansUmfeldLeft.add(tmp);
-                                } else if ((Integer)side.getProperty("id") == GUP_UMFELD_RECHTS) {
+                                } else if (sideId == GUP_UMFELD_RECHTS) {
                                     beansUmfeldRight.add(tmp);
-                                } else if ((Integer)side.getProperty("id") == GUP_UFER_LINKS) {
+                                } else if (sideId == GUP_UFER_LINKS) {
                                     beansLeft.add(tmp);
-                                } else if ((Integer)side.getProperty("id") == GUP_SOHLE) {
+                                } else if (sideId == GUP_SOHLE) {
                                     beansMiddle.add(tmp);
                                 }
                             }
@@ -3070,7 +3084,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                     } else if (((ColoredReadOnlyBandMember)bm).getCidsBean().getClass().getName().endsWith(
                                     "hydrolog")) {
                         switchToForm("hydro");
-                        lblHeading.setText("Hydrologie");
+                        lblHeading.setText("Hydraulik");
                         hydroEditor.setCidsBean(((ColoredReadOnlyBandMember)bm).getCidsBean());
                     } else if ((colorProp != null) && colorProp.equals("name_bezeichnung")) {
                         switchToForm("entwicklungsziel");

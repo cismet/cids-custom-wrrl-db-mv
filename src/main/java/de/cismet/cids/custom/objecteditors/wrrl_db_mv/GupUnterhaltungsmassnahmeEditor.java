@@ -16,7 +16,6 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.method.MethodManager;
 import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
-import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -57,15 +56,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalToolTipUI;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MassnahmenartSearch;
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.gup.MassnahmenHistoryListModel;
@@ -161,7 +157,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JScrollPane jscEval;
-    private javax.swing.JLabel lblArbeitsflaecheMeas;
+    private javax.swing.JLabel lblArbeitsbreiteMeas;
     private javax.swing.JLabel lblBearbeiter1;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblBlMeas;
@@ -196,7 +192,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JLabel lblZeitpunkt;
     private javax.swing.JLabel lblZeitpunkt2;
     private javax.swing.JLabel lblrsbMeas;
-    private javax.swing.JLabel lclArbeitsflaeche;
+    private javax.swing.JLabel lclArbeitsbreite;
     private javax.swing.JLabel lclCbmprom;
     private javax.swing.JLabel lclMDrei;
     private javax.swing.JLabel lclMZwei;
@@ -204,7 +200,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JLabel lclStunden;
     private javax.swing.JLabel lclTeillaenge;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
-    private javax.swing.JPanel panArbeitsflaeche;
+    private javax.swing.JPanel panArbeitsbreite;
     private javax.swing.JPanel panBoeschungslaenge;
     private javax.swing.JPanel panBoeschungsneigung;
     private javax.swing.JPanel panCbmProM;
@@ -221,7 +217,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     private javax.swing.JPanel panVorlandbreite;
     private javax.swing.JScrollPane spBemerkung;
     private javax.swing.JTextArea textEval;
-    private javax.swing.JTextField txtArbeitsflaeche;
+    private javax.swing.JTextField txtArbeitsbreite;
     private javax.swing.JTextField txtBearbeiter;
     private javax.swing.JTextField txtBoeschungslaenge;
     private javax.swing.JTextField txtBoeschungsneigung;
@@ -282,7 +278,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             RendererTools.makeReadOnly(txtVorlandbreite);
             RendererTools.makeReadOnly(txtCbmProM);
             RendererTools.makeReadOnly(txtStueck);
-            RendererTools.makeReadOnly(txtArbeitsflaeche);
+            RendererTools.makeReadOnly(txtArbeitsbreite);
             RendererTools.makeReadOnly(txtTeillaenge);
             RendererTools.makeReadOnly(txtMZwei);
             RendererTools.makeReadOnly(txtMDrei);
@@ -390,10 +386,10 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lclSchnitttiefe = new javax.swing.JLabel();
         txtSchnitttiefe = new javax.swing.JTextField();
         lblSchnitttiefeMeas = new javax.swing.JLabel();
-        panArbeitsflaeche = new javax.swing.JPanel();
-        lclArbeitsflaeche = new javax.swing.JLabel();
-        txtArbeitsflaeche = new javax.swing.JTextField();
-        lblArbeitsflaecheMeas = new javax.swing.JLabel();
+        panArbeitsbreite = new javax.swing.JPanel();
+        lclArbeitsbreite = new javax.swing.JLabel();
+        txtArbeitsbreite = new javax.swing.JTextField();
+        lblArbeitsbreiteMeas = new javax.swing.JLabel();
         panTeillaenge = new javax.swing.JPanel();
         lclTeillaenge = new javax.swing.JLabel();
         txtTeillaenge = new javax.swing.JTextField();
@@ -541,9 +537,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         jPanel1.add(lblInfo, gridBagConstraints);
 
-        flowPanel.setMinimumSize(new java.awt.Dimension(250, 250));
         flowPanel.setOpaque(false);
-        flowPanel.setPreferredSize(new java.awt.Dimension(275, 250));
         flowPanel.setLayout(new java.awt.GridBagLayout());
 
         panBoeschungslaenge.setOpaque(false);
@@ -1018,13 +1012,13 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblValidLab.setPreferredSize(new java.awt.Dimension(210, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 17;
         flowPanel.add(lblValidLab, gridBagConstraints);
 
         panValid.setPreferredSize(new java.awt.Dimension(210, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         flowPanel.add(panValid, gridBagConstraints);
@@ -1035,7 +1029,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         lblValid.setPreferredSize(new java.awt.Dimension(128, 128));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 19;
         flowPanel.add(lblValid, gridBagConstraints);
 
         jscEval.setMaximumSize(new java.awt.Dimension(235, 100));
@@ -1048,7 +1042,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
@@ -1137,7 +1131,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.arbeitsflaeche}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.schnitttiefe}"),
                 txtSchnitttiefe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -1172,25 +1166,34 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.weightx = 1.0;
         flowPanel.add(panSchnitttiefe, gridBagConstraints);
 
-        panArbeitsflaeche.setOpaque(false);
-        panArbeitsflaeche.setLayout(new java.awt.GridBagLayout());
+        panArbeitsbreite.setOpaque(false);
+        panArbeitsbreite.setLayout(new java.awt.GridBagLayout());
 
-        lclArbeitsflaeche.setText(org.openide.util.NbBundle.getMessage(
+        lclArbeitsbreite.setText(org.openide.util.NbBundle.getMessage(
                 GupUnterhaltungsmassnahmeEditor.class,
-                "GupUnterhaltungsmassnahmeEditor.lclArbeitsflaeche.text")); // NOI18N
-        lclArbeitsflaeche.setMaximumSize(new java.awt.Dimension(150, 17));
-        lclArbeitsflaeche.setMinimumSize(new java.awt.Dimension(150, 17));
-        lclArbeitsflaeche.setPreferredSize(new java.awt.Dimension(150, 17));
+                "GupUnterhaltungsmassnahmeEditor.lclArbeitsbreite.text")); // NOI18N
+        lclArbeitsbreite.setMaximumSize(new java.awt.Dimension(150, 17));
+        lclArbeitsbreite.setMinimumSize(new java.awt.Dimension(150, 17));
+        lclArbeitsbreite.setPreferredSize(new java.awt.Dimension(150, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
-        panArbeitsflaeche.add(lclArbeitsflaeche, gridBagConstraints);
+        panArbeitsbreite.add(lclArbeitsbreite, gridBagConstraints);
 
-        txtArbeitsflaeche.setMaximumSize(new java.awt.Dimension(100, 20));
-        txtArbeitsflaeche.setMinimumSize(new java.awt.Dimension(60, 20));
-        txtArbeitsflaeche.setPreferredSize(new java.awt.Dimension(60, 20));
+        txtArbeitsbreite.setMaximumSize(new java.awt.Dimension(100, 20));
+        txtArbeitsbreite.setMinimumSize(new java.awt.Dimension(60, 20));
+        txtArbeitsbreite.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.arbeitsbreite}"),
+                txtArbeitsbreite,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 6;
@@ -1199,27 +1202,27 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 2);
-        panArbeitsflaeche.add(txtArbeitsflaeche, gridBagConstraints);
+        panArbeitsbreite.add(txtArbeitsbreite, gridBagConstraints);
 
-        lblArbeitsflaecheMeas.setText(org.openide.util.NbBundle.getMessage(
+        lblArbeitsbreiteMeas.setText(org.openide.util.NbBundle.getMessage(
                 GupUnterhaltungsmassnahmeEditor.class,
-                "GupUnterhaltungsmassnahmeEditor.lblArbeitsflaecheMeas.text")); // NOI18N
-        lblArbeitsflaecheMeas.setMaximumSize(new java.awt.Dimension(25, 17));
-        lblArbeitsflaecheMeas.setMinimumSize(new java.awt.Dimension(25, 17));
-        lblArbeitsflaecheMeas.setPreferredSize(new java.awt.Dimension(25, 17));
+                "GupUnterhaltungsmassnahmeEditor.lblArbeitsbreiteMeas.text")); // NOI18N
+        lblArbeitsbreiteMeas.setMaximumSize(new java.awt.Dimension(25, 17));
+        lblArbeitsbreiteMeas.setMinimumSize(new java.awt.Dimension(25, 17));
+        lblArbeitsbreiteMeas.setPreferredSize(new java.awt.Dimension(25, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
-        panArbeitsflaeche.add(lblArbeitsflaecheMeas, gridBagConstraints);
+        panArbeitsbreite.add(lblArbeitsbreiteMeas, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        flowPanel.add(panArbeitsflaeche, gridBagConstraints);
+        flowPanel.add(panArbeitsbreite, gridBagConstraints);
 
         panTeillaenge.setOpaque(false);
         panTeillaenge.setLayout(new java.awt.GridBagLayout());
@@ -1274,7 +1277,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         flowPanel.add(panTeillaenge, gridBagConstraints);
@@ -1332,7 +1335,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         flowPanel.add(panMZwei, gridBagConstraints);
@@ -1390,7 +1393,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 15;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         flowPanel.add(panMDrei, gridBagConstraints);
@@ -1405,7 +1408,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
@@ -2062,18 +2065,30 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
         final CidsBean massnBean = (CidsBean)cidsBean.getProperty("massnahme");
 
         if (massnBean != null) {
-            String critField = null;
-            boolean crit = true;
             final CidsBean erlaubt = (CidsBean)massnBean.getProperty("erlaubte_geraete");
 
+            final String critField;
+            final Boolean crit;
             if (erlaubt != null) {
-                if (erlaubt.getMetaObject().getId() == AL_ANF) {
-                    critField = "erfuellt_all_anf";
-                    crit = true;
-                } else if (erlaubt.getMetaObject().getId() == NOT_AL_ANF) {
-                    critField = "erfuellt_all_anf";
-                    crit = false;
+                switch (erlaubt.getMetaObject().getId()) {
+                    case AL_ANF: {
+                        critField = "erfuellt_all_anf";
+                        crit = true;
+                        break;
+                    }
+                    case NOT_AL_ANF: {
+                        critField = "erfuellt_all_anf";
+                        crit = false;
+                        break;
+                    }
+                    default: {
+                        critField = null;
+                        crit = false;
+                    }
                 }
+            } else {
+                critField = null;
+                crit = false;
             }
 
             final ModelLoader ml = new ModelLoader("gup_geraet", "geraet", cbGeraet, critField, crit, true);
@@ -2610,7 +2625,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     private void refreshMassnahmenFields() {
         txtMassnahme.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme"));
+        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("gewerk"));
         setComboboxes();
         validateMassnahme();
         refreshGeraeteCombo();
@@ -2627,24 +2642,24 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
     /**
      * DOCUMENT ME!
      *
-     * @param  massnahme  DOCUMENT ME!
+     * @param  gewerk  DOCUMENT ME!
      */
-    private void deActivateAdditionalAttributes(final CidsBean massnahme) {
-        if (massnahme != null) {
-            final Object bl = massnahme.getProperty("boeschungslaenge");
-            final Object bn = massnahme.getProperty("boeschungsneigung");
-            final Object db = massnahme.getProperty("deichkronenbreite");
-            final Object rs = massnahme.getProperty("randstreifenbreite");
-            final Object sb = massnahme.getProperty("sohlbreite");
-            final Object vb = massnahme.getProperty("vorlandbreite");
-            final Object cm = massnahme.getProperty("cbmprom");
-            final Object st = massnahme.getProperty("stueck");
-            final Object stu = massnahme.getProperty("stunden");
-            final Object sch = massnahme.getProperty("schnitttiefe");
-            final Object arbf = massnahme.getProperty("arbeitsbreite");
-            final Object teil = massnahme.getProperty("teillaenge");
-            final Object m2 = massnahme.getProperty("m_zwei");
-            final Object m3 = massnahme.getProperty("m_drei");
+    private void deActivateAdditionalAttributes(final CidsBean gewerk) {
+        if (gewerk != null) {
+            final Object bl = gewerk.getProperty("boeschungslaenge");
+            final Object bn = gewerk.getProperty("boeschungsneigung");
+            final Object db = gewerk.getProperty("deichkronenbreite");
+            final Object rs = gewerk.getProperty("randstreifenbreite");
+            final Object sb = gewerk.getProperty("sohlbreite");
+            final Object vb = gewerk.getProperty("vorlandbreite");
+            final Object cm = gewerk.getProperty("cbmprom");
+            final Object st = gewerk.getProperty("stueck");
+            final Object stu = gewerk.getProperty("stunden");
+            final Object sch = gewerk.getProperty("schnitttiefe");
+            final Object arbbr = gewerk.getProperty("arbeitsbreite");
+            final Object teil = gewerk.getProperty("teillaenge");
+            final Object m2 = gewerk.getProperty("m_zwei");
+            final Object m3 = gewerk.getProperty("m_drei");
 
             panBoeschungslaenge.setVisible((bl != null) && ((Boolean)bl).booleanValue());
             panBoeschungsneigung.setVisible((bn != null) && ((Boolean)bn).booleanValue());
@@ -2656,7 +2671,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             panStueck.setVisible((st != null) && ((Boolean)st).booleanValue());
             panStunden.setVisible((stu != null) && ((Boolean)stu).booleanValue());
             panSchnitttiefe.setVisible((sch != null) && ((Boolean)sch).booleanValue());
-            panArbeitsflaeche.setVisible((arbf != null) && ((Boolean)arbf).booleanValue());
+            panArbeitsbreite.setVisible((arbbr != null) && ((Boolean)arbbr).booleanValue());
             panTeillaenge.setVisible((teil != null) && ((Boolean)teil).booleanValue());
             panMZwei.setVisible((m2 != null) && ((Boolean)m2).booleanValue());
             panMDrei.setVisible((m3 != null) && ((Boolean)m3).booleanValue());
@@ -2671,7 +2686,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
             panStueck.setVisible(false);
             panStunden.setVisible(false);
             panSchnitttiefe.setVisible(false);
-            panArbeitsflaeche.setVisible(false);
+            panArbeitsbreite.setVisible(false);
             panTeillaenge.setVisible(false);
             panMZwei.setVisible(false);
             panMDrei.setVisible(false);
@@ -3009,7 +3024,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
                 final String objectProperty,
                 final JComboBox cBox,
                 final String critField,
-                final boolean criterium,
+                final Boolean criterium,
                 final boolean nullable) {
             this.catalogueName = catalogueName;
             this.cBox = cBox;
@@ -3032,8 +3047,9 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
 
                 if (critField != null) {
                     queryRk += " where "
-                                + ((!criterium) ? (critField + " is null or not ") : (critField + " is not null and "))
-                                + critField;
+                                + ((!criterium) ? (critField + " is null or " + critField + " is not ")
+                                                : (critField + " is not null and " + critField + " is "))
+                                + criterium;
                 }
 
                 final MetaObject[] mos = MetaObjectCache.getInstance()
