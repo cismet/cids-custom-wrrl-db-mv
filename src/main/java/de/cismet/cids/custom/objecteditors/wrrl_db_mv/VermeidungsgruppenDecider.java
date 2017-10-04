@@ -14,6 +14,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import java.util.Objects;
+
 import de.cismet.cids.editors.FieldStateDecider;
 
 /**
@@ -24,18 +26,25 @@ import de.cismet.cids.editors.FieldStateDecider;
  */
 public class VermeidungsgruppenDecider implements FieldStateDecider {
 
+    //~ Instance fields --------------------------------------------------------
+
+    private final boolean ausfuehrungszeitpunkt;
+
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new SubTypeDecider object.
+     *
+     * @param  ausfuehrungszeitpunkt  DOCUMENT ME!
      */
-    public VermeidungsgruppenDecider() {
+    public VermeidungsgruppenDecider(final boolean ausfuehrungszeitpunkt) {
+        this.ausfuehrungszeitpunkt = ausfuehrungszeitpunkt;
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public boolean isCheckboxForClassActive(final MetaObject mo) {
-        return true;
+        return Objects.equals(this.ausfuehrungszeitpunkt, (Boolean)mo.getBean().getProperty("ausfuehrungszeitpunkt"));
     }
 }

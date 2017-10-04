@@ -45,7 +45,7 @@ import de.cismet.tools.configuration.StartupHook;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-@ServiceProvider(service = StartupHook.class)
+//@ServiceProvider(service = StartupHook.class)
 public class GupStartupHook implements StartupHook {
 
     //~ Static fields/initializers ---------------------------------------------
