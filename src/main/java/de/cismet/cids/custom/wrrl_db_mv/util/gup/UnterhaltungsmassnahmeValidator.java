@@ -15,6 +15,7 @@ import Sirius.navigator.ui.ComponentRegistry;
 
 import org.openide.util.NbBundle;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -196,36 +197,39 @@ public class UnterhaltungsmassnahmeValidator {
             }
         }
 
-        final List<CidsBean> vrBeans = massnArt.getBeanCollectionProperty("vermeidungsgruppen");
+        final List<CidsBean> vrBeans = new ArrayList<>();
+        vrBeans.addAll(massnArt.getBeanCollectionProperty("einsatzvariante.vermeidungsgruppen"));
+        vrBeans.addAll(massnArt.getBeanCollectionProperty("ausfuehrungszeitpunkt.vermeidungsgruppen"));
 
         for (final VermeidungsgruppeMitGeom vg : verbreitungsraum) {
             if (isLineInsideBean(vg, von, bis, wo)) {
-                if ((vrBeans == null) || !vrBeans.contains((CidsBean)vg.getVermeidungsgruppe())) {
-                    final CidsBean v = (CidsBean)vg.getVermeidungsgruppe();
-                    final Boolean warning = ((v == null) ? null
-                                                         : (Boolean)vg.getVermeidungsgruppe().getProperty("warnung"));
+                final CidsBean v = (CidsBean)vg.getVermeidungsgruppe();
+                if (!vrBeans.contains(v)) {
+                    if (true) {
+                        final Boolean warning = ((v == null) ? null : (Boolean)v.getProperty("warnung"));
 
-                    if ((warning != null) && warning) {
-                        errors.add(NbBundle.getMessage(
-                                UnterhaltungsmassnahmeValidator.class,
-                                "UnterhaltungsmassnahmeValidator.validate.preventionGroupYellow",
-                                v));
-
-                        if (!res.equals(ValidationResult.error)) {
-                            res = ValidationResult.warning;
-                        }
-                    } else {
-                        if (v != null) {
+                        if ((warning != null) && warning) {
                             errors.add(NbBundle.getMessage(
                                     UnterhaltungsmassnahmeValidator.class,
-                                    "UnterhaltungsmassnahmeValidator.validate.invalidPreventionGroup",
+                                    "UnterhaltungsmassnahmeValidator.validate.preventionGroupYellow",
                                     v));
+
+                            if (!res.equals(ValidationResult.error)) {
+                                res = ValidationResult.warning;
+                            }
                         } else {
-                            errors.add(NbBundle.getMessage(
-                                    UnterhaltungsmassnahmeValidator.class,
-                                    "UnterhaltungsmassnahmeValidator.validate.preventionGroupWithoutValue"));
+                            if (v != null) {
+                                errors.add(NbBundle.getMessage(
+                                        UnterhaltungsmassnahmeValidator.class,
+                                        "UnterhaltungsmassnahmeValidator.validate.invalidPreventionGroup",
+                                        v));
+                            } else {
+                                errors.add(NbBundle.getMessage(
+                                        UnterhaltungsmassnahmeValidator.class,
+                                        "UnterhaltungsmassnahmeValidator.validate.preventionGroupWithoutValue"));
+                            }
+                            res = ValidationResult.error;
                         }
-                        res = ValidationResult.error;
                     }
                 }
             }
