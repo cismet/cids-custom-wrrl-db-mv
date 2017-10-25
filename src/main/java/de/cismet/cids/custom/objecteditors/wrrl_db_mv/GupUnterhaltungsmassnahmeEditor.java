@@ -2625,7 +2625,7 @@ public class GupUnterhaltungsmassnahmeEditor extends javax.swing.JPanel implemen
      */
     private void refreshMassnahmenFields() {
         txtMassnahme.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("gewerk"));
+        deActivateAdditionalAttributes((CidsBean)cidsBean.getProperty("massnahme.gewerk"));
         setComboboxes();
         validateMassnahme();
         refreshGeraeteCombo();
