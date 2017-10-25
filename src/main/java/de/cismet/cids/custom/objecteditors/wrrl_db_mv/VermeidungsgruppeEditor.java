@@ -56,6 +56,7 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
     private boolean readOnly;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbAusfuehrungszeitpunkt;
     private javax.swing.JCheckBox cbSohle;
     private javax.swing.JCheckBox cbUfer;
     private javax.swing.JCheckBox cbUmfeld;
@@ -69,6 +70,7 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblWarning;
+    private javax.swing.JLabel lblWarning1;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -94,6 +96,7 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         if (readOnly) {
             RendererTools.makeReadOnly(txtName);
             RendererTools.makeReadOnly(dccColor);
+            RendererTools.makeReadOnly(cbAusfuehrungszeitpunkt);
             RendererTools.makeReadOnly(cbWarning);
             RendererTools.makeReadOnly(cbUmfeld);
             RendererTools.makeReadOnly(cbSohle);
@@ -135,20 +138,19 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         cbUfer = new javax.swing.JCheckBox();
         cbUmfeld = new javax.swing.JCheckBox();
         cbSohle = new javax.swing.JCheckBox();
+        lblWarning1 = new javax.swing.JLabel();
+        cbAusfuehrungszeitpunkt = new javax.swing.JCheckBox();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 400));
         setLayout(new java.awt.GridBagLayout());
 
         lblName.setText(org.openide.util.NbBundle.getMessage(
                 VermeidungsgruppeEditor.class,
                 "VermeidungsgruppeEditor.lblName.text")); // NOI18N
-        lblName.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblName.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblName.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
         add(lblName, gridBagConstraints);
@@ -175,12 +177,10 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         lblColor.setText(org.openide.util.NbBundle.getMessage(
                 VermeidungsgruppeEditor.class,
                 "VermeidungsgruppeEditor.lblColor.text")); // NOI18N
-        lblColor.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblColor.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblColor, gridBagConstraints);
@@ -245,18 +245,18 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 9, 4);
         add(jScrollPane1, gridBagConstraints);
 
         lblArten.setText(org.openide.util.NbBundle.getMessage(
                 VermeidungsgruppeEditor.class,
                 "VermeidungsgruppeEditor.lblArten.text")); // NOI18N
-        lblArten.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblArten.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblArten.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblArten, gridBagConstraints);
@@ -264,12 +264,10 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         lblWarning.setText(org.openide.util.NbBundle.getMessage(
                 VermeidungsgruppeEditor.class,
                 "VermeidungsgruppeEditor.lblWarning.text")); // NOI18N
-        lblWarning.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblWarning.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblWarning.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblWarning, gridBagConstraints);
@@ -294,7 +292,7 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(cbWarning, gridBagConstraints);
@@ -302,12 +300,10 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         lblBereiche.setText(org.openide.util.NbBundle.getMessage(
                 VermeidungsgruppeEditor.class,
                 "VermeidungsgruppeEditor.lblBereiche.text")); // NOI18N
-        lblBereiche.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblBereiche.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblBereiche.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblBereiche, gridBagConstraints);
@@ -327,6 +323,8 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ufer}"),
                 cbUfer,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -348,6 +346,8 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeld}"),
                 cbUmfeld,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -369,6 +369,8 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohle}"),
                 cbSohle,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,6 +386,42 @@ public class VermeidungsgruppeEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
+
+        lblWarning1.setText(org.openide.util.NbBundle.getMessage(
+                VermeidungsgruppeEditor.class,
+                "VermeidungsgruppeEditor.lblWarning1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        add(lblWarning1, gridBagConstraints);
+
+        cbAusfuehrungszeitpunkt.setText(org.openide.util.NbBundle.getMessage(
+                VermeidungsgruppeEditor.class,
+                "VermeidungsgruppeEditor.cbAusfuehrungszeitpunkt.text")); // NOI18N
+        cbAusfuehrungszeitpunkt.setContentAreaFilled(false);
+        cbAusfuehrungszeitpunkt.setMaximumSize(new java.awt.Dimension(230, 22));
+        cbAusfuehrungszeitpunkt.setMinimumSize(new java.awt.Dimension(230, 22));
+        cbAusfuehrungszeitpunkt.setPreferredSize(new java.awt.Dimension(230, 22));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ausfuehrungszeitpunkt}"),
+                cbAusfuehrungszeitpunkt,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbAusfuehrungszeitpunkt, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

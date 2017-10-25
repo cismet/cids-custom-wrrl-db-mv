@@ -24,7 +24,6 @@ import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultBindableCheckboxField;
-import de.cismet.cids.editors.DefaultBindableColorChooser;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
@@ -40,29 +39,28 @@ import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupMassnahmenartEdi
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements CidsBeanRenderer, EditorSaveListener {
+public class GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor extends javax.swing.JPanel
+        implements CidsBeanRenderer,
+            EditorSaveListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            GupEinsatzvarianteEditor.class);
+            GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.class);
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private boolean readOnly = false;
-    private final VermeidungsgruppenDecider vdecider = new VermeidungsgruppenDecider(false);
+    private final VermeidungsgruppenDecider vdecider = new VermeidungsgruppenDecider(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableCheckboxField ccVermeidungsgruppen;
-    private de.cismet.cids.editors.DefaultBindableColorChooser dccColor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jpGeschuetzteArten;
-    private javax.swing.JLabel lblColor;
-    private javax.swing.JLabel lblFaktor;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblName;
@@ -72,7 +70,6 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
     private javax.swing.JPanel panSpacingBottom2;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private de.cismet.tools.gui.SemiRoundedPanel semiRoundedPanel1;
-    private javax.swing.JTextField txtFaktor;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -82,7 +79,7 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
     /**
      * Creates new form GupMassnahmeSohle.
      */
-    public GupEinsatzvarianteEditor() {
+    public GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor() {
         this(false);
     }
 
@@ -91,7 +88,7 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public GupEinsatzvarianteEditor(final boolean readOnly) {
+    public GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
         jTabbedPane1.setUI(new TabbedPaneUITransparent());
@@ -100,8 +97,6 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtName);
-            RendererTools.makeReadOnly(txtFaktor);
-            RendererTools.makeReadOnly(dccColor);
             RendererTools.makeReadOnly(ccVermeidungsgruppen);
         }
     }
@@ -126,10 +121,6 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
         jPanel1 = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        lblColor = new javax.swing.JLabel();
-        dccColor = new de.cismet.cids.editors.DefaultBindableColorChooser();
-        lblFaktor = new javax.swing.JLabel();
-        txtFaktor = new javax.swing.JTextField();
         jpGeschuetzteArten = new javax.swing.JPanel();
         panInfo2 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -150,8 +141,8 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
         lblHeading.setText(org.openide.util.NbBundle.getMessage(
-                GupEinsatzvarianteEditor.class,
-                "GupEinsatzvarianteEditor.lblHeading.text")); // NOI18N
+                GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.class,
+                "GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.lblHeading.text")); // NOI18N
         semiRoundedPanel1.add(lblHeading);
 
         roundedPanel1.add(semiRoundedPanel1, java.awt.BorderLayout.NORTH);
@@ -160,14 +151,14 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         lblName.setText(org.openide.util.NbBundle.getMessage(
-                GupEinsatzvarianteEditor.class,
-                "GupEinsatzvarianteEditor.lblName.text")); // NOI18N
+                GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.class,
+                "GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.lblName.text")); // NOI18N
         lblName.setMaximumSize(new java.awt.Dimension(170, 17));
         lblName.setMinimumSize(new java.awt.Dimension(170, 17));
         lblName.setPreferredSize(new java.awt.Dimension(215, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
         jPanel1.add(lblName, gridBagConstraints);
@@ -185,75 +176,11 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
         jPanel1.add(txtName, gridBagConstraints);
-
-        lblColor.setText(org.openide.util.NbBundle.getMessage(
-                GupEinsatzvarianteEditor.class,
-                "GupEinsatzvarianteEditor.lblColor.text")); // NOI18N
-        lblColor.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblColor.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblColor.setPreferredSize(new java.awt.Dimension(215, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        jPanel1.add(lblColor, gridBagConstraints);
-
-        dccColor.setMinimumSize(new java.awt.Dimension(250, 20));
-        dccColor.setPreferredSize(new java.awt.Dimension(250, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.color}"),
-                dccColor,
-                org.jdesktop.beansbinding.BeanProperty.create("color"));
-        binding.setConverter(((DefaultBindableColorChooser)dccColor).getConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        jPanel1.add(dccColor, gridBagConstraints);
-
-        lblFaktor.setText(org.openide.util.NbBundle.getMessage(
-                GupEinsatzvarianteEditor.class,
-                "GupEinsatzvarianteEditor.lblFaktor.text")); // NOI18N
-        lblFaktor.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblFaktor.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblFaktor.setPreferredSize(new java.awt.Dimension(215, 17));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
-        jPanel1.add(lblFaktor, gridBagConstraints);
-
-        txtFaktor.setMinimumSize(new java.awt.Dimension(400, 25));
-        txtFaktor.setPreferredSize(new java.awt.Dimension(450, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.factor}"),
-                txtFaktor,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtFaktor, gridBagConstraints);
 
         roundedPanel1.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -265,8 +192,8 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
         jPanel2.add(roundedPanel1, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
-                GupEinsatzvarianteEditor.class,
-                "GupEinsatzvarianteEditor.jPanel2.TabConstraints.tabTitle"),
+                GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.class,
+                "GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.jPanel2.TabConstraints.tabTitle"),
             jPanel2); // NOI18N
 
         jpGeschuetzteArten.setOpaque(false);
@@ -279,8 +206,8 @@ public class GupEinsatzvarianteEditor extends javax.swing.JPanel implements Cids
 
         lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
         lblHeading2.setText(org.openide.util.NbBundle.getMessage(
-                GupEinsatzvarianteEditor.class,
-                "GupEinsatzvarianteEditor.lblHeading2.text")); // NOI18N
+                GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.class,
+                "GupUnterhaltungsmassnahmeAusfuehrungszeitpunktEditor.lblHeading2.text")); // NOI18N
         panHeadInfo2.add(lblHeading2);
 
         panInfo2.add(panHeadInfo2, java.awt.BorderLayout.NORTH);
