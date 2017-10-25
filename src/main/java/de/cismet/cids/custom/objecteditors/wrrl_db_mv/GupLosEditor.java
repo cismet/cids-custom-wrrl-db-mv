@@ -109,16 +109,20 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static final int STUECK = 15;
     public static final int STUNDEN = 16;
     public static final int SCHNITTTIEFE = 17;
-    public static final int MASSNAHMENART_ID = 18;
-    public static final int LEISTUNGSTEXT = 19;
-    public static final int AUFMASS_REGEL = 20;
-    public static final int EINHEIT = 21;
-    public static final int UM_ID = 22;
-    public static final int PL_ID = 23;
-    public static final int GUP_ID = 24;
-    public static final int GWK = 25;
-    public static final int MASSNAHMEN_ID = 26;
-    public static final int BEAN = 27;
+    public static final int TEILLAENGE = 18;
+    public static final int QM = 19;
+    public static final int CBM = 20;
+    public static final int ARBEITSBREITE = 21;
+    public static final int MASSNAHMENART_ID = 22;
+    public static final int LEISTUNGSTEXT = 23;
+    public static final int AUFMASS_REGEL = 24;
+    public static final int EINHEIT = 25;
+    public static final int UM_ID = 26;
+    public static final int PL_ID = 27;
+    public static final int GUP_ID = 28;
+    public static final int GWK = 29;
+    public static final int MASSNAHMEN_ID = 30;
+    public static final int BEAN = 31;
     public static final int GROUP_MASSN_TYP = 0;
     public static final int GROUP_TEILSTUECKE = 1;
     public static final int GROUP_LAENGE = 2;
@@ -806,6 +810,10 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         newBean.add(massnBean.getProperty("stueck"));
         newBean.add(massnBean.getProperty("stunden"));
         newBean.add(massnBean.getProperty("schnitttiefe"));
+        newBean.add(massnBean.getProperty("teillaenge"));
+        newBean.add(massnBean.getProperty("m_zwei"));
+        newBean.add(massnBean.getProperty("m_drei"));
+        newBean.add(massnBean.getProperty("arbeitsbreite"));
         newBean.add(massnBean.getProperty("massnahme.id"));
         newBean.add(massnBean.getProperty("massnahme.leistungstext"));
         newBean.add(aufmassRegel);
@@ -1092,7 +1100,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
     public static String replaceVariablesFromExpression(final String ex, ArrayList valueList) {
         if (valueList == null) {
             valueList = new ArrayList();
-            for (int i = 0; i < 18; ++i) {
+            for (int i = 0; i < 22; ++i) {
                 valueList.add(2);
             }
             valueList.set(MASSNAHME_VON, 1);
@@ -1120,6 +1128,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 (CharSequence)replaceNull(valueList.get(STUNDEN), 0.0).toString());
         expression = expression.replace((CharSequence)"schnitttiefe",
                 (CharSequence)replaceNull(valueList.get(SCHNITTTIEFE), 0.0).toString());
+        expression = expression.replace((CharSequence)"teillänge",
+                (CharSequence)replaceNull(valueList.get(TEILLAENGE), 0.0).toString());
+        expression = expression.replace((CharSequence)"qm",
+                (CharSequence)replaceNull(valueList.get(QM), 0.0).toString());
+        expression = expression.replace((CharSequence)"cbm",
+                (CharSequence)replaceNull(valueList.get(CBM), 0.0).toString());
+        expression = expression.replace((CharSequence)"arbeitsbreite",
+                (CharSequence)replaceNull(valueList.get(ARBEITSBREITE), 0.0).toString());
         expression = expression.replace((CharSequence)"von",
                 (CharSequence)replaceNull(valueList.get(MASSNAHME_VON), 0.0).toString());
         expression = expression.replace((CharSequence)"bis",
