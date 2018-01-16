@@ -636,16 +636,16 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
     private String extractBemerkung(final CidsBean cBean) {
         final StringBuilder bemerkungen = new StringBuilder();
 
-        final Boolean bl = (Boolean)cBean.getProperty("massnahme.boeschungslaenge");
-        final Boolean bn = (Boolean)cBean.getProperty("massnahme.boeschungsneigung");
-        final Boolean db = (Boolean)cBean.getProperty("massnahme.deichkronenbreite");
-        final Boolean rs = (Boolean)cBean.getProperty("massnahme.randstreifenbreite");
-        final Boolean sb = (Boolean)cBean.getProperty("massnahme.sohlbreite");
-        final Boolean vb = (Boolean)cBean.getProperty("massnahme.vorlandbreite");
-        final Boolean cm = (Boolean)cBean.getProperty("massnahme.cbmprom");
-        final Boolean st = (Boolean)cBean.getProperty("massnahme.stueck");
-        final Boolean stu = (Boolean)cBean.getProperty("massnahme.stunden");
-        final Boolean sch = (Boolean)cBean.getProperty("massnahme.schnitttiefe");
+        final Boolean bl = (Boolean)cBean.getProperty("massnahme.gewerk.boeschungslaenge");
+        final Boolean bn = (Boolean)cBean.getProperty("massnahme.gewerk.boeschungsneigung");
+        final Boolean db = (Boolean)cBean.getProperty("massnahme.gewerk.deichkronenbreite");
+        final Boolean rs = (Boolean)cBean.getProperty("massnahme.gewerk.randstreifenbreite");
+        final Boolean sb = (Boolean)cBean.getProperty("massnahme.gewerk.sohlbreite");
+        final Boolean vb = (Boolean)cBean.getProperty("massnahme.gewerk.vorlandbreite");
+        final Boolean cm = (Boolean)cBean.getProperty("massnahme.gewerk.cbmprom");
+        final Boolean st = (Boolean)cBean.getProperty("massnahme.gewerk.stueck");
+        final Boolean stu = (Boolean)cBean.getProperty("massnahme.gewerk.stunden");
+        final Boolean sch = (Boolean)cBean.getProperty("massnahme.gewerk.schnitttiefe");
 
         if ((bl != null) && bl) {
             if (!bemerkungen.toString().equals("")) {
