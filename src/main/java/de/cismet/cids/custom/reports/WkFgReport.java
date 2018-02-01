@@ -20,7 +20,6 @@ import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.newuser.UserException;
 
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -69,11 +68,8 @@ import de.cismet.cids.utils.jasperreports.CidsBeanDataSource;
 import de.cismet.cids.utils.jasperreports.ReportHelper;
 import de.cismet.cids.utils.jasperreports.ReportSwingWorker;
 
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
-import de.cismet.tools.configuration.ConfigurationManager;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -604,12 +600,15 @@ public class WkFgReport {
                 expression = args[1];
             }
 
-//            expression = "WANE-0300";
+            // init log4J
+            final Properties p = new Properties();
+            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
+            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
+            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
+            org.apache.log4j.PropertyConfigurator.configure(p);
 
             // read the properties
             final Properties properties = new Properties();
-//            final Reader propertiesReader = new FileReader(
-//                    "/home/therter/ApplicationData/flexDist/client/wrrl-db-mvLocalMv/config/wkReports.properties");
             final Reader propertiesReader = new FileReader(args[0]);
             properties.load(propertiesReader);
 
@@ -626,7 +625,8 @@ public class WkFgReport {
                         .createConnection(
                             properties.getProperty("connectionClass"),
                             properties.getProperty("callserver"),
-                            null);
+                            null,
+                            "true".equals(properties.getProperty("compressionEnabled")));
             final ConnectionSession session;
             final ConnectionProxy proxy;
 
@@ -641,13 +641,6 @@ public class WkFgReport {
             }
 
             ReportUtils.initCismap();
-
-            // init log4J
-            final Properties p = new Properties();
-            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
-            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
-            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
-            org.apache.log4j.PropertyConfigurator.configure(p);
 
             // create the reports
             createAllReports(properties.getProperty("report_directory"), expression);
