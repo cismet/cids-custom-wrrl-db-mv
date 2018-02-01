@@ -54,14 +54,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.FgskIdSearch;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgIdSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.ReportUtils;
@@ -1109,6 +1107,13 @@ public final class FgskReport extends AbstractJasperReportPrint {
                 expression = args[1];
             }
 
+            // init log4J
+            final Properties p = new Properties();
+            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
+            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
+            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
+            org.apache.log4j.PropertyConfigurator.configure(p);
+            
             // read the properties
             final Properties properties = new Properties();
             final Reader propertiesReader = new FileReader(args[0]);
@@ -1127,7 +1132,8 @@ public final class FgskReport extends AbstractJasperReportPrint {
                         .createConnection(
                             properties.getProperty("connectionClass"),
                             properties.getProperty("callserver"),
-                            null);
+                            null,
+                            "true".equals(properties.getProperty("compressionEnabled")));                            
             final ConnectionSession session;
             final ConnectionProxy proxy;
 
@@ -1142,13 +1148,6 @@ public final class FgskReport extends AbstractJasperReportPrint {
             }
 
             ReportUtils.initCismap();
-
-            // init log4J
-            final Properties p = new Properties();
-            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
-            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
-            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
-            org.apache.log4j.PropertyConfigurator.configure(p);
 
             // create the reports
             createAllReports(properties.getProperty("report_directory"), expression);
