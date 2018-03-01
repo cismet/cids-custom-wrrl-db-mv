@@ -58,15 +58,25 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-commons</artifactId>
-                <version>6.0</version>
+                <version>6.0.2</version>
                 <scope>compile</scope>
                 <type>jar</type>
+<!--                <exclusions>
+                    <exclusion>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.postgis</groupId>
+                        <artifactId>postgis-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>-->
             </dependency>
             
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-gui-commons</artifactId>
-                <version>6.0</version>
+                <version>6.0.2</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -74,15 +84,25 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>6.0</version>
+                <version>6.0.1</version>
                 <scope>compile</scope>
                 <type>jar</type>
+<!--                <exclusions>
+                    <exclusion>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.postgis</groupId>
+                        <artifactId>postgis-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>-->
             </dependency>
             
             <dependency>
                 <groupId>de.cismet.cismap</groupId>
                 <artifactId>cismap-plugin</artifactId>
-                <version>6.0</version>
+                <version>6.0.1</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -90,9 +110,19 @@
             <dependency>
                 <groupId>de.cismet.cids</groupId>
                 <artifactId>cids-server</artifactId>
-                <version>6.0</version>
+                <version>6.0.5</version>
                 <scope>compile</scope>
                 <type>jar</type>
+<!--                <exclusions>
+                    <exclusion>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.postgis</groupId>
+                        <artifactId>postgis-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>-->
             </dependency>
             
             <dependency>
@@ -316,12 +346,13 @@
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.13</version>
-        </dependency>-->
+            <scope>runtime</scope>
+        </dependency>
         
         <!-- BEGIN: Runtime dependencies -->
         <dependency>
