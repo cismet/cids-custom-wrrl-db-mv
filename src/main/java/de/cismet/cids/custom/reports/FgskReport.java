@@ -1113,7 +1113,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
             p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
             p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
             org.apache.log4j.PropertyConfigurator.configure(p);
-            
+
             // read the properties
             final Properties properties = new Properties();
             final Reader propertiesReader = new FileReader(args[0]);
@@ -1133,7 +1133,7 @@ public final class FgskReport extends AbstractJasperReportPrint {
                             properties.getProperty("connectionClass"),
                             properties.getProperty("callserver"),
                             null,
-                            "true".equals(properties.getProperty("compressionEnabled")));                            
+                            "true".equals(properties.getProperty("compressionEnabled")));
             final ConnectionSession session;
             final ConnectionProxy proxy;
 

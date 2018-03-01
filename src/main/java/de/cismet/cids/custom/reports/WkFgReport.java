@@ -70,7 +70,6 @@ import de.cismet.cids.utils.jasperreports.ReportSwingWorker;
 
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
-
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
