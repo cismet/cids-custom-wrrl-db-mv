@@ -12,11 +12,15 @@
  */
 package de.cismet.cismap.custom.wfsforms;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.PrecisionModel;
+
 import org.deegree.datatypes.QualifiedName;
 import org.deegree.model.feature.DefaultFeature;
 import org.deegree.model.feature.FeatureProperty;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -25,7 +29,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 
 import java.net.URI;
@@ -43,9 +46,11 @@ import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 import de.cismet.cismap.commons.wfsforms.AbstractWFSForm;
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 import de.cismet.cismap.commons.wfsforms.WFSFormQuery;
@@ -66,6 +71,7 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
     private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private WFSFormFeature strasse = null;
     private WFSFormFeature gemeinde = null;
+    private WFSFormFeature lastVisualizedFeature = null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cboGemeinden;
     private javax.swing.JCheckBox chkLockScale;
@@ -414,9 +420,38 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
 //        }
 
         if (gemeinde != null) {
-            visualizePosition(gemeinde, chkVisualize.isSelected());
+            visualizePosition(chkVisualize.isSelected());
         }
     } //GEN-LAST:event_chkVisualizeActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  showMarker  DOCUMENT ME!
+     */
+    public void visualizePosition(final boolean showMarker) {
+        lastVisualizedFeature = gemeinde;
+        mappingComponent.getHighlightingLayer().removeAllChildren();
+        mappingComponent.getHighlightingLayer().addChild(pMark);
+        mappingComponent.addStickyNode(pMark);
+        final Point p = CrsTransformer.transformToGivenCrs((Point)getPointFromGemeinde(),
+                mappingComponent.getMappingModel().getSrs().getCode());
+        final double x = mappingComponent.getWtst().getScreenX(p.getCoordinate().x);
+        final double y = mappingComponent.getWtst().getScreenY(p.getCoordinate().y);
+        pMark.setOffset(x, y);
+        pMark.setVisible(showMarker);
+        mappingComponent.rescaleStickyNodes();
+
+        CismapBroker.getInstance().removeCrsChangeListener(this);
+        CismapBroker.getInstance().addCrsChangeListener(this);
+    }
+
+    @Override
+    public void crsChanged(final CrsChangedEvent event) {
+        if (mappingComponent.getHighlightingLayer().getAllNodes().contains(pMark) && (lastVisualizedFeature != null)) {
+            visualizePosition(lastVisualizedFeature, pMark.getVisible());
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -433,13 +468,30 @@ public class WFSFormGemeindenSearch extends AbstractWFSForm implements ActionLis
         XBoundingBox bb = null;
         final int animation = mc.getAnimationDuration();
         if (gemeinde != null) {
-            bb = new XBoundingBox(gemeinde.getJTSGeometry());
+            bb = new XBoundingBox(getPointFromGemeinde().buffer(1000));
         } else {
             return;
         }
         mc.gotoBoundingBox(bb, history, scaling, animation);
         chkVisualizeActionPerformed(null);
     }                                                                         //GEN-LAST:event_cmdOkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Geometry getPointFromGemeinde() {
+        final URI uri = gemeinde.getFeature().getProperties()[0].getName().getNamespace();
+        final QualifiedName qNameHWert = new QualifiedName("hochwert", uri);
+        final QualifiedName qNameRWert = new QualifiedName("rechstwert", uri);
+        final String hochwert = (String)gemeinde.getFeature().getProperties(qNameHWert)[0].getValue();
+        final String rechtswert = (String)gemeinde.getFeature().getProperties(qNameRWert)[0].getValue();
+        final double h = Double.parseDouble(hochwert);
+        final double r = Double.parseDouble(rechtswert);
+        final GeometryFactory factory = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING), 5650);
+        return factory.createPoint(new Coordinate(r, h));
+    }
 
     /**
      * DOCUMENT ME!
