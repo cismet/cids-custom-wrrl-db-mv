@@ -332,7 +332,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         this.editable = editable;
         this.listListenerEnabled = true;
         this.resizeListenerEnabled = true;
-        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
+        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
         initComponents();
         if (editable) {
             new CidsBeanDropTarget(lblWkFg);
