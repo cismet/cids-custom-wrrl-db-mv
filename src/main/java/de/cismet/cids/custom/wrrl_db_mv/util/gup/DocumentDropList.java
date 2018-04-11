@@ -109,7 +109,7 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
 //                new CidsBeanDropTarget(this);
             dropTarget = new DropTarget(this, this);
         }
-        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
+        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
         this.beanProperty = beanProperty;
         this.readOnly = readOnly;
     }
