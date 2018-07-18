@@ -198,8 +198,12 @@ public class UnterhaltungsmassnahmeValidator {
         }
 
         final List<CidsBean> vrBeans = new ArrayList<>();
-        vrBeans.addAll(massnArt.getBeanCollectionProperty("einsatzvariante.vermeidungsgruppen"));
-        vrBeans.addAll(massnArt.getBeanCollectionProperty("ausfuehrungszeitpunkt.vermeidungsgruppen"));
+        if (massnArt.getBeanCollectionProperty("einsatzvariante.vermeidungsgruppen") != null) {
+            vrBeans.addAll(massnArt.getBeanCollectionProperty("einsatzvariante.vermeidungsgruppen"));
+        }
+        if (massnArt.getBeanCollectionProperty("ausfuehrungszeitpunkt.vermeidungsgruppen") != null) {
+            vrBeans.addAll(massnArt.getBeanCollectionProperty("ausfuehrungszeitpunkt.vermeidungsgruppen"));
+        }
 
         for (final VermeidungsgruppeMitGeom vg : verbreitungsraum) {
             if (isLineInsideBean(vg, von, bis, wo)) {
