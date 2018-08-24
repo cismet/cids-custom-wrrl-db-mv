@@ -455,7 +455,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "&BGCOLOR=0xF0F0F0"
                         + "&EXCEPTIONS=application/vnd.ogc.se_xml"
                         + "&LAYERS=wk_fg,report_route_stat"
-                        + "&STYLES=wkk:wk_fg,default";
+                        + "&STYLES=Mit+K%C3%BCrzel,default";
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
