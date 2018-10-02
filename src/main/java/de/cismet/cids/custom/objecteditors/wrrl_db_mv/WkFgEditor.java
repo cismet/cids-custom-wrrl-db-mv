@@ -15,8 +15,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -36,7 +39,6 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
-import de.cismet.cids.server.search.AbstractCidsServerSearch;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -680,6 +682,27 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
             return false;
         }
 
+        final List<CidsBean> teile = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "teile");
+
+        if (teile != null) {
+            for (final CidsBean teil : teile) {
+                final CidsBean line = (CidsBean)teil.getProperty("linie");
+
+                if (line != null) {
+                    CidsBean station = (CidsBean)line.getProperty("von");
+
+                    if ((station != null) && (station.getMetaObject().getStatus() == MetaObject.MODIFIED)) {
+                        line.getMetaObject().getAttribute("von").setChanged(true);
+                    }
+
+                    station = (CidsBean)line.getProperty("bis");
+
+                    if ((station != null) && (station.getMetaObject().getStatus() == MetaObject.MODIFIED)) {
+                        line.getMetaObject().getAttribute("bis").setChanged(true);
+                    }
+                }
+            }
+        }
         save &= teileEditor.prepareForSave();
         return save;
     }
