@@ -1418,6 +1418,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                 final String beanName = toName(bean);
                                 final String von = String.valueOf(bean.getProperty("linie.von.wert"));
                                 final String bis = String.valueOf(bean.getProperty("linie.bis.wert"));
+                                final Long route = (Long)bean.getProperty("linie.von.route.gwk");
                                 final String gup = String.valueOf(bean.getProperty("gup.name"));
                                 final Integer gupId = (Integer)bean.getProperty("gup.id");
                                 final Integer plId = (Integer)bean.getProperty("id");
@@ -1462,7 +1463,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                                             bis,
                                                             plId,
                                                             gupId,
-                                                            (Integer)tmp.getProperty("id"))) {
+                                                            (Integer)tmp.getProperty("id"),
+                                                            route)) {
                                                 cidsBean.getBeanCollectionProperty("massnahmen").add(tmp);
                                             }
                                         }
@@ -1910,13 +1912,14 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
         private boolean add(final CidsBean massnBean) {
             final String von = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.von.wert"));
             final String bis = String.valueOf(massnBean.getProperty("planungsabschnitt.linie.bis.wert"));
+            final Long route = (Long)massnBean.getProperty("planungsabschnitt.linie.von.route.gwk");
             final String gup = String.valueOf(massnBean.getProperty("planungsabschnitt.gup.name"));
             final String name = String.valueOf(massnBean.getProperty("planungsabschnitt.name"));
             final Integer umId = (Integer)massnBean.getProperty("id");
             final Integer plId = (Integer)massnBean.getProperty("planungsabschnitt.id");
             final Integer gupId = (Integer)massnBean.getProperty("planungsabschnitt.gup.id");
 
-            return add(massnBean, name, gup, von, bis, plId, gupId, umId);
+            return add(massnBean, name, gup, von, bis, plId, gupId, umId, route);
         }
 
         /**
@@ -1930,6 +1933,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
          * @param   plId       DOCUMENT ME!
          * @param   gupId      DOCUMENT ME!
          * @param   umId       DOCUMENT ME!
+         * @param   route      DOCUMENT ME!
          *
          * @return  true, iff the object was added. The object is only added, if it is not already contained
          */
@@ -1940,7 +1944,8 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
                 final String bis,
                 final Integer plId,
                 final Integer gupId,
-                final Integer umId) {
+                final Integer umId,
+                final Long route) {
             final String aufmassRegel = getAufmassRegel(massnBean);
             final String einheit = getEinheit(massnBean);
             final ArrayList newBean = new ArrayList();
@@ -1954,7 +1959,7 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             newBean.add(massnBean.getProperty("linie.von.wert"));
             newBean.add(massnBean.getProperty("linie.bis.wert"));
             newBean.add(massnBean.getProperty("randstreifenbreite"));
-            newBean.add(massnBean.getProperty("boeschungsbreite")); // Boeschungsneigung
+            newBean.add(massnBean.getProperty("boeschungsbreite"));        // Boeschungsneigung
             newBean.add(massnBean.getProperty("boeschungslaenge"));
             newBean.add(massnBean.getProperty("deichkronenbreite"));
             newBean.add(massnBean.getProperty("sohlbreite"));
@@ -1963,13 +1968,19 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             newBean.add(massnBean.getProperty("stueck"));
             newBean.add(massnBean.getProperty("stunden"));
             newBean.add(massnBean.getProperty("schnitttiefe"));
+            newBean.add(massnBean.getProperty("teillaenge"));
+            newBean.add(massnBean.getProperty("m_zwei"));
+            newBean.add(massnBean.getProperty("m_drei"));
+            newBean.add(massnBean.getProperty("arbeitsbreite"));
             newBean.add(massnBean.getProperty("massnahme.id"));
             newBean.add(massnBean.getProperty("massnahme.leistungstext"));
             newBean.add(aufmassRegel);
             newBean.add(einheit);
-            newBean.add(umId);                                      // unterhaltungsmassnahme id
-            newBean.add(plId);                                      // planungseinheit id
-            newBean.add(gupId);                                     // gup id
+            newBean.add(umId);                                             // unterhaltungsmassnahme id
+            newBean.add(plId);                                             // planungseinheit id
+            newBean.add(gupId);                                            // gup id
+            newBean.add(route);                                            // gwk
+            newBean.add(massnBean.getProperty("massnahme.massnahmen_id")); // massnahmenid
             newBean.add(massnBean);
 
             if (!containsBean(beans, newBean)) {
