@@ -131,11 +131,15 @@ public class WkFgReport {
     /**
      * Creates the report for the given cids bean and saves the file in the given directory.
      *
-     * @param  directory  the directory to save the reports
-     * @param  cidsBean   the report will be created for this wk_fg bean
-     * @param  executor   the report thread will be executed with this executor, if it is not null
+     * @param  directory     the directory to save the reports
+     * @param  cidsBean      the report will be created for this wk_fg bean
+     * @param  executor      the report thread will be executed with this executor, if it is not null
+     * @param  shortVersion  DOCUMENT ME!
      */
-    public static void createReport(final String directory, final CidsBean cidsBean, final Executor executor) {
+    public static void createReport(final String directory,
+            final CidsBean cidsBean,
+            final Executor executor,
+            final boolean shortVersion) {
         final Collection<CidsBean> coll = new ArrayList<CidsBean>();
         coll.add(cidsBean);
 
@@ -148,7 +152,11 @@ public class WkFgReport {
         }
 
         final ArrayList<String> reports = new ArrayList<String>();
-        reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
+        if (shortVersion) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_short.jasper");
+        } else {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
+        }
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
@@ -266,10 +274,11 @@ public class WkFgReport {
     /**
      * Creates all wk_fg reports and saves the files in the given directory.
      *
-     * @param  directory   the directory to save the reports
-     * @param  expression  DOCUMENT ME!
+     * @param  directory     the directory to save the reports
+     * @param  expression    DOCUMENT ME!
+     * @param  shortVersion  DOCUMENT ME!
      */
-    public static void createAllReports(final String directory, final String expression) {
+    public static void createAllReports(final String directory, final String expression, final boolean shortVersion) {
         final MetaClass wkFgMc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
         final ArrayList ids = new ArrayList();
 
@@ -299,7 +308,7 @@ public class WkFgReport {
                 final Integer oId = (Integer)id;
                 final MetaObject wkFgObject = SessionManager.getProxy()
                             .getMetaObject(oId.intValue(), wkFgMc.getID(), WRRLUtil.DOMAIN_NAME);
-                createReport(directory, wkFgObject.getBean(), executor);
+                createReport(directory, wkFgObject.getBean(), executor, shortVersion);
             }
         } catch (Exception e) {
             LOG.error("Error while creating all wk_fg reports", e);
@@ -588,6 +597,7 @@ public class WkFgReport {
      */
     public static void main(final String[] args) {
         try {
+            boolean shortVersion = false;
             String expression = null;
 
             if (args.length == 0) {
@@ -596,7 +606,25 @@ public class WkFgReport {
             }
 
             if (args.length == 2) {
-                expression = args[1];
+                if (args[1].equals("-s")) {
+                    shortVersion = true;
+                } else {
+                    expression = args[1];
+                }
+            }
+
+            if (args.length == 3) {
+                if (args[1].equals("-s") || args[2].equals("-s")) {
+                    if (args[1].equals("-s")) {
+                        expression = args[2];
+                    } else {
+                        expression = args[1];
+                    }
+                    shortVersion = true;
+                } else {
+                    System.out.println("Zu viele/ungültige Parameter");
+                    System.exit(1);
+                }
             }
 
             // init log4J
@@ -642,7 +670,7 @@ public class WkFgReport {
             ReportUtils.initCismap();
 
             // create the reports
-            createAllReports(properties.getProperty("report_directory"), expression);
+            createAllReports(properties.getProperty("report_directory"), expression, shortVersion);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -63,7 +63,7 @@ public class WkFgFeatureRenderer extends CustomCidsFeatureRenderer {
 
     @Override
     public Paint getFillingStyle() {
-        return getFillingStyle(null);
+        return Color.BLACK;
     }
 
     @Override

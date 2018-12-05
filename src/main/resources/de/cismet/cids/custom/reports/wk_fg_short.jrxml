@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fließgewässer" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkFgScriptlet" whenResourceMissingType="Empty" uuid="9a3bb242-abca-45e4-9856-a7b66be383c1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/jruiz/NetBeansProjects/svn/cids-custom-wrrl-db-mv/src/main/resources/de/cismet/cids/custom/reports/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LAWA-DETAILTYP" class="java.lang.String"/>
+	<parameter name="self" class="java.lang.Object"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="teile" class="java.util.Collection"/>
+	<field name="wk_n" class="java.lang.String"/>
+	<field name="wk_k" class="java.lang.String"/>
+	<field name="impact" class="java.util.Collection"/>
+	<field name="impact_src" class="java.util.Collection"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="501">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="50" uuid="2cfc3cea-7e0b-4550-8b74-9cc945069b2b"/>
+				<subreportParameter name="teilgebiet">
+					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.getTeilgebiet()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="gewName">
+					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.getGewName()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="lawa">
+					<subreportParameterExpression><![CDATA[$P{LAWA-DETAILTYP}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $P{REPORT_SCRIPTLET}.getSelf())]]></dataSourceExpression>
+				<subreportExpression><![CDATA["de/cismet/cids/custom/reports/wk_fg_steckbrief.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="50" width="555" height="50" uuid="ed48aa2a-ea54-45f3-b703-e5b91abaa817"/>
+				<subreportParameter name="map">
+					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.generateOverviewMap()]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $F{teile})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["de/cismet/cids/custom/reports/wk_fg_teile.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="50" uuid="3c6a8307-3420-4987-9141-980bd077a569"/>
+				<subreportParameter name="map">
+					<subreportParameterExpression><![CDATA[$P{REPORT_SCRIPTLET}.generateMap()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="pageOffset">
+					<subreportParameterExpression><![CDATA[$V{PAGE_NUMBER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource((Collection) $F{teile})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["de/cismet/cids/custom/reports/wk_fg_map.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>
