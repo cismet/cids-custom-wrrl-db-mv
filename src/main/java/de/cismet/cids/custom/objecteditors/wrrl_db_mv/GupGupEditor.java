@@ -348,6 +348,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             RendererTools.makeReadOnly(txtName);
             RendererTools.makeReadOnly(dcBis);
             RendererTools.makeReadOnly(cbUnterhaltungspflichtiger);
+            RendererTools.makeReadOnly(txtName1);
             lblStatus.setVisible(false);
         } else {
             try {
@@ -1492,12 +1493,14 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             RendererTools.makeReadOnly(txtName);
             RendererTools.makeReadOnly(dcBis);
             RendererTools.makeReadOnly(cbUnterhaltungspflichtiger);
+            RendererTools.makeReadOnly(txtName1);
         } else {
             RendererTools.makeWritable(cbGenehmigungsbehoerde);
             RendererTools.makeWritable(dcVon);
             RendererTools.makeWritable(txtName);
             RendererTools.makeWritable(dcBis);
             RendererTools.makeWritable(cbUnterhaltungspflichtiger);
+            RendererTools.makeWritable(txtName1);
         }
     }
 

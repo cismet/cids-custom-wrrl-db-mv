@@ -794,7 +794,7 @@
                                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTableNbFocusLost"/>
                                       </Events>
                                       <AuxValues>
-                                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jdesktop.swingx.JXTable()"/>
+                                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new TableWithHeaderTooltips()"/>
                                       </AuxValues>
                                     </Component>
                                   </SubComponents>
