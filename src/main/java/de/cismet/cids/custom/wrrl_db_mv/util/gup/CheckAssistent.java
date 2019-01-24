@@ -611,7 +611,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
         lblAllDeclinedWb = new javax.swing.JLabel();
         jpTable = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableNb = new org.jdesktop.swingx.JXTable();
+        jTableNb = new TableWithHeaderTooltips();
         panEntscheidung = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
@@ -2560,6 +2560,46 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
      *
      * @version  $Revision$, $Date$
      */
+    private class TableWithHeaderTooltips extends JXTable {
+
+        //~ Instance fields ----------------------------------------------------
+
+        String[] tooltips = {
+                "Kompartiment",
+                "Stationierung",
+                "Maßnahme",
+                "valide",
+                "keine artenschutzrechtliche Ausnahmegenehmigung erforderlich",
+                "artenschutzrechtliche Ausnahmegenehmigung erforderlich, erteilbar",
+                "artenschutzrechtliche Ausnahmegenehmigung erforderlich, nicht erteilbar",
+                "Hinweise/Auflagen uNB",
+                "keine Entscheidung nach § 42 WHG",
+                "Entscheidung nach § 42 WHG",
+                "Hinweise/Auflagen uWB"
+            };
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected JTableHeader createDefaultTableHeader() {
+            return new JTableHeader(columnModel) {
+
+                    @Override
+                    public String getToolTipText(final MouseEvent e) {
+                        final java.awt.Point p = e.getPoint();
+                        final int index = columnModel.getColumnIndexAtX(p.x);
+                        final int columnIndex = columnModel.getColumn(index).getModelIndex();
+                        return tooltips[columnIndex];
+                    }
+                };
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
     private class CustomTableModel implements TableModel {
 
         //~ Instance fields ----------------------------------------------------
@@ -2569,13 +2609,13 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 "Stationierung",
                 "Maßnahme",
                 "valide",
-                "k.A..",
-                "§ja.",
-                "§nein.",
-                "...",
-                "k.E.",
-                "§ja",
-                "..."
+                "uNB k.A.",
+                "uNB §ja",
+                "uNB §nein",
+                "Hinweise/Auflagen uNB",
+                "uWB k.E.",
+                "uWB §ja",
+                "Hinweise/Auflagen uWB"
             };
         List<CidsBean> beanList;
         List<CidsBean> allBeans;
