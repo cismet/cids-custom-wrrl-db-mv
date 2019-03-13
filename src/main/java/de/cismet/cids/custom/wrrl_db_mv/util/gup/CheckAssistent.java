@@ -269,16 +269,21 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
                 @Override
                 public void mouseClicked(final MouseEvent e) {
-                    if (!readOnlyNb) {
-                        final int row = jTableNb.rowAtPoint(e.getPoint());
-                        final int col = jTableNb.columnAtPoint(e.getPoint());
-                        final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
-                        final int modelCol = jTableNb.convertColumnIndexToModel(col);
-                        final int modelRow = jTableNb.convertRowIndexToModel(row);
+                    final int row = jTableNb.rowAtPoint(e.getPoint());
+                    final int col = jTableNb.columnAtPoint(e.getPoint());
+                    final CustomTableModel model = (CustomTableModel)jTableNb.getModel();
+                    final int modelCol = jTableNb.convertColumnIndexToModel(col);
+                    final int modelRow = jTableNb.convertRowIndexToModel(row);
 
+                    if (!readOnlyNb) {
                         if ((model != null)
-                                    && ((modelCol == 4) || (modelCol == 5) || (modelCol == 6) || (modelCol == 8)
-                                        || (modelCol == 9))) {
+                                    && ((modelCol == 4) || (modelCol == 5) || (modelCol == 6))) {
+                            model.setValueAt(null, modelRow, modelCol);
+                        }
+                    }
+                    if (!readOnlyWb) {
+                        if ((model != null)
+                                    && ((modelCol == 8) || (modelCol == 9))) {
                             model.setValueAt(null, modelRow, modelCol);
                         }
                     }
@@ -2667,12 +2672,16 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
 
         @Override
         public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-            if (readOnlyNb) {
-                return false;
+            boolean permission = false;
+
+            if (!readOnlyWb && ((columnIndex == 8) || (columnIndex == 9))) {
+                permission = true;
+            }
+            if (!readOnlyNb && ((columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6))) {
+                permission = true;
             }
 
-            return (columnIndex == 4) || (columnIndex == 5) || (columnIndex == 6) || (columnIndex == 8)
-                        || (columnIndex == 9);
+            return permission;
         }
 
         @Override
@@ -2837,7 +2846,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     box.setSelected(ang);
                     box.setOpaque(false);
                     box.setContentAreaFilled(false);
-                    box.setEnabled(!readOnlyNb);
+                    box.setEnabled(!readOnlyWb);
 
                     result = box;
                     break;
@@ -2864,7 +2873,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                     box.setSelected(abg);
                     box.setOpaque(false);
                     box.setContentAreaFilled(false);
-                    box.setEnabled(!readOnlyNb);
+                    box.setEnabled(!readOnlyWb);
 
                     result = box;
                     break;
