@@ -387,7 +387,7 @@ public final class GeppReport extends AbstractJasperReportPrint implements Progr
 
             for (final CidsBean tmp : sortedCidsBeans) {
                 final MassnBean mBean = new MassnBean();
-                mBean.setMassnahme((String)tmp.getProperty("massnahme.massnahmen_id"));
+                mBean.setMassnahme((String)tmp.getProperty("massnahme.name"));
                 mBean.setStationierung(extractStats(tmp));
                 mBean.setBemerkung(extractBemerkung(tmp));
                 mBean.setNummer(startNumber + (++number));
