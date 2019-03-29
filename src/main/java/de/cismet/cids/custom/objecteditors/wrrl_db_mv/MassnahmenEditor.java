@@ -133,6 +133,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JButton btnRemPressure;
     private javax.swing.JCheckBox cbFin;
     private javax.swing.JComboBox cbGeom;
+    private javax.swing.JCheckBox cbHmwb;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassn_schl;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassn_typ;
     private javax.swing.JComboBox cbMeasCataloge;
@@ -147,6 +148,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
@@ -239,6 +241,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(txtMassn_id);
             RendererTools.makeReadOnly(cbMassn_schl);
             RendererTools.makeReadOnly(taBemerkung);
+            RendererTools.makeReadOnly(cbHmwb);
             lblGeom.setVisible(false);
             cbGeom.setVisible(false);
         }
@@ -467,7 +470,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbMassn_typ = new ScrollableComboBox();
         cbRevital = new ScrollableComboBox();
         cbPrioritaet = new ScrollableComboBox();
-        cbFin = new javax.swing.JCheckBox();
         txtZiele = new javax.swing.JTextField();
         lbllfdnr = new javax.swing.JLabel();
         lblValLfdnr = new javax.swing.JLabel();
@@ -486,6 +488,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblBemerkung = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         taBemerkung = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        cbFin = new javax.swing.JCheckBox();
+        cbHmwb = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         panDeMeas1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -824,36 +829,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(cbPrioritaet, gridBagConstraints);
 
-        cbFin.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.cbFin.text")); // NOI18N
-        cbFin.setContentAreaFilled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"),
-                cbFin,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        binding.setSourceUnreadableValue(false);
-        bindingGroup.addBinding(binding);
-
-        cbFin.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbFinActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel2.add(cbFin, gridBagConstraints);
-
         txtZiele.setMinimumSize(new java.awt.Dimension(200, 25));
         txtZiele.setPreferredSize(new java.awt.Dimension(200, 25));
 
@@ -1118,6 +1093,76 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         jPanel2.add(jScrollPane2, gridBagConstraints);
+
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        cbFin.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.cbFin.text")); // NOI18N
+        cbFin.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massn_fin}"),
+                cbFin,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        cbFin.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbFinActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(cbFin, gridBagConstraints);
+
+        cbHmwb.setText(org.openide.util.NbBundle.getMessage(MassnahmenEditor.class, "MassnahmenEditor.cbHmwb.text")); // NOI18N
+        cbHmwb.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hmwb}"),
+                cbHmwb,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        cbHmwb.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbHmwbActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(cbHmwb, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(jPanel4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1645,6 +1690,15 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStartedActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_cbStartedActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbHmwbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbHmwbActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbHmwbActionPerformed
 
     /**
      * DOCUMENT ME!
