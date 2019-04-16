@@ -13,6 +13,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.NumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -183,6 +184,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_sohle_mue}"),
                 tfMuell,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -202,6 +204,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_sohle_st}"),
                 tfSchutt,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -221,6 +224,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_sohle_abw}"),
                 tfAbwasser,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -253,6 +257,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_sohle_vo}"),
                 tfVerockerung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,6 +290,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_sohle_sa}"),
                 tfSandtreiben,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -317,6 +323,7 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.belastung_sohle_so}"),
                 tfSonstige,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

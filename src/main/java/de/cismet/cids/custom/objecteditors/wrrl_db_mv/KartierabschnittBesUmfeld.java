@@ -13,6 +13,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.FgskHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.NumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -316,6 +317,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_fm_links}"),
                 txtFmL,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -333,6 +335,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_q_links}"),
                 txtQL,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -350,6 +353,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_aa_links}"),
                 txtAaL,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -367,6 +371,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_aw_links}"),
                 txtAwL,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,6 +389,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_w_links}"),
                 txtWL,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -401,6 +407,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_so_links}"),
                 txtSoL,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -418,6 +425,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_fm_rechts}"),
                 txtFmR,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -435,6 +443,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_q_rechts}"),
                 txtQR,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -452,6 +461,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_aa_rechts}"),
                 txtAaR,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -469,6 +479,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_aw_rechts}"),
                 txtAwR,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -486,6 +497,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_w_rechts}"),
                 txtWR,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -503,6 +515,7 @@ public class KartierabschnittBesUmfeld extends javax.swing.JPanel implements Dis
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umfeldstrukturen_so_rechts}"),
                 txtSoR,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

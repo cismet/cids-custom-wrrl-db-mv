@@ -16,6 +16,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.NumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -212,6 +213,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_ton}"),
                 tfTon,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -232,6 +234,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_san}"),
                 tfSand,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -252,6 +255,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_kie}"),
                 tfKies,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,6 +289,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_ste}"),
                 tfSteine,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -318,6 +323,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_blo}"),
                 tfBloecke,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -351,6 +357,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_sch}"),
                 tfSchlamm,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,6 +391,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_tor}"),
                 tfTorf,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -417,6 +425,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_tot}"),
                 tfTotholz,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -437,6 +446,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_wur}"),
                 tfWurzeln,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -470,6 +480,7 @@ public class KartierabschnittSohlensubstrat extends javax.swing.JPanel implement
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlensubstrat_kue}"),
                 tfKuenSub,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
