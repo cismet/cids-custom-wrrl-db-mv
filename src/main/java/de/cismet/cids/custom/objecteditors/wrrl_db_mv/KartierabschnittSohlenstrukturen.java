@@ -13,6 +13,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.NumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -172,6 +173,7 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenstrukturen_rip}"),
                 tfRiffle,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -191,6 +193,7 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenstrukturen_th}"),
                 tfTotholz,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -210,6 +213,7 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenstrukturen_wu}"),
                 tfWurzelflaechen,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -242,6 +246,7 @@ public class KartierabschnittSohlenstrukturen extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlenstrukturen_ko}"),
                 tfKolke,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

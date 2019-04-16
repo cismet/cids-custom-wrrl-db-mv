@@ -10,11 +10,10 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.FgskHelper;
+import de.cismet.cids.custom.wrrl_db_mv.util.NumberConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -294,6 +293,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_mue_links}"),
                 txtMuel,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -311,6 +311,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_st_links}"),
                 txtStl,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -328,6 +329,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_ts_links}"),
                 txtTsl,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -345,6 +347,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_el_links}"),
                 txtEll,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -362,6 +365,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_so_links}"),
                 txtSol,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -379,6 +383,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_mue_rechts}"),
                 txtMuer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -396,6 +401,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_st_rechts}"),
                 txtStr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -413,6 +419,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_ts_rechts}"),
                 txtTsr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -430,6 +437,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_el_rechts}"),
                 txtElr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -447,6 +455,7 @@ public class KartierabschnittBesUferbelastungen extends javax.swing.JPanel imple
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uferbelastungen_so_rechts}"),
                 txtSor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(NumberConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
