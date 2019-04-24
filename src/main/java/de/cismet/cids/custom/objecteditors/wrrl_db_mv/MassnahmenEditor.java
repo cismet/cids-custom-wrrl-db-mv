@@ -97,6 +97,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MassnahmenEditor.class);
     private static final MetaClass DE_MEASURE_TYPE_CODE_MC;
     private static final MetaClass PRESSURE_TYPE_CODE_MC;
+    private static final MetaClass DETAIL_MC;
     private static final MetaClass MASSNAHMEN_SCHLUESSEL_MC;
     private static final String[] WB_PROPERTIES = { "wk_fg", "wk_sg", "wk_kg", "wk_gw" }; // NOI18N
 
@@ -104,6 +105,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         DE_MEASURE_TYPE_CODE_MC = ClassCacheMultiple.getMetaClass(
                 WRRLUtil.DOMAIN_NAME,
                 "wfd.de_measure_type_code"); // NOI18N
+        DETAIL_MC = ClassCacheMultiple.getMetaClass(
+                WRRLUtil.DOMAIN_NAME,
+                "detail_massnahme");         // NOI18N
         PRESSURE_TYPE_CODE_MC = ClassCacheMultiple.getMetaClass(
                 WRRLUtil.DOMAIN_NAME,
                 "wfd.pressure_type_code");   // NOI18N
@@ -125,12 +129,17 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel blbSpace;
     private javax.swing.JButton btnAddDe_meas;
     private javax.swing.JButton btnAddPressure;
+    private javax.swing.JButton btnAddPressure1;
     private javax.swing.JButton btnMeasAbort;
     private javax.swing.JButton btnMeasOk;
     private javax.swing.JButton btnPressureAbort;
+    private javax.swing.JButton btnPressureAbort1;
     private javax.swing.JButton btnPressureOk;
+    private javax.swing.JButton btnPressureOk1;
     private javax.swing.JButton btnRemDeMeas;
     private javax.swing.JButton btnRemPressure;
+    private javax.swing.JButton btnRemPressure1;
+    private javax.swing.JComboBox cbDetailCataloge;
     private javax.swing.JCheckBox cbFin;
     private javax.swing.JComboBox cbGeom;
     private javax.swing.JCheckBox cbHmwb;
@@ -143,6 +152,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRevital;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStalu;
     private javax.swing.JCheckBox cbStarted;
+    private javax.swing.JDialog dlgDetail;
     private javax.swing.JDialog dlgMeas;
     private javax.swing.JDialog dlgPressure;
     private javax.swing.JPanel jPanel1;
@@ -160,12 +170,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
     private javax.swing.JLabel lblHeading4;
+    private javax.swing.JLabel lblHeading5;
     private javax.swing.JLabel lblKosten;
     private javax.swing.JLabel lblMassn_Schl;
     private javax.swing.JLabel lblMassn_id;
     private javax.swing.JLabel lblMassn_typ;
     private javax.swing.JLabel lblMeasCataloge;
     private javax.swing.JLabel lblPressureCataloge;
+    private javax.swing.JLabel lblPressureCataloge1;
     private javax.swing.JLabel lblPrioritaet;
     private javax.swing.JLabel lblRevital;
     private javax.swing.JLabel lblStalu;
@@ -179,10 +191,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lbllfdnr;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JList lstPressure;
+    private javax.swing.JList lstPressure1;
     private javax.swing.JList lstdeMeas;
     private de.cismet.tools.gui.RoundedPanel panDeMeas;
     private de.cismet.tools.gui.RoundedPanel panDeMeas1;
     private javax.swing.JPanel panDe_meas;
+    private de.cismet.tools.gui.RoundedPanel panDetail;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.RoundedPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
@@ -190,17 +204,22 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo3;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo4;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo5;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panInfoContent2;
     private javax.swing.JPanel panInfoContent3;
     private javax.swing.JPanel panInfoContent4;
+    private javax.swing.JPanel panInfoContent5;
     private javax.swing.JPanel panMenButtonsMeas;
     private javax.swing.JPanel panMenButtonsPressure;
+    private javax.swing.JPanel panMenButtonsPressure1;
     private de.cismet.tools.gui.RoundedPanel panPressure;
     private javax.swing.JPanel panPressuresBut;
+    private javax.swing.JPanel panPressuresBut1;
     private javax.swing.JScrollPane scpPressure;
+    private javax.swing.JScrollPane scpPressure1;
     private javax.swing.JScrollPane scpdeMeas;
     private javax.swing.JTextArea taBemerkung;
     private javax.swing.JTextField txtKosten;
@@ -227,8 +246,18 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         this.readOnly = readOnly;
         initComponents();
         panPressuresBut.setVisible(false);
+        lblZiele.setVisible(false);
+        txtZiele.setVisible(false);
+        lblMassn_Schl.setVisible(false);
+        cbMassn_schl.setVisible(false);
+        lblRevital.setVisible(false);
+        cbRevital.setVisible(false);
+        lblPrioritaet.setVisible(false);
+        cbPrioritaet.setVisible(false);
+        panPressure.setVisible(false);
 
         if (readOnly) {
+            panPressuresBut1.setVisible(false);
             panDe_meas.setVisible(false);
             RendererTools.makeReadOnly(txtKosten);
             RendererTools.makeReadOnly(cbReal);
@@ -454,6 +483,12 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panMenButtonsPressure = new javax.swing.JPanel();
         btnPressureAbort = new javax.swing.JButton();
         btnPressureOk = new javax.swing.JButton();
+        dlgDetail = new JDialog(StaticSwingTools.getParentFrame(this));
+        lblPressureCataloge1 = new javax.swing.JLabel();
+        cbDetailCataloge = new ScrollableComboBox(DETAIL_MC, false, true, new CustomElementComparator(1));
+        panMenButtonsPressure1 = new javax.swing.JPanel();
+        btnPressureAbort1 = new javax.swing.JButton();
+        btnPressureOk1 = new javax.swing.JButton();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -507,6 +542,15 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         btnRemDeMeas = new javax.swing.JButton();
         scpdeMeas = new javax.swing.JScrollPane();
         lstdeMeas = new javax.swing.JList();
+        panDetail = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo5 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading5 = new javax.swing.JLabel();
+        panInfoContent5 = new javax.swing.JPanel();
+        panPressuresBut1 = new javax.swing.JPanel();
+        btnAddPressure1 = new javax.swing.JButton();
+        btnRemPressure1 = new javax.swing.JButton();
+        scpPressure1 = new javax.swing.JScrollPane();
+        lstPressure1 = new javax.swing.JList();
         panPressure = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo3 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading3 = new javax.swing.JLabel();
@@ -613,6 +657,13 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         cbPressureCataloge.setMinimumSize(new java.awt.Dimension(700, 18));
         cbPressureCataloge.setPreferredSize(new java.awt.Dimension(700, 18));
         cbPressureCataloge.setRenderer(new WfdTypeCodeRenderer());
+        cbPressureCataloge.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbPressureCatalogeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -663,6 +714,75 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgPressure.getContentPane().add(panMenButtonsPressure, gridBagConstraints);
+
+        dlgDetail.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        lblPressureCataloge1.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.lblPressureCataloge.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgDetail.getContentPane().add(lblPressureCataloge1, gridBagConstraints);
+
+        cbDetailCataloge.setMinimumSize(new java.awt.Dimension(700, 18));
+        cbDetailCataloge.setPreferredSize(new java.awt.Dimension(700, 18));
+        cbDetailCataloge.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbDetailCatalogeActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgDetail.getContentPane().add(cbDetailCataloge, gridBagConstraints);
+
+        panMenButtonsPressure1.setLayout(new java.awt.GridBagLayout());
+
+        btnPressureAbort1.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeas15Abort.text")); // NOI18N
+        btnPressureAbort1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnPressureAbort1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsPressure1.add(btnPressureAbort1, gridBagConstraints);
+
+        btnPressureOk1.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.btnMeas15Ok.text")); // NOI18N
+        btnPressureOk1.setMaximumSize(new java.awt.Dimension(85, 23));
+        btnPressureOk1.setMinimumSize(new java.awt.Dimension(85, 23));
+        btnPressureOk1.setPreferredSize(new java.awt.Dimension(85, 23));
+        btnPressureOk1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnPressureOk1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMenButtonsPressure1.add(btnPressureOk1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        dlgDetail.getContentPane().add(panMenButtonsPressure1, gridBagConstraints);
 
         setMinimumSize(new java.awt.Dimension(1080, 770));
         setOpaque(false);
@@ -1243,7 +1363,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo2.setLayout(new java.awt.FlowLayout());
 
         lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading2.setText("Maßnahmen");
+        lblHeading2.setText("LAWA-Maßnahmen");
         panHeadInfo2.add(lblHeading2);
 
         panDeMeas.add(panHeadInfo2, java.awt.BorderLayout.NORTH);
@@ -1296,9 +1416,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         lstdeMeas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        final org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
                 "${cidsBean.de_meas_cd}");
-        final org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
                     .createJListBinding(
                         org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                         this,
@@ -1321,7 +1441,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -1329,6 +1449,100 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel3.add(panDeMeas, gridBagConstraints);
+
+        panDetail.setMinimumSize(new java.awt.Dimension(480, 135));
+        panDetail.setPreferredSize(new java.awt.Dimension(480, 135));
+
+        panHeadInfo5.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo5.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo5.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo5.setLayout(new java.awt.FlowLayout());
+
+        lblHeading5.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading5.setText("Detail-Maßnahmen");
+        panHeadInfo5.add(lblHeading5);
+
+        panDetail.add(panHeadInfo5, java.awt.BorderLayout.NORTH);
+
+        panInfoContent5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        panInfoContent5.setOpaque(false);
+        panInfoContent5.setLayout(new java.awt.GridBagLayout());
+
+        panPressuresBut1.setOpaque(false);
+        panPressuresBut1.setLayout(new java.awt.GridBagLayout());
+
+        btnAddPressure1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddPressure1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddPressure1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panPressuresBut1.add(btnAddPressure1, gridBagConstraints);
+
+        btnRemPressure1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemPressure1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemPressure1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panPressuresBut1.add(btnRemPressure1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        panInfoContent5.add(panPressuresBut1, gridBagConstraints);
+
+        scpPressure1.setMinimumSize(new java.awt.Dimension(400, 90));
+        scpPressure1.setPreferredSize(new java.awt.Dimension(400, 90));
+
+        lstPressure1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.detail_massnahme}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                lstPressure1);
+        bindingGroup.addBinding(jListBinding);
+
+        scpPressure1.setViewportView(lstPressure1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 15, 10);
+        panInfoContent5.add(scpPressure1, gridBagConstraints);
+
+        panDetail.add(panInfoContent5, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        jPanel3.add(panDetail, gridBagConstraints);
 
         panPressure.setMinimumSize(new java.awt.Dimension(480, 135));
         panPressure.setPreferredSize(new java.awt.Dimension(480, 135));
@@ -1406,7 +1620,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -1699,6 +1913,102 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private void cbHmwbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbHmwbActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_cbHmwbActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbPressureCatalogeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbPressureCatalogeActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbPressureCatalogeActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbDetailCatalogeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbDetailCatalogeActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbDetailCatalogeActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnPressureAbort1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPressureAbort1ActionPerformed
+        dlgDetail.setVisible(false);
+    }                                                                                     //GEN-LAST:event_btnPressureAbort1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnPressureOk1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPressureOk1ActionPerformed
+        final Object selection = cbDetailCataloge.getSelectedItem();
+        if (selection instanceof CidsBean) {
+            final Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            final CidsBean selectedBean = (CidsBean)selection;
+                            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(
+                                    cidsBean,
+                                    "detail_massnahme"); // NOI18N
+                            if (colToAdd != null) {
+                                if (!colToAdd.contains(selectedBean)) {
+                                    colToAdd.add(selectedBean);
+                                }
+                            }
+                        }
+                    });
+
+            t.start();
+        }
+
+        dlgDetail.setVisible(false);
+    } //GEN-LAST:event_btnPressureOk1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddPressure1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPressure1ActionPerformed
+        dlgDetail.setSize(750, 150);
+        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgDetail, true);
+    }                                                                                   //GEN-LAST:event_btnAddPressure1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemPressure1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemPressure1ActionPerformed
+        final Object selection = lstPressure1.getSelectedValue();
+        if (selection != null) {
+            final int answer = JOptionPane.showConfirmDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Soll die Maßnahme '"
+                            + selection.toString()
+                            + "' wirklich gelöscht werden?",
+                    "Maßnahme entfernen",
+                    JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                try {
+                    final CidsBean beanToDelete = (CidsBean)selection;
+                    final Object beanColl = cidsBean.getProperty("detail_massnahme");   // NOI18N
+                    if (beanColl instanceof Collection) {
+                        ((Collection)beanColl).remove(beanToDelete);
+                    }
+                } catch (final Exception e) {
+                    UIUtil.showExceptionToUser(e, this);
+                }
+            }
+        }
+    }                                                                                   //GEN-LAST:event_btnRemPressure1ActionPerformed
 
     /**
      * DOCUMENT ME!
