@@ -2193,6 +2193,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             if (nbOnCondition
                                         && ((decisionWb == Decision.onCondition) || (decisionWb == Decision.accepted))) {
                                 ++auflagen;
+                            } else if (wbOnCondition
+                                        && ((decisionNb == Decision.onCondition) || (decisionNb == Decision.accepted)
+                                            || (decisionNb == Decision.notRequired))) {
+                                ++auflagen;
                             } else if (((decisionNb == Decision.accepted) || (decisionNb == Decision.notRequired))
                                         && (decisionWb == Decision.accepted)) {
                                 ++angenommen;
