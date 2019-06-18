@@ -1262,9 +1262,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorschlagActionPerformed
+    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorschlagActionPerformed
         generateMassnahmenvorschlag();
-    }                                                                               //GEN-LAST:event_jbVorschlagActionPerformed
+    }//GEN-LAST:event_jbVorschlagActionPerformed
 
     /**
      * Determines the preferred massnahmen for the currently fgsk.
@@ -1377,7 +1377,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemActionPerformed
         final Object[] selectedElements = liMassn.getSelectedValues();
 
         for (final Object el : selectedElements) {
@@ -1395,14 +1395,14 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         jbVorschlagActionPerformed(null);
-    } //GEN-LAST:event_jbRemActionPerformed
+    }//GEN-LAST:event_jbRemActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtCustomCostsFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtCustomCostsFocusLost
+    private void txtCustomCostsFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCustomCostsFocusLost
         saveCosts();
         fillCosts();
         final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
@@ -1411,7 +1411,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 massnahmen);
 
         fireSimulationResultChangedEvent(e);
-    } //GEN-LAST:event_txtCustomCostsFocusLost
+    }//GEN-LAST:event_txtCustomCostsFocusLost
 
     /**
      * DOCUMENT ME!
@@ -1609,6 +1609,11 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         Integer ratingBankFitmentLeft;
         Double bankContaminationRight;
         Double bankContaminationLeft;
+        final Double besUferRight;
+        final Double besUferLeft;
+        Double absCourseStructureSum = 0.0;
+        Double absLongBenchSum = 0.0;
+        Double absCrossBenchCount = 0.0;
         Double bedContamination;
         Integer ratingWBTrimmingRight;
         Integer ratingWBTrimmingLeft;
@@ -1638,12 +1643,19 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             ratingCourseLoop = cache.getCourseLoopRating(courseLoopBean.getMetaObject().getId(), wbTypeId);
             ratingLoopErosion = cache.getLoopErosionRating(loopErosionBean.getMetaObject().getId(), wbTypeId);
 
-            final Double absLongBenchSum = getLongBenchSum(bean, wbTypeId, stationLength);
-            final Double absCourseStructureSum = getCourseStructureSum(bean, wbTypeId, stationLength);
-            final Double absCrossBenchCount = getCrossBenchCount(bean, wbTypeId, stationLength);
+            absLongBenchSum = getLongBenchSum(bean, wbTypeId, stationLength);
+            absCourseStructureSum = getCourseStructureSum(bean, wbTypeId, stationLength);
+            absCrossBenchCount = getCrossBenchCount(bean, wbTypeId, stationLength);
             final CidsBean flowDiversityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_DIVERSITY);
             final CidsBean depthVarianceBean = (CidsBean)bean.getProperty(Calc.PROP_DEPTH_VARIANCE);
             final CidsBean flowVelocityBean = (CidsBean)bean.getProperty(Calc.PROP_FLOW_VELOCITY);
+            absCourseStructureSum = addProperty(
+                    absCourseStructureSum,
+                    "anzahl_besonderer_laufstrukturen",
+                    massnahmen,
+                    lawaValue);
+            absLongBenchSum = addProperty(absLongBenchSum, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
+            absCrossBenchCount = addProperty(absCrossBenchCount, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
 
             ratingLongBench = cache.getLongBenchRating(absLongBenchSum, wbTypeId);
             ratingCourseStructure = cache.getCourseStructureRating(absCourseStructureSum, wbTypeId);
@@ -1709,13 +1721,6 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
 
             ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, lawaValue);
             ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, lawaValue);
-            ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
-            ratingCourseStructure = addProperty(
-                    ratingCourseStructure,
-                    "anzahl_besonderer_laufstrukturen",
-                    massnahmen,
-                    lawaValue);
-            ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
             ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, lawaValue);
             // Fliessgeschwindigkeit gibt es als Wirkung auf den FGSK Abschnitt nicht
             // ratingFlowVelocity = addProperty(ratingFlowVelocity, "fliessgeschwindigkeit", massnahmen, wbTypeId);
@@ -1796,6 +1801,8 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             ratingBankFitmentLeft = 0;
             bankContaminationRight = 0.0;
             bankContaminationLeft = 0.0;
+            besUferRight = 0.0;
+            besUferLeft = 0.0;
             badEnvRight = 0.0;
             badEnvLeft = 0.0;
             bedContamination = 0.0;
@@ -1983,34 +1990,34 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         if (fillFields) {
             fillLabel(simEditor.lblLaufkrVal, ratingCourseLoop);
             fillLabel(simEditor.lblKruemmungserosionVal, ratingLoopErosion);
-            fillLabel(simEditor.lblAnzLaVal, ratingLongBench);
-            fillLabel(simEditor.lblAnzLaufVal, ratingCourseStructure);
-            fillLabel(simEditor.lblAnzQuerbaenkeVal, ratingCrossBench);
+            fillLabelCount(simEditor.lblAnzLaVal, absLongBenchSum);
+            fillLabelCount(simEditor.lblAnzLaufVal, absCourseStructureSum);
+            fillLabelCount(simEditor.lblAnzQuerbaenkeVal, absCrossBenchCount);
             fillLabel(simEditor.lblStroemngsdiversitaetVal, ratingFlowDiversity);
             fillLabel(simEditor.lblFliessgeschwindigkeitVal, ratingFlowVelocity);
             fillLabel(simEditor.lblTiefenvarianzVal, ratingDepthVariance);
             fillLabel(simEditor.lblSubstratdiversitaetVal, substrateDiversityRating);
-            fillLabel(simEditor.lblAnzBesSohlstrukturenVal, bedStructureRating);
+            fillLabelCount(simEditor.lblAnzBesSohlstrukturenVal, bedStructureRating);
             fillLabel(simEditor.lblSohlverbauVal, ratingBedFitment);
             fillLabel(simEditor.lblSohltiefeVal, ratingDepthBreadth);
             fillLabel(simEditor.lblBreitenerosionVal, ratingBreadthErosion);
             fillLabel(simEditor.lblBreitenvarianzVal, ratingBreadthVariance);
             fillLabel(simEditor.lblProfiltypVal, ratingProfileType);
-            fillLabel(simEditor.lblAnzBesUferstrukturenReVal, ratingBankStructureRight);
-            fillLabel(simEditor.lblAnzBesUferstrukturenLiVal, ratingBankStructureLeft);
             fillLabel(simEditor.lblUferbewuchsReVal, ratingBankVegetationRight);
             fillLabel(simEditor.lblUferbewuchsLiVal, ratingBankVegetationLeft);
             fillLabel(simEditor.lblUferverbauReVal, ratingBankFitmentRight);
             fillLabel(simEditor.lblUferverbauLiVal, ratingBankFitmentLeft);
-            fillLabelWithPoints(simEditor.lblBesondereUferbelastungenReVal, bankContaminationRight);
-            fillLabelWithPoints(simEditor.lblBesondereUferbelastungenLiVal, bankContaminationLeft);
-            fillLabelWithPoints(simEditor.lblBelastungenSohleVal, bedContamination);
+            fillLabelCount(simEditor.lblBesondereUferbelastungenReVal, ratingBankStructureRight);
+            fillLabelCount(simEditor.lblBesondereUferbelastungenLiVal, ratingBankStructureLeft);
+            fillLabelCount(simEditor.lblAnzBesUferstrukturenReVal, bankContaminationRight);
+            fillLabelCount(simEditor.lblAnzBesUferstrukturenLiVal, bankContaminationLeft);
+            fillLabelCount(simEditor.lblBelastungenSohleVal, bedContamination);
             fillLabel(simEditor.lblGewaesserrandstreifenReVal, ratingWBTrimmingRight);
             fillLabel(simEditor.lblGewaesserrandstreifenLiVal, ratingWBTrimmingLeft);
             fillLabel(simEditor.lblFlaechennutzungReVal, ratingLandUseRight);
             fillLabel(simEditor.lblFlaechennutzungLiVal, ratingLandUseLeft);
-            fillLabelWithPoints(simEditor.lblSchaedlicheUmfeldstrukturenReVal, badEnvRight);
-            fillLabelWithPoints(simEditor.lblSchaedlicheUmfeldstrukturenLiVal, badEnvLeft);
+            fillLabelCount(simEditor.lblSchaedlicheUmfeldstrukturenReVal, badEnvRight);
+            fillLabelCount(simEditor.lblSchaedlicheUmfeldstrukturenLiVal, badEnvLeft);
             int indFische = getMassnBonus(massnahmen, "fische", lawaValue);
             int indMp = getMassnBonus(massnahmen, "makrophyten", lawaValue);
             int indMzb = getMassnBonus(massnahmen, "makrozoobenthos", lawaValue);
@@ -2162,6 +2169,32 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         } else {
             lab.setText("");
             lab.setOpaque(false);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lab     DOCUMENT ME!
+     * @param  points  DOCUMENT ME!
+     */
+    private static void fillLabelCount(final JLabel lab, final Number points) {
+        if (points != null) {
+            final double pointsAsDouble = points.doubleValue();
+
+            if (pointsAsDouble > 0) {
+                lab.setText("\u2713");
+            } else {
+                lab.setText("-");
+            }
+//            final int cl = CalcCache.getQualityClass(pointsAsDouble);
+
+//            lab.setText(String.valueOf(cl));
+//            lab.setBackground(getColor(cl));
+            lab.setOpaque(true);
+        } else {
+            lab.setText("-");
+//            lab.setOpaque(false);
         }
     }
 
