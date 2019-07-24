@@ -360,6 +360,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblAnzLa, gridBagConstraints);
 
+        lblAnzLaVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblAnzLaVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAnzLaVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblAnzLaVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -540,6 +541,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblAnzBesSohlstrukturen, gridBagConstraints);
 
+        lblAnzBesSohlstrukturenVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblAnzBesSohlstrukturenVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAnzBesSohlstrukturenVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblAnzBesSohlstrukturenVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -581,6 +583,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panSohle.add(lblBelastungenSohle, gridBagConstraints);
 
+        lblBelastungenSohleVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblBelastungenSohleVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBelastungenSohleVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblBelastungenSohleVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -849,6 +852,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblBesondereUferbelastungenRe, gridBagConstraints);
 
+        lblBesondereUferbelastungenReVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblBesondereUferbelastungenReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBesondereUferbelastungenReVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblBesondereUferbelastungenReVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -870,6 +874,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panUfer.add(lblBesondereUferbelastungenLi, gridBagConstraints);
 
+        lblBesondereUferbelastungenLiVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblBesondereUferbelastungenLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBesondereUferbelastungenLiVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblBesondereUferbelastungenLiVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -1009,6 +1014,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblSchaedlicheUmfeldstrukturenRe, gridBagConstraints);
 
+        lblSchaedlicheUmfeldstrukturenReVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblSchaedlicheUmfeldstrukturenReVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSchaedlicheUmfeldstrukturenReVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblSchaedlicheUmfeldstrukturenReVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -1029,6 +1035,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panLand.add(lblSchaedlicheUmfeldstrukturenLi, gridBagConstraints);
 
+        lblSchaedlicheUmfeldstrukturenLiVal.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         lblSchaedlicheUmfeldstrukturenLiVal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSchaedlicheUmfeldstrukturenLiVal.setMinimumSize(new java.awt.Dimension(30, 20));
         lblSchaedlicheUmfeldstrukturenLiVal.setPreferredSize(new java.awt.Dimension(30, 20));
@@ -1262,9 +1269,9 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVorschlagActionPerformed
+    private void jbVorschlagActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbVorschlagActionPerformed
         generateMassnahmenvorschlag();
-    }//GEN-LAST:event_jbVorschlagActionPerformed
+    }                                                                               //GEN-LAST:event_jbVorschlagActionPerformed
 
     /**
      * Determines the preferred massnahmen for the currently fgsk.
@@ -1377,7 +1384,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemActionPerformed
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
         final Object[] selectedElements = liMassn.getSelectedValues();
 
         for (final Object el : selectedElements) {
@@ -1395,14 +1402,14 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
         }
 
         jbVorschlagActionPerformed(null);
-    }//GEN-LAST:event_jbRemActionPerformed
+    } //GEN-LAST:event_jbRemActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtCustomCostsFocusLost(final java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCustomCostsFocusLost
+    private void txtCustomCostsFocusLost(final java.awt.event.FocusEvent evt) { //GEN-FIRST:event_txtCustomCostsFocusLost
         saveCosts();
         fillCosts();
         final SimulationResultChangedEvent e = new SimulationResultChangedEvent(
@@ -1411,7 +1418,7 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
                 massnahmen);
 
         fireSimulationResultChangedEvent(e);
-    }//GEN-LAST:event_txtCustomCostsFocusLost
+    } //GEN-LAST:event_txtCustomCostsFocusLost
 
     /**
      * DOCUMENT ME!
@@ -1823,13 +1830,13 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             // test end
             ratingCourseLoop = addProperty(ratingCourseLoop, "laufkruemmung", massnahmen, lawaValue);
             ratingLoopErosion = addProperty(ratingLoopErosion, "kruemmungserosion", massnahmen, lawaValue);
-            ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
-            ratingCourseStructure = addProperty(
-                    ratingCourseStructure,
-                    "anzahl_besonderer_laufstrukturen",
-                    massnahmen,
-                    lawaValue);
-            ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
+//            ratingLongBench = addProperty(ratingLongBench, "anzahl_laengsbaenken_mvs", massnahmen, lawaValue);
+//            ratingCourseStructure = addProperty(
+//                    ratingCourseStructure,
+//                    "anzahl_besonderer_laufstrukturen",
+//                    massnahmen,
+//                    lawaValue);
+//            ratingCrossBench = addProperty(ratingCrossBench, "anzahl_querbaenke_mvs", massnahmen, lawaValue);
             ratingFlowDiversity = addProperty(ratingFlowDiversity, "stroemungsdiversitaet", massnahmen, lawaValue);
             ratingDepthVariance = addProperty(ratingDepthVariance, "tiefenvarianz", massnahmen, lawaValue);
             substrateDiversityRating = addProperty(
@@ -1991,8 +1998,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             fillLabel(simEditor.lblLaufkrVal, ratingCourseLoop);
             fillLabel(simEditor.lblKruemmungserosionVal, ratingLoopErosion);
             fillLabelCount(simEditor.lblAnzLaVal, absLongBenchSum);
-            fillLabelCount(simEditor.lblAnzLaufVal, absCourseStructureSum);
-            fillLabelCount(simEditor.lblAnzQuerbaenkeVal, absCrossBenchCount);
+//            fillLabelCount(simEditor.lblAnzLaufVal, absCourseStructureSum);
+//            fillLabelCount(simEditor.lblAnzQuerbaenkeVal, absCrossBenchCount);
+            fillLabel(simEditor.lblAnzLaufVal, ratingCourseStructure);
+            fillLabel(simEditor.lblAnzQuerbaenkeVal, ratingCrossBench);
             fillLabel(simEditor.lblStroemngsdiversitaetVal, ratingFlowDiversity);
             fillLabel(simEditor.lblFliessgeschwindigkeitVal, ratingFlowVelocity);
             fillLabel(simEditor.lblTiefenvarianzVal, ratingDepthVariance);
@@ -2007,10 +2016,10 @@ public class SimSimulationsabschnittEditor extends javax.swing.JPanel implements
             fillLabel(simEditor.lblUferbewuchsLiVal, ratingBankVegetationLeft);
             fillLabel(simEditor.lblUferverbauReVal, ratingBankFitmentRight);
             fillLabel(simEditor.lblUferverbauLiVal, ratingBankFitmentLeft);
-            fillLabelCount(simEditor.lblBesondereUferbelastungenReVal, ratingBankStructureRight);
-            fillLabelCount(simEditor.lblBesondereUferbelastungenLiVal, ratingBankStructureLeft);
-            fillLabelCount(simEditor.lblAnzBesUferstrukturenReVal, bankContaminationRight);
-            fillLabelCount(simEditor.lblAnzBesUferstrukturenLiVal, bankContaminationLeft);
+            fillLabelCount(simEditor.lblBesondereUferbelastungenReVal, bankContaminationRight);
+            fillLabelCount(simEditor.lblBesondereUferbelastungenLiVal, bankContaminationLeft);
+            fillLabel(simEditor.lblAnzBesUferstrukturenReVal, ratingBankStructureRight);
+            fillLabel(simEditor.lblAnzBesUferstrukturenLiVal, ratingBankStructureLeft);
             fillLabelCount(simEditor.lblBelastungenSohleVal, bedContamination);
             fillLabel(simEditor.lblGewaesserrandstreifenReVal, ratingWBTrimmingRight);
             fillLabel(simEditor.lblGewaesserrandstreifenLiVal, ratingWBTrimmingLeft);

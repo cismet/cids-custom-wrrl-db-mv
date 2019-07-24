@@ -92,8 +92,21 @@ public class GupHelper {
     private static void adjustBorders(final MetaObject[] metaObjects, final double min, final double max) {
         if (metaObjects != null) {
             for (final MetaObject tmp : metaObjects) {
-                final double von = (Double)tmp.getBean().getProperty("linie.von.wert");
-                final double bis = (Double)tmp.getBean().getProperty("linie.bis.wert");
+                double von = (Double)tmp.getBean().getProperty("linie.von.wert");
+                double bis = (Double)tmp.getBean().getProperty("linie.bis.wert");
+
+                if (von > bis) {
+                    // swap von and bis
+                    try {
+                        tmp.getBean().setProperty("linie.von.wert", bis);
+                        tmp.getBean().setProperty("linie.bis.wert", von);
+                        final double tmpValue = von;
+                        von = bis;
+                        bis = tmpValue;
+                    } catch (Exception e) {
+                        LOG.error("Cannot swap von and bis value", e);
+                    }
+                }
 
                 try {
                     if (von < min) {
