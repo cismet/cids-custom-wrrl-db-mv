@@ -759,7 +759,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
         panPhos.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Gesamtphosphat"));
+                "Gesamtphosphor"));
         panPhos.setOpaque(false);
         panPhos.setLayout(new java.awt.GridBagLayout());
 

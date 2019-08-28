@@ -652,7 +652,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_mittelwert}"),
                 lblMittelGesN,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -672,7 +672,7 @@ public class ChemieMstMessungenRenderer extends JPanel implements CidsBeanRender
 
         panPhos.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Gesamtphosphat"));
+                "Gesamtphosphor"));
         panPhos.setOpaque(false);
         panPhos.setLayout(new java.awt.GridBagLayout());
 
