@@ -14,6 +14,8 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 
+import org.openide.util.Exceptions;
+
 import java.awt.CardLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -47,6 +49,8 @@ import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.LinearReferencing
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
+
+import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -118,6 +122,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton badGeomButton;
     private javax.swing.JButton badGeomCorrectButton;
+    private javax.swing.JToggleButton geomHistorisch;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
@@ -131,6 +136,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
     private javax.swing.JPanel panError;
     private javax.swing.JButton splitButton;
     private javax.swing.JSpinner spnPointValue;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -976,10 +982,18 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         // aufräumen falls vorher cidsbean schon gesetzt war
+        bindingGroup.unbind();
         cleanup();
 
         // neue cidsbean setzen
         this.cidsBean = cidsBean;
+
+        if (cidsBean != null) {
+            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+                bindingGroup,
+                cidsBean);
+            bindingGroup.bind();
+        }
 
         // neu initialisieren
         init();
@@ -1063,6 +1077,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panEdit = new javax.swing.JPanel();
         spnPointValue = new javax.swing.JSpinner();
@@ -1073,6 +1088,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
         jPanel2 = new javax.swing.JPanel();
         badGeomCorrectButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        geomHistorisch = new javax.swing.JToggleButton();
         lblPointValue = new javax.swing.JLabel();
         lblRoute = new javax.swing.JLabel();
         panAdd = new AddPanel();
@@ -1111,7 +1127,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
         labGwk.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labGwk.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.labGwk.text_1")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -1206,6 +1222,39 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         panEdit.add(jPanel3, gridBagConstraints);
 
+        geomHistorisch.setText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.geomHistorisch.text",
+                new Object[] {})); // NOI18N
+        geomHistorisch.setToolTipText(org.openide.util.NbBundle.getMessage(
+                StationEditor.class,
+                "StationEditor.geomHistorisch.toolTipText",
+                new Object[] {})); // NOI18N
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ohne_route}"),
+                geomHistorisch,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        geomHistorisch.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    geomHistorischActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        panEdit.add(geomHistorisch, gridBagConstraints);
+
         lblPointValue.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblPointValue.setText(org.openide.util.NbBundle.getMessage(
                 StationEditor.class,
@@ -1224,7 +1273,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
         lblRoute.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblRoute.setText(org.openide.util.NbBundle.getMessage(StationEditor.class, "StationEditor.lblRoute.text_1")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -1249,6 +1298,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
         panError.add(lblError, new java.awt.GridBagConstraints());
 
         add(panError, "error");
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -1277,6 +1328,14 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
     private void badGeomCorrectButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_badGeomCorrectButtonActionPerformed
         correctBadGeomCorrect();
     }                                                                                        //GEN-LAST:event_badGeomCorrectButtonActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void geomHistorischActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_geomHistorischActionPerformed
+    }                                                                                  //GEN-LAST:event_geomHistorischActionPerformed
 
     /**
      * DOCUMENT ME!

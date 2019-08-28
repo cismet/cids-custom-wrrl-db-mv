@@ -211,6 +211,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private javax.swing.JDialog externalGeomDialog;
     private javax.swing.JPanel geomDialogInternalPanel;
     private javax.swing.JScrollPane geomDialogScrollPane;
+    private javax.swing.JToggleButton geomHistorisch;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFromIcon;
@@ -684,6 +685,12 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         if (lineBean != null) {
             lineBean.addPropertyChangeListener(linePropertyChangeListener);
+            boolean historisch = ((lineBean.getProperty("von.ohne_route") != null)
+                    ? (Boolean)lineBean.getProperty("von.ohne_route") : false);
+            historisch = historisch
+                        || ((lineBean.getProperty("bis.ohne_route") != null)
+                            ? (Boolean)lineBean.getProperty("bis.ohne_route") : false);
+            geomHistorisch.setSelected(historisch);
         }
 
         // beans mit denen aus dem Cache erstzen
@@ -2101,6 +2108,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         lblRoute = new javax.swing.JLabel();
         btnRoute = new javax.swing.JToggleButton();
         panLine = new javax.swing.JPanel();
+        geomHistorisch = new javax.swing.JToggleButton();
         panOtherLines = new javax.swing.JPanel();
         panSpacer = new javax.swing.JPanel();
         panAdd = new javax.swing.JPanel();
@@ -2153,7 +2161,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 LinearReferencedLineEditor.class,
                 "LinearReferencedLineEditor.lblToIcon.text_1"));                                         // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 15);
@@ -2175,7 +2183,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         spnTo.setMinimumSize(new java.awt.Dimension(100, 28));
         spnTo.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weighty = 1.0;
@@ -2199,7 +2207,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         lblToValue.setMinimumSize(new java.awt.Dimension(100, 28));
         lblToValue.setPreferredSize(new java.awt.Dimension(100, 28));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -2293,7 +2301,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         panToBadGeomSpacer.add(btnToBadGeom);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         panLinePoints.add(panToBadGeomSpacer, gridBagConstraints);
@@ -2308,7 +2316,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         lblToPointSplit.setMinimumSize(new java.awt.Dimension(16, 16));
         lblToPointSplit.setPreferredSize(new java.awt.Dimension(16, 16));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         panLinePoints.add(lblToPointSplit, gridBagConstraints);
 
@@ -2366,7 +2374,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         panLinePoints.add(btnToPointSplit, gridBagConstraints);
 
@@ -2377,7 +2385,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         panLinePoints.add(lblRoute, gridBagConstraints);
 
@@ -2398,7 +2406,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         panLinePoints.add(btnRoute, gridBagConstraints);
 
@@ -2409,10 +2417,34 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         panLinePoints.add(panLine, gridBagConstraints);
+
+        geomHistorisch.setText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.geomHistorisch.text",
+                new Object[] {})); // NOI18N
+        geomHistorisch.setToolTipText(org.openide.util.NbBundle.getMessage(
+                LinearReferencedLineEditor.class,
+                "LinearReferencedLineEditor.geomHistorisch.toolTipText",
+                new Object[] {})); // NOI18N
+        geomHistorisch.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    geomHistorischActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        panLinePoints.add(geomHistorisch, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -2526,6 +2558,21 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRouteActionPerformed
         updateOtherLinesPanelVisibility();
     }                                                                            //GEN-LAST:event_btnRouteActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void geomHistorischActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_geomHistorischActionPerformed
+        try {
+            getLineBean().setProperty("von.ohne_route", geomHistorisch.isSelected());
+            getLineBean().setProperty("bis.ohne_route", geomHistorisch.isSelected());
+        } catch (Exception ex) {
+            geomHistorisch.setSelected(!geomHistorisch.isSelected());
+            LOG.error("Cannot change ohne_route property", ex);
+        }
+    }                                                                                  //GEN-LAST:event_geomHistorischActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2704,7 +2751,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      */
     private void setPointBean(final CidsBean pointBean, final boolean isFrom) {
         try {
-            getLineBean().setProperty(getPointField(isFrom), pointBean);
+            if ((pointBean == null) || (getLineBean().getProperty(getPointField(isFrom)) == null)
+                        || !getLineBean().getProperty(getPointField(isFrom)).equals(pointBean)) {
+                getLineBean().setProperty(getPointField(isFrom), pointBean);
+            }
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("error while setting cidsbean for point", ex);
