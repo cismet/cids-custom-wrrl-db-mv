@@ -285,6 +285,10 @@ public class UnterhaltungsmassnahmeValidator {
 //        final CidsBean moBean = mo.getBean();
         final double von = (Double)moBean.getProperty("linie.von.wert");
         final double bis = (Double)moBean.getProperty("linie.bis.wert");
+        final long vonRounded = Math.min(Math.round(von), Math.round(bis));
+        final long bisRounded = Math.max(Math.round(von), Math.round(bis));
+        final long fromBeanRounded = Math.min(Math.round(fromBean), Math.round(untilBean));
+        final long untilBeanRounded = Math.max(Math.round(fromBean), Math.round(untilBean));
         final Integer wo = (Integer)moBean.getProperty("wo.id");
 
         if (wo == null) {
@@ -292,8 +296,9 @@ public class UnterhaltungsmassnahmeValidator {
         }
 
         return (wo == woId)
-                    && (((von < fromBean) && (bis > fromBean)) || ((von < untilBean) && (bis > untilBean))
-                        || ((von >= fromBean) && (bis <= untilBean)));
+                    && (((vonRounded < fromBeanRounded) && (bisRounded > fromBeanRounded))
+                        || ((vonRounded < untilBeanRounded) && (bisRounded > untilBeanRounded))
+                        || ((vonRounded >= fromBeanRounded) && (bisRounded <= untilBeanRounded)));
     }
 
     /**
