@@ -13,7 +13,7 @@
 
     <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
     <artifactId>cids-custom-wrrl-db-mv</artifactId>
-    <version>6.0.20</version>
+    <version>6.0.21</version>
     <packaging>jar</packaging>
 
     <name>cids Custom WRRL-DB-MV</name>
@@ -23,7 +23,7 @@
         <connection>https://github.com/cismet/cids-custom-wrrl-db-mv.git</connection>
         <developerConnection>scm:git:git@github.com:cismet/cids-custom-wrrl-db-mv.git</developerConnection>
         <url>https://github.com/cismet/cids-custom-wrrl-db-mv</url>
-        <tag>v6.0.20</tag>
+        <tag>v6.0.21</tag>
     </scm>
 
     <properties>
@@ -61,7 +61,7 @@
                 <version>6.5.1</version>
                 <scope>compile</scope>
                 <type>jar</type>
-<!--                <exclusions>
+                <exclusions>
                     <exclusion>
                         <groupId>postgresql</groupId>
                         <artifactId>postgresql</artifactId>
@@ -70,7 +70,7 @@
                         <groupId>org.postgis</groupId>
                         <artifactId>postgis-jdbc</artifactId>
                     </exclusion>
-                </exclusions>-->
+                </exclusions>
             </dependency>
             
             <dependency>
@@ -87,7 +87,7 @@
                 <version>6.5.5</version>
                 <scope>compile</scope>
                 <type>jar</type>
-<!--                <exclusions>
+                <exclusions>
                     <exclusion>
                         <groupId>postgresql</groupId>
                         <artifactId>postgresql</artifactId>
@@ -96,7 +96,7 @@
                         <groupId>org.postgis</groupId>
                         <artifactId>postgis-jdbc</artifactId>
                     </exclusion>
-                </exclusions>-->
+                </exclusions>
             </dependency>
             
             <dependency>
@@ -113,7 +113,7 @@
                 <version>6.3.4</version>
                 <scope>compile</scope>
                 <type>jar</type>
-<!--                <exclusions>
+                <exclusions>
                     <exclusion>
                         <groupId>postgresql</groupId>
                         <artifactId>postgresql</artifactId>
@@ -122,7 +122,7 @@
                         <groupId>org.postgis</groupId>
                         <artifactId>postgis-jdbc</artifactId>
                     </exclusion>
-                </exclusions>-->
+                </exclusions>
             </dependency>
             
             <dependency>
@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
                 <artifactId>cids-custom-wrrl-db-mv-server</artifactId>
-                <version>6.0</version>
+                <version>6.1</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
