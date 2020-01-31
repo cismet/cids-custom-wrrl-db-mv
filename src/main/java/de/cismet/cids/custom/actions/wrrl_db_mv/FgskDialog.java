@@ -767,12 +767,12 @@ public class FgskDialog extends javax.swing.JDialog {
                 final CidsBean newFromStat = CidsBeanSupport.cloneStation(fromStation);
                 final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(fromVal, routeGeom);
                 newFromStat.setProperty("wert", fromVal);
-                newFromStat.setProperty("real_point", pointGeom);
+                newFromStat.setProperty("real_point.geo_field", pointGeom);
                 final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
                         fromVal,
                         tillVal,
                         routeGeom);
-                stationLine.setProperty("geom", lineGeom);
+                stationLine.setProperty("geom.geo_field", lineGeom);
 
                 if (rightOrder) {
                     stationLine.setProperty("von", newFromStat);
@@ -785,12 +785,12 @@ public class FgskDialog extends javax.swing.JDialog {
                 final CidsBean newTillStat = CidsBeanSupport.cloneStation(tillStation);
                 final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(tillVal, routeGeom);
                 newTillStat.setProperty("wert", tillVal);
-                newTillStat.setProperty("real_point", pointGeom);
+                newTillStat.setProperty("real_point.geo_field", pointGeom);
                 final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
                         fromVal,
                         tillVal,
                         routeGeom);
-                stationLine.setProperty("geom", lineGeom);
+                stationLine.setProperty("geom.geo_field", lineGeom);
 
                 if (rightOrder) {
                     stationLine.setProperty("bis", newTillStat);
