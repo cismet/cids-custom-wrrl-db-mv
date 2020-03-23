@@ -30,6 +30,7 @@ import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
@@ -57,71 +58,56 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGkPcQk;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGkTemp;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbPhosphor;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSaeure;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSalz;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSauerstoff;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStickstoff;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenPanOne chemieMstMessungenPanOne1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbVorb;
     private javax.swing.JTable jtMstTab1;
-    private javax.swing.JLabel lbl90PerzentilAmm;
-    private javax.swing.JLabel lbl90PerzentilChlor;
-    private javax.swing.JLabel lbl90PerzentilGesN;
-    private javax.swing.JLabel lbl90PerzentilNit;
-    private javax.swing.JLabel lbl90PerzentilOrth;
-    private javax.swing.JLabel lbl90PerzentilPhos;
-    private javax.swing.JLabel lblBemerkungPc;
     private javax.swing.JLabel lblGenCond;
+    private javax.swing.JLabel lblGenCond1;
+    private javax.swing.JLabel lblGenCond2;
+    private javax.swing.JLabel lblGenCond3;
+    private javax.swing.JLabel lblGenCond4;
+    private javax.swing.JLabel lblGenCond5;
+    private javax.swing.JLabel lblGenCond6;
     private javax.swing.JLabel lblGenCondBemerkung;
     private javax.swing.JLabel lblGenCondGkQk;
     private javax.swing.JLabel lblGenCondJahr;
     private javax.swing.JLabel lblGenCondMst;
-    private javax.swing.JLabel lblGkLawaAmm;
-    private javax.swing.JLabel lblGkLawaChlor;
-    private javax.swing.JLabel lblGkLawaGesN;
-    private javax.swing.JLabel lblGkLawaNit;
-    private javax.swing.JLabel lblGkLawaOrth;
-    private javax.swing.JLabel lblGkLawaPhos;
-    private javax.swing.JLabel lblGkPcMst;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblJahr;
-    private javax.swing.JLabel lblLawa;
-    private javax.swing.JLabel lblLawa1;
-    private javax.swing.JLabel lblLawa2;
-    private javax.swing.JLabel lblLawa3;
-    private javax.swing.JLabel lblLawa4;
-    private javax.swing.JLabel lblLawa5;
-    private javax.swing.JLabel lblMittelAmm;
-    private javax.swing.JLabel lblMittelChlor;
-    private javax.swing.JLabel lblMittelGesN;
-    private javax.swing.JLabel lblMittelNit;
-    private javax.swing.JLabel lblMittelO2;
-    private javax.swing.JLabel lblMittelOrth;
-    private javax.swing.JLabel lblMittelPhos;
-    private javax.swing.JLabel lblOWertAmm;
-    private javax.swing.JLabel lblOWertChlor;
-    private javax.swing.JLabel lblOWertO2;
-    private javax.swing.JLabel lblOWertOrth;
-    private javax.swing.JLabel lblOWertPhos;
-    private javax.swing.JLabel lblPhyChem;
-    private javax.swing.JLabel lblRakon;
-    private javax.swing.JLabel lblRakon1;
-    private javax.swing.JLabel lblRakon3;
-    private javax.swing.JLabel lblRakon4;
-    private javax.swing.JLabel lblRakon5;
     private javax.swing.JLabel lblSpace;
     private javax.swing.JPanel panAllgemein;
-    private javax.swing.JPanel panAmm;
-    private javax.swing.JPanel panChlor;
-    private javax.swing.JPanel panGesN;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JPanel panNit;
-    private javax.swing.JPanel panO2;
-    private javax.swing.JPanel panOrtho;
-    private javax.swing.JPanel panPhos;
     private javax.swing.JTextField txtJahrPcqk;
+    private javax.swing.JTextField txtJahrPhosphor;
+    private javax.swing.JTextField txtJahrSaeure;
+    private javax.swing.JTextField txtJahrSalz;
+    private javax.swing.JTextField txtJahrSauerstoff;
+    private javax.swing.JTextField txtJahrStickstoff;
+    private javax.swing.JTextField txtJahrTemp;
     private javax.swing.JTextField txtMst;
+    private javax.swing.JTextField txtMstPhosphor;
+    private javax.swing.JTextField txtMstSaeure;
+    private javax.swing.JTextField txtMstSalzgehalt;
+    private javax.swing.JTextField txtMstSauerstoff;
+    private javax.swing.JTextField txtMstStickstoff;
+    private javax.swing.JTextField txtMstTemp;
     private javax.swing.JTextField txtPcQkBemerkung;
+    private javax.swing.JTextField txtPhosphorBemerkung;
+    private javax.swing.JTextField txtSaeureBemerkung;
+    private javax.swing.JTextField txtSalzBemerkung;
+    private javax.swing.JTextField txtSauerstoffBemerkung;
+    private javax.swing.JTextField txtStickstoffBemerkung;
+    private javax.swing.JTextField txtTempBemerkung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -131,9 +117,51 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      * Creates new form WkFgPanOne.
      */
     public WkFgPanSix() {
+        this(false);
+    }
+
+    /**
+     * Creates a new WkFgPanSix object.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    WkFgPanSix(final boolean readOnly) {
         initComponents();
+        chemieMstMessungenPanOne1.clearForm();
         jScrollPane1.getViewport().setOpaque(false);
         jtMstTab1.getSelectionModel().addListSelectionListener(this);
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(cbGkPcQk);
+            RendererTools.makeReadOnly(cbGkTemp);
+            RendererTools.makeReadOnly(cbPhosphor);
+            RendererTools.makeReadOnly(cbSaeure);
+            RendererTools.makeReadOnly(cbSalz);
+            RendererTools.makeReadOnly(cbSauerstoff);
+            RendererTools.makeReadOnly(cbStickstoff);
+            RendererTools.makeReadOnly(txtJahrPcqk);
+            RendererTools.makeReadOnly(txtJahrPhosphor);
+            RendererTools.makeReadOnly(txtJahrSaeure);
+            RendererTools.makeReadOnly(txtJahrSalz);
+            RendererTools.makeReadOnly(txtJahrSauerstoff);
+            RendererTools.makeReadOnly(txtJahrStickstoff);
+            RendererTools.makeReadOnly(txtJahrTemp);
+            RendererTools.makeReadOnly(txtMst);
+            RendererTools.makeReadOnly(txtMstTemp);
+            RendererTools.makeReadOnly(txtMstSauerstoff);
+            RendererTools.makeReadOnly(txtMstSalzgehalt);
+            RendererTools.makeReadOnly(txtMstSaeure);
+            RendererTools.makeReadOnly(txtMstStickstoff);
+            RendererTools.makeReadOnly(txtMstPhosphor);
+            RendererTools.makeReadOnly(txtPcQkBemerkung);
+            RendererTools.makeReadOnly(txtPhosphorBemerkung);
+            RendererTools.makeReadOnly(txtSaeureBemerkung);
+            RendererTools.makeReadOnly(txtSalzBemerkung);
+            RendererTools.makeReadOnly(txtSauerstoffBemerkung);
+            RendererTools.makeReadOnly(txtStickstoffBemerkung);
+            RendererTools.makeReadOnly(txtTempBemerkung);
+            jbVorb.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -165,59 +193,44 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         txtPcQkBemerkung = new javax.swing.JTextField();
         lblGenCondGkQk = new javax.swing.JLabel();
         jbVorb = new javax.swing.JButton();
+        lblGenCond1 = new javax.swing.JLabel();
+        cbGkTemp = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        txtJahrTemp = new javax.swing.JTextField();
+        txtTempBemerkung = new javax.swing.JTextField();
+        txtMstTemp = new javax.swing.JTextField();
+        cbSauerstoff = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        txtJahrSauerstoff = new javax.swing.JTextField();
+        lblGenCond2 = new javax.swing.JLabel();
+        txtMstSauerstoff = new javax.swing.JTextField();
+        txtSauerstoffBemerkung = new javax.swing.JTextField();
+        cbSalz = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        txtJahrSalz = new javax.swing.JTextField();
+        lblGenCond3 = new javax.swing.JLabel();
+        txtMstSalzgehalt = new javax.swing.JTextField();
+        txtSalzBemerkung = new javax.swing.JTextField();
+        cbSaeure = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        txtJahrSaeure = new javax.swing.JTextField();
+        lblGenCond4 = new javax.swing.JLabel();
+        txtMstSaeure = new javax.swing.JTextField();
+        txtSaeureBemerkung = new javax.swing.JTextField();
+        cbStickstoff = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        txtJahrStickstoff = new javax.swing.JTextField();
+        lblGenCond5 = new javax.swing.JLabel();
+        txtMstStickstoff = new javax.swing.JTextField();
+        txtStickstoffBemerkung = new javax.swing.JTextField();
+        cbPhosphor = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        txtJahrPhosphor = new javax.swing.JTextField();
+        lblGenCond6 = new javax.swing.JLabel();
+        txtMstPhosphor = new javax.swing.JTextField();
+        txtPhosphorBemerkung = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtMstTab1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        panOrtho = new javax.swing.JPanel();
-        lblLawa = new javax.swing.JLabel();
-        lblRakon = new javax.swing.JLabel();
-        lbl90PerzentilOrth = new javax.swing.JLabel();
-        lblGkLawaOrth = new javax.swing.JLabel();
-        lblOWertOrth = new javax.swing.JLabel();
-        lblMittelOrth = new javax.swing.JLabel();
-        panAmm = new javax.swing.JPanel();
-        lblLawa1 = new javax.swing.JLabel();
-        lblRakon1 = new javax.swing.JLabel();
-        lbl90PerzentilAmm = new javax.swing.JLabel();
-        lblGkLawaAmm = new javax.swing.JLabel();
-        lblOWertAmm = new javax.swing.JLabel();
-        lblMittelAmm = new javax.swing.JLabel();
-        panGesN = new javax.swing.JPanel();
-        lblLawa2 = new javax.swing.JLabel();
-        lbl90PerzentilGesN = new javax.swing.JLabel();
-        lblGkLawaGesN = new javax.swing.JLabel();
-        lblMittelGesN = new javax.swing.JLabel();
-        panPhos = new javax.swing.JPanel();
-        lblLawa3 = new javax.swing.JLabel();
-        lblRakon3 = new javax.swing.JLabel();
-        lbl90PerzentilPhos = new javax.swing.JLabel();
-        lblGkLawaPhos = new javax.swing.JLabel();
-        lblOWertPhos = new javax.swing.JLabel();
-        lblMittelPhos = new javax.swing.JLabel();
-        panNit = new javax.swing.JPanel();
-        lblLawa4 = new javax.swing.JLabel();
-        lbl90PerzentilNit = new javax.swing.JLabel();
-        lblGkLawaNit = new javax.swing.JLabel();
-        lblMittelNit = new javax.swing.JLabel();
-        panChlor = new javax.swing.JPanel();
-        lblLawa5 = new javax.swing.JLabel();
-        lblRakon5 = new javax.swing.JLabel();
-        lbl90PerzentilChlor = new javax.swing.JLabel();
-        lblGkLawaChlor = new javax.swing.JLabel();
-        lblOWertChlor = new javax.swing.JLabel();
-        lblMittelChlor = new javax.swing.JLabel();
-        panO2 = new javax.swing.JPanel();
-        lblRakon4 = new javax.swing.JLabel();
-        lblOWertO2 = new javax.swing.JLabel();
-        lblMittelO2 = new javax.swing.JLabel();
-        lblPhyChem = new javax.swing.JLabel();
-        lblGkPcMst = new javax.swing.JLabel();
-        lblBemerkungPc = new javax.swing.JLabel();
-        lblJahr = new javax.swing.JLabel();
+        chemieMstMessungenPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenPanOne(true);
 
-        setMinimumSize(new java.awt.Dimension(910, 650));
+        setMinimumSize(new java.awt.Dimension(910, 550));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(910, 650));
+        setPreferredSize(new java.awt.Dimension(910, 550));
         setLayout(new java.awt.BorderLayout());
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
@@ -387,6 +400,528 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAllgemein.add(jbVorb, gridBagConstraints);
 
+        lblGenCond1.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCond1, gridBagConstraints);
+
+        cbGkTemp.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbGkTemp.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbGkTemp.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk}"),
+                cbGkTemp,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbGkTemp.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbGkTempActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(cbGkTemp, gridBagConstraints);
+
+        txtJahrTemp.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrTemp.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_year}"),
+                txtJahrTemp,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrTemp, gridBagConstraints);
+
+        txtTempBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtTempBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_bemerkung}"),
+                txtTempBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtTempBemerkung, gridBagConstraints);
+
+        txtMstTemp.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMstTemp.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_mst}"),
+                txtMstTemp,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMstTemp, gridBagConstraints);
+
+        cbSauerstoff.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbSauerstoff.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbSauerstoff.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk}"),
+                cbSauerstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbSauerstoff.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbSauerstoffActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(cbSauerstoff, gridBagConstraints);
+
+        txtJahrSauerstoff.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrSauerstoff.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_year}"),
+                txtJahrSauerstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrSauerstoff, gridBagConstraints);
+
+        lblGenCond2.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCond2, gridBagConstraints);
+
+        txtMstSauerstoff.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMstSauerstoff.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_mst}"),
+                txtMstSauerstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMstSauerstoff, gridBagConstraints);
+
+        txtSauerstoffBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtSauerstoffBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_bemerkung}"),
+                txtSauerstoffBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtSauerstoffBemerkung, gridBagConstraints);
+
+        cbSalz.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbSalz.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbSalz.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk}"),
+                cbSalz,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbSalz.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbSalzActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(cbSalz, gridBagConstraints);
+
+        txtJahrSalz.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrSalz.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_year}"),
+                txtJahrSalz,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrSalz, gridBagConstraints);
+
+        lblGenCond3.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCond3, gridBagConstraints);
+
+        txtMstSalzgehalt.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMstSalzgehalt.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_mst}"),
+                txtMstSalzgehalt,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMstSalzgehalt, gridBagConstraints);
+
+        txtSalzBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtSalzBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_bemerkung}"),
+                txtSalzBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtSalzBemerkung, gridBagConstraints);
+
+        cbSaeure.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbSaeure.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbSaeure.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk}"),
+                cbSaeure,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbSaeure.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbSaeureActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(cbSaeure, gridBagConstraints);
+
+        txtJahrSaeure.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrSaeure.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_year}"),
+                txtJahrSaeure,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrSaeure, gridBagConstraints);
+
+        lblGenCond4.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCond4, gridBagConstraints);
+
+        txtMstSaeure.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMstSaeure.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_mst}"),
+                txtMstSaeure,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMstSaeure, gridBagConstraints);
+
+        txtSaeureBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtSaeureBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_bemerkung}"),
+                txtSaeureBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtSaeureBemerkung, gridBagConstraints);
+
+        cbStickstoff.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbStickstoff.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbStickstoff.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk}"),
+                cbStickstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbStickstoff.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbStickstoffActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(cbStickstoff, gridBagConstraints);
+
+        txtJahrStickstoff.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrStickstoff.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_year}"),
+                txtJahrStickstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrStickstoff, gridBagConstraints);
+
+        lblGenCond5.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond5.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCond5, gridBagConstraints);
+
+        txtMstStickstoff.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMstStickstoff.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_mst}"),
+                txtMstStickstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMstStickstoff, gridBagConstraints);
+
+        txtStickstoffBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtStickstoffBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_bemerkung}"),
+                txtStickstoffBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtStickstoffBemerkung, gridBagConstraints);
+
+        cbPhosphor.setMaximumSize(new java.awt.Dimension(200, 20));
+        cbPhosphor.setMinimumSize(new java.awt.Dimension(200, 20));
+        cbPhosphor.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk}"),
+                cbPhosphor,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        cbPhosphor.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbPhosphorActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(cbPhosphor, gridBagConstraints);
+
+        txtJahrPhosphor.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtJahrPhosphor.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_year}"),
+                txtJahrPhosphor,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtJahrPhosphor, gridBagConstraints);
+
+        lblGenCond6.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblGenCond6.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(lblGenCond6, gridBagConstraints);
+
+        txtMstPhosphor.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtMstPhosphor.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_mst}"),
+                txtMstPhosphor,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtMstPhosphor, gridBagConstraints);
+
+        txtPhosphorBemerkung.setMinimumSize(new java.awt.Dimension(200, 20));
+        txtPhosphorBemerkung.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_bemerkung}"),
+                txtPhosphorBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panAllgemein.add(txtPhosphorBemerkung, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -414,505 +949,17 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 15, 10);
         panInfoContent.add(jScrollPane3, gridBagConstraints);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Messwerte"));
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        panOrtho.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Orthophosphat"));
-        panOrtho.setOpaque(false);
-        panOrtho.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa.setPreferredSize(new java.awt.Dimension(45, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblLawa, gridBagConstraints);
-
-        lblRakon.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblRakon, gridBagConstraints);
-
-        lbl90PerzentilOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lbl90PerzentilOrth, gridBagConstraints);
-
-        lblGkLawaOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblGkLawaOrth, gridBagConstraints);
-
-        lblOWertOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblOWertOrth, gridBagConstraints);
-
-        lblMittelOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblMittelOrth, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panOrtho, gridBagConstraints);
-
-        panAmm.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Ammonium-N"));
-        panAmm.setOpaque(false);
-        panAmm.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa1.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa1.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa1.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblLawa1, gridBagConstraints);
-
-        lblRakon1.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon1.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon1.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblRakon1, gridBagConstraints);
-
-        lbl90PerzentilAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lbl90PerzentilAmm, gridBagConstraints);
-
-        lblGkLawaAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblGkLawaAmm, gridBagConstraints);
-
-        lblOWertAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblOWertAmm, gridBagConstraints);
-
-        lblMittelAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblMittelAmm, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panAmm, gridBagConstraints);
-
-        panGesN.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Gesamt-N"));
-        panGesN.setOpaque(false);
-        panGesN.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa2.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa2.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa2.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lblLawa2, gridBagConstraints);
-
-        lbl90PerzentilGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilGesN.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilGesN.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lbl90PerzentilGesN, gridBagConstraints);
-
-        lblGkLawaGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaGesN.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaGesN.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lblGkLawaGesN, gridBagConstraints);
-
-        lblMittelGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelGesN.setMinimumSize(new java.awt.Dimension(120, 20));
-        lblMittelGesN.setPreferredSize(new java.awt.Dimension(120, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lblMittelGesN, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panGesN, gridBagConstraints);
-
-        panPhos.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Gesamtphosphor"));
-        panPhos.setOpaque(false);
-        panPhos.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa3.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa3.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa3.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblLawa3, gridBagConstraints);
-
-        lblRakon3.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon3.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon3.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblRakon3, gridBagConstraints);
-
-        lbl90PerzentilPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lbl90PerzentilPhos, gridBagConstraints);
-
-        lblGkLawaPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblGkLawaPhos, gridBagConstraints);
-
-        lblOWertPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblOWertPhos, gridBagConstraints);
-
-        lblMittelPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblMittelPhos, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panPhos, gridBagConstraints);
-
-        panNit.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Nitrat-N"));
-        panNit.setOpaque(false);
-        panNit.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa4.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa4.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa4.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lblLawa4, gridBagConstraints);
-
-        lbl90PerzentilNit.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilNit.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilNit.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lbl90PerzentilNit, gridBagConstraints);
-
-        lblGkLawaNit.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaNit.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaNit.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lblGkLawaNit, gridBagConstraints);
-
-        lblMittelNit.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelNit.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelNit.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lblMittelNit, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panNit, gridBagConstraints);
-
-        panChlor.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Chlorid"));
-        panChlor.setOpaque(false);
-        panChlor.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa5.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa5.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa5.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblLawa5, gridBagConstraints);
-
-        lblRakon5.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon5.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon5.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblRakon5, gridBagConstraints);
-
-        lbl90PerzentilChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lbl90PerzentilChlor, gridBagConstraints);
-
-        lblGkLawaChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblGkLawaChlor, gridBagConstraints);
-
-        lblOWertChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblOWertChlor, gridBagConstraints);
-
-        lblMittelChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblMittelChlor, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panChlor, gridBagConstraints);
-
-        panO2.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Sauerstoff"));
-        panO2.setOpaque(false);
-        panO2.setLayout(new java.awt.GridBagLayout());
-
-        lblRakon4.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon4.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon4.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panO2.add(lblRakon4, gridBagConstraints);
-
-        lblOWertO2.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertO2.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertO2.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panO2.add(lblOWertO2, gridBagConstraints);
-
-        lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSix.class,
-                "WkFgPanSix.lblMin.toolTipText")); // NOI18N
-        lblMittelO2.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelO2.setPreferredSize(new java.awt.Dimension(110, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panO2.add(lblMittelO2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(panO2, gridBagConstraints);
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(chemieMstMessungenPanOne1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -920,43 +967,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 10);
+        gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
-
-        lblPhyChem.setText(org.openide.util.NbBundle.getMessage(WkFgPanSix.class, "WkFgPanSix.lblPhyChem.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panInfoContent.add(lblPhyChem, gridBagConstraints);
-
-        lblGkPcMst.setMinimumSize(new java.awt.Dimension(100, 20));
-        lblGkPcMst.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblGkPcMst, gridBagConstraints);
-
-        lblBemerkungPc.setMinimumSize(new java.awt.Dimension(250, 20));
-        lblBemerkungPc.setPreferredSize(new java.awt.Dimension(250, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblBemerkungPc, gridBagConstraints);
-
-        lblJahr.setMinimumSize(new java.awt.Dimension(100, 20));
-        lblJahr.setPreferredSize(new java.awt.Dimension(100, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panInfoContent.add(lblJahr, gridBagConstraints);
 
         jScrollPane1.setViewportView(panInfoContent);
 
@@ -1016,6 +1028,60 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
             }
         }
     } //GEN-LAST:event_jbVorbActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbGkTempActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGkTempActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbGkTempActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbSauerstoffActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSauerstoffActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbSauerstoffActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbSalzActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSalzActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbSalzActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbSaeureActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbSaeureActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbSaeureActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbStickstoffActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStickstoffActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbStickstoffActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbPhosphorActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbPhosphorActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbPhosphorActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1105,51 +1171,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         if (!e.getValueIsAdjusting()) {
             if (jtMstTab1.getSelectedRow() > -1) {
                 final CidsBean sbean = model.getData().get(jtMstTab1.getSelectedRow());
-                setField(sbean, lblGkPcMst, "gk_pc_mst");
-                setField(sbean, lblBemerkungPc, "bemerkung_pc");
-                setField(sbean, lblJahr, "messjahr");
-                setField(sbean, lbl90PerzentilAmm, "nh4_90_perzentil");
-                setField(sbean, lbl90PerzentilChlor, "cl_90_perzentil");
-                setField(sbean, lbl90PerzentilGesN, "ges_n_90_perzentil");
-                setField(sbean, lbl90PerzentilNit, "no3_n_90_perzentil");
-                setField(sbean, lbl90PerzentilOrth, "opo4_90_perzentil");
-                setField(sbean, lbl90PerzentilPhos, "ges_p_90_perzentil");
-                setField(sbean, lblGkLawaAmm, "nh4_gk_lawa");
-                setField(sbean, lblGkLawaChlor, "cl_gk_lawa");
-                setField(sbean, lblGkLawaGesN, "ges_n_gk_lawa");
-                setField(sbean, lblGkLawaNit, "no3_n_gk_lawa");
-                setField(sbean, lblGkLawaOrth, "opo4_gk_lawa");
-                setField(sbean, lblGkLawaPhos, "ges_p_gk_lawa");
-                setField(sbean, lblOWertAmm, "nh4_owert_rakon");
-                setField(sbean, lblOWertChlor, "cl_owert_rakon");
-                setField(sbean, lblOWertOrth, "opo4_owert_rakon");
-                setField(sbean, lblOWertPhos, "ges_p_owert_rakon");
-                setField(sbean, lblOWertO2, "o2_owert_rakon");
-                setField(sbean, lblMittelAmm, "nh4_mittelwert");
-                setField(sbean, lblMittelChlor, "cl_mittelwert");
-                setField(sbean, lblMittelGesN, "ges_n_mittelwert");
-                setField(sbean, lblMittelNit, "no3_n_mittelwert");
-                setField(sbean, lblMittelOrth, "opo4_mittelwert");
-                setField(sbean, lblMittelPhos, "ges_p_mittelwert");
-                setField(sbean, lblMittelO2, "o2_mittelwert");
+                chemieMstMessungenPanOne1.setCidsBean(sbean);
             }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  sbean     DOCUMENT ME!
-     * @param  lab       DOCUMENT ME!
-     * @param  property  DOCUMENT ME!
-     */
-    private void setField(final CidsBean sbean, final JLabel lab, final String property) {
-        final Object val = sbean.getProperty(property);
-
-        if (val != null) {
-            lab.setText(val.toString());
-        } else {
-            lab.setText("");
         }
     }
 
@@ -1174,9 +1197,14 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 { "MST", "messstelle.messstelle" },    // NOI18N
                 { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
                 { "Jahr", "messjahr" },                // NOI18N
-                { "GK PC MST", "gk_pc_mst" },          // NOI18N
-                { "OW-Überschreitung?", "" },          // NOI18N
-                { "Bemerkung PC Mst", "bemerkung_pc" } // NOI18N
+                { "GK PC", "gk_pc_mst" },              // NOI18N
+                { "GK Temp", "gk_pc_thermal" },        // NOI18N
+                { "GK Oxy", "gk_pc_oxygen" },          // NOI18N
+                { "GK Salz", "gk_pc_salinity" },       // NOI18N
+                { "GK Säure", "gk_pc_acid" },          // NOI18N
+                { "GK N", "gk_pc_nitrogen" },          // NOI18N
+                { "GK P", "gk_pc_phosphor" },          // NOI18N
+                { "Bemerkung PC-MST", "bemerkung_pc" } // NOI18N
             };
         private List<CidsBean> data = new Vector<CidsBean>();
         private boolean isInitialised = false;

@@ -74,7 +74,6 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     private javax.swing.JButton btnBack1;
     private javax.swing.JButton btnForward;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor chemieMstMessungenEditor1;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ChemieMstMessungenRenderer chemieMstMessungenRenderer1;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblGew;
     private javax.swing.JLabel lblGewVal;
@@ -135,11 +134,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
             refreshMeasures();
             bindingGroup.bind();
         } else {
-            if (!readOnly) {
-                chemieMstMessungenEditor1.setCidsBean(null);
-            } else {
-                chemieMstMessungenRenderer1.setCidsBean(null);
-            }
+            chemieMstMessungenEditor1.setCidsBean(null);
         }
 
         lblFoot.setText("");
@@ -183,18 +178,13 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         txtJahr = new javax.swing.JTextField();
         btnBack1 = new javax.swing.JButton();
         btnForward = new javax.swing.JButton();
-        if (!readOnly) {
-            chemieMstMessungenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor();
-        }
-        if (readOnly) {
-            chemieMstMessungenRenderer1 =
-                new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ChemieMstMessungenRenderer();
-        }
+        chemieMstMessungenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor(
+                readOnly);
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -202,12 +192,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1000, 800));
-        setPreferredSize(new java.awt.Dimension(1000, 800));
+        setMinimumSize(new java.awt.Dimension(1000, 1000));
+        setPreferredSize(new java.awt.Dimension(1000, 1000));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(1000, 800));
-        panInfo.setPreferredSize(new java.awt.Dimension(1000, 800));
+        panInfo.setMinimumSize(new java.awt.Dimension(1000, 1000));
+        panInfo.setPreferredSize(new java.awt.Dimension(1000, 950));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -434,7 +424,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         panInfoContent.add(panStamm, gridBagConstraints);
 
         panScr.setOpaque(false);
@@ -512,25 +502,15 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
-        if (!readOnly) {
-        }
-        if (!readOnly) {
-            gridBagConstraints = new java.awt.GridBagConstraints();
-            gridBagConstraints.gridx = 0;
-            gridBagConstraints.gridy = 2;
-            gridBagConstraints.weighty = 1.0;
-            panInfoContent.add(chemieMstMessungenEditor1, gridBagConstraints);
-        }
-
-        if (readOnly) {
-        }
-        if (readOnly) {
-            gridBagConstraints = new java.awt.GridBagConstraints();
-            gridBagConstraints.gridx = 0;
-            gridBagConstraints.gridy = 2;
-            gridBagConstraints.weighty = 1.0;
-            panInfoContent.add(chemieMstMessungenRenderer1, gridBagConstraints);
-        }
+        chemieMstMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 700));
+        chemieMstMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 700));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        panInfoContent.add(chemieMstMessungenEditor1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -659,12 +639,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
      * @param  measure  DOCUMENT ME!
      */
     private void showNewMeasure(final CidsBean measure) {
-        if (!readOnly) {
-            saveLastMeasure();
-            chemieMstMessungenEditor1.setCidsBean(measure, cidsBean);
-        } else {
-            chemieMstMessungenRenderer1.setCidsBean(measure);
-        }
+        saveLastMeasure();
+        chemieMstMessungenEditor1.setCidsBean(measure, cidsBean);
     }
 
     /**

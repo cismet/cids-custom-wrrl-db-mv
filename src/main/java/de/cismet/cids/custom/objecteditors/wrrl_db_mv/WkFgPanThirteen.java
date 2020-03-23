@@ -29,6 +29,7 @@ import javax.swing.table.AbstractTableModel;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -114,10 +115,37 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form WkFgPanOne.
+     * Creates a new WkFgPanThirteen object.
      */
     public WkFgPanThirteen() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkFgPanThirteen(final boolean readOnly) {
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtEqsOthplBemerkung);
+            RendererTools.makeReadOnly(txtEqsPesticBemerk);
+            RendererTools.makeReadOnly(txtHymoGkBemerkung1);
+            RendererTools.makeReadOnly(txtHymoGkBemerkung2);
+            RendererTools.makeReadOnly(txtHymoGkBemerkung3);
+            RendererTools.makeReadOnly(txtIndpolBemerk);
+            RendererTools.makeReadOnly(txtNonCompBemerk);
+            RendererTools.makeReadOnly(cbChemicalstatusnitrat);
+            RendererTools.makeReadOnly(cbEco_stat);
+            RendererTools.makeReadOnly(cbEco_stat1);
+            RendererTools.makeReadOnly(cbEqsOthpl);
+            RendererTools.makeReadOnly(cbEqsPestic);
+            RendererTools.makeReadOnly(cbIndPol);
+            RendererTools.makeReadOnly(cbNonComp);
+        }
+
         jScrollPane1.getViewport().setOpaque(false);
         jtMstTab1.getSelectionModel().addListSelectionListener(this);
     }

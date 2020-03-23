@@ -387,6 +387,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         lblToValue.setVisible(!isEditable);
         btnRoute.setVisible(isEditable);
         lblRoute.setVisible(!isEditable);
+        geomHistorisch.setEnabled(isEditable);
         if (isInited()) {
             refresh();
         }

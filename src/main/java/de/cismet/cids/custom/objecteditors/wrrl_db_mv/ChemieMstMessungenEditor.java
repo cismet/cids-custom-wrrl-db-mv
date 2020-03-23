@@ -5,25 +5,16 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * ChemieMstMessungenEditor.java
- *
- * Created on 04.08.2010, 13:13:12
- */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
-import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -50,7 +41,6 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             ChemieMstMessungenEditor.class);
-    private static final Color LIGHT_BLUE = new Color(0, 154, 255);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -59,14 +49,8 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGkPhysChem;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenPanOne chemieMstMessungenPanOne1;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JLabel lbl90PerzentilAmm;
-    private javax.swing.JLabel lbl90PerzentilChlor;
-    private javax.swing.JLabel lbl90PerzentilGesN;
-    private javax.swing.JLabel lbl90PerzentilNit;
-    private javax.swing.JLabel lbl90PerzentilOrth;
-    private javax.swing.JLabel lbl90PerzentilPhos;
     private javax.swing.JLabel lblBemerkMst;
     private javax.swing.JLabel lblEqsHmMst;
     private javax.swing.JLabel lblEqsHmMstVal;
@@ -76,37 +60,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblEqsPesticMst;
     private javax.swing.JLabel lblEqsPesticMstVal;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblGkLawaAmm;
-    private javax.swing.JLabel lblGkLawaChlor;
-    private javax.swing.JLabel lblGkLawaGesN;
-    private javax.swing.JLabel lblGkLawaNit;
-    private javax.swing.JLabel lblGkLawaOrth;
-    private javax.swing.JLabel lblGkLawaPhos;
     private javax.swing.JLabel lblIndPolMstVal;
-    private javax.swing.JLabel lblLawa;
-    private javax.swing.JLabel lblLawa1;
-    private javax.swing.JLabel lblLawa2;
-    private javax.swing.JLabel lblLawa3;
-    private javax.swing.JLabel lblLawa4;
-    private javax.swing.JLabel lblLawa5;
-    private javax.swing.JLabel lblMittelAmm;
-    private javax.swing.JLabel lblMittelChlor;
-    private javax.swing.JLabel lblMittelGesN;
-    private javax.swing.JLabel lblMittelNit;
-    private javax.swing.JLabel lblMittelO2;
-    private javax.swing.JLabel lblMittelOrth;
-    private javax.swing.JLabel lblMittelPhos;
-    private javax.swing.JLabel lblOWertAmm;
-    private javax.swing.JLabel lblOWertChlor;
-    private javax.swing.JLabel lblOWertO2;
-    private javax.swing.JLabel lblOWertOrth;
-    private javax.swing.JLabel lblOWertPhos;
-    private javax.swing.JLabel lblPhyChem;
-    private javax.swing.JLabel lblRakon;
-    private javax.swing.JLabel lblRakon1;
-    private javax.swing.JLabel lblRakon3;
-    private javax.swing.JLabel lblRakon4;
-    private javax.swing.JLabel lblRakon5;
     private javax.swing.JLabel lblUEcoBemerkMst;
     private javax.swing.JLabel lblUEcoMst;
     private javax.swing.JLabel lblUEcoMstVal;
@@ -114,19 +68,11 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     private javax.swing.JLabel lblUNonCompBemerkMst;
     private javax.swing.JLabel lblUNonCompVal;
     private javax.swing.JLabel lblYesNoMst;
-    private javax.swing.JPanel panAmm;
-    private javax.swing.JPanel panChlor;
     private javax.swing.JPanel panFooter;
-    private javax.swing.JPanel panGesN;
-    private javax.swing.JPanel panNit;
-    private javax.swing.JPanel panO2;
-    private javax.swing.JPanel panOrtho;
-    private javax.swing.JPanel panPhos;
     private javax.swing.JLabel txtEqsHmMst;
     private javax.swing.JLabel txtEqsOthplBemerkungMst;
     private javax.swing.JLabel txtEqsPesticBemerkMst;
     private javax.swing.JLabel txtIndpolBemerkMst;
-    private javax.swing.JTextField txtPhysChemBem;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -176,15 +122,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
             }
             bindingGroup.bind();
 
-            EventQueue.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        setColors();
-                    }
-                });
-
-            if (parent != null) {
+            if ((parent != null) && !readOnly) {
                 EventQueue.invokeLater(new Runnable() {
 
                         @Override
@@ -204,6 +142,8 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
             setEnable(false);
         }
         lblFoot.setText("");
+
+        chemieMstMessungenPanOne1.setCidsBean(cidsBean);
     }
 
     @Override
@@ -215,35 +155,11 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * DOCUMENT ME!
      */
     private void clearForm() {
-        lbl90PerzentilAmm.setText("");
-        lbl90PerzentilChlor.setText("");
-        lbl90PerzentilGesN.setText("");
-        lbl90PerzentilNit.setText("");
-        lbl90PerzentilOrth.setText("");
-        lbl90PerzentilPhos.setText("");
         lblEqsHmMstVal.setText("");
         lblEqsOthplVal.setText("");
         lblEqsPesticMstVal.setText("");
         lblFoot.setText("");
-        lblGkLawaAmm.setText("");
-        lblGkLawaChlor.setText("");
-        lblGkLawaGesN.setText("");
-        lblGkLawaNit.setText("");
-        lblGkLawaOrth.setText("");
-        lblGkLawaPhos.setText("");
         lblIndPolMstVal.setText("");
-        lblMittelAmm.setText("");
-        lblMittelChlor.setText("");
-        lblMittelGesN.setText("");
-        lblMittelNit.setText("");
-        lblMittelO2.setText("");
-        lblMittelOrth.setText("");
-        lblMittelPhos.setText("");
-        lblOWertAmm.setText("");
-        lblOWertChlor.setText("");
-        lblOWertO2.setText("");
-        lblOWertOrth.setText("");
-        lblOWertPhos.setText("");
         lblUNonCompBemerkMst.setText("");
         lblUEcoBemerkMst.setText("");
         lblUNonCompVal.setText("");
@@ -252,15 +168,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         txtEqsOthplBemerkungMst.setText("");
         txtEqsPesticBemerkMst.setText("");
         txtIndpolBemerkMst.setText("");
-        txtPhysChemBem.setText("");
-        cbGkPhysChem.setSelectedIndex(-1);
-        lblMittelOrth.setOpaque(false);
-        lblMittelAmm.setOpaque(false);
-        lblMittelChlor.setOpaque(false);
-        lblMittelGesN.setOpaque(false);
-        lblMittelNit.setOpaque(false);
-        lblMittelO2.setOpaque(false);
-        lblMittelPhos.setOpaque(false);
+        chemieMstMessungenPanOne1.clearForm();
     }
 
     /**
@@ -269,8 +177,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * @param  enable  DOCUMENT ME!
      */
     private void setEnable(final boolean enable) {
-        cbGkPhysChem.setEnabled(enable);
-        txtPhysChemBem.setEnabled(enable);
+        chemieMstMessungenPanOne1.setEnable(enable);
     }
 
     /**
@@ -286,51 +193,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        lblPhyChem = new javax.swing.JLabel();
-        cbGkPhysChem = new ScrollableComboBox(new QualityStatusCodeComparator());
-        txtPhysChemBem = new javax.swing.JTextField();
-        panOrtho = new javax.swing.JPanel();
-        lblLawa = new javax.swing.JLabel();
-        lblRakon = new javax.swing.JLabel();
-        lbl90PerzentilOrth = new javax.swing.JLabel();
-        lblGkLawaOrth = new javax.swing.JLabel();
-        lblOWertOrth = new javax.swing.JLabel();
-        lblMittelOrth = new javax.swing.JLabel();
-        panAmm = new javax.swing.JPanel();
-        lblLawa1 = new javax.swing.JLabel();
-        lblRakon1 = new javax.swing.JLabel();
-        lbl90PerzentilAmm = new javax.swing.JLabel();
-        lblGkLawaAmm = new javax.swing.JLabel();
-        lblOWertAmm = new javax.swing.JLabel();
-        lblMittelAmm = new javax.swing.JLabel();
-        panGesN = new javax.swing.JPanel();
-        lblLawa2 = new javax.swing.JLabel();
-        lbl90PerzentilGesN = new javax.swing.JLabel();
-        lblGkLawaGesN = new javax.swing.JLabel();
-        lblMittelGesN = new javax.swing.JLabel();
-        panPhos = new javax.swing.JPanel();
-        lblLawa3 = new javax.swing.JLabel();
-        lblRakon3 = new javax.swing.JLabel();
-        lbl90PerzentilPhos = new javax.swing.JLabel();
-        lblGkLawaPhos = new javax.swing.JLabel();
-        lblOWertPhos = new javax.swing.JLabel();
-        lblMittelPhos = new javax.swing.JLabel();
-        panNit = new javax.swing.JPanel();
-        lblLawa4 = new javax.swing.JLabel();
-        lbl90PerzentilNit = new javax.swing.JLabel();
-        lblGkLawaNit = new javax.swing.JLabel();
-        lblMittelNit = new javax.swing.JLabel();
-        panChlor = new javax.swing.JPanel();
-        lblLawa5 = new javax.swing.JLabel();
-        lblRakon5 = new javax.swing.JLabel();
-        lbl90PerzentilChlor = new javax.swing.JLabel();
-        lblGkLawaChlor = new javax.swing.JLabel();
-        lblOWertChlor = new javax.swing.JLabel();
-        lblMittelChlor = new javax.swing.JLabel();
-        panO2 = new javax.swing.JPanel();
-        lblRakon4 = new javax.swing.JLabel();
-        lblOWertO2 = new javax.swing.JLabel();
-        lblMittelO2 = new javax.swing.JLabel();
+        chemieMstMessungenPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenPanOne();
         lblEqsHmMst = new javax.swing.JLabel();
         lblEqsHmMstVal = new javax.swing.JLabel();
         txtEqsHmMst = new javax.swing.JLabel();
@@ -371,793 +234,15 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 "Messdaten"));
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        lblPhyChem.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "ChemieMstMessungenEditor.lblPhysChem.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblPhyChem, gridBagConstraints);
-
-        cbGkPhysChem.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkPhysChem.setMinimumSize(new java.awt.Dimension(150, 20));
-        cbGkPhysChem.setPreferredSize(new java.awt.Dimension(150, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_mst}"),
-                cbGkPhysChem,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(cbGkPhysChem, gridBagConstraints);
-
-        txtPhysChemBem.setToolTipText("Bemerkung");
-        txtPhysChemBem.setMinimumSize(new java.awt.Dimension(200, 20));
-        txtPhysChemBem.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_pc}"),
-                txtPhysChemBem,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txtPhysChemBem, gridBagConstraints);
-
-        panOrtho.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Orthophosphat"));
-        panOrtho.setOpaque(false);
-        panOrtho.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblLawa, gridBagConstraints);
-
-        lblRakon.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblRakon, gridBagConstraints);
-
-        lbl90PerzentilOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_90_perzentil}"),
-                lbl90PerzentilOrth,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lbl90PerzentilOrth, gridBagConstraints);
-
-        lblGkLawaOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_gk_lawa.name}"),
-                lblGkLawaOrth,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblGkLawaOrth, gridBagConstraints);
-
-        lblOWertOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_owert_rakon}"),
-                lblOWertOrth,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblOWertOrth, gridBagConstraints);
-
-        lblMittelOrth.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelOrth.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelOrth.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelOrth.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_mittelwert}"),
-                lblMittelOrth,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panOrtho.add(lblMittelOrth, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panOrtho, gridBagConstraints);
-
-        panAmm.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Ammonium-N"));
-        panAmm.setOpaque(false);
-        panAmm.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa1.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa1.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa1.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblLawa1, gridBagConstraints);
-
-        lblRakon1.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon1.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon1.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblRakon1, gridBagConstraints);
-
-        lbl90PerzentilAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_90_perzentil}"),
-                lbl90PerzentilAmm,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lbl90PerzentilAmm, gridBagConstraints);
-
-        lblGkLawaAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_gk_lawa.name}"),
-                lblGkLawaAmm,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblGkLawaAmm, gridBagConstraints);
-
-        lblOWertAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_owert_rakon}"),
-                lblOWertAmm,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblOWertAmm, gridBagConstraints);
-
-        lblMittelAmm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelAmm.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelAmm.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelAmm.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_mittelwert}"),
-                lblMittelAmm,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panAmm.add(lblMittelAmm, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panAmm, gridBagConstraints);
-
-        panGesN.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Gesamt-N"));
-        panGesN.setOpaque(false);
-        panGesN.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa2.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa2.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa2.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lblLawa2, gridBagConstraints);
-
-        lbl90PerzentilGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilGesN.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilGesN.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_90_perzentil}"),
-                lbl90PerzentilGesN,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lbl90PerzentilGesN, gridBagConstraints);
-
-        lblGkLawaGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaGesN.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaGesN.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_gk_lawa.name}"),
-                lblGkLawaGesN,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lblGkLawaGesN, gridBagConstraints);
-
-        lblMittelGesN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelGesN.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelGesN.setMinimumSize(new java.awt.Dimension(120, 20));
-        lblMittelGesN.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_mittelwert}"),
-                lblMittelGesN,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panGesN.add(lblMittelGesN, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panGesN, gridBagConstraints);
-
-        panPhos.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Gesamtphosphor"));
-        panPhos.setOpaque(false);
-        panPhos.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa3.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa3.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa3.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblLawa3, gridBagConstraints);
-
-        lblRakon3.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon3.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon3.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblRakon3, gridBagConstraints);
-
-        lbl90PerzentilPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_90_perzentil}"),
-                lbl90PerzentilPhos,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lbl90PerzentilPhos, gridBagConstraints);
-
-        lblGkLawaPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_gk_lawa.name}"),
-                lblGkLawaPhos,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblGkLawaPhos, gridBagConstraints);
-
-        lblOWertPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_owert_rakon}"),
-                lblOWertPhos,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblOWertPhos, gridBagConstraints);
-
-        lblMittelPhos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelPhos.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelPhos.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelPhos.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_mittelwert}"),
-                lblMittelPhos,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPhos.add(lblMittelPhos, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panPhos, gridBagConstraints);
-
-        panNit.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Nitrat-N"));
-        panNit.setOpaque(false);
-        panNit.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa4.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa4.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa4.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lblLawa4, gridBagConstraints);
-
-        lbl90PerzentilNit.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilNit.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilNit.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_90_perzentil}"),
-                lbl90PerzentilNit,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lbl90PerzentilNit, gridBagConstraints);
-
-        lblGkLawaNit.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaNit.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaNit.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_gk_lawa.name}"),
-                lblGkLawaNit,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lblGkLawaNit, gridBagConstraints);
-
-        lblMittelNit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelNit.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelNit.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelNit.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_mittelwert}"),
-                lblMittelNit,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panNit.add(lblMittelNit, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panNit, gridBagConstraints);
-
-        panChlor.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Chlorid"));
-        panChlor.setOpaque(false);
-        panChlor.setLayout(new java.awt.GridBagLayout());
-
-        lblLawa5.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblLawa.text")); // NOI18N
-        lblLawa5.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblLawa5.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblLawa5, gridBagConstraints);
-
-        lblRakon5.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon5.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon5.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblRakon5, gridBagConstraints);
-
-        lbl90PerzentilChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lbl90Perzentil.toolTipText")); // NOI18N
-        lbl90PerzentilChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lbl90PerzentilChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_90_perzentil}"),
-                lbl90PerzentilChlor,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lbl90PerzentilChlor, gridBagConstraints);
-
-        lblGkLawaChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblGkLawa.textTipText")); // NOI18N
-        lblGkLawaChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblGkLawaChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_gk_lawa.name}"),
-                lblGkLawaChlor,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblGkLawaChlor, gridBagConstraints);
-
-        lblOWertChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertChlor.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_owert_rakon}"),
-                lblOWertChlor,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblOWertChlor, gridBagConstraints);
-
-        lblMittelChlor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelChlor.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMittel.toolTipText")); // NOI18N
-        lblMittelChlor.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelChlor.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_mittelwert}"),
-                lblMittelChlor,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panChlor.add(lblMittelChlor, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panChlor, gridBagConstraints);
-
-        panO2.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
-                "Sauerstoff"));
-        panO2.setOpaque(false);
-        panO2.setLayout(new java.awt.GridBagLayout());
-
-        lblRakon4.setText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblRakon.text")); // NOI18N
-        lblRakon4.setMinimumSize(new java.awt.Dimension(45, 20));
-        lblRakon4.setPreferredSize(new java.awt.Dimension(45, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panO2.add(lblRakon4, gridBagConstraints);
-
-        lblOWertO2.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblOWert.toolTipText")); // NOI18N
-        lblOWertO2.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblOWertO2.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_owert_rakon}"),
-                lblOWertO2,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panO2.add(lblOWertO2, gridBagConstraints);
-
-        lblMittelO2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMittelO2.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenEditor.class,
-                "WkFgPanSix.lblMin.toolTipText")); // NOI18N
-        lblMittelO2.setMinimumSize(new java.awt.Dimension(110, 20));
-        lblMittelO2.setPreferredSize(new java.awt.Dimension(110, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_mittelwert}"),
-                lblMittelO2,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panO2.add(lblMittelO2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(panO2, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(35, 0, 5, 5);
+        jPanel4.add(chemieMstMessungenPanOne1, gridBagConstraints);
 
         lblEqsHmMst.setText(org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenEditor.class,
@@ -1174,7 +259,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         lblEqsHmMstVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblEqsHmMstVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.u_schwermetalle}"),
@@ -1517,99 +602,6 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void setColors() {
-        setColorOfField(lblMittelOrth, lblOWertOrth, lbl90PerzentilOrth, false);
-        setColorOfField(lblMittelAmm, lblOWertAmm, lbl90PerzentilAmm, false);
-        setColorOfField(lblMittelChlor, lblOWertChlor, lbl90PerzentilChlor, false);
-        setColorOfField(lblMittelGesN, null, lbl90PerzentilGesN, false);
-        setColorOfField(lblMittelNit, null, lbl90PerzentilNit, false);
-        setColorOfField(lblMittelO2, lblOWertO2, null, true);
-        setColorOfField(lblMittelPhos, lblOWertPhos, lbl90PerzentilPhos, false);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  mit            DOCUMENT ME!
-     * @param  ow             DOCUMENT ME!
-     * @param  pe             DOCUMENT ME!
-     * @param  reverseColors  DOCUMENT ME!
-     */
-    public static void setColorOfField(final JLabel mit,
-            final JLabel ow,
-            final JLabel pe,
-            final boolean reverseColors) {
-        if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
-            mit.setOpaque(false);
-            mit.repaint();
-            return;
-        }
-        try {
-            final double mitD = Double.parseDouble(mit.getText());
-            double oD = Double.MAX_VALUE;
-            double hgrD = Double.MAX_VALUE;
-
-            if (ow != null) {
-                oD = Double.parseDouble(ow.getText());
-            }
-
-            if (pe != null) {
-                hgrD = Double.parseDouble(pe.getText());
-            }
-
-            if (reverseColors) {
-                mit.setBackground(calcColorReverse(mitD, oD, hgrD));
-            } else {
-                mit.setBackground(calcColor(mitD, oD, hgrD));
-            }
-            mit.setOpaque(true);
-            mit.repaint();
-        } catch (NumberFormatException e) {
-            mit.setOpaque(false);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   mittel  DOCUMENT ME!
-     * @param   o       DOCUMENT ME!
-     * @param   hgr     DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static Color calcColor(final double mittel, final double o, final double hgr) {
-        if ((mittel <= hgr) && (hgr != Double.MAX_VALUE)) {
-            return LIGHT_BLUE;
-        } else if (mittel <= o) {
-            return Color.GREEN;
-        } else if (mittel <= (2 * o)) {
-            return Color.ORANGE;
-        } else {
-            return Color.RED;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   mittel  DOCUMENT ME!
-     * @param   o       DOCUMENT ME!
-     * @param   hgr     DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static Color calcColorReverse(final double mittel, final double o, final double hgr) {
-        if (mittel < o) {
-            return Color.GREEN;
-        } else {
-            return Color.ORANGE;
-        }
-    }
 
     /**
      * DOCUMENT ME!

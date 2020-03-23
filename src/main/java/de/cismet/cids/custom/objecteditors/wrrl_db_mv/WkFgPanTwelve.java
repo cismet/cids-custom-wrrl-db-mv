@@ -19,6 +19,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -96,11 +97,30 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form WkFgPanOne.
+     * Creates a new WkFgPanTwelve object.
      */
     public WkFgPanTwelve() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkFgPanTwelve(final boolean readOnly) {
         initComponents();
         jScrollPane1.getViewport().setOpaque(false);
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(cbEcoPot);
+            RendererTools.makeReadOnly(cbEcoStat);
+            RendererTools.makeReadOnly(txtEcoPotBemerk);
+            RendererTools.makeReadOnly(txtEcoPotJahr);
+            RendererTools.makeReadOnly(txtEcoStatBemerkung);
+            RendererTools.makeReadOnly(txtEcoStatJahr);
+            jbVorb.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
