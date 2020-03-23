@@ -31,8 +31,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 
+import Sirius.server.localserver.attribute.ClassAttribute;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+
+import org.openide.util.NbBundle;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -45,6 +48,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
@@ -661,6 +665,8 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             try {
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+
+                return CidsBeanSupport.checkOptionalAttribute(cidsBean, this, null);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
