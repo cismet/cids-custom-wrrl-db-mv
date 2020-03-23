@@ -13,10 +13,16 @@ package de.cismet.cids.custom.wrrl_db_mv.util;
 
 import Sirius.navigator.connection.SessionManager;
 
+import Sirius.server.localserver.attribute.ClassAttribute;
+import Sirius.server.localserver.attribute.ObjectAttribute;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.newuser.User;
 
 import com.vividsolutions.jts.geom.Geometry;
+
+import org.openide.util.NbBundle;
+
+import java.awt.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -366,5 +373,50 @@ public final class CidsBeanSupport {
         }
 
         return d;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean      DOCUMENT ME!
+     * @param   component     DOCUMENT ME!
+     * @param   fieldMapping  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static boolean checkOptionalAttribute(final CidsBean cidsBean,
+            final Component component,
+            final Map<String, String> fieldMapping) {
+        final ObjectAttribute[] attrs = cidsBean.getMetaObject().getAttribs();
+
+        for (final ObjectAttribute attr : attrs) {
+            if (!attr.isOptional()) {
+                if (cidsBean.getProperty(attr.getName()) == null) {
+                    String attrDescription = null;
+
+                    if ((fieldMapping != null) && (fieldMapping.get(attr.getName()) != null)) {
+                        attrDescription = fieldMapping.get(attr.getName());
+                    } else {
+                        attrDescription = attr.getDescription();
+
+                        if (attrDescription == null) {
+                            attrDescription = attr.getName();
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(
+                        component,
+                        NbBundle.getMessage(
+                            CidsBeanSupport.class,
+                            "CidsBeanSupport.checkOptionalAttribute.message",
+                            attrDescription),
+                        NbBundle.getMessage(CidsBeanSupport.class, "CidsBeanSupport.checkOptionalAttribute.title"),
+                        JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

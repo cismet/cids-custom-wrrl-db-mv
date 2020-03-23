@@ -13,6 +13,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -64,10 +65,35 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form WkFgPanOne.
+     * Creates a new WkFgPanEleven object.
      */
     public WkFgPanEleven() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkFgPanEleven(final boolean readOnly) {
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(cbHydroReg);
+            RendererTools.makeReadOnly(cbHymoGk1);
+            RendererTools.makeReadOnly(cbMorpCond1);
+            RendererTools.makeReadOnly(cbRivCont);
+            RendererTools.makeReadOnly(txtHydroRegBemerk);
+            RendererTools.makeReadOnly(txtHydroRegjahr);
+            RendererTools.makeReadOnly(txtHymoGkBemerkung1);
+            RendererTools.makeReadOnly(txtHymoGkJahr1);
+            RendererTools.makeReadOnly(txtMorphBemerk);
+            RendererTools.makeReadOnly(txtMorphGkJahr2);
+            RendererTools.makeReadOnly(txtRivContBemerk);
+            RendererTools.makeReadOnly(txtRivContGkMst);
+        }
+
         jScrollPane1.getViewport().setOpaque(false);
     }
 

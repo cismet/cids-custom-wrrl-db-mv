@@ -26,6 +26,7 @@ import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -75,7 +76,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbFishVorb;
     private javax.swing.JButton jbMacPhytoVorb;
     private javax.swing.JButton jbMzbMst;
@@ -103,6 +103,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JTextField txtBenInvGkJahr;
     private javax.swing.JTextField txtBenInvMst;
     private javax.swing.JTextField txtBioGkJahr;
+    private javax.swing.JTextField txtBioQkBemerk;
     private javax.swing.JTextField txtFishBemerk;
     private javax.swing.JTextField txtFishGkJahr;
     private javax.swing.JTextField txtFishGkMst;
@@ -118,10 +119,46 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form WkFgPanOne.
+     * Creates a new WkFgPanTen object.
      */
     public WkFgPanTen() {
+        this(true);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkFgPanTen(final boolean readOnly) {
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtBenInvBemerk);
+            RendererTools.makeReadOnly(txtBenInvGkJahr);
+            RendererTools.makeReadOnly(txtBenInvMst);
+            RendererTools.makeReadOnly(txtBioGkJahr);
+            RendererTools.makeReadOnly(txtFishBemerk);
+            RendererTools.makeReadOnly(txtFishGkJahr);
+            RendererTools.makeReadOnly(txtFishGkMst);
+            RendererTools.makeReadOnly(txtMacPhytoBemerk);
+            RendererTools.makeReadOnly(txtMacPhytoGkJahr);
+            RendererTools.makeReadOnly(txtMacPhytoGkMst);
+            RendererTools.makeReadOnly(txtPhytoBemerk);
+            RendererTools.makeReadOnly(txtPhytoGkJahr);
+            RendererTools.makeReadOnly(txtPhytoGkMst);
+            RendererTools.makeReadOnly(txtBioQkBemerk);
+            RendererTools.makeReadOnly(cbBen_Inv);
+            RendererTools.makeReadOnly(cbBioGk);
+            RendererTools.makeReadOnly(cbConfidence);
+            RendererTools.makeReadOnly(cbFisch);
+            RendererTools.makeReadOnly(cbMacPhyto);
+            RendererTools.makeReadOnly(cbPhyto);
+            jbFishVorb.setVisible(false);
+            jbMacPhytoVorb.setVisible(false);
+            jbMzbVorb.setVisible(false);
+            jbPhytoVorb.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -147,7 +184,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         lblBioGkBemerkung = new javax.swing.JLabel();
         lblGK = new javax.swing.JLabel();
         cbConfidence = new ScrollableComboBox();
-        jTextField1 = new javax.swing.JTextField();
+        txtBioQkBemerk = new javax.swing.JTextField();
         txtPhytoGkJahr = new javax.swing.JTextField();
         cbPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
         txtPhytoGkMst = new javax.swing.JTextField();
@@ -300,14 +337,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbConfidence, gridBagConstraints);
 
-        jTextField1.setMinimumSize(new java.awt.Dimension(300, 20));
-        jTextField1.setPreferredSize(new java.awt.Dimension(300, 20));
+        txtBioQkBemerk.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtBioQkBemerk.setPreferredSize(new java.awt.Dimension(300, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk_bemerkung}"),
-                jTextField1,
+                txtBioQkBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -315,7 +352,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(jTextField1, gridBagConstraints);
+        panInfoContent.add(txtBioQkBemerk, gridBagConstraints);
 
         txtPhytoGkJahr.setMinimumSize(new java.awt.Dimension(100, 20));
         txtPhytoGkJahr.setPreferredSize(new java.awt.Dimension(100, 20));
