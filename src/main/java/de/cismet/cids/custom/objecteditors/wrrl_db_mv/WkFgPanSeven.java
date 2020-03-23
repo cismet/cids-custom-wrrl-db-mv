@@ -28,6 +28,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -68,10 +69,27 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form WkFgPanOne.
+     * Creates a new WkFgPanSeven object.
      */
     public WkFgPanSeven() {
+        this(true);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkFgPanSeven(final boolean readOnly) {
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtReport);
+            RendererTools.makeReadOnly(cbContinua);
+            RendererTools.makeReadOnly(cbGeolCat);
+            RendererTools.makeReadOnly(cbRiver_cat);
+            RendererTools.makeReadOnly(cbSizeCat);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------

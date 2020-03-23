@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -59,6 +60,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private boolean readOnly;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnJusAdd;
     private javax.swing.JButton btnJusRemove;
@@ -88,9 +90,19 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form ExcemptionPan.
+     * Creates a new ExcemptionEditor object.
      */
     public ExcemptionEditor() {
+        this(true);
+    }
+
+    /**
+     * Creates new form ExcemptionPan.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public ExcemptionEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
         deActivateGUIElements(false);
     }
@@ -464,7 +476,7 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
             bindingGroup.bind();
         }
 
-        deActivateGUIElements(cidsBean != null);
+        deActivateGUIElements((cidsBean != null) && !readOnly);
     }
 
     @Override
@@ -478,9 +490,15 @@ public class ExcemptionEditor extends JPanel implements DisposableCidsBeanStore 
      * @param  activate  DOCUMENT ME!
      */
     private void deActivateGUIElements(final boolean activate) {
-        cbExCat.setEnabled(activate);
-        cbExDate.setEnabled(activate);
-        csExTyp.setEnabled(activate);
-        lstExJus.setEnabled(activate);
+        if (activate) {
+            RendererTools.makeWritable(cbExCat);
+            RendererTools.makeWritable(cbExDate);
+            RendererTools.makeWritable(csExTyp);
+        } else {
+            RendererTools.makeReadOnly(cbExCat);
+            RendererTools.makeReadOnly(cbExDate);
+            RendererTools.makeReadOnly(csExTyp);
+        }
+        panControl.setVisible(activate);
     }
 }

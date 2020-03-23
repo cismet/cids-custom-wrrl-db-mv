@@ -160,12 +160,44 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form WkFgPanOne.
+     * Creates a new WkFgPanOne object.
      */
     public WkFgPanOne() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkFgPanOne(final boolean readOnly) {
         initComponents();
-        cbGrpBio.setModel(new DefaultComboBoxModel(wkk));
-        cbGrpChem.setModel(new DefaultComboBoxModel(wkk));
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtWkK);
+            RendererTools.makeReadOnly(txtWkKPre);
+            RendererTools.makeReadOnly(txtWkN);
+            RendererTools.makeReadOnly(cbEvk);
+            RendererTools.makeReadOnly(cbGrpBio);
+            RendererTools.makeReadOnly(cbGrpChem);
+            RendererTools.makeReadOnly(cbImpactCataloge);
+            RendererTools.makeReadOnly(cbImpactSrcCataloge);
+            RendererTools.makeReadOnly(cbPlanuCd);
+            RendererTools.makeReadOnly(cbRbdCd);
+            RendererTools.makeReadOnly(cbSchutzgut);
+            RendererTools.makeReadOnly(cbStalu);
+            RendererTools.makeReadOnly(cbTypEvkK);
+            RendererTools.makeReadOnly(cbTypK);
+            RendererTools.makeReadOnly(taBemerkung);
+            panContrImpact.setVisible(false);
+            panContrImpactSrc.setVisible(false);
+        }
+
+        if (wkk != null) {
+            cbGrpBio.setModel(new DefaultComboBoxModel(wkk));
+            cbGrpChem.setModel(new DefaultComboBoxModel(wkk));
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
