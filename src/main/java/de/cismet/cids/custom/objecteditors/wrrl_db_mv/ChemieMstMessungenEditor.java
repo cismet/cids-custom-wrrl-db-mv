@@ -93,6 +93,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     public ChemieMstMessungenEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+        clearForm();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -168,7 +169,6 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         txtEqsOthplBemerkungMst.setText("");
         txtEqsPesticBemerkMst.setText("");
         txtIndpolBemerkMst.setText("");
-        chemieMstMessungenPanOne1.clearForm();
     }
 
     /**

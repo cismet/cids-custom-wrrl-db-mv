@@ -12,7 +12,13 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jdesktop.beansbinding.Converter;
+
 import java.awt.EventQueue;
+
+import java.math.BigDecimal;
+
+import java.text.DecimalFormat;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
@@ -22,6 +28,8 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
+import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
 
 /**
  * DOCUMENT ME!
@@ -211,7 +219,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     /**
      * DOCUMENT ME!
      */
-    public void clearForm() {
+    private void clearForm() {
         txtAmmoniak.setText("");
         txtAmmonium.setText("");
         txtBSB5.setText("");
@@ -346,9 +354,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(txtPhysChemBem, gridBagConstraints);
 
-        cbGkPhysChem.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkPhysChem.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkPhysChem.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkPhysChem.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkPhysChem.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkPhysChem.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -420,6 +428,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.t_max}"),
                 txtTempMax,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(1));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -429,9 +438,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtTempMax, gridBagConstraints);
 
-        cbGkTemp.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkTemp.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkTemp.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkTemp.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkTemp.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkTemp.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -540,6 +549,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_mittelwert}"),
                 txtSauerstoffMin,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -558,6 +568,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bsb5_mittelwert}"),
                 txtBSB5,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -567,9 +578,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtBSB5, gridBagConstraints);
 
-        cbGkSauerstoffMin.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkSauerstoffMin.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkSauerstoffMin.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkSauerstoffMin.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkSauerstoffMin.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkSauerstoffMin.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -683,6 +694,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.cl_mittelwert}"),
                 txtChlorid,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -701,6 +713,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.so4_mittelwert}"),
                 txtSulfat,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -710,9 +723,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtSulfat, gridBagConstraints);
 
-        cbGkChlorid.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkChlorid.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkChlorid.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkChlorid.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkChlorid.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkChlorid.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -825,6 +838,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ph_max}"),
                 txtPHMax,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -843,6 +857,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ph_min}"),
                 txtPHMin,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -852,9 +867,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtPHMin, gridBagConstraints);
 
-        cbGkPHMin.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkPHMin.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkPHMin.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkPHMin.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkPHMin.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkPHMin.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -1012,6 +1027,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_n_mittelwert}"),
                 txtGesN,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(2));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1021,9 +1037,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtGesN, gridBagConstraints);
 
-        cbGkGesN.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkGesN.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkGesN.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkGesN.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkGesN.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkGesN.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -1094,6 +1110,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh4_mittelwert}"),
                 txtAmmonium,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(4));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1112,6 +1129,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.nh3_n_mittelwert}"),
                 txtAmmoniak,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(7));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1127,9 +1145,10 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_mittelwert}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no3_n_mittelwert}"),
                 txtNitratN,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(3));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1148,6 +1167,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.no2_mittelwert}"),
                 txtNitritN,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(3));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1208,6 +1228,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opo4_mittelwert}"),
                 txtOpo4,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(3));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1226,6 +1247,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ges_p_mittelwert}"),
                 txtGesP,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DoubleConverter(3));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1235,9 +1257,9 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtGesP, gridBagConstraints);
 
-        cbGkGesamtP.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbGkGesamtP.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbGkGesamtP.setPreferredSize(new java.awt.Dimension(200, 20));
+        cbGkGesamtP.setMaximumSize(new java.awt.Dimension(225, 20));
+        cbGkGesamtP.setMinimumSize(new java.awt.Dimension(225, 20));
+        cbGkGesamtP.setPreferredSize(new java.awt.Dimension(225, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -1377,5 +1399,58 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     @Override
     public CidsBean getCidsBean() {
         return this.cidsBean;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class DoubleConverter extends Converter<BigDecimal, String> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private int digits;
+        private DecimalFormat formatter;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DoubleConverter object.
+         *
+         * @param  digits  DOCUMENT ME!
+         */
+        public DoubleConverter(final int digits) {
+            this.digits = digits;
+            formatter = new DecimalFormat("0.########");
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String convertForward(final BigDecimal value) {
+            // log.fatal("forward:"+value);
+            if (value != null) {
+                final double factor = Math.pow(10, digits);
+                return formatter.format(Math.round(value.doubleValue() * factor) / factor);
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public BigDecimal convertReverse(final String value) {
+            if (value != null) {
+                try {
+                    return new BigDecimal(value);
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
     }
 }

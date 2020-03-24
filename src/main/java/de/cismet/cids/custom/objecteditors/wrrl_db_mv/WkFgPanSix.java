@@ -18,15 +18,19 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.Component;
+
 import java.math.BigDecimal;
 
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
@@ -127,7 +131,36 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      */
     WkFgPanSix(final boolean readOnly) {
         initComponents();
-        chemieMstMessungenPanOne1.clearForm();
+        jtMstTab1.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+
+                @Override
+                public Component getTableCellRendererComponent(final JTable table,
+                        final Object value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int row,
+                        final int column) {
+                    final Component c = super.getTableCellRendererComponent(
+                            table,
+                            value,
+                            isSelected,
+                            hasFocus,
+                            row,
+                            column); // To change body of generated methods, choose Tools | Templates.
+
+                    if ((c instanceof JLabel)) {
+                        if ((value instanceof String) && (((String)value).length() > 10)) {
+                            ((JLabel)c).setToolTipText(String.valueOf(value));
+                        } else {
+                            ((JLabel)c).setToolTipText(null);
+                        }
+                    }
+
+                    return c;
+                }
+            });
+
+        chemieMstMessungenPanOne1.setCidsBean(null);
         jScrollPane1.getViewport().setOpaque(false);
         jtMstTab1.getSelectionModel().addListSelectionListener(this);
 
@@ -1198,12 +1231,12 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
                 { "Jahr", "messjahr" },                // NOI18N
                 { "GK PC", "gk_pc_mst" },              // NOI18N
-                { "GK Temp", "gk_pc_thermal" },        // NOI18N
-                { "GK Oxy", "gk_pc_oxygen" },          // NOI18N
-                { "GK Salz", "gk_pc_salinity" },       // NOI18N
-                { "GK Säure", "gk_pc_acid" },          // NOI18N
-                { "GK N", "gk_pc_nitrogen" },          // NOI18N
-                { "GK P", "gk_pc_phosphor" },          // NOI18N
+                { "GK Temp", "gk_pc_thermal_mst" },    // NOI18N
+                { "GK Oxy", "gk_pc_oxygen_mst" },      // NOI18N
+                { "GK Salz", "gk_pc_salinity_mst" },   // NOI18N
+                { "GK Säure", "gk_pc_acid_mst" },      // NOI18N
+                { "GK N", "gk_pc_nitrogen_mst" },      // NOI18N
+                { "GK P", "gk_pc_phosphor_mst" },      // NOI18N
                 { "Bemerkung PC-MST", "bemerkung_pc" } // NOI18N
             };
         private List<CidsBean> data = new Vector<CidsBean>();
@@ -1236,7 +1269,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         @Override
         public Class<?> getColumnClass(final int columnIndex) {
-            return Object.class;
+            return String.class;
         }
 
         @Override
@@ -1249,23 +1282,18 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
             if (!isInitialised) {
                 return "lade ...";
             } else if ((rowIndex < data.size()) && (columnIndex < header.length)) {
-                if (columnIndex == 4) {
-                    // column OW-Überschreitung?
-                    return (isLimitExceeded(data.get(rowIndex)) ? "ja" : "nein");
-                } else {
-                    final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
-                    if (value != null) {
-                        if (value instanceof CidsBean) {
-                            return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
-                        } else {
-                            return String.valueOf(value);
-                        }
+                final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
+                if (value != null) {
+                    if (value instanceof CidsBean) {
+                        return String.valueOf(((CidsBean)value).getProperty("name")); // NOI18N
                     } else {
-                        return "-";                                                       // NOI18N
+                        return String.valueOf(value);
                     }
+                } else {
+                    return "-";                                                       // NOI18N
                 }
             } else {
-                return "";                                                                // NOI18N
+                return "";                                                            // NOI18N
             }
         }
 
