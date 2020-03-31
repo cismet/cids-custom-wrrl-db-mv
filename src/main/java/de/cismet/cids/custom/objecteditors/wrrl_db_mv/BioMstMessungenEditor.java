@@ -358,7 +358,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(cbGkMzb, gridBagConstraints);
 
-        txtMzbBem.setToolTipText("Bemerkung");
         txtMzbBem.setMinimumSize(new java.awt.Dimension(200, 20));
         txtMzbBem.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -368,6 +367,15 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_mzb}"),
                 txtMzbBem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_mzb}"),
+                txtMzbBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -409,7 +417,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(cbGkMacPhyto, gridBagConstraints);
 
-        txtMacPhytoBem.setToolTipText("Bemerkung");
         txtMacPhytoBem.setMinimumSize(new java.awt.Dimension(200, 20));
         txtMacPhytoBem.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -419,6 +426,15 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_mp}"),
                 txtMacPhytoBem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_mp}"),
+                txtMacPhytoBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -727,7 +743,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         jPanel4.add(cbFisch, gridBagConstraints);
 
-        txtFischBem.setToolTipText("Bemerkung");
         txtFischBem.setMinimumSize(new java.awt.Dimension(200, 20));
         txtFischBem.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -737,6 +752,15 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_fische}"),
                 txtFischBem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_fische}"),
+                txtFischBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -778,7 +802,6 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         jPanel4.add(cbPhyto, gridBagConstraints);
 
-        txtPhytoBem.setToolTipText("Bemerkung");
         txtPhytoBem.setMinimumSize(new java.awt.Dimension(200, 20));
         txtPhytoBem.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -788,6 +811,13 @@ public class BioMstMessungenEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_phypl}"),
                 txtPhytoBem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_phypl}"),
+                txtPhytoBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
