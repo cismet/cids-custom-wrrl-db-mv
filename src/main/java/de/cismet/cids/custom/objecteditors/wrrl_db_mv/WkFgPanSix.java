@@ -1130,28 +1130,31 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
 
         for (final CidsBean cbean : beans) {
             final Integer year = (Integer)cbean.getProperty("messjahr");
+
             if (year != null) {
                 if (latestYear == 0) {
                     latestYear = year;
-                    measure = cbean;
                     final CidsBean tmp = (CidsBean)cbean.getProperty("gk_pc_mst");
-                    if (cidsBean != null) {
+                    if ((tmp != null)) {
                         try {
-                            worstValue = Integer.parseInt((String)tmp.getProperty("value"));
+                            final int valTmp = Integer.parseInt((String)tmp.getProperty("value"));
+
+                            if (valTmp < 6) {
+                                measure = cbean;
+                                worstValue = valTmp;
+                            }
                         } catch (final NumberFormatException e) {
                             LOG.error("Field value does not contain a number", e);
                         }
                     }
-                }
-            } else {
-                if (latestYear == year) {
-                    if (cidsBean != null) {
+                } else {
+                    if (latestYear == year) {
                         try {
                             final CidsBean qualityTmp = (CidsBean)cbean.getProperty("gk_pc_mst");
                             if (qualityTmp != null) {
                                 final int valTmp = Integer.parseInt((String)qualityTmp.getProperty("value"));
 
-                                if (valTmp > worstValue) {
+                                if ((valTmp > worstValue) && (valTmp < 6)) {
                                     worstValue = valTmp;
                                     measure = cbean;
                                 }
@@ -1159,9 +1162,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                         } catch (final NumberFormatException e) {
                             LOG.error("Field value does not contain a number", e);
                         }
+                    } else {
+                        break;
                     }
-                } else {
-                    break;
                 }
             }
         }
