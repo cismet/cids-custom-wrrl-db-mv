@@ -781,6 +781,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
                 if ((index = beansToSave.indexOf(retVal)) != -1) {
                     return beansToSave.get(index);
                 } else {
+                    beansToSave.add(retVal);
                     return retVal;
                 }
             } else {

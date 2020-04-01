@@ -125,7 +125,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtMzbBem">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Bemerkung"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
             </Property>
@@ -136,6 +135,10 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_mzb}" target="txtMzbBem" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_mzb}" target="txtMzbBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -182,7 +185,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtMacPhytoBem">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Bemerkung"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
             </Property>
@@ -193,6 +195,10 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_mp}" target="txtMacPhytoBem" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_mp}" target="txtMacPhytoBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -515,7 +521,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtFischBem">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Bemerkung"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
             </Property>
@@ -526,6 +531,10 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_fische}" target="txtFischBem" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_fische}" target="txtFischBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -572,7 +581,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtPhytoBem">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Bemerkung"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
             </Property>
@@ -584,6 +592,7 @@
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_phypl}" target="txtPhytoBem" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
             </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_phypl}" target="txtPhytoBem" targetPath="toolTipText" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

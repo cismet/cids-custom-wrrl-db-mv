@@ -725,6 +725,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
                 if ((index = beansToSave.indexOf(retVal)) != -1) {
                     return beansToSave.get(index);
                 } else {
+                    beansToSave.add(retVal);
                     return retVal;
                 }
             } else {
