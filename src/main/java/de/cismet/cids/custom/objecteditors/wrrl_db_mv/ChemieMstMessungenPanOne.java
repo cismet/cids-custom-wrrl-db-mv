@@ -14,13 +14,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import org.jdesktop.beansbinding.Converter;
 
-import java.awt.EventQueue;
-
 import java.math.BigDecimal;
 
 import java.text.DecimalFormat;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
+import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeSupportingComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
@@ -28,8 +26,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
 
 /**
  * DOCUMENT ME!
@@ -155,42 +151,43 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     public void setEnable(final boolean enable) {
 //        cbGkPhysChem.setEnabled(enable);
         txtPhysChemBem.setEnabled(enable);
+        txtTempGk.setEnabled(enable);
+        txtSauerstoff.setEnabled(enable);
+        txtSalzgehalt.setEnabled(enable);
+        txtSaeure.setEnabled(enable);
+        txtStickstoff.setEnabled(enable);
+        txtPhosphor.setEnabled(enable);
 
         txtTempMax.setEnabled(false);
-        txtTempGk.setEnabled(false);
         txtSauerstoffMin.setEnabled(false);
-        txtSauerstoff.setEnabled(false);
         txtBSB5.setEnabled(false);
         txtPHMin.setEnabled(false);
         txtChlorid.setEnabled(false);
-        txtSalzgehalt.setEnabled(false);
         txtSulfat.setEnabled(false);
-        txtSaeure.setEnabled(false);
         txtPHMax.setEnabled(false);
         txtGesN.setEnabled(false);
-        txtStickstoff.setEnabled(false);
         txtAmmonium.setEnabled(false);
         txtAmmoniak.setEnabled(false);
         txtNitratN.setEnabled(false);
         txtNitritN.setEnabled(false);
         txtOpo4.setEnabled(false);
         txtGesP.setEnabled(false);
-        txtPhosphor.setEnabled(false);
-        RendererTools.makeReadOnly(cbGkTemp);
-        RendererTools.makeReadOnly(cbGkSauerstoffMin);
-        RendererTools.makeReadOnly(cbGkChlorid);
-        RendererTools.makeReadOnly(cbGkPHMin);
-        RendererTools.makeReadOnly(cbGkGesN);
-        RendererTools.makeReadOnly(cbGkGesamtP);
+
         if (!enable) {
             RendererTools.makeReadOnly(cbGkPhysChem);
+            RendererTools.makeReadOnly(cbGkTemp);
+            RendererTools.makeReadOnly(cbGkSauerstoffMin);
+            RendererTools.makeReadOnly(cbGkChlorid);
+            RendererTools.makeReadOnly(cbGkPHMin);
+            RendererTools.makeReadOnly(cbGkGesN);
+            RendererTools.makeReadOnly(cbGkGesamtP);
         } else {
-//            RendererTools.makeWritable(cbGkTemp);
-//            RendererTools.makeWritable(cbGkSauerstoffMin);
-//            RendererTools.makeWritable(cbGkChlorid);
-//            RendererTools.makeWritable(cbGkPHMin);
-//            RendererTools.makeWritable(cbGkGesN);
-//            RendererTools.makeWritable(cbGkGesamtP);
+            RendererTools.makeWritable(cbGkTemp);
+            RendererTools.makeWritable(cbGkSauerstoffMin);
+            RendererTools.makeWritable(cbGkChlorid);
+            RendererTools.makeWritable(cbGkPHMin);
+            RendererTools.makeWritable(cbGkGesN);
+            RendererTools.makeWritable(cbGkGesamtP);
 //            RendererTools.makeWritable(txtTempMax);
 //            RendererTools.makeWritable(txtTempGk);
 //            RendererTools.makeWritable(txtSauerstoffMin);
@@ -264,12 +261,12 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         jPanel1 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         txtPhysChemBem = new javax.swing.JTextField();
-        cbGkPhysChem = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbGkPhysChem = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblPhyChem = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblGenCond = new javax.swing.JLabel();
         txtTempMax = new javax.swing.JTextField();
-        cbGkTemp = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        cbGkTemp = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblGenCond1 = new javax.swing.JLabel();
         txtTempGk = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -277,7 +274,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         lblGenCond4 = new javax.swing.JLabel();
         txtSauerstoffMin = new javax.swing.JTextField();
         txtBSB5 = new javax.swing.JTextField();
-        cbGkSauerstoffMin = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        cbGkSauerstoffMin = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblGenCond3 = new javax.swing.JLabel();
         txtSauerstoff = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
@@ -285,7 +282,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         lblGenCond8 = new javax.swing.JLabel();
         txtChlorid = new javax.swing.JTextField();
         txtSulfat = new javax.swing.JTextField();
-        cbGkChlorid = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        cbGkChlorid = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblGenCond7 = new javax.swing.JLabel();
         txtSalzgehalt = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
@@ -293,7 +290,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         lblGenCond10 = new javax.swing.JLabel();
         txtPHMax = new javax.swing.JTextField();
         txtPHMin = new javax.swing.JTextField();
-        cbGkPHMin = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        cbGkPHMin = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblGenCond9 = new javax.swing.JLabel();
         txtSaeure = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
@@ -303,7 +300,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         lblGenCond16 = new javax.swing.JLabel();
         lblGenCond17 = new javax.swing.JLabel();
         txtGesN = new javax.swing.JTextField();
-        cbGkGesN = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        cbGkGesN = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblGenCond13 = new javax.swing.JLabel();
         txtStickstoff = new javax.swing.JTextField();
         txtAmmonium = new javax.swing.JTextField();
@@ -315,7 +312,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         lblGenCond18 = new javax.swing.JLabel();
         txtOpo4 = new javax.swing.JTextField();
         txtGesP = new javax.swing.JTextField();
-        cbGkGesamtP = new de.cismet.cids.editors.DefaultBindableReferenceCombo(new QualityStatusCodeComparator());
+        cbGkGesamtP = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
         lblGenCond20 = new javax.swing.JLabel();
         txtPhosphor = new javax.swing.JTextField();
 
@@ -366,6 +363,13 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        cbGkPhysChem.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbGkPhysChemActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -1395,6 +1399,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     private void cbGkGesamtPActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGkGesamtPActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_cbGkGesamtPActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbGkPhysChemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbGkPhysChemActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbGkPhysChemActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
