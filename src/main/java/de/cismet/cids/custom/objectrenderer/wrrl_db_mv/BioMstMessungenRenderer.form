@@ -575,6 +575,10 @@
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
               <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
             </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_mzb}" target="lblMZBBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -595,6 +599,10 @@
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_fische}" target="lblFischeBem" targetPath="text" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
               <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+            </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_fische}" target="lblFischeBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -617,6 +625,10 @@
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
               <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
             </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_mp}" target="lblMacPhytBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -637,6 +649,10 @@
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_phypl}" target="lblPhytBem" targetPath="text" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
               <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+            </BindingProperty>
+            <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_phypl}" target="lblPhytBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>

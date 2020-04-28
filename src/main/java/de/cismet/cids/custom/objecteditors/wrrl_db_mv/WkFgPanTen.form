@@ -222,6 +222,10 @@
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bio_gk_bemerkung}" target="txtBioQkBemerk" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bio_gk_bemerkung}" target="txtBioQkBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -336,6 +340,10 @@
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.phyto_gk_bemerkung}" target="txtPhytoBemerk" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.phyto_gk_bemerkung}" target="txtPhytoBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -435,6 +443,10 @@
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ben_inv_gk_bemerkung}" target="txtBenInvBemerk" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.ben_inv_gk_bemerkung}" target="txtBenInvBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -531,6 +543,10 @@
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.mac_phyto_gk_bemerkung}" target="txtMacPhytoBemerk" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.mac_phyto_gk_bemerkung}" target="txtMacPhytoBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -626,6 +642,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.fish_gk_bemerkung}" target="txtFishBemerk" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                </BindingProperty>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.fish_gk_bemerkung}" target="txtFishBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>

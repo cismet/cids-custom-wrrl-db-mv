@@ -50,9 +50,6 @@
           <SubComponents>
             <Component class="javax.swing.JTextField" name="txtPhysChemBem">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="ChemieMstMessungenPanOne.txtPhysChemBem.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
-                </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[200, 20]"/>
                 </Property>
@@ -63,6 +60,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkung_pc}" target="txtPhysChemBem" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                </BindingProperty>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.bemerkung_pc}" target="txtPhysChemBem" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -241,6 +242,10 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_thermal_bemerkung}" target="txtTempGk" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.gk_pc_thermal_bemerkung}" target="txtTempGk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -405,6 +410,10 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_oxygen_bemerkung}" target="txtSauerstoff" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.gk_pc_oxygen_bemerkung}" target="txtSauerstoff" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -578,6 +587,10 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_salinity_bemerkung}" target="txtSalzgehalt" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.gk_pc_salinity_bemerkung}" target="txtSalzgehalt" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -751,6 +764,10 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_acid_bemerkung}" target="txtSaeure" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.gk_pc_acid_bemerkung}" target="txtSaeure" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -964,6 +981,10 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_nitrogen_bemerkung}" target="txtStickstoff" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.gk_pc_nitrogen_bemerkung}" target="txtStickstoff" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -1229,6 +1250,10 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.gk_pc_phosphor_bemerkung}" target="txtPhosphor" targetPath="text" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.gk_pc_phosphor_bemerkung}" target="txtPhosphor" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
