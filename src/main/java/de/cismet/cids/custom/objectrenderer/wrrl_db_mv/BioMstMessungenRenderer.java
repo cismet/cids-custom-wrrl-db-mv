@@ -726,6 +726,15 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_mzb}"),
+                lblMZBBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -747,6 +756,15 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_fische}"),
+                lblFischeBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -770,6 +788,15 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_mp}"),
+                lblMacPhytBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -791,6 +818,15 @@ public class BioMstMessungenRenderer extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_phypl}"),
+                lblPhytBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
