@@ -347,6 +347,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 txtBioQkBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk_bemerkung}"),
+                txtBioQkBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -434,6 +443,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 txtPhytoBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto_gk_bemerkung}"),
+                txtPhytoBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -519,6 +537,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 txtBenInvBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv_gk_bemerkung}"),
+                txtBenInvBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -597,6 +624,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 txtMacPhytoBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_phyto_gk_bemerkung}"),
+                txtMacPhytoBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -673,6 +709,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish_gk_bemerkung}"),
                 txtFishBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish_gk_bemerkung}"),
+                txtFishBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

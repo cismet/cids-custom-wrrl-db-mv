@@ -326,10 +326,6 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         jPanel8.setOpaque(false);
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        txtPhysChemBem.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ChemieMstMessungenPanOne.class,
-                "ChemieMstMessungenPanOne.txtPhysChemBem.toolTipText",
-                new Object[] {})); // NOI18N
         txtPhysChemBem.setMinimumSize(new java.awt.Dimension(200, 20));
         txtPhysChemBem.setPreferredSize(new java.awt.Dimension(200, 20));
 
@@ -339,6 +335,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_pc}"),
                 txtPhysChemBem,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkung_pc}"),
+                txtPhysChemBem,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -494,6 +499,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 txtTempGk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_bemerkung}"),
+                txtTempGk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -634,6 +648,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_bemerkung}"),
                 txtSauerstoff,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_bemerkung}"),
+                txtSauerstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -780,6 +803,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 txtSalzgehalt,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_bemerkung}"),
+                txtSalzgehalt,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -923,6 +955,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_bemerkung}"),
                 txtSaeure,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_bemerkung}"),
+                txtSaeure,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1093,6 +1134,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_bemerkung}"),
                 txtStickstoff,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_bemerkung}"),
+                txtStickstoff,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1313,6 +1363,15 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_bemerkung}"),
                 txtPhosphor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_bemerkung}"),
+                txtPhosphor,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

@@ -399,6 +399,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 txtPcQkBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pc_qk_bemerkung}"),
+                txtPcQkBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -494,6 +503,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_bemerkung}"),
                 txtTempBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_bemerkung}"),
+                txtTempBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -599,6 +617,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 txtSauerstoffBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_bemerkung}"),
+                txtSauerstoffBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -685,6 +712,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_bemerkung}"),
                 txtSalzBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_bemerkung}"),
+                txtSalzBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -773,6 +809,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 txtSaeureBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_bemerkung}"),
+                txtSaeureBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -860,6 +905,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 txtStickstoffBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_bemerkung}"),
+                txtStickstoffBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -946,6 +1000,15 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_bemerkung}"),
                 txtPhosphorBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_bemerkung}"),
+                txtPhosphorBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
