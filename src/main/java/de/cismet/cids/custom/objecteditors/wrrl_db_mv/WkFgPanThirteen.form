@@ -817,6 +817,9 @@
                       <BindingProperties>
                         <BindingProperty name="text" source="Form" sourcePath="${cidsBean.chem_stat_jahr}" target="txtHymoGkBemerkung2" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="IntegerConverter.getInstance()" type="code"/>
+                          </Property>
                         </BindingProperty>
                       </BindingProperties>
                       <Constraints>
