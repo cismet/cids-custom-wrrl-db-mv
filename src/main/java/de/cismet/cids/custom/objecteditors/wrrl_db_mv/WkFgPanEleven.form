@@ -172,6 +172,10 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.hymo_gk_jahr}" target="txtHymoGkJahr1" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                        <Connection code="IntegerConverter.getInstance()" type="code"/>
+                      </Property>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -264,6 +268,10 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.morph_jahr}" target="txtMorphGkJahr2" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                        <Connection code="IntegerConverter.getInstance()" type="code"/>
+                      </Property>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -336,6 +344,10 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.riv_cont_jahr}" target="txtRivContGkMst" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                        <Connection code="IntegerConverter.getInstance()" type="code"/>
+                      </Property>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -436,6 +448,10 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.hydro_reg_jahr}" target="txtHydroRegjahr" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                        <Connection code="IntegerConverter.getInstance()" type="code"/>
+                      </Property>
                     </BindingProperty>
                   </BindingProperties>
                   <Events>
