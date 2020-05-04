@@ -33,6 +33,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeSupportingComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -364,6 +365,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr_pcqk}"),
                 txtJahrPcqk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -405,8 +408,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pc_qk_bemerkung}"),
                 txtPcQkBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -486,6 +489,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_year}"),
                 txtJahrTemp,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -510,8 +515,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_bemerkung}"),
                 txtTempBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -574,6 +579,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_year}"),
                 txtJahrSauerstoff,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -623,8 +630,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_bemerkung}"),
                 txtSauerstoffBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -670,6 +677,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_year}"),
                 txtJahrSalz,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -719,8 +728,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_bemerkung}"),
                 txtSalzBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -766,6 +775,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_year}"),
                 txtJahrSaeure,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -815,8 +826,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_bemerkung}"),
                 txtSaeureBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -862,6 +873,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_year}"),
                 txtJahrStickstoff,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -911,8 +924,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_bemerkung}"),
                 txtStickstoffBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -958,6 +971,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_year}"),
                 txtJahrPhosphor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1007,8 +1022,8 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_bemerkung}"),
                 txtPhosphorBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

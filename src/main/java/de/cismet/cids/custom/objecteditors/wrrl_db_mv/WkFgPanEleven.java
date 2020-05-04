@@ -12,6 +12,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -215,6 +216,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hymo_gk_jahr}"),
                 txtHymoGkJahr1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -298,6 +301,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_jahr}"),
                 txtMorphGkJahr2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -365,6 +370,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.riv_cont_jahr}"),
                 txtRivContGkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -452,6 +459,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg_jahr}"),
                 txtHydroRegjahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         txtHydroRegjahr.addActionListener(new java.awt.event.ActionListener() {

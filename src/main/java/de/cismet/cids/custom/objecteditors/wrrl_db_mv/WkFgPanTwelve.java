@@ -18,6 +18,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -261,6 +262,8 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat_jahr}"),
                 txtEcoStatJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -342,6 +345,8 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot_jahr}"),
                 txtEcoPotJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

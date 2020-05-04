@@ -28,6 +28,7 @@ import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
@@ -800,6 +801,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.chem_stat_jahr}"),
                 txtHymoGkBemerkung2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

@@ -156,6 +156,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bio_gk_jahr}" target="txtBioGkJahr" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="IntegerConverter.getInstance()" type="code"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -245,6 +249,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.phyto_gk_jahr}" target="txtPhytoGkJahr" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="IntegerConverter.getInstance()" type="code"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -419,6 +427,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ben_inv_gk_jahr}" target="txtBenInvGkJahr" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="IntegerConverter.getInstance()" type="code"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Events>
@@ -522,6 +534,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.mac_phyto_gk_jahr}" target="txtMacPhytoGkJahr" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="IntegerConverter.getInstance()" type="code"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
@@ -622,6 +638,10 @@
               <BindingProperties>
                 <BindingProperty name="text" source="Form" sourcePath="${cidsBean.fish_gk_jahr}" target="txtFishGkJahr" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="nullValue" type="java.lang.String" value="null"/>
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="IntegerConverter.getInstance()" type="code"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Constraints>
