@@ -140,6 +140,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JButton btnRemPressure;
     private javax.swing.JButton btnRemPressure1;
     private javax.swing.JComboBox cbDetailCataloge;
+    private javax.swing.JCheckBox cbErsteOrdn;
     private javax.swing.JCheckBox cbFin;
     private javax.swing.JComboBox cbGeom;
     private javax.swing.JCheckBox cbHmwb;
@@ -152,6 +153,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRevital;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStalu;
     private javax.swing.JCheckBox cbStarted;
+    private javax.swing.JCheckBox cbZweiteOrdn;
     private javax.swing.JDialog dlgDetail;
     private javax.swing.JDialog dlgMeas;
     private javax.swing.JDialog dlgPressure;
@@ -159,6 +161,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
@@ -189,6 +192,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblWk_name;
     private javax.swing.JLabel lblZiele;
     private javax.swing.JLabel lbllfdnr;
+    private javax.swing.JLabel lbllfdnr1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private javax.swing.JList lstPressure;
     private javax.swing.JList lstPressure1;
@@ -271,6 +275,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(cbMassn_schl);
             RendererTools.makeReadOnly(taBemerkung);
             RendererTools.makeReadOnly(cbHmwb);
+            RendererTools.makeReadOnly(cbErsteOrdn);
+            RendererTools.makeReadOnly(cbZweiteOrdn);
             lblGeom.setVisible(false);
             cbGeom.setVisible(false);
         }
@@ -526,6 +532,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         jPanel4 = new javax.swing.JPanel();
         cbFin = new javax.swing.JCheckBox();
         cbHmwb = new javax.swing.JCheckBox();
+        jPanel5 = new javax.swing.JPanel();
+        cbErsteOrdn = new javax.swing.JCheckBox();
+        cbZweiteOrdn = new javax.swing.JCheckBox();
+        lbllfdnr1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         panDeMeas1 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -826,9 +836,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         jPanel2.add(lblZiele, gridBagConstraints);
 
         lblMassn_typ.setText("Umfang");
-        lblMassn_typ.setToolTipText(org.openide.util.NbBundle.getMessage(
-                MassnahmenEditor.class,
-                "MassnahmenEditor.lblMassn_typ.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -1050,7 +1057,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         lblMassn_id.setToolTipText("laufende Nummer im Wasserkörper");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(lblMassn_id, gridBagConstraints);
@@ -1076,7 +1083,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1283,6 +1290,88 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(jPanel4, gridBagConstraints);
+
+        jPanel5.setOpaque(false);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        cbErsteOrdn.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.cbErsteOrdn.text")); // NOI18N
+        cbErsteOrdn.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.erste_ordn}"),
+                cbErsteOrdn,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        cbErsteOrdn.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbErsteOrdnActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel5.add(cbErsteOrdn, gridBagConstraints);
+
+        cbZweiteOrdn.setText(org.openide.util.NbBundle.getMessage(
+                MassnahmenEditor.class,
+                "MassnahmenEditor.cbZweiteOrdn.text")); // NOI18N
+        cbZweiteOrdn.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zweite_ordn}"),
+                cbZweiteOrdn,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        cbZweiteOrdn.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbZweiteOrdnActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel5.add(cbZweiteOrdn, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(jPanel5, gridBagConstraints);
+
+        lbllfdnr1.setText("Gewässerordnung");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel2.add(lbllfdnr1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -2009,6 +2098,24 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             }
         }
     }                                                                                   //GEN-LAST:event_btnRemPressure1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbErsteOrdnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbErsteOrdnActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbErsteOrdnActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbZweiteOrdnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbZweiteOrdnActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbZweiteOrdnActionPerformed
 
     /**
      * DOCUMENT ME!
