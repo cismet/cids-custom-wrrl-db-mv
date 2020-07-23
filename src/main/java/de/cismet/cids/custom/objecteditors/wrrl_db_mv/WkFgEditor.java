@@ -198,10 +198,12 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         // cidsFeature rausschmeissen
-        final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
-        final Collection<Feature> features = new ArrayList<Feature>();
-        features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
-        MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
+        if (!readOnly) {
+            final CidsFeature cidsFeature = new CidsFeature(cidsBean.getMetaObject());
+            final Collection<Feature> features = new ArrayList<Feature>();
+            features.addAll(FeatureGroups.expandAll((FeatureGroup)cidsFeature));
+            MAPPING_COMPONENT.getFeatureCollection().removeFeatures(features);
+        }
 
         bindingGroup.unbind();
         this.cidsBean = cidsBean;

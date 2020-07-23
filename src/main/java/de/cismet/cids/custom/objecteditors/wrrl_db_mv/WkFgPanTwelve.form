@@ -153,6 +153,10 @@
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.eco_stat_bemerkung}" target="txtEcoStatBemerkung" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
+                    <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.eco_stat_bemerkung}" target="txtEcoStatBemerkung" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                    </BindingProperty>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -292,6 +296,10 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.eco_pot_bemerkung}" target="txtEcoPotBemerk" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                    </BindingProperty>
+                    <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.eco_pot_bemerkung}" target="txtEcoPotBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>

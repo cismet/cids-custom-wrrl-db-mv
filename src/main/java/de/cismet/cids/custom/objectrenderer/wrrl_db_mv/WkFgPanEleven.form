@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
@@ -380,6 +380,10 @@
                       <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
+                    <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.hymo_gk_bemerkung}" target="lblValHymoBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                    </BindingProperty>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -401,6 +405,10 @@
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.morph_bemerkung}" target="lblValMorphCondBemerk" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                    </BindingProperty>
+                    <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.morph_bemerkung}" target="lblValMorphCondBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>
@@ -424,6 +432,10 @@
                       <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>
+                    <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.riv_cont_bemerkung}" target="lblValRivCondBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                    </BindingProperty>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -445,6 +457,10 @@
                     <BindingProperty name="text" source="Form" sourcePath="${cidsBean.hydro_reg_bemerkung}" target="lblValHydroRegBemerk" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
+                    </BindingProperty>
+                    <BindingProperty name="toolTipText" source="Form" sourcePath="${cidsBean.hydro_reg_bemerkung}" target="lblValHydroRegBemerk" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                   <Constraints>

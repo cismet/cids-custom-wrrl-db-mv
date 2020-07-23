@@ -190,7 +190,7 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblUfer_index, gridBagConstraints);
 
@@ -221,13 +221,15 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblBemerkung, gridBagConstraints);
 
-        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 50));
-        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 50));
+        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 100));
+        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 100));
 
-        taBemerkung.setColumns(20);
         taBemerkung.setEditable(false);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taBemerkung.setColumns(20);
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taBemerkung.setLineWrap(true);
         taBemerkung.setRows(5);
+        taBemerkung.setWrapStyleWord(true);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
@@ -423,7 +425,7 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblValUfer_index, gridBagConstraints);

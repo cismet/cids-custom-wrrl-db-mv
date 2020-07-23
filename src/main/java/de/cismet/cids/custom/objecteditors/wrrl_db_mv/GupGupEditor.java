@@ -386,6 +386,7 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
                                 jbPlanung.setToolTipText(determineToolTipText(ID_PLANUNG));
                                 jbAntrag.setToolTipText(determineToolTipText(ID_PLANUNG_FERTIG));
                                 jbPruefungNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB));
+                                jbPruefungWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
                                 jbGenehmigtNb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_NB_ABGESCHL));
                                 jbPruefungWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB));
                                 jbGenehmigtWb.setToolTipText(determineToolTipText(ID_PRUEFUNG_DURCH_WB_ABGESCHL));

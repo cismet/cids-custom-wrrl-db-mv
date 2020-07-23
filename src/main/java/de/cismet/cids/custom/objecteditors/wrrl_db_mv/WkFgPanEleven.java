@@ -197,6 +197,15 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 txtHymoGkBemerkung1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hymo_gk_bemerkung}"),
+                txtHymoGkBemerkung1,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -216,7 +225,7 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hymo_gk_jahr}"),
                 txtHymoGkJahr1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -301,7 +310,7 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_jahr}"),
                 txtMorphGkJahr2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -322,6 +331,15 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_bemerkung}"),
                 txtMorphBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_bemerkung}"),
+                txtMorphBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -351,6 +369,15 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 txtRivContBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.riv_cont_bemerkung}"),
+                txtRivContBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -370,7 +397,7 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.riv_cont_jahr}"),
                 txtRivContGkMst,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -420,6 +447,15 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 txtHydroRegBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg_bemerkung}"),
+                txtHydroRegBemerk,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -459,7 +495,7 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg_jahr}"),
                 txtHydroRegjahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
