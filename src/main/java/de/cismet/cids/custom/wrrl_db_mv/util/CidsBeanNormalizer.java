@@ -18,6 +18,9 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
 
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.observablecollections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -87,9 +90,10 @@ public class CidsBeanNormalizer {
                 if (o instanceof CidsBean) {
                     bean.setProperty(propName, normalizeCidsBean((CidsBean)o, true));
                 } else if (o instanceof List) {
-                    final List<CidsBean> beanList = (List<CidsBean>)o;
+                    List<CidsBean> beanList = (List<CidsBean>)o;
                     final List<CidsBean> listCopy = new ArrayList<CidsBean>(beanList);
-                    beanList.clear();
+                    beanList = ObservableCollections.observableList(new ArrayList<CidsBean>());
+                    bean.setProperty(propName, beanList);
 
                     for (final CidsBean b : listCopy) {
                         beanList.add(normalizeCidsBean(b, true));
@@ -99,6 +103,10 @@ public class CidsBeanNormalizer {
 
             cachedBean = cloneCidsBean(bean);
             cachedBean.getMetaObject().setID(bean.getMetaObject().getId());
+            if (bean.getMetaObject().getReferencingObjectAttribute() != null) {
+                cachedBean.getMetaObject()
+                        .setReferencingObjectAttribute(bean.getMetaObject().getReferencingObjectAttribute());
+            }
             cachedBean.getMetaObject().forceStatus(MetaObject.NO_STATUS);
 
             if (useCache) {
