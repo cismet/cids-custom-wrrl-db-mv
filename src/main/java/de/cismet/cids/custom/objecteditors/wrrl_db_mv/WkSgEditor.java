@@ -196,7 +196,7 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -225,7 +225,7 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
         panRisiken.setOpaque(false);
         panRisiken.setLayout(new java.awt.GridBagLayout());
 
-        wkSgPanSeven.setPreferredSize(new java.awt.Dimension(1050, 250));
+        wkSgPanSeven.setPreferredSize(new java.awt.Dimension(1050, 300));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

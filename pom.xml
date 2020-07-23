@@ -84,7 +84,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>6.6.3</version>
+                <version>6.6.4</version>
                 <scope>compile</scope>
                 <type>jar</type>
                 <exclusions>
@@ -110,7 +110,7 @@
             <dependency>
                 <groupId>de.cismet.cids</groupId>
                 <artifactId>cids-server</artifactId>
-                <version>6.3.8</version>
+                <version>6.3.9</version>
                 <scope>compile</scope>
                 <type>jar</type>
                 <exclusions>
@@ -128,7 +128,7 @@
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>6.3.2</version>
+                <version>6.3.4</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>

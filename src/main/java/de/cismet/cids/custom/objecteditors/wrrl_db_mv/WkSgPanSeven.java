@@ -108,9 +108,9 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         txtTiefe_max = new javax.swing.JTextField();
         txtTiefe_mitt = new javax.swing.JTextField();
 
-        setMinimumSize(new java.awt.Dimension(1100, 250));
+        setMinimumSize(new java.awt.Dimension(1100, 300));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1100, 250));
+        setPreferredSize(new java.awt.Dimension(1100, 300));
         setLayout(new java.awt.BorderLayout());
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
@@ -185,7 +185,7 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblUfer_index, gridBagConstraints);
 
@@ -225,7 +225,7 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pot_zust}"),
                 txtPot_zust,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
 
@@ -247,7 +247,7 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.troph_lawa}"),
                 txtTroph_lawa,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
 
@@ -260,12 +260,15 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtTroph_lawa, gridBagConstraints);
 
-        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 50));
-        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 50));
+        scpBemerkung.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 100));
+        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 100));
 
         taBemerkung.setColumns(20);
-        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11));
+        taBemerkung.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        taBemerkung.setLineWrap(true);
         taBemerkung.setRows(5);
+        taBemerkung.setWrapStyleWord(true);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -410,7 +413,7 @@ public class WkSgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtUfer_index, gridBagConstraints);
