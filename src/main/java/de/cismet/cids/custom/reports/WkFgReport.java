@@ -105,7 +105,7 @@ public class WkFgReport {
         }
 
         final ArrayList<String> reports = new ArrayList<String>();
-        reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
+        reports.add("/de/cismet/cids/custom/reports/wk_fg_komp.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
@@ -152,11 +152,11 @@ public class WkFgReport {
         }
 
         final ArrayList<String> reports = new ArrayList<String>();
-        if (shortVersion) {
-            reports.add("/de/cismet/cids/custom/reports/wk_fg_short.jasper");
-        } else {
-            reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
-        }
+//        if (shortVersion) {
+//            reports.add("/de/cismet/cids/custom/reports/wk_fg_short.jasper");
+//        } else {
+        reports.add("/de/cismet/cids/custom/reports/wk_fg_komp.jasper");
+//        }
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
@@ -208,7 +208,7 @@ public class WkFgReport {
         }
 
         final ArrayList<String> reports = new ArrayList<String>();
-        reports.add("/de/cismet/cids/custom/reports/wk_fg.jasper");
+        reports.add("/de/cismet/cids/custom/reports/wk_fg_komp.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
