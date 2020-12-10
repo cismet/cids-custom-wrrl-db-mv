@@ -438,13 +438,20 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Image generateMap() {
         try {
-            final String urlBackground = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
+//            final String urlBackground = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+//                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
+//                        + "&BBOX=<cismap:boundingBox>"
+//                        + "&SRS=EPSG:5650&FORMAT=image/png"
+//                        + "&WIDTH=<cismap:width>"
+//                        + "&HEIGHT=<cismap:height>"
+//                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+            final String urlBackground = "https://sgx.geodatenzentrum.de/wms_topplus_open"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=web"
                         + "&BBOX=<cismap:boundingBox>"
                         + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
-                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+                        + "&STYLES=default&EXCEPTIONS=application/vnd.ogc.se_inimage";
             final String urlOverlay = "http://wms.fis-wasser-mv.de/services?&VERSION=1.1.1"
                         + "&REQUEST=GetMap"
                         + "&BBOX=<cismap:boundingBox>"
@@ -509,13 +516,20 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      */
     public Image generateOverviewMap() {
         try {
-            final String urlBackground = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
-                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
+            final String urlBackground = "https://sgx.geodatenzentrum.de/wms_topplus_open"
+                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=web"
                         + "&BBOX=<cismap:boundingBox>"
                         + "&SRS=EPSG:5650&FORMAT=image/png"
                         + "&WIDTH=<cismap:width>"
                         + "&HEIGHT=<cismap:height>"
-                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
+                        + "&STYLES=default&EXCEPTIONS=application/vnd.ogc.se_inimage";
+//            final String urlBackground = "http://www.geodaten-mv.de/dienste/webatlasde_wms/service"
+//                        + "?REQUEST=GetMap&VERSION=1.1.1&SERVICE=WMS&LAYERS=WebAtlasDE_MV_farbe"
+//                        + "&BBOX=<cismap:boundingBox>"
+//                        + "&SRS=EPSG:5650&FORMAT=image/png"
+//                        + "&WIDTH=<cismap:width>"
+//                        + "&HEIGHT=<cismap:height>"
+//                        + "&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage";
             final GeometryFactory gf = new GeometryFactory();
             final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
             final Collection<LineString> lineStrings = new ArrayList<LineString>();
