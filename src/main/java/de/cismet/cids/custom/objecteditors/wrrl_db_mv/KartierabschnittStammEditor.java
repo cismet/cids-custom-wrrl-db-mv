@@ -673,7 +673,14 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                 final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
                 if (metaObjects.length == 1) {
                     wkName = (String)metaObjects[0].getBean().getProperty("wk_n");
-                    wkType = String.valueOf(metaObjects[0].getBean().getProperty("typ_k"));
+                    final CidsBean lawaType = (CidsBean)metaObjects[0].getBean().getProperty("lawa_type");
+
+                    if (lawaType != null) {
+                        wkType = String.valueOf(lawaType.getProperty("code")) + "-"
+                                    + String.valueOf(lawaType.getProperty("description"));
+                    } else {
+                        wkType = "nicht ermittelbar";
+                    }
                 } else {
                     wkName = "nicht ermittelbar";
                     wkType = "nicht ermittelbar";
