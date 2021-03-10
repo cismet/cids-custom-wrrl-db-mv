@@ -115,18 +115,19 @@ public class FgskSimulationHelper {
     public static List<CidsBean> getMassnahmenBeans(final List<CidsBean> list) {
         final List<CidsBean> massnList = new ArrayList<CidsBean>();
 
-        for (final CidsBean tmp : list) {
-            if (tmp.getClass().getName().equalsIgnoreCase(SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)) {
-                final List<CidsBean> massnahmen = tmp.getBeanCollectionProperty("massnahmen");
+        if (list != null) {
+            for (final CidsBean tmp : list) {
+                if (tmp.getClass().getName().equalsIgnoreCase(SIM_MASSNAHMEN_GRUPPE_CLASS_NAME)) {
+                    final List<CidsBean> massnahmen = tmp.getBeanCollectionProperty("massnahmen");
 
-                if (massnahmen != null) {
-                    massnList.addAll(massnahmen);
+                    if (massnahmen != null) {
+                        massnList.addAll(massnahmen);
+                    }
+                } else if (tmp.getClass().getName().equalsIgnoreCase(SIM_MASSNAHME_CLASS_NAME)) {
+                    massnList.add(tmp);
                 }
-            } else if (tmp.getClass().getName().equalsIgnoreCase(SIM_MASSNAHME_CLASS_NAME)) {
-                massnList.add(tmp);
             }
         }
-
         return massnList;
     }
 
@@ -560,9 +561,8 @@ public class FgskSimulationHelper {
                 for (final ArrayList wkfgArray : resArray) {
                     final String wkk = (String)wkfgArray.get(0);
                     LOG.error("wkk: " + wkk + " " + (++count) + "/" + resArray.size());
-                    if (count > 443) {
+                    if ((count == 59) || (count == 15)) {
                         reCreateSimulation(wkk, false);
-                        reCreateSimulation(wkk, true);
                     }
                 }
             }

@@ -16,6 +16,7 @@ import Sirius.server.middleware.types.MetaObject;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDefaultScriptlet;
@@ -51,6 +52,7 @@ import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultStyledFeature;
 import de.cismet.cismap.commons.features.FeatureGroups;
 import de.cismet.cismap.commons.features.PureFeatureGroup;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 import de.cismet.cismap.commons.retrieval.RetrievalEvent;
@@ -178,7 +180,8 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
      * @return  DOCUMENT ME!
      */
     public String getTeilgebiet() {
-        final GeometryFactory gf = new GeometryFactory();
+        final GeometryFactory gf = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING),
+                CismapBroker.getInstance().getDefaultCrsAlias());
         final Collection<CidsBean> wkTeile = (Collection<CidsBean>)((JRFillField)fieldsMap.get("teile")).getValue();
         final Collection<LineString> lineStrings = new ArrayList<LineString>();
         for (final CidsBean wkTeilBean : wkTeile) {
@@ -188,9 +191,10 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
         }
         final Geometry wkGeom = gf.createMultiLineString(
                 lineStrings.toArray(new LineString[0]));
+        final String geometryText = "SRID=" + wkGeom.getSRID() + ";" + wkGeom.toText();
 
         try {
-            final CidsServerSearch search = new TeilgebieteSearch(wkGeom.toText());
+            final CidsServerSearch search = new TeilgebieteSearch(geometryText);
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), search);
             final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
