@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -32,6 +33,9 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 /**
  * DOCUMENT ME!
  *
@@ -48,6 +52,9 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
     private static final MetaClass UMLANDNUTZUNG = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "GUP_UMLANDNUTZUNGSGRUPPE");
+    private static final ConnectionContext cc = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "Umlandnutzung");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -219,9 +226,15 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
      * @param  id  DOCUMENT ME!
      */
     private void setUmlandnutzung(final String id) {
-        final String query = "select " + UMLANDNUTZUNG.getID() + "," + UMLANDNUTZUNG.getPrimaryKey() + " from "
-                    + UMLANDNUTZUNG.getTableName() + " where id = " + id; // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        MetaObject[] metaObjects = null;
+
+        try {
+            final String query = "select " + UMLANDNUTZUNG.getID() + "," + UMLANDNUTZUNG.getPrimaryKey() + " from "
+                        + UMLANDNUTZUNG.getTableName() + " where id = " + id; // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, UMLANDNUTZUNG, false, cc);
+        } catch (CacheException e) {
+            // nothing to do. This exception is already logged in the MtaObjectCache
+        }
         CidsBean b = null;
 
         if (metaObjects != null) {
@@ -244,9 +257,15 @@ public class UmlandnutzungRWBandMember extends LineBandMember {
      */
     @Override
     protected void configurePopupMenu() {
-        final String query = "select " + UMLANDNUTZUNG.getID() + "," + UMLANDNUTZUNG.getPrimaryKey() + " from "
-                    + UMLANDNUTZUNG.getTableName(); // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        MetaObject[] metaObjects = null;
+
+        try {
+            final String query = "select " + UMLANDNUTZUNG.getID() + "," + UMLANDNUTZUNG.getPrimaryKey() + " from "
+                        + UMLANDNUTZUNG.getTableName(); // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, UMLANDNUTZUNG, false, cc);
+        } catch (CacheException e) {
+            metaObjects = new MetaObject[0];
+        }
 
         menuItems = new JMenuItem[metaObjects.length];
 
