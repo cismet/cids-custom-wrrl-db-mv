@@ -72,6 +72,7 @@ import de.cismet.cids.server.search.CidsServerSearch;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
+
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -1827,26 +1828,26 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFinActionPerformed
+    private void cbFinActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFinActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbFinActionPerformed
+    } //GEN-LAST:event_cbFinActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDe_measActionPerformed
+    private void btnAddDe_measActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddDe_measActionPerformed
         dlgMeas.setSize(750, 150);
         StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgMeas, true);
-    }//GEN-LAST:event_btnAddDe_measActionPerformed
+    }                                                                                 //GEN-LAST:event_btnAddDe_measActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemDeMeasActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemDeMeasActionPerformed
+    private void btnRemDeMeasActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemDeMeasActionPerformed
         final Object selection = lstdeMeas.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1870,24 +1871,24 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemDeMeasActionPerformed
+    } //GEN-LAST:event_btnRemDeMeasActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddPressureActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPressureActionPerformed
+    private void btnAddPressureActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPressureActionPerformed
 //        dlgPressure.setSize(750, 150);
 //        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgPressure, true);
-    }//GEN-LAST:event_btnAddPressureActionPerformed
+    } //GEN-LAST:event_btnAddPressureActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemPressureActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemPressureActionPerformed
+    private void btnRemPressureActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemPressureActionPerformed
 //        final Object selection = lstPressure.getSelectedValue();
 //        if (selection != null) {
 //            final int answer = JOptionPane.showConfirmDialog(
@@ -1909,23 +1910,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 //                }
 //            }
 //        }
-    }//GEN-LAST:event_btnRemPressureActionPerformed
+    } //GEN-LAST:event_btnRemPressureActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeasAbortActionPerformed
+    private void btnMeasAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasAbortActionPerformed
         dlgMeas.setVisible(false);
-    }//GEN-LAST:event_btnMeasAbortActionPerformed
+    }                                                                                //GEN-LAST:event_btnMeasAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeasOkActionPerformed
+    private void btnMeasOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMeasOkActionPerformed
         final Object selection = cbMeasCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final Thread t = new Thread(new Runnable() {
@@ -1956,23 +1957,23 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         }
 
         dlgMeas.setVisible(false);
-    }//GEN-LAST:event_btnMeasOkActionPerformed
+    } //GEN-LAST:event_btnMeasOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPressureAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPressureAbortActionPerformed
+    private void btnPressureAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPressureAbortActionPerformed
         dlgPressure.setVisible(false);
-    }//GEN-LAST:event_btnPressureAbortActionPerformed
+    }                                                                                    //GEN-LAST:event_btnPressureAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPressureOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPressureOkActionPerformed
+    private void btnPressureOkActionPerformed(final java.awt.event.ActionEvent evt) {                                   //GEN-FIRST:event_btnPressureOkActionPerformed
         final Object selection = cbPressureCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -1984,59 +1985,59 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             }
         }
         dlgPressure.setVisible(false);
-    }//GEN-LAST:event_btnPressureOkActionPerformed
+    }                                                                                                                   //GEN-LAST:event_btnPressureOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStartedActionPerformed
+    private void cbStartedActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbStartedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbStartedActionPerformed
+    } //GEN-LAST:event_cbStartedActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbHmwbActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHmwbActionPerformed
+    private void cbHmwbActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbHmwbActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbHmwbActionPerformed
+    } //GEN-LAST:event_cbHmwbActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbPressureCatalogeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPressureCatalogeActionPerformed
+    private void cbPressureCatalogeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbPressureCatalogeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbPressureCatalogeActionPerformed
+    } //GEN-LAST:event_cbPressureCatalogeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbDetailCatalogeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDetailCatalogeActionPerformed
+    private void cbDetailCatalogeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbDetailCatalogeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbDetailCatalogeActionPerformed
+    } //GEN-LAST:event_cbDetailCatalogeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPressureAbort1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPressureAbort1ActionPerformed
+    private void btnPressureAbort1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPressureAbort1ActionPerformed
         dlgDetail.setVisible(false);
-    }//GEN-LAST:event_btnPressureAbort1ActionPerformed
+    }                                                                                     //GEN-LAST:event_btnPressureAbort1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPressureOk1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPressureOk1ActionPerformed
+    private void btnPressureOk1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPressureOk1ActionPerformed
         final Object selection = cbDetailCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final Thread t = new Thread(new Runnable() {
@@ -2059,24 +2060,24 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         }
 
         dlgDetail.setVisible(false);
-    }//GEN-LAST:event_btnPressureOk1ActionPerformed
+    } //GEN-LAST:event_btnPressureOk1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddPressure1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPressure1ActionPerformed
+    private void btnAddPressure1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddPressure1ActionPerformed
         dlgDetail.setSize(750, 150);
         StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgDetail, true);
-    }//GEN-LAST:event_btnAddPressure1ActionPerformed
+    }                                                                                   //GEN-LAST:event_btnAddPressure1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemPressure1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemPressure1ActionPerformed
+    private void btnRemPressure1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemPressure1ActionPerformed
         final Object selection = lstPressure1.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -2098,25 +2099,25 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemPressure1ActionPerformed
+    }                                                                                   //GEN-LAST:event_btnRemPressure1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbErsteOrdnActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbErsteOrdnActionPerformed
+    private void cbErsteOrdnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbErsteOrdnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbErsteOrdnActionPerformed
+    } //GEN-LAST:event_cbErsteOrdnActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbZweiteOrdnActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbZweiteOrdnActionPerformed
+    private void cbZweiteOrdnActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbZweiteOrdnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbZweiteOrdnActionPerformed
+    } //GEN-LAST:event_cbZweiteOrdnActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2266,7 +2267,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private String determineStalu(final Geometry geom) {
         try {
-            String geometryText = "SRID=" + CismapBroker.getInstance().getDefaultCrsAlias() + ";" + geom.toText();
+            final String geometryText = "SRID=" + CismapBroker.getInstance().getDefaultCrsAlias() + ";" + geom.toText();
             final CidsServerSearch search = new StaluSearch(geometryText);
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), search);
