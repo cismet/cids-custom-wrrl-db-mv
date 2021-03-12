@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -14,6 +15,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -27,6 +29,9 @@ import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.CismetThreadPool;
 
@@ -46,6 +51,9 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
             WRRLUtil.DOMAIN_NAME,
             "gup_operatives_ziel");
     private static MetaObject[] metaObjects = null;
+    private static final ConnectionContext cc = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "Operative Ziele");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -80,8 +88,9 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
                         @Override
                         protected void done() {
                             try {
+                                final CidsBean bean = (CidsBean)getSelectedItem();
                                 setModel(get());
-                                setSelectedItem(cidsBean);
+                                setSelectedItem(bean);
                             } catch (InterruptedException interruptedException) {
                             } catch (ExecutionException executionException) {
                                 log.error("Error while initializing the model of a referenceCombo", executionException); // NOI18N
@@ -90,8 +99,9 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
                     });
             } else {
                 try {
+                    final CidsBean bean = (CidsBean)getSelectedItem();
                     setModel(getModelByMetaClass(mc));
-                    setSelectedItem(cidsBean);
+                    setSelectedItem(bean);
                 } catch (InterruptedException interruptedException) {
                 } catch (Exception ex) {
                     log.error("Error while initializing the model of a referenceCombo", ex);                             // NOI18N
@@ -113,7 +123,7 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
     private DefaultComboBoxModel getModelByMetaClass(final MetaClass mc) throws Exception {
         if (metaObjects == null) {
             final String query = "select " + mc.getID() + "," + mc.getPrimaryKey() + " from " + mc.getTableName(); // NOI18N
-            metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, mc, false, cc);
         }
         final List<CidsBean> cbv = new ArrayList<CidsBean>(metaObjects.length);
 
@@ -124,7 +134,7 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
         }
 
         // Sorts the model using String comparison on the bean's toString()
-        Collections.sort(cbv, BEAN_TOSTRING_COMPARATOR);
+        Collections.sort(cbv, new BeanComparator());
         return new DefaultComboBoxModel(cbv.toArray());
     }
 
@@ -176,11 +186,27 @@ public class OperativeZieleComboBox extends ScrollableComboBox {
     }
 
     @Override
-    public void setMetaClass(final MetaClass metaClass) {
-    }
-
-    @Override
     public MetaClass getMetaClass() {
         return MC;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    protected static final class BeanComparator implements Comparator<CidsBean> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            final String s1 = (o1 == null) ? "" : o1.toString(); // NOI18N
+            final String s2 = (o2 == null) ? "" : o2.toString(); // NOI18N
+
+            return (s1).compareToIgnoreCase(s2);
+        }
     }
 }

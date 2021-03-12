@@ -101,7 +101,7 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
      * @param  comparator  DOCUMENT ME!
      */
     public ScrollableComboBox(final Comparator<CidsBean> comparator) {
-        super(null, false, false, comparator, null);
+        super(null, false, false, comparator);
         if (getUI() instanceof PlasticComboBoxUI) {
             setUI(ScrollableComboUI.createUI(null));
         }
@@ -133,7 +133,7 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
             final boolean nullable,
             final boolean onlyUsed,
             final Comparator<CidsBean> comparator) {
-        super(mc, nullable, onlyUsed, comparator, null);
+        super(mc, nullable, onlyUsed, comparator);
         if (getUI() instanceof PlasticComboBoxUI) {
             setUI(ScrollableComboUI.createUI(null));
         }

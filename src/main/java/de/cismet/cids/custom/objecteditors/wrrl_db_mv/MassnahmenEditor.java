@@ -73,6 +73,8 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.WaitingDialogThread;
@@ -2265,7 +2267,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private String determineStalu(final Geometry geom) {
         try {
-            final CidsServerSearch search = new StaluSearch(geom.toText());
+            final String geometryText = "SRID=" + CismapBroker.getInstance().getDefaultCrsAlias() + ";" + geom.toText();
+            final CidsServerSearch search = new StaluSearch(geometryText);
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), search);
             final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;

@@ -344,7 +344,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landkreis}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landkreis_cat.kreis_name}"),
                 jLabel7,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -364,7 +364,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu_cat.value}"),
                 jLabel8,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);

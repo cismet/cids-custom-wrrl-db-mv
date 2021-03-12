@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
@@ -315,7 +315,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landkreis}" target="jLabel7" targetPath="text" updateStrategy="1" immediately="false">
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.landkreis_cat.kreis_name}" target="jLabel7" targetPath="text" updateStrategy="1" immediately="false">
                           <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                         </BindingProperty>
                       </BindingProperties>
@@ -335,7 +335,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.stalu}" target="jLabel8" targetPath="text" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.stalu_cat.value}" target="jLabel8" targetPath="text" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

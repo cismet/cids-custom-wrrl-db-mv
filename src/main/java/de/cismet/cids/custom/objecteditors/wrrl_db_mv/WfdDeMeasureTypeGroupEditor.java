@@ -12,6 +12,7 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -45,6 +46,9 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
@@ -62,6 +66,9 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             WfdDeMeasureTypeGroupEditor.class);
     private static final MetaClass MASSNAHMEN_TYP_MC;
+    private static final ConnectionContext cc = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "WfdDeMeasureTypeGroupEditor");
 
     static {
         MASSNAHMEN_TYP_MC = ClassCacheMultiple.getMetaClass(
@@ -518,10 +525,17 @@ public class WfdDeMeasureTypeGroupEditor extends javax.swing.JPanel implements C
 
                         @Override
                         public void run() {
-                            final String query = "select " + MASSNAHMEN_TYP_MC.getID() + ","
-                                        + MASSNAHMEN_TYP_MC.getPrimaryKey() + " from "
-                                        + MASSNAHMEN_TYP_MC.getTableName(); // NOI18N
-                            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+                            MetaObject[] metaObjects = null;
+
+                            try {
+                                final String query = "select " + MASSNAHMEN_TYP_MC.getID() + ","
+                                            + MASSNAHMEN_TYP_MC.getPrimaryKey() + " from "
+                                            + MASSNAHMEN_TYP_MC.getTableName(); // NOI18N
+                                metaObjects = MetaObjectCache.getInstance()
+                                            .getMetaObjectsByQuery(query, MASSNAHMEN_TYP_MC, false, cc);
+                            } catch (CacheException e) {
+                                metaObjects = new MetaObject[0];
+                            }
 
                             types = new ArrayList<CidsBean>();
 

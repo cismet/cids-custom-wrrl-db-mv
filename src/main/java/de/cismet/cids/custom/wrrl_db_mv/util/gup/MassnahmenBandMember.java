@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -38,6 +39,9 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 /**
  * DOCUMENT ME!
  *
@@ -51,6 +55,9 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
     private static final MetaClass MASSNAHMEN_ART = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "gup_massnahmenart");
+    private static final ConnectionContext cc = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "Gepp-Massnahme");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -332,9 +339,15 @@ public class MassnahmenBandMember extends LineBandMember implements CidsBeanDrop
      * @param  id  DOCUMENT ME!
      */
     private void setMassnahme(final int id) {
-        final String query = "select " + MASSNAHMEN_ART.getID() + "," + MASSNAHMEN_ART.getPrimaryKey() + " from "
-                    + MASSNAHMEN_ART.getTableName() + " where id = " + id; // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        MetaObject[] metaObjects = null;
+
+        try {
+            final String query = "select " + MASSNAHMEN_ART.getID() + "," + MASSNAHMEN_ART.getPrimaryKey() + " from "
+                        + MASSNAHMEN_ART.getTableName() + " where id = " + id; // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, MASSNAHMEN_ART, false, cc);
+        } catch (CacheException e) {
+            // nothing to do. This exception is already logged in the MtaObjectCache
+        }
         CidsBean b = null;
 
         if (metaObjects != null) {

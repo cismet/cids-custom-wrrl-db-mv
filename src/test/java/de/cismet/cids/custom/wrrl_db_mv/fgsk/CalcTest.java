@@ -2798,6 +2798,11 @@ public class CalcTest {
             public void forceStatus(int status) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+
+            @Override
+            public boolean hasObjectReadPermission(User user) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         }
     }
 }

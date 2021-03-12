@@ -35,6 +35,8 @@ import java.util.Set;
 
 import de.cismet.cids.dynamics.AbstractCustomBeanPermissionProvider;
 
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.PropertyReader;
 
 /**
@@ -98,6 +100,16 @@ public abstract class BasicGeometryFomFilePermissionProvider extends AbstractCus
             return false;
         }
         return groupGeom.contains(objectGeom);
+    }
+
+    @Override
+    public boolean getCustomReadPermissionDecisionforUser(final User user, final ConnectionContext cc) {
+        return getCustomReadPermissionDecisionforUser(user);
+    }
+
+    @Override
+    public boolean getCustomWritePermissionDecisionforUser(final User user, final ConnectionContext cc) {
+        return getCustomWritePermissionDecisionforUser(user);
     }
 
     /**

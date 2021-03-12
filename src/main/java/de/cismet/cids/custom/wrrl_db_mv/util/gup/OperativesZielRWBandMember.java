@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -39,6 +40,9 @@ import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import static de.cismet.cids.custom.wrrl_db_mv.util.gup.LineBandMember.LOG;
 
 /**
@@ -54,6 +58,9 @@ public class OperativesZielRWBandMember extends LineBandMember implements CidsBe
     private static final MetaClass OPERATIVES_ZIEL = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "GUP_OPERATIVES_ZIEL");
+    private static final ConnectionContext cc = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "Pflegeziel");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -147,9 +154,15 @@ public class OperativesZielRWBandMember extends LineBandMember implements CidsBe
      * @param  id  DOCUMENT ME!
      */
     private void setOperativesZiel(final String id) {
-        final String query = "select " + OPERATIVES_ZIEL.getID() + "," + OPERATIVES_ZIEL.getPrimaryKey() + " from "
-                    + OPERATIVES_ZIEL.getTableName() + " where id = " + id; // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        MetaObject[] metaObjects = null;
+
+        try {
+            final String query = "select " + OPERATIVES_ZIEL.getID() + "," + OPERATIVES_ZIEL.getPrimaryKey() + " from "
+                        + OPERATIVES_ZIEL.getTableName() + " where id = " + id; // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, OPERATIVES_ZIEL, false, cc);
+        } catch (CacheException e) {
+            // nothing to do. This exception is already logged in the MtaObjectCache
+        }
         CidsBean b = null;
 
         if (metaObjects != null) {
@@ -172,9 +185,15 @@ public class OperativesZielRWBandMember extends LineBandMember implements CidsBe
      */
     @Override
     protected void configurePopupMenu() {
-        final String query = "select " + OPERATIVES_ZIEL.getID() + "," + OPERATIVES_ZIEL.getPrimaryKey() + " from "
-                    + OPERATIVES_ZIEL.getTableName(); // NOI18N
-        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+        MetaObject[] metaObjects = null;
+
+        try {
+            final String query = "select " + OPERATIVES_ZIEL.getID() + "," + OPERATIVES_ZIEL.getPrimaryKey() + " from "
+                        + OPERATIVES_ZIEL.getTableName(); // NOI18N
+            metaObjects = MetaObjectCache.getInstance().getMetaObjectsByQuery(query, OPERATIVES_ZIEL, false, cc);
+        } catch (CacheException e) {
+            metaObjects = new MetaObject[0];
+        }
 
         final int type = ((OperativesZielRWBand)getParentBand()).getType();
         int kompartiment = 0;
