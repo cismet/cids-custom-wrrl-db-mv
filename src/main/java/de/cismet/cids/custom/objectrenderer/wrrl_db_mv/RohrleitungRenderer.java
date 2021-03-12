@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
 import javax.swing.JComponent;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -22,6 +24,9 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
+
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -88,6 +93,22 @@ public class RohrleitungRenderer extends javax.swing.JPanel implements CidsBeanR
      */
     public RohrleitungRenderer() {
         initComponents();
+
+        Boolean hasPerm = false;
+
+        try {
+            hasPerm = SessionManager.getProxy()
+                        .hasConfigAttr(SessionManager.getSession().getUser(),
+                                "qb_all_infos",
+                                ConnectionContext.create(
+                                    AbstractConnectionContext.Category.EDITOR,
+                                    "has qb permission"));
+        } catch (Exception e) {
+            LOG.error("Cannot check permission", e);
+        }
+
+        txtDescSQAId.setVisible(hasPerm);
+        jLabel2.setVisible(hasPerm);
 
         initLinearReferencedLineEditor();
     }

@@ -34,6 +34,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo11;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo2;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo3;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo4;
     private de.cismet.cids.editors.DefaultBindableTimestampChooser defaultBindableTimestampChooser1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel3;
@@ -53,10 +55,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblBauwerksnummerKey;
     private javax.swing.JLabel lblFotoKey;
     private javax.swing.JLabel lblFotoRichtungKey;
@@ -112,9 +112,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jTextField14 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         lblLandkreisKey = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         lblStaluKey = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
         lblStaluKey1 = new javax.swing.JLabel();
         jTextField26 = new javax.swing.JTextField();
         lblStaluKey2 = new javax.swing.JLabel();
@@ -125,6 +123,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jCheckBox1 = new javax.swing.JCheckBox();
         lblQbwLageKey = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        defaultBindableReferenceCombo3 = new DefaultBindableReferenceCombo(true);
+        defaultBindableReferenceCombo4 = new DefaultBindableReferenceCombo(true);
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -260,25 +260,6 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblLandkreisKey, gridBagConstraints);
 
-        jTextField3.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField3.setPreferredSize(new java.awt.Dimension(250, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landkreis}"),
-                jTextField3,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(jTextField3, gridBagConstraints);
-
         lblStaluKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblStaluKey.text")); // NOI18N
@@ -288,25 +269,6 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblStaluKey, gridBagConstraints);
-
-        jTextField25.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField25.setPreferredSize(new java.awt.Dimension(250, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu}"),
-                jTextField25,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(jTextField25, gridBagConstraints);
 
         lblStaluKey1.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
@@ -456,6 +418,46 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(jLabel4, gridBagConstraints);
 
+        defaultBindableReferenceCombo3.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo3.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.landkreis_cat}"),
+                defaultBindableReferenceCombo3,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel8.add(defaultBindableReferenceCombo3, gridBagConstraints);
+
+        defaultBindableReferenceCombo4.setMinimumSize(new java.awt.Dimension(250, 25));
+        defaultBindableReferenceCombo4.setPreferredSize(new java.awt.Dimension(250, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stalu_cat}"),
+                defaultBindableReferenceCombo4,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel8.add(defaultBindableReferenceCombo4, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -574,7 +576,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                63,
+                75,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();

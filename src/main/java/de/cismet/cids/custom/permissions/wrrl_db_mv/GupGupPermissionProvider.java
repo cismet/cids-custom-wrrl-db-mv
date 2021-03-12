@@ -17,6 +17,8 @@ import Sirius.server.newuser.User;
 import de.cismet.cids.dynamics.AbstractCustomBeanPermissionProvider;
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.connectioncontext.ConnectionContext;
+
 /**
  * DOCUMENT ME!
  *
@@ -35,6 +37,16 @@ public class GupGupPermissionProvider extends AbstractCustomBeanPermissionProvid
     @Override
     public boolean getCustomReadPermissionDecisionforUser(final User u) {
         return checkBearbeiter(u, cidsBean);
+    }
+
+    @Override
+    public boolean getCustomReadPermissionDecisionforUser(final User user, final ConnectionContext cc) {
+        return getCustomReadPermissionDecisionforUser(user);
+    }
+
+    @Override
+    public boolean getCustomWritePermissionDecisionforUser(final User user, final ConnectionContext cc) {
+        return getCustomWritePermissionDecisionforUser(user);
     }
 
     /**

@@ -13,6 +13,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
@@ -66,6 +67,9 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -84,6 +88,9 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
     private static final MetaClass MASSNAHMEN_TYP_MC;
     private static final MetaClass MASSNAHMEN_GROUP_MC;
     private static final MetaClass MASSNAHMEN_MC;
+    private static final ConnectionContext cc = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "ProjekteEditor");
 
     static {
         INDIKATOR_MC = ClassCacheMultiple.getMetaClass(
@@ -2137,10 +2144,18 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
                 for (final CidsBean tmp : implementations) {
                     final Object idObject = tmp.getProperty("massnahme");
                     if ((idObject != null) && !idObject.equals("")) {
-                        final String query = "select " + MASSNAHMEN_MC.getID() + ", " + MASSNAHMEN_MC.getPrimaryKey()
-                                    + " from "
-                                    + MASSNAHMEN_MC.getTableName() + " where id = " + idObject.toString(); // NOI18N
-                        final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+                        MetaObject[] metaObjects = null;
+
+                        try {
+                            final String query = "select " + MASSNAHMEN_MC.getID() + ", "
+                                        + MASSNAHMEN_MC.getPrimaryKey()
+                                        + " from "
+                                        + MASSNAHMEN_MC.getTableName() + " where id = " + idObject.toString(); // NOI18N
+                            metaObjects = MetaObjectCache.getInstance()
+                                        .getMetaObjectsByQuery(query, MASSNAHMEN_MC, false, cc);
+                        } catch (CacheException e) {
+                            metaObjects = new MetaObject[0];
+                        }
 
                         for (final MetaObject massn : metaObjects) {
                             final CidsBean massnBean = massn.getBean();
@@ -2388,10 +2403,17 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
 
                         @Override
                         public void run() {
-                            final String query = "select " + MASSNAHMEN_TYP_MC.getID() + ","
-                                        + MASSNAHMEN_TYP_MC.getPrimaryKey() + " from "
-                                        + MASSNAHMEN_TYP_MC.getTableName(); // NOI18N
-                            final MetaObject[] metaObjects = MetaObjectCache.getInstance().getMetaObjectByQuery(query);
+                            MetaObject[] metaObjects = null;
+
+                            try {
+                                final String query = "select " + MASSNAHMEN_TYP_MC.getID() + ","
+                                            + MASSNAHMEN_TYP_MC.getPrimaryKey() + " from "
+                                            + MASSNAHMEN_TYP_MC.getTableName(); // NOI18N
+                                metaObjects = MetaObjectCache.getInstance()
+                                            .getMetaObjectsByQuery(query, MASSNAHMEN_TYP_MC, false, cc);
+                            } catch (CacheException e) {
+                                metaObjects = new MetaObject[0];
+                            }
 
                             types = new ArrayList<CidsBean>();
 

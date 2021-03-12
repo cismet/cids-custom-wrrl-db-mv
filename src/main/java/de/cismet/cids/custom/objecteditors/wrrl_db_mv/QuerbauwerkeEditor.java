@@ -74,6 +74,9 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.CismetThreadPool;
 
 import de.cismet.tools.gui.FooterComponentProvider;
@@ -144,7 +147,24 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         initComponents();
+        Boolean hasPerm = false;
 
+        try {
+            hasPerm = SessionManager.getProxy()
+                        .hasConfigAttr(SessionManager.getSession().getUser(),
+                                "qb_all_infos",
+                                ConnectionContext.create(
+                                    AbstractConnectionContext.Category.EDITOR,
+                                    "has qb permission"));
+        } catch (Exception e) {
+            LOG.error("Cannot check permission", e);
+        }
+
+        if (!hasPerm) {
+            tpMain.setEnabledAt(2, false);
+//            tpMain.removeTabAt(2);
+//            jPanel4.setVisible(hasPerm);
+        }
         querbauwerkePanSix.getStat09Editor().addListener(new LinearReferencedPointEditorListener() {
 
                 @Override

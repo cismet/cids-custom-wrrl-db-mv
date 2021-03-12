@@ -24,6 +24,8 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import de.cismet.connectioncontext.ConnectionContext;
+
 /**
  * DOCUMENT ME!
  *
@@ -99,6 +101,16 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
         } else {
             return true;
         }
+    }
+
+    @Override
+    public boolean getCustomReadPermissionDecisionforUser(final User user, final ConnectionContext cc) {
+        return getCustomReadPermissionDecisionforUser(user);
+    }
+
+    @Override
+    public boolean getCustomWritePermissionDecisionforUser(final User user, final ConnectionContext cc) {
+        return getCustomWritePermissionDecisionforUser(user);
     }
 
     /**
