@@ -19,8 +19,11 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
@@ -58,6 +61,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private boolean readOnly;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassnahmen;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSchachtabsturz;
@@ -75,16 +79,20 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     private javax.swing.JLabel lblMassnahmen;
     private javax.swing.JLabel lblMassnahmenId;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JPanel panAl;
     private javax.swing.JPanel panContent;
+    private javax.swing.JPanel panFisch;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.RoundedPanel panInfo1;
     private javax.swing.JPanel panInfoContent1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSeven querbauwerkePanSeven1;
     private javax.swing.JScrollPane scpBemerkung;
     private javax.swing.JSpinner spDurchmesser;
     private javax.swing.JSpinner spHoeheAuslauf;
     private javax.swing.JSpinner spLaenge;
     private javax.swing.JTextArea taBemerkung;
+    private javax.swing.JTabbedPane tpMain;
     private javax.swing.JLabel txtDescAbsturz;
     private javax.swing.JLabel txtDescAbsturzAuslauf;
     private javax.swing.JLabel txtDescBemerkung;
@@ -104,7 +112,18 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
      * Creates new form RohrleitungEditor.
      */
     public RohrleitungEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates a new RohrleitungEditor object.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public RohrleitungEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+        tpMain.setUI(new TabbedPaneUITransparent());
         Boolean hasPerm = false;
 
         try {
@@ -121,9 +140,22 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         txtDescSQAId.setVisible(hasPerm);
         txtStatusQuoAnalyse.setVisible(hasPerm);
 
-        initLinearReferencedLineEditor();
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtStatusQuoAnalyse);
+            RendererTools.makeReadOnly(cbMassnahmen);
+            RendererTools.makeReadOnly(cbSchachtabsturz);
+            RendererTools.makeReadOnly(cbSediment);
+            RendererTools.makeReadOnly(jCheckBox1);
+            RendererTools.makeReadOnly(cdOekoDurch);
+            RendererTools.makeReadOnly(taBemerkung);
+            RendererTools.makeReadOnly(spDurchmesser);
+            RendererTools.makeReadOnly(spHoeheAuslauf);
+            RendererTools.makeReadOnly(spLaenge);
+        } else {
+            new CidsBeanDropTarget(jLabel2);
+        }
 
-        new CidsBeanDropTarget(jLabel2);
+        initLinearReferencedLineEditor();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -136,6 +168,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         linearReferencedLineEditor.setOtherLinesQueryAddition(
             "rohrleitung",
             "rohrleitung.linie = ");
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(!readOnly);
     }
 
     /**
@@ -158,6 +191,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
         panContent = new javax.swing.JPanel();
+        tpMain = new javax.swing.JTabbedPane();
+        panAl = new javax.swing.JPanel();
         txtDescGwName = new javax.swing.JLabel();
         txtDescSQAId = new javax.swing.JLabel();
         txtDescDurchmesser = new javax.swing.JLabel();
@@ -183,7 +218,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
-        linearReferencedLineEditor = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor();
+        linearReferencedLineEditor = (readOnly
+                ? new LinearReferencedLineRenderer(true)
+                : new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor());
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new MassnIdLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -191,6 +228,8 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         jLabel5 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
+        panFisch = new javax.swing.JPanel();
+        querbauwerkePanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSeven();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -207,7 +246,10 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         setLayout(new java.awt.GridBagLayout());
 
         panContent.setOpaque(false);
-        panContent.setLayout(new java.awt.GridBagLayout());
+        panContent.setLayout(new java.awt.BorderLayout());
+
+        panAl.setOpaque(false);
+        panAl.setLayout(new java.awt.GridBagLayout());
 
         txtDescGwName.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -218,7 +260,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescGwName, gridBagConstraints);
+        panAl.add(txtDescGwName, gridBagConstraints);
 
         txtDescSQAId.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -229,7 +271,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescSQAId, gridBagConstraints);
+        panAl.add(txtDescSQAId, gridBagConstraints);
 
         txtDescDurchmesser.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -240,7 +282,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescDurchmesser, gridBagConstraints);
+        panAl.add(txtDescDurchmesser, gridBagConstraints);
 
         txtDescAbsturz.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -251,7 +293,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescAbsturz, gridBagConstraints);
+        panAl.add(txtDescAbsturz, gridBagConstraints);
 
         txtDescAbsturzAuslauf.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -262,7 +304,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescAbsturzAuslauf, gridBagConstraints);
+        panAl.add(txtDescAbsturzAuslauf, gridBagConstraints);
 
         txtDescBemerkung.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -273,7 +315,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescBemerkung, gridBagConstraints);
+        panAl.add(txtDescBemerkung, gridBagConstraints);
 
         txtDescLaenge.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -284,7 +326,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescLaenge, gridBagConstraints);
+        panAl.add(txtDescLaenge, gridBagConstraints);
 
         txtDescOekoDurch.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -295,7 +337,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescOekoDurch, gridBagConstraints);
+        panAl.add(txtDescOekoDurch, gridBagConstraints);
 
         txtDescSediment.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -306,7 +348,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtDescSediment, gridBagConstraints);
+        panAl.add(txtDescSediment, gridBagConstraints);
 
         txtStatusQuoAnalyse.setMinimumSize(new java.awt.Dimension(500, 20));
         txtStatusQuoAnalyse.setPreferredSize(new java.awt.Dimension(500, 20));
@@ -327,7 +369,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtStatusQuoAnalyse, gridBagConstraints);
+        panAl.add(txtStatusQuoAnalyse, gridBagConstraints);
 
         scpBemerkung.setMaximumSize(new java.awt.Dimension(200, 75));
         scpBemerkung.setMinimumSize(new java.awt.Dimension(200, 75));
@@ -356,7 +398,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(scpBemerkung, gridBagConstraints);
+        panAl.add(scpBemerkung, gridBagConstraints);
 
         spHoeheAuslauf.setEnabled(false);
         spHoeheAuslauf.setMaximumSize(new java.awt.Dimension(75, 20));
@@ -368,7 +410,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(spHoeheAuslauf, gridBagConstraints);
+        panAl.add(spHoeheAuslauf, gridBagConstraints);
 
         spLaenge.setMaximumSize(new java.awt.Dimension(75, 20));
         spLaenge.setMinimumSize(new java.awt.Dimension(75, 20));
@@ -389,13 +431,9 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(spLaenge, gridBagConstraints);
+        panAl.add(spLaenge, gridBagConstraints);
 
-        spDurchmesser.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        spDurchmesser.setModel(new javax.swing.SpinnerNumberModel(0.0d, null, null, 1.0d));
         spDurchmesser.setMaximumSize(new java.awt.Dimension(75, 20));
         spDurchmesser.setMinimumSize(new java.awt.Dimension(75, 20));
         spDurchmesser.setPreferredSize(new java.awt.Dimension(75, 20));
@@ -415,7 +453,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(spDurchmesser, gridBagConstraints);
+        panAl.add(spDurchmesser, gridBagConstraints);
 
         cbSchachtabsturz.setMaximumSize(new java.awt.Dimension(200, 20));
         cbSchachtabsturz.setMinimumSize(new java.awt.Dimension(200, 20));
@@ -435,7 +473,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(cbSchachtabsturz, gridBagConstraints);
+        panAl.add(cbSchachtabsturz, gridBagConstraints);
 
         cbSediment.setMaximumSize(new java.awt.Dimension(200, 20));
         cbSediment.setMinimumSize(new java.awt.Dimension(200, 20));
@@ -455,7 +493,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(cbSediment, gridBagConstraints);
+        panAl.add(cbSediment, gridBagConstraints);
 
         cdOekoDurch.setMaximumSize(new java.awt.Dimension(200, 20));
         cdOekoDurch.setMinimumSize(new java.awt.Dimension(200, 20));
@@ -475,7 +513,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(cdOekoDurch, gridBagConstraints);
+        panAl.add(cdOekoDurch, gridBagConstraints);
 
         lblMassnahmen.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -486,7 +524,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblMassnahmen, gridBagConstraints);
+        panAl.add(lblMassnahmen, gridBagConstraints);
 
         lblMassnahmenId.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -497,7 +535,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblMassnahmenId, gridBagConstraints);
+        panAl.add(lblMassnahmenId, gridBagConstraints);
 
         cbMassnahmen.setMaximumSize(new java.awt.Dimension(200, 20));
         cbMassnahmen.setMinimumSize(new java.awt.Dimension(200, 20));
@@ -517,7 +555,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(cbMassnahmen, gridBagConstraints);
+        panAl.add(cbMassnahmen, gridBagConstraints);
 
         panInfo1.setMinimumSize(new java.awt.Dimension(640, 140));
         panInfo1.setPreferredSize(new java.awt.Dimension(640, 140));
@@ -554,7 +592,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panContent.add(panInfo1, gridBagConstraints);
+        panAl.add(panInfo1, gridBagConstraints);
 
         jLabel1.setMinimumSize(new java.awt.Dimension(500, 20));
         jLabel1.setPreferredSize(new java.awt.Dimension(500, 20));
@@ -575,7 +613,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jLabel1, gridBagConstraints);
+        panAl.add(jLabel1, gridBagConstraints);
 
         jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -598,7 +636,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jLabel2, gridBagConstraints);
+        panAl.add(jLabel2, gridBagConstraints);
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -608,7 +646,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jLabel3, gridBagConstraints);
+        panAl.add(jLabel3, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -627,7 +665,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jLabel4, gridBagConstraints);
+        panAl.add(jLabel4, gridBagConstraints);
 
         jLabel5.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -638,7 +676,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jLabel5, gridBagConstraints);
+        panAl.add(jLabel5, gridBagConstraints);
 
         jCheckBox1.setText(org.openide.util.NbBundle.getMessage(
                 RohrleitungEditor.class,
@@ -667,7 +705,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jCheckBox1, gridBagConstraints);
+        panAl.add(jCheckBox1, gridBagConstraints);
         jCheckBox1.setBackground(null);
 
         jLabel6.setText(org.openide.util.NbBundle.getMessage(
@@ -679,7 +717,33 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        panContent.add(jLabel6, gridBagConstraints);
+        panAl.add(jLabel6, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.panAl.TabConstraints.tabTitle",
+                new Object[] {}),
+            panAl); // NOI18N
+
+        panFisch.setOpaque(false);
+        panFisch.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        panFisch.add(querbauwerkePanSeven1, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                RohrleitungEditor.class,
+                "RohrleitungEditor.panFisch.TabConstraints.tabTitle",
+                new Object[] {}),
+            panFisch); // NOI18N
+
+        panContent.add(tpMain, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -708,13 +772,15 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     public void setCidsBean(final CidsBean cidsBean) {
         this.cidsBean = cidsBean;
         bindingGroup.unbind();
-        linearReferencedLineEditor.setCidsBean(cidsBean);
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
             UIUtil.setLastModifier(cidsBean, lblFoot);
+            querbauwerkePanSeven1.setCidsBean(cidsBean);
+            linearReferencedLineEditor.setCidsBean(cidsBean);
             zoomToFeatures();
         }
 

@@ -32,7 +32,7 @@ public class GupToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getSorterString() {
-        return "M";
+        return "N";
     }
 
     @Override

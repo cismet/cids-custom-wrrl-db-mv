@@ -38,8 +38,6 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
-import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
 /**
  * DOCUMENT ME!
  *
@@ -50,7 +48,7 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkePanOne.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkePanFive.class);
 
     //~ Instance fields --------------------------------------------------------
 

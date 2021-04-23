@@ -26,7 +26,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkePanOne.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuerbauwerkePanTwo.class);
 
     //~ Enums ------------------------------------------------------------------
 

@@ -106,7 +106,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
     private javax.swing.JPanel panFooter;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
-    private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSeven querbauwerkePanSeven1;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanThree querbauwerkePanThree;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanTwo querbauwerkePanTwo;
@@ -162,7 +162,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         querbauwerkePanFive = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFive();
         panAllgemeines = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        querbauwerkePanOne = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanOne();
+        querbauwerkePanOne = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne(true);
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         querbauwerkePanFour = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.QuerbauwerkePanFour();
@@ -197,7 +197,7 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1254,
+                1803,
                 Short.MAX_VALUE));
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
@@ -251,12 +251,12 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1254,
+                1803,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                450,
+                382,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -289,12 +289,12 @@ public class QuerbauwerkeRenderer extends javax.swing.JPanel implements CidsBean
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1254,
+                1803,
                 Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                446,
+                447,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();

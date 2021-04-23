@@ -44,7 +44,7 @@ public class LAWAToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getSorterString() {
-        return "I";
+        return "J";
     }
 
     @Override

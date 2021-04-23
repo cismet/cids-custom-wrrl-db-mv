@@ -38,13 +38,13 @@ import de.cismet.cids.navigator.utils.CidsClientToolbarItem;
  */
 
 @ServiceProvider(service = CidsClientToolbarItem.class)
-public class WkSgToolbarAction extends AbstractNewObjectToolbarAction {
+public class DghToolbarAction extends AbstractNewObjectToolbarAction {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String getSorterString() {
-        return "K";
+        return "G";
     }
 
     @Override
@@ -54,11 +54,11 @@ public class WkSgToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getTableName() {
-        return "wk_sg";
+        return "dgh";
     }
 
     @Override
     public String getTooltipString() {
-        return "neuen SG-Wasserkörper anlegen";
+        return "neues DGH-Objekt anlegen";
     }
 }
