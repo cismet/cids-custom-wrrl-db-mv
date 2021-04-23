@@ -44,7 +44,7 @@ public class ProjekteToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getSorterString() {
-        return "H";
+        return "I";
     }
 
     @Override
