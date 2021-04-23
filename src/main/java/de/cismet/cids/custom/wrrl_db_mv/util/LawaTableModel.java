@@ -25,7 +25,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgLawaTypeSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgLawaKartierabschnittSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -107,7 +107,8 @@ public class LawaTableModel extends AbstractTableModel {
      */
     public void refreshData() {
         try {
-            final CidsServerSearch search = new WkFgLawaTypeSearch(String.valueOf(getCidsBean().getProperty("id")));
+            final CidsServerSearch search = new WkFgLawaKartierabschnittSearch((Integer)getCidsBean().getProperty(
+                        "id"));
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), search);
             final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
