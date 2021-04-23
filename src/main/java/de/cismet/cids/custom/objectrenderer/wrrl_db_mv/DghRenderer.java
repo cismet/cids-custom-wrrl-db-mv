@@ -12,7 +12,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.RohrleitungEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.DghEditor;
 
 /**
  * DOCUMENT ME!
@@ -20,14 +20,14 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.RohrleitungEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class RohrleitungRenderer extends RohrleitungEditor {
+public class DghRenderer extends DghEditor {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new RohrleitungRenderer object.
+     * Creates a new DghRenderer object.
      */
-    public RohrleitungRenderer() {
+    public DghRenderer() {
         super(true);
     }
 }

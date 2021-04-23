@@ -44,7 +44,7 @@ public class WkGwToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getSorterString() {
-        return "K";
+        return "L";
     }
 
     @Override

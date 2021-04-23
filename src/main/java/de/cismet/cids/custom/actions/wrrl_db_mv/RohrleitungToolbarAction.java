@@ -44,7 +44,7 @@ public class RohrleitungToolbarAction extends AbstractNewObjectToolbarAction {
 
     @Override
     public String getSorterString() {
-        return "G";
+        return "H";
     }
 
     @Override

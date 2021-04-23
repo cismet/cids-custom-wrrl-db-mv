@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import de.cismet.cids.custom.actions.wrrl_db_mv.GupLoadStatus;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupPlanungsabschnittEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.GupUnterhaltungsmassnahmeEditor;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
@@ -57,6 +58,9 @@ public class GupStartupHook implements StartupHook {
 
     @Override
     public void applicationStarted() {
+        GupPlanungsabschnittEditor editor = new GupPlanungsabschnittEditor();
+        editor = null;
+
         final Thread gupInit = new Thread() {
 
                 private final MetaClass MASSNAHMENART_MC = ClassCacheMultiple.getMetaClass(
@@ -122,6 +126,7 @@ public class GupStartupHook implements StartupHook {
                 }
             };
 
+        gupInit.setPriority(Thread.MIN_PRIORITY);
         gupInit.start();
     }
 }

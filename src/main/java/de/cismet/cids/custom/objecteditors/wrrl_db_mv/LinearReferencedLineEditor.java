@@ -617,8 +617,14 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
                     setFeature(lineFeature);
                 }
-                final String routeText = "Route: "
+                String routeText = "Route: "
                             + Long.toString(LinearReferencingHelper.getRouteGwkFromStationBean(getPointBean(FROM)));
+
+                final String rName = LinearReferencingHelper.getRouteNameFromStationBean(getPointBean(FROM));
+
+                if (rName != null) {
+                    routeText += " (" + rName + ")";
+                }
 
                 fireLineAdded();
 

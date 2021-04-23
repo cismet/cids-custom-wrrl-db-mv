@@ -45,6 +45,7 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final String PROP_ROUTE_ROUTENNAME = "routenname";
     private static MetaClass MC_GEOM = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, CN_GEOM);
     private static MetaClass MC_STATIONLINIE = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
@@ -152,6 +153,17 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
      */
     public static Long getRouteGwkFromStationBean(final CidsBean stationBean) {
         return (Long)getRouteBeanFromStationBean(stationBean).getProperty(PROP_ROUTE_GWK);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   stationBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String getRouteNameFromStationBean(final CidsBean stationBean) {
+        return (String)getRouteBeanFromStationBean(stationBean).getProperty(PROP_ROUTE_ROUTENNAME);
     }
 
     /**

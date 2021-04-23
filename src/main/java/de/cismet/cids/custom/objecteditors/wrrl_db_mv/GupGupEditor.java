@@ -1451,6 +1451,9 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         final List<CidsBean> statusList = gup.getBeanCollectionProperty(WORKFLOW_STATUS_PROP);
         String statName = "";
         final Boolean closed = (Boolean)gup.getProperty(PROP_CLOSE);
+        int statCount = 0;
+        boolean isCheckStatNB = false;
+        boolean isCheckStatWB = false;
 
         if ((closed != null) && closed) {
             statName = "Geschlossen";
@@ -1458,12 +1461,29 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
             statName = "Planung";
         } else {
             for (final CidsBean stat : statusList) {
+                ++statCount;
+                final Integer i = (Integer)stat.getProperty(PROP_ID);
+                isCheckStatNB = isCheckStatNB
+                            || (i == ID_PRUEFUNG_DURCH_NB)
+                            || (i == ID_PRUEFUNG_DURCH_NB_ABGESCHL);
+                isCheckStatWB = isCheckStatWB
+                            || (i == ID_PRUEFUNG_DURCH_WB)
+                            || (i == ID_PRUEFUNG_DURCH_WB_ABGESCHL);
+
                 if (statName.equals("")) {
                     statName = String.valueOf(stat.getProperty("name"));
                 } else {
                     statName += "/"
                                 + String.valueOf(stat.getProperty("name"));
                 }
+            }
+        }
+
+        if (statCount == 1) {
+            if (isCheckStatNB && !isCheckStatWB) {
+                statName += "/Prüfung durch WB ausstehend";
+            } else if (isCheckStatWB && !isCheckStatNB) {
+                statName += "/Prüfung durch NB ausstehend";
             }
         }
 

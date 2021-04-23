@@ -12,6 +12,7 @@ import java.awt.Color;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -66,6 +67,15 @@ public class RendererTools {
      */
     public static void makeReadOnly(final JTextArea ta) {
         ta.setEditable(false);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  spinner  ta DOCUMENT ME!
+     */
+    public static void makeReadOnly(final JSpinner spinner) {
+        spinner.setEnabled(false);
     }
 
     /**
@@ -142,6 +152,15 @@ public class RendererTools {
      */
     public static void makeWritable(final JTextArea ta) {
         ta.setEditable(true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  spinner  ta DOCUMENT ME!
+     */
+    public static void makeWritable(final JSpinner spinner) {
+        spinner.setEnabled(true);
     }
 
     /**
