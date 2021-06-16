@@ -10,11 +10,16 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.wrrl_db_mv.server.search.QbwInUseSearch;
+import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -47,6 +52,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     private boolean readOnly;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbBaujahr;
+    private javax.swing.JComboBox<String> cbOpt;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTyp;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo11;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo2;
@@ -98,8 +105,6 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private javax.swing.JTextField txtBaujahr;
-    private javax.swing.JTextField txtOptJahr;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -121,12 +126,24 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         this.readOnly = readOnly;
         initComponents();
 
+        final List<Integer> years = new ArrayList<Integer>();
+        final Integer currentYear = new GregorianCalendar().get(GregorianCalendar.YEAR);
+        years.add(null);
+        years.add(0);
+
+        for (int year = currentYear; year >= 1900; --year) {
+            years.add(year);
+        }
+
+        cbBaujahr.setModel(new DefaultComboBoxModel(years.toArray(new Integer[years.size()])));
+        cbOpt.setModel(new DefaultComboBoxModel(years.toArray(new Integer[years.size()])));
+
         lblTime.setVisible(readOnly);
         defaultBindableTimestampChooser1.setVisible(!readOnly);
 
         if (readOnly) {
-            RendererTools.makeReadOnly(txtBaujahr);
-            RendererTools.makeReadOnly(txtOptJahr);
+            RendererTools.makeReadOnly(cbBaujahr);
+            RendererTools.makeReadOnly(cbOpt);
             RendererTools.makeReadOnly(jTextField12);
             RendererTools.makeReadOnly(jTextField14);
             RendererTools.makeReadOnly(jTextField15);
@@ -171,18 +188,18 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblStaluKey2 = new javax.swing.JLabel();
         jTextField27 = new javax.swing.JTextField();
         lblWaKoerperKey2 = new javax.swing.JLabel();
-        defaultBindableReferenceCombo2 = new DefaultBindableReferenceCombo(true);
+        defaultBindableReferenceCombo2 = new ScrollableComboBox(true);
         lblWaKoerperKey3 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         lblQbwLageKey = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        defaultBindableReferenceCombo3 = new DefaultBindableReferenceCombo(true);
-        defaultBindableReferenceCombo4 = new DefaultBindableReferenceCombo(true);
+        defaultBindableReferenceCombo3 = new ScrollableComboBox(true);
+        defaultBindableReferenceCombo4 = new ScrollableComboBox(true);
         lblDgh = new javax.swing.JLabel();
         lblBaujahr = new javax.swing.JLabel();
-        txtBaujahr = new javax.swing.JTextField();
+        cbBaujahr = new javax.swing.JComboBox<>();
         lblOptJahr = new javax.swing.JLabel();
-        txtOptJahr = new javax.swing.JTextField();
+        cbOpt = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -552,15 +569,15 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblBaujahr, gridBagConstraints);
 
-        txtBaujahr.setMinimumSize(new java.awt.Dimension(250, 25));
-        txtBaujahr.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbBaujahr.setMinimumSize(new java.awt.Dimension(200, 25));
+        cbBaujahr.setPreferredSize(new java.awt.Dimension(200, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.baujahr}"),
-                txtBaujahr,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+                cbBaujahr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -570,7 +587,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(txtBaujahr, gridBagConstraints);
+        jPanel8.add(cbBaujahr, gridBagConstraints);
 
         lblOptJahr.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
@@ -586,15 +603,15 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblOptJahr, gridBagConstraints);
 
-        txtOptJahr.setMinimumSize(new java.awt.Dimension(250, 25));
-        txtOptJahr.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbOpt.setMinimumSize(new java.awt.Dimension(200, 25));
+        cbOpt.setPreferredSize(new java.awt.Dimension(200, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.opt_jahr}"),
-                txtOptJahr,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+                cbOpt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -604,7 +621,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel8.add(txtOptJahr, gridBagConstraints);
+        jPanel8.add(cbOpt, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
