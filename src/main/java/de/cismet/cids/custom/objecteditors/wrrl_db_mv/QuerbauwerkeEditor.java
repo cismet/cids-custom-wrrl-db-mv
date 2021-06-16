@@ -686,11 +686,53 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                 cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
                 cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
 
+                final String zweck = (String)cidsBean.getProperty("zweck.value");
+
+                if ((zweck != null) && zweck.equals("9")) {
+                    if (cidsBean.getProperty("baujahr") == null) {
+                        JOptionPane.showMessageDialog(
+                            QuerbauwerkeEditor.this,
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.baujahr.message"),
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.baujahr.title"),
+                            JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
+                    if (cidsBean.getProperty("opt_jahr") == null) {
+                        JOptionPane.showMessageDialog(
+                            QuerbauwerkeEditor.this,
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.opt_jahr.message"),
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.opt_jahr.title"),
+                            JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
+                    if (cidsBean.getProperty("faa_typ") == null) {
+                        JOptionPane.showMessageDialog(
+                            QuerbauwerkeEditor.this,
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.faa_typ.message"),
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.faa_typ.title"),
+                            JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
+                }
+
                 return CidsBeanSupport.checkOptionalAttribute(cidsBean, this, null);
             } catch (Exception ex) {
                 LOG.error(ex, ex);
             }
         }
+
         return true;
     }
 

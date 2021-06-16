@@ -388,7 +388,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
                         CidsBean calculatedLawaType = null;
                         for (int i = 0; i < cmodel.getSize(); ++i) {
                             final CidsBean bean = (CidsBean)cmodel.getElementAt(i);
-                            if (bean.getProperty("code").equals(code)) {
+                            if (bean.getProperty("value").equals(code)) {
                                 calculatedLawaType = bean;
                                 break;
                             }
@@ -446,7 +446,7 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
 
                         for (int i = 0; i < cmodel.getSize(); ++i) {
                             final CidsBean bean = (CidsBean)cmodel.getElementAt(i);
-                            if (bean.getProperty("code").equals(code)) {
+                            if (bean.getProperty("value").equals(code)) {
                                 calculatedLawaType = bean;
                                 break;
                             }
