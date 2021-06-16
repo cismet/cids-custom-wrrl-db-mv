@@ -35,6 +35,7 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -133,7 +134,8 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JComboBox cbGeom;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGutachterlicheBew;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGutachterlicheBewFische;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbJahrKontrolle;
+    private javax.swing.JComboBox<String> cbJahrKontrolle;
+    private javax.swing.JComboBox<String> cbJahrNaechsteKontrolle;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbOptimierungsbedarf;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStandardBew;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbStandardBewFische;
@@ -164,6 +166,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblHinweisUnters;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblJahrKontrolle;
+    private javax.swing.JLabel lblJahrNaechsteKontrolle;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblOptimierungsbedarf;
     private javax.swing.JLabel lblPruefer;
@@ -280,12 +283,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         final List<Integer> years = new ArrayList<Integer>();
         final Integer currentYear = new GregorianCalendar().get(GregorianCalendar.YEAR);
+        years.add(null);
 
         for (int year = 1990; year <= currentYear; ++year) {
             years.add(year);
         }
 
         cbJahrKontrolle.setModel(new DefaultComboBoxModel(years.toArray(new Integer[years.size()])));
+        cbJahrNaechsteKontrolle.setModel(new DefaultComboBoxModel(years.toArray(new Integer[years.size()])));
 
         if (readOnly) {
             panPressuresBut1.setVisible(false);
@@ -301,6 +306,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(cbGutachterlicheBew);
             RendererTools.makeReadOnly(cbGutachterlicheBewFische);
             RendererTools.makeReadOnly(cbJahrKontrolle);
+            RendererTools.makeReadOnly(cbJahrNaechsteKontrolle);
             RendererTools.makeReadOnly(cbOptimierungsbedarf);
             RendererTools.makeReadOnly(cbStandardBew);
             RendererTools.makeReadOnly(cbStandardBewFische);
@@ -502,9 +508,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         taHinwFah = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         lblUntersuchungsbedarf = new javax.swing.JLabel();
-        cbUntersuchungsbedarf = new ScrollableComboBox();
+        cbUntersuchungsbedarf = new ScrollableComboBox(new CidsBeanComparator());
         lblOptimierungsbedarf = new javax.swing.JLabel();
-        cbOptimierungsbedarf = new ScrollableComboBox();
+        cbOptimierungsbedarf = new ScrollableComboBox(new CidsBeanComparator());
         lblHinweisOptimierung = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         taHinweisOptimierung = new javax.swing.JTextArea();
@@ -521,12 +527,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         lblValWk_name = new javax.swing.JLabel();
         lblWk_bez = new javax.swing.JLabel();
         lblValWk_bez = new javax.swing.JLabel();
-        cbEffKontr = new ScrollableComboBox();
+        cbEffKontr = new ScrollableComboBox(new CidsBeanComparator());
         lblEffKontr = new javax.swing.JLabel();
         lblJahrKontrolle = new javax.swing.JLabel();
-        cbJahrKontrolle = new ScrollableComboBox();
         txtPruefer = new javax.swing.JTextField();
         lblPruefer = new javax.swing.JLabel();
+        cbJahrKontrolle = new javax.swing.JComboBox<>();
+        lblJahrNaechsteKontrolle = new javax.swing.JLabel();
+        cbJahrNaechsteKontrolle = new javax.swing.JComboBox<>();
         panGeo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
@@ -544,11 +552,11 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         lblGutachterlicheBewFische = new javax.swing.JLabel();
         lblBewGes = new javax.swing.JLabel();
         lblHinweisBewert = new javax.swing.JLabel();
-        cbStandardBew = new ScrollableComboBox();
-        cbGutachterlicheBew = new ScrollableComboBox();
-        cbStandardBewFische = new ScrollableComboBox();
-        cbGutachterlicheBewFische = new ScrollableComboBox();
-        cbBewGes = new ScrollableComboBox();
+        cbStandardBew = new ScrollableComboBox(new CidsBeanComparator());
+        cbGutachterlicheBew = new ScrollableComboBox(new CidsBeanComparator());
+        cbStandardBewFische = new ScrollableComboBox(new CidsBeanComparator());
+        cbGutachterlicheBewFische = new ScrollableComboBox(new CidsBeanComparator());
+        cbBewGes = new ScrollableComboBox(new CidsBeanComparator());
         jScrollPane5 = new javax.swing.JScrollPane();
         taHinweisBewert = new javax.swing.JTextArea();
 
@@ -1047,6 +1055,15 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 txtName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtName,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -1179,19 +1196,8 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel7.add(lblJahrKontrolle, gridBagConstraints);
-
-        cbJahrKontrolle.setMinimumSize(new java.awt.Dimension(200, 25));
-        cbJahrKontrolle.setPreferredSize(new java.awt.Dimension(200, 25));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        jPanel7.add(cbJahrKontrolle, gridBagConstraints);
 
         txtPruefer.setMinimumSize(new java.awt.Dimension(200, 25));
         txtPruefer.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1207,7 +1213,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -1224,10 +1230,65 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblPruefer, gridBagConstraints);
+
+        cbJahrKontrolle.setMinimumSize(new java.awt.Dimension(200, 25));
+        cbJahrKontrolle.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_jahr}"),
+                cbJahrKontrolle,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel7.add(cbJahrKontrolle, gridBagConstraints);
+
+        lblJahrNaechsteKontrolle.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblJahrNaechsteKontrolle.text",
+                new Object[] {})); // NOI18N
+        lblJahrNaechsteKontrolle.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblJahrNaechsteKontrolle.toolTipText",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
+        jPanel7.add(lblJahrNaechsteKontrolle, gridBagConstraints);
+
+        cbJahrNaechsteKontrolle.setMinimumSize(new java.awt.Dimension(200, 25));
+        cbJahrNaechsteKontrolle.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_jahr_geplant}"),
+                cbJahrNaechsteKontrolle,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel7.add(cbJahrNaechsteKontrolle, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1637,7 +1698,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
      * @param  evt  DOCUMENT ME!
      */
     private void btnRemQbwActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemQbwActionPerformed
-        final Object selection = lstQbwGest.getSelectedValue();
+        final Object selection = lstQbw.getSelectedValue();
         if (selection instanceof CidsBean) {
             final int answer = JOptionPane.showConfirmDialog(
                     StaticSwingTools.getParentFrame(this),
@@ -1729,6 +1790,46 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                     NbBundle.getMessage(DghEditor.class, "DghEditor.prepareForSave().formatError.title"),
                     JOptionPane.WARNING_MESSAGE);
                 return false;
+            }
+        }
+
+        final Integer wkId = (Integer)cidsBean.getProperty("wk_fg");
+
+        if (wkId != null) {
+            final CidsBean wk = getWkFgById(wkId);
+            final CidsBean currentLine = (CidsBean)cidsBean.getProperty("linie");
+
+            if ((currentLine != null) && (wk != null)) {
+                final long gwk = (Long)currentLine.getProperty("von.route.gwk");
+                final double from = (Double)currentLine.getProperty("von.wert");
+                final double to = (Double)currentLine.getProperty("bis.wert");
+                boolean onWkFg = false;
+
+                for (final CidsBean teil : CidsBeanSupport.getBeanCollectionFromProperty(wk, "teile")) {
+                    final CidsBean line = (CidsBean)(teil.getProperty("linie"));
+
+                    if (line != null) {
+                        final double wkFrom = (Double)line.getProperty("von.wert");
+                        final double wkTo = Math.round((Double)line.getProperty("bis.wert"));
+
+                        if (((Long)line.getProperty("von.route.gwk") == gwk) && ((int)wkFrom <= ((int)from))
+                                    && ((int)wkTo >= (int)to)) {
+                            onWkFg = true;
+                        }
+                    }
+                }
+
+                if (!onWkFg) {
+                    JOptionPane.showMessageDialog(
+                        DghEditor.this,
+                        NbBundle.getMessage(
+                            DghEditor.class,
+                            "DghEditor.prepareForSave.wkfg.message",
+                            new Object[] { wk.getProperty("wk_k") }),
+                        NbBundle.getMessage(DghEditor.class, "DghEditor.prepareForSave.wkfg.title"),
+                        JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
             }
         }
 
@@ -1898,6 +1999,29 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
             }
 
             return result;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class CidsBeanComparator implements Comparator<CidsBean> {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int compare(final CidsBean o1, final CidsBean o2) {
+            if ((o1 == null) && (o2 == null)) {
+                return 0;
+            } else if (o1 == null) {
+                return -1;
+            } else if (o2 == null) {
+                return 1;
+            } else {
+                return o1.getPrimaryKeyValue().compareTo(o2.getPrimaryKeyValue());
+            }
         }
     }
 }
