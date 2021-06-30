@@ -315,7 +315,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         initComponents();
         massnahmenDetail1.setParent(this);
         final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin");
-        panDetail.setVisible(false);
 
         lblImpact.setVisible(isAdmin);
         scpImpactSrc.setVisible(isAdmin);
@@ -519,7 +518,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
                             @Override
                             public void actionPerformed(final ActionEvent e) {
-                                System.out.println("repaint");
                                 t.stop();
                                 repaintImpacts();
                             }
@@ -1048,9 +1046,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgDetail.getContentPane().add(panMenButtonsPressure1, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1080, 770));
+        setMinimumSize(new java.awt.Dimension(1080, 870));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1240, 770));
+        setPreferredSize(new java.awt.Dimension(1240, 870));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMaximumSize(new java.awt.Dimension(1350, 790));
@@ -1076,9 +1074,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(530, 540));
+        jPanel2.setMinimumSize(new java.awt.Dimension(530, 640));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(620, 540));
+        jPanel2.setPreferredSize(new java.awt.Dimension(620, 640));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblZiele.setText("Entwicklungsziele");
@@ -1764,7 +1762,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel3.add(panDeMeas1, gridBagConstraints);
 
-        panDeMeas.setMinimumSize(new java.awt.Dimension(480, 135));
+        panDeMeas.setMinimumSize(new java.awt.Dimension(480, 200));
         panDeMeas.setPreferredSize(new java.awt.Dimension(480, 135));
 
         panHeadInfo2.setBackground(new java.awt.Color(51, 51, 51));

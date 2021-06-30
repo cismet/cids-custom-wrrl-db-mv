@@ -150,6 +150,8 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblBewGes;
     private javax.swing.JLabel lblEffKontr;
     private javax.swing.JLabel lblFoot;
@@ -199,6 +201,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.tools.gui.RoundedPanel panQbwDurch;
     private javax.swing.JScrollPane scpPressure1;
     private javax.swing.JScrollPane scpPressure2;
+    private javax.swing.JTextArea taBemerkung;
     private javax.swing.JTextArea taHinwFah;
     private javax.swing.JTextArea taHinweisBewert;
     private javax.swing.JTextArea taHinweisOptimierung;
@@ -245,11 +248,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 public void mouseMoved(final MouseEvent e) {
                     if (!isHandCursor && isMouseOver(e)) {
                         panBew.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                        System.out.println("true");
                         isHandCursor = true;
                     } else if (isHandCursor) {
                         panBew.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                        System.out.println("false");
                         isHandCursor = false;
                     }
                 }
@@ -258,7 +259,6 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 public void mouseExited(final MouseEvent e) {
                     if (isHandCursor) {
                         panBew.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                        System.out.println("false");
                         isHandCursor = false;
                     }
                 }
@@ -290,6 +290,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         }
 
         cbJahrKontrolle.setModel(new DefaultComboBoxModel(years.toArray(new Integer[years.size()])));
+        years.clear();
+        years.add(null);
+
+        for (int year = 2010; year <= 2040; ++year) {
+            years.add(year);
+        }
         cbJahrNaechsteKontrolle.setModel(new DefaultComboBoxModel(years.toArray(new Integer[years.size()])));
 
         if (readOnly) {
@@ -311,6 +317,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(cbStandardBew);
             RendererTools.makeReadOnly(cbStandardBewFische);
             RendererTools.makeReadOnly(cbUntersuchungsbedarf);
+            RendererTools.makeReadOnly(taBemerkung);
             lblGeom.setVisible(false);
             cbGeom.setVisible(false);
         } else {
@@ -518,6 +525,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         jScrollPane4 = new javax.swing.JScrollPane();
         taHinweisUnters = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        taBemerkung = new javax.swing.JTextArea();
+        lblBemerkung = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         lblId = new javax.swing.JLabel();
         lblValId = new javax.swing.JLabel();
@@ -571,9 +581,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1080, 840));
+        setMinimumSize(new java.awt.Dimension(1080, 900));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1240, 840));
+        setPreferredSize(new java.awt.Dimension(1240, 900));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMaximumSize(new java.awt.Dimension(1350, 790));
@@ -602,9 +612,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
 
-        jPanel3.setMinimumSize(new java.awt.Dimension(450, 315));
+        jPanel3.setMinimumSize(new java.awt.Dimension(450, 375));
         jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(620, 315));
+        jPanel3.setPreferredSize(new java.awt.Dimension(620, 375));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         panQbwDurch.setMinimumSize(new java.awt.Dimension(480, 135));
@@ -782,9 +792,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 0, 20);
         panInfoContent.add(jPanel3, gridBagConstraints);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(530, 315));
+        jPanel2.setMinimumSize(new java.awt.Dimension(530, 375));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(620, 315));
+        jPanel2.setPreferredSize(new java.awt.Dimension(620, 375));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblHinwFah.setText(org.openide.util.NbBundle.getMessage(
@@ -821,7 +831,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(jScrollPane2, gridBagConstraints);
 
         jPanel4.setOpaque(false);
@@ -911,6 +921,15 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 cbOptimierungsbedarf,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_optim.description}"),
+                cbOptimierungsbedarf,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -955,7 +974,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(jScrollPane3, gridBagConstraints);
 
         lblHinweisUnters.setText(org.openide.util.NbBundle.getMessage(
@@ -992,7 +1011,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(jScrollPane4, gridBagConstraints);
 
         jPanel6.setOpaque(false);
@@ -1000,6 +1019,43 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 20;
         gridBagConstraints.weighty = 1.0;
         jPanel2.add(jPanel6, gridBagConstraints);
+
+        taBemerkung.setColumns(15);
+        taBemerkung.setRows(2);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_bemerk}"),
+                taBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jScrollPane6.setViewportView(taBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel2.add(jScrollPane6, gridBagConstraints);
+
+        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblBemerkung.text",
+                new Object[] {})); // NOI18N
+        lblBemerkung.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblBemerkung.toolTipText",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel2.add(lblBemerkung, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1061,8 +1117,8 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
                 txtName,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1509,14 +1565,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_thc}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_ths}"),
                 cbStandardBew,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_thc.description}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_ths.description}"),
                 cbStandardBew,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         binding.setSourceNullValue("null");
@@ -1538,7 +1594,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew2_thc}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew2_ths}"),
                 cbGutachterlicheBew,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -1938,7 +1994,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                                                 NbBundle.getMessage(
                                                     DghEditor.class,
                                                     "DghEditor.CidsBeanDropList.beansDropped().doInBackground().title"),
-                                                JOptionPane.ERROR);
+                                                JOptionPane.ERROR_MESSAGE);
                                         } else {
                                             beansToAdd.add(bean);
                                         }
