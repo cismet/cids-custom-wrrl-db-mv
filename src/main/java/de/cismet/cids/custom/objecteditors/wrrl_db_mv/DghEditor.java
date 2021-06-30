@@ -549,7 +549,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
-        linearReferencedLineEditor = (readOnly ? new LinearReferencedLineRenderer(true) : new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor());
+        linearReferencedLineEditor = (readOnly
+                ? new LinearReferencedLineRenderer(true)
+                : new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor());
         jPanel1 = new javax.swing.JPanel();
         cbGeom = readOnly ? new JComboBox() : new DefaultCismapGeometryComboBoxEditor();
         lblGeom = new javax.swing.JLabel();
@@ -594,7 +596,10 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHeading.text", new Object[] {})); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHeading.text",
+                new Object[] {})); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -621,7 +626,10 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo4.setLayout(new java.awt.FlowLayout());
 
         lblHeading4.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading4.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHeading4.text", new Object[] {})); // NOI18N
+        lblHeading4.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHeading4.text",
+                new Object[] {})); // NOI18N
         panHeadInfo4.add(lblHeading4);
 
         panQbwDurch.add(panHeadInfo4, java.awt.BorderLayout.NORTH);
@@ -633,12 +641,15 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panPressuresBut2.setOpaque(false);
         panPressuresBut2.setLayout(new java.awt.GridBagLayout());
 
-        btnRemQbw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemQbw.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemQbw.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemQbwActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemQbwActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -656,8 +667,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         lstQbw.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qbw}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstQbw);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.qbw}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        lstQbw);
         bindingGroup.addBinding(jListBinding);
 
         scpPressure2.setViewportView(lstQbw);
@@ -693,7 +710,10 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo5.setLayout(new java.awt.FlowLayout());
 
         lblHeading5.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading5.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHeading5.text", new Object[] {})); // NOI18N
+        lblHeading5.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHeading5.text",
+                new Object[] {})); // NOI18N
         panHeadInfo5.add(lblHeading5);
 
         panQbwDienen.add(panHeadInfo5, java.awt.BorderLayout.NORTH);
@@ -705,12 +725,15 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panPressuresBut1.setOpaque(false);
         panPressuresBut1.setLayout(new java.awt.GridBagLayout());
 
-        btnRemQbwGest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemQbwGest.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
         btnRemQbwGest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemQbwGestActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemQbwGestActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -729,7 +752,11 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         lstQbwGest.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qbw_gest}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, lstQbwGest);
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                lstQbwGest);
         bindingGroup.addBinding(jListBinding);
 
         scpPressure1.setViewportView(lstQbwGest);
@@ -770,8 +797,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         jPanel2.setPreferredSize(new java.awt.Dimension(620, 375));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        lblHinwFah.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinwFah.text", new Object[] {})); // NOI18N
-        lblHinwFah.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinwFah.toolTipText", new Object[] {})); // NOI18N
+        lblHinwFah.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinwFah.text",
+                new Object[] {})); // NOI18N
+        lblHinwFah.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinwFah.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -783,7 +816,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         taHinwFah.setColumns(15);
         taHinwFah.setRows(2);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fah_hinw}"), taHinwFah, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fah_hinw}"),
+                taHinwFah,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane2.setViewportView(taHinwFah);
@@ -808,8 +846,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(jPanel4, gridBagConstraints);
 
-        lblUntersuchungsbedarf.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblUntersuchungsbedarf.text", new Object[] {})); // NOI18N
-        lblUntersuchungsbedarf.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblUntersuchungsbedarf.toolTipText", new Object[] {})); // NOI18N
+        lblUntersuchungsbedarf.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblUntersuchungsbedarf.text",
+                new Object[] {})); // NOI18N
+        lblUntersuchungsbedarf.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblUntersuchungsbedarf.toolTipText",
+                new Object[] {})); // NOI18N
         lblUntersuchungsbedarf.setMaximumSize(new java.awt.Dimension(250, 180));
         lblUntersuchungsbedarf.setMinimumSize(new java.awt.Dimension(250, 54));
         lblUntersuchungsbedarf.setPreferredSize(new java.awt.Dimension(250, 54));
@@ -823,9 +867,19 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbUntersuchungsbedarf.setMinimumSize(new java.awt.Dimension(200, 25));
         cbUntersuchungsbedarf.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_unters}"), cbUntersuchungsbedarf, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_unters}"),
+                cbUntersuchungsbedarf,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_unters.description}"), cbUntersuchungsbedarf, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_unters.description}"),
+                cbUntersuchungsbedarf,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
@@ -839,8 +893,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(cbUntersuchungsbedarf, gridBagConstraints);
 
-        lblOptimierungsbedarf.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblOptimierungsbedarf.text", new Object[] {})); // NOI18N
-        lblOptimierungsbedarf.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblOptimierungsbedarf.toolTipText", new Object[] {})); // NOI18N
+        lblOptimierungsbedarf.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblOptimierungsbedarf.text",
+                new Object[] {})); // NOI18N
+        lblOptimierungsbedarf.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblOptimierungsbedarf.toolTipText",
+                new Object[] {})); // NOI18N
         lblOptimierungsbedarf.setMaximumSize(new java.awt.Dimension(250, 180));
         lblOptimierungsbedarf.setMinimumSize(new java.awt.Dimension(250, 54));
         lblOptimierungsbedarf.setPreferredSize(new java.awt.Dimension(250, 54));
@@ -854,9 +914,19 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbOptimierungsbedarf.setMinimumSize(new java.awt.Dimension(200, 25));
         cbOptimierungsbedarf.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_optim}"), cbOptimierungsbedarf, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_optim}"),
+                cbOptimierungsbedarf,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_optim.description}"), cbOptimierungsbedarf, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_optim.description}"),
+                cbOptimierungsbedarf,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
@@ -870,8 +940,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(cbOptimierungsbedarf, gridBagConstraints);
 
-        lblHinweisOptimierung.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinweisOptimierung.text", new Object[] {})); // NOI18N
-        lblHinweisOptimierung.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinweisOptimierung.toolTipText", new Object[] {})); // NOI18N
+        lblHinweisOptimierung.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinweisOptimierung.text",
+                new Object[] {})); // NOI18N
+        lblHinweisOptimierung.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinweisOptimierung.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 13;
@@ -883,7 +959,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         taHinweisOptimierung.setColumns(15);
         taHinweisOptimierung.setRows(2);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umsetzg}"), taHinweisOptimierung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.umsetzg}"),
+                taHinweisOptimierung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane3.setViewportView(taHinweisOptimierung);
@@ -896,8 +977,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel2.add(jScrollPane3, gridBagConstraints);
 
-        lblHinweisUnters.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinweisUnters.text", new Object[] {})); // NOI18N
-        lblHinweisUnters.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinweisUnters.toolTipText", new Object[] {})); // NOI18N
+        lblHinweisUnters.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinweisUnters.text",
+                new Object[] {})); // NOI18N
+        lblHinweisUnters.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinweisUnters.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
@@ -909,7 +996,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         taHinweisUnters.setColumns(15);
         taHinweisUnters.setRows(2);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ums_hinw}"), taHinweisUnters, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ums_hinw}"),
+                taHinweisUnters,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane4.setViewportView(taHinweisUnters);
@@ -931,7 +1023,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         taBemerkung.setColumns(15);
         taBemerkung.setRows(2);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_bemerk}"), taBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bd_bemerk}"),
+                taBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane6.setViewportView(taBemerkung);
@@ -944,8 +1041,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         jPanel2.add(jScrollPane6, gridBagConstraints);
 
-        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblBemerkung.text", new Object[] {})); // NOI18N
-        lblBemerkung.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblBemerkung.toolTipText", new Object[] {})); // NOI18N
+        lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblBemerkung.text",
+                new Object[] {})); // NOI18N
+        lblBemerkung.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblBemerkung.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 15;
@@ -967,7 +1070,10 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
         lblId.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblId.text", new Object[] {})); // NOI18N
-        lblId.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblId.toolTipText", new Object[] {})); // NOI18N
+        lblId.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblId.toolTipText",
+                new Object[] {}));                                                                                     // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -978,7 +1084,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         lblValId.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValId.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.id}"), lblValId, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.id}"),
+                lblValId,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -993,9 +1104,19 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         txtName.setMinimumSize(new java.awt.Dimension(200, 25));
         txtName.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"), txtName, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtName,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"), txtName, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
+                txtName,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
@@ -1009,8 +1130,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(txtName, gridBagConstraints);
 
-        lblName.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblName.text", new Object[] {})); // NOI18N
-        lblName.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblName.toolTipText", new Object[] {})); // NOI18N
+        lblName.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblName.text",
+                new Object[] {})); // NOI18N
+        lblName.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblName.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -1018,8 +1145,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblName, gridBagConstraints);
 
-        lblWk_name.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblWk_name.text", new Object[] {})); // NOI18N
-        lblWk_name.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblWk_name.toolTipText", new Object[] {})); // NOI18N
+        lblWk_name.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblWk_name.text",
+                new Object[] {})); // NOI18N
+        lblWk_name.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblWk_name.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -1030,7 +1163,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         lblValWk_name.setMinimumSize(new java.awt.Dimension(200, 25));
         lblValWk_name.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"), lblValWk_name, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"),
+                lblValWk_name,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1042,8 +1180,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblValWk_name, gridBagConstraints);
 
-        lblWk_bez.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblWk_bez.text", new Object[] {})); // NOI18N
-        lblWk_bez.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblWk_bez.toolTipText", new Object[] {})); // NOI18N
+        lblWk_bez.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblWk_bez.text",
+                new Object[] {})); // NOI18N
+        lblWk_bez.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblWk_bez.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -1065,7 +1209,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbEffKontr.setMinimumSize(new java.awt.Dimension(200, 25));
         cbEffKontr.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_kontr}"), cbEffKontr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_kontr}"),
+                cbEffKontr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1077,8 +1226,13 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(cbEffKontr, gridBagConstraints);
 
-        lblEffKontr.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblEffKontr.text", new Object[] {})); // NOI18N
-        lblEffKontr.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblEffKontr.toolTipText")); // NOI18N
+        lblEffKontr.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblEffKontr.text",
+                new Object[] {}));                     // NOI18N
+        lblEffKontr.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblEffKontr.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -1086,8 +1240,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblEffKontr, gridBagConstraints);
 
-        lblJahrKontrolle.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblJahrKontrolle.text", new Object[] {})); // NOI18N
-        lblJahrKontrolle.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblJahrKontrolle.toolTipText", new Object[] {})); // NOI18N
+        lblJahrKontrolle.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblJahrKontrolle.text",
+                new Object[] {})); // NOI18N
+        lblJahrKontrolle.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblJahrKontrolle.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -1098,7 +1258,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         txtPruefer.setMinimumSize(new java.awt.Dimension(200, 25));
         txtPruefer.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pruefer}"), txtPruefer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.pruefer}"),
+                txtPruefer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         bindingGroup.addBinding(binding);
 
@@ -1111,8 +1276,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(txtPruefer, gridBagConstraints);
 
-        lblPruefer.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblPruefer.text", new Object[] {})); // NOI18N
-        lblPruefer.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblPruefer.toolTipText", new Object[] {})); // NOI18N
+        lblPruefer.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblPruefer.text",
+                new Object[] {})); // NOI18N
+        lblPruefer.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblPruefer.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
@@ -1123,7 +1294,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbJahrKontrolle.setMinimumSize(new java.awt.Dimension(200, 25));
         cbJahrKontrolle.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_jahr}"), cbJahrKontrolle, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_jahr}"),
+                cbJahrKontrolle,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1135,8 +1311,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(cbJahrKontrolle, gridBagConstraints);
 
-        lblJahrNaechsteKontrolle.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblJahrNaechsteKontrolle.text", new Object[] {})); // NOI18N
-        lblJahrNaechsteKontrolle.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblJahrNaechsteKontrolle.toolTipText", new Object[] {})); // NOI18N
+        lblJahrNaechsteKontrolle.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblJahrNaechsteKontrolle.text",
+                new Object[] {})); // NOI18N
+        lblJahrNaechsteKontrolle.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblJahrNaechsteKontrolle.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
@@ -1147,7 +1329,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbJahrNaechsteKontrolle.setMinimumSize(new java.awt.Dimension(200, 25));
         cbJahrNaechsteKontrolle.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_jahr_geplant}"), cbJahrNaechsteKontrolle, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eff_jahr_geplant}"),
+                cbJahrNaechsteKontrolle,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1178,7 +1365,10 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panHeadInfo1.setLayout(new java.awt.FlowLayout());
 
         lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHeading1.text", new Object[] {})); // NOI18N
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHeading1.text",
+                new Object[] {})); // NOI18N
         panHeadInfo1.add(lblHeading1);
 
         panGeo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
@@ -1211,10 +1401,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
             cbGeom.setMinimumSize(new java.awt.Dimension(300, 20));
             cbGeom.setPreferredSize(new java.awt.Dimension(300, 20));
 
-            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"), cbGeom, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                    org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                    this,
+                    org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"),
+                    cbGeom,
+                    org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
             binding.setConverter(((DefaultCismapGeometryComboBoxEditor)cbGeom).getConverter());
             bindingGroup.addBinding(binding);
-
         }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -1226,7 +1420,10 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         jPanel1.add(cbGeom, gridBagConstraints);
 
         lblGeom.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "WkSgPanOne.lblGeom.text")); // NOI18N
-        lblGeom.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblGeom.toolTipText", new Object[] {})); // NOI18N
+        lblGeom.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblGeom.toolTipText",
+                new Object[] {}));                                                                         // NOI18N
         lblGeom.setMaximumSize(new java.awt.Dimension(350, 20));
         lblGeom.setMinimumSize(new java.awt.Dimension(250, 20));
         lblGeom.setPreferredSize(new java.awt.Dimension(180, 20));
@@ -1248,20 +1445,35 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 20, 0, 20);
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        panBew.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.panBew.border.title", new Object[] {}), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(28, 72, 227))); // NOI18N
+        panBew.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2),
+                org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.panBew.border.title", new Object[] {
+                    }),
+                javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                new java.awt.Font("Dialog", 0, 12),
+                new java.awt.Color(28, 72, 227))); // NOI18N
         panBew.setOpaque(false);
         panBew.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panBewMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                panBewMouseEntered(evt);
-            }
-        });
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    panBewMouseClicked(evt);
+                }
+                @Override
+                public void mouseEntered(final java.awt.event.MouseEvent evt) {
+                    panBewMouseEntered(evt);
+                }
+            });
         panBew.setLayout(new java.awt.GridBagLayout());
 
-        lblStandardBew.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblStandardBew.text", new Object[] {})); // NOI18N
-        lblStandardBew.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblStandardBew.toolTipText")); // NOI18N
+        lblStandardBew.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblStandardBew.text",
+                new Object[] {}));                        // NOI18N
+        lblStandardBew.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblStandardBew.toolTipText")); // NOI18N
         lblStandardBew.setPreferredSize(new java.awt.Dimension(250, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1270,8 +1482,13 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         panBew.add(lblStandardBew, gridBagConstraints);
 
-        lblGutachterlicheBew.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblGutachterlicheBew.text", new Object[] {})); // NOI18N
-        lblGutachterlicheBew.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblGutachterlicheBew.toolTipText")); // NOI18N
+        lblGutachterlicheBew.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblGutachterlicheBew.text",
+                new Object[] {}));                              // NOI18N
+        lblGutachterlicheBew.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblGutachterlicheBew.toolTipText")); // NOI18N
         lblGutachterlicheBew.setPreferredSize(new java.awt.Dimension(250, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1280,8 +1497,13 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         panBew.add(lblGutachterlicheBew, gridBagConstraints);
 
-        lblStandardBewFische.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblStandardBewFische.text", new Object[] {})); // NOI18N
-        lblStandardBewFische.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblStandardBewFische.toolTipText")); // NOI18N
+        lblStandardBewFische.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblStandardBewFische.text",
+                new Object[] {}));                              // NOI18N
+        lblStandardBewFische.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblStandardBewFische.toolTipText")); // NOI18N
         lblStandardBewFische.setPreferredSize(new java.awt.Dimension(250, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1290,8 +1512,13 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         panBew.add(lblStandardBewFische, gridBagConstraints);
 
-        lblGutachterlicheBewFische.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblGutachterlicheBewFische.text", new Object[] {})); // NOI18N
-        lblGutachterlicheBewFische.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblGutachterlicheBewFische.toolTipText")); // NOI18N
+        lblGutachterlicheBewFische.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblGutachterlicheBewFische.text",
+                new Object[] {}));                                    // NOI18N
+        lblGutachterlicheBewFische.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblGutachterlicheBewFische.toolTipText")); // NOI18N
         lblGutachterlicheBewFische.setPreferredSize(new java.awt.Dimension(250, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1301,8 +1528,13 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         panBew.add(lblGutachterlicheBewFische, gridBagConstraints);
 
         lblBewGes.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        lblBewGes.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblBewGes.text", new Object[] {})); // NOI18N
-        lblBewGes.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblBewGes.toolTipText")); // NOI18N
+        lblBewGes.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblBewGes.text",
+                new Object[] {}));                             // NOI18N
+        lblBewGes.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblBewGes.toolTipText"));           // NOI18N
         lblBewGes.setPreferredSize(new java.awt.Dimension(250, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1311,8 +1543,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         panBew.add(lblBewGes, gridBagConstraints);
 
-        lblHinweisBewert.setText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinweisBewert.text", new Object[] {})); // NOI18N
-        lblHinweisBewert.setToolTipText(org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.lblHinweisBewert.toolTipText", new Object[] {})); // NOI18N
+        lblHinweisBewert.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinweisBewert.text",
+                new Object[] {})); // NOI18N
+        lblHinweisBewert.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblHinweisBewert.toolTipText",
+                new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 21;
@@ -1324,9 +1562,19 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbStandardBew.setMinimumSize(new java.awt.Dimension(200, 25));
         cbStandardBew.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_ths}"), cbStandardBew, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_ths}"),
+                cbStandardBew,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_ths.description}"), cbStandardBew, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_ths.description}"),
+                cbStandardBew,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
@@ -1343,7 +1591,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbGutachterlicheBew.setMinimumSize(new java.awt.Dimension(200, 25));
         cbGutachterlicheBew.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew2_ths}"), cbGutachterlicheBew, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew2_ths}"),
+                cbGutachterlicheBew,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1358,9 +1611,19 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbStandardBewFische.setMinimumSize(new java.awt.Dimension(200, 25));
         cbStandardBewFische.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_fisch}"), cbStandardBewFische, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_fisch}"),
+                cbStandardBewFische,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_fisch.description}"), cbStandardBewFische, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew1_fisch.description}"),
+                cbStandardBewFische,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1375,7 +1638,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbGutachterlicheBewFische.setMinimumSize(new java.awt.Dimension(200, 25));
         cbGutachterlicheBewFische.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew2_fisch}"), cbGutachterlicheBewFische, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew2_fisch}"),
+                cbGutachterlicheBewFische,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1390,7 +1658,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbBewGes.setMinimumSize(new java.awt.Dimension(200, 25));
         cbBewGes.setPreferredSize(new java.awt.Dimension(200, 25));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew_ges}"), cbBewGes, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew_ges}"),
+                cbBewGes,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1405,7 +1678,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         taHinweisBewert.setColumns(15);
         taHinweisBewert.setRows(2);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew_bem}"), taHinweisBewert, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bew_bem}"),
+                taHinweisBewert,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane5.setViewportView(taHinweisBewert);
@@ -1438,14 +1716,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemQbwGestActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemQbwGestActionPerformed
+    private void btnRemQbwGestActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemQbwGestActionPerformed
         final Object selection = lstQbwGest.getSelectedValue();
         if (selection instanceof CidsBean) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1468,14 +1746,14 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemQbwGestActionPerformed
+    }                                                                         //GEN-LAST:event_btnRemQbwGestActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemQbwActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemQbwActionPerformed
+    private void btnRemQbwActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemQbwActionPerformed
         final Object selection = lstQbw.getSelectedValue();
         if (selection instanceof CidsBean) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -1498,23 +1776,23 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemQbwActionPerformed
+    }                                                                    //GEN-LAST:event_btnRemQbwActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void panBewMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panBewMouseClicked
-    }//GEN-LAST:event_panBewMouseClicked
+    private void panBewMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_panBewMouseClicked
+    }                                                                      //GEN-LAST:event_panBewMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void panBewMouseEntered(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panBewMouseEntered
-    }//GEN-LAST:event_panBewMouseEntered
+    private void panBewMouseEntered(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_panBewMouseEntered
+    }                                                                      //GEN-LAST:event_panBewMouseEntered
 
     @Override
     public void dispose() {
