@@ -415,7 +415,7 @@ public class QuerbauwerkePanSeven extends javax.swing.JPanel implements Disposab
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bereich_o}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.unz_oberh}"),
                 jTextField4,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
