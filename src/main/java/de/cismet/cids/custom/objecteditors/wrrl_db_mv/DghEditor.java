@@ -612,9 +612,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.weighty = 1.0;
         panInfoContent.add(blbSpace, gridBagConstraints);
 
-        jPanel3.setMinimumSize(new java.awt.Dimension(450, 375));
+        jPanel3.setMinimumSize(new java.awt.Dimension(450, 405));
         jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(620, 375));
+        jPanel3.setPreferredSize(new java.awt.Dimension(620, 405));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         panQbwDurch.setMinimumSize(new java.awt.Dimension(480, 135));
@@ -792,9 +792,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(15, 20, 0, 20);
         panInfoContent.add(jPanel3, gridBagConstraints);
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(530, 375));
+        jPanel2.setMinimumSize(new java.awt.Dimension(530, 405));
         jPanel2.setOpaque(false);
-        jPanel2.setPreferredSize(new java.awt.Dimension(620, 375));
+        jPanel2.setPreferredSize(new java.awt.Dimension(620, 405));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblHinwFah.setText(org.openide.util.NbBundle.getMessage(
@@ -1019,6 +1019,9 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridy = 20;
         gridBagConstraints.weighty = 1.0;
         jPanel2.add(jPanel6, gridBagConstraints);
+
+        jScrollPane6.setMinimumSize(new java.awt.Dimension(200, 100));
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(200, 80));
 
         taBemerkung.setColumns(15);
         taBemerkung.setRows(2);
