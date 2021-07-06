@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wk_fg_steckbrief" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="10" bottomMargin="5" whenResourceMissingType="Empty" uuid="9d16bba2-d5f3-4b5a-93c3-e260331f49ec">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="tableTitle" backcolor="#DADADA" hAlign="Left" vAlign="Top" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -204,7 +204,7 @@
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{lawa_type}.getProperty( "description" ) + "(" + $F{lawa_type}.getProperty( "code" ) + ")"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{lawa_type}.getProperty( "name" ) + "(" + $F{lawa_type}.getProperty( "value" ) + ")"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="tableTitle" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="52" width="115" height="59" isPrintWhenDetailOverflows="true" uuid="9fd5cb61-d6d0-49ab-98a9-7fb0ad59286e"/>
@@ -269,7 +269,7 @@
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[- LAWA-Detailtyp:]]></text>
+				<text><![CDATA[- anteilige LAWA-Typen aus einzelnen FGSK-Abschnitten:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="115" y="97" width="439" height="14" isPrintWhenDetailOverflows="true" uuid="bd1c06f7-2095-47d7-871e-69cd9424ccfc"/>

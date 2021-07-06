@@ -776,7 +776,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                         "qbw_anz3a",
                         "up_bem",
                         "endkontr",
-                        "bereich_o",
+                        "unz_oberh",
                         "b_aal",
                         "b_stoer",
                         "b_fna",

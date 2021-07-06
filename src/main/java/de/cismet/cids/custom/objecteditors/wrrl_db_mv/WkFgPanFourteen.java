@@ -231,9 +231,9 @@ public class WkFgPanFourteen extends javax.swing.JPanel implements DisposableCid
         lblBerTyp.setText(org.openide.util.NbBundle.getMessage(
                 WkFgPanFourteen.class,
                 "WkFgPanFourteen.lblBerTyp.text")); // NOI18N
-        lblBerTyp.setMaximumSize(new java.awt.Dimension(220, 40));
-        lblBerTyp.setMinimumSize(new java.awt.Dimension(220, 40));
-        lblBerTyp.setPreferredSize(new java.awt.Dimension(220, 40));
+        lblBerTyp.setMaximumSize(new java.awt.Dimension(220, 50));
+        lblBerTyp.setMinimumSize(new java.awt.Dimension(220, 50));
+        lblBerTyp.setPreferredSize(new java.awt.Dimension(220, 50));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
