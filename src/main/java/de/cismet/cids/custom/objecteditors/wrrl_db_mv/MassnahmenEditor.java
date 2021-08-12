@@ -126,7 +126,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 @Override
                 public void run() {
                     try {
-                        String query = "select " + PRESSURE_TYPE_CODE_MC.getID() + ", p."
+                        String query = "select distinct " + PRESSURE_TYPE_CODE_MC.getID() + ", p."
                                     + PRESSURE_TYPE_CODE_MC.getPrimaryKey() + " from "
                                     + PRESSURE_TYPE_CODE_MC.getTableName();
                         query += " p where p.id in (select pm.pressure from massnahmen m \n"
@@ -153,6 +153,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
+    private List<CidsBean> pressures = null;
+
     private CidsBean cidsBean;
     private ArrayList<CidsBean> beansToDelete = new ArrayList<CidsBean>();
     private RouteWBDropBehavior dropBehaviorListener;
@@ -160,6 +162,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private boolean readOnly;
     private String oldWkFg = null;
     private Timer t = null;
+    private Timer tp = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel blbSpace;
@@ -378,7 +381,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                             isSelected,
                             cellHasFocus); // To change body of generated methods, choose Tools | Templates.
 
-                    if ((res instanceof JLabel) && (value instanceof CidsBean)) {
+                    if ((res instanceof JLabel) && (value instanceof CidsBean)
+                                && (((CidsBean)value).getProperty("measure") != null)) {
                         ((JLabel)res).setText(((CidsBean)value).getProperty("measure").toString());
                     }
 
@@ -448,6 +452,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             this.cidsBean.removePropertyChangeListener(this);
         }
         this.cidsBean = cidsBean;
+        pressures = null;
         cidsBean.addPropertyChangeListener(this);
 
         if (cidsBean != null) {
@@ -461,6 +466,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             if (!readOnly) {
                 zoomToFeatures();
             }
+
+            loadPressures();
         } else {
             deActivateGUI(false);
             dropBehaviorListener.setWkFg(null);
@@ -483,15 +490,24 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      * @return  DOCUMENT ME!
      */
     private boolean isPressureContained(final CidsBean pressure) {
-        final List<CidsBean> meas = cidsBean.getBeanCollectionProperty("pressure_measure"); // NOI18N
-
-        if (meas != null) {
-            for (final CidsBean mBean : meas) {
-                final CidsBean pBean = (CidsBean)mBean.getProperty("pressure");
-
-                if ((pBean != null) && (pBean.getMetaObject().getId() == pressure.getMetaObject().getId())) {
+        if (pressures != null) {
+            for (final CidsBean mBean : pressures) {
+                if ((mBean != null) && (mBean.getMetaObject().getId() == pressure.getMetaObject().getId())) {
                     return true;
                 }
+            }
+        } else {
+            if (tp == null) {
+                tp = new Timer(1000, new ActionListener() {
+
+                            @Override
+                            public void actionPerformed(final ActionEvent e) {
+                                tp.stop();
+                                repaintImpacts();
+                            }
+                        });
+            } else {
+                tp.restart();
             }
         }
 
@@ -627,6 +643,47 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
     /**
      * DOCUMENT ME!
+     */
+    private void loadPressures() {
+        final Thread tp = new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        final String wkField = getWkField();
+                        final Integer wkId = getWkId();
+
+                        if ((wkField != null) && (wkId != null)) {
+                            String query = "select distinct " + PRESSURE_TYPE_CODE_MC.getID() + ", p."
+                                        + PRESSURE_TYPE_CODE_MC.getPrimaryKey() + " from "
+                                        + PRESSURE_TYPE_CODE_MC.getTableName();
+                            query += " p where p.id in (select pm.pressure from massnahmen m \n"
+                                        + "join massnahmen_pressure_measure mpm on (m.pressure_measure = mpm.massnahmen_reference) \n"
+                                        + "join pressure_measure pm on (mpm.pressure_measure = pm.id)\n"
+                                        + "where not coalesce(m.landesweit, false) and " + wkField + " = " + wkId + ")";
+
+                            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                            pressures = new ArrayList<CidsBean>();
+
+                            if (metaObjects != null) {
+                                for (final MetaObject mo : metaObjects) {
+                                    pressures.add(mo.getBean());
+                                }
+                            }
+
+                            repaintImpacts();
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error while retrieving pressures", e);
+                    }
+                }
+            };
+
+        tp.start();
+    }
+
+    /**
+     * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
@@ -641,6 +698,44 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             return String.valueOf(cidsBean.getProperty("wk_gw.name")); // NOI18N
         } else {
             return CidsBeanSupport.FIELD_NOT_SET;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Integer getWkId() {
+        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
+            return (Integer)(cidsBean.getProperty("wk_fg.id")); // NOI18N
+        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
+            return (Integer)(cidsBean.getProperty("wk_sg.id")); // NOI18N
+        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
+            return (Integer)(cidsBean.getProperty("wk_kg.id")); // NOI18N
+        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
+            return (Integer)(cidsBean.getProperty("wk_gw.id")); // NOI18N
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String getWkField() {
+        if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
+            return "wk_fg"; // NOI18N
+        } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
+            return "wk_sg"; // NOI18N
+        } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
+            return "wk_kg"; // NOI18N
+        } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
+            return "wk_gw"; // NOI18N
+        } else {
+            return null;
         }
     }
 
@@ -674,9 +769,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
             return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_sg"), "impact_src");
         } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {
-            return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_kg"), "impacts");
+            return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_kg"),
+                    "impact_srcs");
         } else if (cidsBean.getProperty(WB_PROPERTIES[3]) != null) {
-            return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_gw"), "impacts");
+            return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_gw"), "impact_src");
         } else {
             return new ArrayList<CidsBean>();
         }
@@ -2927,6 +3023,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
             bindReadOnlyFields();
+            pressures = null;
+            loadPressures();
         }
     }
 
