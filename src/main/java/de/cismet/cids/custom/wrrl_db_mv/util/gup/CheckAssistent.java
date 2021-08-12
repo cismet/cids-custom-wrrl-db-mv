@@ -2621,10 +2621,10 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                 "uNB k.A.",
                 "uNB §ja",
                 "uNB §nein",
-                "Hinweise/Auflagen uNB",
+                "behördliche Planungshinweise uNB",
                 "uWB k.E.",
                 "uWB §ja",
-                "Hinweise/Auflagen uWB"
+                "behördliche Planungshinweise uWB"
             };
         List<CidsBean> beanList;
         List<CidsBean> allBeans;

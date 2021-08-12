@@ -30,12 +30,17 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.method.MethodManager;
 
 import Sirius.server.localserver.attribute.ClassAttribute;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
+import Sirius.server.middleware.types.Node;
 
 import org.openide.util.NbBundle;
+
+import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -49,6 +54,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
@@ -66,6 +72,7 @@ import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
+import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
@@ -119,15 +126,21 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butLoadObjects;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
+    private javax.swing.JLabel lblHeading;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panBeschreibung;
     private javax.swing.JPanel panFische;
     private javax.swing.JPanel panFooter;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.RoundedPanel panInfo;
+    private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panSearchTool;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFive querbauwerkePanFive;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour querbauwerkePanFour;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanOne querbauwerkePanOne;
@@ -165,6 +178,17 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 //            tpMain.removeTabAt(2);
 //            jPanel4.setVisible(hasPerm);
         }
+
+        final boolean isAdmin = SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .equalsIgnoreCase("Administratoren");
+
+        if (!isAdmin) {
+            tpMain.remove(tpMain.getTabCount() - 1);
+        }
+
         querbauwerkePanSix.getStat09Editor().addListener(new LinearReferencedPointEditorListener() {
 
                 @Override
@@ -233,6 +257,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         querbauwerkePanFour = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanFour();
         panFische = new javax.swing.JPanel();
         querbauwerkePanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkePanSeven();
+        panSearchTool = new javax.swing.JPanel();
+        panInfo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading = new javax.swing.JLabel();
+        panInfoContent = new javax.swing.JPanel();
+        butLoadObjects = new javax.swing.JButton();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -312,12 +342,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1120,
+                1316,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                501,
+                464,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -349,12 +379,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                1120,
+                1316,
                 Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                857,
+                888,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -395,8 +425,70 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                 "QuerbauwerkeEditor.panFische.TabConstraints.tabTitle"),
             panFische); // NOI18N
 
+        panSearchTool.setOpaque(false);
+        panSearchTool.setLayout(new java.awt.GridBagLayout());
+
+        panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo.setLayout(new java.awt.FlowLayout());
+
+        lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.lblHeading.text")); // NOI18N
+        panHeadInfo.add(lblHeading);
+
+        panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
+
+        panInfoContent.setOpaque(false);
+        panInfoContent.setLayout(new java.awt.GridBagLayout());
+
+        butLoadObjects.setText(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.butLoadObjects.text",
+                new Object[] {})); // NOI18N
+        butLoadObjects.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butLoadObjectsActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panInfoContent.add(butLoadObjects, gridBagConstraints);
+
+        panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        panSearchTool.add(panInfo, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                QuerbauwerkeEditor.class,
+                "QuerbauwerkeEditor.panSearchTool.TabConstraints.tabTitle",
+                new Object[] {}),
+            panSearchTool); // NOI18N
+
         add(tpMain, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butLoadObjectsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butLoadObjectsActionPerformed
+        loadRelatedQbw(cidsBean);
+    }                                                                                  //GEN-LAST:event_butLoadObjectsActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -420,6 +512,22 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                     LOG.debug("error while autosetting properties", ex);
                 }
             }
+
+            if ((tpMain.getTabCount() == 5) && (cidsBean.getProperty("up_agg_id") == null)) {
+                tpMain.remove(tpMain.getTabCount() - 1);
+            }
+//            else {
+//                EventQueue.invokeLater(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            tpMain.setSelectedIndex(4);
+//                            tpMain.setSelectedIndex(0);
+//                            updateUI();
+//                            repaint();
+//                        }
+//                    });
+//            }
 
             refreshReadOnlyFields();
 
@@ -851,6 +959,60 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
     public void propertyChange(final PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("stat09")) {
             refreshReadOnlyFields();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  qbwBean  DOCUMENT ME!
+     */
+    private void loadRelatedQbw(final CidsBean qbwBean) {
+        final String up_agg_id = (String)qbwBean.getProperty("up_agg_id");
+
+        if (up_agg_id != null) {
+            try {
+                final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                        WRRLUtil.DOMAIN_NAME,
+                        "querbauwerke");
+                String query = "select " + MC.getID() + ", q." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+                query += " q WHERE q.qbw_id_u = '" + up_agg_id + "'";                                               // NOI18N
+
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+                final List<Node> qbwNodeList = new ArrayList<Node>();
+
+                if ((metaObjects != null)) {
+                    for (final MetaObject qbwMetaObject : metaObjects) {
+                        qbwNodeList.add(new MetaObjectNode(qbwMetaObject.getBean()));
+                    }
+
+                    MethodManager.getManager()
+                            .showSearchResults(null, qbwNodeList.toArray(new Node[qbwNodeList.size()]), false);
+                    MethodManager.getManager().showSearchResults();
+                }
+            } catch (final ConnectionException e) {
+                LOG.error("Error while trying to receive qbws.", e); // NOI18N
+            }
+        }
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DropPanel extends JPanel implements CidsBeanDropListener {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void beansDropped(final ArrayList<CidsBean> al) {
+            if (al.size() == 1) {
+                final CidsBean qbwBean = al.get(0);
+                loadRelatedQbw(qbwBean);
+            }
         }
     }
 }
