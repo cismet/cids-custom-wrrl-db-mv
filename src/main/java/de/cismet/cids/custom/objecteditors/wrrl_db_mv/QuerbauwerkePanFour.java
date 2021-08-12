@@ -290,6 +290,7 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wehr_1}"),
                 defaultBindableReferenceCombo12,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -547,7 +548,7 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.info_quel}"),
                 jTextField1,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
 
@@ -580,7 +581,7 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sqa_id}"),
                 jTextField2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
 
