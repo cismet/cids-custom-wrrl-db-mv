@@ -107,25 +107,25 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="jPanel10">
+                <Container class="javax.swing.JPanel" name="panFiller">
                   <Properties>
                     <Property name="opaque" type="boolean" value="false"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                      <GridBagConstraints gridX="0" gridY="3" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="1.0"/>
+                      <GridBagConstraints gridX="0" gridY="4" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="1.0"/>
                     </Constraint>
                   </Constraints>
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -148,7 +148,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo8">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbFische">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -158,7 +158,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_fische}" target="defaultBindableReferenceCombo8" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_fische}" target="cbFische" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -184,7 +184,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo7">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbWirbellose">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -194,7 +194,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_wirbel}" target="defaultBindableReferenceCombo7" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_wirbel}" target="cbWirbellose" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -220,7 +220,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo9">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbFischotter">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -230,7 +230,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_otter}" target="defaultBindableReferenceCombo9" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_otter}" target="cbFischotter" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -256,7 +256,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo10">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbGesamt">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -266,7 +266,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_gesamt}" target="defaultBindableReferenceCombo10" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.dgk_gesamt}" target="cbGesamt" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

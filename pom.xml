@@ -13,7 +13,7 @@
 
     <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
     <artifactId>cids-custom-wrrl-db-mv</artifactId>
-    <version>7.0.5</version>
+    <version>7.0.6</version>
     <packaging>jar</packaging>
 
     <name>cids Custom WRRL-DB-MV</name>
@@ -23,7 +23,7 @@
         <connection>https://github.com/cismet/cids-custom-wrrl-db-mv.git</connection>
         <developerConnection>scm:git:git@github.com:cismet/cids-custom-wrrl-db-mv.git</developerConnection>
         <url>https://github.com/cismet/cids-custom-wrrl-db-mv</url>
-        <tag>v7.0.5</tag>
+        <tag>v7.0.6</tag>
     </scm>
 
     <properties>
@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
                 <artifactId>cids-custom-wrrl-db-mv-server</artifactId>
-                <version>7.0.1</version>
+                <version>7.0.2</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -357,7 +357,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.13</version>
+            <version>3.17</version>
             <scope>runtime</scope>
         </dependency>
         

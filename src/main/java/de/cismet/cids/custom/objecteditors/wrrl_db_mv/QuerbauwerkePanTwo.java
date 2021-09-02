@@ -16,6 +16,8 @@ import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -53,10 +55,10 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     private MetaObject moWk;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo1;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo10;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo2;
-    private javax.swing.JCheckBox jCheckBox1;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbArt;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbIntervall;
+    private javax.swing.JCheckBox cbPruefungErfolgt;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSubstrat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -78,20 +80,6 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JLabel lblAnlagenameKey;
     private javax.swing.JLabel lblBauwerkKey;
     private javax.swing.JLabel lblBemerkAltKey;
@@ -114,6 +102,20 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JTextArea tareaBemerkung;
+    private javax.swing.JTextArea tareaBeschreibung;
+    private javax.swing.JTextField txtAnderesBauwerk;
+    private javax.swing.JTextField txtBreite;
+    private javax.swing.JTextField txtDurchmesser;
+    private javax.swing.JTextField txtHoehe;
+    private javax.swing.JTextField txtLaenge;
+    private javax.swing.JTextField txtMatOberhalb;
+    private javax.swing.JTextField txtMatUnterhalb;
+    private javax.swing.JTextField txtMaterial;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtSohllaenge;
+    private javax.swing.JTextField txtStauhoehe;
+    private javax.swing.JTextField txtUeberdeckung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -123,7 +125,37 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
      * Creates new form QuerbauwerkePanOne.
      */
     public QuerbauwerkePanTwo() {
+        this(false);
+    }
+
+    /**
+     * Creates new form QuerbauwerkePanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public QuerbauwerkePanTwo(final boolean readOnly) {
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(tareaBeschreibung);
+            RendererTools.makeReadOnly(tareaBemerkung);
+            RendererTools.makeReadOnly(cbPruefungErfolgt);
+            RendererTools.makeReadOnly(txtMatOberhalb);
+            RendererTools.makeReadOnly(txtName);
+            RendererTools.makeReadOnly(txtAnderesBauwerk);
+            RendererTools.makeReadOnly(txtMatUnterhalb);
+            RendererTools.makeReadOnly(txtMaterial);
+            RendererTools.makeReadOnly(txtHoehe);
+            RendererTools.makeReadOnly(txtLaenge);
+            RendererTools.makeReadOnly(txtBreite);
+            RendererTools.makeReadOnly(txtDurchmesser);
+            RendererTools.makeReadOnly(txtUeberdeckung);
+            RendererTools.makeReadOnly(txtStauhoehe);
+            RendererTools.makeReadOnly(txtSohllaenge);
+            RendererTools.makeReadOnly(cbArt);
+            RendererTools.makeReadOnly(cbIntervall);
+            RendererTools.makeReadOnly(cbSubstrat);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -144,8 +176,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         panInfoContent = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        defaultBindableReferenceCombo1 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        txtHoehe = new javax.swing.JTextField();
+        cbArt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblBauwerkKey = new javax.swing.JLabel();
         lblAnlagenameKey = new javax.swing.JLabel();
         lblLaengeKey = new javax.swing.JLabel();
@@ -155,22 +187,22 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblMaterialKey = new javax.swing.JLabel();
         lblUeberdeckungKey = new javax.swing.JLabel();
         lblStauhoeheKey = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        txtBreite = new javax.swing.JTextField();
+        txtDurchmesser = new javax.swing.JTextField();
+        txtUeberdeckung = new javax.swing.JTextField();
+        txtStauhoehe = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField18 = new javax.swing.JTextField();
-        jTextField27 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        txtMaterial = new javax.swing.JTextField();
+        txtLaenge = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jTextField14 = new javax.swing.JTextField();
+        txtAnderesBauwerk = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -178,26 +210,26 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         lblWGwkAchsKey = new javax.swing.JLabel();
         lblWaKoerperKey = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbPruefungErfolgt = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        tareaBemerkung = new javax.swing.JTextArea();
         lblBemerkAltKey = new javax.swing.JLabel();
         lblSohlbefestigungLaengeKey = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        txtSohllaenge = new javax.swing.JTextField();
         lblSohlbefestigungUhMaterialKey = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
+        txtMatUnterhalb = new javax.swing.JTextField();
         lblSohlbefestigungOhMaterialKey = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        txtMatOberhalb = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         lblIntervallKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo2 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        defaultBindableReferenceCombo10 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbIntervall = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbSubstrat = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblSubstratKey = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tareaBeschreibung = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
 
         setOpaque(false);
@@ -239,15 +271,15 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField2.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField2.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtHoehe.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtHoehe.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtHoehe.setPreferredSize(new java.awt.Dimension(250, 25));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hoehe}"),
-                jTextField2,
+                txtHoehe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -257,16 +289,16 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField2, gridBagConstraints);
+        jPanel3.add(txtHoehe, gridBagConstraints);
 
-        defaultBindableReferenceCombo1.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo1.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbArt.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbArt.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bauwerk}"),
-                defaultBindableReferenceCombo1,
+                cbArt,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -276,7 +308,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(defaultBindableReferenceCombo1, gridBagConstraints);
+        jPanel3.add(cbArt, gridBagConstraints);
 
         lblBauwerkKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -368,15 +400,15 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblStauhoeheKey, gridBagConstraints);
 
-        jTextField4.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField4.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField4.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtBreite.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtBreite.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtBreite.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.breite}"),
-                jTextField4,
+                txtBreite,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -386,17 +418,17 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField4, gridBagConstraints);
+        jPanel3.add(txtBreite, gridBagConstraints);
 
-        jTextField5.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField5.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField5.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtDurchmesser.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtDurchmesser.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtDurchmesser.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.durchmesser}"),
-                jTextField5,
+                txtDurchmesser,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -406,17 +438,17 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField5, gridBagConstraints);
+        jPanel3.add(txtDurchmesser, gridBagConstraints);
 
-        jTextField6.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField6.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField6.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtUeberdeckung.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtUeberdeckung.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtUeberdeckung.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ueberdeckung}"),
-                jTextField6,
+                txtUeberdeckung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -426,17 +458,17 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField6, gridBagConstraints);
+        jPanel3.add(txtUeberdeckung, gridBagConstraints);
 
-        jTextField7.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField7.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField7.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtStauhoehe.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtStauhoehe.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtStauhoehe.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stauhoehe}"),
-                jTextField7,
+                txtStauhoehe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -446,7 +478,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField7, gridBagConstraints);
+        jPanel3.add(txtStauhoehe, gridBagConstraints);
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -508,14 +540,14 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel3.add(jLabel7, gridBagConstraints);
 
-        jTextField13.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField13.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtName.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtName.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.anlagename}"),
-                jTextField13,
+                txtName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -525,17 +557,17 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField13, gridBagConstraints);
+        jPanel3.add(txtName, gridBagConstraints);
 
-        jTextField18.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField18.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField18.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtMaterial.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtMaterial.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtMaterial.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.material}"),
-                jTextField18,
+                txtMaterial,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -545,16 +577,16 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField18, gridBagConstraints);
+        jPanel3.add(txtMaterial, gridBagConstraints);
 
-        jTextField27.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField27.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtLaenge.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtLaenge.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.laenge}"),
-                jTextField27,
+                txtLaenge,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -564,7 +596,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField27, gridBagConstraints);
+        jPanel3.add(txtLaenge, gridBagConstraints);
 
         jLabel8.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -593,14 +625,14 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.weighty = 1.0;
         jPanel3.add(jPanel6, gridBagConstraints);
 
-        jTextField14.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField14.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtAnderesBauwerk.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtAnderesBauwerk.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bauw_ander}"),
-                jTextField14,
+                txtAnderesBauwerk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -610,7 +642,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(jTextField14, gridBagConstraints);
+        jPanel3.add(txtAnderesBauwerk, gridBagConstraints);
 
         jLabel10.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -701,17 +733,17 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jCheckBox1.setText(org.openide.util.NbBundle.getMessage(
+        cbPruefungErfolgt.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
-                "QuerbauwerkePanTwo.jCheckBox1.text",
+                "QuerbauwerkePanTwo.cbPruefungErfolgt.text",
                 new Object[] {})); // NOI18N
-        jCheckBox1.setContentAreaFilled(false);
+        cbPruefungErfolgt.setContentAreaFilled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.check_sohlgleiten}"),
-                jCheckBox1,
+                cbPruefungErfolgt,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
@@ -720,7 +752,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        jPanel1.add(jCheckBox1, gridBagConstraints);
+        jPanel1.add(cbPruefungErfolgt, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -748,11 +780,11 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bemerkungen}"),
-                jTextArea2,
+                tareaBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane2.setViewportView(jTextArea2);
+        jScrollPane2.setViewportView(tareaBemerkung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -785,15 +817,15 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSohlbefestigungLaengeKey, gridBagConstraints);
 
-        jTextField8.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField8.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField8.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtSohllaenge.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtSohllaenge.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtSohllaenge.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlbefestigung_laenge}"),
-                jTextField8,
+                txtSohllaenge,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -803,7 +835,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(jTextField8, gridBagConstraints);
+        jPanel4.add(txtSohllaenge, gridBagConstraints);
 
         lblSohlbefestigungUhMaterialKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -816,14 +848,14 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSohlbefestigungUhMaterialKey, gridBagConstraints);
 
-        jTextField16.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField16.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtMatUnterhalb.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtMatUnterhalb.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlbefestigung_uh_material}"),
-                jTextField16,
+                txtMatUnterhalb,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -833,7 +865,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(jTextField16, gridBagConstraints);
+        jPanel4.add(txtMatUnterhalb, gridBagConstraints);
 
         lblSohlbefestigungOhMaterialKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -846,14 +878,14 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSohlbefestigungOhMaterialKey, gridBagConstraints);
 
-        jTextField10.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField10.setPreferredSize(new java.awt.Dimension(250, 25));
+        txtMatOberhalb.setMinimumSize(new java.awt.Dimension(250, 25));
+        txtMatOberhalb.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.sohlbefestigung_oh_material}"),
-                jTextField10,
+                txtMatOberhalb,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -863,7 +895,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(jTextField10, gridBagConstraints);
+        jPanel4.add(txtMatOberhalb, gridBagConstraints);
 
         jPanel5.setOpaque(false);
 
@@ -906,14 +938,14 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblIntervallKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo2.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo2.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbIntervall.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbIntervall.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.intervall}"),
-                defaultBindableReferenceCombo2,
+                cbIntervall,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -924,16 +956,16 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(defaultBindableReferenceCombo2, gridBagConstraints);
+        jPanel4.add(cbIntervall, gridBagConstraints);
 
-        defaultBindableReferenceCombo10.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo10.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbSubstrat.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbSubstrat.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.substrat}"),
-                defaultBindableReferenceCombo10,
+                cbSubstrat,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -944,7 +976,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(defaultBindableReferenceCombo10, gridBagConstraints);
+        jPanel4.add(cbSubstrat, gridBagConstraints);
 
         lblSubstratKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
@@ -977,11 +1009,11 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beschreibung}"),
-                jTextArea1,
+                tareaBeschreibung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPane1.setViewportView(tareaBeschreibung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1104,7 +1136,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
                         public void propertyChange(final PropertyChangeEvent pce) {
                             if (pce.getPropertyName().equals("bauwerk")) {
                                 final String o = (String)cidsBean.getProperty("bauwerk.value");
-                                jTextField14.setEnabled((o != null) && o.equals("8"));
+                                txtAnderesBauwerk.setEnabled((o != null) && o.equals("8"));
                             }
                         }
                     });
