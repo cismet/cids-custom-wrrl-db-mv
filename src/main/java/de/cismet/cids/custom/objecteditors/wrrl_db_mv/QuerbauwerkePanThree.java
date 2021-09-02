@@ -28,6 +28,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -46,11 +48,10 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo10;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo7;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo8;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo defaultBindableReferenceCombo9;
-    private javax.swing.JPanel jPanel10;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFische;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFischotter;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGesamt;
+    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbWirbellose;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel lblDgkFischeKey;
@@ -58,6 +59,7 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
     private javax.swing.JLabel lblDgkOtterKey;
     private javax.swing.JLabel lblDgkWirbelKey;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JPanel panFiller;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
@@ -70,7 +72,25 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
      * Creates new form QuerbauwerkePanOne.
      */
     public QuerbauwerkePanThree() {
+        this(false);
+    }
+
+    /**
+     * Creates new form QuerbauwerkePanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public QuerbauwerkePanThree(final boolean readOnly) {
         initComponents();
+
+        cbGesamt.setVisible(false);
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(cbFische);
+            RendererTools.makeReadOnly(cbGesamt);
+            RendererTools.makeReadOnly(cbWirbellose);
+            RendererTools.makeReadOnly(cbFischotter);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -91,15 +111,15 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         panInfoContent = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
+        panFiller = new javax.swing.JPanel();
         lblDgkFischeKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo8 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbFische = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblDgkWirbelKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo7 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbWirbellose = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblDgkOtterKey = new javax.swing.JLabel();
-        defaultBindableReferenceCombo9 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbFischotter = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
         lblDgkGesamt = new javax.swing.JLabel();
-        defaultBindableReferenceCombo10 = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
+        cbGesamt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
 
         setOpaque(false);
         setLayout(new java.awt.BorderLayout());
@@ -145,28 +165,28 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         jPanel6.setOpaque(false);
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        jPanel10.setOpaque(false);
+        panFiller.setOpaque(false);
 
-        final javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        final javax.swing.GroupLayout panFillerLayout = new javax.swing.GroupLayout(panFiller);
+        panFiller.setLayout(panFillerLayout);
+        panFillerLayout.setHorizontalGroup(
+            panFillerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                395,
+                0,
                 Short.MAX_VALUE));
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        panFillerLayout.setVerticalGroup(
+            panFillerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                35,
+                0,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        jPanel6.add(jPanel10, gridBagConstraints);
+        jPanel6.add(panFiller, gridBagConstraints);
 
         lblDgkFischeKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanThree.class,
@@ -180,14 +200,14 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkFischeKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo8.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo8.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbFische.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbFische.setPreferredSize(new java.awt.Dimension(250, 25));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_fische}"),
-                defaultBindableReferenceCombo8,
+                cbFische,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -198,7 +218,7 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(defaultBindableReferenceCombo8, gridBagConstraints);
+        jPanel6.add(cbFische, gridBagConstraints);
 
         lblDgkWirbelKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanThree.class,
@@ -212,14 +232,14 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkWirbelKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo7.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo7.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbWirbellose.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbWirbellose.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_wirbel}"),
-                defaultBindableReferenceCombo7,
+                cbWirbellose,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -230,7 +250,7 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(defaultBindableReferenceCombo7, gridBagConstraints);
+        jPanel6.add(cbWirbellose, gridBagConstraints);
 
         lblDgkOtterKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanThree.class,
@@ -244,14 +264,14 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkOtterKey, gridBagConstraints);
 
-        defaultBindableReferenceCombo9.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo9.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbFischotter.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbFischotter.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_otter}"),
-                defaultBindableReferenceCombo9,
+                cbFischotter,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -262,7 +282,7 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(defaultBindableReferenceCombo9, gridBagConstraints);
+        jPanel6.add(cbFischotter, gridBagConstraints);
 
         lblDgkGesamt.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanThree.class,
@@ -276,14 +296,14 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblDgkGesamt, gridBagConstraints);
 
-        defaultBindableReferenceCombo10.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableReferenceCombo10.setPreferredSize(new java.awt.Dimension(250, 25));
+        cbGesamt.setMinimumSize(new java.awt.Dimension(250, 25));
+        cbGesamt.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dgk_gesamt}"),
-                defaultBindableReferenceCombo10,
+                cbGesamt,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
@@ -294,7 +314,7 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel6.add(defaultBindableReferenceCombo10, gridBagConstraints);
+        jPanel6.add(cbGesamt, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
