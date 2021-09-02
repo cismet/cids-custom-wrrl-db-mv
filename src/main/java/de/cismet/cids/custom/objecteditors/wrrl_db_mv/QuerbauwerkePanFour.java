@@ -31,6 +31,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
@@ -96,7 +98,29 @@ public class QuerbauwerkePanFour extends javax.swing.JPanel implements Disposabl
      * Creates new form QuerbauwerkePanOne.
      */
     public QuerbauwerkePanFour() {
+        this(false);
+    }
+
+    /**
+     * Creates new form QuerbauwerkePanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public QuerbauwerkePanFour(final boolean readOnly) {
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo10);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo11);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo12);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo13);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo14);
+            RendererTools.makeReadOnly(jTextArea3);
+            RendererTools.makeReadOnly(jTextField1);
+            RendererTools.makeReadOnly(jTextField2);
+            RendererTools.makeReadOnly(jTextField3);
+            RendererTools.makeReadOnly(jTextField4);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------

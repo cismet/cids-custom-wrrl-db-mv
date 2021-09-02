@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.YesNoConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -104,14 +105,29 @@ public class QuerbauwerkePanFive extends javax.swing.JPanel implements Disposabl
      * Creates new form QuerbauwerkePanOne.
      */
     public QuerbauwerkePanFive() {
+        this(false);
+    }
+
+    /**
+     * Creates new form QuerbauwerkePanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public QuerbauwerkePanFive(final boolean readOnly) {
         initComponents();
 
-        try {
-            new CidsBeanDropTarget(jLabel4);
-        } catch (final Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+        if (!readOnly) {
+            try {
+                new CidsBeanDropTarget(jLabel4);
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while creating CidsBeanDropTarget", ex); // NOI18N
+                }
             }
+        } else {
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo13);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo14);
+            RendererTools.makeReadOnly(jCheckBox1);
         }
     }
 

@@ -107,7 +107,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextField" name="jTextField2">
+                <Component class="javax.swing.JTextField" name="txtHoehe">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -118,7 +118,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.hoehe}" target="jTextField2" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.hoehe}" target="txtHoehe" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -128,7 +128,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo1">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbArt">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -138,7 +138,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.bauwerk}" target="defaultBindableReferenceCombo1" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.bauwerk}" target="cbArt" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -254,7 +254,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField4">
+                <Component class="javax.swing.JTextField" name="txtBreite">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -265,7 +265,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.breite}" target="jTextField4" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.breite}" target="txtBreite" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -275,7 +275,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField5">
+                <Component class="javax.swing.JTextField" name="txtDurchmesser">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -286,7 +286,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.durchmesser}" target="jTextField5" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.durchmesser}" target="txtDurchmesser" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -296,7 +296,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField6">
+                <Component class="javax.swing.JTextField" name="txtUeberdeckung">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -307,7 +307,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ueberdeckung}" target="jTextField6" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.ueberdeckung}" target="txtUeberdeckung" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -317,7 +317,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField7">
+                <Component class="javax.swing.JTextField" name="txtStauhoehe">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -328,7 +328,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.stauhoehe}" target="jTextField7" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.stauhoehe}" target="txtStauhoehe" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -410,7 +410,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField13">
+                <Component class="javax.swing.JTextField" name="txtName">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -420,7 +420,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.anlagename}" target="jTextField13" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.anlagename}" target="txtName" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -430,7 +430,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField18">
+                <Component class="javax.swing.JTextField" name="txtMaterial">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -441,7 +441,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.material}" target="jTextField18" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.material}" target="txtMaterial" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -451,7 +451,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField27">
+                <Component class="javax.swing.JTextField" name="txtLaenge">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -461,7 +461,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.laenge}" target="jTextField27" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.laenge}" target="txtLaenge" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -506,7 +506,7 @@
                     </DimensionLayout>
                   </Layout>
                 </Container>
-                <Component class="javax.swing.JTextField" name="jTextField14">
+                <Component class="javax.swing.JTextField" name="txtAnderesBauwerk">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -516,7 +516,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bauw_ander}" target="jTextField14" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bauw_ander}" target="txtAnderesBauwerk" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -643,15 +643,15 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                    <Component class="javax.swing.JCheckBox" name="cbPruefungErfolgt">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="QuerbauwerkePanTwo.jCheckBox1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
+                          <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="QuerbauwerkePanTwo.cbPruefungErfolgt.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                         </Property>
                         <Property name="contentAreaFilled" type="boolean" value="false"/>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.check_sohlgleiten}" target="jCheckBox1" targetPath="selected" updateStrategy="0" immediately="false">
+                        <BindingProperty name="selected" source="Form" sourcePath="${cidsBean.check_sohlgleiten}" target="cbPruefungErfolgt" targetPath="selected" updateStrategy="0" immediately="false">
                           <Property name="nullValue" type="boolean" value="false"/>
                           <Property name="incompletePathValue" type="boolean" value="false"/>
                         </BindingProperty>
@@ -698,9 +698,9 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea2">
+                    <Component class="javax.swing.JTextArea" name="tareaBemerkung">
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkungen}" target="jTextArea2" targetPath="text" updateStrategy="0" immediately="false">
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.bemerkungen}" target="tareaBemerkung" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                         </BindingProperty>
                       </BindingProperties>
@@ -731,7 +731,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField8">
+                <Component class="javax.swing.JTextField" name="txtSohllaenge">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -742,7 +742,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlbefestigung_laenge}" target="jTextField8" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlbefestigung_laenge}" target="txtSohllaenge" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -764,7 +764,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField16">
+                <Component class="javax.swing.JTextField" name="txtMatUnterhalb">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -774,7 +774,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlbefestigung_uh_material}" target="jTextField16" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlbefestigung_uh_material}" target="txtMatUnterhalb" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -796,7 +796,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField10">
+                <Component class="javax.swing.JTextField" name="txtMatOberhalb">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -806,7 +806,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlbefestigung_oh_material}" target="jTextField10" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sohlbefestigung_oh_material}" target="txtMatOberhalb" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -863,7 +863,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo2">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbIntervall">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -873,7 +873,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.intervall}" target="defaultBindableReferenceCombo2" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.intervall}" target="cbIntervall" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -881,7 +881,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="defaultBindableReferenceCombo10">
+                <Component class="de.cismet.cids.editors.DefaultBindableReferenceCombo" name="cbSubstrat">
                   <Properties>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 25]"/>
@@ -891,7 +891,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.substrat}" target="defaultBindableReferenceCombo10" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.substrat}" target="cbSubstrat" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
                   </BindingProperties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -946,9 +946,9 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea1">
+                    <Component class="javax.swing.JTextArea" name="tareaBeschreibung">
                       <BindingProperties>
-                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.beschreibung}" target="jTextArea1" targetPath="text" updateStrategy="0" immediately="false">
+                        <BindingProperty name="text" source="Form" sourcePath="${cidsBean.beschreibung}" target="tareaBeschreibung" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                         </BindingProperty>
                       </BindingProperties>
