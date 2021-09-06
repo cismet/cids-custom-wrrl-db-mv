@@ -84,6 +84,7 @@ public class QuerbauwerkePanThree extends javax.swing.JPanel implements Disposab
         initComponents();
 
         cbGesamt.setVisible(false);
+        lblDgkGesamt.setVisible(false);
 
         if (readOnly) {
             RendererTools.makeReadOnly(cbFische);

@@ -40,6 +40,7 @@ import java.util.Properties;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.netutil.Proxy;
+import de.cismet.netutil.ProxyHandler;
 
 /**
  * DOCUMENT ME!
@@ -134,7 +135,7 @@ public final class CompleteCalcTestReport {
         final Sirius.navigator.connection.Connection connection = ConnectionFactory.getFactory()
                     .createConnection(propertyManager.getConnectionClass(),
                         info.getCallserverURL(),
-                        Proxy.fromPreferences());
+                        ProxyHandler.getInstance().getProxy());
         final ConnectionSession session = ConnectionFactory.getFactory().createSession(connection, info, true);
         final ConnectionProxy conProxy = ConnectionFactory.getFactory()
                     .createProxy(propertyManager.getConnectionProxyClass(), session);

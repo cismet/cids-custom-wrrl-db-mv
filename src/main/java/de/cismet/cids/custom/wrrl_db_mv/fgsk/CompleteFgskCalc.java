@@ -51,6 +51,7 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.FgskKartierabschnittEditor
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.netutil.Proxy;
+import de.cismet.netutil.ProxyHandler;
 
 import de.cismet.tools.PasswordEncrypter;
 
@@ -144,7 +145,7 @@ public final class CompleteFgskCalc {
         final Sirius.navigator.connection.Connection connection = ConnectionFactory.getFactory()
                     .createConnection(propertyManager.getConnectionClass(),
                         info.getCallserverURL(),
-                        Proxy.fromPreferences());
+                        ProxyHandler.getInstance().getProxy());
         session = ConnectionFactory.getFactory().createSession(connection, info, true);
         final ConnectionProxy conProxy = ConnectionFactory.getFactory()
                     .createProxy(propertyManager.getConnectionProxyClass(), session);

@@ -42,6 +42,7 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.commons.security.WebDavClient;
 
 import de.cismet.netutil.Proxy;
+import de.cismet.netutil.ProxyHandler;
 
 import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.PasswordEncrypter;
@@ -109,7 +110,10 @@ public class DocumentDropList extends JList implements DropTargetListener, Edito
 //                new CidsBeanDropTarget(this);
             dropTarget = new DropTarget(this, this);
         }
-        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
+        this.webDavClient = new WebDavClient(ProxyHandler.getInstance().getProxy(),
+                WEB_DAV_USER,
+                WEB_DAV_PASSWORD,
+                true);
         this.beanProperty = beanProperty;
         this.readOnly = readOnly;
     }

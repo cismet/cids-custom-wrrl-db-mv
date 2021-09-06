@@ -127,6 +127,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.commons.security.WebDavClient;
 
 import de.cismet.netutil.Proxy;
+import de.cismet.netutil.ProxyHandler;
 
 import de.cismet.tools.BrowserLauncher;
 import de.cismet.tools.CismetThreadPool;
@@ -332,7 +333,10 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         this.editable = editable;
         this.listListenerEnabled = true;
         this.resizeListenerEnabled = true;
-        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD, true);
+        this.webDavClient = new WebDavClient(ProxyHandler.getInstance().getProxy(),
+                WEB_DAV_USER,
+                WEB_DAV_PASSWORD,
+                true);
         initComponents();
         if (editable) {
             new CidsBeanDropTarget(lblWkFg);
