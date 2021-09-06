@@ -62,6 +62,7 @@ import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 import static de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc.*;
+import de.cismet.netutil.ProxyHandler;
 import java.util.LinkedHashMap;
 
 /**
@@ -135,7 +136,7 @@ public class CalcTest {
         final Sirius.navigator.connection.Connection connection = ConnectionFactory.getFactory()
                     .createConnection(propertyManager.getConnectionClass(),
                         info.getCallserverURL(),
-                        Proxy.fromPreferences());
+                        ProxyHandler.getInstance().getProxy());
         final ConnectionSession session = ConnectionFactory.getFactory().createSession(connection, info, true);
         final ConnectionProxy conProxy = ConnectionFactory.getFactory()
                     .createProxy(propertyManager.getConnectionProxyClass(), session);
