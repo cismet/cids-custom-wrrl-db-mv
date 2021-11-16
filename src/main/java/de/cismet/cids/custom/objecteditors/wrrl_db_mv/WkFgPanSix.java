@@ -12,8 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.tools.CacheException;
+import Sirius.navigator.tools.MetaObjectCache;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -22,6 +22,7 @@ import java.awt.Component;
 
 import java.math.BigDecimal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -1291,6 +1292,38 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static synchronized List<CidsBean> getChemMst(final CidsBean cidsBean) {
+        final List<CidsBean> data = new ArrayList<CidsBean>();
+
+        try {
+            final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                    WRRLUtil.DOMAIN_NAME,
+                    "chemie_mst_messungen");
+            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+            query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
+            query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
+            query += " order by messjahr desc";                                                                 // NOI18N
+
+            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                        .getMetaObjectsByQuery(query, MC, false, WkFgEditor.CONNECTION_CONTEXT);
+
+            for (final MetaObject mo : metaObjects) {
+                data.add(mo.getBean());
+            }
+        } catch (final CacheException e) {
+            LOG.error("Error while trying to receive measurements.", e); // NOI18N
+        }
+
+        return data;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -1299,12 +1332,6 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
      * @version  $Revision$, $Date$
      */
     public static class MstTableModel extends AbstractTableModel {
-
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "chemie_mst_messungen");
 
         //~ Instance fields ----------------------------------------------------
 
@@ -1425,23 +1452,10 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
          * @param  cidsBean  DOCUMENT ME!
          */
         public void refreshData(final CidsBean cidsBean) {
-            try {
-                data.clear();
-                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-                query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
-                query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
-                query += " order by messjahr desc";                                                                 // NOI18N
-
-                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                for (final MetaObject mo : metaObjects) {
-                    data.add(mo.getBean());
-                }
-                isInitialised = true;
-                fireTableDataChanged();
-            } catch (final ConnectionException e) {
-                LOG.error("Error while trying to receive measurements.", e); // NOI18N
-            }
+            data.clear();
+            data.addAll(getChemMst(cidsBean));
+            isInitialised = true;
+            fireTableDataChanged();
         }
 
         /**

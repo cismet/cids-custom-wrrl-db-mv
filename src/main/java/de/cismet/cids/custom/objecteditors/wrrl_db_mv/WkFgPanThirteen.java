@@ -12,12 +12,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
 import java.util.List;
 import java.util.Vector;
 
@@ -26,7 +20,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
@@ -37,8 +30,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 /**
  * DOCUMENT ME!
@@ -1004,12 +995,6 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
      */
     public static class MstTableModel extends AbstractTableModel {
 
-        //~ Static fields/initializers -----------------------------------------
-
-        private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                WRRLUtil.DOMAIN_NAME,
-                "chemie_mst_messungen");
-
         //~ Instance fields ----------------------------------------------------
 
         private String[][] header = {
@@ -1093,24 +1078,10 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
          * @param  cidsBean  DOCUMENT ME!
          */
         public void refreshData(final CidsBean cidsBean) {
-            try {
-                data.clear();
-                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-                query += " m, chemie_mst_stammdaten s";                                                             // NOI18N
-                query += " WHERE m.messstelle = s.id AND s.wk_fg = " + cidsBean.getProperty("id");                  // NOI18N
-                query += " order by messjahr desc";                                                                 // NOI18N
-
-                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-                for (final MetaObject mo : metaObjects) {
-                    data.add(mo.getBean());
-                }
-
-                isInitialised = true;
-                fireTableDataChanged();
-            } catch (final ConnectionException e) {
-                LOG.error("Error while trying to receive measurements.", e); // NOI18N
-            }
+            data.clear();
+            data.addAll(WkFgPanSix.getChemMst(cidsBean));
+            isInitialised = true;
+            fireTableDataChanged();
         }
 
         /**
