@@ -325,7 +325,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         this.readOnly = readOnly;
         initComponents();
         massnahmenDetail1.setParent(this);
-        final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin");
+        final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin")
+                    || SessionManager.getSession().getUser().getUserGroup().getName().toLowerCase().startsWith("stalu");
 
         lblImpact.setVisible(isAdmin);
         scpImpactSrc.setVisible(isAdmin);
@@ -2892,13 +2893,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         if (selectedObject instanceof CidsBean) {
             massnahmenDetail1.setCidsBean((CidsBean)selectedObject);
             massnahmenDetail1.setImpacts(getImpact());
-//            final CidsBean sel = (CidsBean)selectedObject;
-//            lstdeMeas1.setModel(new DefaultListModel());
-//            lstdeMeas2.setModel(new DefaultListModel());
         } else {
             massnahmenDetail1.setCidsBean(null);
-//            lstdeMeas1.setModel(new DefaultListModel());
-//            lstdeMeas2.setModel(new DefaultListModel());
         }
     } //GEN-LAST:event_lstdeMeasValueChanged
 

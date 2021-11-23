@@ -52,6 +52,9 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
@@ -74,6 +77,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     public static final String MC_WKTEIL = "wk_teil";             // NOI18N
     public static final String PROP_WKTEIL_STATIONLINE = "linie"; // NOI18N
     private static final MappingComponent MAPPING_COMPONENT = CismapBroker.getInstance().getMappingComponent();
+    public static final ConnectionContext CONNECTION_CONTEXT = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "WkFgEditor");
 
     // private final DefaultComboBoxModel qualityStatusCodeModel;
 
@@ -212,15 +218,15 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
                 bindingGroup,
                 cidsBean);
             wkFgPanOne.setCidsBean(cidsBean);
-            wkFgPanSix.setCidsBean(cidsBean);
             wkFgPanTen.setCidsBean(cidsBean);
             wkFgPanEleven1.setCidsBean(cidsBean);
             wkFgPanSeven1.setCidsBean(cidsBean);
             wkFgPanTwelve1.setCidsBean(cidsBean);
-            wkFgPanThirteen1.setCidsBean(cidsBean);
             if (wkFgPanFourteen1 != null) {
                 wkFgPanFourteen1.setCidsBean(cidsBean);
             }
+            wkFgPanSix.setCidsBean(cidsBean);
+            wkFgPanThirteen1.setCidsBean(cidsBean);
             bindingGroup.bind();
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
             UIUtil.setLastModifier(cidsBean, lblFoot);
