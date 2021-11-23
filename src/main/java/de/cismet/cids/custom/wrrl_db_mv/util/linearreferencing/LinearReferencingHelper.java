@@ -340,6 +340,11 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
      * @throws  Exception  DOCUMENT ME!
      */
     public static void setGeometryToLineBean(final Geometry line, final CidsBean lineBean) throws Exception {
+        if (coalesce(getStationBeanFromLineBean(lineBean, true).getProperty("ohne_route"), false)
+                    || coalesce(getStationBeanFromLineBean(lineBean, false).getProperty("ohne_route"), false)) {
+            // do not change the line geometry, when the property "ohne_route" is set to true
+            return;
+        }
         CidsBean geomBean = LinearReferencingHelper.getGeomBeanFromLineBean(lineBean);
 
         if (geomBean == null) {
@@ -349,6 +354,22 @@ public class LinearReferencingHelper implements LinearReferencingConstants, Line
 
         if (geomBean != null) {
             geomBean.setProperty(PROP_GEOM_GEOFIELD, line);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value         DOCUMENT ME!
+     * @param   defaultValue  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static boolean coalesce(final Object value, final boolean defaultValue) {
+        if (value instanceof Boolean) {
+            return (Boolean)value;
+        } else {
+            return defaultValue;
         }
     }
 

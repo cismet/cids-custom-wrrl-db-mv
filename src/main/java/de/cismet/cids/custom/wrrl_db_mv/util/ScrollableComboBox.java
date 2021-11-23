@@ -86,6 +86,18 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
     /**
      * Creates a new ScrollableComboBox object.
      *
+     * @param  options  DOCUMENT ME!
+     */
+    public ScrollableComboBox(final Option... options) {
+        super(options);
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
+
+    /**
+     * Creates a new ScrollableComboBox object.
+     *
      * @param  nullable  DOCUMENT ME!
      */
     public ScrollableComboBox(final boolean nullable) {

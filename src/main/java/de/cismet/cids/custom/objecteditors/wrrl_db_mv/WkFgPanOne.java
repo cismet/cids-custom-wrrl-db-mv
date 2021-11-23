@@ -13,23 +13,46 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.NbBundle;
+
+import java.awt.Color;
+import java.awt.Component;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+
+import de.cismet.cids.client.tools.DevelopmentTools;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.PressureImpactsProposals;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgWkkSearch;
-import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkUniqueSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.DefaultBindableScrollableComboboxCellEditor;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -43,6 +66,9 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.search.CidsServerSearch;
+
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -59,11 +85,22 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private static final Logger LOG = Logger.getLogger(WkFgPanOne.class);
     private static final MetaClass IMPACT_MC;
     private static final MetaClass IMPACT_SRC_MC;
+    private static final MetaClass IMPACT_CODE_MC;
+    private static final MetaClass DRIVER_MC;
+    private static final MetaClass SUBSTANCE_CODE_MC;
     private static String[] wkk;
+    private static Map<Integer, Set<Integer>> pressureImpactMap = new HashMap<>();
+    private static Map<PressureImpact, Set<Integer>> pressureImpactDriverMap = new HashMap<>();
+    private static final ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "Wk_FG");
 
     static {
         IMPACT_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.sw_impact_type_code");
-        IMPACT_SRC_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.pressure_type_code");
+        IMPACT_SRC_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.pressure_type_code_neu");
+        IMPACT_CODE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.impact_code");
+        DRIVER_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.driver_code");
+        SUBSTANCE_CODE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.codelist_substance_code");
 
         try {
             final CidsServerSearch search = new WkFgWkkSearch();
@@ -87,20 +124,25 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         } catch (Exception e) {
             LOG.error("Error while retrieving wkk", e);
         }
+        new Thread("Init proposals") {
+
+                @Override
+                public void run() {
+                    initProposals();
+                }
+            }.start();
     }
 
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private final boolean editable = true;
+    private boolean readOnly = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddImpact;
     private javax.swing.JButton btnAddImpactSrc;
     private javax.swing.JButton btnImpactAbort;
     private javax.swing.JButton btnImpactOk;
     private javax.swing.JButton btnMenImpactSrcAbort;
     private javax.swing.JButton btnMenImpactSrcOk;
-    private javax.swing.JButton btnRemImpact;
     private javax.swing.JButton btnRemImpactSrc;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEvk;
     private javax.swing.JComboBox cbGrpBio;
@@ -115,17 +157,22 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypK;
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblEvk;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblImpact;
     private javax.swing.JLabel lblImpactCataloge;
-    private javax.swing.JLabel lblImpactSrc;
     private javax.swing.JLabel lblImpactSrcCataloge;
     private javax.swing.JLabel lblPlanuCd;
     private javax.swing.JLabel lblRbdCd;
     private javax.swing.JLabel lblSchutzgut;
+    private javax.swing.JLabel lblSchutzgut1;
+    private javax.swing.JLabel lblSchutzgut2;
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblTypEvkK;
@@ -137,8 +184,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblWkK;
     private javax.swing.JLabel lblWkKPre;
     private javax.swing.JLabel lblWkN;
-    private javax.swing.JList lstImpact;
-    private javax.swing.JList lstImpactSrc;
     private javax.swing.JPanel panContrImpact;
     private javax.swing.JPanel panContrImpactSrc;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
@@ -146,11 +191,11 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panMenButtonsImpact;
     private javax.swing.JPanel panMenButtonsImpactSrc;
+    private javax.swing.JPanel panPressure;
     private javax.swing.JScrollPane scpBemerkung;
-    private javax.swing.JScrollPane scpImpact;
-    private javax.swing.JScrollPane scpImpactSrc;
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JTextArea taBemerkung;
+    private org.jdesktop.swingx.JXTable tabPressure;
     private javax.swing.JTextField txtWkK;
     private javax.swing.JTextField txtWkKPre;
     private javax.swing.JTextField txtWkN;
@@ -172,7 +217,18 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  readOnly  DOCUMENT ME!
      */
     public WkFgPanOne(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+
+        final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin");
+
+        panPressure.setVisible(isAdmin);
+        lblSchutzgut1.setVisible(!isAdmin);
+        lblSchutzgut2.setVisible(!isAdmin);
+        jScrollPane2.setVisible(!isAdmin);
+        jScrollPane3.setVisible(!isAdmin);
+        lblTypEvkK.setVisible(false);
+        cbTypEvkK.setVisible(false);
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtWkK);
@@ -203,6 +259,49 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     //~ Methods ----------------------------------------------------------------
 
     /**
+     * DOCUMENT ME!
+     */
+    private static void initProposals() {
+        try {
+            final PressureImpactsProposals search = new PressureImpactsProposals();
+            search.initWithConnectionContext(CC);
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), search, CC);
+
+            final ArrayList<ArrayList<Integer>> list = (ArrayList<ArrayList<Integer>>)res;
+
+            if (list != null) {
+                for (final ArrayList<Integer> row : list) {
+                    final Integer pressure = row.get(0);
+                    final Integer impact = row.get(1);
+                    final Integer driver = row.get(2);
+                    if ((pressure == null) || (impact == null)) {
+                        continue;
+                    }
+                    final PressureImpact pressureImpact = new PressureImpact(pressure, impact);
+                    Set<Integer> impactDriverList = pressureImpactDriverMap.get(pressureImpact);
+                    Set<Integer> impactList = pressureImpactMap.get(pressure);
+
+                    if (impactList == null) {
+                        impactList = new HashSet<>();
+                        pressureImpactMap.put(pressure, impactList);
+                    }
+
+                    if (impactDriverList == null) {
+                        impactDriverList = new HashSet<>();
+                        pressureImpactDriverMap.put(pressureImpact, impactList);
+                    }
+
+                    impactList.add(impact);
+                    impactDriverList.add(driver);
+                }
+            }
+        } catch (ConnectionException e) {
+            LOG.error("Cannot retrieve Pressure Impacts proposal", e);
+        }
+    }
+
+    /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
      * content of this method is always regenerated by the Form Editor.
      */
@@ -221,7 +320,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         btnImpactOk = new javax.swing.JButton();
         dlgImpactSrcCataloge = new JDialog(StaticSwingTools.getParentFrame(this));
         lblImpactSrcCataloge = new javax.swing.JLabel();
-        final DefaultBindableReferenceCombo cb2 = new ScrollableComboBox(IMPACT_SRC_MC, true, true);
+        final DefaultBindableReferenceCombo cb2 = new ScrollableComboBox(IMPACT_SRC_MC, false, false);
         cbImpactSrcCataloge = cb2;
         panMenButtonsImpactSrc = new javax.swing.JPanel();
         btnMenImpactSrcAbort = new javax.swing.JButton();
@@ -234,8 +333,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblWkN = new javax.swing.JLabel();
         lblTypEvkK = new javax.swing.JLabel();
         lblTypK = new javax.swing.JLabel();
-        lblImpactSrc = new javax.swing.JLabel();
-        lblImpact = new javax.swing.JLabel();
         lblWkGroup = new javax.swing.JLabel();
         lblWkGroupAggr = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
@@ -252,16 +349,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         cbPlanuCd = new ScrollableComboBox();
         lblSpacing = new javax.swing.JLabel();
         sepMiddle = new javax.swing.JSeparator();
-        scpImpact = new javax.swing.JScrollPane();
-        lstImpact = new javax.swing.JList();
-        scpImpactSrc = new javax.swing.JScrollPane();
-        lstImpactSrc = new javax.swing.JList();
         panContrImpact = new javax.swing.JPanel();
-        btnAddImpact = new javax.swing.JButton();
-        btnRemImpact = new javax.swing.JButton();
-        panContrImpactSrc = new javax.swing.JPanel();
-        btnAddImpactSrc = new javax.swing.JButton();
-        btnRemImpactSrc = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblEvk = new javax.swing.JLabel();
         cbEvk = new ScrollableComboBox();
@@ -274,6 +362,18 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         cbGrpChem = new javax.swing.JComboBox();
         cbGrpBio = new javax.swing.JComboBox();
         lblValStaeun2 = new javax.swing.JLabel();
+        panPressure = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabPressure = new org.jdesktop.swingx.JXTable();
+        panContrImpactSrc = new javax.swing.JPanel();
+        btnAddImpactSrc = new javax.swing.JButton();
+        btnRemImpactSrc = new javax.swing.JButton();
+        lblSchutzgut1 = new javax.swing.JLabel();
+        lblSchutzgut2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -344,8 +444,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgImpactSrcCataloge.getContentPane().add(lblImpactSrcCataloge, gridBagConstraints);
 
-        cbImpactSrcCataloge.setMinimumSize(new java.awt.Dimension(250, 18));
-        cbImpactSrcCataloge.setPreferredSize(new java.awt.Dimension(250, 18));
+        cbImpactSrcCataloge.setMinimumSize(new java.awt.Dimension(450, 18));
+        cbImpactSrcCataloge.setPreferredSize(new java.awt.Dimension(450, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -414,7 +514,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
 
-        panInfoContent.setMaximumSize(new java.awt.Dimension(1150, 490));
+        panInfoContent.setMaximumSize(new java.awt.Dimension(1550, 490));
         panInfoContent.setMinimumSize(new java.awt.Dimension(1150, 490));
         panInfoContent.setOpaque(false);
         panInfoContent.setPreferredSize(new java.awt.Dimension(1150, 490));
@@ -453,30 +553,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         panInfoContent.add(lblTypK, gridBagConstraints);
-
-        lblImpactSrc.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblImpactSrc.text")); // NOI18N
-        lblImpactSrc.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanOne.class,
-                "WkFgPanOne.lblImpactSrc.toolTipText"));                                                              // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblImpactSrc, gridBagConstraints);
-
-        lblImpact.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblImpact.text")); // NOI18N
-        lblImpact.setToolTipText(org.openide.util.NbBundle.getMessage(
-                WkFgPanOne.class,
-                "WkFgPanOne.lblImpact.toolTipText"));                                                           // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblImpact, gridBagConstraints);
 
         lblWkGroup.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblWkGroup.text_1")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -564,6 +640,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(txtWkK, gridBagConstraints);
 
@@ -588,8 +665,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtWkN, gridBagConstraints);
 
-        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 20));
-        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 20));
+        scpBemerkung.setMinimumSize(new java.awt.Dimension(300, 100));
+        scpBemerkung.setPreferredSize(new java.awt.Dimension(300, 100));
 
         taBemerkung.setColumns(20);
         taBemerkung.setRows(5);
@@ -609,9 +686,9 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridheight = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.gridheight = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
         panInfoContent.add(scpBemerkung, gridBagConstraints);
 
@@ -682,132 +759,18 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 14;
+        gridBagConstraints.gridheight = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.insets = new java.awt.Insets(25, 5, 25, 15);
         panInfoContent.add(sepMiddle, gridBagConstraints);
 
-        scpImpact.setMinimumSize(new java.awt.Dimension(300, 80));
-        scpImpact.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        lstImpact.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.impact}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        lstImpact);
-        bindingGroup.addBinding(jListBinding);
-
-        scpImpact.setViewportView(lstImpact);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(scpImpact, gridBagConstraints);
-
-        scpImpactSrc.setMinimumSize(new java.awt.Dimension(300, 80));
-        scpImpactSrc.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        lstImpactSrc.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact_src}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                eLProperty,
-                lstImpactSrc);
-        bindingGroup.addBinding(jListBinding);
-
-        scpImpactSrc.setViewportView(lstImpactSrc);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(scpImpactSrc, gridBagConstraints);
-
         panContrImpact.setOpaque(false);
         panContrImpact.setLayout(new java.awt.GridBagLayout());
-
-        btnAddImpact.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpact.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnAddImpactActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panContrImpact.add(btnAddImpact, gridBagConstraints);
-
-        btnRemImpact.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpact.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnRemImpactActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panContrImpact.add(btnRemImpact, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.gridheight = 3;
         panInfoContent.add(panContrImpact, gridBagConstraints);
-
-        panContrImpactSrc.setOpaque(false);
-        panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
-
-        btnAddImpactSrc.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
-        btnAddImpactSrc.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnAddImpactSrcActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panContrImpactSrc.add(btnAddImpactSrc, gridBagConstraints);
-
-        btnRemImpactSrc.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
-        btnRemImpactSrc.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnRemImpactSrcActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panContrImpactSrc.add(btnRemImpactSrc, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridheight = 3;
-        panInfoContent.add(panContrImpactSrc, gridBagConstraints);
 
         jPanel1.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -846,15 +809,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         cbTypEvkK.setMinimumSize(new java.awt.Dimension(300, 20));
         cbTypEvkK.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_evk_k}"),
-                cbTypEvkK,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -927,7 +881,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -936,7 +890,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblSchutzgut.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
@@ -960,6 +914,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
         panInfoContent.add(cbGrpChem, gridBagConstraints);
 
@@ -1004,6 +959,162 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValStaeun2, gridBagConstraints);
 
+        panPressure.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    WkFgPanOne.class,
+                    "WkFgPanOne.panPressure.border.title",
+                    new Object[] {}))); // NOI18N
+        panPressure.setMinimumSize(new java.awt.Dimension(110, 300));
+        panPressure.setOpaque(false);
+        panPressure.setPreferredSize(new java.awt.Dimension(110, 300));
+        panPressure.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane1.setViewportView(tabPressure);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        panPressure.add(jScrollPane1, gridBagConstraints);
+
+        panContrImpactSrc.setOpaque(false);
+        panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
+
+        btnAddImpactSrc.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+        btnAddImpactSrc.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddImpactSrcActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContrImpactSrc.add(btnAddImpactSrc, gridBagConstraints);
+
+        btnRemImpactSrc.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_remove_mini.png"))); // NOI18N
+        btnRemImpactSrc.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemImpactSrcActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContrImpactSrc.add(btnRemImpactSrc, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        panPressure.add(panContrImpactSrc, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 25);
+        panInfoContent.add(panPressure, gridBagConstraints);
+
+        lblSchutzgut1.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
+        panInfoContent.add(lblSchutzgut1, gridBagConstraints);
+
+        lblSchutzgut2.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
+        panInfoContent.add(lblSchutzgut2, gridBagConstraints);
+
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(300, 80));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+
+                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public String getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.impact_src}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jList1);
+        bindingGroup.addBinding(jListBinding);
+
+        jScrollPane2.setViewportView(jList1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jScrollPane2, gridBagConstraints);
+
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(300, 80));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+
+                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public String getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                jList2);
+        bindingGroup.addBinding(jListBinding);
+
+        jScrollPane3.setViewportView(jList2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jScrollPane3, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -1017,7 +1128,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void btnAddImpactSrcActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactSrcActionPerformed
-        dlgImpactSrcCataloge.setSize(300, 150);
+        dlgImpactSrcCataloge.setSize(500, 150);
         StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactSrcCataloge, true);
     }                                                                                   //GEN-LAST:event_btnAddImpactSrcActionPerformed
 
@@ -1027,7 +1138,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void btnRemImpactSrcActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemImpactSrcActionPerformed
-        final Object selection = lstImpactSrc.getSelectedValue();
+        final int selectedRow = tabPressure.getSelectedRow();
+        final CidsBean selection = ((PressureTableModel)tabPressure.getModel()).getCidsBean(selectedRow);
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
                     StaticSwingTools.getParentFrame(this),
@@ -1038,10 +1150,12 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                     JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 try {
-                    final CidsBean beanToDelete = (CidsBean)selection;
-                    final Object beanColl = cidsBean.getProperty("impact_src");
+                    final Object beanColl = cidsBean.getProperty("pressure_impact_driver");
                     if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
+                        if (selection != null) {
+                            ((Collection)beanColl).remove(selection);
+                            setModel();
+                        }
                     }
                 } catch (Exception e) {
                     UIUtil.showExceptionToUser(e, this);
@@ -1049,45 +1163,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             }
         }
     }                                                                                   //GEN-LAST:event_btnRemImpactSrcActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnRemImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemImpactActionPerformed
-        final Object selection = lstImpact.getSelectedValue();
-        if (selection != null) {
-            final int answer = JOptionPane.showConfirmDialog(
-                    StaticSwingTools.getParentFrame(this),
-                    "Soll die Auswirkung '"
-                            + selection.toString()
-                            + "' wirklich gelöscht werden?",
-                    "Auswirkung entfernen",
-                    JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                try {
-                    final CidsBean beanToDelete = (CidsBean)selection;
-                    final Object beanColl = cidsBean.getProperty("impact");
-                    if (beanColl instanceof Collection) {
-                        ((Collection)beanColl).remove(beanToDelete);
-                    }
-                } catch (Exception e) {
-                    UIUtil.showExceptionToUser(e, this);
-                }
-            }
-        }
-    }                                                                                //GEN-LAST:event_btnRemImpactActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnAddImpactActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactActionPerformed
-        dlgImpactCataloge.setSize(300, 150);
-        StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactCataloge, true);
-    }                                                                                //GEN-LAST:event_btnAddImpactActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1133,17 +1208,25 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      */
     private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
         final Object selection = cbImpactSrcCataloge.getSelectedItem();
-        if (selection instanceof CidsBean) {
-            final CidsBean selectedBean = (CidsBean)selection;
-            final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(cidsBean, "impact_src");
-            if (colToAdd != null) {
-                if (!colToAdd.contains(selectedBean)) {
-                    colToAdd.add(selectedBean);
+
+        try {
+            if (selection instanceof CidsBean) {
+                final CidsBean selectedBean = (CidsBean)selection;
+                final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("wk_fg_pressure_impact_driver");
+                newBean.setProperty("pressure", selectedBean);
+                final Collection<CidsBean> colToAdd = CidsBeanSupport.getBeanCollectionFromProperty(
+                        cidsBean,
+                        "pressure_impact_driver");
+                if (colToAdd != null) {
+                    colToAdd.add(newBean);
+                    setModel();
                 }
             }
+            dlgImpactSrcCataloge.setVisible(false);
+        } catch (Exception e) {
+            LOG.error("Cannot create new cids bean", e);
         }
-        dlgImpactSrcCataloge.setVisible(false);
-    }                                                                                     //GEN-LAST:event_btnMenImpactSrcOkActionPerformed
+    } //GEN-LAST:event_btnMenImpactSrcOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -1160,6 +1243,227 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 this.cidsBean);
             bindingGroup.bind();
         }
+
+        setModel();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setModel() {
+        if (cidsBean != null) {
+            final List<CidsBean> pressures = CidsBeanSupport.getBeanCollectionFromProperty(
+                    cidsBean,
+                    "pressure_impact_driver");
+            tabPressure.setModel(new PressureTableModel(readOnly, pressures));
+        } else {
+            tabPressure.setModel(new PressureTableModel(readOnly));
+        }
+
+        final DefaultBindableScrollableComboboxCellEditor cbImpact = new DefaultBindableScrollableComboboxCellEditor(
+                IMPACT_CODE_MC,
+                true);
+        final DefaultBindableScrollableComboboxCellEditor cbdriver = new DefaultBindableScrollableComboboxCellEditor(
+                DRIVER_MC,
+                true);
+        final DefaultBindableScrollableComboboxCellEditor cbSubstance = new DefaultBindableScrollableComboboxCellEditor(
+                SUBSTANCE_CODE_MC,
+                true);
+
+        cbImpact.getComboBox().setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList<?> list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    final Component result = super.getListCellRendererComponent(
+                            list,
+                            value,
+                            index,
+                            isSelected,
+                            cellHasFocus);
+
+                    if (value instanceof DefaultBindableReferenceCombo.NullableItem) {
+                        ((JLabel)result).setText(" ");
+                    }
+
+                    if ((result instanceof JLabel) && (value instanceof CidsBean)) {
+                        final CidsBean bean = (CidsBean)value;
+
+                        if (!isImpactProposed(bean)) {
+                            ((JLabel)result).setForeground(Color.GRAY);
+                        }
+                    }
+
+                    return result;
+                }
+            });
+        cbdriver.getComboBox().setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList<?> list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    final Component result = super.getListCellRendererComponent(
+                            list,
+                            value,
+                            index,
+                            isSelected,
+                            cellHasFocus);
+
+                    if (value instanceof DefaultBindableReferenceCombo.NullableItem) {
+                        ((JLabel)result).setText(" ");
+                    }
+
+                    if ((result instanceof JLabel) && (value instanceof CidsBean)) {
+                        final CidsBean bean = (CidsBean)value;
+
+                        if (!isDriverProposed(bean)) {
+                            ((JLabel)result).setForeground(Color.GRAY);
+                        }
+                    }
+
+                    return result;
+                }
+            });
+
+        tabPressure.getColumn(2).setCellEditor(cbImpact);
+        tabPressure.getColumn(3).setCellEditor(cbdriver);
+        tabPressure.getColumn(4).setCellEditor(cbSubstance);
+        tabPressure.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+
+                @Override
+                public Component getTableCellRendererComponent(final JTable table,
+                        final Object value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int row,
+                        final int column) {
+                    setVerticalAlignment(TOP);
+                    final Component c = super.getTableCellRendererComponent(
+                            table,
+                            value,
+                            isSelected,
+                            hasFocus,
+                            row,
+                            column);
+                    if (c instanceof JLabel) {
+                        ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                    }
+                    return c;
+                }
+            });
+        tabPressure.setDefaultRenderer(CidsBean.class, new DefaultTableCellRenderer() {
+
+                @Override
+                public Component getTableCellRendererComponent(final JTable table,
+                        final Object value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int row,
+                        final int column) {
+                    setVerticalAlignment(TOP);
+                    final Component c = super.getTableCellRendererComponent(
+                            table,
+                            value,
+                            isSelected,
+                            hasFocus,
+                            row,
+                            column);
+                    if (c instanceof JLabel) {
+                        ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                    }
+                    return c;
+                }
+            });
+
+        tabPressure.setRowHeight(55);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   impact  pressure DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isImpactProposed(final CidsBean impact) {
+        final int selectedRow = tabPressure.getSelectedRow();
+        final CidsBean bean = ((PressureTableModel)tabPressure.getModel()).getCidsBean(selectedRow);
+
+        if (bean != null) {
+            final Integer pressureId = (Integer)bean.getProperty("pressure.id");
+            final Integer impactId = (Integer)impact.getProperty("id");
+
+            if ((pressureId == null) || pressureImpactMap.isEmpty() || (impactId == null)) {
+                return true;
+            }
+
+            final Set<Integer> proposedImpacts = pressureImpactMap.get(pressureId);
+
+            if (proposedImpacts != null) {
+                return proposedImpacts.contains(impactId);
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   driver  pressure DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isDriverProposed(final CidsBean driver) {
+        final int selectedRow = tabPressure.getSelectedRow();
+        final CidsBean bean = ((PressureTableModel)tabPressure.getModel()).getCidsBean(selectedRow);
+
+        if (bean != null) {
+            final Integer pressureId = (Integer)bean.getProperty("pressure.id");
+            final Integer impactId = (Integer)bean.getProperty("impact.id");
+            final Integer driverId = (Integer)driver.getProperty("id");
+
+            if ((pressureId == null) || pressureImpactDriverMap.isEmpty() || (impactId == null) || (driverId == null)) {
+                return true;
+            }
+
+            final PressureImpact pressureImpact = new PressureImpact(pressureId, impactId);
+
+            final Set<Integer> proposedDriver = pressureImpactDriverMap.get(pressureImpact);
+
+            if (proposedDriver != null) {
+                return proposedDriver.contains(driverId);
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   args  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static void main(final String[] args) throws Exception {
+        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
+            "WRRL_DB_MV",
+            "Administratoren",
+            "admin",
+            "n!emal$99",
+            "wk_fg",
+            1,
+            1280,
+            1024);
     }
 
     @Override
@@ -1167,5 +1471,213 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         bindingGroup.unbind();
         dlgImpactCataloge.dispose();
         dlgImpactSrcCataloge.dispose();
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class PressureTableModel implements TableModel {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String[] COLUMN_NAMES = {
+                "Belastungskategorie",
+                "Signifikante Belastung am WK",
+                "Belastungsauswirkungen",
+                "Verursacher",
+                "Belastung mit Substance-Code",
+                "Kommentar"
+            };
+        private static final String[] PROPERTY_NAMES = {
+                "",
+                "pressure.name",
+                "impact",
+                "driver",
+                "substance_code",
+                "bemerkung"
+            };
+
+        //~ Instance fields ----------------------------------------------------
+
+        private List<TableModelListener> listener = new ArrayList<TableModelListener>();
+        private List<CidsBean> data = new ArrayList<CidsBean>();
+        private boolean readOnly;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new PressureTableModel object.
+         *
+         * @param  readOnly  DOCUMENT ME!
+         */
+        public PressureTableModel(final boolean readOnly) {
+            this.readOnly = readOnly;
+            this.data = new ArrayList<CidsBean>();
+        }
+
+        /**
+         * Creates a new PressureTableModel object.
+         *
+         * @param  readOnly  DOCUMENT ME!
+         * @param  beans     DOCUMENT ME!
+         */
+        public PressureTableModel(final boolean readOnly, final List<CidsBean> beans) {
+            this.readOnly = readOnly;
+            this.data = new ArrayList<CidsBean>(beans);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int getRowCount() {
+            return data.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return COLUMN_NAMES.length;
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            return COLUMN_NAMES[columnIndex];
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            if ((columnIndex < 2) || (columnIndex == 5)) {
+                return String.class;
+            } else {
+                return CidsBean.class;
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            return !readOnly && (columnIndex != 0) && (columnIndex != 1);
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            if (columnIndex == 0) {
+                final Object substanceCode = data.get(rowIndex).getProperty("substance_code");
+
+                if (substanceCode == null) {
+                    return NbBundle.getMessage(
+                            WkFgPanOne.class,
+                            "WkFgPanOne.refillCategory.anthropog");
+                } else {
+                    return NbBundle.getMessage(
+                            WkFgPanOne.class,
+                            "WkFgPanOne.refillCategory.material");
+                }
+            } else {
+                return data.get(rowIndex).getProperty(PROPERTY_NAMES[columnIndex]);
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   row  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public CidsBean getCidsBean(final int row) {
+            if (row >= 0) {
+                return data.get(row);
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+            try {
+                data.get(rowIndex).setProperty(PROPERTY_NAMES[columnIndex], aValue);
+            } catch (Exception e) {
+                LOG.error("cannot set property", e);
+            }
+        }
+
+        @Override
+        public void addTableModelListener(final TableModelListener l) {
+            listener.add(l);
+        }
+
+        @Override
+        public void removeTableModelListener(final TableModelListener l) {
+            listener.remove(l);
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void fireTableChanged() {
+            final TableModelEvent e = new TableModelEvent(this);
+            for (final TableModelListener tmp : listener) {
+                tmp.tableChanged(e);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class PressureImpact implements Comparable<PressureImpact> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final Integer pressure;
+        private final Integer impact;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new PressureImpact object.
+         *
+         * @param  pressure  DOCUMENT ME!
+         * @param  impact    DOCUMENT ME!
+         */
+        public PressureImpact(final Integer pressure, final Integer impact) {
+            this.pressure = pressure;
+            this.impact = impact;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (obj instanceof PressureImpact) {
+                final PressureImpact other = (PressureImpact)obj;
+
+                return pressure.equals(other.pressure) && impact.equals(other.impact);
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 5;
+            hash = (67 * hash) + Objects.hashCode(this.pressure);
+            hash = (67 * hash) + Objects.hashCode(this.impact);
+            return hash;
+        }
+
+        @Override
+        public int compareTo(final PressureImpact o) {
+            if (o.pressure.equals(pressure)) {
+                return o.impact.compareTo(impact);
+            } else {
+                return o.pressure.compareTo(pressure);
+            }
+        }
     }
 }

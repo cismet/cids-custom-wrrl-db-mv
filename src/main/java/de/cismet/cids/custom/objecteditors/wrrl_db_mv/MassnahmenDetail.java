@@ -28,10 +28,6 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.connection.SessionManager;
-
-import com.l2fprod.common.swing.renderer.DefaultCellRenderer;
-
 import java.awt.Color;
 import java.awt.Component;
 
@@ -47,6 +43,7 @@ import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
+import de.cismet.cids.editors.DefaultBindableReferenceCombo.WhereOption;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 /**
@@ -158,8 +155,13 @@ public class MassnahmenDetail extends javax.swing.JPanel implements DisposableCi
                     if ((result instanceof JLabel) && (value instanceof CidsBean)) {
                         final CidsBean bean = (CidsBean)value;
 
-                        final String text = bean.getProperty("value") + " - " + bean.getProperty("name_de");
-                        ((JLabel)result).setText(text);
+                        if (bean.getProperty("value") == null) {
+                            final String text = bean.getProperty("cas_nr") + " - " + bean.getProperty("name");
+                            ((JLabel)result).setText(text);
+                        } else {
+                            final String text = bean.getProperty("value") + " - " + bean.getProperty("name");
+                            ((JLabel)result).setText(text);
+                        }
                     }
 
                     return result;
@@ -185,7 +187,7 @@ public class MassnahmenDetail extends javax.swing.JPanel implements DisposableCi
         lblMassn_Schl4 = new javax.swing.JLabel();
         lblMassn_Schl3 = new javax.swing.JLabel();
         cbMassn_schl3 = new ScrollableComboBox();
-        cbMassn_schl2 = new ScrollableComboBox();
+        cbMassn_schl2 = new ScrollableComboBox(new WhereOption("value is not null and name is not null"));
         lblMassn_Schl2 = new javax.swing.JLabel();
         cbMassn_schl1 = new ScrollableComboBox();
         lblMassn_Schl1 = new javax.swing.JLabel();

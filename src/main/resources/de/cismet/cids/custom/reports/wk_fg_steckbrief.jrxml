@@ -18,6 +18,7 @@
 	<field name="evk" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="av_time" class="java.util.Date"/>
 	<field name="lawa_type" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="ordnung" class="de.cismet.cids.dynamics.CidsBean"/>
 	<background>
 		<band/>
 	</background>
@@ -221,7 +222,7 @@
 				<text><![CDATA[Fließgewässertyp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="0" y="111" width="115" height="14" uuid="ccc68064-a148-4da1-8e29-69a9af1b503c"/>
+				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="277" y="111" width="115" height="14" uuid="ccc68064-a148-4da1-8e29-69a9af1b503c"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -235,7 +236,7 @@
 				<text><![CDATA[Druckdatum]]></text>
 			</staticText>
 			<textField evaluationTime="Report" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="115" y="111" width="439" height="14" uuid="82bd21a4-51bf-47c3-8ae4-2b437de4fd1b"/>
+				<reportElement positionType="Float" mode="Opaque" x="392" y="111" width="162" height="14" uuid="82bd21a4-51bf-47c3-8ae4-2b437de4fd1b"/>
 				<box topPadding="2" leftPadding="5" bottomPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -310,6 +311,34 @@
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{gewName}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="tableTitle" positionType="Float" mode="Opaque" x="0" y="111" width="115" height="14" uuid="c11846f9-1644-487f-9e24-786b9a9c2e01"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Gewässerordnung]]></text>
+			</staticText>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="115" y="111" width="162" height="14" uuid="3179cef7-887c-425c-8070-964b04551bdb"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ordnung}.getProperty("value")]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
