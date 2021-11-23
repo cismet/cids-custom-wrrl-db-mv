@@ -157,9 +157,12 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypK;
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblEvk;
     private javax.swing.JLabel lblHeading;
@@ -168,6 +171,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblPlanuCd;
     private javax.swing.JLabel lblRbdCd;
     private javax.swing.JLabel lblSchutzgut;
+    private javax.swing.JLabel lblSchutzgut1;
+    private javax.swing.JLabel lblSchutzgut2;
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblTypEvkK;
@@ -186,6 +191,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panMenButtonsImpact;
     private javax.swing.JPanel panMenButtonsImpactSrc;
+    private javax.swing.JPanel panPressure;
     private javax.swing.JScrollPane scpBemerkung;
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JTextArea taBemerkung;
@@ -213,6 +219,16 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     public WkFgPanOne(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
+
+        final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin");
+
+        panPressure.setVisible(isAdmin);
+        lblSchutzgut1.setVisible(!isAdmin);
+        lblSchutzgut2.setVisible(!isAdmin);
+        jScrollPane2.setVisible(!isAdmin);
+        jScrollPane3.setVisible(!isAdmin);
+        lblTypEvkK.setVisible(false);
+        cbTypEvkK.setVisible(false);
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtWkK);
@@ -346,12 +362,18 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         cbGrpChem = new javax.swing.JComboBox();
         cbGrpBio = new javax.swing.JComboBox();
         lblValStaeun2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        panPressure = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabPressure = new org.jdesktop.swingx.JXTable();
         panContrImpactSrc = new javax.swing.JPanel();
         btnAddImpactSrc = new javax.swing.JButton();
         btnRemImpactSrc = new javax.swing.JButton();
+        lblSchutzgut1 = new javax.swing.JLabel();
+        lblSchutzgut2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -664,7 +686,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 25);
@@ -787,15 +809,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         cbTypEvkK.setMinimumSize(new java.awt.Dimension(300, 20));
         cbTypEvkK.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typ_evk_k}"),
-                cbTypEvkK,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -868,7 +881,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -877,7 +890,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblSchutzgut.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
@@ -946,15 +959,15 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(lblValStaeun2, gridBagConstraints);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        panPressure.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     WkFgPanOne.class,
-                    "WkFgPanOne.jPanel3.border.title",
+                    "WkFgPanOne.panPressure.border.title",
                     new Object[] {}))); // NOI18N
-        jPanel3.setMinimumSize(new java.awt.Dimension(110, 300));
-        jPanel3.setOpaque(false);
-        jPanel3.setPreferredSize(new java.awt.Dimension(110, 300));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        panPressure.setMinimumSize(new java.awt.Dimension(110, 300));
+        panPressure.setOpaque(false);
+        panPressure.setPreferredSize(new java.awt.Dimension(110, 300));
+        panPressure.setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setViewportView(tabPressure);
 
@@ -964,7 +977,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel3.add(jScrollPane1, gridBagConstraints);
+        panPressure.add(jScrollPane1, gridBagConstraints);
 
         panContrImpactSrc.setOpaque(false);
         panContrImpactSrc.setLayout(new java.awt.GridBagLayout());
@@ -1002,7 +1015,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel3.add(panContrImpactSrc, gridBagConstraints);
+        panPressure.add(panContrImpactSrc, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1010,7 +1023,97 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 25);
-        panInfoContent.add(jPanel3, gridBagConstraints);
+        panInfoContent.add(panPressure, gridBagConstraints);
+
+        lblSchutzgut1.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
+        panInfoContent.add(lblSchutzgut1, gridBagConstraints);
+
+        lblSchutzgut2.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
+        panInfoContent.add(lblSchutzgut2, gridBagConstraints);
+
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(300, 80));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+
+                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public String getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
+                "${cidsBean.impact_src}");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
+                    .createJListBinding(
+                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                        this,
+                        eLProperty,
+                        jList1);
+        bindingGroup.addBinding(jListBinding);
+
+        jScrollPane2.setViewportView(jList1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jScrollPane2, gridBagConstraints);
+
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(300, 80));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+
+                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public String getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact}");
+        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                eLProperty,
+                jList2);
+        bindingGroup.addBinding(jListBinding);
+
+        jScrollPane3.setViewportView(jList2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(jScrollPane3, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -1049,20 +1152,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 try {
                     final Object beanColl = cidsBean.getProperty("pressure_impact_driver");
                     if (beanColl instanceof Collection) {
-                        final Collection coll = (Collection)beanColl;
-                        CidsBean bd = null;
-                        for (final Object o : coll) {
-                            if (o instanceof CidsBean) {
-                                final CidsBean bean = (CidsBean)o;
-                                if (bean.getProperty("pressure.id").equals(selection.getProperty("pressure.id"))) {
-                                    bd = bean;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (bd != null) {
-                            ((Collection)beanColl).remove(bd);
+                        if (selection != null) {
+                            ((Collection)beanColl).remove(selection);
                             setModel();
                         }
                     }
@@ -1071,7 +1162,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 }
             }
         }
-    } //GEN-LAST:event_btnRemImpactSrcActionPerformed
+    }                                                                                   //GEN-LAST:event_btnRemImpactSrcActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1127,18 +1218,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                         cidsBean,
                         "pressure_impact_driver");
                 if (colToAdd != null) {
-                    boolean alreadyExists = false;
-
-                    for (final CidsBean bean : colToAdd) {
-                        if (bean.getProperty("pressure.id").equals(selectedBean.getProperty("id"))) {
-                            alreadyExists = true;
-                        }
-                    }
-
-                    if (!colToAdd.contains(newBean) && !alreadyExists) {
-                        colToAdd.add(newBean);
-                        setModel();
-                    }
+                    colToAdd.add(newBean);
+                    setModel();
                 }
             }
             dlgImpactSrcCataloge.setVisible(false);
@@ -1346,7 +1427,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
         if (bean != null) {
             final Integer pressureId = (Integer)bean.getProperty("pressure.id");
-            final Integer impactId = (Integer)cidsBean.getProperty("impact.id");
+            final Integer impactId = (Integer)bean.getProperty("impact.id");
             final Integer driverId = (Integer)driver.getProperty("id");
 
             if ((pressureId == null) || pressureImpactDriverMap.isEmpty() || (impactId == null) || (driverId == null)) {
@@ -1358,7 +1439,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             final Set<Integer> proposedDriver = pressureImpactDriverMap.get(pressureImpact);
 
             if (proposedDriver != null) {
-                return proposedDriver.contains(impactId);
+                return proposedDriver.contains(driverId);
             }
         } else {
             return true;
@@ -1417,7 +1498,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 "impact",
                 "driver",
                 "substance_code",
-                "comment"
+                "bemerkung"
             };
 
         //~ Instance fields ----------------------------------------------------
