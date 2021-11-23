@@ -1568,11 +1568,11 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
                 if (substanceCode == null) {
                     return NbBundle.getMessage(
-                            WkFgPressureImpactDriverEditor.class,
+                            WkFgPanOne.class,
                             "WkFgPanOne.refillCategory.anthropog");
                 } else {
                     return NbBundle.getMessage(
-                            WkFgPressureImpactDriverEditor.class,
+                            WkFgPanOne.class,
                             "WkFgPanOne.refillCategory.material");
                 }
             } else {
