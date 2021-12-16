@@ -2482,10 +2482,10 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      */
     private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblTitleNameMouseClicked
         if (evt.getClickCount() == 2) {
-//            FgskSimulationHelper.createAllSimulations();
-//            diaName.setSize(590, 226);
-//            diaName.pack();
-//            StaticSwingTools.showDialog(diaName);
+            FgskSimulationHelper.createAllSimulations();
+            diaName.setSize(590, 226);
+            diaName.pack();
+            StaticSwingTools.showDialog(diaName);
         }
     }                                                                            //GEN-LAST:event_lblTitleNameMouseClicked
 
@@ -2684,7 +2684,7 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      * DOCUMENT ME!
      */
     private void setGewTyp() {
-        if (wkFg.getProperty("evk.id").equals(1)) {
+        if (wkFg.getProperty("b9ausw").equals("natürlich")) {
             rbZust.setSelected(true);
         } else {
             rbOekPot.setSelected(true);

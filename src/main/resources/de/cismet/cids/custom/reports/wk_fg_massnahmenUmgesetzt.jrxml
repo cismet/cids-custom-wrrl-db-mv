@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkFgScriptlet" uuid="39f12823-ea76-41bf-9218-d9936f880549">
 	<property name="ireport.zoom" value="2.1435888100000016"/>
-	<property name="ireport.x" value="921"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<import value="de.cismet.cids.dynamics.CidsBean"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
@@ -51,8 +51,8 @@
 	<field name="de_meas_cd" class="java.util.Collection"/>
 	<field name="linie.von.route.gwk" class="java.lang.Long"/>
 	<field name="fislightlink" class="java.lang.String"/>
-	<field name="ersteOrdn" class="java.lang.Boolean"/>
-	<field name="zweiteOrdn" class="java.lang.Boolean"/>
+	<field name="erste_ordn" class="java.lang.Boolean"/>
+	<field name="zweite_ordn" class="java.lang.Boolean"/>
 	<variable name="df" class="java.text.DecimalFormat">
 		<initialValueExpression><![CDATA[new java.text.DecimalFormat("0.000000")]]></initialValueExpression>
 	</variable>
@@ -101,7 +101,7 @@
 				<textElement>
 					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
-				<text><![CDATA[5.2 Umgesetzte Maßnahmen]]></text>
+				<text><![CDATA[5.3 Umgesetzte Maßnahmen]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -287,7 +287,7 @@
 				<textElement textAlignment="Left">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{ersteOrdn} != null && $F{ersteOrdn} ? "1." : ($F{zweiteOrdn} != null && $F{zweiteOrdn} ? "2." : ""))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{erste_ordn} != null && $F{erste_ordn} ? "1." : ($F{zweite_ordn} != null && $F{zweite_ordn} ? "2." : ""))]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

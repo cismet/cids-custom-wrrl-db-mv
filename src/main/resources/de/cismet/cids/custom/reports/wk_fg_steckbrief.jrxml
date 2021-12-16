@@ -19,6 +19,7 @@
 	<field name="av_time" class="java.util.Date"/>
 	<field name="lawa_type" class="de.cismet.cids.dynamics.CidsBean"/>
 	<field name="ordnung" class="de.cismet.cids.dynamics.CidsBean"/>
+	<field name="b9ausw" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
@@ -180,7 +181,7 @@
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{evk}.getProperty("name").toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{b9ausw}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="tableTitle" mode="Opaque" x="0" y="28" width="115" height="24" uuid="60de09af-8d7a-4c41-8622-4ae7982f14dd"/>
