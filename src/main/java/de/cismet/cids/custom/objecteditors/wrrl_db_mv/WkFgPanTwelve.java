@@ -961,11 +961,10 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 this.cidsBean);
             bindingGroup.bind();
 
-            final CidsBean evk = (CidsBean)cidsBean.getProperty("evk");
+            final String b9ausw = (String)cidsBean.getProperty("b9ausw");
 
-            if (evk != null) {
-                final String value = (String)evk.getProperty("value");
-                activateGUIElements(value.equals("1"));
+            if (b9ausw != null) {
+                activateGUIElements(b9ausw.equals("natürlich"));
             }
 
             cidsBean.addPropertyChangeListener(this);
@@ -1005,12 +1004,11 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("evk")) {
-            final CidsBean evk = (CidsBean)cidsBean.getProperty("evk");
+        if (evt.getPropertyName().equals("b9ausw")) {
+            final String b9ausw = (String)cidsBean.getProperty("b9ausw");
 
-            if (evk != null) {
-                final String value = (String)evk.getProperty("value");
-                activateGUIElements(value.equals("1"));
+            if (b9ausw != null) {
+                activateGUIElements(b9ausw.equals("natürlich"));
             }
         }
     }

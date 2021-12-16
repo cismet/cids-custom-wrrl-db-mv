@@ -174,7 +174,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         lblfliessrichtung1 = new javax.swing.JLabel();
         cbSeeausfluss = new javax.swing.JCheckBox();
         ccGewaesserSubtyp = new de.cismet.cids.editors.DefaultBindableCheckboxField();
-        rdbWBType = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
+        rdbWBType = new de.cismet.cids.editors.DefaultBindableRadioButtonField(true);
         jpGroesse = new javax.swing.JPanel();
         panInfo2 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();

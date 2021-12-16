@@ -27,6 +27,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -144,7 +145,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JButton btnMenImpactSrcAbort;
     private javax.swing.JButton btnMenImpactSrcOk;
     private javax.swing.JButton btnRemImpactSrc;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEvk;
     private javax.swing.JComboBox cbGrpBio;
     private javax.swing.JComboBox cbGrpChem;
     private javax.swing.JComboBox cbImpactCataloge;
@@ -157,12 +157,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbTypK;
     private javax.swing.JDialog dlgImpactCataloge;
     private javax.swing.JDialog dlgImpactSrcCataloge;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblEvk;
     private javax.swing.JLabel lblHeading;
@@ -171,8 +167,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblPlanuCd;
     private javax.swing.JLabel lblRbdCd;
     private javax.swing.JLabel lblSchutzgut;
-    private javax.swing.JLabel lblSchutzgut1;
-    private javax.swing.JLabel lblSchutzgut2;
     private javax.swing.JLabel lblSpacing;
     private javax.swing.JLabel lblStaeun;
     private javax.swing.JLabel lblTypEvkK;
@@ -196,6 +190,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JTextArea taBemerkung;
     private org.jdesktop.swingx.JXTable tabPressure;
+    private javax.swing.JTextField txtB9ausw;
     private javax.swing.JTextField txtWkK;
     private javax.swing.JTextField txtWkKPre;
     private javax.swing.JTextField txtWkN;
@@ -220,21 +215,17 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         this.readOnly = readOnly;
         initComponents();
 
-        final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin");
-
-        panPressure.setVisible(isAdmin);
-        lblSchutzgut1.setVisible(!isAdmin);
-        lblSchutzgut2.setVisible(!isAdmin);
-        jScrollPane2.setVisible(!isAdmin);
-        jScrollPane3.setVisible(!isAdmin);
+        panPressure.setVisible(true);
         lblTypEvkK.setVisible(false);
         cbTypEvkK.setVisible(false);
+
+        // this fiele should always be read only
+        RendererTools.makeReadOnly(txtB9ausw);
 
         if (readOnly) {
             RendererTools.makeReadOnly(txtWkK);
             RendererTools.makeReadOnly(txtWkKPre);
             RendererTools.makeReadOnly(txtWkN);
-            RendererTools.makeReadOnly(cbEvk);
             RendererTools.makeReadOnly(cbGrpBio);
             RendererTools.makeReadOnly(cbGrpChem);
             RendererTools.makeReadOnly(cbImpactCataloge);
@@ -352,7 +343,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrImpact = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblEvk = new javax.swing.JLabel();
-        cbEvk = new ScrollableComboBox();
         cbTypEvkK = new ScrollableComboBox();
         cbStalu = new ScrollableComboBox();
         lblWkKPre = new javax.swing.JLabel();
@@ -368,12 +358,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         panContrImpactSrc = new javax.swing.JPanel();
         btnAddImpactSrc = new javax.swing.JButton();
         btnRemImpactSrc = new javax.swing.JButton();
-        lblSchutzgut1 = new javax.swing.JLabel();
-        lblSchutzgut2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        txtB9ausw = new javax.swing.JTextField();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -788,25 +773,6 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
         panInfoContent.add(lblEvk, gridBagConstraints);
 
-        cbEvk.setMinimumSize(new java.awt.Dimension(300, 20));
-        cbEvk.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.evk}"),
-                cbEvk,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbEvk, gridBagConstraints);
-
         cbTypEvkK.setMinimumSize(new java.awt.Dimension(300, 20));
         cbTypEvkK.setPreferredSize(new java.awt.Dimension(300, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1025,95 +991,24 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 25);
         panInfoContent.add(panPressure, gridBagConstraints);
 
-        lblSchutzgut1.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut1.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblSchutzgut1, gridBagConstraints);
+        txtB9ausw.setMinimumSize(new java.awt.Dimension(300, 20));
+        txtB9ausw.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        lblSchutzgut2.setText(org.openide.util.NbBundle.getMessage(WkFgPanOne.class, "WkFgPanOne.lblSchutzgut2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
-        panInfoContent.add(lblSchutzgut2, gridBagConstraints);
-
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(300, 80));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-
-                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-
-                @Override
-                public int getSize() {
-                    return strings.length;
-                }
-                @Override
-                public String getElementAt(final int i) {
-                    return strings[i];
-                }
-            });
-
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create(
-                "${cidsBean.impact_src}");
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings
-                    .createJListBinding(
-                        org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                        this,
-                        eLProperty,
-                        jList1);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane2.setViewportView(jList1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(jScrollPane2, gridBagConstraints);
-
-        jScrollPane3.setMinimumSize(new java.awt.Dimension(300, 80));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(300, 80));
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-
-                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-
-                @Override
-                public int getSize() {
-                    return strings.length;
-                }
-                @Override
-                public String getElementAt(final int i) {
-                    return strings[i];
-                }
-            });
-
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${cidsBean.impact}");
-        jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                eLProperty,
-                jList2);
-        bindingGroup.addBinding(jListBinding);
-
-        jScrollPane3.setViewportView(jList2);
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.b9ausw}"),
+                txtB9ausw,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(jScrollPane3, gridBagConstraints);
+        panInfoContent.add(txtB9ausw, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -1268,7 +1163,25 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 true);
         final DefaultBindableScrollableComboboxCellEditor cbSubstance = new DefaultBindableScrollableComboboxCellEditor(
                 SUBSTANCE_CODE_MC,
-                true);
+                true,
+                new Comparator<CidsBean>() {
+
+                    @Override
+                    public int compare(final CidsBean o1, final CidsBean o2) {
+                        final Integer value1 = (Integer)o1.getProperty("value");
+                        final Integer value2 = (Integer)o2.getProperty("value");
+                        final String name1 = (String)o1.getProperty("name");
+                        final String name2 = (String)o2.getProperty("name");
+
+                        if ((value1 == null) && (value2 != null)) {
+                            return 1;
+                        } else if ((value1 != null) && (value2 == null)) {
+                            return -1;
+                        } else {
+                            return name1.compareTo(name2);
+                        }
+                    }
+                });
 
         cbImpact.getComboBox().setRenderer(new DefaultListCellRenderer() {
 
@@ -1300,6 +1213,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                     return result;
                 }
             });
+
         cbdriver.getComboBox().setRenderer(new DefaultListCellRenderer() {
 
                 @Override
@@ -1353,6 +1267,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                             column);
                     if (c instanceof JLabel) {
                         ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                        ((JLabel)c).setToolTipText(String.valueOf(value));
                     }
                     return c;
                 }
@@ -1376,6 +1291,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                             column);
                     if (c instanceof JLabel) {
                         ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                        ((JLabel)c).setToolTipText(String.valueOf(value));
                     }
                     return c;
                 }

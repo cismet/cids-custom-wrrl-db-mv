@@ -12,11 +12,14 @@ import Sirius.server.middleware.types.MetaClass;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 
+import java.util.Comparator;
 import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * A table cell editor that shows a bindable combobox.
@@ -49,6 +52,19 @@ public class DefaultBindableScrollableComboboxCellEditor extends AbstractCellEdi
      */
     public DefaultBindableScrollableComboboxCellEditor(final MetaClass metaClass, final boolean nullable) {
         comboBox = new ScrollableComboBox(metaClass, nullable, false);
+    }
+
+    /**
+     * Creates a new DefaultBindableComboboxCellEditor object.
+     *
+     * @param  metaClass   DOCUMENT ME!
+     * @param  nullable    DOCUMENT ME!
+     * @param  comparator  DOCUMENT ME!
+     */
+    public DefaultBindableScrollableComboboxCellEditor(final MetaClass metaClass,
+            final boolean nullable,
+            final Comparator<CidsBean> comparator) {
+        comboBox = new ScrollableComboBox(metaClass, nullable, false, comparator);
     }
 
     //~ Methods ----------------------------------------------------------------
