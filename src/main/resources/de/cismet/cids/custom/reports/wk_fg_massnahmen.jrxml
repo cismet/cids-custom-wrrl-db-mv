@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Standgewässer" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="de.cismet.cids.custom.reports.scriptlets.WkFgScriptlet" uuid="a6283ab9-3ec2-40b0-9063-7ae6b4ace177">
-	<property name="ireport.zoom" value="1.4641000000000006"/>
-	<property name="ireport.x" value="336"/>
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<import value="de.cismet.cids.dynamics.CidsBean"/>
 	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
@@ -51,8 +51,8 @@
 	<field name="de_meas_cd" class="java.util.Collection"/>
 	<field name="linie.von.route.gwk" class="java.lang.Long"/>
 	<field name="fislightlink" class="java.lang.String"/>
-	<field name="ersteOrdn" class="java.lang.Boolean"/>
-	<field name="zweiteOrdn" class="java.lang.Boolean"/>
+	<field name="erste_ordn" class="java.lang.Boolean"/>
+	<field name="zweite_ordn" class="java.lang.Boolean"/>
 	<variable name="df" class="java.text.DecimalFormat">
 		<initialValueExpression><![CDATA[new java.text.DecimalFormat("0.000000")]]></initialValueExpression>
 	</variable>
@@ -101,7 +101,7 @@
 				<textElement>
 					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
-				<text><![CDATA[5.1 Geplante Maßnahmen/Maßnahmen in Umsetzung]]></text>
+				<text><![CDATA[5.1 Geplante Maßnahmen]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="498" height="28" forecolor="#000000" uuid="a3d4df21-7653-4eba-bdfb-153ee28ce834"/>
@@ -320,7 +320,7 @@ Link]]></text>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{ersteOrdn} != null && $F{ersteOrdn} ? "1." : ($F{zweiteOrdn} != null && $F{zweiteOrdn} ? "2." : ""))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{erste_ordn} != null && $F{erste_ordn} ? "1." : ($F{zweite_ordn} != null && $F{zweite_ordn} ? "2." : ""))]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
