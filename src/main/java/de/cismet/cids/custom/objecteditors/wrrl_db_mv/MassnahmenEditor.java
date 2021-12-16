@@ -774,7 +774,20 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private List<CidsBean> getImpact() {
         if (cidsBean.getProperty(WB_PROPERTIES[0]) != null) {
-            return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_fg"), "impact_src");
+            final List<CidsBean> pressureImpactDriver = CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)
+                    cidsBean.getProperty("wk_fg"),
+                    "pressure_impact_driver");
+            final List<CidsBean> pressures = new ArrayList<>();
+
+            for (final CidsBean pidBean : pressureImpactDriver) {
+                final CidsBean pBean = (CidsBean)pidBean.getProperty("pressure");
+
+                if (!pressures.contains(pBean)) {
+                    pressures.add(pBean);
+                }
+            }
+
+            return pressures;
         } else if (cidsBean.getProperty(WB_PROPERTIES[1]) != null) {
             return CidsBeanSupport.getBeanCollectionFromProperty((CidsBean)cidsBean.getProperty("wk_sg"), "impact_src");
         } else if (cidsBean.getProperty(WB_PROPERTIES[2]) != null) {

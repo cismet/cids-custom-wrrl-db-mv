@@ -98,8 +98,12 @@ public class WkFgReport {
 
         final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
         final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
+        final Collection<CidsBean> massnahmenRunning = getMassnahmenRunning((Integer)cidsBean.getProperty("id"));
         beans.add(coll);
         beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenRunning != null) && !massnahmenRunning.isEmpty()) {
+            beans.add(massnahmenRunning);
+        }
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             beans.add(massnahmenUmgesetzt);
         }
@@ -107,6 +111,9 @@ public class WkFgReport {
         final ArrayList<String> reports = new ArrayList<String>();
         reports.add("/de/cismet/cids/custom/reports/wk_fg_komp.jasper");
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
+        if ((massnahmenRunning != null) && !massnahmenRunning.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenLaufend.jasper");
+        }
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
         }
@@ -145,8 +152,12 @@ public class WkFgReport {
 
         final ArrayList<Collection<CidsBean>> beans = new ArrayList<Collection<CidsBean>>();
         final Collection<CidsBean> massnahmenUmgesetzt = getMassnahmenUmgesetzt((Integer)cidsBean.getProperty("id"));
+        final Collection<CidsBean> massnahmenRunning = getMassnahmenRunning((Integer)cidsBean.getProperty("id"));
         beans.add(coll);
         beans.add(getMassnahmen((Integer)cidsBean.getProperty("id")));
+        if ((massnahmenRunning != null) && !massnahmenRunning.isEmpty()) {
+            beans.add(massnahmenRunning);
+        }
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             beans.add(massnahmenUmgesetzt);
         }
@@ -158,6 +169,9 @@ public class WkFgReport {
         reports.add("/de/cismet/cids/custom/reports/wk_fg_komp.jasper");
 //        }
         reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmen.jasper");
+        if ((massnahmenRunning != null) && !massnahmenRunning.isEmpty()) {
+            reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenLaufend.jasper");
+        }
         if ((massnahmenUmgesetzt != null) && !massnahmenUmgesetzt.isEmpty()) {
             reports.add("/de/cismet/cids/custom/reports/wk_fg_massnahmenUmgesetzt.jasper");
         }
@@ -344,7 +358,37 @@ public class WkFgReport {
                         + " massnahmen_realisierung mr on (realisierung = mr.id) "
                         + "WHERE "
                         + "   wk_fg = " + String.valueOf(id)
-                        + " and (massn_fin is null or massn_fin = false) "
+                        + " and coalesce(massn_started, false) = false and (massn_fin is null or massn_fin = false) "
+                        + "ORDER BY mr.name, massn_id"
+                        + ";";
+
+            return getBeansFromQuery(query);
+        } catch (Exception ex) {
+            LOG.error("Error while getting massnahmen for wk-fg with id " + String.valueOf(id), ex);
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   id  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Collection<CidsBean> getMassnahmenRunning(final int id) {
+        try {
+            final MetaClass mcMassnahmen = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "massnahmen");
+
+            final String query = "SELECT "
+                        + "   " + mcMassnahmen.getID() + ", "
+                        + "   m." + mcMassnahmen.getPrimaryKey() + " "
+                        + "FROM "
+                        + "   " + mcMassnahmen.getTableName() + " m left join "
+                        + " massnahmen_realisierung mr on (realisierung = mr.id) "
+                        + "WHERE "
+                        + "   wk_fg = " + String.valueOf(id)
+                        + " and massn_started = true and (massn_fin is null or massn_fin = false) "
                         + "ORDER BY mr.name, massn_id"
                         + ";";
 
