@@ -179,7 +179,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         lblBio_gk = new javax.swing.JLabel();
-        cbBioGk = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbBioGk = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblBioGkJahr = new javax.swing.JLabel();
         txtBioGkJahr = new javax.swing.JTextField();
         lblBioGkBemerkung = new javax.swing.JLabel();
@@ -187,22 +187,22 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         cbConfidence = new ScrollableComboBox();
         txtBioQkBemerk = new javax.swing.JTextField();
         txtPhytoGkJahr = new javax.swing.JTextField();
-        cbPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbPhyto = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtPhytoGkMst = new javax.swing.JTextField();
         lblPhyto = new javax.swing.JLabel();
         lblPhytoGkMst = new javax.swing.JLabel();
         txtPhytoBemerk = new javax.swing.JTextField();
-        cbBen_Inv = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbBen_Inv = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblBenInv = new javax.swing.JLabel();
         txtBenInvMst = new javax.swing.JTextField();
         txtBenInvGkJahr = new javax.swing.JTextField();
         txtBenInvBemerk = new javax.swing.JTextField();
-        cbMacPhyto = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbMacPhyto = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblMacPhyto = new javax.swing.JLabel();
         txtMacPhytoGkMst = new javax.swing.JTextField();
         txtMacPhytoGkJahr = new javax.swing.JTextField();
         txtMacPhytoBemerk = new javax.swing.JTextField();
-        cbFisch = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbFisch = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblFish = new javax.swing.JLabel();
         txtFishGkMst = new javax.swing.JTextField();
         txtFishGkJahr = new javax.swing.JTextField();
@@ -295,7 +295,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk_jahr}"),
                 txtBioGkJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -375,7 +375,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.phyto_gk_jahr}"),
                 txtPhytoGkJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -517,7 +517,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.ben_inv_gk_jahr}"),
                 txtBenInvGkJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -613,7 +613,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mac_phyto_gk_jahr}"),
                 txtMacPhytoGkJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -701,7 +701,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fish_gk_jahr}"),
                 txtFishGkJahr,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 

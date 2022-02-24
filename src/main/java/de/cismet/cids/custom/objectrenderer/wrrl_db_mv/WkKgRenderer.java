@@ -79,6 +79,10 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
     public WkKgRenderer() {
         bindingGroup = new BindingGroup();
         initComponents();
+        panDescriptionAndRisks.setVisible(false);
+        panQualityInformation.setVisible(false);
+        tpMain.remove(panDescriptionAndRisks);
+        tpMain.remove(panQualityInformation);
         tpMain.setUI(new TabbedPaneUITransparent());
     }
 

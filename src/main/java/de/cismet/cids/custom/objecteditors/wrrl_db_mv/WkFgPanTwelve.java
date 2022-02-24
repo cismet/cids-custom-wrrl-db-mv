@@ -147,10 +147,10 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
         lblBemerk = new javax.swing.JLabel();
         txtEcoStatBemerkung = new javax.swing.JTextField();
         txtEcoStatJahr = new javax.swing.JTextField();
-        cbEcoStat = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbEcoStat = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblEcoStat = new javax.swing.JLabel();
         lblEcoPot = new javax.swing.JLabel();
-        cbEcoPot = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbEcoPot = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtEcoPotJahr = new javax.swing.JTextField();
         txtEcoPotBemerk = new javax.swing.JTextField();
         jbVorb = new javax.swing.JButton();
@@ -249,8 +249,8 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_stat_bemerkung}"),
                 txtEcoStatBemerkung,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -382,8 +382,8 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.eco_pot_bemerkung}"),
                 txtEcoPotBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

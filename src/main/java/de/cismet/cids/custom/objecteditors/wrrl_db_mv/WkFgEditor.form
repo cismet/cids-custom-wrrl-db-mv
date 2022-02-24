@@ -348,10 +348,16 @@
           <Properties>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="if (showPanMelinf) {"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if (showPanMelinf) {"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Melderelevante Informationen">
-                <Property name="tabTitle" type="java.lang.String" value="Melderelevante Informationen"/>
+              <JTabbedPaneConstraints tabName="Anh&#xf6;rung">
+                <Property name="tabTitle" type="java.lang.String" value="Anh&#xf6;rung"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

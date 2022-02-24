@@ -7,10 +7,14 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import org.apache.log4j.Logger;
+
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+
+import de.cismet.tools.BrowserLauncher;
 
 /**
  * DOCUMENT ME!
@@ -20,12 +24,17 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
  */
 public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBeanStore {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final Logger LOG = Logger.getLogger(WkSgPanOne.class);
+
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
     private final boolean editable = true;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel labWebside;
     private javax.swing.JLabel lblArtificial;
     private javax.swing.JLabel lblGeolCat;
     private javax.swing.JLabel lblHeading;
@@ -45,6 +54,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblValTy_cd_lw;
     private javax.swing.JLabel lblValWb_predect;
     private javax.swing.JLabel lblValWhy_hmwb;
+    private javax.swing.JLabel lblWebside;
     private javax.swing.JLabel lblWhy_hmwb;
     private javax.swing.JLabel lblWkK;
     private javax.swing.JLabel lblWk_k;
@@ -66,6 +76,10 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      */
     public WkSgPanOne() {
         initComponents();
+        lblImpact.setVisible(false);
+        lblImpactSrc.setVisible(false);
+        scpImpact.setVisible(false);
+        scpImpactSrc.setVisible(false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -110,6 +124,8 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblValModified = new javax.swing.JLabel();
         lblValWhy_hmwb = new javax.swing.JLabel();
         lblValWb_predect = new javax.swing.JLabel();
+        labWebside = new javax.swing.JLabel();
+        lblWebside = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(1100, 550));
         setOpaque(false);
@@ -598,12 +614,53 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(lblValWb_predect, gridBagConstraints);
 
+        labWebside.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labWebside.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    labWebsideMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        panInfoContent.add(labWebside, gridBagConstraints);
+
+        lblWebside.setText(org.openide.util.NbBundle.getMessage(
+                WkSgPanOne.class,
+                "WkSgPanOne.lblWebside.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 0, 0);
+        panInfoContent.add(lblWebside, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void labWebsideMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labWebsideMouseClicked
+        try {
+            BrowserLauncher.openURL(
+                "https://fis-wasser-mv.de/charts/steckbriefe/lw/lw_wk.php?sg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")));
+        } catch (Exception ex) {
+            LOG.warn(ex, ex);
+        }
+    }                                                                          //GEN-LAST:event_labWebsideMouseClicked
 
     @Override
     public CidsBean getCidsBean() {
@@ -619,6 +676,10 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            labWebside.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/lw/lw_wk.php?sg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">Webseite</a></html>");
+        } else {
+            labWebside.setText("");
         }
     }
 
