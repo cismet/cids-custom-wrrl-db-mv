@@ -2233,6 +2233,7 @@ public class CheckAssistent extends javax.swing.JPanel implements CidsWindowSear
                             jTableNb.setUpdateSelectionOnSort(true);
                             jTableNb.setModel(model);
                             refreshCheckBoxes();
+                            jTableNb.getSelectionModel().removeListSelectionListener(CheckAssistent.this);
                             jTableNb.getSelectionModel().addListSelectionListener(CheckAssistent.this);
                             setTableSize();
                             ((JXTable)jTableNb).getColumnExt(4).setComparator(new JCheckboxComparator());

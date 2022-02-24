@@ -51,10 +51,19 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbName;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jsBemerkung;
+    private javax.swing.JScrollPane jsMassnahme;
+    private javax.swing.JScrollPane jsMassnahmeBemerkung;
     private javax.swing.JTextArea jtBemerkung;
+    private javax.swing.JTextArea jtMassnahme;
+    private javax.swing.JTextArea jtMassnahmeBemerkung;
     private javax.swing.JLabel lblBemerkung;
+    private javax.swing.JLabel lblBemerkung1;
+    private javax.swing.JLabel lblBemerkung2;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblRealisierung;
+    private javax.swing.JLabel lblRealisierungVal;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -89,6 +98,8 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
             linearReferencedLineEditor.setDrawingFeaturesEnabled(true);
         } else {
             RendererTools.makeReadOnly(jtBemerkung);
+            RendererTools.makeReadOnly(jtMassnahme);
+            RendererTools.makeReadOnly(jtMassnahmeBemerkung);
             RendererTools.makeReadOnly(cbName);
         }
     }
@@ -105,16 +116,57 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        lblRealisierung = new javax.swing.JLabel();
+        lblRealisierungVal = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
         cbName = new ScrollableComboBox();
+        linearReferencedLineEditor = linearReferencedLineEditor;
         lblBemerkung = new javax.swing.JLabel();
         jsBemerkung = new javax.swing.JScrollPane();
         jtBemerkung = new javax.swing.JTextArea();
-        linearReferencedLineEditor = linearReferencedLineEditor;
+        jPanel1 = new javax.swing.JPanel();
+        lblBemerkung1 = new javax.swing.JLabel();
+        lblBemerkung2 = new javax.swing.JLabel();
+        jsMassnahme = new javax.swing.JScrollPane();
+        jtMassnahme = new javax.swing.JTextArea();
+        jsMassnahmeBemerkung = new javax.swing.JScrollPane();
+        jtMassnahmeBemerkung = new javax.swing.JTextArea();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(994, 400));
+        setPreferredSize(new java.awt.Dimension(994, 500));
         setLayout(new java.awt.GridBagLayout());
+
+        lblRealisierung.setText(org.openide.util.NbBundle.getMessage(
+                GupEntwicklungszielEditor.class,
+                "GupEntwicklungszielEditor.lblRealisierung.text")); // NOI18N
+        lblRealisierung.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblRealisierung.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblRealisierung.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
+        add(lblRealisierung, gridBagConstraints);
+
+        lblRealisierungVal.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblRealisierungVal.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblRealisierungVal.setPreferredSize(new java.awt.Dimension(170, 17));
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.realisierung.name}"),
+                lblRealisierungVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
+        add(lblRealisierungVal, gridBagConstraints);
 
         lblName.setText(org.openide.util.NbBundle.getMessage(
                 GupEntwicklungszielEditor.class,
@@ -126,13 +178,13 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(25, 15, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblName, gridBagConstraints);
 
         cbName.setMinimumSize(new java.awt.Dimension(380, 20));
         cbName.setPreferredSize(new java.awt.Dimension(720, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name_bezeichnung}"),
@@ -145,19 +197,25 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(25, 5, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(cbName, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 10);
+        add(linearReferencedLineEditor, gridBagConstraints);
 
         lblBemerkung.setText(org.openide.util.NbBundle.getMessage(
                 GupEntwicklungszielEditor.class,
                 "GupEntwicklungszielEditor.lblBemerkung.text")); // NOI18N
         lblBemerkung.setMaximumSize(new java.awt.Dimension(170, 17));
-        lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 17));
-        lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 17));
+        lblBemerkung.setMinimumSize(new java.awt.Dimension(170, 75));
+        lblBemerkung.setPreferredSize(new java.awt.Dimension(170, 75));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
         add(lblBemerkung, gridBagConstraints);
@@ -179,19 +237,97 @@ public class GupEntwicklungszielEditor extends javax.swing.JPanel implements Cid
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jsBemerkung, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        lblBemerkung1.setText(org.openide.util.NbBundle.getMessage(
+                GupEntwicklungszielEditor.class,
+                "GupEntwicklungszielEditor.lblBemerkung1.text")); // NOI18N
+        lblBemerkung1.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblBemerkung1.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblBemerkung1.setPreferredSize(new java.awt.Dimension(170, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 5, 5);
+        jPanel1.add(lblBemerkung1, gridBagConstraints);
+
+        lblBemerkung2.setText(org.openide.util.NbBundle.getMessage(
+                GupEntwicklungszielEditor.class,
+                "GupEntwicklungszielEditor.lblBemerkung2.text")); // NOI18N
+        lblBemerkung2.setMaximumSize(new java.awt.Dimension(170, 17));
+        lblBemerkung2.setMinimumSize(new java.awt.Dimension(170, 17));
+        lblBemerkung2.setPreferredSize(new java.awt.Dimension(170, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
+        jPanel1.add(lblBemerkung2, gridBagConstraints);
+
+        jsMassnahme.setMaximumSize(new java.awt.Dimension(327, 320));
+
+        jtMassnahme.setEditable(false);
+        jtMassnahme.setColumns(20);
+        jtMassnahme.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme}"),
+                jtMassnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jsMassnahme.setViewportView(jtMassnahme);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 10);
-        add(linearReferencedLineEditor, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 5);
+        jPanel1.add(jsMassnahme, gridBagConstraints);
+
+        jsMassnahmeBemerkung.setMaximumSize(new java.awt.Dimension(327, 320));
+
+        jtMassnahmeBemerkung.setEditable(false);
+        jtMassnahmeBemerkung.setColumns(20);
+        jtMassnahmeBemerkung.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.massnahme_bemerkung}"),
+                jtMassnahmeBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jsMassnahmeBemerkung.setViewportView(jtMassnahmeBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(jsMassnahmeBemerkung, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(jPanel1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

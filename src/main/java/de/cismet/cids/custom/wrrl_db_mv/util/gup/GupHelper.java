@@ -51,7 +51,9 @@ public class GupHelper {
         new CalculationCache<List, MetaObject[]>(
             new UmlandnutzerCalculator());
     public static final CalculationCache<List, MetaObject[]> entwicklungszielCache =
-        new CalculationCache<List, MetaObject[]>(new EntwicklungszielCalculator());
+        new CalculationCache<List, MetaObject[]>(new EntwicklungszielCalculator(false));
+    public static final CalculationCache<List, MetaObject[]> entwicklungsziel33Cache =
+        new CalculationCache<List, MetaObject[]>(new EntwicklungszielCalculator(true));
     public static final CalculationCache<List, ArrayList<ArrayList>> querbauwerkCache =
         new CalculationCache<List, ArrayList<ArrayList>>(new QuerbauwerkeCalculator());
     public static final CalculationCache<List, MetaObject[]> unterhaltungserfordernisCache =
@@ -563,6 +565,21 @@ public class GupHelper {
                 WRRLUtil.DOMAIN_NAME,
                 "GUP_ENTWICKLUNGSZIEL");
 
+        //~ Instance fields ----------------------------------------------------
+
+        private boolean after27;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new EntwicklungszielCalculator object.
+         *
+         * @param  after27  DOCUMENT ME!
+         */
+        public EntwicklungszielCalculator(final boolean after27) {
+            this.after27 = after27;
+        }
+
         //~ Methods ------------------------------------------------------------
 
         /**
@@ -577,6 +594,7 @@ public class GupHelper {
          */
         @Override
         public MetaObject[] calculate(final List input) throws Exception {
+            final String realisierung = (after27 ? "(7,8)" : "(1,2,3,5)");
             final String query = "select " + ENTWICKLUNGSZIEL.getID() + ", u."
                         + ENTWICKLUNGSZIEL.getPrimaryKey()
                         + " from "
@@ -588,7 +606,7 @@ public class GupHelper {
                         + ") OR "
                         + "             (bis.wert > " + (Double)input.get(0) + " AND bis.wert < " + (Double)input.get(1)
                         + " ) OR (von.wert <= " + (Double)input.get(0) + " and bis.wert >= " + (Double)input.get(1)
-                        + "))"; // NOI18N
+                        + ")) and realisierung in " + realisierung; // NOI18N
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Request for Entwicklungsziel: " + query);
             }

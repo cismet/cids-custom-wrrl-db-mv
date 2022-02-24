@@ -391,8 +391,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create(
-                    "${cidsBean.lawa_typ.code}-${cidsBean.lawa_typ.description}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_typ.value}-${cidsBean.lawa_typ.name}"),
                 lblLawaVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");

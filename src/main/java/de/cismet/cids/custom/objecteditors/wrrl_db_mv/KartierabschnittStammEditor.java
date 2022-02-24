@@ -676,8 +676,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                     final CidsBean lawaType = (CidsBean)metaObjects[0].getBean().getProperty("lawa_type");
 
                     if (lawaType != null) {
-                        wkType = String.valueOf(lawaType.getProperty("code")) + "-"
-                                    + String.valueOf(lawaType.getProperty("description"));
+                        wkType = String.valueOf(lawaType.getProperty("value")) + "-"
+                                    + String.valueOf(lawaType.getProperty("name"));
                     } else {
                         wkType = "nicht ermittelbar";
                     }
