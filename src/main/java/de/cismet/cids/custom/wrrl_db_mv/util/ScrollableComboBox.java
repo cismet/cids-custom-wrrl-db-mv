@@ -134,6 +134,19 @@ public class ScrollableComboBox extends DefaultBindableReferenceCombo {
     /**
      * Creates a new ScrollableComboBox object.
      *
+     * @param  comparator  DOCUMENT ME!
+     * @param  onlyused    DOCUMENT ME!
+     */
+    public ScrollableComboBox(final Comparator<CidsBean> comparator, final boolean onlyused) {
+        super(null, false, onlyused, comparator);
+        if (getUI() instanceof PlasticComboBoxUI) {
+            setUI(ScrollableComboUI.createUI(null));
+        }
+    }
+
+    /**
+     * Creates a new ScrollableComboBox object.
+     *
      * @param  mc        DOCUMENT ME!
      * @param  nullable  DOCUMENT ME!
      * @param  onlyUsed  DOCUMENT ME!

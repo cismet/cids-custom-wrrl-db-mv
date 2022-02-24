@@ -196,7 +196,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -403,8 +403,7 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create(
-                    "${cidsBean.lawa_typ.code}-${cidsBean.lawa_typ.description}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_typ.value}-${cidsBean.lawa_typ.name}"),
                 lblLawaVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");

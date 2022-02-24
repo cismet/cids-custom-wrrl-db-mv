@@ -7,17 +7,28 @@
 ****************************************************/
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
 import Sirius.server.middleware.types.MetaClass;
 
 import org.jdesktop.beansbinding.Converter;
 
+import java.awt.Component;
+
 import java.sql.Timestamp;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import java.util.ArrayList;
 
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSeven;
 import de.cismet.cids.custom.reports.WkSgReport;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgMeldeInfosSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 
@@ -27,10 +38,14 @@ import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.TitleComponentProvider;
+
+import static javax.swing.SwingConstants.TOP;
 
 /**
  * DOCUMENT ME!
@@ -52,6 +67,7 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean showPanMelinf;
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -59,21 +75,30 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ExcemptionRenderer excemptionEditor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFoot;
+    private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeadingAusnahme;
+    private javax.swing.JLabel lblSpace;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panAusnahmen;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality;
+    private javax.swing.JPanel panMelInf;
     private javax.swing.JPanel panMeld;
     private javax.swing.JPanel panQualitaet;
+    private de.cismet.tools.gui.RoundedPanel panQuality;
+    private javax.swing.JPanel panQualityContent;
     private javax.swing.JPanel panRisiken;
     private javax.swing.JLabel panSpace;
+    private javax.swing.JLabel panSpace1;
     private javax.swing.JPanel panTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
+    private org.jdesktop.swingx.JXTable tabPressure;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanEight wkSgPanEight;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkSgPanFive wkSgPanFive;
@@ -93,14 +118,54 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
      * Creates new form WkFgEditor.
      */
     public WkSgRenderer() {
-//        try {
-//            MetaClass qscMetaClass = ClassCacheMultiple.getMetaClass("WRRL_DB_MV", "quality_status_code");
-//            qualityStatusCodeModel = DefaultBindableReferenceCombo.getModelByMetaClass(qscMetaClass, false);
+        showPanMelinf =
+            SessionManager.getSession().getUser().getUserGroup().getName().equalsIgnoreCase("administratoren")
+                    || SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .toLowerCase()
+                    .startsWith("stalu");
         initComponents();
+        btnReport.setVisible(false);
+        panRisiken.setVisible(false);
+        panQualitaet.setVisible(false);
+        panMeld.setVisible(false);
+        panAusnahmen.setVisible(false);
+        tpMain.remove(panRisiken);
+        tpMain.remove(panQualitaet);
+        tpMain.remove(panMeld);
+        tpMain.remove(panAusnahmen);
         tpMain.setUI(new TabbedPaneUITransparent());
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
+        jScrollPane1.setVisible(true);
+        tabPressure.setRowHeight(75); // 55
+        tabPressure.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+
+                @Override
+                public Component getTableCellRendererComponent(final JTable table,
+                        final Object value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int row,
+                        final int column) {
+                    setVerticalAlignment(TOP);
+                    final Component c = super.getTableCellRendererComponent(
+                            table,
+                            value,
+                            isSelected,
+                            hasFocus,
+                            row,
+                            column);
+                    if (c instanceof JLabel) {
+                        ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                        ((JLabel)c).setToolTipText(
+                            "<html>"
+                                    + WkFgPanSeven.wrapText(String.valueOf(value), 50)
+                                    + "</html>");
+                    }
+                    return c;
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -137,8 +202,49 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
             }
 
             lblFoot.setText("Zuletzt bearbeitet von " + avUser + " am " + avTime);
+
+            if (showPanMelinf) {
+                final Thread t = new Thread("retrieveAnhData") {
+
+                        @Override
+                        public void run() {
+                            try {
+                                final CidsServerSearch anhoerungInfo = new WkFgMeldeInfosSearch((String)
+                                        cidsBean.getProperty(
+                                            "wk_k"));
+                                final ArrayList<ArrayList> infos = (ArrayList<ArrayList>)SessionManager
+                                            .getProxy()
+                                            .customServerSearch(SessionManager.getSession().getUser(), anhoerungInfo);
+                                int currentRow = 0;
+                                tabPressure.setModel(new WkFgPanSeven.CustomTableModel(infos));
+
+                                for (final ArrayList row : infos) {
+                                    int maxLength = 0;
+                                    for (final Object col : row) {
+                                        if (String.valueOf(col).length() > maxLength) {
+                                            maxLength = String.valueOf(col).length();
+                                        }
+                                    }
+
+                                    if (maxLength > 44) {
+                                        tabPressure.setRowHeight(currentRow, maxLength / 22 * 20);
+                                    }
+
+                                    currentRow++;
+                                }
+                            } catch (Exception e) {
+                                log.error("Error while retrieving anhörungs infos", e);
+                            }
+                        }
+                    };
+
+                t.start();
+            } else {
+                tabPressure.setModel(new WkFgPanSeven.CustomTableModel(new ArrayList<ArrayList>()));
+            }
         } else {
             lblFoot.setText("");
+            tabPressure.setModel(new WkFgPanSeven.CustomTableModel(new ArrayList<ArrayList>()));
         }
     }
 
@@ -186,11 +292,22 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingAusnahme = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        if (showPanMelinf) {
+            panMelInf = new javax.swing.JPanel();
+        }
+        panQuality = new de.cismet.tools.gui.RoundedPanel();
+        panHeadQuality = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading = new javax.swing.JLabel();
+        panQualityContent = new javax.swing.JPanel();
+        lblSpace = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabPressure = new org.jdesktop.swingx.JXTable();
+        panSpace1 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -200,7 +317,7 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
 
         panTitle.setOpaque(false);
 
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -438,6 +555,60 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
 
         tpMain.addTab("Ausnahmen", panAusnahmen);
 
+        if (showPanMelinf) {
+            panMelInf.setOpaque(false);
+            panMelInf.setLayout(new java.awt.GridBagLayout());
+
+            panHeadQuality.setBackground(new java.awt.Color(51, 51, 51));
+            panHeadQuality.setMinimumSize(new java.awt.Dimension(109, 24));
+            panHeadQuality.setPreferredSize(new java.awt.Dimension(109, 24));
+            panHeadQuality.setLayout(new java.awt.FlowLayout());
+
+            lblHeading.setForeground(new java.awt.Color(255, 255, 255));
+            lblHeading.setText("Anhörung");
+            panHeadQuality.add(lblHeading);
+
+            panQuality.add(panHeadQuality, java.awt.BorderLayout.NORTH);
+
+            panQualityContent.setMinimumSize(new java.awt.Dimension(1100, 260));
+            panQualityContent.setOpaque(false);
+            panQualityContent.setPreferredSize(new java.awt.Dimension(1100, 260));
+            panQualityContent.setLayout(new java.awt.GridBagLayout());
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 2;
+            gridBagConstraints.gridy = 8;
+            panQualityContent.add(lblSpace, gridBagConstraints);
+
+            jScrollPane1.setViewportView(tabPressure);
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 5;
+            gridBagConstraints.gridwidth = 3;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+            panQualityContent.add(jScrollPane1, gridBagConstraints);
+
+            panQuality.add(panQualityContent, java.awt.BorderLayout.CENTER);
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+            panMelInf.add(panQuality, gridBagConstraints);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.gridwidth = 2;
+            gridBagConstraints.weighty = 1.0;
+            panMelInf.add(panSpace1, gridBagConstraints);
+
+            tpMain.addTab("Anhörung", panMelInf);
+        }
+
         add(tpMain, java.awt.BorderLayout.PAGE_START);
 
         bindingGroup.bind();
@@ -483,7 +654,8 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
 
     @Override
     public String getTitle() {
-        return "Wasserkörper " + String.valueOf(cidsBean);
+        return "Wasserkörper "
+                    + String.valueOf(cidsBean);
     }
 
     @Override

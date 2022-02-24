@@ -249,7 +249,11 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
             "operatives_ziel",
             "operatives_ziel.name");
     private final ColoredReadOnlyBand entwicklungszielBand = new ColoredReadOnlyBand(
-            "WRRL-Maßnahme",
+            "WRRL-Maßnahme bis 27",
+            "name_bezeichnung",
+            "name_bezeichnung.name");
+    private final ColoredReadOnlyBand entwicklungszielBand33 = new ColoredReadOnlyBand(
+            "WRRL-Maßnahme nach 27",
             "name_bezeichnung",
             "name_bezeichnung.name");
     private final ReadOnlyTextBand unterhaltungshinweisLinks = new ReadOnlyTextBand(
@@ -315,6 +319,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
     private javax.swing.JButton btnReport;
     private javax.swing.JToggleButton butStationierung;
     private javax.swing.JCheckBox chkEntwicklungsziel;
+    private javax.swing.JCheckBox chkEntwicklungsziel33;
     private javax.swing.JCheckBox chkHydrologie;
     private javax.swing.JCheckBox chkMassnahmen;
     private javax.swing.JCheckBox chkNaturschutz;
@@ -412,6 +417,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         sohleBand.setReadOnly(readOnly);
         unterhaltungserfordernisBand.setEnabled(false);
         entwicklungszielBand.setEnabled(false);
+        entwicklungszielBand33.setEnabled(false);
         unterhaltungshinweisLinks.setEnabled(false);
         unterhaltungshinweisRechts.setEnabled(false);
         unterhaltungshinweisSohle.setEnabled(false);
@@ -458,6 +464,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         sbm.addBand(wkband);
         sbm.addBand(wkBandFiller);                     // filler
         sbm.addBand(entwicklungszielBand);
+        sbm.addBand(entwicklungszielBand33);
         sbm.addBand(unterhaltungserfordernisBand);
         sbm.addBand(new EmptyAbsoluteHeightedBand(5)); // filler
         sbm.addBand(unterhaltungshinweisRechts);
@@ -1315,7 +1322,16 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                             final CidsBean bean = CidsBean.createNewCidsBeanFromJSON(true, entwicklungsziel);
 
                             if ((bean != null) && (bean.getBeanCollectionProperty("entwicklungsziele") != null)) {
-                                return bean.getBeanCollectionProperty("entwicklungsziele");
+                                final List<CidsBean> beanList = new ArrayList<CidsBean>();
+
+                                for (final CidsBean massn : bean.getBeanCollectionProperty("entwicklungsziele")) {
+                                    final Object firstBand = massn.getProperty("first_gepp_band");
+
+                                    if ((firstBand == null) || (Boolean)firstBand) {
+                                        beanList.add(massn);
+                                    }
+                                }
+                                return beanList;
                             } else {
                                 return new ArrayList<CidsBean>();
                             }
@@ -1345,6 +1361,69 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         entwicklungszielBand.setCidsBeans(beans);
                         chkEntwicklungsziel.setEnabled(true);
                         ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                    } catch (Exception e) {
+                        LOG.error("Problem beim Suchen der WRRL-Maßnahmen", e);
+                    }
+                }
+            });
+
+        getExecutor().execute(new javax.swing.SwingWorker<Collection<CidsBean>, Void>() {
+
+                @Override
+                protected Collection<CidsBean> doInBackground() throws Exception {
+                    if ((freezed != null) && freezed) {
+                        final String entwicklungsziel = (String)cidsBean.getProperty("eingefrorene_entwicklungsziele");
+                        chkEntwicklungsziel.setToolTipText(freezedTimeString);
+
+                        if (entwicklungsziel == null) {
+                            return new ArrayList<CidsBean>();
+                        } else {
+                            final CidsBean bean = CidsBean.createNewCidsBeanFromJSON(true, entwicklungsziel);
+
+                            if ((bean != null) && (bean.getBeanCollectionProperty("entwicklungsziele") != null)) {
+                                final List<CidsBean> beanList = new ArrayList<CidsBean>();
+
+                                for (final CidsBean massn : bean.getBeanCollectionProperty("entwicklungsziele")) {
+                                    final Object firstBand = massn.getProperty("first_gepp_band");
+
+                                    if ((firstBand != null) && !(Boolean)firstBand) {
+                                        beanList.add(massn);
+                                    }
+                                }
+                                return (beanList.isEmpty() ? null : beanList);
+                            } else {
+                                return new ArrayList<CidsBean>();
+                            }
+                        }
+                    } else {
+                        final List in = new ArrayList(3);
+                        in.add(sbm.getMin());
+                        in.add(sbm.getMax());
+                        in.add(route.getProperty("gwk"));
+                        final MetaObject[] metaObjects = GupHelper.entwicklungsziel33Cache.calcValue(in);
+
+                        final List<CidsBean> beanList = new ArrayList<CidsBean>();
+
+                        for (final MetaObject mo : metaObjects) {
+                            beanList.add(mo.getBean());
+                        }
+
+                        return beanList;
+                    }
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final Collection<CidsBean> beans = get();
+
+                        if (beans == null) {
+                            chkEntwicklungsziel33.setVisible(false);
+                        } else {
+                            entwicklungszielBand33.setCidsBeans(beans);
+                            chkEntwicklungsziel33.setEnabled(true);
+                            ((SimpleBandModel)jband.getModel()).fireBandModelChanged();
+                        }
                     } catch (Exception e) {
                         LOG.error("Problem beim Suchen der WRRL-Maßnahmen", e);
                     }
@@ -1583,6 +1662,7 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
         chkNaturschutz = new javax.swing.JCheckBox();
         chkUnterhaltungserfordernis = new javax.swing.JCheckBox();
         chkEntwicklungsziel = new javax.swing.JCheckBox();
+        chkEntwicklungsziel33 = new javax.swing.JCheckBox();
         chkVerbreitungsraum = new javax.swing.JCheckBox();
         chkOperativeZiele = new javax.swing.JCheckBox();
         chkUnterhaltungshinweise = new javax.swing.JCheckBox();
@@ -2124,6 +2204,22 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                 }
             });
         panBandControl.add(chkEntwicklungsziel);
+
+        chkEntwicklungsziel33.setText(org.openide.util.NbBundle.getMessage(
+                GupPlanungsabschnittEditor.class,
+                "GupPlanungsabschnittEditor.chkEntwicklungsziel33.text",
+                new Object[] {})); // NOI18N
+        chkEntwicklungsziel33.setContentAreaFilled(false);
+        chkEntwicklungsziel33.setEnabled(false);
+        chkEntwicklungsziel33.setPreferredSize(new java.awt.Dimension(180, 18));
+        chkEntwicklungsziel33.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    chkEntwicklungsziel33ActionPerformed(evt);
+                }
+            });
+        panBandControl.add(chkEntwicklungsziel33);
 
         chkVerbreitungsraum.setText(org.openide.util.NbBundle.getMessage(
                 GupPlanungsabschnittEditor.class,
@@ -2714,10 +2810,22 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void chkEntwicklungsziel33ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_chkEntwicklungsziel33ActionPerformed
+        entwicklungszielBand33.setEnabled(chkEntwicklungsziel33.isSelected());
+        adjustHeight();
+        sbm.fireBandModelValuesChanged();
+    }                                                                                         //GEN-LAST:event_chkEntwicklungsziel33ActionPerformed
+
+    /**
+     * DOCUMENT ME!
      */
     private void resetBands() {
         wkband.removeAllMember();
         entwicklungszielBand.removeAllMember();
+        entwicklungszielBand33.removeAllMember();
         unterhaltungserfordernisBand.removeAllMember();
         unterhaltungshinweisRechts.removeAllMember();
         unterhaltungshinweisSohle.removeAllMember();

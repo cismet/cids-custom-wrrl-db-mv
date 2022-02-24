@@ -49,12 +49,14 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MaxWBNumberSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.StaluSearch;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgMeldeInfosSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.*;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -81,6 +83,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.WaitingDialogThread;
+
+import static javax.swing.SwingConstants.TOP;
 
 /**
  * Massnahmen koennen sich auf Fliessgewaesser und Seegewaesser beziehen. Massnahmen, die sich auf Seegewaesser beziehen
@@ -153,6 +157,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
     //~ Instance fields --------------------------------------------------------
 
+    private boolean showPanMelinf;
     private List<CidsBean> pressures = null;
 
     private CidsBean cidsBean;
@@ -211,12 +216,14 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblGeom;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblHeading11;
     private javax.swing.JLabel lblHeading2;
     private javax.swing.JLabel lblHeading3;
     private javax.swing.JLabel lblHeading4;
@@ -235,6 +242,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblPressureCataloge1;
     private javax.swing.JLabel lblPrioritaet;
     private javax.swing.JLabel lblRevital;
+    private javax.swing.JLabel lblSpace;
     private javax.swing.JLabel lblStalu;
     private javax.swing.JLabel lblSubs_typ;
     private javax.swing.JLabel lblValLfdnr;
@@ -254,6 +262,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JList lstdeMeas2;
     private javax.swing.JList lstdeMeas3;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.MassnahmenDetail massnahmenDetail1;
+    private javax.swing.JPanel panAllgemein;
     private de.cismet.tools.gui.RoundedPanel panDeMeas;
     private de.cismet.tools.gui.RoundedPanel panDeMeas1;
     private de.cismet.tools.gui.RoundedPanel panDeMeas2;
@@ -274,6 +283,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo7;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo8;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo9;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
@@ -287,12 +297,16 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel panInfoContent9;
     private de.cismet.tools.gui.RoundedPanel panJustification;
     private de.cismet.tools.gui.RoundedPanel panMeasDetail;
+    private javax.swing.JPanel panMelInf;
     private javax.swing.JPanel panMenButtonsMeas;
     private javax.swing.JPanel panMenButtonsPressure;
     private javax.swing.JPanel panMenButtonsPressure1;
     private de.cismet.tools.gui.RoundedPanel panPressure;
     private javax.swing.JPanel panPressuresBut;
     private javax.swing.JPanel panPressuresBut1;
+    private de.cismet.tools.gui.RoundedPanel panQuality;
+    private javax.swing.JPanel panQualityContent;
+    private javax.swing.JLabel panSpace1;
     private javax.swing.JScrollPane scpImpactSrc;
     private javax.swing.JScrollPane scpPressure;
     private javax.swing.JScrollPane scpPressure1;
@@ -301,6 +315,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JScrollPane scpdeMeas2;
     private javax.swing.JScrollPane scpdeMeas3;
     private javax.swing.JTextArea taBemerkung;
+    private org.jdesktop.swingx.JXTable tabPressure;
+    private javax.swing.JTabbedPane tpMain;
     private javax.swing.JTextField txtKosten;
     private javax.swing.JTextField txtMassn_id;
     private javax.swing.JTextField txtZiele;
@@ -323,16 +339,34 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     public MassnahmenEditor(final boolean readOnly) {
         this.readOnly = readOnly;
+        showPanMelinf =
+            SessionManager.getSession().getUser().getUserGroup().getName().equalsIgnoreCase("administratoren")
+                    || SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .toLowerCase()
+                    .startsWith("stalu");
         initComponents();
+        tpMain.setUI(new TabbedPaneUITransparent());
         massnahmenDetail1.setParent(this);
-        final boolean isAdmin = SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin")
-                    || SessionManager.getSession().getUser().getUserGroup().getName().toLowerCase().startsWith("stalu");
+        final boolean isAdmin = SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .equalsIgnoreCase("administratoren")
+                    || SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .toLowerCase()
+                    .startsWith("stalu");
 
-        lblImpact.setVisible(isAdmin);
-        scpImpactSrc.setVisible(isAdmin);
+//        lblImpact.setVisible(isAdmin);
+//        scpImpactSrc.setVisible(isAdmin);
         panDeMeas2.setVisible(false);
         panDeMeas3.setVisible(false);
-        panMeasDetail.setVisible(isAdmin);
+//        panMeasDetail.setVisible(isAdmin);
         panDetail.setVisible(false);
 
         lstImpactSrc.setCellRenderer(new DefaultListCellRenderer() {
@@ -446,6 +480,35 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
+        jScrollPane1.setVisible(true);
+        tabPressure.setRowHeight(75);                                         // 55
+        tabPressure.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+
+                @Override
+                public Component getTableCellRendererComponent(final JTable table,
+                        final Object value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int row,
+                        final int column) {
+                    setVerticalAlignment(TOP);
+                    final Component c = super.getTableCellRendererComponent(
+                            table,
+                            value,
+                            isSelected,
+                            hasFocus,
+                            row,
+                            column);
+                    if (c instanceof JLabel) {
+                        ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                        ((JLabel)c).setToolTipText(
+                            "<html>"
+                                    + WkFgPanSeven.wrapText(String.valueOf(value), 50)
+                                    + "</html>");
+                    }
+                    return c;
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -477,9 +540,50 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                             && ((String)real.getProperty("name")).endsWith("2033"));
             panJustification.setVisible(justRequired);
             loadPressures();
+
+            if (showPanMelinf) {
+                final Thread thread = new Thread("retrieveAnhData") {
+
+                        @Override
+                        public void run() {
+                            try {
+                                final CidsServerSearch anhoerungInfo = new WkFgMeldeInfosSearch((String)
+                                        cidsBean.getProperty(
+                                            "massn_id"));
+                                final ArrayList<ArrayList> infos = (ArrayList<ArrayList>)SessionManager
+                                            .getProxy()
+                                            .customServerSearch(SessionManager.getSession().getUser(), anhoerungInfo);
+                                int currentRow = 0;
+                                tabPressure.setModel(new WkFgPanSeven.CustomTableModel(infos));
+
+                                for (final ArrayList row : infos) {
+                                    int maxLength = 0;
+                                    for (final Object col : row) {
+                                        if (String.valueOf(col).length() > maxLength) {
+                                            maxLength = String.valueOf(col).length();
+                                        }
+                                    }
+
+                                    if (maxLength > 44) {
+                                        tabPressure.setRowHeight(currentRow, maxLength / 22 * 20);
+                                    }
+
+                                    currentRow++;
+                                }
+                            } catch (Exception e) {
+                                LOG.error("Error while retrieving anhörungs infos", e);
+                            }
+                        }
+                    };
+
+                thread.start();
+            } else {
+                tabPressure.setModel(new WkFgPanSeven.CustomTableModel(new ArrayList<ArrayList>()));
+            }
         } else {
             deActivateGUI(false);
             dropBehaviorListener.setWkFg(null);
+            tabPressure.setModel(new WkFgPanSeven.CustomTableModel(new ArrayList<ArrayList>()));
         }
         bindReadOnlyFields();
         refreshPressures();
@@ -605,8 +709,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
             if (meas != null) {
                 try {
-                    final String query = "select " + PRESSURE_TYPE_CODE_MC.getID() + "," // NOI18N
-                                + PRESSURE_TYPE_CODE_MC.getPrimaryKey() + " from "       // NOI18N
+                    final String query = "select "
+                                + PRESSURE_TYPE_CODE_MC.getID()
+                                + ","      // NOI18N
+                                + PRESSURE_TYPE_CODE_MC.getPrimaryKey()
+                                + " from " // NOI18N
                                 + PRESSURE_TYPE_CODE_MC.getTableName();
                     final MetaObject[] metaObjects = MetaObjectCache.getInstance()
                                 .getMetaObjectsByQuery(query, WRRLUtil.DOMAIN_NAME, false);
@@ -663,13 +770,20 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                         final Integer wkId = getWkId();
 
                         if ((wkField != null) && (wkId != null)) {
-                            String query = "select distinct " + PRESSURE_TYPE_CODE_MC.getID() + ", p."
-                                        + PRESSURE_TYPE_CODE_MC.getPrimaryKey() + " from "
+                            String query = "select distinct "
+                                        + PRESSURE_TYPE_CODE_MC.getID()
+                                        + ", p."
+                                        + PRESSURE_TYPE_CODE_MC.getPrimaryKey()
+                                        + " from "
                                         + PRESSURE_TYPE_CODE_MC.getTableName();
                             query += " p where p.id in (select pm.pressure from massnahmen m \n"
                                         + "join massnahmen_pressure_measure mpm on (m.pressure_measure = mpm.massnahmen_reference) \n"
                                         + "join pressure_measure pm on (mpm.pressure_measure = pm.id)\n"
-                                        + "where not coalesce(m.landesweit, false) and " + wkField + " = " + wkId + ")";
+                                        + "where not coalesce(m.landesweit, false) and "
+                                        + wkField
+                                        + " = "
+                                        + wkId
+                                        + ")";
 
                             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
                             pressures = new ArrayList<CidsBean>();
@@ -837,6 +951,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         panMenButtonsPressure1 = new javax.swing.JPanel();
         btnPressureAbort1 = new javax.swing.JButton();
         btnPressureOk1 = new javax.swing.JButton();
+        tpMain = new javax.swing.JTabbedPane();
+        panAllgemein = new javax.swing.JPanel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -958,6 +1074,17 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         jPanel1 = new javax.swing.JPanel();
         cbGeom = readOnly ? new JComboBox() : new DefaultCismapGeometryComboBoxEditor();
         lblGeom = new javax.swing.JLabel();
+        if (showPanMelinf) {
+            panMelInf = new javax.swing.JPanel();
+        }
+        panQuality = new de.cismet.tools.gui.RoundedPanel();
+        panHeadQuality = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading11 = new javax.swing.JLabel();
+        panQualityContent = new javax.swing.JPanel();
+        lblSpace = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tabPressure = new org.jdesktop.swingx.JXTable();
+        panSpace1 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -1172,14 +1299,20 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         dlgDetail.getContentPane().add(panMenButtonsPressure1, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1080, 1000));
+        setMinimumSize(new java.awt.Dimension(1080, 1050));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1240, 1000));
-        setLayout(new java.awt.GridBagLayout());
+        setPreferredSize(new java.awt.Dimension(1240, 1050));
+        setLayout(new java.awt.BorderLayout());
+
+        panAllgemein.setMaximumSize(new java.awt.Dimension(1380, 1050));
+        panAllgemein.setMinimumSize(new java.awt.Dimension(1280, 1050));
+        panAllgemein.setOpaque(false);
+        panAllgemein.setPreferredSize(new java.awt.Dimension(1280, 1050));
+        panAllgemein.setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMaximumSize(new java.awt.Dimension(1350, 1200));
-        panInfo.setMinimumSize(new java.awt.Dimension(1080, 1050));
-        panInfo.setPreferredSize(new java.awt.Dimension(1280, 1050));
+        panInfo.setMinimumSize(new java.awt.Dimension(1080, 1000));
+        panInfo.setPreferredSize(new java.awt.Dimension(1280, 1000));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -2550,7 +2683,66 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        add(panInfo, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        panAllgemein.add(panInfo, gridBagConstraints);
+
+        tpMain.addTab("Allgemein", panAllgemein);
+
+        if (showPanMelinf) {
+            panMelInf.setOpaque(false);
+            panMelInf.setLayout(new java.awt.GridBagLayout());
+
+            panHeadQuality.setBackground(new java.awt.Color(51, 51, 51));
+            panHeadQuality.setMinimumSize(new java.awt.Dimension(109, 24));
+            panHeadQuality.setPreferredSize(new java.awt.Dimension(109, 24));
+            panHeadQuality.setLayout(new java.awt.FlowLayout());
+
+            lblHeading11.setForeground(new java.awt.Color(255, 255, 255));
+            lblHeading11.setText("Anhörung");
+            panHeadQuality.add(lblHeading11);
+
+            panQuality.add(panHeadQuality, java.awt.BorderLayout.NORTH);
+
+            panQualityContent.setMinimumSize(new java.awt.Dimension(1100, 260));
+            panQualityContent.setOpaque(false);
+            panQualityContent.setPreferredSize(new java.awt.Dimension(1100, 260));
+            panQualityContent.setLayout(new java.awt.GridBagLayout());
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 2;
+            gridBagConstraints.gridy = 8;
+            panQualityContent.add(lblSpace, gridBagConstraints);
+
+            jScrollPane4.setViewportView(tabPressure);
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 5;
+            gridBagConstraints.gridwidth = 3;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+            panQualityContent.add(jScrollPane4, gridBagConstraints);
+
+            panQuality.add(panQualityContent, java.awt.BorderLayout.CENTER);
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+            panMelInf.add(panQuality, gridBagConstraints);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.gridwidth = 2;
+            gridBagConstraints.weighty = 1.0;
+            panMelInf.add(panSpace1, gridBagConstraints);
+
+            tpMain.addTab("Anhörung", panMelInf);
+        }
+
+        add(tpMain, java.awt.BorderLayout.PAGE_START);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -3084,7 +3276,10 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private String determineStalu(final Geometry geom) {
         try {
-            final String geometryText = "SRID=" + CismapBroker.getInstance().getDefaultCrsAlias() + ";" + geom.toText();
+            final String geometryText = "SRID="
+                        + CismapBroker.getInstance().getDefaultCrsAlias()
+                        + ";"
+                        + geom.toText();
             final CidsServerSearch search = new StaluSearch(geometryText);
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), search);
@@ -3281,9 +3476,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private String convertNumberToString(final int number) {
         if (number > 9) {
-            return "" + number;
+            return ""
+                        + number;
         } else {
-            return "0" + number;
+            return "0"
+                        + number;
         }
     }
 
@@ -3386,7 +3583,9 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             if ((result instanceof JLabel) && (value instanceof CidsBean)) {
                 final CidsBean bean = (CidsBean)value;
 
-                final String text = bean.getProperty("value") + " - " + bean.getProperty("name");
+                final String text = bean.getProperty("value")
+                            + " - "
+                            + bean.getProperty("name");
                 ((JLabel)result).setText(text);
             }
 
@@ -3435,7 +3634,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                         final Integer value1 = Integer.parseInt(strValue1.substring(integerIndex));
                         final Integer value2 = Integer.parseInt(strValue2.substring(integerIndex));
 
-                        return value1.intValue() - value2.intValue();
+                        return value1.intValue()
+                                    - value2.intValue();
                     } catch (NumberFormatException e) {
                         // nothing to do, because not every 'value'-property contains a integer
                     }

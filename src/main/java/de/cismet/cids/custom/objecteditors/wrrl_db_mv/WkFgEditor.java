@@ -86,6 +86,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
+    private boolean showPanMelinf;
     private boolean readOnly;
     private org.jdesktop.beansbinding.Binding binding;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -148,7 +149,16 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
      */
     public WkFgEditor(final boolean readOnly) {
         this.readOnly = readOnly;
+        showPanMelinf =
+            SessionManager.getSession().getUser().getUserGroup().getName().equalsIgnoreCase("administratoren")
+                    || SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .toLowerCase()
+                    .startsWith("stalu");
         initComponents();
+
         tpMain.setUI(new TabbedPaneUITransparent());
 
         if (!readOnly) {
@@ -275,7 +285,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
         if (!readOnly) {
             wkFgPanFourteen1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanFourteen();
         }
-        panMelInf = new javax.swing.JPanel();
+        if (showPanMelinf) {
+            panMelInf = new javax.swing.JPanel();
+        }
         panSpace = new javax.swing.JLabel();
         wkFgPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkFgPanSeven(readOnly);
         panAusnahmen = new javax.swing.JPanel();
@@ -460,24 +472,26 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
             tpMain.addTab("LAWA-Typen", panLawa);
         }
 
-        panMelInf.setOpaque(false);
-        panMelInf.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.weighty = 1.0;
-        panMelInf.add(panSpace, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panMelInf.add(wkFgPanSeven1, gridBagConstraints);
+        if (showPanMelinf) {
+            panMelInf.setOpaque(false);
+            panMelInf.setLayout(new java.awt.GridBagLayout());
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 2;
+            gridBagConstraints.gridwidth = 2;
+            gridBagConstraints.weighty = 1.0;
+            panMelInf.add(panSpace, gridBagConstraints);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+            panMelInf.add(wkFgPanSeven1, gridBagConstraints);
 
-        tpMain.addTab("Melderelevante Informationen", panMelInf);
+            tpMain.addTab("Anhörung", panMelInf);
+        }
 
         panAusnahmen.setOpaque(false);
         panAusnahmen.setLayout(new java.awt.GridBagLayout());
@@ -783,7 +797,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public String getTitle() {
-        return "Wasserkörper " + String.valueOf(cidsBean);
+        return "Wasserkörper "
+                    + String.valueOf(cidsBean);
     }
 
     @Override

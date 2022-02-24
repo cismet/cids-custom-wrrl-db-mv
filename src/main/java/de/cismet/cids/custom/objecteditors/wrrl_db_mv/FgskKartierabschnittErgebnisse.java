@@ -63,6 +63,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JLabel lblBedRating;
     private javax.swing.JLabel lblBedStructureCritCount;
     private javax.swing.JLabel lblBedStructureRating;
+    private javax.swing.JLabel lblBedSubDiv;
     private javax.swing.JLabel lblCourseEvoCritCount;
     private javax.swing.JLabel lblCourseEvoRating;
     private javax.swing.JLabel lblCrossProfileCritCount;
@@ -118,6 +119,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
     private javax.swing.JTextField txtBedRating;
     private javax.swing.JTextField txtBedStructureCritCount;
     private javax.swing.JTextField txtBedStructureRating;
+    private javax.swing.JTextField txtBedSubDiv;
     private javax.swing.JTextField txtCourseEvoCritCount;
     private javax.swing.JTextField txtCourseEvoRating;
     private javax.swing.JTextField txtCrossProfileCritCount;
@@ -212,6 +214,8 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         lblBedStructureCritCount = new javax.swing.JLabel();
         txtBedStructureRating = new javax.swing.JTextField();
         txtBedStructureCritCount = new javax.swing.JTextField();
+        lblBedSubDiv = new javax.swing.JLabel();
+        txtBedSubDiv = new javax.swing.JTextField();
         jpTeilbewertungUfer = new javax.swing.JPanel();
         panInfo5 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo4 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -670,7 +674,7 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         panInfoContent3.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.weighty = 1.0;
         panInfoContent3.add(lblSpacing3, gridBagConstraints);
@@ -839,7 +843,6 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent3.add(lblBedStructureCritCount, gridBagConstraints);
 
@@ -889,6 +892,42 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent3.add(txtBedStructureCritCount, gridBagConstraints);
+
+        lblBedSubDiv.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittErgebnisse.class,
+                "FgskKartierabschnittErgebnisse.lblBedSubDiv.text")); // NOI18N
+        lblBedSubDiv.setMaximumSize(new java.awt.Dimension(230, 17));
+        lblBedSubDiv.setMinimumSize(new java.awt.Dimension(230, 17));
+        lblBedSubDiv.setPreferredSize(new java.awt.Dimension(230, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent3.add(lblBedSubDiv, gridBagConstraints);
+
+        txtBedSubDiv.setEditable(false);
+        txtBedSubDiv.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txtBedSubDiv.setBorder(null);
+        txtBedSubDiv.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtBedSubDiv.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bewertung_substratdiversitaet}"),
+                txtBedSubDiv,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent3.add(txtBedSubDiv, gridBagConstraints);
 
         panInfo4.add(panInfoContent3, java.awt.BorderLayout.CENTER);
 

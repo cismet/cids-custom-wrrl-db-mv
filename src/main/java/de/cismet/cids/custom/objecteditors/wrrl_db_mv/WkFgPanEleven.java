@@ -121,19 +121,19 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
         lblBemerk = new javax.swing.JLabel();
         txtHymoGkBemerkung1 = new javax.swing.JTextField();
         txtHymoGkJahr1 = new javax.swing.JTextField();
-        cbHymoGk1 = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbHymoGk1 = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblHymo = new javax.swing.JLabel();
         lblMorphCond = new javax.swing.JLabel();
-        cbMorpCond1 = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbMorpCond1 = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtMorphGkJahr2 = new javax.swing.JTextField();
         txtMorphBemerk = new javax.swing.JTextField();
         lblDurchg = new javax.swing.JLabel();
         txtRivContBemerk = new javax.swing.JTextField();
         txtRivContGkMst = new javax.swing.JTextField();
-        cbRivCont = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbRivCont = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblHydroReg = new javax.swing.JLabel();
         txtHydroRegBemerk = new javax.swing.JTextField();
-        cbHydroReg = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbHydroReg = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtHydroRegjahr = new javax.swing.JTextField();
 
         setMinimumSize(new java.awt.Dimension(910, 650));
@@ -203,8 +203,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hymo_gk_bemerkung}"),
                 txtHymoGkBemerkung1,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -338,8 +338,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.morph_bemerkung}"),
                 txtMorphBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -375,8 +375,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.riv_cont_bemerkung}"),
                 txtRivContBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -453,8 +453,8 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydro_reg_bemerkung}"),
                 txtHydroRegBemerk,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

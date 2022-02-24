@@ -28,13 +28,30 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
+import Sirius.navigator.connection.SessionManager;
+
+import org.apache.log4j.Logger;
+
+import java.awt.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgMeldeInfosSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
-import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.server.search.CidsServerSearch;
+
+import static javax.swing.SwingConstants.TOP;
 
 /**
  * DOCUMENT ME!
@@ -46,24 +63,16 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
 
     //~ Instance fields --------------------------------------------------------
 
+    private Logger LOG = Logger.getLogger(WkFgPanSeven.class);
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbContinua;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGeolCat;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbRiver_cat;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbSizeCat;
-    private javax.swing.JLabel lblContinua;
-    private javax.swing.JLabel lblGeolCat;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblReport;
-    private javax.swing.JLabel lblRiver_cat;
-    private javax.swing.JLabel lblSizeCat;
     private javax.swing.JLabel lblSpace;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality;
     private de.cismet.tools.gui.RoundedPanel panQuality;
     private javax.swing.JPanel panQualityContent;
-    private javax.swing.JTextField txtReport;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private org.jdesktop.swingx.JXTable tabPressure;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -83,16 +92,64 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     public WkFgPanSeven(final boolean readOnly) {
         initComponents();
 
-        if (readOnly) {
-            RendererTools.makeReadOnly(txtReport);
-            RendererTools.makeReadOnly(cbContinua);
-            RendererTools.makeReadOnly(cbGeolCat);
-            RendererTools.makeReadOnly(cbRiver_cat);
-            RendererTools.makeReadOnly(cbSizeCat);
-        }
+        jScrollPane1.setVisible(true);
+        tabPressure.setRowHeight(75); // 55
+        tabPressure.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+
+                @Override
+                public Component getTableCellRendererComponent(final JTable table,
+                        final Object value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int row,
+                        final int column) {
+                    setVerticalAlignment(TOP);
+                    final Component c = super.getTableCellRendererComponent(
+                            table,
+                            value,
+                            isSelected,
+                            hasFocus,
+                            row,
+                            column);
+                    if (c instanceof JLabel) {
+                        ((JLabel)c).setText("<html>" + ((JLabel)c).getText() + "</html>");
+                        ((JLabel)c).setToolTipText("<html>" + wrapText(String.valueOf(value), 50) + "</html>");
+                    }
+                    return c;
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   text  DOCUMENT ME!
+     * @param   size  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String wrapText(final String text, final int size) {
+        final StringBuilder buffer = new StringBuilder(text.length());
+        int lineLength = 0;
+
+        for (int i = 0; i < text.length(); ++i) {
+            if ((text.charAt(i) == '\n')) {
+                lineLength = 0;
+                buffer.append("<br>");
+            } else if ((lineLength >= size) && (text.charAt(i) == ' ')) {
+                lineLength = 1;
+                buffer.append("<br>");
+                buffer.append(text.charAt(i));
+            } else {
+                ++lineLength;
+                buffer.append(text.charAt(i));
+            }
+        }
+
+        return buffer.toString();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -102,27 +159,18 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panQuality = new de.cismet.tools.gui.RoundedPanel();
         panHeadQuality = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panQualityContent = new javax.swing.JPanel();
-        lblRiver_cat = new javax.swing.JLabel();
-        lblContinua = new javax.swing.JLabel();
-        lblGeolCat = new javax.swing.JLabel();
-        lblSizeCat = new javax.swing.JLabel();
-        lblReport = new javax.swing.JLabel();
-        txtReport = new javax.swing.JTextField();
-        cbRiver_cat = new ScrollableComboBox();
-        cbContinua = new ScrollableComboBox();
-        cbGeolCat = new ScrollableComboBox();
-        cbSizeCat = new ScrollableComboBox();
         lblSpace = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabPressure = new org.jdesktop.swingx.JXTable();
 
-        setMinimumSize(new java.awt.Dimension(620, 290));
+        setMinimumSize(new java.awt.Dimension(1150, 690));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(700, 290));
+        setPreferredSize(new java.awt.Dimension(1150, 690));
         setLayout(new java.awt.BorderLayout());
 
         panHeadQuality.setBackground(new java.awt.Color(51, 51, 51));
@@ -131,178 +179,35 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         panHeadQuality.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Melderelevante Informationen");
+        lblHeading.setText("Anhörung");
         panHeadQuality.add(lblHeading);
 
         panQuality.add(panHeadQuality, java.awt.BorderLayout.NORTH);
 
-        panQualityContent.setMinimumSize(new java.awt.Dimension(450, 260));
+        panQualityContent.setMinimumSize(new java.awt.Dimension(1100, 260));
         panQualityContent.setOpaque(false);
-        panQualityContent.setPreferredSize(new java.awt.Dimension(450, 260));
+        panQualityContent.setPreferredSize(new java.awt.Dimension(1100, 260));
         panQualityContent.setLayout(new java.awt.GridBagLayout());
-
-        lblRiver_cat.setText(org.openide.util.NbBundle.getMessage(
-                WkFgPanSeven.class,
-                "WkFgPanSeven.lblRiver_cat.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
-        panQualityContent.add(lblRiver_cat, gridBagConstraints);
-
-        lblContinua.setText(org.openide.util.NbBundle.getMessage(WkFgPanSeven.class, "WkFgPanSeven.lblContinua.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panQualityContent.add(lblContinua, gridBagConstraints);
-
-        lblGeolCat.setText(org.openide.util.NbBundle.getMessage(WkFgPanSeven.class, "WkFgPanSeven.lblGeol_cat.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panQualityContent.add(lblGeolCat, gridBagConstraints);
-
-        lblSizeCat.setText(org.openide.util.NbBundle.getMessage(WkFgPanSeven.class, "WkFgPanSeven.lblSize_cat.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panQualityContent.add(lblSizeCat, gridBagConstraints);
-
-        lblReport.setText(org.openide.util.NbBundle.getMessage(WkFgPanSeven.class, "WkFgPanSeven.lblReport.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panQualityContent.add(lblReport, gridBagConstraints);
-
-        txtReport.setMaximumSize(new java.awt.Dimension(300, 20));
-        txtReport.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtReport.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.report}"),
-                txtReport,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panQualityContent.add(txtReport, gridBagConstraints);
-
-        cbRiver_cat.setMinimumSize(new java.awt.Dimension(300, 20));
-        cbRiver_cat.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.river_cat}"),
-                cbRiver_cat,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panQualityContent.add(cbRiver_cat, gridBagConstraints);
-
-        cbContinua.setMinimumSize(new java.awt.Dimension(300, 20));
-        cbContinua.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.continua}"),
-                cbContinua,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panQualityContent.add(cbContinua, gridBagConstraints);
-
-        cbGeolCat.setMinimumSize(new java.awt.Dimension(300, 20));
-        cbGeolCat.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geol_cat}"),
-                cbGeolCat,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panQualityContent.add(cbGeolCat, gridBagConstraints);
-
-        cbSizeCat.setMinimumSize(new java.awt.Dimension(300, 20));
-        cbSizeCat.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.size_cat}"),
-                cbSizeCat,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panQualityContent.add(cbSizeCat, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.weighty = 1.0;
         panQualityContent.add(lblSpace, gridBagConstraints);
+
+        jScrollPane1.setViewportView(tabPressure);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        panQualityContent.add(jScrollPane1, gridBagConstraints);
 
         panQuality.add(panQualityContent, java.awt.BorderLayout.CENTER);
 
         add(panQuality, java.awt.BorderLayout.CENTER);
-
-        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
@@ -312,18 +217,167 @@ public class WkFgPanSeven extends javax.swing.JPanel implements DisposableCidsBe
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-        bindingGroup.unbind();
+//        bindingGroup.unbind();
         if (cidsBean != null) {
             this.cidsBean = cidsBean;
-            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
-                bindingGroup,
-                this.cidsBean);
-            bindingGroup.bind();
+//            DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
+//                bindingGroup,
+//                this.cidsBean);
+//            bindingGroup.bind();
+
+            final boolean showPanMelinf = SessionManager.getSession()
+                        .getUser()
+                        .getUserGroup()
+                        .getName()
+                        .equalsIgnoreCase("administratoren")
+                        || SessionManager.getSession()
+                        .getUser()
+                        .getUserGroup()
+                        .getName()
+                        .toLowerCase()
+                        .startsWith("stalu");
+
+            if (showPanMelinf) {
+                final Thread t = new Thread("retrieveAnhData") {
+
+                        @Override
+                        public void run() {
+                            try {
+                                final CidsServerSearch anhoerungInfo = new WkFgMeldeInfosSearch((String)
+                                        cidsBean.getProperty(
+                                            "wk_k"));
+                                final ArrayList<ArrayList> infos = (ArrayList<ArrayList>)SessionManager
+                                            .getProxy()
+                                            .customServerSearch(SessionManager.getSession().getUser(), anhoerungInfo);
+                                int currentRow = 0;
+                                tabPressure.setModel(new CustomTableModel(infos));
+
+                                for (final ArrayList row : infos) {
+                                    int maxLength = 0;
+                                    for (final Object col : row) {
+                                        if (String.valueOf(col).length() > maxLength) {
+                                            maxLength = String.valueOf(col).length();
+                                        }
+                                    }
+
+                                    if (maxLength > 44) {
+                                        tabPressure.setRowHeight(currentRow, maxLength / 22 * 20);
+                                    }
+
+                                    currentRow++;
+                                }
+                            } catch (Exception e) {
+                                LOG.error("Error while retrieving anhörungs infos", e);
+                            }
+                        }
+                    };
+
+                t.start();
+            } else {
+                tabPressure.setModel(new CustomTableModel(new ArrayList<ArrayList>()));
+            }
+        } else {
+            tabPressure.setModel(new CustomTableModel(new ArrayList<ArrayList>()));
         }
     }
 
     @Override
     public void dispose() {
-        bindingGroup.unbind();
+//        bindingGroup.unbind();
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public static class CustomTableModel implements TableModel {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String[] COLUMN_NAMES = {
+                "Katalog-Nummer",
+                "Name des Einwenders",
+                "Nr. der Stellungnahme",
+                "Nr. der Einzelforderung",
+                "Bezug",
+                "Einzelforderung",
+                "erwiderte Einzelforderung",
+                "Bemerkung"
+            };
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final List<TableModelListener> listener = new ArrayList<>();
+        private final List<ArrayList> data;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new PressureTableModel object.
+         *
+         * @param  data  readOnly DOCUMENT ME!
+         */
+        public CustomTableModel(final List<ArrayList> data) {
+            this.data = data;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int getRowCount() {
+            return data.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return COLUMN_NAMES.length;
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            return COLUMN_NAMES[columnIndex];
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            return String.class;
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            return data.get(rowIndex).get(columnIndex);
+        }
+
+        @Override
+        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+        }
+
+        @Override
+        public void addTableModelListener(final TableModelListener l) {
+            listener.add(l);
+        }
+
+        @Override
+        public void removeTableModelListener(final TableModelListener l) {
+            listener.remove(l);
+        }
+
+        /**
+         * DOCUMENT ME!
+         */
+        public void fireTableChanged() {
+            final TableModelEvent e = new TableModelEvent(this);
+            for (final TableModelListener tmp : listener) {
+                tmp.tableChanged(e);
+            }
+        }
     }
 }
