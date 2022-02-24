@@ -14,6 +14,8 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.server.middleware.types.MetaClass;
 
+import org.apache.log4j.Logger;
+
 import java.util.Collection;
 
 import javax.swing.JDialog;
@@ -33,6 +35,8 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
+import de.cismet.tools.BrowserLauncher;
+
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
@@ -45,6 +49,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final Logger LOG = Logger.getLogger(WkKgPanOne.class);
     private static final MetaClass WHY_HMWB_MC;
 
     static {
@@ -72,6 +77,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel labWebside;
     private javax.swing.JLabel lblArtificialKey;
     private javax.swing.JLabel lblArtificialValue;
     private javax.swing.JLabel lblHeading;
@@ -81,6 +87,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblTheGeomKey;
     private javax.swing.JLabel lblTyCdCwKey;
     private javax.swing.JLabel lblTyMvKey;
+    private javax.swing.JLabel lblWebside;
     private javax.swing.JLabel lblWhyHmwbCataloge;
     private javax.swing.JLabel lblWhyHmwbKey;
     private javax.swing.JList lstWhyHmwbs;
@@ -144,6 +151,8 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         btnRemWhyHmwb = new javax.swing.JButton();
         lblTyMvKey = new javax.swing.JLabel();
         txtTyMv = new javax.swing.JTextField();
+        labWebside = new javax.swing.JLabel();
+        lblWebside = new javax.swing.JLabel();
         panSpacerBottom = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
@@ -254,7 +263,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.name}"),
                 txtName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("<Error>");
         bindingGroup.addBinding(binding);
 
@@ -432,6 +441,32 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtTyMv, gridBagConstraints);
 
+        labWebside.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labWebside.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    labWebsideMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel2.add(labWebside, gridBagConstraints);
+
+        lblWebside.setText(org.openide.util.NbBundle.getMessage(
+                WkKgPanOne.class,
+                "WkKgPanOne.lblWebside.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel2.add(lblWebside, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -526,7 +561,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.artificial.name}"),
                 lblArtificialValue,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
 
@@ -636,6 +671,21 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         dlgWhyHmwbsCataloge.setVisible(false);
     }                                                                                   //GEN-LAST:event_btnMenWhyHmwbOkActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void labWebsideMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labWebsideMouseClicked
+        try {
+            BrowserLauncher.openURL(
+                "https://fis-wasser-mv.de/charts/steckbriefe/cw/cw_wk.php?kg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")));
+        } catch (Exception ex) {
+            LOG.warn(ex, ex);
+        }
+    }                                                                          //GEN-LAST:event_labWebsideMouseClicked
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -650,6 +700,10 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            labWebside.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/cw/cw_wk.php?kg"
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">Webseite</a></html>");
+        } else {
+            labWebside.setText("");
         }
     }
 

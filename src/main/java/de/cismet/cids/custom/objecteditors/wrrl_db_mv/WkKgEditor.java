@@ -189,6 +189,12 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         initComponents();
+        panRisikoabschätzung.setVisible(false);
+        panWeitereInformationen.setVisible(false);
+        panQualitaetsinformationen.setVisible(false);
+        tpMain.remove(panRisikoabschätzung);
+        tpMain.remove(panWeitereInformationen);
+        tpMain.remove(panQualitaetsinformationen);
 
         tpMain.setUI(new TabbedPaneUITransparent());
     }

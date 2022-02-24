@@ -308,7 +308,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.lawa_typ.code}-${cidsBean.lawa_typ.description}" target="lblLawaVal" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.lawa_typ.value}-${cidsBean.lawa_typ.name}" target="lblLawaVal" targetPath="text" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                     </BindingProperty>

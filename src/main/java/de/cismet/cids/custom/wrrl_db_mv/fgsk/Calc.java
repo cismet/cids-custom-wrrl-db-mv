@@ -794,14 +794,26 @@ public final class Calc {
                         || ((Double)kaBean.getProperty(PROP_BED_SUBSTRATE_WUR) == 0.0));
 
         final Integer ratingSubstrates;
+        final Double ratingSubstratesDouble;
         if (!ignoreSubstrates
                     && Equals.nonNull(ratingNaturalSubstrates, ratingArtificialSubstrates, ratingHardSubstrates)) {
             ratingSubstrates = round(round(
                         (ratingNaturalSubstrates + ratingArtificialSubstrates + ratingHardSubstrates)
                                 / 3.0,
                         scale));
+            ratingSubstratesDouble = round(
+                    (ratingNaturalSubstrates + ratingArtificialSubstrates + ratingHardSubstrates)
+                            / 3.0,
+                    1);
         } else {
             ratingSubstrates = null;
+            ratingSubstratesDouble = null;
+        }
+
+        try {
+            kaBean.setProperty("bewertung_substratdiversitaet", ratingSubstratesDouble);
+        } catch (Exception e) {
+            LOG.error("Could not set bewertung_substratdiversitaet");
         }
 
         final Integer ratingBedFitment = cache.getBedFitmentRating(

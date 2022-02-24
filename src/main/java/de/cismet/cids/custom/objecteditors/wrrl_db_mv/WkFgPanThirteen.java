@@ -163,10 +163,10 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
         lblYesNo = new javax.swing.JLabel();
         lblBemerk = new javax.swing.JLabel();
         txtHymoGkBemerkung1 = new javax.swing.JTextField();
-        cbEco_stat = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbEco_stat = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblEqsHm = new javax.swing.JLabel();
         lblEqsPestic = new javax.swing.JLabel();
-        cbEqsPestic = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbEqsPestic = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtEqsPesticBemerk = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         lblEqsHmMst = new javax.swing.JLabel();
@@ -190,10 +190,10 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
         jScrollPane3 = new javax.swing.JScrollPane();
         jtMstTab1 = new javax.swing.JTable();
         lblEqsIndPol = new javax.swing.JLabel();
-        cbIndPol = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbIndPol = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtIndpolBemerk = new javax.swing.JTextField();
         lblEqsOthpl = new javax.swing.JLabel();
-        cbEqsOthpl = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbEqsOthpl = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtEqsOthplBemerkung = new javax.swing.JTextField();
         lblNonComp = new javax.swing.JLabel();
         cbNonComp = new ScrollableComboBox();
@@ -201,7 +201,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         lblChemStat = new javax.swing.JLabel();
-        cbEco_stat1 = new ScrollableComboBox(new QualityStatusCodeComparator());
+        cbEco_stat1 = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtHymoGkBemerkung2 = new javax.swing.JTextField();
         txtHymoGkBemerkung3 = new javax.swing.JTextField();
         lblChemicalstatusnitrat = new javax.swing.JLabel();
@@ -818,8 +818,8 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.chem_stat_bemerkung}"),
                 txtHymoGkBemerkung3,
                 org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

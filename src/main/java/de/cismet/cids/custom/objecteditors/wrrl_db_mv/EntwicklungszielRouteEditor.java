@@ -359,8 +359,8 @@ public class EntwicklungszielRouteEditor extends JPanel implements CidsBeanRende
         setPreferredSize(new java.awt.Dimension(1050, 700));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(640, 310));
-        panInfo.setPreferredSize(new java.awt.Dimension(640, 310));
+        panInfo.setMinimumSize(new java.awt.Dimension(640, 500));
+        panInfo.setPreferredSize(new java.awt.Dimension(640, 500));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
