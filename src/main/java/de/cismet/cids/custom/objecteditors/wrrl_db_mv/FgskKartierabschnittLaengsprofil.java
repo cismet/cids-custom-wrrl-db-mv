@@ -327,6 +327,8 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.stroemungsdiversitaet_id}"),
                 cbStroemungsdiversitaet,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -360,6 +362,8 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.tiefenerosion_id}"),
                 cbTiefenerosion,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -393,6 +397,8 @@ public class FgskKartierabschnittLaengsprofil extends javax.swing.JPanel impleme
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.tiefenvarianz_id}"),
                 cbTiefenvarianz,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
