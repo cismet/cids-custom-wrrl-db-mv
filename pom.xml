@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>7.0.13</version>
+                <version>7.0.16</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -98,7 +98,7 @@
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>7.8.2</version>
+                <version>7.8.3</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
                 <artifactId>cids-custom-wrrl-db-mv-server</artifactId>
-                <version>7.0.5</version>
+                <version>7.0.6</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>

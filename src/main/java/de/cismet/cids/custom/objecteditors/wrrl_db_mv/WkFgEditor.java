@@ -55,6 +55,7 @@ import de.cismet.cismap.navigatorplugin.CidsFeature;
 import de.cismet.connectioncontext.AbstractConnectionContext;
 import de.cismet.connectioncontext.ConnectionContext;
 
+import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
@@ -88,6 +89,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private boolean showPanMelinf;
     private boolean readOnly;
+    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
     private org.jdesktop.beansbinding.Binding binding;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddAusnahme;
@@ -99,7 +101,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
@@ -110,12 +114,17 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel panFooter;
     private javax.swing.JPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality1;
     private javax.swing.JPanel panHydroQk;
     private javax.swing.JPanel panLawa;
     private javax.swing.JPanel panMelInf;
     private javax.swing.JPanel panOekoZd;
     private javax.swing.JPanel panPhysChemQk;
+    private de.cismet.tools.gui.RoundedPanel panQuality1;
+    private javax.swing.JPanel panQualityContent1;
     private javax.swing.JLabel panSpace;
+    private javax.swing.JLabel panSpace2;
+    private javax.swing.JPanel panStckBr;
     private javax.swing.JPanel panTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
@@ -178,6 +187,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
                 PROP_WKTEIL_STATIONLINE);
             panContrAusnahmen.setVisible(false);
         }
+
+        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -241,6 +252,8 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
             UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
+            browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")));
         } else {
             lblFoot.setText("");
         }
@@ -311,6 +324,13 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        panStckBr = new javax.swing.JPanel();
+        panQuality1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadQuality1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panQualityContent1 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        panSpace2 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -686,6 +706,45 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
         panGeo.add(jPanel4, gridBagConstraints);
 
         tpMain.addTab("Geometrie", panGeo);
+
+        panStckBr.setOpaque(false);
+        panStckBr.setLayout(new java.awt.GridBagLayout());
+
+        panHeadQuality1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadQuality1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadQuality1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadQuality1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText("Steckbrief");
+        panHeadQuality1.add(lblHeading1);
+
+        panQuality1.add(panHeadQuality1, java.awt.BorderLayout.NORTH);
+
+        panQualityContent1.setMinimumSize(new java.awt.Dimension(1100, 700));
+        panQualityContent1.setOpaque(false);
+        panQualityContent1.setPreferredSize(new java.awt.Dimension(1100, 700));
+        panQualityContent1.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+        panQualityContent1.add(jPanel5, java.awt.BorderLayout.CENTER);
+
+        panQuality1.add(panQualityContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panStckBr.add(panQuality1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weighty = 1.0;
+        panStckBr.add(panSpace2, gridBagConstraints);
+
+        tpMain.addTab("Steckbrief", panStckBr);
 
         add(tpMain, java.awt.BorderLayout.PAGE_START);
         tpMain.getAccessibleContext().setAccessibleName("Qualitaetsinformationen 1");
