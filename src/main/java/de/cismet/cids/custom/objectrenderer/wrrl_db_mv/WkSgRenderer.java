@@ -42,6 +42,7 @@ import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.TitleComponentProvider;
 
@@ -69,15 +70,18 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
 
     private boolean showPanMelinf;
     private CidsBean cidsBean;
+    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReport;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.ExcemptionRenderer excemptionEditor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblHeadingAusnahme;
     private javax.swing.JLabel lblSpace;
     private javax.swing.JLabel lblTitle;
@@ -87,14 +91,19 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality1;
     private javax.swing.JPanel panMelInf;
     private javax.swing.JPanel panMeld;
     private javax.swing.JPanel panQualitaet;
     private de.cismet.tools.gui.RoundedPanel panQuality;
+    private de.cismet.tools.gui.RoundedPanel panQuality1;
     private javax.swing.JPanel panQualityContent;
+    private javax.swing.JPanel panQualityContent1;
     private javax.swing.JPanel panRisiken;
     private javax.swing.JLabel panSpace;
     private javax.swing.JLabel panSpace1;
+    private javax.swing.JLabel panSpace2;
+    private javax.swing.JPanel panStckBr;
     private javax.swing.JPanel panTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
@@ -166,6 +175,9 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
                     return c;
                 }
             });
+
+        browserPanel.setOpaque(false);
+        jPanel2.add(browserPanel, java.awt.BorderLayout.CENTER);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -174,6 +186,7 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         this.cidsBean = cidsBean;
+
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
@@ -239,6 +252,9 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
                     };
 
                 t.start();
+
+                browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/lw/lw_wk.php?sg="
+                            + String.valueOf(cidsBean.getProperty("wk_k")));
             } else {
                 tabPressure.setModel(new WkFgPanSeven.CustomTableModel(new ArrayList<ArrayList>()));
             }
@@ -303,6 +319,13 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
         jScrollPane1 = new javax.swing.JScrollPane();
         tabPressure = new org.jdesktop.swingx.JXTable();
         panSpace1 = new javax.swing.JLabel();
+        panStckBr = new javax.swing.JPanel();
+        panQuality1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadQuality1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panQualityContent1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        panSpace2 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -377,7 +400,11 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         panAllgemeines.add(wkSgPanOne, gridBagConstraints);
 
-        tpMain.addTab("Allgemeines", panAllgemeines);
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.panAllgemeines.TabConstraints.tabTitle",
+                new Object[] {}),
+            panAllgemeines); // NOI18N
 
         panRisiken.setOpaque(false);
         panRisiken.setLayout(new java.awt.GridBagLayout());
@@ -399,7 +426,11 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panRisiken.add(wkSgPanSix, gridBagConstraints);
 
-        tpMain.addTab("Beschreibung und Risiken", panRisiken);
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.panRisiken.TabConstraints.tabTitle",
+                new Object[] {}),
+            panRisiken); // NOI18N
 
         panQualitaet.setOpaque(false);
         panQualitaet.setLayout(new java.awt.GridBagLayout());
@@ -459,7 +490,11 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 10, 0);
         panQualitaet.add(wkSgPanEight, gridBagConstraints);
 
-        tpMain.addTab("Qualitätsinformationen", panQualitaet);
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.panQualitaet.TabConstraints.tabTitle",
+                new Object[] {}),
+            panQualitaet); // NOI18N
 
         panMeld.setOpaque(false);
         panMeld.setLayout(new java.awt.GridBagLayout());
@@ -471,7 +506,11 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         panMeld.add(wkSgPanNine, gridBagConstraints);
 
-        tpMain.addTab("Melderelevante Informationen", panMeld);
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.panMeld.TabConstraints.tabTitle",
+                new Object[] {}),
+            panMeld); // NOI18N
 
         panAusnahmen.setOpaque(false);
         panAusnahmen.setLayout(new java.awt.BorderLayout());
@@ -553,7 +592,11 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
 
         panAusnahmen.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        tpMain.addTab("Ausnahmen", panAusnahmen);
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.panAusnahmen.TabConstraints.tabTitle",
+                new Object[] {}),
+            panAusnahmen); // NOI18N
 
         if (showPanMelinf) {
             panMelInf.setOpaque(false);
@@ -565,7 +608,10 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
             panHeadQuality.setLayout(new java.awt.FlowLayout());
 
             lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-            lblHeading.setText("Anhörung");
+            lblHeading.setText(org.openide.util.NbBundle.getMessage(
+                    WkSgRenderer.class,
+                    "WkSgRenderer.lblHeading.text",
+                    new Object[] {})); // NOI18N
             panHeadQuality.add(lblHeading);
 
             panQuality.add(panHeadQuality, java.awt.BorderLayout.NORTH);
@@ -606,8 +652,59 @@ public class WkSgRenderer extends JPanel implements CidsBeanRenderer, FooterComp
             gridBagConstraints.weighty = 1.0;
             panMelInf.add(panSpace1, gridBagConstraints);
 
-            tpMain.addTab("Anhörung", panMelInf);
+            tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                    WkSgRenderer.class,
+                    "WkSgRenderer.panMelInf.TabConstraints.tabTitle",
+                    new Object[] {}),
+                panMelInf); // NOI18N
         }
+
+        panStckBr.setOpaque(false);
+        panStckBr.setLayout(new java.awt.GridBagLayout());
+
+        panHeadQuality1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadQuality1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadQuality1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadQuality1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.lblHeading1.text",
+                new Object[] {})); // NOI18N
+        panHeadQuality1.add(lblHeading1);
+
+        panQuality1.add(panHeadQuality1, java.awt.BorderLayout.NORTH);
+
+        panQualityContent1.setMinimumSize(new java.awt.Dimension(1100, 700));
+        panQualityContent1.setOpaque(false);
+        panQualityContent1.setPreferredSize(new java.awt.Dimension(1100, 700));
+        panQualityContent1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        panQualityContent1.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        panQuality1.add(panQualityContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panStckBr.add(panQuality1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weighty = 1.0;
+        panStckBr.add(panSpace2, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkSgRenderer.class,
+                "WkSgRenderer.panStckBr.TabConstraints.tabTitle",
+                new Object[] {}),
+            panStckBr); // NOI18N
 
         add(tpMain, java.awt.BorderLayout.PAGE_START);
 

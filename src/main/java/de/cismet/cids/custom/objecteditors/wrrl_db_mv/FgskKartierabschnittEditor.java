@@ -13,13 +13,17 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
 import java.awt.Component;
+import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import java.lang.reflect.InvocationTargetException;
 
 import java.sql.Timestamp;
 
@@ -168,6 +172,29 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
+        if (EventQueue.isDispatchThread()) {
+            setCidsBeanInternal(cidsBean);
+        } else {
+            try {
+                EventQueue.invokeAndWait(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            setCidsBeanInternal(cidsBean);
+                        }
+                    });
+            } catch (InterruptedException ex) {
+            } catch (InvocationTargetException ex) {
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
+    private void setCidsBeanInternal(final CidsBean cidsBean) {
         if (this.cidsBean != null) {
             this.cidsBean.removePropertyChangeListener(this);
         }
@@ -655,8 +682,78 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             }
 
             performCalculations(tpMain.getComponentAt(selectedTabIndex), panErgebnisse);
+
+            final Boolean vorkartierung = (Boolean)cidsBean.getProperty("vorkatierung");
+            final Integer type = (Integer)cidsBean.getProperty("gewaessertyp_id.value");
+
+            if ((vorkartierung == null) || !vorkartierung) {
+                final List<CidsBean> subTypes = CidsBeanSupport.getBeanCollectionFromProperty(
+                        cidsBean,
+                        "gewaessersubtyp");
+
+                if ((type == 14) || (type == 15)) {
+                    boolean found = false;
+
+                    if (subTypes != null) {
+                        for (final CidsBean tmp : subTypes) {
+                            final String val = (String)tmp.getProperty("value");
+
+                            if ((val != null) && (val.equals("M") || val.equals("S"))) {
+                                found = true;
+                            }
+                        }
+                    }
+
+                    if (!found) {
+                        JOptionPane.showMessageDialog(
+                            this,
+                            "Der Gewässersubtyp muss M oder S sein, wenn der Gewässertyp 14 oder 15 ist.",
+                            "Ungültiger Gewässeersubtyp",
+                            JOptionPane.WARNING_MESSAGE);
+
+                        return false;
+                    }
+                }
+
+                final Double ton = (Double)cidsBean.getProperty("sohlensubstrat_ton");
+                final Double sand = (Double)cidsBean.getProperty("sohlensubstrat_san");
+                final Double kies = (Double)cidsBean.getProperty("sohlensubstrat_kie");
+                final Double stein = (Double)cidsBean.getProperty("sohlensubstrat_ste");
+                final Double block = (Double)cidsBean.getProperty("sohlensubstrat_blo");
+                final Double schlamm = (Double)cidsBean.getProperty("sohlensubstrat_sch");
+                final Double torf = (Double)cidsBean.getProperty("sohlensubstrat_tor");
+                final Double toth = (Double)cidsBean.getProperty("sohlensubstrat_tot");
+                final Double wurzeln = (Double)cidsBean.getProperty("sohlensubstrat_wur");
+                final Double kuenstlich = (Double)cidsBean.getProperty("sohlensubstrat_kue");
+
+                final double ges = coalesce(ton, 0.0) + coalesce(sand, 0.0) + coalesce(kies, 0.0) + coalesce(stein, 0.0)
+                            + coalesce(block, 0.0) + coalesce(schlamm, 0.0) + coalesce(torf, 0.0)
+                            + coalesce(toth, 0.0) + coalesce(wurzeln, 0.0) + coalesce(kuenstlich, 0.0);
+
+                if ((ges != 0.0) && (ges != 100.0)) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Die Summe der Sohlsubstrate muss entweder 100 oder 0 ergeben.",
+                        "Ungültige Sohlsubstrate",
+                        JOptionPane.WARNING_MESSAGE);
+
+                    return false;
+                }
+            }
         }
         return res;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value  DOCUMENT ME!
+     * @param   def    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Double coalesce(final Double value, final Double def) {
+        return ((value == null) ? def : value);
     }
 
     @Override

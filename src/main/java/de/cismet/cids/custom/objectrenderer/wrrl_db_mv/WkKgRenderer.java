@@ -36,6 +36,8 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.tools.gui.FXWebViewPanel;
+
 /**
  * DOCUMENT ME!
  *
@@ -52,14 +54,22 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
 
     private CidsBean cidsBean;
     private BindingGroup bindingGroup;
+    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lblHeading1;
     private javax.swing.JPanel panDescriptionAndRisks;
     private javax.swing.JPanel panGeneral;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality1;
+    private de.cismet.tools.gui.RoundedPanel panQuality1;
+    private javax.swing.JPanel panQualityContent1;
     private javax.swing.JPanel panQualityInformation;
+    private javax.swing.JLabel panSpace2;
     private javax.swing.JPanel panSpacingBottomTab1;
     private javax.swing.JPanel panSpacingBottomTab2;
     private javax.swing.JPanel panSpacingBottomTab3;
+    private javax.swing.JPanel panStckBr;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanEight wkKgPanEight;
     private de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanFive wkKgPanFive;
@@ -83,6 +93,8 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         panQualityInformation.setVisible(false);
         tpMain.remove(panDescriptionAndRisks);
         tpMain.remove(panQualityInformation);
+        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
+
         tpMain.setUI(new TabbedPaneUITransparent());
     }
 
@@ -112,6 +124,13 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
         wkKgPanSix = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanSix();
         wkKgPanSeven = new de.cismet.cids.custom.objectrenderer.wrrl_db_mv.WkKgPanSeven();
         panSpacingBottomTab3 = new javax.swing.JPanel();
+        panStckBr = new javax.swing.JPanel();
+        panQuality1 = new de.cismet.tools.gui.RoundedPanel();
+        panHeadQuality1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panQualityContent1 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        panSpace2 = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -207,6 +226,48 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
 
         tpMain.addTab("Qualitätsinformationen", panQualityInformation);
 
+        panStckBr.setOpaque(false);
+        panStckBr.setLayout(new java.awt.GridBagLayout());
+
+        panHeadQuality1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadQuality1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadQuality1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadQuality1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                WkKgRenderer.class,
+                "WkKgRenderer.lblHeading1.text",
+                new Object[] {})); // NOI18N
+        panHeadQuality1.add(lblHeading1);
+
+        panQuality1.add(panHeadQuality1, java.awt.BorderLayout.NORTH);
+
+        panQualityContent1.setMinimumSize(new java.awt.Dimension(1100, 700));
+        panQualityContent1.setOpaque(false);
+        panQualityContent1.setPreferredSize(new java.awt.Dimension(1100, 700));
+        panQualityContent1.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+        panQualityContent1.add(jPanel5, java.awt.BorderLayout.CENTER);
+
+        panQuality1.add(panQualityContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
+        panStckBr.add(panQuality1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weighty = 1.0;
+        panStckBr.add(panSpace2, gridBagConstraints);
+
+        tpMain.addTab("Steckbrief", panStckBr);
+
         add(tpMain, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
@@ -229,6 +290,8 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
             wkKgPanSix.setCidsBean(cidsBean);
             wkKgPanSeven.setCidsBean(cidsBean);
             wkKgPanEight.setCidsBean(cidsBean);
+            browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/cw/cw_wk.php?kg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")));
         }
     }
 

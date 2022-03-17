@@ -14,7 +14,15 @@ package de.cismet.cids.custom.wrrl_db_mv.util;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import java.net.URL;
+
 import java.util.List;
+
+import de.cismet.security.WebAccessManager;
 
 /**
  * DOCUMENT ME!
@@ -54,5 +62,27 @@ public class HTMLTools {
         }
 
         return text.toString();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   url  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static String loadUrlAsString(final URL url) throws Exception {
+        final InputStream is = WebAccessManager.getInstance().doRequest(url);
+        final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String tmp;
+        final StringBuilder sb = new StringBuilder();
+
+        while ((tmp = br.readLine()) != null) {
+            sb.append(tmp).append("\n");
+        }
+
+        return sb.toString();
     }
 }

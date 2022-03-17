@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
@@ -371,7 +371,14 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.stroemungsdiversitaet_id}" target="cbStroemungsdiversitaet" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.stroemungsdiversitaet_id}" target="cbStroemungsdiversitaet" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                          <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="&quot;&quot;" type="code"/>
+                          </Property>
+                          <Property name="incompletePathValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="&quot;&quot;" type="code"/>
+                          </Property>
+                        </BindingProperty>
                       </BindingProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(comparator)"/>
@@ -413,7 +420,14 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenerosion_id}" target="cbTiefenerosion" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenerosion_id}" target="cbTiefenerosion" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                          <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="&quot;&quot;" type="code"/>
+                          </Property>
+                          <Property name="incompletePathValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="&quot;&quot;" type="code"/>
+                          </Property>
+                        </BindingProperty>
                       </BindingProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(comparator)"/>
@@ -455,7 +469,14 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenvarianz_id}" target="cbTiefenvarianz" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="selectedItem" source="Form" sourcePath="${cidsBean.tiefenvarianz_id}" target="cbTiefenvarianz" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                          <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="&quot;&quot;" type="code"/>
+                          </Property>
+                          <Property name="incompletePathValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                            <Connection code="&quot;&quot;" type="code"/>
+                          </Property>
+                        </BindingProperty>
                       </BindingProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ScrollableComboBox(comparator)"/>
