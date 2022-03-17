@@ -47,7 +47,6 @@ import java.util.Hashtable;
 import javax.swing.JComponent;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.CismetHttpUrlConnection;
 import de.cismet.cids.custom.wrrl_db_mv.util.HTMLTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;

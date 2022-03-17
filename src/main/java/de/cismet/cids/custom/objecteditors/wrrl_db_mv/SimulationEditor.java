@@ -2410,58 +2410,58 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldZoomStateChanged
+    private void sldZoomStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_sldZoomStateChanged
         final double zoom = sldZoom.getValue() / 10d;
         for (final JBand tmpBand : jband) {
             tmpBand.setZoomFactor(zoom);
         }
-    }//GEN-LAST:event_sldZoomStateChanged
+    }                                                                           //GEN-LAST:event_sldZoomStateChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rbOekPotActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbOekPotActionPerformed
+    private void rbOekPotActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_rbOekPotActionPerformed
         setGewTyp();
-    }//GEN-LAST:event_rbOekPotActionPerformed
+    }                                                                            //GEN-LAST:event_rbOekPotActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void rbZustActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbZustActionPerformed
+    private void rbZustActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_rbZustActionPerformed
         setGewTyp();
-    }//GEN-LAST:event_rbZustActionPerformed
+    }                                                                          //GEN-LAST:event_rbZustActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtNameActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+    private void txtNameActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
+    } //GEN-LAST:event_txtNameActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butCancelActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+    private void butCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butCancelActionPerformed
         cancel = true;
         namePrompt = false;
         diaName.setVisible(false);
         fillDialog();
-    }//GEN-LAST:event_butCancelActionPerformed
+    }                                                                             //GEN-LAST:event_butCancelActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butOKActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butOKActionPerformed
+    private void butOKActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butOKActionPerformed
         cancel = false;
         namePrompt = false;
         diaName.setVisible(false);
@@ -2473,28 +2473,28 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
             LOG.error("Cannot set name", e);
         }
         setName();
-    }//GEN-LAST:event_butOKActionPerformed
+    }                                                                         //GEN-LAST:event_butOKActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTitleNameMouseClicked
+    private void lblTitleNameMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblTitleNameMouseClicked
         if (evt.getClickCount() == 2) {
 //            FgskSimulationHelper.createAllSimulations();
             diaName.setSize(590, 226);
             diaName.pack();
             StaticSwingTools.showDialog(diaName);
         }
-    }//GEN-LAST:event_lblTitleNameMouseClicked
+    }                                                                            //GEN-LAST:event_lblTitleNameMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jlWKMassnListValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlWKMassnListValueChanged
+    private void jlWKMassnListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jlWKMassnListValueChanged
         if (!evt.getValueIsAdjusting()) {
             final int[] selectedIndices = jlWKMassnList.getSelectedIndices();
 
@@ -2528,45 +2528,45 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
                 wkMassnListChangedByUser = false;
             }
         }
-    }//GEN-LAST:event_jlWKMassnListValueChanged
+    } //GEN-LAST:event_jlWKMassnListValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void labMassnPropMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labMassnPropMouseClicked
+    private void labMassnPropMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labMassnPropMouseClicked
         if (evt.getButton() == MouseEvent.BUTTON1) {
             simulationsEditor.generateMassnahmenvorschlag();
         }
-    }//GEN-LAST:event_labMassnPropMouseClicked
+    }                                                                            //GEN-LAST:event_labMassnPropMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formKeyPressed(final java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    private void formKeyPressed(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_formKeyPressed
         System.out.println("drin");
-    }//GEN-LAST:event_formKeyPressed
+    }                                                                //GEN-LAST:event_formKeyPressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void labInfoMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labInfoMouseClicked
+    private void labInfoMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labInfoMouseClicked
         diaName.setSize(590, 226);
         diaName.pack();
         StaticSwingTools.showDialog(diaName);
-    }//GEN-LAST:event_labInfoMouseClicked
+    }                                                                       //GEN-LAST:event_labInfoMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemActionPerformed
+    private void jbRemActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jbRemActionPerformed
         if (readOnly) {
             return;
         }
@@ -2593,52 +2593,52 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
 
         refreshMultiFgskListModel(getAllSelectedFgsk());
         refreshWkFgMassnList();
-    }//GEN-LAST:event_jbRemActionPerformed
+    } //GEN-LAST:event_jbRemActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblMaKostenMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMaKostenMouseClicked
+    private void lblMaKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblMaKostenMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblMaKostenMouseClicked
+    } //GEN-LAST:event_lblMaKostenMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblFlKostenMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFlKostenMouseClicked
+    private void lblFlKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblFlKostenMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblFlKostenMouseClicked
+    } //GEN-LAST:event_lblFlKostenMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblNeKostenMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNeKostenMouseClicked
+    private void lblNeKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblNeKostenMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblNeKostenMouseClicked
+    } //GEN-LAST:event_lblNeKostenMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblKostenGes4MouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKostenGes4MouseClicked
+    private void lblKostenGes4MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblKostenGes4MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblKostenGes4MouseClicked
+    } //GEN-LAST:event_lblKostenGes4MouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblSoKostenMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSoKostenMouseClicked
+    private void lblSoKostenMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblSoKostenMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblSoKostenMouseClicked
+    } //GEN-LAST:event_lblSoKostenMouseClicked
 
     /**
      * Checks, if all elements of the containedList are contained in the reference list. The containedList should
