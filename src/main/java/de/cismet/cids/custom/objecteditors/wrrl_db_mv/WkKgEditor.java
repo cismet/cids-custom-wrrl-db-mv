@@ -48,6 +48,7 @@ import javax.swing.JComponent;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.HTMLTools;
+import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -489,6 +490,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
 
             cidsBean.addPropertyChangeListener(propertyChange);
 
+            HttpStartupHook.init();
             browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/cw/cw_wk.php?kg="
                         + String.valueOf(cidsBean.getProperty("wk_k")));
 
