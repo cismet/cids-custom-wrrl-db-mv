@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import java.util.Map;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimSimulationsabschnittEditor;
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.SimulationEditor;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.LastMassnEnd;
+import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgMeldeInfosSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgWkkSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 
@@ -306,6 +309,25 @@ public class FgskSimulationHelper {
 
                         for (final CidsBean fgsk : fgskList) {
                             for (final CidsBean massn : MassnBeans) {
+                                final Boolean massnFin = (Boolean)maBean.getProperty("massn_fin");
+                                if ((massnFin != null) && massnFin) {
+                                    final CidsServerSearch lastEnd = new LastMassnEnd(String.valueOf(
+                                                maBean.getProperty("id")));
+                                    final ArrayList<ArrayList> end = (ArrayList<ArrayList>)SessionManager
+                                                .getProxy()
+                                                .customServerSearch(SessionManager.getSession().getUser(), lastEnd);
+                                    if ((end != null) && (end.size() > 0) && (end.get(0).size() > 0)) {
+                                        final Date date = (Date)end.get(0).get(0);
+
+                                        if (date.before((java.sql.Timestamp)fgsk.getProperty("av_time"))) { // oder besser
+                                            // Erfassungsdatum?
+                                            continue;
+                                        }
+                                    } else {
+                                        continue;
+                                    }
+                                }
+
                                 final double percentage = FgskSimulationHelper.determineFgskIntersectionPercentage(
                                         fgsk,
                                         from,
@@ -318,6 +340,10 @@ public class FgskSimulationHelper {
                                 }
                                 massnMap.get(fgsk).add(massn);
                             }
+                        }
+                    } else {
+                        if (maBean.getProperty("massnahmen_schluessel") == null) {
+                            System.out.println("keine FGSK Maßnahme für " + maBean.getProperty("id") + " gefunden");
                         }
                     }
                 }
@@ -560,9 +586,11 @@ public class FgskSimulationHelper {
 
                 for (final ArrayList wkfgArray : resArray) {
                     final String wkk = (String)wkfgArray.get(0);
-                    LOG.error("wkk: " + wkk + " " + (++count) + "/" + resArray.size());
-                    if ((count == 59) || (count == 15)) {
-                        reCreateSimulation(wkk, false);
+                    ++count;
+//                    LOG.error("wkk: " + wkk + " " + (++count) + "/" + resArray.size());
+                    if (count > 411) {
+                        LOG.error("start: " + wkk + " " + (count) + "/" + resArray.size());
+                        reCreateSimulation(wkk, true);
                     }
                 }
             }

@@ -32,6 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -405,6 +406,7 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
                         }
                     }
                 });
+            HttpStartupHook.init();
             browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/gw/gw_wk.php?gw="
                         + String.valueOf(cidsBean.getProperty("name")));
         }
