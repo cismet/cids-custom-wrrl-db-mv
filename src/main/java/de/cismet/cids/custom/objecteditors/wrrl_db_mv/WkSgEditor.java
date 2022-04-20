@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkFgMeldeInfosSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.TimestampConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -254,6 +255,7 @@ public class WkSgEditor extends JPanel implements CidsBeanRenderer, EditorSaveLi
                     };
 
                 t.start();
+                HttpStartupHook.init();
                 browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/lw/lw_wk.php?sg="
                             + String.valueOf(cidsBean.getProperty("wk_k")));
             } else {

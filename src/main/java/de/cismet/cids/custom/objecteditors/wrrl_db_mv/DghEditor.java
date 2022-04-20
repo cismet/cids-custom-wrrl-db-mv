@@ -130,6 +130,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JButton btnRemQbw;
     private javax.swing.JButton btnRemQbwGest;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbBewGes;
+    private javax.swing.JCheckBox cbChecked;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbEffKontr;
     private javax.swing.JComboBox cbGeom;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbGutachterlicheBew;
@@ -153,6 +154,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblBewGes;
+    private javax.swing.JLabel lblChecked;
     private javax.swing.JLabel lblEffKontr;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblGeom;
@@ -318,6 +320,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(cbStandardBewFische);
             RendererTools.makeReadOnly(cbUntersuchungsbedarf);
             RendererTools.makeReadOnly(taBemerkung);
+            RendererTools.makeReadOnly(cbChecked);
             lblGeom.setVisible(false);
             cbGeom.setVisible(false);
         } else {
@@ -545,6 +548,8 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         cbJahrKontrolle = new javax.swing.JComboBox<>();
         lblJahrNaechsteKontrolle = new javax.swing.JLabel();
         cbJahrNaechsteKontrolle = new javax.swing.JComboBox<>();
+        lblChecked = new javax.swing.JLabel();
+        cbChecked = new javax.swing.JCheckBox();
         panGeo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading1 = new javax.swing.JLabel();
@@ -1126,7 +1131,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1143,7 +1148,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblName, gridBagConstraints);
@@ -1158,7 +1163,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblWk_name, gridBagConstraints);
@@ -1176,7 +1181,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1193,7 +1198,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblWk_bez, gridBagConstraints);
@@ -1202,7 +1207,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         lblValWk_bez.setPreferredSize(new java.awt.Dimension(200, 25));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1222,7 +1227,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1238,7 +1243,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 "DghEditor.lblEffKontr.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblEffKontr, gridBagConstraints);
@@ -1253,7 +1258,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel7.add(lblJahrKontrolle, gridBagConstraints);
@@ -1272,7 +1277,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -1289,7 +1294,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(lblPruefer, gridBagConstraints);
@@ -1307,7 +1312,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
@@ -1324,7 +1329,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 5);
         jPanel7.add(lblJahrNaechsteKontrolle, gridBagConstraints);
@@ -1342,12 +1347,49 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         jPanel7.add(cbJahrNaechsteKontrolle, gridBagConstraints);
+
+        lblChecked.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblChecked.text",
+                new Object[] {})); // NOI18N
+        lblChecked.setToolTipText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.lblChecked.toolTipText",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel7.add(lblChecked, gridBagConstraints);
+
+        cbChecked.setText(org.openide.util.NbBundle.getMessage(
+                DghEditor.class,
+                "DghEditor.cbChecked.text",
+                new Object[] {})); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.checked}"),
+                cbChecked,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel7.add(cbChecked, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

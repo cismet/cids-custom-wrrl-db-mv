@@ -30,6 +30,7 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 import de.cismet.cids.custom.reports.WkFgReport;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkUniqueSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
+import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -252,6 +253,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
             UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
+            HttpStartupHook.init();
             browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
                         + String.valueOf(cidsBean.getProperty("wk_k")));
         } else {
@@ -923,8 +925,75 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
+
+        final CidsBean benInv = (CidsBean)cidsBean.getProperty("ben_inv");
+        final CidsBean macPhyto = (CidsBean)cidsBean.getProperty("mac_phyto");
+        final CidsBean phyto = (CidsBean)cidsBean.getProperty("phyto");
+        final CidsBean fish = (CidsBean)cidsBean.getProperty("fish");
+
+        if ((benInv != null) && hasValueBetween1AndFive((String)benInv.getProperty("value"))) {
+            if ((cidsBean.getProperty("ben_inv_gk_mst") == null) || cidsBean.getProperty("ben_inv_gk_mst").equals("")) {
+                JOptionPane.showMessageDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Es wurde zwar eine Güteklasse für Makrozoobenthos gesetzt, aber keine Messstelle.",
+                    "Messstelle fehlt",
+                    JOptionPane.ERROR_MESSAGE);
+
+                return false;
+            }
+        }
+        if ((macPhyto != null) && hasValueBetween1AndFive((String)macPhyto.getProperty("value"))) {
+            if ((cidsBean.getProperty("mac_phyto_gk_mst") == null)
+                        || cidsBean.getProperty("mac_phyto_gk_mst").equals("")) {
+                JOptionPane.showMessageDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Es wurde zwar eine Güteklasse für Makrophyten gesetzt, aber keine Messstelle.",
+                    "Messstelle fehlt",
+                    JOptionPane.ERROR_MESSAGE);
+
+                return false;
+            }
+        }
+        if ((phyto != null) && hasValueBetween1AndFive((String)phyto.getProperty("value"))) {
+            if ((cidsBean.getProperty("phyto_gk_mst") == null) || cidsBean.getProperty("phyto_gk_mst").equals("")) {
+                JOptionPane.showMessageDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Es wurde zwar eine Güteklasse für Phytoplankton gesetzt, aber keine Messstelle",
+                    "Messstelle fehlt",
+                    JOptionPane.ERROR_MESSAGE);
+
+                return false;
+            }
+        }
+        if ((fish != null) && hasValueBetween1AndFive((String)fish.getProperty("value"))) {
+            if ((cidsBean.getProperty("fish_gk_mst") == null) || cidsBean.getProperty("fish_gk_mst").equals("")) {
+                JOptionPane.showMessageDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Es wurde zwar eine Güteklasse für Fische gesetzt, aber keine Messstelle",
+                    "Messstelle fehlt",
+                    JOptionPane.ERROR_MESSAGE);
+
+                return false;
+            }
+        }
+
         save &= teileEditor.prepareForSave();
         return save;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   val  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean hasValueBetween1AndFive(final String val) {
+        return val.equals("1")
+                    || val.equals("2")
+                    || val.equals("3")
+                    || val.equals("4")
+                    || val.equals("5");
     }
 
     /**

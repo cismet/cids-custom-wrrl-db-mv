@@ -133,6 +133,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
             txtJahr.setText(String.valueOf(new GregorianCalendar().get(GregorianCalendar.YEAR)));
             refreshMeasures();
             bindingGroup.bind();
+            chemieMstMessungenEditor1.refreshUQN(cidsBean);
         } else {
             chemieMstMessungenEditor1.setCidsBean(null);
         }
@@ -192,12 +193,12 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1000, 1000));
-        setPreferredSize(new java.awt.Dimension(1000, 1000));
+        setMinimumSize(new java.awt.Dimension(1400, 1200));
+        setPreferredSize(new java.awt.Dimension(1400, 1200));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(1000, 1000));
-        panInfo.setPreferredSize(new java.awt.Dimension(1000, 950));
+        panInfo.setMinimumSize(new java.awt.Dimension(1400, 1200));
+        panInfo.setPreferredSize(new java.awt.Dimension(1400, 1200));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -501,8 +502,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
-        chemieMstMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 700));
-        chemieMstMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 700));
+        chemieMstMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 900));
+        chemieMstMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 900));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;

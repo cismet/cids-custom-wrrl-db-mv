@@ -18,28 +18,42 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import com.vividsolutions.jts.geom.Point;
+
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.tree.TreePath;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -60,10 +74,23 @@ import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.FeatureCollectionEvent;
+import de.cismet.cismap.commons.features.FeatureCollectionListener;
+import de.cismet.cismap.commons.features.PureNewFeature;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
 import de.cismet.connectioncontext.AbstractConnectionContext;
 import de.cismet.connectioncontext.ConnectionContext;
 
+import de.cismet.tools.BrowserLauncher;
+
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
+
+import static javax.swing.SwingConstants.BOTTOM;
+import static javax.swing.SwingConstants.CENTER;
+import static javax.swing.SwingConstants.LEFT;
 
 /**
  * DOCUMENT ME!
@@ -74,7 +101,8 @@ import de.cismet.tools.gui.FooterComponentProvider;
 public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
     EditorSaveListener,
     FooterComponentProvider,
-    DocumentListener {
+    DocumentListener,
+    FeatureCollectionListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -94,15 +122,26 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
     private ConnectionContext cc = ConnectionContext.create(
             AbstractConnectionContext.Category.EDITOR,
             "KaAnlageEditor");
+    private CustomTableModel treeTableModel = null;
+    private DefaultComboBoxModel model = new DefaultComboBoxModel();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack1;
     private javax.swing.JButton btnForward;
+    private javax.swing.JButton butCancel;
+    private javax.swing.JButton butGeometry;
+    private javax.swing.JButton butOk;
+    private javax.swing.JComboBox<String> cbGeom;
+    private javax.swing.JDialog diaGeom;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KaSuevoEditor kaSuevoEditor1;
+    private javax.swing.JLabel lblAkt;
+    private javax.swing.JLabel lblAktVal;
     private javax.swing.JLabel lblBehGrad;
     private javax.swing.JLabel lblBehGradVal;
     private javax.swing.JLabel lblBemerkung;
@@ -118,12 +157,16 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JLabel lblGk;
     private javax.swing.JLabel lblGkVal;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblInBetrieb;
+    private javax.swing.JLabel lblInBetriebVal;
     private javax.swing.JLabel lblKaName;
     private javax.swing.JLabel lblKaNameVal;
+    private javax.swing.JLabel lblKat;
+    private javax.swing.JLabel lblKatVal;
     private javax.swing.JLabel lblObjType;
     private javax.swing.JLabel lblObjTypeVal;
-    private javax.swing.JLabel lblStill;
-    private javax.swing.JLabel lblStillVal;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblStatusVal;
     private javax.swing.JLabel lblTableTitle;
     private javax.swing.JLabel lblUwb;
     private javax.swing.JLabel lblUwbName;
@@ -168,16 +211,56 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(jTextArea1);
         }
 
+        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeatureCollectionListener(this);
+
+        refreshGeometryModel();
+
+        cbGeom.setModel(model);
+        cbGeom.setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList<? extends Object> list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    final Component c = super.getListCellRendererComponent(
+                            list,
+                            value,
+                            index,
+                            isSelected,
+                            cellHasFocus);
+
+                    if ((c instanceof JLabel) && (value instanceof PureNewFeature)) {
+                        ((JLabel)c).setText(((PureNewFeature)value).getName());
+                    } else if ((c instanceof JLabel) && (value == null)) {
+                        ((JLabel)c).setText("keine Geometrie");
+                    }
+
+                    return c;
+                }
+            });
+
         tabTable.getTableHeader().addMouseListener(new MouseListener() {
 
                 @Override
                 public void mouseClicked(final MouseEvent e) {
                     final int col = tabTable.getColumnModel().getColumnIndexAtX(e.getX());
-                    final TableModel model = tabTable.getModel();
 
                     if (col <= 2) {
-                        if (model instanceof CustomTableModel) {
-                            ((CustomTableModel)model).sort(col);
+                        if (treeTableModel instanceof CustomTableModel) {
+                            treeTableModel.sort(col);
+
+                            EventQueue.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        for (int i = 0; i < tabTable.getColumnCount(); ++i) {
+                                            tabTable.getColumn(tabTable.getColumnName(i))
+                                                    .setHeaderRenderer(new DefaultTableHeaderCellRenderer());
+                                        }
+                                    }
+                                });
                         }
                     }
                 }
@@ -199,6 +282,42 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
                 }
             });
         txtJahr.getDocument().addDocumentListener(this);
+
+        lblWbblVal.addMouseListener(new MouseAdapter() {
+
+                boolean isHandCursor = false;
+
+                @Override
+                public void mouseClicked(final MouseEvent e) {
+                    final String wbblLink = (String)cidsBean.getProperty("wbbl_link");
+                    if ((wbblLink != null) && !wbblLink.equals("")) {
+                        try {
+                            BrowserLauncher.openURL(wbblLink);
+                        } catch (Exception ex) {
+                            LOG.warn(ex, ex);
+                        }
+                    }
+                }
+
+                @Override
+                public void mouseMoved(final MouseEvent e) {
+                    if (!isHandCursor) {
+                        lblWbblVal.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        isHandCursor = true;
+                    } else if (isHandCursor) {
+                        lblWbblVal.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        isHandCursor = false;
+                    }
+                }
+
+                @Override
+                public void mouseExited(final MouseEvent e) {
+                    if (isHandCursor) {
+                        lblWbblVal.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        isHandCursor = false;
+                    }
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -217,6 +336,19 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
             refreshMeasures();
             bindingGroup.bind();
 
+            String wbblLink = (String)cidsBean.getProperty("wbbl_link");
+
+            if ((wbblLink != null) && !wbblLink.equals("")) {
+                if (wbblLink.contains("/")) {
+                    wbblLink = wbblLink.substring(wbblLink.lastIndexOf("/") + 1);
+
+                    if (wbblLink.contains(".")) {
+                        wbblLink = wbblLink.substring(0, wbblLink.lastIndexOf("."));
+                        lblWbblVal.setText(wbblLink);
+                    }
+                }
+            }
+
             final Thread t = new Thread("SchadstoffeRetriever") {
 
                     @Override
@@ -231,8 +363,13 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
                                     @Override
                                     public void run() {
-                                        ((org.jdesktop.swingx.JXTreeTable)tabTable).setTreeTableModel(
-                                            new CustomTableModel((ArrayList<ArrayList<Object>>)res));
+                                        treeTableModel = new CustomTableModel((ArrayList<ArrayList<Object>>)res);
+                                        ((org.jdesktop.swingx.JXTreeTable)tabTable).setTreeTableModel(treeTableModel);
+
+                                        for (int i = 0; i < tabTable.getColumnCount(); ++i) {
+                                            tabTable.getColumn(tabTable.getColumnName(i))
+                                                    .setHeaderRenderer(new DefaultTableHeaderCellRenderer());
+                                        }
                                     }
                                 });
                         } catch (final Exception e) {
@@ -291,6 +428,11 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         panFooter = new javax.swing.JPanel();
         lblFoot = new javax.swing.JLabel();
+        diaGeom = new javax.swing.JDialog();
+        cbGeom = new javax.swing.JComboBox<>();
+        butOk = new javax.swing.JButton();
+        butCancel = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -315,18 +457,28 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblWkK = new javax.swing.JLabel();
         lblWkKVal = new javax.swing.JLabel();
         lblEinleitstelle = new javax.swing.JLabel();
-        lblEinleitstelleVal = new javax.swing.JLabel();
-        lblWbbl = new javax.swing.JLabel();
-        lblWbblVal = new javax.swing.JLabel();
+        lblKat = new javax.swing.JLabel();
+        lblKatVal = new javax.swing.JLabel();
         lblUwbName = new javax.swing.JLabel();
         lblUwbNameVal = new javax.swing.JLabel();
         lblZvName = new javax.swing.JLabel();
         lblZvNameVal = new javax.swing.JLabel();
         lblBemerkung = new javax.swing.JLabel();
-        lblStill = new javax.swing.JLabel();
-        lblStillVal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        lblStatus = new javax.swing.JLabel();
+        lblStatusVal = new javax.swing.JLabel();
+        lblInBetrieb = new javax.swing.JLabel();
+        lblInBetriebVal = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lblEinleitstelleVal = new javax.swing.JLabel();
+        if (!readOnly) {
+            butGeometry = new javax.swing.JButton();
+        }
+        lblAkt = new javax.swing.JLabel();
+        lblAktVal = new javax.swing.JLabel();
+        lblWbbl = new javax.swing.JLabel();
+        lblWbblVal = new javax.swing.JLabel();
         panScr = new javax.swing.JPanel();
         txtJahr = new javax.swing.JTextField();
         btnBack1 = new javax.swing.JButton();
@@ -348,12 +500,83 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1110, 1250));
-        setPreferredSize(new java.awt.Dimension(1110, 1250));
+        diaGeom.setTitle(org.openide.util.NbBundle.getMessage(
+                KaAnlageEditor.class,
+                "KaAnlageEditor.diaGeom.title",
+                new Object[] {})); // NOI18N
+        diaGeom.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        cbGeom.setModel(new javax.swing.DefaultComboBoxModel<>(
+                new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGeom.setPreferredSize(new java.awt.Dimension(200, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 20, 15);
+        diaGeom.getContentPane().add(cbGeom, gridBagConstraints);
+
+        butOk.setText(org.openide.util.NbBundle.getMessage(
+                KaAnlageEditor.class,
+                "KaAnlageEditor.butOk.text",
+                new Object[] {})); // NOI18N
+        butOk.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butOkActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 15, 0);
+        diaGeom.getContentPane().add(butOk, gridBagConstraints);
+
+        butCancel.setText(org.openide.util.NbBundle.getMessage(
+                KaAnlageEditor.class,
+                "KaAnlageEditor.butCancel.text",
+                new Object[] {})); // NOI18N
+        butCancel.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    butCancelActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 15);
+        diaGeom.getContentPane().add(butCancel, gridBagConstraints);
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(
+                KaAnlageEditor.class,
+                "KaAnlageEditor.jLabel1.text",
+                new Object[] {})); // NOI18N
+        jLabel1.setPreferredSize(new java.awt.Dimension(100, 25));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 0, 0);
+        diaGeom.getContentPane().add(jLabel1, gridBagConstraints);
+
+        setMinimumSize(new java.awt.Dimension(1110, 1350));
+        setPreferredSize(new java.awt.Dimension(1110, 1350));
         setLayout(new java.awt.GridBagLayout());
 
-        panInfo.setMinimumSize(new java.awt.Dimension(1110, 1250));
-        panInfo.setPreferredSize(new java.awt.Dimension(1110, 1250));
+        panInfo.setMinimumSize(new java.awt.Dimension(1110, 1350));
+        panInfo.setPreferredSize(new java.awt.Dimension(1110, 1350));
 
         panHeadInfo.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -384,7 +607,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblObjType.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblGew.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -445,7 +668,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -486,7 +709,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblGenKap.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -504,7 +727,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblBehGrad.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblLawa.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -525,7 +748,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -560,16 +783,25 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beh_grad}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beh_grad_text}"),
                 lblBehGradVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beh_grad_text}"),
+                lblBehGradVal,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -579,7 +811,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblEzg.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblSti.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -609,7 +841,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -628,7 +860,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblUwb.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblSti1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -650,7 +882,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -660,7 +892,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblWkK.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblLawa1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -670,7 +902,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblWkKVal.setPreferredSize(new java.awt.Dimension(150, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -682,59 +914,47 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
                 "KaAnlageEditor.lblLawa2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblEinleitstelle, gridBagConstraints);
 
-        lblEinleitstelleVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblEinleitstelleVal.setPreferredSize(new java.awt.Dimension(150, 20));
+        lblKat.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStamm.add(lblKat, gridBagConstraints);
+
+        lblKatVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblKatVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom_wrrl}"),
-                lblEinleitstelleVal,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.merkmal}"),
+                lblKatVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
-        binding.setConverter(new CoordinateFromGeometryConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblEinleitstelleVal, gridBagConstraints);
-
-        lblWbbl.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk1.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblWbbl, gridBagConstraints);
-
-        lblWbblVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblWbblVal.setPreferredSize(new java.awt.Dimension(150, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblWbblVal, gridBagConstraints);
+        panStamm.add(lblKatVal, gridBagConstraints);
 
         lblUwbName.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -749,6 +969,8 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.uwb}"),
                 lblUwbNameVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
@@ -762,7 +984,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -772,7 +994,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblZvName.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -787,6 +1009,8 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zv_id.name}"),
                 lblZvNameVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
@@ -800,7 +1024,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -810,54 +1034,17 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         lblBemerkung.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk4.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblBemerkung, gridBagConstraints);
 
-        lblStill.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWk5.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblStill, gridBagConstraints);
-
-        lblStillVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblStillVal.setPreferredSize(new java.awt.Dimension(150, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.still}"),
-                lblStillVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.still}"),
-                lblStillVal,
-                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblStillVal, gridBagConstraints);
-
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(150, 150));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(150, 80));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(150, 80));
 
         jTextArea1.setColumns(20);
-        jTextArea1.setRows(4);
+        jTextArea1.setRows(3);
         jTextArea1.setTabSize(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -874,14 +1061,202 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(jScrollPane1, gridBagConstraints);
+
+        lblStatus.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblStatus.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStamm.add(lblStatus, gridBagConstraints);
+
+        lblStatusVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblStatusVal.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"),
+                lblStatusVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"),
+                lblStatusVal,
+                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStamm.add(lblStatusVal, gridBagConstraints);
+
+        lblInBetrieb.setText(org.openide.util.NbBundle.getMessage(
+                KaAnlageEditor.class,
+                "KaAnlageEditor.lblInBetrieb.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStamm.add(lblInBetrieb, gridBagConstraints);
+
+        lblInBetriebVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblInBetriebVal.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.inbetrieb}"),
+                lblInBetriebVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblInBetriebVal, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lblEinleitstelleVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblEinleitstelleVal.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom_wrrl}"),
+                lblEinleitstelleVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new CoordinateFromGeometryConverter());
+        bindingGroup.addBinding(binding);
+
+        lblEinleitstelleVal.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblEinleitstelleValMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        jPanel2.add(lblEinleitstelleVal, gridBagConstraints);
+
+        if (!readOnly) {
+            butGeometry.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/edit_add_mini.png"))); // NOI18N
+            butGeometry.setToolTipText(org.openide.util.NbBundle.getMessage(
+                    KaAnlageEditor.class,
+                    "KaAnlageEditor.butGeometry.toolTipText",
+                    new Object[] {}));                                                                             // NOI18N
+            butGeometry.setPreferredSize(new java.awt.Dimension(50, 20));
+            butGeometry.addActionListener(new java.awt.event.ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        butGeometryActionPerformed(evt);
+                    }
+                });
+        }
+        if (!readOnly) {
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 2;
+            gridBagConstraints.gridy = 10;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+            gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+            jPanel2.add(butGeometry, gridBagConstraints);
+        }
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        panStamm.add(jPanel2, gridBagConstraints);
+
+        lblAkt.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblAkt.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStamm.add(lblAkt, gridBagConstraints);
+
+        lblAktVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblAktVal.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.comment}"),
+                lblAktVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblAktVal, gridBagConstraints);
+
+        lblWbbl.setText(org.openide.util.NbBundle.getMessage(KaAnlageEditor.class, "KaAnlageEditor.lblWbbl.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStamm.add(lblWbbl, gridBagConstraints);
+
+        lblWbblVal.setForeground(new java.awt.Color(28, 72, 227));
+        lblWbblVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblWbblVal.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblWbblVal, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -993,7 +1368,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 10);
         panInfoContent.add(lblTableTitle, gridBagConstraints);
 
         jPanel1.setOpaque(false);
@@ -1098,6 +1473,99 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
     } //GEN-LAST:event_btnForwardActionPerformed
 
     /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblEinleitstelleValMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblEinleitstelleValMouseClicked
+    }                                                                                   //GEN-LAST:event_lblEinleitstelleValMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butCancelActionPerformed
+        diaGeom.setVisible(false);
+    }                                                                             //GEN-LAST:event_butCancelActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butOkActionPerformed
+        diaGeom.setVisible(false);
+        final PureNewFeature selectedFeature = (PureNewFeature)cbGeom.getSelectedItem();
+
+        try {
+            if (selectedFeature == null) {
+                cidsBean.setProperty("geom_wrrl", null);
+                cidsBean.setProperty("geom.geo_field", null);
+            } else {
+                cidsBean.setProperty("geom_wrrl", selectedFeature.getGeometry());
+                cidsBean.setProperty("geom.geo_field", selectedFeature.getGeometry());
+            }
+        } catch (Exception e) {
+            LOG.error("Cannot change geometry", e);
+        }
+    } //GEN-LAST:event_butOkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void butGeometryActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butGeometryActionPerformed
+        diaGeom.setSize(350, 150);
+        StaticSwingTools.centerWindowOnScreen(diaGeom);
+        diaGeom.setVisible(true);
+    }                                                                               //GEN-LAST:event_butGeometryActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshGeometryModel() {
+        model.removeAllElements();
+
+        for (final Feature f : getAllNewFeatures()) {
+            model.addElement(f);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private List<PureNewFeature> getAllNewFeatures() {
+        final List<PureNewFeature> allNewFeatures = new ArrayList<PureNewFeature>();
+        allNewFeatures.add(null);
+
+        if (CismapBroker.getInstance().getMappingComponent() != null) {
+            final List<Feature> allFeatures = CismapBroker.getInstance()
+                        .getMappingComponent()
+                        .getFeatureCollection()
+                        .getAllFeatures();
+
+            for (final Feature f : allFeatures) {
+                if ((f instanceof PureNewFeature)) {
+                    if (f.getGeometry() instanceof Point) {
+                        allNewFeatures.add((PureNewFeature)f);
+                    }
+                }
+            }
+        } else {
+            LOG.error("cismap not found. No content in the editor."); // NOI18N
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getAllNewFeatures " + allNewFeatures);         // NOI18N
+        }
+
+        return allNewFeatures;
+    }
+
+    /**
      * shows the measure of the currently entered year.
      */
     private void refreshMeasures() {
@@ -1158,7 +1626,7 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
     @Override
     public String getTitle() {
-        return String.valueOf(cidsBean);
+        return String.valueOf(cidsBean.getProperty("ka_name"));
     }
 
     @Override
@@ -1246,6 +1714,41 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         // nothing to do
     }
 
+    @Override
+    public void featuresAdded(final FeatureCollectionEvent fce) {
+        refreshGeometryModel();
+    }
+
+    @Override
+    public void allFeaturesRemoved(final FeatureCollectionEvent fce) {
+        refreshGeometryModel();
+    }
+
+    @Override
+    public void featuresRemoved(final FeatureCollectionEvent fce) {
+        refreshGeometryModel();
+    }
+
+    @Override
+    public void featuresChanged(final FeatureCollectionEvent fce) {
+        refreshGeometryModel();
+    }
+
+    @Override
+    public void featureSelectionChanged(final FeatureCollectionEvent fce) {
+        refreshGeometryModel();
+    }
+
+    @Override
+    public void featureReconsiderationRequested(final FeatureCollectionEvent fce) {
+        refreshGeometryModel();
+    }
+
+    @Override
+    public void featureCollectionChanged() {
+        refreshGeometryModel();
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -1271,6 +1774,8 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         private TreeNode data;
         private List<TreeModelListener> listener = new ArrayList<TreeModelListener>();
         private ArrayList<ArrayList<Object>> rawData;
+        private Map<Integer, Boolean> sortDirection = new HashMap<>();
+        private RowSorter.SortKey currentSortKey = null;
 
         //~ Constructors -------------------------------------------------------
 
@@ -1311,8 +1816,29 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
          * @param  column  DOCUMENT ME!
          */
         public void sort(final int column) {
-            rawData.sort(new RowComparator(column));
+            Boolean direction = sortDirection.get(column);
+
+            if (direction == null) {
+                direction = Boolean.TRUE;
+            } else {
+                direction = !direction;
+            }
+
+            sortDirection.put(column, direction);
+
+            rawData.sort(new RowComparator(column, direction));
             initData(rawData);
+
+            currentSortKey = new RowSorter.SortKey(column, (direction ? SortOrder.ASCENDING : SortOrder.DESCENDING));
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public RowSorter.SortKey getSortKey() {
+            return currentSortKey;
         }
 
         @Override
@@ -1413,16 +1939,19 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         //~ Instance fields ----------------------------------------------------
 
         private int col;
+        private boolean direction;
 
         //~ Constructors -------------------------------------------------------
 
         /**
          * Creates a new RowComparator object.
          *
-         * @param  col  DOCUMENT ME!
+         * @param  col        DOCUMENT ME!
+         * @param  direction  DOCUMENT ME!
          */
-        public RowComparator(final int col) {
+        public RowComparator(final int col, final boolean direction) {
             this.col = col;
+            this.direction = direction;
         }
 
         //~ Methods ------------------------------------------------------------
@@ -1430,13 +1959,28 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         @Override
         public int compare(final ArrayList<Object> o1, final ArrayList<Object> o2) {
             if ((o1.get(col) instanceof Comparable) && (o2.get(col) instanceof Comparable)) {
-                return ((Comparable)o1.get(col)).compareTo(o2.get(col));
+                return considerDirection(((Comparable)o1.get(col)).compareTo(o2.get(col)));
             } else if ((o1.get(col) instanceof Comparable) && !(o2.get(col) instanceof Comparable)) {
-                return 1;
+                return considerDirection(1);
             } else if ((o2.get(col) instanceof Comparable) && !(o1.get(col) instanceof Comparable)) {
-                return -11;
+                return considerDirection(-1);
             } else {
                 return 0;
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   compareResult  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private int considerDirection(final int compareResult) {
+            if (direction) {
+                return compareResult;
+            } else {
+                return compareResult * -1;
             }
         }
     }
@@ -1580,6 +2124,107 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
          */
         private String createKey(final List<Object> obj) {
             return String.valueOf(obj.get(0)) + "|" + String.valueOf(obj.get(1)) + "|" + String.valueOf(obj.get(2));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Constructs a <code>DefaultTableHeaderCellRenderer</code>.
+         *
+         * <P>The horizontal alignment and text position are set as appropriate to a table header cell, and the opaque
+         * property is set to false.</P>
+         */
+        public DefaultTableHeaderCellRenderer() {
+            setHorizontalAlignment(CENTER);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * Returns the default table header cell renderer.
+         *
+         * <P>If the column is sorted, the approapriate icon is retrieved from the current Look and Feel, and a border
+         * appropriate to a table header cell is applied.</P>
+         *
+         * <P>Subclasses may overide this method to provide custom content or formatting.</P>
+         *
+         * @param   table       the <code>JTable</code>.
+         * @param   value       the value to assign to the header cell
+         * @param   isSelected  This parameter is ignored.
+         * @param   hasFocus    This parameter is ignored.
+         * @param   row         This parameter is ignored.
+         * @param   column      the column of the header cell to render
+         *
+         * @return  the default table header cell renderer
+         */
+        @Override
+        public Component getTableCellRendererComponent(final JTable table,
+                final Object value,
+                final boolean isSelected,
+                final boolean hasFocus,
+                final int row,
+                final int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            setBackground(UIManager.getColor("TableHeader.background"));
+            setIcon(getIcon(table, column));
+            setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+            return this;
+        }
+
+        /**
+         * Overloaded to return an icon suitable to the primary sorted column, or null if the column is not the primary
+         * sort key.
+         *
+         * @param   table   the <code>JTable</code>.
+         * @param   column  the column index.
+         *
+         * @return  the sort icon, or null if the column is unsorted.
+         */
+        protected Icon getIcon(final JTable table, final int column) {
+            final RowSorter.SortKey sortKey = getSortKey(table, column);
+            if ((sortKey != null)) {
+                switch (sortKey.getSortOrder()) {
+                    case ASCENDING: {
+                        return UIManager.getIcon("Table.ascendingSortIcon");
+                    }
+                    case DESCENDING: {
+                        return UIManager.getIcon("Table.descendingSortIcon");
+                    }
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Returns the current sort key, or null if the column is unsorted.
+         *
+         * @param   table   the table
+         * @param   column  the column index
+         *
+         * @return  the SortKey, or null if the column is unsorted
+         */
+        protected RowSorter.SortKey getSortKey(final JTable table, final int column) {
+            if (table instanceof org.jdesktop.swingx.JXTreeTable) {
+                final TreeTableModel model = ((org.jdesktop.swingx.JXTreeTable)table).getTreeTableModel();
+                final RowSorter.SortKey sortKey = ((CustomTableModel)model).getSortKey();
+
+                if ((sortKey != null) && (sortKey.getColumn() == column)) {
+                    return sortKey;
+                }
+            }
+//            if (treeTableModel != null) {
+//                return treeTableModel.getSortKey();
+//            }
+
+            return null;
         }
     }
 }

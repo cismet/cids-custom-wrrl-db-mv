@@ -12,13 +12,21 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.jdesktop.beansbinding.Converter;
+
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.math.BigDecimal;
+
+import java.text.DecimalFormat;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
@@ -180,6 +188,34 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
             setEnable(false);
         }
         lblFoot.setText("");
+
+        setFieldColor(txtACsbjm, "a_csbjm", "csb_ew");
+        setFieldColor(txtABsbjm, "a_bsbjm", "bsb_ew");
+        setFieldColor(txtANjm, "a_njm", "n_ew");
+        setFieldColor(txtAPjm, "a_pjm", "p_ew");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  txtField  DOCUMENT ME!
+     * @param  attr      DOCUMENT ME!
+     * @param  ewAttr    DOCUMENT ME!
+     */
+    private void setFieldColor(final JTextField txtField, final String attr, final String ewAttr) {
+        if ((cidsBean != null) && (cidsBean.getProperty(attr) instanceof Number)
+                    && (cidsBean.getProperty(ewAttr) instanceof Number)) {
+            if (((Number)cidsBean.getProperty(attr)).doubleValue()
+                        <= ((Number)cidsBean.getProperty(ewAttr)).doubleValue()) {
+                txtField.setBackground(Color.GREEN);
+                txtField.setOpaque(true);
+            } else {
+                txtField.setBackground(Color.RED);
+                txtField.setOpaque(true);
+            }
+        } else {
+            txtField.setOpaque(false);
+        }
     }
 
     @Override
@@ -651,6 +687,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtZMenge.addActionListener(new java.awt.event.ActionListener() {
@@ -679,6 +716,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtZCsbjm.addActionListener(new java.awt.event.ActionListener() {
@@ -707,6 +745,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtZBsbjm.addActionListener(new java.awt.event.ActionListener() {
@@ -735,6 +774,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtSuevoZulaufGesamtn.addActionListener(new java.awt.event.ActionListener() {
@@ -763,6 +803,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtZNjm.addActionListener(new java.awt.event.ActionListener() {
@@ -791,6 +832,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtSuevoZulaufNh4n.addActionListener(new java.awt.event.ActionListener() {
@@ -819,6 +861,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtZPjm.addActionListener(new java.awt.event.ActionListener() {
@@ -847,6 +890,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtAMenge.addActionListener(new java.awt.event.ActionListener() {
@@ -875,6 +919,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtACsbjm.addActionListener(new java.awt.event.ActionListener() {
@@ -903,6 +948,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtABsbjm.addActionListener(new java.awt.event.ActionListener() {
@@ -931,6 +977,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtSuevoAblaufGesamtN.addActionListener(new java.awt.event.ActionListener() {
@@ -959,6 +1006,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtANjm.addActionListener(new java.awt.event.ActionListener() {
@@ -987,6 +1035,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtSuevoAblaufNh4n.addActionListener(new java.awt.event.ActionListener() {
@@ -1015,6 +1064,7 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
+        binding.setConverter(new DoubleConverter());
         bindingGroup.addBinding(binding);
 
         txtAPjm.addActionListener(new java.awt.event.ActionListener() {
@@ -1700,6 +1750,54 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
         public void propertyChange(final PropertyChangeEvent evt) {
             if (parent != null) {
                 parent.setArtificialChangeFlag(true);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class DoubleConverter extends Converter<Double, String> {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private DecimalFormat formatter;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DoubleConverter object.
+         */
+        public DoubleConverter() {
+            formatter = new DecimalFormat("0.########");
+            formatter.setGroupingUsed(true);
+            formatter.setGroupingSize(3);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String convertForward(final Double value) {
+            if (value != null) {
+                return formatter.format(value.doubleValue());
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public Double convertReverse(final String value) {
+            if (value != null) {
+                try {
+//                    return new BigDecimal(value);
+                    return new Double(value);
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            } else {
+                return null;
             }
         }
     }
