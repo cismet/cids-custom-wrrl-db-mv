@@ -34,6 +34,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
+import de.cismet.cids.editors.SaveVetoable;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -45,7 +46,7 @@ import de.cismet.tools.gui.StaticSwingTools;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBeanStore {
+public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBeanStore, SaveVetoable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -69,7 +70,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbBen_Inv;
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbBioGk;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbConfidence;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFisch;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMacPhyto;
@@ -89,7 +89,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JLabel lblBenInv;
     private javax.swing.JLabel lblBioGkBemerkung;
     private javax.swing.JLabel lblBioGkJahr;
-    private javax.swing.JLabel lblBio_gk;
     private javax.swing.JLabel lblFish;
     private javax.swing.JLabel lblGK;
     private javax.swing.JLabel lblHeading;
@@ -103,8 +102,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JTextField txtBenInvBemerk;
     private javax.swing.JTextField txtBenInvGkJahr;
     private javax.swing.JTextField txtBenInvMst;
-    private javax.swing.JTextField txtBioGkJahr;
-    private javax.swing.JTextField txtBioQkBemerk;
     private javax.swing.JTextField txtFishBemerk;
     private javax.swing.JTextField txtFishGkJahr;
     private javax.swing.JTextField txtFishGkMst;
@@ -134,11 +131,12 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     public WkFgPanTen(final boolean readOnly) {
         initComponents();
 
+        RendererTools.makeReadOnly(cbConfidence);
+
         if (readOnly) {
             RendererTools.makeReadOnly(txtBenInvBemerk);
             RendererTools.makeReadOnly(txtBenInvGkJahr);
             RendererTools.makeReadOnly(txtBenInvMst);
-            RendererTools.makeReadOnly(txtBioGkJahr);
             RendererTools.makeReadOnly(txtFishBemerk);
             RendererTools.makeReadOnly(txtFishGkJahr);
             RendererTools.makeReadOnly(txtFishGkMst);
@@ -148,10 +146,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
             RendererTools.makeReadOnly(txtPhytoBemerk);
             RendererTools.makeReadOnly(txtPhytoGkJahr);
             RendererTools.makeReadOnly(txtPhytoGkMst);
-            RendererTools.makeReadOnly(txtBioQkBemerk);
             RendererTools.makeReadOnly(cbBen_Inv);
-            RendererTools.makeReadOnly(cbBioGk);
-            RendererTools.makeReadOnly(cbConfidence);
             RendererTools.makeReadOnly(cbFisch);
             RendererTools.makeReadOnly(cbMacPhyto);
             RendererTools.makeReadOnly(cbPhyto);
@@ -178,14 +173,10 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
-        lblBio_gk = new javax.swing.JLabel();
-        cbBioGk = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         lblBioGkJahr = new javax.swing.JLabel();
-        txtBioGkJahr = new javax.swing.JTextField();
         lblBioGkBemerkung = new javax.swing.JLabel();
         lblGK = new javax.swing.JLabel();
         cbConfidence = new ScrollableComboBox();
-        txtBioQkBemerk = new javax.swing.JTextField();
         txtPhytoGkJahr = new javax.swing.JTextField();
         cbPhyto = new ScrollableComboBox(new QualityStatusCodeComparator(), true);
         txtPhytoGkMst = new javax.swing.JTextField();
@@ -243,40 +234,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         panInfoContent.setPreferredSize(new java.awt.Dimension(777, 400));
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        lblBio_gk.setText(org.openide.util.NbBundle.getMessage(WkFgPanTen.class, "WkFgPanTen.lblBio_gk.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(lblBio_gk, gridBagConstraints);
-
-        cbBioGk.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbBioGk.setMinimumSize(new java.awt.Dimension(200, 20));
-        cbBioGk.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk}"),
-                cbBioGk,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbBioGk.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbBioGkActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(cbBioGk, gridBagConstraints);
-
         lblBioGkJahr.setText(org.openide.util.NbBundle.getMessage(WkFgPanTen.class, "WkFgPanTen.lblBioGkJahr.text")); // NOI18N
         lblBioGkJahr.setMinimumSize(new java.awt.Dimension(40, 17));
         lblBioGkJahr.setPreferredSize(new java.awt.Dimension(40, 17));
@@ -285,25 +242,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent.add(lblBioGkJahr, gridBagConstraints);
-
-        txtBioGkJahr.setMinimumSize(new java.awt.Dimension(100, 20));
-        txtBioGkJahr.setPreferredSize(new java.awt.Dimension(100, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk_jahr}"),
-                txtBioGkJahr,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setConverter(IntegerConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtBioGkJahr, gridBagConstraints);
 
         lblBioGkBemerkung.setText(org.openide.util.NbBundle.getMessage(
                 WkFgPanTen.class,
@@ -324,7 +262,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         cbConfidence.setMinimumSize(new java.awt.Dimension(150, 20));
         cbConfidence.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.confidence}"),
@@ -339,32 +277,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(cbConfidence, gridBagConstraints);
-
-        txtBioQkBemerk.setMinimumSize(new java.awt.Dimension(300, 20));
-        txtBioQkBemerk.setPreferredSize(new java.awt.Dimension(300, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk_bemerkung}"),
-                txtBioQkBemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_gk_bemerkung}"),
-                txtBioQkBemerk,
-                org.jdesktop.beansbinding.BeanProperty.create("toolTipText"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panInfoContent.add(txtBioQkBemerk, gridBagConstraints);
 
         txtPhytoGkJahr.setMinimumSize(new java.awt.Dimension(100, 20));
         txtPhytoGkJahr.setPreferredSize(new java.awt.Dimension(100, 20));
@@ -921,15 +833,6 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbBioGkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbBioGkActionPerformed
-        // TODO add your handling code here:
-    } //GEN-LAST:event_cbBioGkActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void txtBenInvGkJahrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtBenInvGkJahrActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_txtBenInvGkJahrActionPerformed
@@ -1125,6 +1028,22 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         }
 
         return null;
+    }
+
+    @Override
+    public boolean isOkForSaving() {
+        if (txtBenInvMst.getText().equals("") || txtFishGkMst.getText().equals("")
+                    || txtMacPhytoGkMst.getText().equals("") || txtPhytoGkMst.getText().equals("")) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Es wurden nicht alle Messtellen belegt.",
+                "Messtellen fehlen",
+                JOptionPane.WARNING_MESSAGE);
+
+            return false;
+        }
+
+        return true;
     }
 
     //~ Inner Classes ----------------------------------------------------------
