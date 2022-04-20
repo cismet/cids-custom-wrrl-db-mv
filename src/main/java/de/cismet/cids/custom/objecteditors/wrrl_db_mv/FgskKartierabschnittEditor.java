@@ -25,6 +25,8 @@ import java.beans.PropertyChangeListener;
 
 import java.lang.reflect.InvocationTargetException;
 
+import java.math.BigDecimal;
+
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -655,6 +657,21 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
     public boolean prepareForSave() {
         boolean res = fgskKartierabschnittKartierabschnitt1.prepareForSave();
         res &= fgskKartierabschnittQuerprofil1.prepareForSave();
+
+        final BigDecimal von = (BigDecimal)cidsBean.getProperty("linie.von.wert");
+        final BigDecimal bis = (BigDecimal)cidsBean.getProperty("linie-bis.wert");
+
+        if ((von != null) && (bis != null)) {
+            final double length = Math.abs(bis.doubleValue() - von.doubleValue());
+
+            if ((length > 400) || (length < 50)) {
+                JOptionPane.showMessageDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Ein Abschnitt sollte nicht kürzer als 50m und nicht länger als 400m sein.",
+                    "Warnung",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
 
         if (res && (cidsBean != null)) {
             try {

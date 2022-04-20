@@ -638,7 +638,8 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
      * @return  DOCUMENT ME!
      */
     public static boolean showFishPanel(final CidsBean cidsBean) {
-        return cidsBean.getProperty("b_aal") != null;
+        // laut Mail vom 4.4.22
+        return true; // cidsBean.getProperty("b_aal") != null;
     }
 
     /**
@@ -682,7 +683,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                         + "   " + mcStation.getTableName() + " AS von, "
                         + "   " + mcStation.getTableName() + " AS bis, "
                         + "   " + mcRoute.getTableName() + " AS route "
-                        + "WHERE "
+                        + "WHERE not (wk_fg.wk_k ilike 'gelöscht%') and"
                         + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
                         + "   wk_fg_teile.teil = wk_teil.id AND "
                         + "   wk_teil.linie = linie." + LinearReferencingConstants.PROP_ID + " AND "
