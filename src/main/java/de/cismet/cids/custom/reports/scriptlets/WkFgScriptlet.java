@@ -371,7 +371,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "   m.messstelle = s.id AND "
                         + "   s.wk_fg = " + getId() + " "
                         + "and ("
-                        + "    (o2_owert_rakon is not null and o2_mittelwert is not null) or "
+                        + "    (o2_owert_rakon is not null and o2_value is not null) or "
                         + "    (ges_p_owert_rakon is not null and ges_p_mittelwert is not null ) or "
                         + "    (opo4_owert_rakon is not null and opo4_mittelwert is not null ) or "
                         + "    (nh4_owert_rakon is not null and nh4_mittelwert is not null ) or "

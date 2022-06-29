@@ -128,6 +128,7 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
      */
     public WkFgPanTwelve(final boolean readOnly) {
         initComponents();
+        lblGkPcQk.setVisible(false);
         jScrollPane1.getViewport().setOpaque(false);
 
         if (readOnly) {
@@ -676,17 +677,6 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
 
         lblGkPcQk.setMinimumSize(new java.awt.Dimension(200, 20));
         lblGkPcQk.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_qk.name}"),
-                lblGkPcQk,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<nicht gesetzt>");
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -891,7 +881,8 @@ public class WkFgPanTwelve extends javax.swing.JPanel implements DisposableCidsB
      * DOCUMENT ME!
      */
     private void setValues() {
-        final String[] props = { "bio_gk", "ben_inv", "mac_phyto", "phyto", "fish", "hydromorph", "gk_pc_qk" };
+//        final String[] props = { "bio_gk", "ben_inv", "mac_phyto", "phyto", "fish", "hydromorph", "gk_pc_qk" };
+        final String[] props = { "bio_gk", "ben_inv", "mac_phyto", "phyto", "fish", "hydromorph" };
         int worstCase = -1;
         CidsBean worstCaseObject = null;
 

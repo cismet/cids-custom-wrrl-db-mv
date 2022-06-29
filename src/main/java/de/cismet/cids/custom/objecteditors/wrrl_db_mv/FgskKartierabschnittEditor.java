@@ -283,10 +283,11 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
     public void refreshLabels() {
         final CidsBean statLine = (CidsBean)cidsBean.getProperty("linie");
         final CidsBean route = (CidsBean)cidsBean.getProperty("linie.von.route");
+        final Boolean isAr = (Boolean)cidsBean.getProperty("linie.von.ohne_route");
 
         String wkk = CidsBeanSupport.FIELD_NOT_SET;
         try {
-            if ((statLine != null) && (route != null)) {
+            if ((statLine != null) && (route != null) && ((isAr == null) || !isAr)) {
                 final Double vonWert = (Double)statLine.getProperty("von.wert");
                 final Double bisWert = (Double)statLine.getProperty("bis.wert");
                 if ((vonWert != null) && (bisWert != null)) {
@@ -658,8 +659,8 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         boolean res = fgskKartierabschnittKartierabschnitt1.prepareForSave();
         res &= fgskKartierabschnittQuerprofil1.prepareForSave();
 
-        final BigDecimal von = (BigDecimal)cidsBean.getProperty("linie.von.wert");
-        final BigDecimal bis = (BigDecimal)cidsBean.getProperty("linie-bis.wert");
+        final Double von = (Double)cidsBean.getProperty("linie.von.wert");
+        final Double bis = (Double)cidsBean.getProperty("linie.bis.wert");
 
         if ((von != null) && (bis != null)) {
             final double length = Math.abs(bis.doubleValue() - von.doubleValue());

@@ -79,10 +79,11 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
      */
     public WkFgPanEleven(final boolean readOnly) {
         initComponents();
+        cbHymoGk1.setVisible(false);
 
         if (readOnly) {
             RendererTools.makeReadOnly(cbHydroReg);
-            RendererTools.makeReadOnly(cbHymoGk1);
+//            RendererTools.makeReadOnly(cbHymoGk1);
             RendererTools.makeReadOnly(cbMorpCond1);
             RendererTools.makeReadOnly(cbRivCont);
             RendererTools.makeReadOnly(txtHydroRegBemerk);
@@ -239,15 +240,6 @@ public class WkFgPanEleven extends javax.swing.JPanel implements DisposableCidsB
 
         cbHymoGk1.setMinimumSize(new java.awt.Dimension(200, 20));
         cbHymoGk1.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hydromorph}"),
-                cbHymoGk1,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         cbHymoGk1.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override

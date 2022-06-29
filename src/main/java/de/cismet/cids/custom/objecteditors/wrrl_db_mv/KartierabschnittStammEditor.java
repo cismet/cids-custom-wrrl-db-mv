@@ -77,6 +77,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JLabel lblVorkatierung;
     private javax.swing.JLabel lblWk;
     private javax.swing.JLabel lblWkName;
+    private javax.swing.JLabel lblWkNameFreitext;
     private javax.swing.JLabel lblWkType;
     private javax.swing.JLabel lblfliessrichtung;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
@@ -92,6 +93,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JTextField txtGewaessername;
     private javax.swing.JTextField txtWk;
     private javax.swing.JTextField txtWkName;
+    private javax.swing.JTextField txtWkNameFreitext;
     private javax.swing.JTextField txtWkType;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -118,6 +120,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 //            "fgsk_kartierabschnitt.linie = ");
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
+        lblWkNameFreitext.setVisible(false);
+        txtWkNameFreitext.setVisible(false);
+        txtWkNameFreitext.setEditable(!readOnly);
         linearReferencedLineEditor.addListener(this);
     }
 
@@ -168,6 +173,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         cbVorkatierung = new javax.swing.JCheckBox();
         cbHistorisch = new javax.swing.JCheckBox();
         lblHistorisch = new javax.swing.JLabel();
+        lblWkNameFreitext = new javax.swing.JLabel();
+        txtWkNameFreitext = new javax.swing.JTextField();
 
         geomDialog.setTitle(org.openide.util.NbBundle.getMessage(
                 KartierabschnittStammEditor.class,
@@ -605,9 +612,41 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(jPanel2, gridBagConstraints);
+
+        lblWkNameFreitext.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.lblWkNameFreitext.text")); // NOI18N
+        lblWkNameFreitext.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblWkNameFreitext.setPreferredSize(new java.awt.Dimension(130, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent.add(lblWkNameFreitext, gridBagConstraints);
+
+        txtWkNameFreitext.setMinimumSize(new java.awt.Dimension(170, 20));
+        txtWkNameFreitext.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.alter_wk}"),
+                txtWkNameFreitext,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panInfoContent.add(txtWkNameFreitext, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
@@ -692,14 +731,26 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         final String wkNameF = wkName;
         final String wkTypeF = wkType;
+        final Boolean isAr = (Boolean)cidsBean.getProperty("linie.von.ohne_route");
 
         EventQueue.invokeLater(new Runnable() {
 
                 @Override
                 public void run() {
-                    txtWk.setText(wkk);
-                    txtWkName.setText(wkNameF);
-                    txtWkType.setText(wkTypeF);
+                    if ((isAr != null) && isAr) {
+                        txtWkName.setVisible(false);
+                        txtWkType.setVisible(false);
+                        lblWkName.setVisible(false);
+                        lblWkType.setVisible(false);
+                        lblWkNameFreitext.setVisible(true);
+                        txtWkNameFreitext.setVisible(true);
+                    } else {
+                        lblWkNameFreitext.setVisible(false);
+                        txtWkNameFreitext.setVisible(false);
+                        txtWk.setText(wkk);
+                        txtWkName.setText(wkNameF);
+                        txtWkType.setText(wkTypeF);
+                    }
                 }
             });
     }

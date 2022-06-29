@@ -118,6 +118,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
     private boolean changedSinceDrop = false;
     private boolean isEditable;
     private boolean firstStationInCurrentBB = false;
+    private Geometry origGeom = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton badGeomButton;
@@ -683,7 +684,7 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
             setValueToFeature(value);
 
             // realgeoms nur nach manueller eingabe updaten
-            if (isInited() && isEditable()) {
+            if (isInited() && isEditable() && !geomHistorisch.isSelected()) {
                 updateGeometry();
             }
         } finally {
@@ -993,6 +994,8 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            spnPointValue.setEnabled(!geomHistorisch.isSelected());
+            origGeom = LinearReferencingHelper.getPointGeometryFromStationBean(cidsBean);
         }
 
         // neu initialisieren
@@ -1335,7 +1338,17 @@ public class StationEditor extends JPanel implements DisposableCidsBeanStore,
      * @param  evt  DOCUMENT ME!
      */
     private void geomHistorischActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_geomHistorischActionPerformed
-    }                                                                                  //GEN-LAST:event_geomHistorischActionPerformed
+        spnPointValue.setEnabled(!geomHistorisch.isSelected());
+
+        if (geomHistorisch.isSelected()) {
+            try {
+                origGeom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+                LinearReferencingHelper.setPointGeometryToStationBean(origGeom, getCidsBean());
+            } catch (Exception e) {
+                LOG.error("Error while setting origin geom", e);
+            }
+        }
+    } //GEN-LAST:event_geomHistorischActionPerformed
 
     /**
      * DOCUMENT ME!

@@ -1086,6 +1086,8 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
         panInfoContent.add(lblName1, gridBagConstraints);
 
         txtName1.setMaximumSize(new java.awt.Dimension(280, 25));
+        txtName1.setMinimumSize(new java.awt.Dimension(50, 24));
+        txtName1.setPreferredSize(new java.awt.Dimension(200, 24));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
