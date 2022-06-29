@@ -1396,7 +1396,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @version  $Revision$, $Date$
      */
-    private static class PressureTableModel implements TableModel {
+    public static class PressureTableModel implements TableModel {
 
         //~ Static fields/initializers -----------------------------------------
 
@@ -1546,7 +1546,7 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @version  $Revision$, $Date$
      */
-    private static class PressureImpact implements Comparable<PressureImpact> {
+    public static class PressureImpact implements Comparable<PressureImpact> {
 
         //~ Instance fields ----------------------------------------------------
 

@@ -32,6 +32,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeSupportingComparator;
@@ -374,7 +375,13 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
      * @param  enable  DOCUMENT ME!
      */
     private void setEnable(final boolean enable) {
-        chemieMstMessungenPanOne1.setEnable(enable);
+        EventQueue.invokeLater(new Thread("Enable editor") {
+
+                @Override
+                public void run() {
+                    chemieMstMessungenPanOne1.setEnable(enable);
+                }
+            });
     }
 
     /**
@@ -746,6 +753,75 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     private void cbFlussspezActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbFlussspezActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_cbFlussspezActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  mit            DOCUMENT ME!
+     * @param  oD             DOCUMENT ME!
+     * @param  reverseColors  DOCUMENT ME!
+     */
+    public static void setColorOfField(final JTextField mit,
+            final Number oD,
+            final boolean reverseColors) {
+        if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
+//            mit.setOpaque(false);
+//            mit.repaint();
+            mit.setBackground(new Color(245, 246, 247));
+            return;
+        }
+
+        if (oD == null) {
+            mit.setBackground(new Color(245, 246, 247));
+            return;
+        }
+
+        try {
+            final double mitD = Double.parseDouble(mit.getText().replace(",", "."));
+
+            if (reverseColors) {
+                mit.setBackground(calcColorReverse(mitD, oD.doubleValue()));
+            } else {
+                mit.setBackground(calcColor(mitD, oD.doubleValue()));
+            }
+//            mit.setOpaque(true);
+//            mit.repaint();
+        } catch (NumberFormatException e) {
+            mit.setOpaque(false);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   mittel  DOCUMENT ME!
+     * @param   o       DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Color calcColor(final double mittel, final double o) {
+        if (mittel <= o) {
+            return Color.GREEN;
+        } else {
+            return Color.RED;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   mittel  DOCUMENT ME!
+     * @param   o       DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static Color calcColorReverse(final double mittel, final double o) {
+        if (mittel >= o) {
+            return Color.GREEN;
+        } else {
+            return Color.RED;
+        }
+    }
 
     /**
      * DOCUMENT ME!

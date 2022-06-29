@@ -196,8 +196,9 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
             RendererTools.makeReadOnly(txtSauerstoffBemerkung);
             RendererTools.makeReadOnly(txtStickstoffBemerkung);
             RendererTools.makeReadOnly(txtTempBemerkung);
-            jbVorb.setVisible(false);
         }
+        jbVorb.setVisible(false);
+        cbGkPcQk.setVisible(false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -309,15 +310,6 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         cbGkPcQk.setMaximumSize(new java.awt.Dimension(200, 20));
         cbGkPcQk.setMinimumSize(new java.awt.Dimension(200, 20));
         cbGkPcQk.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_qk}"),
-                cbGkPcQk,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         cbGkPcQk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -360,7 +352,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         txtJahrPcqk.setMinimumSize(new java.awt.Dimension(100, 20));
         txtJahrPcqk.setPreferredSize(new java.awt.Dimension(100, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jahr_pcqk}"),
@@ -490,7 +482,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_thermal_wk_year}"),
                 txtJahrTemp,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -580,7 +572,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_oxygen_wk_year}"),
                 txtJahrSauerstoff,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -678,7 +670,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_salinity_wk_year}"),
                 txtJahrSalz,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -776,7 +768,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_acid_wk_year}"),
                 txtJahrSaeure,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -874,7 +866,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_nitrogen_wk_year}"),
                 txtJahrStickstoff,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -972,7 +964,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_phosphor_wk_year}"),
                 txtJahrPhosphor,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
+        binding.setSourceNullValue("null");
         binding.setConverter(IntegerConverter.getInstance());
         bindingGroup.addBinding(binding);
 
@@ -1336,10 +1328,10 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
         //~ Instance fields ----------------------------------------------------
 
         private String[][] header = {
-                { "MST", "messstelle.messstelle" },    // NOI18N
-                { "WK", "messstelle.wk_fg.wk_k" },     // NOI18N
-                { "Jahr", "messjahr" },                // NOI18N
-                { "GK PC", "gk_pc_mst" },              // NOI18N
+                { "MST", "messstelle.messstelle" }, // NOI18N
+                { "WK", "messstelle.wk_fg.wk_k" },  // NOI18N
+                { "Jahr", "messjahr" },             // NOI18N
+//                { "GK PC", "gk_pc_mst" },              // NOI18N
                 { "GK Temp", "gk_pc_thermal_mst" },    // NOI18N
                 { "GK Oxy", "gk_pc_oxygen_mst" },      // NOI18N
                 { "GK Salz", "gk_pc_salinity_mst" },   // NOI18N
@@ -1421,7 +1413,7 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
                     { "no3_n_owert_rakon", "no3_n_mittelwert" },
                     { "ges_n_owert_rakon", "ges_n_mittelwert" },
                     { "cl_owert_rakon", "cl_mittelwert" },
-                    { "o2_owert_rakon", "o2_mittelwert" }
+                    { "o2_owert_rakon", "o2_value" }
                 };
 
             for (int i = 0; i < OW.length; ++i) {

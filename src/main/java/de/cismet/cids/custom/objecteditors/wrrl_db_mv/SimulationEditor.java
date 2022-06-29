@@ -3176,18 +3176,24 @@ public class SimulationEditor extends JPanel implements CidsBeanRenderer,
         @Override
         public MetaObject[] calculate(final List input) throws Exception {
             String query = "SELECT " + MC_MASSNAHMEN.getID() + ",  m." + MC_MASSNAHMEN.getPrimaryKey() + " FROM "
-                        + MC_MASSNAHMEN.getTableName() + " m, " + MC_WK_FG.getTableName() + " f ";
+                        + MC_MASSNAHMEN.getTableName()
+                        + " m join massnahmen_pressure_measure mpm on (m.pressure_measure = mpm.massnahmen_reference)\n"
+                        + "							join pressure_measure pm on (mpm.pressure_measure = pm.id)\n"
+                        + "							join wfd.de_measure_type_code c on (pm.measure = c.id) , " + MC_WK_FG.getTableName()
+                        + " f ";
 
             if (input.size() > 1) {
                 query += ", massnahmen_realisierung mr ";
             }
 
             query += " WHERE m.wk_fg = f.id and f.wk_k = '"
-                        + String.valueOf(input.get(0)) + "' and not massn_fin";
+                        + String.valueOf(input.get(0))
+                        + "' and c.value::integer in (28, 61, 62, 63, 64, 65, 69, 70, 71, 73, 76, 77, 78, 79, 85, 93, 501)";
+//                        + String.valueOf(input.get(0)) + "' and not massn_fin";
 
             if (input.size() > 1) {
-                query += " and m.realisierung = mr.id and m.realisierung <= " + input
-                            .get(1).toString();
+                query += " and m.realisierung = mr.id and mr.value <= " + input
+                            .get(1).toString() + " and mr.value <> 1 and mr.value <> 3";
             }
 
             if (LOG.isDebugEnabled()) {

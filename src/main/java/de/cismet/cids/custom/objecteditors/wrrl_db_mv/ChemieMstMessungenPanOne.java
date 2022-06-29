@@ -14,7 +14,9 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import org.jdesktop.beansbinding.Converter;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -32,6 +34,8 @@ import de.cismet.cids.dynamics.CidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.tools.BrowserLauncher;
+
+import static de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenEditor.setColorOfField;
 
 /**
  * DOCUMENT ME!
@@ -123,6 +127,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     public ChemieMstMessungenPanOne(final boolean readOnly) {
         initComponents();
 
+        cbGkPhysChem.setVisible(false);
         setEnable(!readOnly);
     }
 
@@ -144,8 +149,34 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
                 bindingGroup,
                 cidsBean);
             bindingGroup.bind();
+            EventQueue.invokeLater(new Thread("setColors") {
+
+                    @Override
+                    public void run() {
+                        setColors();
+                    }
+                });
         } else {
-            clearForm();
+            EventQueue.invokeLater(new Thread("clear colors") {
+
+                    @Override
+                    public void run() {
+                        clearForm();
+                        txtSauerstoffMin.setBackground(new Color(245, 246, 247));
+                        txtBSB5.setBackground(new Color(245, 246, 247));
+                        txtChlorid.setBackground(new Color(245, 246, 247));
+                        txtSulfat.setBackground(new Color(245, 246, 247));
+                        txtGesN.setBackground(new Color(245, 246, 247));
+                        txtAmmonium.setBackground(new Color(245, 246, 247));
+                        txtAmmoniak.setBackground(new Color(245, 246, 247));
+                        txtNitratN.setBackground(new Color(245, 246, 247));
+                        txtNitritN.setBackground(new Color(245, 246, 247));
+                        txtGesP.setBackground(new Color(245, 246, 247));
+                        txtOpo4.setBackground(new Color(245, 246, 247));
+                        txtPHMin.setBackground(new Color(245, 246, 247));
+                        txtPHMax.setBackground(new Color(245, 246, 247));
+                    }
+                });
         }
     }
 
@@ -179,44 +210,13 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         txtOpo4.setEnabled(false);
         txtGesP.setEnabled(false);
 
-        if (!enable) {
-            RendererTools.makeReadOnly(cbGkPhysChem);
-            RendererTools.makeReadOnly(cbGkTemp);
-            RendererTools.makeReadOnly(cbGkSauerstoffMin);
-            RendererTools.makeReadOnly(cbGkChlorid);
-            RendererTools.makeReadOnly(cbGkPHMin);
-            RendererTools.makeReadOnly(cbGkGesN);
-            RendererTools.makeReadOnly(cbGkGesamtP);
-        } else {
-            RendererTools.makeWritable(cbGkTemp);
-            RendererTools.makeWritable(cbGkSauerstoffMin);
-            RendererTools.makeWritable(cbGkChlorid);
-            RendererTools.makeWritable(cbGkPHMin);
-            RendererTools.makeWritable(cbGkGesN);
-            RendererTools.makeWritable(cbGkGesamtP);
-//            RendererTools.makeWritable(txtTempMax);
-//            RendererTools.makeWritable(txtTempGk);
-//            RendererTools.makeWritable(txtSauerstoffMin);
-//            RendererTools.makeWritable(txtSauerstoff);
-//            RendererTools.makeWritable(txtBSB5);
-//            RendererTools.makeWritable(txtPHMin);
-//            RendererTools.makeWritable(txtChlorid);
-//            RendererTools.makeWritable(txtSalzgehalt);
-//            RendererTools.makeWritable(txtSulfat);
-//            RendererTools.makeWritable(txtSaeure);
-//            RendererTools.makeWritable(txtPHMax);
-//            RendererTools.makeWritable(txtGesN);
-//            RendererTools.makeWritable(txtStickstoff);
-//            RendererTools.makeWritable(txtAmmonium);
-//            RendererTools.makeWritable(txtAmmoniak);
-//            RendererTools.makeWritable(txtNitratN);
-//            RendererTools.makeWritable(txtNitritN);
-//            RendererTools.makeWritable(txtOpo4);
-//            RendererTools.makeWritable(txtGesP);
-//            RendererTools.makeWritable(txtPhosphor);
-//            RendererTools.makeWritable(txtPhysChemBem);
-            RendererTools.makeWritable(cbGkPhysChem);
-        }
+//        RendererTools.makeReadOnly(cbGkPhysChem);
+        RendererTools.makeReadOnly(cbGkTemp);
+        RendererTools.makeReadOnly(cbGkSauerstoffMin);
+        RendererTools.makeReadOnly(cbGkChlorid);
+        RendererTools.makeReadOnly(cbGkPHMin);
+        RendererTools.makeReadOnly(cbGkGesN);
+        RendererTools.makeReadOnly(cbGkGesamtP);
     }
 
     /**
@@ -244,12 +244,11 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         txtSulfat.setText("");
         txtTempGk.setText("");
         txtTempMax.setText("");
-        cbGkPhysChem.setSelectedIndex(-1);
+//        cbGkPhysChem.setSelectedIndex(-1);
         cbGkChlorid.setSelectedIndex(-1);
         cbGkGesN.setSelectedIndex(-1);
         cbGkGesamtP.setSelectedIndex(-1);
         cbGkPHMin.setSelectedIndex(-1);
-        cbGkPhysChem.setSelectedIndex(-1);
         cbGkSauerstoffMin.setSelectedIndex(-1);
         cbGkTemp.setSelectedIndex(-1);
     }
@@ -365,15 +364,6 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         cbGkPhysChem.setMaximumSize(new java.awt.Dimension(225, 20));
         cbGkPhysChem.setMinimumSize(new java.awt.Dimension(225, 20));
         cbGkPhysChem.setPreferredSize(new java.awt.Dimension(225, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_pc_mst}"),
-                cbGkPhysChem,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         cbGkPhysChem.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -541,6 +531,10 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
             org.openide.util.NbBundle.getMessage(
                 ChemieMstMessungenPanOne.class,
                 "ChemieMstMessungenPanOne.lblGenCond2.text")); // NOI18N
+        lblGenCond2.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ChemieMstMessungenPanOne.class,
+                "ChemieMstMessungenPanOne.lblGenCond2.toolTipText",
+                new Object[] {}));                             // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -570,7 +564,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_mittelwert}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.o2_value}"),
                 txtSauerstoffMin,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setConverter(new DoubleConverter(2));
@@ -1477,6 +1471,76 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     @Override
     public CidsBean getCidsBean() {
         return this.cidsBean;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setColors() {
+        ChemieMstMessungenEditor.setColorOfField(
+            txtSauerstoffMin,
+            (Number)cidsBean.getProperty("o2_owert_rakon"),
+            true);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtBSB5,
+            (Number)cidsBean.getProperty("bsb5_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtChlorid,
+            (Number)cidsBean.getProperty("cl_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtSulfat,
+            (Number)cidsBean.getProperty("so4_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtGesN,
+            (Number)cidsBean.getProperty("ges_n_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtAmmonium,
+            (Number)cidsBean.getProperty("nh4_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtAmmoniak,
+            (Number)cidsBean.getProperty("nh3_n_owert"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtNitratN,
+            (Number)cidsBean.getProperty("no3_n_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtNitritN,
+            (Number)cidsBean.getProperty("no2_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtGesP,
+            (Number)cidsBean.getProperty("ges_p_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtOpo4,
+            (Number)cidsBean.getProperty("opo4_owert_rakon"),
+            false);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtPHMin,
+            (Number)cidsBean.getProperty("ow_ph_min"),
+            true);
+
+        ChemieMstMessungenEditor.setColorOfField(
+            txtPHMax,
+            (Number)cidsBean.getProperty("ow_ph_max"),
+            false);
     }
 
     //~ Inner Classes ----------------------------------------------------------

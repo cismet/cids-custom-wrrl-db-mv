@@ -41,6 +41,8 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.tools.gui.FooterComponentProvider;
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitingDialogThread;
 
 /**
  * DOCUMENT ME!
@@ -68,7 +70,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     private CidsBean cidsBean;
     private int measureNumber = 0;
     private boolean noDocumentUpdate = false;
-    private List<CidsBean> beansToSave = new ArrayList<CidsBean>();
+    private final List<CidsBean> beansToSave = new ArrayList<CidsBean>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack1;
@@ -392,7 +394,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lawa_typ.value}-${cidsBean.lawa_typ.name}"),
+                org.jdesktop.beansbinding.ELProperty.create(
+                    "${cidsBean.wk_fg.lawa_type.value}-${cidsBean.wk_fg.lawa_type.name}"),
                 lblLawaVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -544,23 +547,59 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         noDocumentUpdate = false;
 
         final int newYear = year;
-        new Thread(new Runnable() {
+        final WaitingDialogThread<YearAndMeasure> wdt = new WaitingDialogThread<YearAndMeasure>(StaticSwingTools
+                        .getParentFrame(this),
+                true,
+                "Lade Messwerte",
+                null,
+                100) {
 
                 @Override
-                public void run() {
-                    synchronized (ChemieMstStammdatenEditor.this) {
-                        CidsBean measure = null;
-                        int measureYear = newYear;
+                protected YearAndMeasure doInBackground() throws Exception {
+                    CidsBean measure = null;
+                    int measureYear = newYear;
 
-                        do {
-                            txtJahr.setText(String.valueOf(measureYear));
-                            measure = getDataForYear(measureYear, measureNumber);
-                            showNewMeasure(measure);
-                            --measureYear;
-                        } while ((measure == null) && (measureYear > 2006));
+                    do {
+                        measure = getDataForYear(measureYear, measureNumber);
+                        --measureYear;
+                    } while ((measure == null) && (measureYear > 2006));
+
+                    return new YearAndMeasure(measure, ++measureYear);
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final YearAndMeasure measure = get();
+
+                        noDocumentUpdate = true;
+                        txtJahr.setText(String.valueOf(measure.getYear()));
+                        noDocumentUpdate = false;
+                        showNewMeasure(measure.getMeasure());
+                    } catch (Exception e) {
+                        LOG.error("Erro while searching measure values", e);
                     }
                 }
-            }).start();
+            };
+
+        wdt.start();
+//        new Thread(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    synchronized (ChemieMstStammdatenEditor.this) {
+//                        CidsBean measure = null;
+//                        int measureYear = newYear;
+//
+//                        do {
+//                            txtJahr.setText(String.valueOf(measureYear));
+//                            measure = getDataForYear(measureYear, measureNumber);
+//                            showNewMeasure(measure);
+//                            --measureYear;
+//                        } while ((measure == null) && (measureYear > 2006));
+//                    }
+//                }
+//            }).start();
     } //GEN-LAST:event_btnBack1ActionPerformed
     /**
      * DOCUMENT ME!
@@ -568,42 +607,94 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
      * @param  evt  DOCUMENT ME!
      */
     private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
-        int year = getCurrentlyEnteredYear();
+        final int year = getCurrentlyEnteredYear();
 
-        noDocumentUpdate = true;
-        txtJahr.setText(String.valueOf(year));
+//        noDocumentUpdate = true;
+//        txtJahr.setText(String.valueOf(year));
         ++measureNumber;
-        final CidsBean measure = getDataForYear(year, measureNumber);
 
-        if (measure == null) {
-            measureNumber = 0;
-            ++year;
-            txtJahr.setText(String.valueOf(year));
+        final WaitingDialogThread<YearAndMeasure> wdt = new WaitingDialogThread<YearAndMeasure>(StaticSwingTools
+                        .getParentFrame(this),
+                true,
+                "Lade Messwerte",
+                null,
+                100) {
 
-            final int newYear = year;
-            new Thread(new Runnable() {
+                @Override
+                protected YearAndMeasure doInBackground() throws Exception {
+                    CidsBean measure = getDataForYear(year, measureNumber);
 
-                    @Override
-                    public void run() {
-                        synchronized (ChemieMstStammdatenEditor.this) {
-                            CidsBean measure = null;
-                            int measureYear = newYear;
-                            final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
+                    if (measure == null) {
+                        measureNumber = 0;
+                        int measureYear = year + 1;
+//                        noDocumentUpdate = true;
+//                        txtJahr.setText(String.valueOf(measureYear));
+//                        noDocumentUpdate = false;
 
-                            do {
-                                txtJahr.setText(String.valueOf(measureYear));
-                                measure = getDataForYear(measureYear, measureNumber);
-                                showNewMeasure(measure);
-                                ++measureYear;
-                            } while ((measure == null) && (measureYear <= currentYear));
-                        }
+                        measure = null;
+                        final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
+
+                        do {
+//                            txtJahr.setText(String.valueOf(measureYear));
+                            measure = getDataForYear(measureYear, measureNumber);
+//                            showNewMeasure(measure);
+                            ++measureYear;
+                        } while ((measure == null) && (measureYear <= currentYear));
+
+                        return new YearAndMeasure(measure, --measureYear);
+                    } else {
+                        return new YearAndMeasure(measure, year);
                     }
-                }).start();
-        } else {
-            showNewMeasure(measure);
-        }
+                }
 
-        noDocumentUpdate = false;
+                @Override
+                protected void done() {
+                    try {
+                        final YearAndMeasure measure = get();
+
+                        noDocumentUpdate = true;
+                        txtJahr.setText(String.valueOf(measure.getYear()));
+                        noDocumentUpdate = false;
+                        showNewMeasure(measure.getMeasure());
+                    } catch (Exception e) {
+                        LOG.error("Erro while searching measure values", e);
+                    }
+                }
+            };
+
+        wdt.start();
+
+//        final CidsBean measure = getDataForYear(year, measureNumber);
+//
+//        if (measure == null) {
+//            measureNumber = 0;
+//            ++year;
+//            txtJahr.setText(String.valueOf(year));
+//
+//            final int newYear = year;
+//            new Thread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        synchronized (ChemieMstStammdatenEditor.this) {
+//                            CidsBean measure = null;
+//                            int measureYear = newYear;
+//                            final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
+//
+//                            do {
+//                                txtJahr.setText(String.valueOf(measureYear));
+//                                measure = getDataForYear(measureYear, measureNumber);
+//                                showNewMeasure(measure);
+//                                ++measureYear;
+//                            } while ((measure == null) && (measureYear <= currentYear));
+//                        }
+//                    }
+//                }).start();
+//        } else {
+//            showNewMeasure(measure);
+//        }
+
+//        noDocumentUpdate = false;
     } //GEN-LAST:event_btnForwardActionPerformed
 
     /**
@@ -754,5 +845,71 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
     @Override
     public void changedUpdate(final DocumentEvent e) {
         // nothing to do
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class YearAndMeasure {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private CidsBean measure;
+        private int year;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new YearAndMeasure object.
+         *
+         * @param  measure  DOCUMENT ME!
+         * @param  year     DOCUMENT ME!
+         */
+        public YearAndMeasure(final CidsBean measure, final int year) {
+            this.measure = measure;
+            this.year = year;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the measure
+         */
+        public CidsBean getMeasure() {
+            return measure;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  measure  the measure to set
+         */
+        public void setMeasure(final CidsBean measure) {
+            this.measure = measure;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the year
+         */
+        public int getYear() {
+            return year;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  year  the year to set
+         */
+        public void setYear(final int year) {
+            this.year = year;
+        }
     }
 }

@@ -30,6 +30,7 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import de.cismet.tools.configuration.StartupHook;
@@ -79,7 +80,7 @@ public class HttpStartupHook implements StartupHook {
      * DOCUMENT ME!
      */
     public static synchronized void init() {
-        if (!initialised) {
+        if (!initialised && false) {
             try {
                 final Map handlers = tryExtractInternalHandlerTableFromUrl();
 
@@ -107,6 +108,13 @@ public class HttpStartupHook implements StartupHook {
             final Field handlersField = URL.class.getDeclaredField("handlers");
             handlersField.setAccessible(true);
             return (Map)handlersField.get(null);
+
+//            final Map oldMap = (Map)handlersField.get(null);
+//            final Map newField = new CustomHasTable(oldMap);
+//            handlersField.set(null, newField);
+//
+//            return newField;
+
         } catch (Exception e) {
             LOG.error("Cannot use custom http handler", e);
             return null;
@@ -114,6 +122,68 @@ public class HttpStartupHook implements StartupHook {
     }
 
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+// public static class CustomHasTable extends Hashtable {
+//
+// //~ Instance fields ----------------------------------------------------
+//
+// private Map map = null;
+//
+// //~ Constructors -------------------------------------------------------
+//
+// /**
+// * Creates a new CustomHasTable object.
+// *
+// * @param  map  DOCUMENT ME!
+// */
+// public CustomHasTable(final Map map) {
+// super(map);
+// this.map = map;
+// }
+//
+// //~ Methods ------------------------------------------------------------
+//
+// @Override
+// public synchronized Object get(final Object key) {
+// if ((map != null) && !isWebFx()) {
+// return map.get(key);
+// } else {
+// return super.get(key);
+// }
+// }
+//
+// @Override
+// public synchronized Object getOrDefault(final Object key, final Object defaultValue) {
+// if ((map != null) && !isWebFx()) {
+// return map.getOrDefault(key, defaultValue);
+// } else {
+// return super.getOrDefault(key, defaultValue);
+// }
+// }
+//
+// /**
+// * DOCUMENT ME!
+// *
+// * @return  DOCUMENT ME!
+// */
+// private boolean isWebFx() {
+// boolean webFx = false;
+//
+// for (final StackTraceElement e : Thread.currentThread().getStackTrace()) {
+// if (e.getClassName().startsWith("javafx.scene.web")) {
+// webFx = true;
+// break;
+// }
+// }
+//
+// return webFx;
+// }
+// }
 
     /**
      * DOCUMENT ME!
