@@ -665,6 +665,16 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         if ((von != null) && (bis != null)) {
             final double length = Math.abs(bis.doubleValue() - von.doubleValue());
 
+            if ((length < 5)) {
+                JOptionPane.showMessageDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    "Ein Abschnitt darf nicht kürzer als 5m sein.",
+                    "Warnung",
+                    JOptionPane.ERROR_MESSAGE);
+
+                return false;
+            }
+
             if ((length > 400) || (length < 50)) {
                 JOptionPane.showMessageDialog(
                     StaticSwingTools.getParentFrame(this),
@@ -709,7 +719,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                         cidsBean,
                         "gewaessersubtyp");
 
-                if ((type == 14) || (type == 15)) {
+                if ((type != null) && ((type == 14) || (type == 15))) {
                     boolean found = false;
 
                     if (subTypes != null) {

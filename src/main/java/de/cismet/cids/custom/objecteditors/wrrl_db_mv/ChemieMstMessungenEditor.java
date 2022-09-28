@@ -447,7 +447,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(35, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel4.add(chemieMstMessungenPanOne1, gridBagConstraints);
 
         lblChemZustGes.setText(org.openide.util.NbBundle.getMessage(
@@ -757,16 +757,19 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     /**
      * DOCUMENT ME!
      *
-     * @param  mit            DOCUMENT ME!
-     * @param  oD             DOCUMENT ME!
-     * @param  reverseColors  DOCUMENT ME!
+     * @param  mit              DOCUMENT ME!
+     * @param  oD               DOCUMENT ME!
+     * @param  reverseColors    DOCUMENT ME!
+     * @param  foregroundColor  DOCUMENT ME!
      */
     public static void setColorOfField(final JTextField mit,
             final Number oD,
-            final boolean reverseColors) {
+            final boolean reverseColors,
+            final Color foregroundColor) {
+        mit.setDisabledTextColor(new Color(139, 142, 143));
+        mit.setBackground(new Color(245, 246, 247));
+
         if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
-//            mit.setOpaque(false);
-//            mit.repaint();
             mit.setBackground(new Color(245, 246, 247));
             return;
         }
@@ -783,6 +786,11 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
                 mit.setBackground(calcColorReverse(mitD, oD.doubleValue()));
             } else {
                 mit.setBackground(calcColor(mitD, oD.doubleValue()));
+            }
+
+            if (mit.getBackground().equals(Color.RED)) {
+                mit.setDisabledTextColor(new Color(255, 255, 255));
+//                mit.setForeground(new Color(0, 0, 255));
             }
 //            mit.setOpaque(true);
 //            mit.repaint();
