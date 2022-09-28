@@ -7,14 +7,22 @@
 ****************************************************/
 package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 
 import de.cismet.tools.gui.jbands.DefaultBand;
-import de.cismet.tools.gui.jbands.MinimumHeightBand;
 
 /**
  * DOCUMENT ME!
@@ -25,6 +33,8 @@ import de.cismet.tools.gui.jbands.MinimumHeightBand;
 public class ColoredReadOnlyBand extends DefaultBand implements CidsBeanCollectionStore {
 
     //~ Instance fields --------------------------------------------------------
+
+    protected javax.swing.JPopupMenu jPopupMenu1;
 
     /**
      * DOCUMENT ME!
@@ -51,9 +61,42 @@ public class ColoredReadOnlyBand extends DefaultBand implements CidsBeanCollecti
         super(name);
         this.colorProperty = colorProperty;
         this.tooltipProperty = tooltipProperty;
+        initPopupMenu();
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initPopupMenu() {
+        prefix.addMouseListener(new MouseAdapter() {
+
+                @Override
+                public void mousePressed(final MouseEvent e) {
+                    if (e.isPopupTrigger()) {
+                        final JMenuItem miCopy = new JMenuItem("Abschnitte kopieren");
+                        final JMenuItem miPaste = new JMenuItem("Abschnitte einfügen");
+                        miCopy.setEnabled((members != null) && !members.isEmpty());
+                        miPaste.setEnabled(false);
+
+                        miCopy.addActionListener(new ActionListener() {
+
+                                @Override
+                                public void actionPerformed(final ActionEvent e) {
+                                    LineBand.membersToCopy = members;
+                                }
+                            });
+
+                        jPopupMenu1 = new JPopupMenu();
+                        jPopupMenu1.add(miCopy);
+                        jPopupMenu1.add(miPaste);
+
+                        jPopupMenu1.show((Component)e.getSource(), e.getX(), e.getY());
+                    }
+                }
+            });
+    }
 
     @Override
     public Collection<CidsBean> getCidsBeans() {

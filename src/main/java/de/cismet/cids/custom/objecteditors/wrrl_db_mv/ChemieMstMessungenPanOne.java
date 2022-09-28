@@ -65,6 +65,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblGenCond;
     private javax.swing.JLabel lblGenCond1;
     private javax.swing.JLabel lblGenCond10;
@@ -86,6 +87,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
     private javax.swing.JLabel lblGenCond8;
     private javax.swing.JLabel lblGenCond9;
     private javax.swing.JLabel lblPhyChem;
+    private javax.swing.JLabel lblPhyChem1;
     private javax.swing.JTextField txtAmmoniak;
     private javax.swing.JTextField txtAmmonium;
     private javax.swing.JTextField txtBSB5;
@@ -264,6 +266,8 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        lblPhyChem1 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         txtPhysChemBem = new javax.swing.JTextField();
         cbGkPhysChem = new ScrollableComboBox(null, false, false, new QualityStatusCodeSupportingComparator());
@@ -326,6 +330,37 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel9.setOpaque(false);
+        jPanel9.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblPhyChem1,
+            org.openide.util.NbBundle.getMessage(
+                ChemieMstMessungenPanOne.class,
+                "ChemieMstMessungenPanOne.lblPhyChem1.text")); // NOI18N
+        lblPhyChem1.setMaximumSize(new java.awt.Dimension(277, 35));
+        lblPhyChem1.setMinimumSize(new java.awt.Dimension(277, 35));
+        lblPhyChem1.setPreferredSize(new java.awt.Dimension(277, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel9.add(lblPhyChem1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(jPanel9, gridBagConstraints);
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel8.setOpaque(false);
@@ -398,7 +433,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -516,7 +551,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -671,7 +706,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -825,7 +860,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -978,7 +1013,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -1233,7 +1268,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -1386,7 +1421,7 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -1480,67 +1515,80 @@ public class ChemieMstMessungenPanOne extends javax.swing.JPanel implements Cids
         ChemieMstMessungenEditor.setColorOfField(
             txtSauerstoffMin,
             (Number)cidsBean.getProperty("o2_owert_rakon"),
-            true);
+            true,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtBSB5,
             (Number)cidsBean.getProperty("bsb5_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtChlorid,
             (Number)cidsBean.getProperty("cl_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtSulfat,
             (Number)cidsBean.getProperty("so4_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtGesN,
             (Number)cidsBean.getProperty("ges_n_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtAmmonium,
             (Number)cidsBean.getProperty("nh4_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtAmmoniak,
             (Number)cidsBean.getProperty("nh3_n_owert"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtNitratN,
             (Number)cidsBean.getProperty("no3_n_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtNitritN,
             (Number)cidsBean.getProperty("no2_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtGesP,
             (Number)cidsBean.getProperty("ges_p_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtOpo4,
             (Number)cidsBean.getProperty("opo4_owert_rakon"),
-            false);
+            false,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtPHMin,
             (Number)cidsBean.getProperty("ow_ph_min"),
-            true);
+            true,
+            txtTempMax.getForeground());
 
         ChemieMstMessungenEditor.setColorOfField(
             txtPHMax,
             (Number)cidsBean.getProperty("ow_ph_max"),
-            false);
+            false,
+            txtTempMax.getForeground());
     }
 
     //~ Inner Classes ----------------------------------------------------------
