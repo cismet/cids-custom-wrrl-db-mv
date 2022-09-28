@@ -14,8 +14,11 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.ui.FSXHtmlPanel;
 
 import Sirius.server.middleware.types.MetaObject;
+
+import org.xhtmlrenderer.simple.FSScrollPane;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,6 +63,7 @@ import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
+import de.cismet.tools.gui.xhtmlrenderer.WebAccessManagerUserAgent;
 
 /**
  * DOCUMENT ME!
@@ -91,6 +95,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private boolean showPanMelinf;
     private boolean readOnly;
     private final FXWebViewPanel browserPanel = new FXWebViewPanel();
+//    private org.xhtmlrenderer.simple.XHTMLPanel xHTMLPanel1 = new FSXHtmlPanel();
     private org.jdesktop.beansbinding.Binding binding;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddAusnahme;
@@ -189,6 +194,16 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
             panContrAusnahmen.setVisible(false);
         }
 
+//        System.setProperty("xr.load.xml-reader", org.ccil.cowan.tagsoup.Parser.class.getCanonicalName());
+//        // System.setProperty("xr.util-logging.loggingEnabled", "true");
+//        System.setProperty("xr.load.string-interning", "true");
+//        System.setProperty("xr.use.listeners", "true");
+//        xHTMLPanel1.getSharedContext().setUserAgentCallback(new WebAccessManagerUserAgent());
+////        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
+//        final FSScrollPane fSScrollPane1 = new FSScrollPane();
+//        fSScrollPane1.setViewportView(xHTMLPanel1);
+//
+//        jPanel5.add(fSScrollPane1, java.awt.BorderLayout.CENTER);
         jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
     }
 
@@ -254,6 +269,9 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
             UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
             HttpStartupHook.init();
+//            xHTMLPanel1.getSharedContext().setBaseURL("https://fis-wasser-mv.de/charts/steckbriefe/rw/");
+//            xHTMLPanel1.setDocument("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
+//                        + String.valueOf(cidsBean.getProperty("wk_k")));
             browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
                         + String.valueOf(cidsBean.getProperty("wk_k")));
         } else {

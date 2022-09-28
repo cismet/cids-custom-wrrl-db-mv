@@ -375,7 +375,7 @@ public class WkFgScriptlet extends JRDefaultScriptlet {
                         + "    (ges_p_owert_rakon is not null and ges_p_mittelwert is not null ) or "
                         + "    (opo4_owert_rakon is not null and opo4_mittelwert is not null ) or "
                         + "    (nh4_owert_rakon is not null and nh4_mittelwert is not null ) or "
-                        + "    (cl_owert_rakon is not null and cl_mittelwert is not null ) or u_eco_stoffe is not null"
+                        + "    (cl_owert_rakon is not null and cl_mittelwert is not null )"
                         + "    )"
                         + "ORDER BY "
                         + "   messjahr DESC ";
