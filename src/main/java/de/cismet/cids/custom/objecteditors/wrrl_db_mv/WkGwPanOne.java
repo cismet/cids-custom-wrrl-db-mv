@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -104,7 +105,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
     //~ Instance fields --------------------------------------------------------
 
     private CidsBean cidsBean;
-    private final boolean readOnly = false;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddImpactSrc1;
@@ -150,7 +151,22 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * Creates new form WkFgPanOne.
      */
     public WkGwPanOne() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkGwPanOne(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+
+        if (readOnly) {
+            lblGeom.setVisible(false);
+            jComboBox1.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -188,7 +204,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         txtName = new javax.swing.JTextField();
         panSpacingBottom = new javax.swing.JPanel();
         lblGbPredecKey = new javax.swing.JLabel();
-        jComboBox1 = new DefaultCismapGeometryComboBoxEditor();
+        jComboBox1 = readOnly ? new JComboBox() : new DefaultCismapGeometryComboBoxEditor();
         lblGeom = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -397,18 +413,19 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblGbPredecKey, gridBagConstraints);
 
-        jComboBox1.setMinimumSize(new java.awt.Dimension(300, 20));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(300, 20));
+        if (!readOnly) {
+            jComboBox1.setMinimumSize(new java.awt.Dimension(300, 20));
+            jComboBox1.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"),
-                jComboBox1,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setConverter(((DefaultCismapGeometryComboBoxEditor)jComboBox1).getConverter());
-        bindingGroup.addBinding(binding);
-
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                    org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                    this,
+                    org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"),
+                    jComboBox1,
+                    org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            binding.setConverter(((DefaultCismapGeometryComboBoxEditor)jComboBox1).getConverter());
+            bindingGroup.addBinding(binding);
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -710,7 +727,9 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     @Override
     public void dispose() {
-        ((DefaultCismapGeometryComboBoxEditor)jComboBox1).dispose();
+        if (jComboBox1 instanceof DefaultCismapGeometryComboBoxEditor) {
+            ((DefaultCismapGeometryComboBoxEditor)jComboBox1).dispose();
+        }
         bindingGroup.unbind();
     }
 

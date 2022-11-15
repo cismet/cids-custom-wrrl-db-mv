@@ -120,8 +120,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 //            "fgsk_kartierabschnitt.linie = ");
         linearReferencedLineEditor.setLineField("linie");
         initComponents();
-        lblWkNameFreitext.setVisible(false);
-        txtWkNameFreitext.setVisible(false);
+        lblWkNameFreitext.setEnabled(false);
+        txtWkNameFreitext.setEnabled(false);
         txtWkNameFreitext.setEditable(!readOnly);
         linearReferencedLineEditor.addListener(this);
     }
@@ -484,7 +484,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblWkType.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblWkType, gridBagConstraints);
@@ -494,7 +494,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtWkType.setPreferredSize(new java.awt.Dimension(170, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -540,7 +540,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblVorkatierung.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblVorkatierung, gridBagConstraints);
@@ -548,7 +548,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         panInfoContent.add(linearReferencedLineEditor, gridBagConstraints);
@@ -610,7 +610,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
@@ -623,7 +623,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblWkNameFreitext.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblWkNameFreitext, gridBagConstraints);
@@ -641,7 +641,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -731,7 +731,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         final String wkNameF = wkName;
         final String wkTypeF = wkType;
-        final Boolean isAr = (Boolean)cidsBean.getProperty("linie.von.ohne_route");
+        final Boolean isAr = coalesce((Boolean)cidsBean.getProperty("linie.von.ohne_route"), false)
+                    || coalesce((Boolean)cidsBean.getProperty("linie.bis.ohne_route"), false);
 
         EventQueue.invokeLater(new Runnable() {
 
@@ -742,17 +743,33 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                         txtWkType.setVisible(false);
                         lblWkName.setVisible(false);
                         lblWkType.setVisible(false);
-                        lblWkNameFreitext.setVisible(true);
-                        txtWkNameFreitext.setVisible(true);
+                        lblWkNameFreitext.setEnabled(true);
+                        txtWkNameFreitext.setEnabled(true);
                     } else {
-                        lblWkNameFreitext.setVisible(false);
-                        txtWkNameFreitext.setVisible(false);
+                        lblWkNameFreitext.setEnabled(false);
+                        txtWkNameFreitext.setEnabled(false);
                         txtWk.setText(wkk);
                         txtWkName.setText(wkNameF);
                         txtWkType.setText(wkTypeF);
                     }
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value         DOCUMENT ME!
+     * @param   defaultValue  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Boolean coalesce(final Boolean value, final Boolean defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        } else {
+            return value;
+        }
     }
 
     /**

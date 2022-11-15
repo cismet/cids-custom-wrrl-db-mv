@@ -1616,6 +1616,15 @@ public class FgskKartierabschnittErgebnisse extends javax.swing.JPanel implement
         return null;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wkk  DOCUMENT ME!
+     */
+    public void setWkk(final String wkk) {
+        kartierabschnittUebersicht1.setWkk(wkk);
+    }
+
     @Override
     public void dispose() {
         bindingGroup.unbind();
