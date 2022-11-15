@@ -48,7 +48,7 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkGwRenderer.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkKgRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -310,7 +310,7 @@ public class WkKgRenderer extends javax.swing.JPanel implements CidsBeanRenderer
 
     @Override
     public String getTitle() {
-        return org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "WkKgRenderer.title")
+        return org.openide.util.NbBundle.getMessage(WkKgRenderer.class, "WkKgRenderer.title")
                     + String.valueOf(cidsBean);
     }
 

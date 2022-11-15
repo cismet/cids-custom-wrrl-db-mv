@@ -12,7 +12,7 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
-import de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwEditor;
+import de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgMstStammdatenEditor;
 
 /**
  * DOCUMENT ME!
@@ -20,14 +20,14 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkGwRenderer extends WkGwEditor {
+public class WkKgMstStammdatenRenderer extends WkKgMstStammdatenEditor {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new WkGwRenderer object.
+     * Creates a new WkKgMstStammdatenRenderer object.
      */
-    public WkGwRenderer() {
+    public WkKgMstStammdatenRenderer() {
         super(true);
     }
 }

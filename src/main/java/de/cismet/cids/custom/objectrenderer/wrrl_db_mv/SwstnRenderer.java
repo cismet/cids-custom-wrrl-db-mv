@@ -161,7 +161,7 @@ public class SwstnRenderer extends javax.swing.JPanel implements CidsBeanRendere
 
     @Override
     public String getTitle() {
-        return org.openide.util.NbBundle.getMessage(WkGwRenderer.class, "SwstnRenderer.title")
+        return org.openide.util.NbBundle.getMessage(SwstnRenderer.class, "SwstnRenderer.title")
                     + String.valueOf(cidsBean);
     }
 
