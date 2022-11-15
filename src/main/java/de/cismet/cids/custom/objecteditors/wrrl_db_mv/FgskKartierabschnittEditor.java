@@ -807,6 +807,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         fgskKartierabschnittQuerprofil1.setWkk(wkk);
         fgskKartierabschnittSohlenverbau1.setWkk(wkk);
         fgskKartierabschnittUferstruktur1.setWkk(wkk);
+        fgskKartierabschnittErgebnisse1.setWkk(wkk);
     }
 
     /**

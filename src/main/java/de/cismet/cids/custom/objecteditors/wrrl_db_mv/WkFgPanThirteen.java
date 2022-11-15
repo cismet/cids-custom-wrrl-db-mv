@@ -751,14 +751,18 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                 final MetaClass MC = ClassCacheMultiple.getMetaClass(
                         WRRLUtil.DOMAIN_NAME,
                         "chemie_mst_stoff");
-                String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-                query += " m";                                                                                      // NOI18N
-                query += " WHERE mst in (" + mstIds + ")";
-                final MetaObject[] metaObjects = MetaObjectCache.getInstance()
-                            .getMetaObjectsByQuery(query, MC, false, WkFgEditor.CONNECTION_CONTEXT);
 
-                for (final MetaObject mo : metaObjects) {
-                    data.add(mo.getBean());
+                if (MC != null) {
+                    String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+                    query += " m";                                                                                      // NOI18N
+                    query += " WHERE mst in (" + mstIds + ")";
+
+                    final MetaObject[] metaObjects = MetaObjectCache.getInstance()
+                                .getMetaObjectsByQuery(query, MC, false, WkFgEditor.CONNECTION_CONTEXT);
+
+                    for (final MetaObject mo : metaObjects) {
+                        data.add(mo.getBean());
+                    }
                 }
             } catch (final CacheException e) {
                 LOG.error("Error while trying to receive measurements.", e); // NOI18N
