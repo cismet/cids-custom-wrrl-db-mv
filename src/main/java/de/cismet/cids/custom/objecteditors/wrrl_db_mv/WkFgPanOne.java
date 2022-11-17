@@ -71,6 +71,8 @@ import de.cismet.cids.server.search.CidsServerSearch;
 import de.cismet.connectioncontext.AbstractConnectionContext;
 import de.cismet.connectioncontext.ConnectionContext;
 
+import de.cismet.tools.BrowserLauncher;
+
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
@@ -159,6 +161,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JDialog dlgImpactSrcCataloge;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labSteckbrief;
+    private javax.swing.JLabel labSteckbriefVal;
     private javax.swing.JLabel lblBemerkung;
     private javax.swing.JLabel lblEvk;
     private javax.swing.JLabel lblHeading;
@@ -359,6 +363,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         btnAddImpactSrc = new javax.swing.JButton();
         btnRemImpactSrc = new javax.swing.JButton();
         txtB9ausw = new javax.swing.JTextField();
+        labSteckbrief = new javax.swing.JLabel();
+        labSteckbriefVal = new javax.swing.JLabel();
 
         dlgImpactCataloge.getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -1010,6 +1016,38 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panInfoContent.add(txtB9ausw, gridBagConstraints);
 
+        labSteckbrief.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanOne.class,
+                "WkFgPanOne.labSteckbrief.text",
+                new Object[] {})); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 25, 5, 5);
+        panInfoContent.add(labSteckbrief, gridBagConstraints);
+
+        labSteckbriefVal.setText(org.openide.util.NbBundle.getMessage(
+                WkFgPanOne.class,
+                "WkFgPanOne.labSteckbriefVal.text",
+                new Object[] {})); // NOI18N
+        labSteckbriefVal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labSteckbriefVal.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    labSteckbriefValMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(labSteckbriefVal, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -1123,6 +1161,20 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         }
     } //GEN-LAST:event_btnMenImpactSrcOkActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void labSteckbriefValMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labSteckbriefValMouseClicked
+        try {
+            BrowserLauncher.openURL("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")));
+        } catch (Exception ex) {
+            LOG.warn(ex, ex);
+        }
+    }                                                                                //GEN-LAST:event_labSteckbriefValMouseClicked
+
     @Override
     public CidsBean getCidsBean() {
         return cidsBean;
@@ -1137,6 +1189,10 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
+            labSteckbriefVal.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">Webseite</a></html>");
+        } else {
+            labSteckbriefVal.setText("");
         }
 
         setModel();

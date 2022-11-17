@@ -204,10 +204,10 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         txtSichtTiefeGk.setText("");
         txtSichtTiefeSw.setText("");
         txtSichtTiefeWert.setText("");
-//        txtJmwEi.setText("");
-//        txtJmwTnEi.setText("");
-//        txtO2Ei.setText("");
-//        txtSichtTiefeEi.setText("");
+        txtJmwEi.setText("");
+        txtJmwTnEi.setText("");
+        txtO2Ei.setText("");
+        txtSichtTiefeEi.setText("");
     }
 
     /**
@@ -408,8 +408,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_secci} m"),
                 txtSichtTiefeWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -429,8 +429,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zielw_secci}"),
                 txtSichtTiefeSw,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -450,8 +450,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_gk_secci}"),
                 txtSichtTiefeGk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -462,13 +462,20 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtSichtTiefeGk, gridBagConstraints);
 
-        txtSichtTiefeEi.setText(org.openide.util.NbBundle.getMessage(
-                WkKgMstMessungenPanOne.class,
-                "WkKgMstMessungenPanOne.txtSichtTiefeEi.text",
-                new Object[] {})); // NOI18N
         txtSichtTiefeEi.setMaximumSize(new java.awt.Dimension(60, 20));
         txtSichtTiefeEi.setMinimumSize(new java.awt.Dimension(60, 20));
         txtSichtTiefeEi.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einh_secci}"),
+                txtSichtTiefeEi,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -515,8 +522,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.minimum_o2} mg/l"),
                 txtO2Wert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -536,8 +543,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zielw_o2}"),
                 txtO2Sw,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -557,8 +564,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_gk_o2}"),
                 txtO2Gk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -569,13 +576,20 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtO2Gk, gridBagConstraints);
 
-        txtO2Ei.setText(org.openide.util.NbBundle.getMessage(
-                WkKgMstMessungenPanOne.class,
-                "WkKgMstMessungenPanOne.txtO2Ei.text",
-                new Object[] {})); // NOI18N
         txtO2Ei.setMaximumSize(new java.awt.Dimension(60, 20));
         txtO2Ei.setMinimumSize(new java.awt.Dimension(60, 20));
         txtO2Ei.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einh_o2}"),
+                txtO2Ei,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -621,8 +635,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_tn} µmol/l"),
                 txtJmwTnWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -642,8 +656,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zielw_tn}"),
                 txtJmwTnSw,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -663,8 +677,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_gk_tn}"),
                 txtJmwTnGk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -675,13 +689,20 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtJmwTnGk, gridBagConstraints);
 
-        txtJmwTnEi.setText(org.openide.util.NbBundle.getMessage(
-                WkKgMstMessungenPanOne.class,
-                "WkKgMstMessungenPanOne.txtJmwTnEi.text",
-                new Object[] {})); // NOI18N
         txtJmwTnEi.setMaximumSize(new java.awt.Dimension(60, 20));
         txtJmwTnEi.setMinimumSize(new java.awt.Dimension(60, 20));
         txtJmwTnEi.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einh_tn}"),
+                txtJmwTnEi,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -724,8 +745,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw} µmol/l"),
                 txtJmwWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -745,8 +766,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.zielw_tp}"),
                 txtJmwSw,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -766,8 +787,8 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wrrl_gk_tp}"),
                 txtJmwGk,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -778,13 +799,20 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtJmwGk, gridBagConstraints);
 
-        txtJmwEi.setText(org.openide.util.NbBundle.getMessage(
-                WkKgMstMessungenPanOne.class,
-                "WkKgMstMessungenPanOne.txtJmwEi.text",
-                new Object[] {})); // NOI18N
         txtJmwEi.setMaximumSize(new java.awt.Dimension(60, 20));
         txtJmwEi.setMinimumSize(new java.awt.Dimension(60, 20));
         txtJmwEi.setPreferredSize(new java.awt.Dimension(60, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.einh_tp}"),
+                txtJmwEi,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<error>");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
