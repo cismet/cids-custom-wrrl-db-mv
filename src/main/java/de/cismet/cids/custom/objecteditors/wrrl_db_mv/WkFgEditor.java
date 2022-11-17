@@ -17,7 +17,6 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaObject;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +30,6 @@ import de.cismet.cids.client.tools.DevelopmentTools;
 import de.cismet.cids.custom.reports.WkFgReport;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.WkkUniqueSearch;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
-import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
@@ -57,7 +55,6 @@ import de.cismet.cismap.navigatorplugin.CidsFeature;
 import de.cismet.connectioncontext.AbstractConnectionContext;
 import de.cismet.connectioncontext.ConnectionContext;
 
-import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.TitleComponentProvider;
@@ -91,7 +88,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private CidsBean cidsBean;
     private boolean showPanMelinf;
     private boolean readOnly;
-    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
 //    private org.xhtmlrenderer.simple.XHTMLPanel xHTMLPanel1 = new FSXHtmlPanel();
     private org.jdesktop.beansbinding.Binding binding;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -104,9 +100,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JList lstAusnahmen;
     private javax.swing.JPanel panAllgemeines;
@@ -117,17 +111,12 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
     private javax.swing.JPanel panFooter;
     private javax.swing.JPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality1;
     private javax.swing.JPanel panHydroQk;
     private javax.swing.JPanel panLawa;
     private javax.swing.JPanel panMelInf;
     private javax.swing.JPanel panOekoZd;
     private javax.swing.JPanel panPhysChemQk;
-    private de.cismet.tools.gui.RoundedPanel panQuality1;
-    private javax.swing.JPanel panQualityContent1;
     private javax.swing.JLabel panSpace;
-    private javax.swing.JLabel panSpace2;
-    private javax.swing.JPanel panStckBr;
     private javax.swing.JPanel panTitle;
     private de.cismet.tools.gui.RoundedPanel roundedPanel1;
     private javax.swing.JScrollPane scpAusnahmen;
@@ -190,18 +179,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
                 PROP_WKTEIL_STATIONLINE);
             panContrAusnahmen.setVisible(false);
         }
-
-//        System.setProperty("xr.load.xml-reader", org.ccil.cowan.tagsoup.Parser.class.getCanonicalName());
-//        // System.setProperty("xr.util-logging.loggingEnabled", "true");
-//        System.setProperty("xr.load.string-interning", "true");
-//        System.setProperty("xr.use.listeners", "true");
-//        xHTMLPanel1.getSharedContext().setUserAgentCallback(new WebAccessManagerUserAgent());
-////        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
-//        final FSScrollPane fSScrollPane1 = new FSScrollPane();
-//        fSScrollPane1.setViewportView(xHTMLPanel1);
-//
-//        jPanel5.add(fSScrollPane1, java.awt.BorderLayout.CENTER);
-        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -265,12 +242,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
             lstAusnahmen.setSelectedIndex((lstAusnahmen.getModel().getSize() == 0) ? -1 : 0);
             UIUtil.setLastModifier(cidsBean, lblFoot);
             zoomToFeatures();
-            HttpStartupHook.init();
-//            xHTMLPanel1.getSharedContext().setBaseURL("https://fis-wasser-mv.de/charts/steckbriefe/rw/");
-//            xHTMLPanel1.setDocument("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
-//                        + String.valueOf(cidsBean.getProperty("wk_k")));
-            browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
-                        + String.valueOf(cidsBean.getProperty("wk_k")));
         } else {
             lblFoot.setText("");
         }
@@ -341,13 +312,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        panStckBr = new javax.swing.JPanel();
-        panQuality1 = new de.cismet.tools.gui.RoundedPanel();
-        panHeadQuality1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading1 = new javax.swing.JLabel();
-        panQualityContent1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        panSpace2 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -724,45 +688,6 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
 
         tpMain.addTab("Geometrie", panGeo);
 
-        panStckBr.setOpaque(false);
-        panStckBr.setLayout(new java.awt.GridBagLayout());
-
-        panHeadQuality1.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadQuality1.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadQuality1.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadQuality1.setLayout(new java.awt.FlowLayout());
-
-        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText("Steckbrief");
-        panHeadQuality1.add(lblHeading1);
-
-        panQuality1.add(panHeadQuality1, java.awt.BorderLayout.NORTH);
-
-        panQualityContent1.setMinimumSize(new java.awt.Dimension(1100, 700));
-        panQualityContent1.setOpaque(false);
-        panQualityContent1.setPreferredSize(new java.awt.Dimension(1100, 700));
-        panQualityContent1.setLayout(new java.awt.BorderLayout());
-
-        jPanel5.setLayout(new java.awt.BorderLayout());
-        panQualityContent1.add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        panQuality1.add(panQualityContent1, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        panStckBr.add(panQuality1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.weighty = 1.0;
-        panStckBr.add(panSpace2, gridBagConstraints);
-
-        tpMain.addTab("Steckbrief", panStckBr);
-
         add(tpMain, java.awt.BorderLayout.PAGE_START);
         tpMain.getAccessibleContext().setAccessibleName("Qualitaetsinformationen 1");
 
@@ -774,7 +699,7 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAusnahmeActionPerformed
+    private void btnAddAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddAusnahmeActionPerformed
         try {
             final CidsBean newBean = CidsBeanSupport.createNewCidsBeanFromTableName("EXCEMPTION");
             final Collection<CidsBean> excemptionCollection = CidsBeanSupport.getBeanCollectionFromProperty(
@@ -784,28 +709,28 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
         } catch (Exception ex) {
             LOG.error(ex, ex);
         }
-    }//GEN-LAST:event_btnAddAusnahmeActionPerformed
+    }                                                                                  //GEN-LAST:event_btnAddAusnahmeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAusnahmenValueChanged
+    private void lstAusnahmenValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstAusnahmenValueChanged
         if (!evt.getValueIsAdjusting()) {
             final Object selObj = lstAusnahmen.getSelectedValue();
             if (selObj instanceof CidsBean) {
                 excemptionEditor.setCidsBean((CidsBean)selObj);
             }
         }
-    }//GEN-LAST:event_lstAusnahmenValueChanged
+    }                                                                                       //GEN-LAST:event_lstAusnahmenValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemAusnahmeActionPerformed
+    private void btnRemAusnahmeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemAusnahmeActionPerformed
         final Object selection = lstAusnahmen.getSelectedValue();
         if (selection != null) {
             final int answer = JOptionPane.showConfirmDialog(
@@ -826,16 +751,16 @@ public class WkFgEditor extends JPanel implements CidsBeanRenderer,
                 }
             }
         }
-    }//GEN-LAST:event_btnRemAusnahmeActionPerformed
+    }                                                                                  //GEN-LAST:event_btnRemAusnahmeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+    private void btnReportActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnReportActionPerformed
         WkFgReport.showReport(cidsBean);
-    }//GEN-LAST:event_btnReportActionPerformed
+    }                                                                             //GEN-LAST:event_btnReportActionPerformed
 
     @Override
     public void dispose() {

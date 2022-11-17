@@ -34,7 +34,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -44,8 +43,6 @@ import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
-
-import de.cismet.tools.gui.FXWebViewPanel;
 
 /**
  * DOCUMENT ME!
@@ -63,23 +60,15 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
 
     private CidsBean cidsBean;
     private final org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
     private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblSpacingBottom;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panChemMon;
     private javax.swing.JPanel panFooter;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality1;
-    private de.cismet.tools.gui.RoundedPanel panQuality1;
-    private javax.swing.JPanel panQualityContent1;
-    private javax.swing.JLabel panSpace2;
     private javax.swing.JLabel panSpace3;
-    private javax.swing.JPanel panStckBr;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanOne wkGwPanOne1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanSeven wkGwPanSeven1;
@@ -115,11 +104,7 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
             tpMain.remove(panChemMon);
         }
 
-        panStckBr.setVisible(false);
-        tpMain.remove(panStckBr);
-
         tpMain.setUI(new TabbedPaneUITransparent());
-        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -139,13 +124,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
         panAllgemeines = new javax.swing.JPanel();
         lblSpacingBottom = new javax.swing.JLabel();
         wkGwPanOne1 = new WkGwPanOne(readOnly);
-        panStckBr = new javax.swing.JPanel();
-        panQuality1 = new de.cismet.tools.gui.RoundedPanel();
-        panHeadQuality1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading1 = new javax.swing.JLabel();
-        panQualityContent1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        panSpace2 = new javax.swing.JLabel();
         panChemMon = new javax.swing.JPanel();
         wkGwPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwPanSeven();
         panSpace3 = new javax.swing.JLabel();
@@ -186,52 +164,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
                 WkGwEditor.class,
                 "WkGwEditor.panAllgemeines.TabConstraints.tabTitle"),
             panAllgemeines); // NOI18N
-
-        panStckBr.setOpaque(false);
-        panStckBr.setLayout(new java.awt.GridBagLayout());
-
-        panHeadQuality1.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadQuality1.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadQuality1.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadQuality1.setLayout(new java.awt.FlowLayout());
-
-        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
-                WkGwEditor.class,
-                "WkGwEditor.lblHeading1.text",
-                new Object[] {})); // NOI18N
-        panHeadQuality1.add(lblHeading1);
-
-        panQuality1.add(panHeadQuality1, java.awt.BorderLayout.NORTH);
-
-        panQualityContent1.setMinimumSize(new java.awt.Dimension(1100, 700));
-        panQualityContent1.setOpaque(false);
-        panQualityContent1.setPreferredSize(new java.awt.Dimension(1100, 700));
-        panQualityContent1.setLayout(new java.awt.BorderLayout());
-
-        jPanel5.setLayout(new java.awt.BorderLayout());
-        panQualityContent1.add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        panQuality1.add(panQualityContent1, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        panStckBr.add(panQuality1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.weighty = 1.0;
-        panStckBr.add(panSpace2, gridBagConstraints);
-
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                WkGwEditor.class,
-                "WkGwEditor.panStckBr.TabConstraints.tabTitle",
-                new Object[] {}),
-            panStckBr); // NOI18N
 
         panChemMon.setOpaque(false);
         panChemMon.setLayout(new java.awt.GridBagLayout());
@@ -349,9 +281,6 @@ public class WkGwEditor extends javax.swing.JPanel implements CidsBeanRenderer, 
                         }
                     }
                 });
-            HttpStartupHook.init();
-            browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/gw/gw_wk.php?gw="
-                        + String.valueOf(cidsBean.getProperty("name")));
         }
     }
 

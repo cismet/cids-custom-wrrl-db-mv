@@ -20,6 +20,7 @@ import javafx.embed.swing.SwingFXUtils;
 
 import javafx.scene.image.WritableImage;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 
@@ -30,6 +31,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.net.URL;
+
+import java.nio.charset.Charset;
 
 import javax.imageio.ImageIO;
 
@@ -167,7 +170,15 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                             .doRequest(new URL("https://fis-wasser-mv.de/charts/ganglinien/Steinwalde.html"));
 //                final WebDavClient client = new WebDavClient(ProxyHandler.getInstance().getProxy(), "", "");
 //                final InputStream is = client.getInputStream("");
-                final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                final Charset cs = Charset.forName("UTF-8");
+                BufferedReader br;
+
+                if (cs != null) {
+                    br = new BufferedReader(new InputStreamReader(is, cs));
+                } else {
+                    br = new BufferedReader(new InputStreamReader(is));
+                }
+
                 final StringBuilder content = new StringBuilder();
                 String tmp;
 
@@ -175,7 +186,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                     content.append(tmp).append("\n");
                 }
 
-                browserPanel.setSize(1600, 900);
+                jPanel1.setSize(1400, 800);
+                jPanel1.setMinimumSize(new Dimension(1400, 800));
+                jPanel1.setMaximumSize(new Dimension(1400, 800));
+                browserPanel.setSize(1400, 800);
+                browserPanel.setMinimumSize(new Dimension(1400, 800));
+                browserPanel.setMaximumSize(new Dimension(1400, 800));
                 browserPanel.loadContent(content.toString());
                 loadingComplete = false;
 
@@ -209,7 +225,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                                         try {
                                             final WritableImage image = browserPanel.getScene().snapshot(null);
                                             final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                                            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "jpg", byteOutput);
+                                            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteOutput);
                                             bimage = ImageIO.read(
                                                     new ByteArrayInputStream(byteOutput.toByteArray()));
                                         } catch (Exception e) {
@@ -612,6 +628,10 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(1400, 850));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(1400, 850));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(1400, 850));
+
         jPanel1.setMaximumSize(new java.awt.Dimension(1800, 1000));
         jPanel1.setMinimumSize(new java.awt.Dimension(1800, 1000));
         jPanel1.setPreferredSize(new java.awt.Dimension(1800, 1000));
@@ -621,7 +641,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
